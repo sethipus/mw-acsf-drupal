@@ -1,12 +1,12 @@
 {% set pp_header_base_class = pp_header_base_class|default('parent-page-header') %}
 
 
-{% if parent_page_media_url and parent_page_media_type == 'image' %}
+{% if parent_page_media_entities.desktop.src and parent_page_media_type == 'image' %}
   {% set pp_header_modifiers = ['with-bg-media', 'with-min-height'] %}
   {% if dark_overlay %}
     {% set pp_header_modifiers = pp_header_modifiers|merge(['tint-enabled']) %}
   {% endif %}
-{% elseif parent_page_media_url and parent_page_media_type == 'video' %}
+{% elseif parent_page_media_entities.video.src and parent_page_media_type == 'video' %}
   {% set pp_header_modifiers = ['with-bg-video'] %}
   {% if dark_overlay %}
     {% set pp_header_modifiers = pp_header_modifiers|merge(['tint-enabled']) %}
@@ -30,17 +30,17 @@
     ? {"style": styles}
     : {}
   %}
-  {% if parent_page_media_url and parent_page_media_type == 'image' %}
+  {% if parent_page_media_entities.desktop.src and parent_page_media_type == 'image' %}
     <div class="bg-image">
       {% set images = {
-        1440: parent_page_media_url|resize(1440,640),
-        768: parent_page_media_url|resize(768,603),
-        375: parent_page_media_url|resize(375,612),
+        1440: parent_page_media_entities.desktop.src|resize(1440,640),
+        768: parent_page_media_entities.tablet.src|resize(768,603),
+        375: parent_page_media_entities.mobile.src|resize(375,612),
       } %}
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
-        image_alt: parent_page_media_url,
-        image_src: parent_page_media_url|resize(768,603),
+        image_alt: parent_page_media_entities.desktop.alt,
+        image_src: parent_page_media_entities.desktop.src|resize(768,603),
         image_array: images,
       } %}
     </div>
@@ -74,11 +74,11 @@
     {% endif %}
   </div>
 
-  {% if parent_page_media_url and parent_page_media_type == 'video' %}
+  {% if parent_page_media_entities.video.src and parent_page_media_type == 'video' %}
     {{ attach_library('emulsifymars/ambient-video') }}
     <div class="bg-video">
       {% include "@atoms/video/ambient-video/video.twig" with {
-        video__src__url: parent_page_media_url,
+        video__src__url: parent_page_media_entities.video.src,
         video__control: true,
         data_layer: data_layer,
       } %}

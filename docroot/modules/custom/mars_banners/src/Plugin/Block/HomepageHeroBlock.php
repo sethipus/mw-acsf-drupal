@@ -61,6 +61,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   const KEY_OPTION_IMAGE_AND_TEXT = 'image_and_text';
 
   /**
+   * List of image resolutions.
+   */
+  const LIST_IMAGE_RESOLUTIONS = ['desktop', 'tablet', 'mobile'];
+
+  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_media\MediaHelper
@@ -125,7 +130,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#cta_url'] = ['href' => $config['cta']['url']];
     $build['#cta_title'] = $this->languageHelper->translate($config['cta']['title']);
     $build['#block_type'] = $config['block_type'];
-    $build['#background_asset'] = $this->getBgAsset();
+    $build['#background_assets'] = $this->getBgAssets();
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
       $this->configuration['background_color'] : '';
     $build['#background_color'] = $background_color;
@@ -338,30 +343,45 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ],
     ];
 
-    $image_default = isset($config['background_image']) ? $config['background_image'] : NULL;
-    // Entity Browser element for background image.
-    $form['background_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
-      $image_default, $form_state, 1, 'thumbnail', function ($form_state) {
-        return in_array($form_state->getValue(['settings', 'block_type']),
-          [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT]);
+    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+      $name = 'background_image';
+
+      if ($resolution != 'desktop') {
+        $name = 'background_image_' . $resolution;
       }
-    );
-    // Convert the wrapping container to a details element.
-    $form['background_image']['#type'] = 'details';
-    $form['background_image']['#title'] = $this->t('Background Image');
-    $form['background_image']['#open'] = TRUE;
-    $form['background_image']['#states'] = [
-      'visible' => [
-        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
-        'or',
-        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
-      ],
-      'required' => [
-        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
-        'or',
-        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
-      ],
-    ];
+
+      $image_default = $config[$name] ?? NULL;
+
+      // Entity Browser element for background image.
+      $validate_callback = FALSE;
+      if ($resolution == 'desktop') {
+        $validate_callback = function ($form_state) {
+          return in_array($form_state->getValue(['settings', 'block_type']),
+            [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT]);
+        };
+      }
+
+      $form[$name] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $image_default, $form_state, 1, 'thumbnail', $validate_callback,
+      );
+
+      // Convert the wrapping container to a details element.
+      $form[$name]['#type'] = 'details';
+      $form[$name]['#required'] = ($resolution == 'desktop');
+      $form[$name]['#title'] = $this->t('Background Image (@resolution)', ['@resolution' => ucfirst($resolution)]);
+      $form[$name]['#open'] = TRUE;
+      $form[$name]['#states'] = [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
+        ],
+      ];
+
+      if ($resolution != 'desktop') {
+        $form[$name]['#description'] = $this->t('Image Alt and Title will be replaced by Desktop image.');
+      }
+    }
 
     $video_default = isset($config['background_video']) ? $config['background_video'] : NULL;
     // Entity Browser element for video.
@@ -650,7 +670,16 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $this->configuration['use_dark_overlay'] = ($values['use_dark_overlay'])
       ? TRUE
       : FALSE;
-    $this->configuration['background_image'] = $this->getEntityBrowserValue($form_state, 'background_image');
+
+    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+      $name = 'background_image';
+      if ($resolution != 'desktop') {
+        $name = 'background_image_' . $resolution;
+      }
+
+      $this->configuration[$name] = $this->getEntityBrowserValue($form_state, $name);
+    }
+
     $this->configuration['background_video'] = $this->getEntityBrowserValue($form_state, 'background_video');
     $this->configuration['custom_foreground_image']['image'] = $this->getEntityBrowserValue($form_state, ['custom_foreground_image', 'image']);
     if (isset($values['card']) && !empty($values['card'])) {
@@ -670,42 +699,65 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
    * @return array|null
    *   The bg image url or null of there is none.
    */
-  private function getBgAsset(): ?array {
+  private function getBgAssets(): ?array {
     $config = $this->getConfiguration();
-    $bg_image_media_id = NULL;
-    $bg_image_url = NULL;
+    $bg_image_media_ids = [];
+    $assets = [];
     $title = 'homepage hero background image';
     $alt = 'homepage hero background image';
 
-    if (in_array($config['block_type'], [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT]) && !empty($config['background_image'])) {
-      $bg_image_media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_image']);
-    }
-    elseif (in_array($config['block_type'], [self::KEY_OPTION_VIDEO, self::KEY_OPTION_VIDEO_LOOP]) && !empty($config['background_video'])) {
-      $bg_image_media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_video']);
-    }
+    if (in_array($config['block_type'], [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT])) {
+      foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+        // Generate image field name.
+        // NOTE: "background_image" for desktop without any suffixes
+        // for compatibility with existing data.
+        $name = $resolution == 'desktop' ? 'background_image' : 'background_image_' . $resolution;
 
-    if ($bg_image_media_id) {
-      $media_params = $this->mediaHelper->getMediaParametersById($bg_image_media_id);
-      if (!isset($media_params['error'])) {
-        $bg_image_url = file_create_url($media_params['src']);
-        $title = !empty($media_params['title']) ? $media_params['title'] : $title;
-        $alt = !empty($media_params['alt']) ? $media_params['alt'] : $alt;
+        // Set value for each resolution.
+        if (!empty($config[$name])) {
+          $bg_image_media_ids[$resolution] = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config[$name]);
+        }
+        else {
+          // Set value from previous resolution.
+          $bg_image_media_ids[$resolution] = end($bg_image_media_ids);
+        }
+      }
+    }
+    elseif (in_array($config['block_type'], [self::KEY_OPTION_VIDEO, self::KEY_OPTION_VIDEO_LOOP])) {
+      $bg_image_media_ids['video'] = NULL;
+
+      if (!empty($config['background_video'])) {
+        $bg_image_media_ids['video'] = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_video']);
       }
     }
 
-    if (!$bg_image_url) {
-      $custom_brand_shape_url = $this->getCustomForegroundImageUrl($config);
-      $bg_url_object = $this->themeConfigParser->getUrlForFile('brand_shape');
-      if ($bg_url_object) {
-        $bg_image_url = !empty($custom_brand_shape_url) ? $custom_brand_shape_url : $bg_url_object->toUriString();
+    foreach ($bg_image_media_ids as $name => $bg_image_media_id) {
+      $bg_image_url = NULL;
+      if (!empty($bg_image_media_id)) {
+        $media_params = $this->mediaHelper->getMediaParametersById($bg_image_media_id);
+        if (!isset($media_params['error'])) {
+          $bg_image_url = file_create_url($media_params['src']);
+          $title = !empty($media_params['title']) ? $media_params['title'] : $title;
+          $alt = !empty($media_params['alt']) ? $media_params['alt'] : $alt;
+        }
       }
+
+      if (!$bg_image_url) {
+        $custom_brand_shape_url = $this->getCustomForegroundImageUrl($config);
+        $bg_url_object = $this->themeConfigParser->getUrlForFile('brand_shape');
+        if ($bg_url_object) {
+          $bg_image_url = !empty($custom_brand_shape_url) ? $custom_brand_shape_url : $bg_url_object->toUriString();
+        }
+      }
+
+      $assets[$name] = [
+        'src' => $bg_image_url,
+        'alt' => $alt,
+        'title' => $title,
+      ];
     }
 
-    return [
-      'src' => $bg_image_url,
-      'alt' => $alt,
-      'title' => $title,
-    ];
+    return $assets;
   }
 
   /**

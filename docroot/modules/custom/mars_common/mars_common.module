@@ -174,7 +174,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'variables' => [
         'eyebrow' => NULL,
         'title' => NULL,
-        'background' => NULL,
+        'background_images' => NULL,
         'description' => NULL,
         'explore_cta' => NULL,
         'explore_cta_link' => NULL,

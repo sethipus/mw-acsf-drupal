@@ -31,6 +31,11 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
   const LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID = 'lighthouse_browser';
 
   /**
+   * List of image resolutions.
+   */
+  const LIST_IMAGE_RESOLUTIONS = ['desktop', 'tablet', 'mobile'];
+
+  /**
    * ThemeConfiguratorParser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -90,21 +95,28 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
 
     $build['#eyebrow'] = $this->languageHelper->translate($conf['eyebrow'] ?? '');
     $build['#title'] = $this->languageHelper->translate($conf['title'] ?? '');
-
-    if (!empty($conf['background'])) {
-      $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background']);
-      $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
-      if (!($mediaParams['error'] ?? FALSE) && ($mediaParams['src'] ?? FALSE)) {
-        $build['#background'] = $mediaParams['src'];
-      }
-    }
-
     $build['#description'] = $this->languageHelper->translate($conf['description'] ?? '');
     $build['#explore_cta'] = $this->languageHelper->translate($conf['explore_cta'] ?? '');
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
     $build['#border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
     $build['#dark_overlay'] = $this->configuration['use_dark_overlay'] ?? TRUE;
+
+    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+      $name = 'background';
+
+      if ($resolution != 'desktop') {
+        $name = 'background_' . $resolution;
+      }
+
+      if (!empty($conf[$name])) {
+        $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf[$name]);
+        $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
+        if (!($mediaParams['error'] ?? FALSE) && ($mediaParams['src'] ?? FALSE)) {
+          $build['#background_images'][$resolution] = $mediaParams['src'];
+        }
+      }
+    }
 
     $build['#theme'] = 'content_feature_module_block';
 
@@ -147,14 +159,29 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       '#required' => TRUE,
     ];
 
-    $image_default = isset($config['background']) ? $config['background'] : NULL;
-    // Entity Browser element for background image.
-    $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
-      $image_default, $form_state, 1, 'thumbnail');
-    // Convert the wrapping container to a details element.
-    $form['background']['#type'] = 'details';
-    $form['background']['#title'] = $this->t('Background');
-    $form['background']['#open'] = TRUE;
+    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+      $name = 'background';
+      $required = TRUE;
+
+      if ($resolution != 'desktop') {
+        $name = 'background_' . $resolution;
+        $required = FALSE;
+      }
+
+      $image_default = isset($config[$name]) ? $config[$name] : NULL;
+      // Entity Browser element for background image.
+      $form[$name] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $image_default, $form_state, 1, 'thumbnail');
+      // Convert the wrapping container to a details element.
+      $form[$name]['#type'] = 'details';
+      $form[$name]['#title'] = $this->t('Background (@resolution)', ['@resolution' => ucfirst($resolution)]);
+      $form[$name]['#open'] = TRUE;
+      $form[$name]['#required'] = $required;
+
+      if ($resolution != 'desktop') {
+        $form[$name]['#description'] = $this->t('Image Alt and Title will be replaced by Desktop image.');
+      }
+    }
 
     $form['description'] = [
       '#type' => 'textarea',
@@ -204,6 +231,16 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['use_dark_overlay'] = ($form_state->getValue('use_dark_overlay'))
       ? TRUE
       : FALSE;
+
+    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+      $name = 'background';
+
+      if ($resolution != 'desktop') {
+        $name = 'background_' . $resolution;
+      }
+
+      $this->configuration[$name] = $this->getEntityBrowserValue($form_state, $name);
+    }
   }
 
 }

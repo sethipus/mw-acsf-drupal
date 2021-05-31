@@ -74,6 +74,11 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   const KEY_OPTION_TEXT_COLOR_DEFAULT = 'color_e';
 
   /**
+   * List of image resolutions.
+   */
+  const LIST_IMAGE_RESOLUTIONS = ['desktop', 'tablet', 'mobile'];
+
+  /**
    * Background options.
    *
    * @var array
@@ -137,28 +142,41 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
 
     $build['#eyebrow'] = $this->languageHelper->translate($conf['eyebrow'] ?? '');
     $build['#label'] = $this->languageHelper->translate($conf['title'] ?? '');
-    $media_id = NULL;
+    $bg_image_media_ids = [];
 
     if (!empty($conf['background_options'])) {
-      if ($conf['background_options'] == self::KEY_OPTION_IMAGE && !empty($conf['background_image'])) {
-        $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background_image']);
-      }
-      elseif ($conf['background_options'] == self::KEY_OPTION_VIDEO && !empty($conf['background_video'])) {
-        $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background_video']);
-      }
-    }
-
-    if ($media_id) {
-      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
-      if (!isset($media_params['error'])) {
-        $build['#background'] = $media_params['src'];
+      if ($conf['background_options'] == self::KEY_OPTION_IMAGE) {
         $build['#media_type'] = 'image';
+        foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+          // Generate image field name.
+          // NOTE: "background_image" for desktop without any suffixes
+          // for compatibility with existing data.
+          $name = $resolution == 'desktop' ? 'background_image' : 'background_image_' . $resolution;
 
-        if ($media_params['video'] ?? FALSE) {
-          $build['#media_type'] = 'video';
-          $build['#media_format'] = $media_params['format'];
+          // Set value for each resolution.
+          if (!empty($conf[$name])) {
+            $bg_image_media_ids[$resolution] = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf[$name]);
+          }
+          else {
+            // Set value from previous resolution.
+            $bg_image_media_ids[$resolution] = end($bg_image_media_ids);
+          }
+
+          $media_params = $this->mediaHelper->getMediaParametersById($bg_image_media_ids[$resolution]);
+
+          if (!isset($media_params['error'])) {
+            $build['#background'][$resolution] = $media_params;
+          }
         }
-
+      }
+      elseif ($conf['background_options'] == self::KEY_OPTION_VIDEO) {
+        if (!empty($conf['background_video'])) {
+          $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background_video']);
+          $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+          $build['#background']['video'] = $media_params;
+          $build['#media_format'] = $media_params['format'];
+          $build['#media_type'] = 'video';
+        }
       }
     }
 
@@ -232,25 +250,44 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#default_value' => isset($config['background_options']) ? $config['background_options'] : NULL,
     ];
 
-    $image_default = isset($config['background_image']) ? $config['background_image'] : NULL;
-    // Entity Browser element for background image.
-    $form['background_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
-      $image_default, $form_state, 1, 'thumbnail', function ($form_state) {
-        return $form_state->getValue(['settings', 'background_options']) === self::KEY_OPTION_IMAGE;
+    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+      $name = 'background_image';
+
+      if ($resolution != 'desktop') {
+        $name = 'background_image_' . $resolution;
       }
-    );
-    // Convert the wrapping container to a details element.
-    $form['background_image']['#type'] = 'details';
-    $form['background_image']['#title'] = $this->t('Image');
-    $form['background_image']['#open'] = TRUE;
-    $form['background_image']['#states'] = [
-      'visible' => [
-        ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
-      ],
-      'required' => [
-        ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
-      ],
-    ];
+
+      $validate_callback = FALSE;
+      if ($resolution == 'desktop') {
+        $validate_callback = function ($form_state) {
+          return $form_state->getValue(['settings', 'background_options']) === self::KEY_OPTION_IMAGE;
+        };
+      }
+
+      $image_default = isset($config[$name]) ? $config[$name] : NULL;
+      // Entity Browser element for background image.
+      $form[$name] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $image_default, $form_state, 1, 'thumbnail', $validate_callback
+      );
+
+      // Convert the wrapping container to a details element.
+      $form[$name]['#type'] = 'details';
+      $form[$name]['#required'] = ($resolution == 'desktop');
+      $form[$name]['#title'] = $this->t('Image (@resolution)', ['@resolution' => ucfirst($resolution)]);
+      $form[$name]['#open'] = TRUE;
+      $form[$name]['#states'] = [
+        'visible' => [
+          ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
+        ],
+        'required' => [
+          ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
+        ],
+      ];
+
+      if ($resolution != 'desktop') {
+        $form[$name]['#description'] = $this->t('Image Alt and Title will be replaced by Desktop image.');
+      }
+    }
 
     $video_default = isset($config['background_video']) ? $config['background_video'] : NULL;
     // Entity Browser element for video.
@@ -320,7 +357,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
    */
   private function getTextColor() {
     $color_option = $this->configuration['text_color'];
-    $color = NULL;
     if ($color_option == self::KEY_OPTION_OTHER_COLOR) {
       $color = $this->configuration['text_color_other'];
     }
@@ -360,11 +396,19 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $this->configuration['text_color'] = $form_state->getValue('text_color');
     $this->configuration['text_color_other'] = $form_state->getValue('text_color_other');
     $this->configuration['background_options'] = $form_state->getValue('background_options');
-    $this->configuration['background_image'] = $this->getEntityBrowserValue($form_state, 'background_image');
     $this->configuration['background_video'] = $this->getEntityBrowserValue($form_state, 'background_video');
     $this->configuration['use_dark_overlay'] = ($form_state->getValue('use_dark_overlay'))
       ? TRUE
       : FALSE;
+
+    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+      $name = 'background_image';
+      if ($resolution != 'desktop') {
+        $name = 'background_image_' . $resolution;
+      }
+
+      $this->configuration[$name] = $this->getEntityBrowserValue($form_state, $name);
+    }
   }
 
 }

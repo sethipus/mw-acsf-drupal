@@ -1,9 +1,9 @@
-uuid: 472e3580-1d30-4b21-9260-78b455aafac1
+uuid: 7d5c19b7-613b-4024-97fa-ff92b6ed8405
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_article_image
+    - field.storage.node.field_article_image_tablet
     - media.type.image
     - media.type.lighthouse_image
     - node.type.article
@@ -12,13 +12,11 @@ dependencies:
 third_party_settings:
   tmgmt_content:
     excluded: false
-_core:
-  default_config_hash: L5jllUHX38TDQ2EGVc4--LKVFve71NZH9_ROiWjN_RY
-id: node.article.field_article_image
-field_name: field_article_image
+id: node.article.field_article_image_tablet
+field_name: field_article_image_tablet
 entity_type: node
 bundle: article
-label: 'Image (Desktop)'
+label: 'Image (Tablet)'
 description: ''
 required: false
 translatable: false

@@ -38,6 +38,11 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   use OverrideThemeTextColorTrait;
 
   /**
+   * List of image resolutions.
+   */
+  const LIST_IMAGE_RESOLUTIONS = ['desktop', 'tablet', 'mobile'];
+
+  /**
    * A view builder instance.
    *
    * @var \Drupal\Core\Entity\EntityViewBuilderInterface
@@ -143,7 +148,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   public function build() {
     $node = $this->getContextValue('node');
 
-    if (!$node || !$node->bundle() == 'article') {
+    if (!$node || $node->bundle() != 'article') {
       $node = $this->nodeStorage->load($this->configuration['article']);
     }
 
@@ -156,15 +161,31 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       '#eyebrow' => $this->languageHelper->translate($this->configuration['eyebrow']),
       '#share_text' => $this->languageHelper->translate($share_text),
       '#publication_date' => $node->isPublished() ? $this->languageHelper->translate($published_label) . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
+      '#images' => [],
     ];
 
-    $media_id = $this->mediaHelper->getEntityMainMediaId($node);
-    $image_arr = $this->mediaHelper->getMediaParametersById($media_id);
-    if (!($image_arr['error'] ?? FALSE) && ($image_arr['src'] ?? FALSE)) {
-      $build['#image'] = [
-        'alt' => $image_arr['alt'] ?? '',
-        'url' => $image_arr['src'] ?? '',
-      ];
+    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+      $name = 'field_article_image';
+      if ($resolution != 'desktop') {
+        $name = 'field_article_image_' . $resolution;
+      }
+
+      $media_id = $this->mediaHelper->getTargetIdFromField($node, $name);
+
+      if (!empty($media_id)) {
+        $image_arr = $this->mediaHelper->getMediaParametersById($media_id);
+        if (!($image_arr['error'] ?? FALSE) && ($image_arr['src'] ?? FALSE)) {
+          $build['#images'][$resolution] = $image_arr;
+        }
+      }
+
+      if (empty($build['#images'][$resolution])) {
+        $last_media_resolution = end($build['#images']);
+        $build['#images'][$resolution] = $last_media_resolution;
+      }
+    }
+
+    if (!empty($build['#images']['desktop'])) {
       $build['#theme'] = 'article_header_block_image';
     }
     else {

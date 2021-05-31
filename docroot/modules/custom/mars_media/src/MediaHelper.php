@@ -312,7 +312,7 @@ class MediaHelper {
    *
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
-  private function getTargetIdFromField(
+  public function getTargetIdFromField(
     ContentEntityInterface $contentEntity,
     string $fieldName
   ) {
