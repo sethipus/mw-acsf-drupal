@@ -353,6 +353,10 @@ function product_card_change_color(&$variables) {
  * Implements hook_js_alter().
  */
 function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
+
+  $current_uri = \Drupal::request()->getRequestUri();
+  $entry_gate_config = \Drupal::config('mars_entry_gate.settings');
+  $entry_gate_enabled = $entry_gate_config->get('enabled');
   foreach ($javascript as $key => $script) {
     if (strpos($key, '[commerce_connector_url]') !== FALSE) {
       $wtb_confg = \Drupal::config('mars_product.wtb.settings');
@@ -365,17 +369,23 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
       if (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
         $locale = \Drupal::languageManager()
           ->getCurrentLanguage()->getId();
+        $commerce_connector_url = '//fi-v2.global.commerce-connector.com/cc.js';
         // Updating library JS path.
-        $javascript[$key]['data'] = '//fi-v2.global.commerce-connector.com/cc.js';
+        if ($current_uri == '/' && $entry_gate_enabled) {
+          $javascript[$key]['data'] = '\/';
+        }
+        else {
+          $javascript[$key]['data'] = $commerce_connector_url;
+        }
         // Setting library attributes.
         $javascript[$key]['attributes'] = [
+          'data-src' => $commerce_connector_url,
           'id' => 'cci-widget',
           'data-token' => !empty($commerce_vendor_settings['data_token']) ? $commerce_vendor_settings['data_token'] : NULL,
           'data-locale' => !empty($commerce_vendor_settings['data_locale']) ? $commerce_vendor_settings['data_locale'] : NULL,
           'data-displaylanguage' => $locale,
           'data-widgetid' => !empty($commerce_vendor_settings['widget_id']) ? $commerce_vendor_settings['widget_id'] : NULL,
           'data-subid' => !empty($commerce_vendor_settings['data_subid']) ? $commerce_vendor_settings['data_subid'] : NULL,
-          'defer' => TRUE,
         ];
       }
     }
@@ -394,6 +404,19 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           $javascript[$key]['data'] = $staging_url;
         }
       }
+    }
+    if (strpos($key, '[price_spider_url]') !== FALSE) {
+      $price_spider_url = '//cdn.pricespider.com/1/lib/ps-widget.js';
+      if ($current_uri == '/' && $entry_gate_enabled) {
+        $javascript[$key]['data'] = '\/';
+      }
+      else {
+        $javascript[$key]['data'] = $price_spider_url;
+      }
+      $javascript[$key]['attributes'] = [
+        'data-src' => $price_spider_url,
+        'id' => 'ps-widget',
+      ];
     }
   }
 }
