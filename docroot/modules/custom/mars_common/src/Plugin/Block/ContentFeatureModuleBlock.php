@@ -112,8 +112,11 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
         }
       }
       else {
+        $build['#background_images'][$resolution] = FALSE;
         // Set value from previous resolution.
-        $build['#background_images'][$resolution] = end($build['#background_images']);
+        if (empty($build['#background_images'])) {
+          $build['#background_images'][$resolution] = end($build['#background_images']);
+        }
       }
     }
 

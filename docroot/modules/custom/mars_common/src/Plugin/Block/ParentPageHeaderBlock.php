@@ -163,7 +163,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
           }
 
           $media_params = $this->mediaHelper->getMediaParametersById($bg_image_media_ids[$resolution]);
-
           if (!isset($media_params['error'])) {
             $build['#background'][$resolution] = $media_params;
           }

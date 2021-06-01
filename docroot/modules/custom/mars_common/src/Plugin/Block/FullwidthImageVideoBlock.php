@@ -39,16 +39,34 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
 
     if ($config['block_content_type'] == static::CONTENT_TYPE_IMAGE && !empty($config['image'])) {
 
-      $media_id = $this->mediaHelper
-        ->getIdFromEntityBrowserSelectValue($config['image']);
+      foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
+        $name = 'image';
 
-      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
-      $build['#media'] = [
-        'image' => TRUE,
-        'src' => $media_params['src'] ?? NULL,
-        'alt' => $media_params['alt'] ?? NULL,
-        'title' => $media_params['title'] ?? NULL,
-      ];
+        if ($resolution != 'desktop') {
+          $name = 'image_' . $resolution;
+        }
+
+        if (!empty($config[$name])) {
+          $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config[$name]);
+          $media_params = $this->mediaHelper->getMediaParametersById($mediaId);
+          if (!isset($media_params['error'])) {
+            $build['#media']['medias'][$resolution] = $media_params;
+          }
+        }
+        else {
+          $build['#media']['medias'][$resolution] = FALSE;
+          // Set value from previous resolution.
+          if (empty($build['#background_images'])) {
+            $build['#media']['medias'][$resolution] = end($build['#media']['medias']);
+          }
+        }
+      }
+
+      $build['#media']['src'] = $build['#media']['medias']['desktop']['src'] ?? NULL;
+      $build['#media']['alt'] = $build['#media']['medias']['desktop']['alt'] ?? NULL;
+      $build['#media']['title'] = $build['#media']['medias']['desktop']['title'] ?? NULL;
+
+      $build['#media']['image'] = TRUE;
     }
     elseif ($config['block_content_type'] == static::CONTENT_TYPE_VIDEO && !empty($config['video'])) {
 
@@ -73,15 +91,22 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
           $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config[$name]);
           $media_params = $this->mediaHelper->getMediaParametersById($mediaId);
           if (!isset($media_params['error'])) {
-            $media_params['parallax_image'] = TRUE;
-            $build['#media'][$resolution] = $media_params;
+            $build['#media']['medias'][$resolution] = $media_params;
           }
         }
         else {
+          $build['#media']['medias'][$resolution] = FALSE;
           // Set value from previous resolution.
-          $build['#media'][$resolution] = end($build['#media']);
+          if (empty($build['#background_images'])) {
+            $build['#media']['medias'][$resolution] = end($build['#media']['medias']);
+          }
         }
       }
+
+      $build['#media']['parallax_image'] = TRUE;
+      $build['#media']['src'] = $build['#media']['medias']['desktop']['src'] ?? NULL;
+      $build['#media']['alt'] = $build['#media']['medias']['desktop']['alt'] ?? NULL;
+      $build['#media']['title'] = $build['#media']['medias']['desktop']['title'] ?? NULL;
     }
     // Add media aspect ratio.
     $build['#media']['aspect_ratio'] = $config['aspect_ratio'] ?? '16-9';
@@ -132,25 +157,25 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
 
     foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
       $name = 'parallax_image';
-      $required = TRUE;
+
+      $validate_callback = function ($form_state) {
+        return $form_state->getValue(['settings', 'block_content_type']) === self::CONTENT_TYPE_PARALLAX_IMAGE;
+      };
 
       if ($resolution != 'desktop') {
         $name = 'parallax_image_' . $resolution;
-        $required = FALSE;
+        $validate_callback = FALSE;
       }
 
       $image_default = isset($config[$name]) ? $config[$name] : NULL;
       // Entity Browser element for background image.
       $form[$name] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
-        $image_default, $form_state, 1, 'thumbnail', function ($form_state) {
-          return $form_state->getValue(['settings', 'block_content_type']) === self::CONTENT_TYPE_PARALLAX_IMAGE;
-        }
+        $image_default, $form_state, 1, 'thumbnail', $validate_callback
       );
       // Convert the wrapping container to a details element.
       $form[$name]['#type'] = 'details';
       $form[$name]['#title'] = $this->t('Parallax image (@resolution)', ['@resolution' => ucfirst($resolution)]);
       $form[$name]['#open'] = TRUE;
-      $form[$name]['#required'] = $required;
       $form[$name]['#states'] = [
         'visible' => [
           ':input[name="settings[block_content_type]"]' => ['value' => self::CONTENT_TYPE_PARALLAX_IMAGE],
