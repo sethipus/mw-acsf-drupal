@@ -3,5 +3,6 @@ onetrust:
   header: true
   js:
     js/onetrust.js: {}
+    js/onetrust-lazyload.js: {}
   dependencies:
     - core/drupal

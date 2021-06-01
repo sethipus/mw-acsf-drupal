@@ -44,7 +44,7 @@
   @include set-font($font-type: 'primary-font');
 
   padding: $space $space-one-and-half;
-  color: clr(subcolor-3);
+  color: clr(subcolor-3, mobile-search-right-menu-section);
   font-size: 1.4rem;
   line-height: 1.4rem;
   font-weight: 500;
@@ -60,12 +60,12 @@
   }
 
   @include large {
-    color: clr(primary);
+    color: clr(primary, text-color-override);
     font-size: 1.4rem;
     line-height: 1.4rem;
 
     &:hover {
-      color: clr(secondary);
+      color: clr(secondary, hover-color);
     }
   }
 }

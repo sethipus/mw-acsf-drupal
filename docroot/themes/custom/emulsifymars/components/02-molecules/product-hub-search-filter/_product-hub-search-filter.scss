@@ -65,29 +65,23 @@
     display: block;
     z-index: 100;
     background-color: clr(subcolor-3);
-
-    .search-filter-block__button--apply {
-      display: block;
-    }
   }
 
   &__button {
     @include set-font($font-type: 'primary-font');
 
+    font-size: 1.4rem;
+    line-height: 1;
     display: inline-block;
     cursor: pointer;
     border: 2px solid clr(secondary);
-    padding: 16px 40px;
+    padding: 1.6rem 1rem;
     border-radius: variable(button-border-radius);
     text-transform: uppercase;
     color: clr(secondary);
-    margin: 0 6px;
+    background-color: clr(subcolor-3);
+    margin: 0;
     text-decoration: none;
-
-    @include xs {
-      font-size: 1.4rem;
-      line-height: 1.4rem;
-    }
 
     &--highlighted {
       background-color: clr(secondary);
@@ -170,12 +164,16 @@
 }
 
 .search-filter-content {
-  padding: 0 20px;
+  padding: 0 2rem;
   position: absolute;
-  top: 60px;
-  bottom: 80px;
+  top: 6rem;
+  bottom: 8rem;
   width: 100%;
   overflow: auto;
+
+  @include medium {
+    bottom: 11rem;
+  }
 
   @include desktop {
     max-width: 920px;
@@ -197,15 +195,36 @@
   position: absolute;
   width: 100%;
   bottom: 0;
-  height: 80px;
+  min-height: 8rem;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0 2rem;
+
+  @include medium {
+    min-height: 11rem;
+  }
 
   @include desktop {
     display: none;
   }
+
+  .search-filter-block__button {
+    flex-grow: 1;
+    flex-basis: 15rem;
+    max-width: 21.5rem;
+    white-space: nowrap;
+  }
+
+  .search-filter-block__button--apply {
+    margin-left: 1.5rem;
+
+    @include medium {
+      margin-left: 2rem;
+    }
+  }
+
 }
 
 .search-filter-open-button {
@@ -250,13 +269,11 @@
   &__applied-label {
     @include set-font($font-type: 'primary-font');
 
+    font-size: 1.6rem;
+    line-height: 1.4;
     color: clr(primary);
     text-transform: uppercase;
 
-    @include xs {
-      font-size: 1.6rem;
-      line-height: 2.24rem;
-    }
   }
 
   &__applied-text {
