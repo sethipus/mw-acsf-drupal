@@ -157,6 +157,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       '#share_text' => $this->languageHelper->translate($share_text),
       '#publication_date' => $node->isPublished() ? $this->languageHelper->translate($published_label) . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
       '#images' => [],
+      '#theme' => 'article_header_block_image',
     ];
 
     $build['#images'] = $this->mediaHelper->getResponsiveImagesFromEntity(
@@ -164,10 +165,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       'field_article_image'
     );
 
-    if (!empty($build['#images']['desktop'])) {
-      $build['#theme'] = 'article_header_block_image';
-    }
-    else {
+    if (empty($build['#images']['desktop'])) {
       $build['#theme'] = 'article_header_block_no_image';
       $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     }

@@ -309,23 +309,30 @@ class ArticleHeaderTest extends UnitTestCase {
 
     $this->mediaHelperMock
       ->expects($this->once())
-      ->method('getEntityMainMediaId');
-    $this->mediaHelperMock
-      ->expects($this->once())
-      ->method('getMediaParametersById')
-      ->willReturn(
-        [
+      ->method('getResponsiveImagesFromEntity')
+      ->willReturn([
+        'desktop' => [
           'src' => 'test_image_source',
           'alt' => 'test_image_alt',
-        ]
-      );
+        ],
+        'tablet' => [
+          'src' => 'test_image_source',
+          'alt' => 'test_image_alt',
+        ],
+        'mobile' => [
+          'src' => 'test_image_source',
+          'alt' => 'test_image_alt',
+        ],
+      ]);
 
     $block_build = $this->articleHeaderBlock->build();
 
     $this->assertEquals('Test article', $block_build['#label']);
     $this->assertEquals('article_header_block_image', $block_build['#theme']);
-    $this->assertArrayHasKey('#image', $block_build);
-    $this->assertArrayHasKey('url', $block_build['#image']);
+    $this->assertArrayHasKey('#images', $block_build);
+    foreach (['desktop', 'tablet', 'mobile'] as $resolution) {
+      $this->assertArrayHasKey($resolution, $block_build['#images']);
+    }
     $this->assertArrayHasKey('social', $block_build['#social_links']);
     $this->assertArrayHasKey('icon', $block_build['#social_links']['social']);
     $this->assertArrayHasKey('#share_text', $block_build);

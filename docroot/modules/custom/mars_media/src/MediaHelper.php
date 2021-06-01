@@ -329,15 +329,17 @@ class MediaHelper {
         $name = $name . '_' . $resolution;
       }
 
+      // Get media id from field.
       $media_id = $this->getTargetIdFromField($contentEntity, $name);
 
       if (!empty($media_id)) {
-        $image_arr = $this->mediaHelper->getMediaParametersById($media_id);
-        if (!($image_arr['error'] ?? FALSE) && ($image_arr['src'] ?? FALSE)) {
-          $images[$resolution] = $image_arr;
+        $media = $this->getMediaParametersById($media_id);
+        if (empty($media['error']) && !empty($media['src'])) {
+          $images[$resolution] = $media;
         }
       }
 
+      // Set value from previous resolution if image for current doesn't exist.
       if (empty($images[$resolution])) {
         $last_media_resolution = end($images);
         $images[$resolution] = $last_media_resolution;
@@ -360,7 +362,7 @@ class MediaHelper {
    *
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
-  public function getTargetIdFromField(
+  private function getTargetIdFromField(
     ContentEntityInterface $contentEntity,
     string $fieldName
   ) {
