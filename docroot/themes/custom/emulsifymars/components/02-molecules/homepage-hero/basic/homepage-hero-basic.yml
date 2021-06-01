@@ -4,3 +4,17 @@ homepage_hero_basic_content: 'Choose pleasure Choose pleasure'
 
 homepage_hero_basic_img:
   src: 'http://dove.mars.acsitefactory.com/sites/g/files/fnmzdf186/files/2020-12/Dove%20Home%20Banner%2021-9.PNG'
+
+hero_images:
+  desktop:
+    src: 'http://dove.mars.acsitefactory.com/sites/g/files/fnmzdf186/files/2020-12/Dove%20Home%20Banner%2021-9.PNG'
+    alt: 'Alt text'
+    title: 'Image title'
+  tablet:
+    src: 'http://dove.mars.acsitefactory.com/sites/g/files/fnmzdf186/files/2020-12/Dove%20Home%20Banner%2021-9.PNG'
+    alt: 'Alt text'
+    title: 'Image title'
+  mobile:
+    src: 'http://dove.mars.acsitefactory.com/sites/g/files/fnmzdf186/files/2020-12/Dove%20Home%20Banner%2021-9.PNG'
+    alt: 'Alt text'
+    title: 'Image title'

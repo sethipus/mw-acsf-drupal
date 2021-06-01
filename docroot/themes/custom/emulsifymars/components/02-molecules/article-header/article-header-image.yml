@@ -2,7 +2,21 @@ theme_styles: 'dove'
 image:
   srcset: 'Rectangle-14@3x.png, Rectangle-14@2x.png 2x, Rectangle-14.png 1x'
   url: 'content-feature-bg.png'
-curve: 'article-header-wave.svg'
+
+images:
+  desktop:
+    src: 'content-feature-bg.png'
+    alt: 'Alt text'
+    title: 'Image title'
+  tablet:
+    src: 'content-feature-bg.png'
+    alt: 'Alt text'
+    title: 'Image title'
+  mobile:
+    src: 'content-feature-bg.png'
+    alt: 'Alt text'
+    title: 'Image title'
+
 eyebrow: '#SHESINBUSINESS'
 heading: 'Celebrating International Women’s Day'
 date_published: 'Published July 7, 2020'

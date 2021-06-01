@@ -12,6 +12,16 @@ pp_header_paragraph_content: 'Plus, I’m all in whenever DOVE are involved. Exc
 This is a PSA to the makers of the DOVE bar.'
 pp_header_paragraph_base_class: 'parent-page-paragraph'
 
+parent_page_media_entities:
+  desktop:
+    src: './content-feature-bg.png'
+  tablet:
+    src: './content-feature-bg.png'
+  mobile:
+    src: './content-feature-bg.png'
+  video:
+    src: 'http://media.w3.org/2010/05/sintel/trailer.mp4'
+
 # parent_page_img_url: ''
 
 pp_header_video_src: 'http://media.w3.org/2010/05/sintel/trailer.mp4'

@@ -7,7 +7,18 @@ cta_title: 'Explore'
 cta_link_attributes:
   'href': '#'
 cta_base_class: 'cta-link'
-hero_image:
-  'srcset': 'image-4.png, image-4@2x.png 2x, image-4@3x.png 3x '
-  'src': 'image-4.png'
+hero_images:
+  desktop:
+    src: 'image-4.png'
+    alt: 'Alt text'
+    title: 'Image title'
+  tablet:
+    src: 'image-4.png'
+    alt: 'Alt text'
+    title: 'Image title'
+  mobile:
+    src: 'image-4.png'
+    alt: 'Alt text'
+    title: 'Image title'
+
 background_color: ''
