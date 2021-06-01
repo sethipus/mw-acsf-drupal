@@ -2,8 +2,12 @@
 
 namespace Drupal\mars_entry_gate\Form;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_entry_gate\Traits\BlockVisibilityConditionsTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Condition\ConditionManager;
 
 /**
  * Configuration form for Entry Gate.
@@ -20,7 +24,41 @@ class EntryGateConfigForm extends ConfigFormBase {
    */
   const KEY_OPTION_DATE_D_M = 'dd_mm';
 
+  /**
+   * The condition plugin manager service.
+   *
+   * @var \Drupal\Core\Condition\ConditionManager
+   */
+  protected $conditionPluginManager;
+
   use \Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
+  use BlockVisibilityConditionsTrait;
+
+  /**
+   * Constructs a \Drupal\system\ConfigFormBase object.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The factory for configuration objects.
+   * @param \Drupal\Core\Condition\ConditionManager $condition_manager
+   *   The condition plugin manager.
+   */
+  public function __construct(
+    ConfigFactoryInterface $config_factory,
+    ConditionManager $condition_manager
+  ) {
+    parent::__construct($config_factory);
+    $this->conditionPluginManager = $condition_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+      $container->get('plugin.manager.condition')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -138,6 +176,9 @@ class EntryGateConfigForm extends ConfigFormBase {
     $text_color_config = $config->get('override_text_color') ? ['override_text_color' => $config->get('override_text_color')] : [];
     $this->buildOverrideColorElement($form, $text_color_config);
 
+    $visibility_config = $config->get('visibility') ?? [];
+    $this->buildVisibilityInterface($form, $form_state, $visibility_config);
+
     return $form;
   }
 
@@ -162,6 +203,7 @@ class EntryGateConfigForm extends ConfigFormBase {
     $config->set('error_link_1', $form_state->getValue('error_link_1'));
     $config->set('error_link_2', $form_state->getValue('error_link_2'));
     $config->set('override_text_color', ['override_color' => $form_state->getValue('override_color')]);
+    $this->setVisibilityFieldsConfiguration($form_state, $config);
     $config->save();
 
     parent::submitForm($form, $form_state);

@@ -40,12 +40,12 @@
     padding-bottom: 0;
 
     &__link {
-      color: clr(primary);
+      color: clr(primary, text-color-override);
       font-size: 1.4rem;
       line-height: 1.4rem;
 
       &:hover {
-        color: clr(secondary);
+        color: clr(secondary, hover-color);
       }
     }
   }

@@ -96,6 +96,14 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       '#default_value' => $config['title'] ?? $this->languageHelper->translate('All results'),
     ];
 
+    $form['cta_button_label'] = [
+      '#title' => $this->languageHelper->translate('CTA button label'),
+      '#type' => 'textfield',
+      '#size' => 200,
+      '#required' => TRUE,
+      '#default_value' => $config['cta_button_label'] ?? strtoupper($this->languageHelper->translate('See more')),
+    ];
+
     $this->buildOverrideColorElement($form, $config, TRUE);
 
     return $form;
@@ -124,7 +132,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $build = array_merge($build, $this->searchBuilder->buildSearchFacets('search_page'));
 
     // "See more" link should be visible only if it makes sense.
-    $build['#ajax_card_grid_link_text'] = $this->t('@see_more_label', ['@see_more_label' => strtoupper('See more')]);
+    $build['#ajax_card_grid_link_text'] = $config['cta_button_label'] ?? $this->t('@see_more_label', ['@see_more_label' => strtoupper('See more')]);
     $build['#ajax_card_grid_link_attributes']['href'] = '/';
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
       $build['#ajax_card_grid_link_attributes']['class'] = 'active';

@@ -42,8 +42,8 @@
       {% endfor %}
     </div>
     <div {{ bem(search_filter_footer_base_class) }}>
-      <a href="#" {{ bem('button', ['clear-all'], search_filter_block_base_class) }}>{{ "Clear All" | mt }}</a>
-      <a href="#" {{ bem('button', ['highlighted', 'apply', 'disabled'], search_filter_block_base_class) }}>{{ "Apply" | mt }}</a>
+      <button {{ bem('button', ['clear-all'], search_filter_block_base_class) }}>{{ "Clear All" | mt }}</button>
+      <button {{ bem('button', ['highlighted', 'apply', 'disabled'], search_filter_block_base_class) }}>{{ "Apply" | mt }}</button>
     </div>
   </div>
   <div {{ bem(search_filter_information_base_class, [modifier]) }}>
