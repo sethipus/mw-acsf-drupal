@@ -7,7 +7,9 @@ use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Url;
 use Drupal\mars_media\MediaHelper;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\node\NodeInterface;
@@ -129,6 +131,58 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
         '#default_value' => $this->configuration['data_locale'],
         '#required' => TRUE,
       ];
+
+      $products = $this->sortProductsByWeight($this->getProductsList());
+      // Render the product list table with a ability to change product order in
+      // the product dropdown.
+      $headers = [
+        'title' => $this->t('Product label'),
+        'id' => $this->t('Product ID'),
+        'weight' => $this->t('Display order'),
+      ];
+      $form['products_list_weight'] = [
+        '#type' => 'table',
+        '#header' => $headers,
+        '#caption' => $this->t('<h3>Where To By products order</h3><span style="color:#ff4700; display: block; padding-bottom: 15px;"><b>Warning:</b> The first item in the list will be considered as a <b>default product</b></span>'),
+        '#attributes' => [
+          'id' => 'products-order',
+        ],
+        '#tabledrag' => [
+          [
+            'action' => 'order',
+            'relationship' => 'sibling',
+            'group' => 'weight',
+          ],
+        ],
+      ];
+      // Add product rows to the table.
+      foreach ($products as $product) {
+        $form['products_list_weight'][$product->id()] = [
+          '#attributes' => [
+            'class' => ['draggable'],
+          ],
+          'label' => [
+            '#markup' => Link::fromTextAndUrl(
+              $product->label(),
+              Url::fromRoute(
+                'entity.node.canonical',
+                ['node' => $product->id()],
+                ['attributes' => ['target' => '_blank']]
+              ))->toString(),
+          ],
+          'id' => ['#markup' => $product->id()],
+          'weight' => [
+            '#type' => 'weight',
+            '#default_value' => !empty($this->configuration['products_list_weight'][$product->id()]) ? $this->configuration['products_list_weight'][$product->id()]['weight'] : $product->id(),
+            '#title' => $this->t('Weight for @product', ['@product' => $product->label()]),
+            '#title_display' => 'invisible',
+            '#attributes' => [
+              'class' => ['weight'],
+            ],
+          ],
+        ];
+      }
+
     }
     elseif ($selected_vendor === PdpHeroBlock::VENDOR_PRICE_SPIDER) {
       $form['product_sku'] = [
@@ -197,15 +251,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
         ];
 
         /** @var \Drupal\node\Entity\Node[] $products */
-        $products = $this->entityTypeManager->getStorage('node')
-          ->loadByProperties([
-            'type' => ['product_multipack'],
-          ]);
-        $products += $this->entityTypeManager->getStorage('node')
-          ->loadByProperties([
-            'type' => ['product'],
-            'field_product_generated' => FALSE,
-          ]);
+        $products = $this->sortProductsByWeight($this->getProductsList());
         $products_for_render = [];
         foreach ($products as $product) {
           $variants_info = $this->addProductVariantsInfo($product);
@@ -288,6 +334,48 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
    */
   private function getCommerceVendor(): string {
     return $this->wtbGlobalConfig->get('commerce_vendor') ?? PdpHeroBlock::VENDOR_NONE;
+  }
+
+  /**
+   * Provides product list to render.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface[]|\Drupal\node\Entity\Node[]
+   *   Returns product list to render.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  private function getProductsList() {
+    /** @var \Drupal\node\Entity\Node[] $products */
+    $products = $this->entityTypeManager->getStorage('node')
+      ->loadByProperties([
+        'type' => ['product_multipack'],
+      ]);
+    $products += $this->entityTypeManager->getStorage('node')
+      ->loadByProperties([
+        'type' => ['product'],
+        'field_product_generated' => FALSE,
+      ]);
+    return $products;
+  }
+
+  /**
+   * Provides sorted list of products by their weight.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface[]|\Drupal\node\Entity\Node[] $products
+   *   Product entities list.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface[]|\Drupal\node\Entity\Node[]
+   *   Returns sorted products list.
+   */
+  private function sortProductsByWeight(array $products) {
+    if (!empty($this->configuration['products_list_weight'])) {
+      $weights = $this->configuration['products_list_weight'];
+      usort($products, function ($a, $b) use ($weights) {
+        return $weights[$a->id()]['weight'] > $weights[$b->id()]['weight'];
+      });
+    }
+    return $products;
   }
 
 }

@@ -33,7 +33,7 @@
   display: block;
   font-size: 1.4rem;
   text-transform: uppercase;
-  color: clr(primary);
+  color: clr(primary, mobile-main-menu-items-color);
   margin-left: 1rem;
 
   @include medium {
@@ -46,7 +46,7 @@
   height: 2rem;
   width: 2rem;
   margin: 0 auto;
-  fill: clr(secondary);
+  fill: clr(secondary, mobile-cross-hamburger);
 
   @include medium {
     left: -22px;

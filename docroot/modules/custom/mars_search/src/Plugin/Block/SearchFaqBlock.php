@@ -115,6 +115,14 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#default_value' => $config['faq_title'] ?? 'FAQs',
     ];
 
+    $form['cta_button_label'] = [
+      '#title' => $this->languageHelper->translate('CTA button label'),
+      '#type' => 'textfield',
+      '#size' => 200,
+      '#required' => TRUE,
+      '#default_value' => $config['cta_button_label'] ?? strtoupper($this->languageHelper->translate('See all')),
+    ];
+
     return $form;
   }
 
@@ -135,7 +143,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('faq');
     $build = array_merge($build, $this->searchBuilder->buildFaqFilters());
 
-    $cta_button_label = $this->languageHelper->translate(strtoupper('See all'));
+    $cta_button_label = $config['cta_button_label'] ?? strtoupper($this->languageHelper->translate('See all'));
     $cta_button_link = '/';
     // Extracting the node context.
     $context_node = $this->getContextValue('node');

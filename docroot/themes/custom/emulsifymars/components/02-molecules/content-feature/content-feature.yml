@@ -1,6 +1,5 @@
 theme_styles: 'twix'
 eyebrow_text: 'Initiative'
-
 background_images:
   desktop:
     src: './content-feature-bg.png'
@@ -8,7 +7,6 @@ background_images:
     src: './content-feature-bg.png'
   mobile:
     src: './content-feature-bg.png'
-
 heading: 'The Rainforest Alliance'
 heading_level: 1
 heading_url: 'https://storybook.js.org/'

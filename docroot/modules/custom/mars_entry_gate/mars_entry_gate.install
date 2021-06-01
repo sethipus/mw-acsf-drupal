@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * MARS Entry gate module main file.
+ */
+
+/**
+ * Update entry gate configuration on the platform level.
+ */
+function mars_entry_gate_update_8001() {
+  $entry_gate_config = \Drupal::configFactory()->getEditable('mars_entry_gate.settings');
+  $data = $entry_gate_config->getRawData();
+  $data = array_merge($data, ['visibility' => ['entity_bundle:node' => ['negate' => 1]]]);
+  $entry_gate_config->setData($data);
+  $entry_gate_config->save();
+}
