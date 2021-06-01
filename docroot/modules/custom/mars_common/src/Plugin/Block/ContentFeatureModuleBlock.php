@@ -31,11 +31,6 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
   const LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID = 'lighthouse_browser';
 
   /**
-   * List of image resolutions.
-   */
-  const LIST_IMAGE_RESOLUTIONS = ['desktop', 'tablet', 'mobile'];
-
-  /**
    * ThemeConfiguratorParser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -102,7 +97,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
     $build['#dark_overlay'] = $this->configuration['use_dark_overlay'] ?? TRUE;
 
-    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+    foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
       $name = 'background';
 
       if ($resolution != 'desktop') {
@@ -113,8 +108,12 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
         $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf[$name]);
         $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
         if (!($mediaParams['error'] ?? FALSE) && ($mediaParams['src'] ?? FALSE)) {
-          $build['#background_images'][$resolution] = $mediaParams['src'];
+          $build['#background_images'][$resolution] = $mediaParams;
         }
+      }
+      else {
+        // Set value from previous resolution.
+        $build['#background_images'][$resolution] = end($build['#background_images']);
       }
     }
 
@@ -159,7 +158,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       '#required' => TRUE,
     ];
 
-    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+    foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
       $name = 'background';
       $required = TRUE;
 
@@ -171,7 +170,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       $image_default = isset($config[$name]) ? $config[$name] : NULL;
       // Entity Browser element for background image.
       $form[$name] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
-        $image_default, $form_state, 1, 'thumbnail');
+        $image_default, $form_state, 1, 'thumbnail', $required);
       // Convert the wrapping container to a details element.
       $form[$name]['#type'] = 'details';
       $form[$name]['#title'] = $this->t('Background (@resolution)', ['@resolution' => ucfirst($resolution)]);
@@ -232,7 +231,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       ? TRUE
       : FALSE;
 
-    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+    foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
       $name = 'background';
 
       if ($resolution != 'desktop') {

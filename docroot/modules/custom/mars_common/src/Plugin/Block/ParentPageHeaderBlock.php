@@ -147,7 +147,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     if (!empty($conf['background_options'])) {
       if ($conf['background_options'] == self::KEY_OPTION_IMAGE) {
         $build['#media_type'] = 'image';
-        foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+        foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
           // Generate image field name.
           // NOTE: "background_image" for desktop without any suffixes
           // for compatibility with existing data.
@@ -250,7 +250,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#default_value' => isset($config['background_options']) ? $config['background_options'] : NULL,
     ];
 
-    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+    foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
       $name = 'background_image';
 
       if ($resolution != 'desktop') {
@@ -401,7 +401,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       ? TRUE
       : FALSE;
 
-    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+    foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
       $name = 'background_image';
       if ($resolution != 'desktop') {
         $name = 'background_image_' . $resolution;

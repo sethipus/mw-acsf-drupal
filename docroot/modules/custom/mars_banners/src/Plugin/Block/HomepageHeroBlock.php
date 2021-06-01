@@ -61,11 +61,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   const KEY_OPTION_IMAGE_AND_TEXT = 'image_and_text';
 
   /**
-   * List of image resolutions.
-   */
-  const LIST_IMAGE_RESOLUTIONS = ['desktop', 'tablet', 'mobile'];
-
-  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_media\MediaHelper
@@ -343,7 +338,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ],
     ];
 
-    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+    foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
       $name = 'background_image';
 
       if ($resolution != 'desktop') {
@@ -671,7 +666,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ? TRUE
       : FALSE;
 
-    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+    foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
       $name = 'background_image';
       if ($resolution != 'desktop') {
         $name = 'background_image_' . $resolution;
@@ -707,7 +702,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $alt = 'homepage hero background image';
 
     if (in_array($config['block_type'], [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT])) {
-      foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+      foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
         // Generate image field name.
         // NOTE: "background_image" for desktop without any suffixes
         // for compatibility with existing data.

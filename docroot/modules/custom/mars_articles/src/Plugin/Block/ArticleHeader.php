@@ -38,11 +38,6 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   use OverrideThemeTextColorTrait;
 
   /**
-   * List of image resolutions.
-   */
-  const LIST_IMAGE_RESOLUTIONS = ['desktop', 'tablet', 'mobile'];
-
-  /**
    * A view builder instance.
    *
    * @var \Drupal\Core\Entity\EntityViewBuilderInterface
@@ -164,26 +159,10 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       '#images' => [],
     ];
 
-    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
-      $name = 'field_article_image';
-      if ($resolution != 'desktop') {
-        $name = 'field_article_image_' . $resolution;
-      }
-
-      $media_id = $this->mediaHelper->getTargetIdFromField($node, $name);
-
-      if (!empty($media_id)) {
-        $image_arr = $this->mediaHelper->getMediaParametersById($media_id);
-        if (!($image_arr['error'] ?? FALSE) && ($image_arr['src'] ?? FALSE)) {
-          $build['#images'][$resolution] = $image_arr;
-        }
-      }
-
-      if (empty($build['#images'][$resolution])) {
-        $last_media_resolution = end($build['#images']);
-        $build['#images'][$resolution] = $last_media_resolution;
-      }
-    }
+    $build['#images'] = $this->mediaHelper->getResponsiveImagesFromEntity(
+      $node,
+      'field_article_image'
+    );
 
     if (!empty($build['#images']['desktop'])) {
       $build['#theme'] = 'article_header_block_image';
