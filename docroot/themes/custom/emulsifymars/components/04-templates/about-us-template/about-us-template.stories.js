@@ -15,7 +15,11 @@ export const aboutUsTemplate = () => {
     useEffect(() => Drupal.attachBehaviors(), []);
     return <div dangerouslySetInnerHTML={{
         __html: aboutUsTemplateTwig({
-            parent_page_media_url: '/content-feature-bg.png', 
+            parent_page_media_entities: {
+              desktop : { src: '/content-feature-bg.png'},
+              tablet : { src: '/content-feature-bg.png'},
+              mobile : { src: '/content-feature-bg.png'}
+            },
             parent_page_media_type: 'image',
           ...aboutUsHeaderData,
           ...freeformStoryData,
