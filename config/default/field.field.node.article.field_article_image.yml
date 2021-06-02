@@ -7,13 +7,18 @@ dependencies:
     - media.type.image
     - media.type.lighthouse_image
     - node.type.article
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
 _core:
   default_config_hash: L5jllUHX38TDQ2EGVc4--LKVFve71NZH9_ROiWjN_RY
 id: node.article.field_article_image
 field_name: field_article_image
 entity_type: node
 bundle: article
-label: Image
+label: 'Image (Desktop)'
 description: ''
 required: false
 translatable: false

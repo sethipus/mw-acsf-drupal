@@ -3,6 +3,7 @@
 namespace Drupal\Tests\mars_entry_gate\Unit\Form;
 
 use Drupal;
+use Drupal\Core\Condition\ConditionManager;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -69,6 +70,13 @@ class MarsEntryGateConfigFormTest extends UnitTestCase {
   private $messengerMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Condition\ConditionManager
+   */
+  private $conditionPluginManagerMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -77,7 +85,8 @@ class MarsEntryGateConfigFormTest extends UnitTestCase {
     Drupal::setContainer($this->containerMock);
 
     $this->form = new EntryGateConfigForm(
-      $this->configFactoryMock
+      $this->configFactoryMock,
+      $this->conditionPluginManagerMock
     );
     $this->form->setMessenger($this->messengerMock);
   }
@@ -199,6 +208,7 @@ class MarsEntryGateConfigFormTest extends UnitTestCase {
     $this->translationMock = $this->createMock(TranslationInterface::class);
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->messengerMock = $this->createMock(MessengerInterface::class);
+    $this->conditionPluginManagerMock = $this->createMock(ConditionManager::class);
 
     $this->configProphecy = $this->prophesize(Config::class);
     $this->configProphecy
@@ -231,6 +241,11 @@ class MarsEntryGateConfigFormTest extends UnitTestCase {
             'string_translation',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->translationMock,
+          ],
+          [
+            'plugin.manager.condition',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->conditionPluginManagerMock,
           ],
         ]
       );

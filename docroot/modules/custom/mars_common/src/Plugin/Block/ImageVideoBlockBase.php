@@ -129,25 +129,36 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
       ];
     }
 
-    $image_default = isset($config['image']) ? $config['image'] : NULL;
-    // Entity Browser element for background image.
-    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
-      $image_default, $form_state, 1, 'thumbnail', function ($form_state) {
+    foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
+      $name = 'image';
+
+      $validate_callback = function ($form_state) {
         return $form_state->getValue(['settings', 'block_content_type']) === self::CONTENT_TYPE_IMAGE;
+      };
+
+      if ($resolution != 'desktop') {
+        $name = 'image_' . $resolution;
+        $validate_callback = FALSE;
       }
-    );
-    // Convert the wrapping container to a details element.
-    $form['image']['#type'] = 'details';
-    $form['image']['#title'] = $this->t('Image');
-    $form['image']['#open'] = TRUE;
-    $form['image']['#states'] = [
-      'visible' => [
-        ':input[name="settings[block_content_type]"]' => ['value' => self::CONTENT_TYPE_IMAGE],
-      ],
-      'required' => [
-        ':input[name="settings[block_content_type]"]' => ['value' => self::CONTENT_TYPE_IMAGE],
-      ],
-    ];
+
+      $image_default = isset($config[$name]) ? $config[$name] : NULL;
+      // Entity Browser element for background image.
+      $form[$name] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $image_default, $form_state, 1, 'thumbnail', $validate_callback
+      );
+      // Convert the wrapping container to a details element.
+      $form[$name]['#type'] = 'details';
+      $form[$name]['#title'] = $this->t('Image (@resolution)', ['@resolution' => ucfirst($resolution)]);
+      $form[$name]['#open'] = TRUE;
+      $form[$name]['#states'] = [
+        'visible' => [
+          ':input[name="settings[block_content_type]"]' => ['value' => self::CONTENT_TYPE_IMAGE],
+        ],
+        'required' => [
+          ':input[name="settings[block_content_type]"]' => ['value' => self::CONTENT_TYPE_IMAGE],
+        ],
+      ];
+    }
 
     $video_default = isset($config['video']) ? $config['video'] : NULL;
     // Entity Browser element for video.
@@ -197,8 +208,15 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
     $this->setConfiguration($form_state->getValues());
-    $this->configuration['image'] = $this->getEntityBrowserValue($form_state, 'image');
     $this->configuration['video'] = $this->getEntityBrowserValue($form_state, 'video');
+
+    foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
+      $name = 'image';
+      if ($resolution != 'desktop') {
+        $name = 'image_' . $resolution;
+      }
+      $this->configuration[$name] = $this->getEntityBrowserValue($form_state, $name);
+    }
   }
 
 }

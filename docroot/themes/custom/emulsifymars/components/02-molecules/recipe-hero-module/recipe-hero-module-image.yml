@@ -1,8 +1,19 @@
 theme_styles: 'twix'
 recipe_header_text: 'Twix Blondies'
 recipe_description_text: 'Twix Blondies are what sweet caramel dreams are made of! Take a buttery, brown sugar blondie, and load it up with tons of chopped Twix Bars, sea salt and chocolate chips. These homemade blondies are extra chewy with crunchy bits of shortbread baked inside!'
-image:
-  url: './dove-dark-chocolate-bg@2x.png'
+images:
+  desktop:
+    src: './dove-dark-chocolate-bg@2x.png'
+    alt: 'Alt text'
+    title: 'Image title'
+  tablet:
+    src: './dove-dark-chocolate-bg@2x.png'
+    alt: 'Alt text'
+    title: 'Image title'
+  mobile:
+    src: './dove-dark-chocolate-bg@2x.png'
+    alt: 'Alt text'
+    title: 'Image title'
 image_src: ''
 video_src: ''
 recipe_cooking_time: '35'
