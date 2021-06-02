@@ -39,6 +39,8 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
 
     if ($config['block_content_type'] == static::CONTENT_TYPE_IMAGE && !empty($config['image'])) {
 
+      $build['#media']['medias'] = [];
+
       foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
         $name = 'image';
 
@@ -53,12 +55,10 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
             $build['#media']['medias'][$resolution] = $media_params;
           }
         }
-        else {
-          $build['#media']['medias'][$resolution] = FALSE;
-          // Set value from previous resolution.
-          if (!empty($build['#media']['medias'])) {
-            $build['#media']['medias'][$resolution] = end($build['#media']['medias']);
-          }
+
+        // Set value from previous resolution.
+        if (empty($build['#media']['medias'][$resolution])) {
+          $build['#media']['medias'][$resolution] = end($build['#media']['medias']);
         }
       }
 
@@ -80,6 +80,8 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
       ];
     }
     elseif ($config['block_content_type'] == static::CONTENT_TYPE_PARALLAX_IMAGE && !empty($config['parallax_image'])) {
+      $build['#media']['medias'] = [];
+
       foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
         $name = 'parallax_image';
 
@@ -94,12 +96,10 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
             $build['#media']['medias'][$resolution] = $media_params;
           }
         }
-        else {
-          $build['#media']['medias'][$resolution] = FALSE;
-          // Set value from previous resolution.
-          if (!empty($build['#media']['medias'])) {
-            $build['#media']['medias'][$resolution] = end($build['#media']['medias']);
-          }
+
+        // Set value from previous resolution.
+        if (empty($build['#media']['medias'][$resolution])) {
+          $build['#media']['medias'][$resolution] = end($build['#media']['medias']);
         }
       }
 
