@@ -56,7 +56,7 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
         else {
           $build['#media']['medias'][$resolution] = FALSE;
           // Set value from previous resolution.
-          if (empty($build['#background_images'])) {
+          if (!empty($build['#media']['medias'])) {
             $build['#media']['medias'][$resolution] = end($build['#media']['medias']);
           }
         }
@@ -97,7 +97,7 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
         else {
           $build['#media']['medias'][$resolution] = FALSE;
           // Set value from previous resolution.
-          if (empty($build['#background_images'])) {
+          if (!empty($build['#media']['medias'])) {
             $build['#media']['medias'][$resolution] = end($build['#media']['medias']);
           }
         }
