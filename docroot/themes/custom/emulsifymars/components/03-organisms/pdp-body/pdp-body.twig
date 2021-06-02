@@ -25,7 +25,7 @@
       {% set benefits_list = benefits_list|merge([{'content' : benefit_item }])   %}
     {% endfor %}
     {% set benefits_data = {
-      'enabled': pdp_item.nutrition_data.claims_benefits is not empty and pdp_common_data.nutrition_data.show_claims_benefits is not empty and pdp_common_data.nutrition_data.show_claims_benefits != 0,
+      'enabled': pdp_item.nutrition_data.claims_benefits is not empty and pdp_common_data.nutrition_data.show_claims_benefits != false and pdp_common_data.nutrition_data.show_claims_benefits != 0,
       'title': pdp_common_data.nutrition_data.benefits_title,
       'list': benefits_list,
       'disclaimer': pdp_common_data.nutrition_data.benefits_disclaimer,
