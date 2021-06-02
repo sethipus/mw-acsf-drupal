@@ -96,6 +96,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $build['#border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
     $build['#dark_overlay'] = $this->configuration['use_dark_overlay'] ?? TRUE;
+    $build['#background_images'] = [];
 
     foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
       $name = 'background';
@@ -111,12 +112,10 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
           $build['#background_images'][$resolution] = $mediaParams;
         }
       }
-      else {
-        $build['#background_images'][$resolution] = FALSE;
-        // Set value from previous resolution.
-        if (!empty($build['#background_images'])) {
-          $build['#background_images'][$resolution] = end($build['#background_images']);
-        }
+
+      // Set value from previous resolution.
+      if (empty($build['#background_images'][$resolution])) {
+        $build['#background_images'][$resolution] = end($build['#background_images']);
       }
     }
 
