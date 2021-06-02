@@ -25,14 +25,23 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
   protected $searchCategories;
 
   /**
+   * Search pretty facets.
+   *
+   * @var \Drupal\mars_search\Processors\SearchPrettyFacetProcessInterface
+   */
+  protected $searchPrettyFacet;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
     RequestStack $request,
-    SearchCategoriesInterface $searchCategories
+    SearchCategoriesInterface $searchCategories,
+    SearchPrettyFacetProcessInterface $search_pretty_facet
   ) {
     $this->request = $request->getMasterRequest();
     $this->searchCategories = $searchCategories;
+    $this->searchPrettyFacet = $search_pretty_facet;
   }
 
   /**
@@ -48,6 +57,10 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
   public function parseQuery(string $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
     // Getting all GET parameters in array.
     $query_parameters = $this->request->query->all();
+
+    if (!array_key_exists('faq_filter_topic', $query_parameters)) {
+      $this->searchPrettyFacet->checkPrettyFacets($query_parameters);
+    }
 
     // In autocomplete case we have to get search id from the GET query.
     if (isset($query_parameters['search_id'])) {

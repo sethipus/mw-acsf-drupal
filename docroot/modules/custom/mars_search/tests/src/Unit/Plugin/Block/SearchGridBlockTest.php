@@ -13,6 +13,7 @@ use Drupal\mars_search\Processors\SearchHelperInterface;
 use Drupal\mars_search\Processors\SearchCategoriesInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\node\Entity\Node;
+use Drupal\pathauto\AliasCleanerInterface;
 use Drupal\taxonomy\TermInterface;
 use Drupal\taxonomy\TermStorageInterface;
 use Drupal\Tests\UnitTestCase;
@@ -108,6 +109,13 @@ class SearchGridBlockTest extends UnitTestCase {
   private $formStateMock;
 
   /**
+   * Language helper mock.
+   *
+   * @var \Drupal\pathauto\AliasCleanerInterface
+   */
+  private $aliasCleanerMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -145,7 +153,8 @@ class SearchGridBlockTest extends UnitTestCase {
       $this->entityTypeManagerMock,
       $this->themeConfiguratorMock,
       $this->searchProcessFactoryMock,
-      $this->languageHelperMock
+      $this->languageHelperMock,
+      $this->aliasCleanerMock
     );
   }
 
@@ -154,7 +163,7 @@ class SearchGridBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(4))
+      ->expects($this->exactly(5))
       ->method('get')
       ->willReturnMap(
         [
@@ -177,6 +186,11 @@ class SearchGridBlockTest extends UnitTestCase {
             'mars_common.language_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->languageHelperMock,
+          ],
+          [
+            'pathauto.alias_cleaner',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->aliasCleanerMock,
           ],
         ]
       );
@@ -214,6 +228,11 @@ class SearchGridBlockTest extends UnitTestCase {
     $this->languageHelperMock
       ->expects($this->any())
       ->method('translate');
+
+    $this->aliasCleanerMock
+      ->expects($this->once())
+      ->method('cleanString')
+      ->willReturn('test_grid_id');
 
     $this->searchBuilderMock
       ->expects($this->once())
@@ -332,6 +351,7 @@ class SearchGridBlockTest extends UnitTestCase {
     $this->searchCategoriesMock = $this->createMock(SearchCategoriesInterface::class);
     $this->themeConfiguratorMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
+    $this->aliasCleanerMock = $this->createMock(AliasCleanerInterface::class);
   }
 
 }

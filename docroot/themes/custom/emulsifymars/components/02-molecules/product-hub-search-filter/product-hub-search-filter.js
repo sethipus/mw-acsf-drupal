@@ -253,9 +253,9 @@
           if (appliedIds.length > 0) {
             const taxonomyFilter = appliedIds.reduce(function (params, key) {
               if (params === '') {
-                return key.replace(gridId, '');
+                return key.replace(gridId, '').replace(element.getAttribute('data-filter'), '');
               }
-              return params + ',' + key.replace(gridId, '');
+              return params + ',' + key.replace(gridId, '').replace(element.getAttribute('data-filter'), '');
             }, '');
             queryElements[element.getAttribute('data-filter')] = {[gridId]: taxonomyFilter};
             appliedIds = [];
