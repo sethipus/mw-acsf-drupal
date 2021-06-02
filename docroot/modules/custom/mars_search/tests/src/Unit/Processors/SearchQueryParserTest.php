@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\mars_search\Unit\Processors;
 
+use Drupal\mars_search\Processors\SearchPrettyFacetProcessInterface;
 use Drupal\mars_search\Processors\SearchQueryParser;
 use Drupal\mars_search\Processors\SearchQueryParserInterface;
 use Drupal\mars_search\Processors\SearchCategoriesInterface;
@@ -25,9 +26,16 @@ class SearchQueryParserTest extends UnitTestCase {
   /**
    * Search categories mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\SearchCategoriesInterface
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchCategoriesInterface
    */
   private $searchCategoriesMock;
+
+  /**
+   * Search categories mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchPrettyFacetProcessInterface
+   */
+  private $searchPrettyFacetMock;
 
   /**
    * Container.
@@ -52,7 +60,8 @@ class SearchQueryParserTest extends UnitTestCase {
     $this->container = new ContainerBuilder();
     $this->searchQueryParser = new SearchQueryParser(
       $this->requestStackMock,
-      $this->searchCategoriesMock
+      $this->searchCategoriesMock,
+      $this->searchPrettyFacetMock
     );
   }
 
@@ -67,6 +76,7 @@ class SearchQueryParserTest extends UnitTestCase {
       ->expects($this->any())
       ->method('getMasterRequest')
       ->willReturn($masterRequest);
+    $this->searchPrettyFacetMock = $this->createMock(SearchPrettyFacetProcessInterface::class);
   }
 
   /**

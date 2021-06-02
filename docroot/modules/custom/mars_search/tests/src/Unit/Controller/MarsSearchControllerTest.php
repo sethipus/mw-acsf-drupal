@@ -14,6 +14,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\Controller\MarsSearchController;
 use Drupal\mars_search\Processors\SearchBuilder;
 use Drupal\mars_search\Processors\SearchHelperInterface;
+use Drupal\mars_search\Processors\SearchPrettyFacetProcessInterface;
 use Drupal\mars_search\Processors\SearchQueryParserInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\node\Entity\Node;
@@ -153,6 +154,13 @@ class MarsSearchControllerTest extends UnitTestCase {
   protected $pathValidator;
 
   /**
+   * The path validator service.
+   *
+   * @var \Drupal\mars_search\Processors\SearchPrettyFacetProcessInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  protected $searchPrettyFacetProcessor;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -190,6 +198,10 @@ class MarsSearchControllerTest extends UnitTestCase {
           [
             'search_builder',
             $this->searchBuilderMock,
+          ],
+          [
+            'search_pretty_facet_process',
+            $this->searchPrettyFacetProcessor,
           ],
         ]
       );
@@ -407,6 +419,7 @@ class MarsSearchControllerTest extends UnitTestCase {
     $this->pathValidator = $this->createMock(PathValidatorInterface::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->nodeStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this->searchPrettyFacetProcessor = $this->createMock(SearchPrettyFacetProcessInterface::class);
   }
 
 }

@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
+use Drupal\pathauto\AliasCleanerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
@@ -82,6 +83,13 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
   private $languageHelper;
 
   /**
+   * The alias cleaner.
+   *
+   * @var \Drupal\pathauto\AliasCleanerInterface
+   */
+  protected $aliasCleaner;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -92,7 +100,8 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('mars_search.search_factory'),
-      $container->get('mars_common.language_helper')
+      $container->get('mars_common.language_helper'),
+      $container->get('pathauto.alias_cleaner')
     );
   }
 
@@ -106,7 +115,8 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     EntityTypeManagerInterface $entity_type_manager,
     ThemeConfiguratorParser $themeConfiguratorParser,
     SearchProcessFactoryInterface $searchProcessor,
-    LanguageHelper $language_helper
+    LanguageHelper $language_helper,
+    AliasCleanerInterface $pathauto_alias_cleaner
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
@@ -116,6 +126,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
     $this->searchCategories = $this->searchProcessor->getProcessManager('search_categories');
     $this->languageHelper = $language_helper;
+    $this->aliasCleaner = $pathauto_alias_cleaner;
   }
 
   /**
@@ -123,13 +134,13 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
    */
   public function build() {
     $config = $this->getConfiguration();
-    if (!isset($config['grid_id']) || !$config['grid_id']) {
+    if (!isset($config['title']) || !$config['title']) {
       $grid_id = uniqid(substr(md5(serialize($config)), 0, 12));
       $config['grid_id'] = $grid_id;
       $this->setConfiguration($config);
     }
     else {
-      $grid_id = $config['grid_id'];
+      $grid_id = $this->aliasCleaner->cleanString($config['title']);
     }
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('grid', $config, $grid_id);
 
