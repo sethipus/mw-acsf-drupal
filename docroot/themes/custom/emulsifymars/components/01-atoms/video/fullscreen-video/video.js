@@ -8,6 +8,8 @@
       }
 
       var videoInitState = function (videoContainer) {
+        const isPopupOpened = $('[data-popup-opened="true"]').length > 0;
+
         // Setup memoize function for video elements selectors
         var videoElements = (function () {
           var memo = {};
@@ -33,8 +35,9 @@
         videoElements('video').controls = false;
         videoElements('video').muted = true;
         videoElements('video').loop = true;
-        videoElements('video').autoplay = true;
-        videoElements('video').play();
+        videoElements('video').autoplay = isPopupOpened ? false : true;
+
+        if (!isPopupOpened) { videoElements('video').play() };
 
         // Display the user defined video controls
         videoElements('controls').setAttribute('data-state', 'hidden');
@@ -68,6 +71,10 @@
           videoElements('video').addEventListener('volumechange', function () {
             checkVolume(videoElements);
           }, false);
+
+          $(document).on( "popupClosed", function() {
+            videoElements('video').play();
+          });
 
           // Add event listeners to provide info to Data layer
           if (typeof dataLayer !== 'undefined') {
