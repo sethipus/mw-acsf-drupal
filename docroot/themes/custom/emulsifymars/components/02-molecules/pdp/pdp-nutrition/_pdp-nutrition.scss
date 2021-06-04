@@ -11,6 +11,26 @@
     padding: 8rem 4rem 4rem;
   }
 
+  &+& {
+    @include large {
+      padding-top: 2rem;
+    }
+  }
+
+  &__table-header {
+    @include set-font($font-type: 'primary-font');
+
+    text-align: center;
+    font-size: 2rem;
+    line-height: 1.1;
+    color: clr(primary);
+    margin-top: 0;
+
+    @include large {
+      font-size: 2.4rem;
+    }
+  }
+
   &__container {
     display: block;
     padding: 2.7rem 1.7rem;

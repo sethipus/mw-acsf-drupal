@@ -13,6 +13,7 @@
       pdp_hero_data: pdp_item.hero_data,
       pdp_label_nutrition: pdp_common_data.nutrition_data.nutritional_label,
       pdp_label_allergen: '',
+      pdp_label_cooking: pdp_item.cooking_data is not empty ? pdp_common_data.cooking_data.cooking_label : '',
       pdp_label_more_information: pdp_common_data.more_information_data.show_more_information_label ? pdp_common_data.more_information_data.more_information_label : '',
     } %}
     {% for pdp_product in pdp_item.products %}
@@ -23,6 +24,7 @@
         product_title: pdp_product.product_title,
         product_image: pdp_product.product_image,
         pdp_nutrition_data: pdp_product.nutrition_data.serving_item_empty? NULL : pdp_product.nutrition_data,
+        dual_nutrition_data: pdp_product.dual_nutrition_data,
         pdp_common_nutrition_data: pdp_common_data.nutrition_data,
         pdp_allergen_data: pdp_product.allergen_data,
         pdp_common_allergen_data: pdp_common_data.allergen_data,
@@ -30,6 +32,13 @@
         last_product: last_product
       } %}
     {% endfor %}
+
+    <!-- PDP Cooking -->
+    {% include "@molecules/pdp/pdp-cooking/pdp-cooking.twig" with {
+      size_id: pdp_item.size_id,
+      pdp_cooking_data: pdp_item.cooking_data,
+      pdp_common_cooking_data: pdp_common_data.cooking_data,
+    } %}
   </section>
 {% endfor %}
 <!-- PDP More Information -->

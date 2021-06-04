@@ -64,8 +64,8 @@ cards:
       href: 'https://storybook.js.org/'
       target: '_blank'
 
-    label_for_cooking_time: 'Cooking Time'
-    label_for_ingredients: 'Ingredients'
+    recipe_card_cooking_time: 'Cooking Time'
+    recipe_card_ingredients: 'Ingredients'
 
     recipe_is_new: false
 

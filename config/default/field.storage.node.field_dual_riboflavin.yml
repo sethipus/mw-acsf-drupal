@@ -1,0 +1,21 @@
+uuid: 0c65bac4-8949-435a-a059-b3b9bc40b81c
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_dual_riboflavin
+field_name: field_dual_riboflavin
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

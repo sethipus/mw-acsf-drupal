@@ -1,0 +1,24 @@
+uuid: 1b03e8a6-f196-4528-91f5-9fc87a44b21b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dual_sugars_daily
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_dual_sugars_daily
+field_name: field_dual_sugars_daily
+entity_type: node
+bundle: product_variant
+label: 'Dual Sugars % Daily Value'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

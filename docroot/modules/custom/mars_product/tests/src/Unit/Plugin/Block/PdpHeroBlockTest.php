@@ -10,6 +10,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Plugin\Context\Context;
+use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\MediaHelper;
 use Drupal\mars_media\SVG\SVG;
@@ -121,6 +122,13 @@ class PdpHeroBlockTest extends UnitTestCase {
   private $nutritionHelperMock;
 
   /**
+   * Mock.
+   *
+   * @var \Drupal\Core\StringTranslation\TranslationInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $translationMock;
+
+  /**
    * Test block configuration.
    *
    * @var array
@@ -195,7 +203,7 @@ class PdpHeroBlockTest extends UnitTestCase {
     $this->assertArrayHasKey('available_sizes', $config_form);
     $this->assertArrayHasKey('wtb', $config_form);
     $this->assertArrayHasKey('nutrition', $config_form);
-    $this->assertArrayHasKey('allergen_label', $config_form);
+    $this->assertArrayHasKey('labels', $config_form);
     $this->assertArrayHasKey('more_information', $config_form);
     $this->assertArrayHasKey('use_background_color', $config_form);
     $this->assertArrayHasKey('background_color', $config_form);
@@ -368,6 +376,20 @@ class PdpHeroBlockTest extends UnitTestCase {
     $this->productHelperMock = $this->createMock(ProductHelper::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->nutritionHelperMock = $this->createMock(NutritionDataHelper::class);
+    $this->translationMock = $this->createMock(TranslationInterface::class);
+
+    $this->containerMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturnMap(
+        [
+          [
+            'string_translation',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->translationMock,
+          ],
+        ]
+      );
 
     $this->nutritionHelperMock
       ->expects($this->any())

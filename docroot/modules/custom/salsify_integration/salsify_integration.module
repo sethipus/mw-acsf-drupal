@@ -10,28 +10,30 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\salsify_integration\Form\ConfigForm;
 
 /**
  * Implements hook_cron().
  */
-function salsify_integration_cron() {
-  $product_feed = \Drupal::service('salsify_integration.salsify_fields');
-  $force_update = (bool) \Drupal::config('salsify_integration.settings')
-    ->get('cron_force_update');
+function salsify_integration_midnight_import() {
+  $aproach = \Drupal::config('salsify_integration.settings')->get('approach');
+  if ($aproach == ConfigForm::SALSIFY_API_APPROACH) {
+    $product_feed = \Drupal::service('salsify_integration.salsify_fields');
+    $force_update = (bool) \Drupal::config('salsify_integration.settings')->get('cron_force_update');
 
-  // ImportProductData is quite a huge operation.
-  // Check number of items in order to avoid meaningless work.
-  $number_of_items = \Drupal::queue('salsify_integration_content_import')
-    ->numberOfItems();
-  if ($number_of_items == 0) {
-    $product_feed->importProductData($force_update);
+    // ImportProductData is quite a huge operation.
+    // Check number of items in order to avoid meaningless work.
+    $number_of_items = \Drupal::queue('salsify_integration_content_import')->numberOfItems();
+    if ($number_of_items == 0) {
+      $product_feed->importProductData($force_update);
+    }
+
+    \Drupal::logger('salsify_integration')
+      ->notice('The Salsify data is queued to be imported and will be processed on the next cron run.');
+
+    \Drupal::service('salsify_integration.email_report')
+      ->sendReportByCron();
   }
-
-  \Drupal::logger('salsify_integration')
-    ->notice('The Salsify data is queued to be imported and will be processed on the next cron run.');
-
-  \Drupal::service('salsify_integration.email_report')
-    ->sendReportByCron();
 }
 
 /**
@@ -299,5 +301,30 @@ function salsify_integration_setup_value_render_arrays(array &$field_data, array
     $field['field_value'] = [
       '#value' => isset($product_data[$key]) ? $product_data[$key] : '',
     ];
+  }
+}
+
+/**
+ * Request Salsify for the new data.
+ */
+function salsify_integration_cron_salsify_request() {
+  $aproach = \Drupal::config('salsify_integration.settings')->get('approach');
+  if ($aproach == ConfigForm::SALSIFY_MULTICHANNEL_APPROACH) {
+    /** @var \Drupal\salsify_integration\Run\RunResource $service */
+    $service = \Drupal::service('salsify_integration.salsify.runs');
+    $service->create();
+    $service->read();
+  }
+}
+
+/**
+ * Import new data from Salsify.
+ */
+function salsify_integration_cron_salsify_import() {
+  $aproach = \Drupal::config('salsify_integration.settings')->get('approach');
+  if ($aproach == ConfigForm::SALSIFY_MULTICHANNEL_APPROACH) {
+    /** @var \Drupal\salsify_integration\MigrationRunner $service */
+    $service = \Drupal::service('salsify_integration.migrations.products');
+    $service->runProductMigration();
   }
 }

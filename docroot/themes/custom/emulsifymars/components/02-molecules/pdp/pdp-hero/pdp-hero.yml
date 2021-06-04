@@ -58,6 +58,10 @@ pdp_hero_data:
       border_radius: 20
       link_attributes:
         'href' : '#section-allergen-1oz'
+    - title: 'Cooking instructions'
+      border_radius: 20
+      link_attributes:
+        'href' : '#section-cooking-1oz'
     - title: 'RELATED PRODUCTS'
       border_radius: 20
       link_attributes:

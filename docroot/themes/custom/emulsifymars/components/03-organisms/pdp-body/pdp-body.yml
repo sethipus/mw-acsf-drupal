@@ -23,6 +23,8 @@ pdp_common_data:
     refer_text:  'Please refer to the product label for the most accurate nutrition, ingredient and allergen information'
   allergen_data:
     allergen_label: 'DIET & ALLERGENS'
+  cooking_data:
+    cooking_label: 'Cooking instructions'
   more_information_data:
     more_information_label: 'MORE INFORMATION'
     show_more_information_label: true
@@ -68,12 +70,17 @@ pdp_data:
           border_radius: 20
           link_attributes:
             'href' : '#section-allergen-1oz'
+        - title: 'Cooking instructions'
+          border_radius: 20
+          link_attributes:
+            'href' : '#section-cooking-1oz'
         - title: 'RELATED PRODUCTS'
           border_radius: 20
           link_attributes:
             'href' : '#section-products'
     nutrition_data:
       serving_item:
+        table_label: 'Per Serving'
         serving_size:
           label: 'Serving Size:'
           value: '31.00g'
@@ -125,6 +132,64 @@ pdp_data:
             value: '0%'
         ingredients_value: 'Milk Chocolate (sugar, Cocoa Butter, Skin Milk, Chocolate, Milkfat, Lactose, Soy Lcithin, Artifical Flavor).'
         warnings_value: 'Allergy information: Contains milk and soy products.'
+    dual_nutrition_data:
+      serving_item:
+        table_label: 'Per Container'
+        serving_size:
+          label: 'Serving Size:'
+          value: '31.00g'
+        serving_per_container:
+          label: 'Servings Per Container:'
+          value: '1'
+        group_nutritional_subgroup_1:
+          - label: 'Calories'
+            value: '170'
+            value_daily: ''
+        group_nutritional_subgroup_2:
+          - label: 'Total Fat'
+            value: '10g'
+            value_daily: '15%'
+          - label: 'Saturated Fat'
+            bold_modifier: true
+            value: '6g'
+            value_daily: '30%'
+          - label: 'Trans Fat'
+            bold_modifier: true
+            value: '0g'
+            value_daily: ''
+        group_nutritional_subgroup_3:
+          - label: 'Cholesterol'
+            value: '10mg'
+            value_daily: '3%'
+          - label: 'Sodium'
+            value: '25mg'
+            value_daily: '1%'
+          - label: 'Total Carbohydrate'
+            value: '19g'
+            value_daily: '6%'
+          - label: 'Fibre'
+            value: '18g'
+            value_daily: ''
+          - label: 'Sugars'
+            bold_modifier: true
+            value: '18g'
+            value_daily: ''
+          - label: 'Protein'
+            bold_modifier: true
+            value: '2g'
+            value_daily: ''
+        group_vitamins:
+          - label: 'Iron'
+            value: '40%'
+          - label: 'Vitamin C'
+            value: '10%'
+          - label: 'Vitamin A'
+            value: '0%'
+          - label: 'Calcium'
+            value: '0%'
+        ingredients_value: 'Milk Chocolate (sugar, Cocoa Butter, Skin Milk, Chocolate, Milkfat, Lactose, Soy Lcithin, Artifical Flavor).'
+        reference_intake_value: '100g'
+        warnings_value: 'Allergy information: Contains milk and soy products.'
     allergen_data:
         multipack: false
         allergens_list:
@@ -140,6 +205,17 @@ pdp_data:
             allergen_label: 'CONTAINS SOY'
           - allergen_icon: 'twix-logo-102-x2.png'
             allergen_label: 'CONTAINS SOY'
+    cooking_data: 'Cooking instructions paragraph'
+    benefits_data:
+      enabled: true
+      title: 'Nutritional claims & product benefits'
+      disclaimer: '* Nutritional Claims and benefits disclaimer'
+      list:
+        - content: 'No Artificial Flavors'
+        - content: 'Low Saturated Fat'
+        - content: 'Cholesterol Free Food'
+        - content: 'High in Calcium'
+        - content: 'High in Calcium'
   - size_id: '4oz'
     gtin: '01231243341232'
     active: false
@@ -164,9 +240,68 @@ pdp_data:
             'href' : '#section-products'
     nutrition_data:
       serving_item:
+        table_label: 'Per Serving'
         serving_size:
           label: 'Serving Size:'
           value: '31.00g'
+        serving_per_container:
+          label: 'Servings Per Container:'
+          value: '4'
+        group_nutritional_subgroup_1:
+          - label: 'Calories'
+            value: '170'
+            value_daily: ''
+        group_nutritional_subgroup_2:
+          - label: 'Total Fat'
+            value: '10g'
+            value_daily: '15%'
+          - label: 'Saturated Fat'
+            bold_modifier: true
+            value: '6g'
+            value_daily: '30%'
+          - label: 'Trans Fat'
+            bold_modifier: true
+            value: '0g'
+            value_daily: ''
+        group_nutritional_subgroup_3:
+          - label: 'Cholesterol'
+            value: '10mg'
+            value_daily: '3%'
+          - label: 'Sodium'
+            value: '25mg'
+            value_daily: '1%'
+          - label: 'Total Carbohydrate'
+            value: '19g'
+            value_daily: '6%'
+          - label: 'Fibre'
+            value: '18g'
+            value_daily: ''
+          - label: 'Sugars'
+            bold_modifier: true
+            value: '18g'
+            value_daily: ''
+          - label: 'Protein'
+            bold_modifier: true
+            value: '2g'
+            value_daily: ''
+        group_vitamins:
+          - label: 'Iron'
+            value: '40%'
+          - label: 'Vitamin C'
+            value: '10%'
+          - label: 'Vitamin A'
+            value: '0%'
+          - label: 'Calcium'
+            value: '0%'
+        ingredients_value: 'Milk Chocolate (sugar, Cocoa Butter, Skin Milk, Chocolate, Milkfat, Lactose, Soy Lcithin, Artifical Flavor).'
+        reference_intake_value: '100g'
+        warnings_value: 'Allergy information: Contains milk and soy products.'
+    dual_nutrition_data:
+      serving_item:
+        table_label: 'Per Container'
+        serving_size:
+          label: 'Serving Size:'
+          value: '30.00g'
         serving_per_container:
           label: 'Servings Per Container:'
           value: '4'
@@ -260,12 +395,17 @@ pdp_data:
           border_radius: 20
           link_attributes:
             'href' : '#section-allergen-6oz'
+        - title: 'Cooking instructions'
+          border_radius: 20
+          link_attributes:
+            'href' : '#section-cooking-6oz'
         - title: 'RELATED PRODUCTS'
           border_radius: 20
           link_attributes:
             'href' : '#section-products'
     nutrition_data:
       serving_item:
+        table_label: 'Per Container'
         serving_size:
           label: 'Serving Size:'
           value: '31.00g'
@@ -298,6 +438,9 @@ pdp_data:
           - label: 'Total Carbohydrate'
             value: '19g'
             value_daily: '6%'
+          - label: 'Fibre'
+            value: '18g'
+            value_daily: ''
           - label: 'Sugars'
             bold_modifier: true
             value: '18g'
@@ -316,6 +459,7 @@ pdp_data:
           - label: 'Calcium'
             value: '0%'
         ingredients_value: 'Milk Chocolate (sugar, Cocoa Butter, Skin Milk, Chocolate, Milkfat, Lactose, Soy Lcithin, Artifical Flavor).'
+        reference_intake_value: '100g'
         warnings_value: 'Allergy information: Contains milk and soy products.'
     allergen_data:
         multipack: false
@@ -332,6 +476,7 @@ pdp_data:
             allergen_label: 'CONTAINS SOY'
           - allergen_icon: 'twix-logo-102-x2.png'
             allergen_label: 'CONTAINS SOY'
+    cooking_data: 'Cooking instructions paragraph'
 multipack_data:
   multipack_label: 'WHAT’S IN THE PACK'
   multipack_see_all_label: 'See All'

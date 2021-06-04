@@ -71,13 +71,14 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
             'key' => $grid_id . $facet['filter'],
             'weight' => $terms[$facet['filter']]->get('weight')->value,
           ];
-          if (
-            $this->hasQueryKey($vocabulary) &&
-            strpos($this->getQueryValue($vocabulary, $grid_id), $facet['filter']) !== FALSE
-          ) {
-            $facetValues[count($facetValues) - 1]['checked'] = 'checked';
-            $countSelected++;
-            $appliedFilters[] = $facetValues[count($facetValues) - 1];
+
+          if ($this->hasQueryKey($vocabulary)) {
+            $queryValueItems = explode(',', $this->getQueryValue($vocabulary, $grid_id));
+            if (in_array($facet['filter'], $queryValueItems)) {
+              $facetValues[count($facetValues) - 1]['checked'] = 'checked';
+              $countSelected++;
+              $appliedFilters[] = $facetValues[count($facetValues) - 1];
+            }
           }
         }
         if (count($facetValues) == 0) {

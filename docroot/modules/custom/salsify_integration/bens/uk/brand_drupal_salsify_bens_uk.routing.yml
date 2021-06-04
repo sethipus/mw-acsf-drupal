@@ -1,0 +1,7 @@
+brand_drupal_salsify_bens_uk.configuration:
+  path: '/admin/config/services/salsify/migrations'
+  defaults:
+    _form: 'Drupal\brand_drupal_salsify_bens_uk\Form\SalsifyMigrationSettingsForm'
+    _title: 'Channel Approach settings'
+  requirements:
+    _permission: 'access salsify config page'

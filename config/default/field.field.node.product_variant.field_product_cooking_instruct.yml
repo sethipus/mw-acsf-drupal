@@ -1,0 +1,25 @@
+uuid: 71e456a6-419f-448d-8ed5-0d0e27f897f3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_cooking_instruct
+    - node.type.product_variant
+  module:
+    - text
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_cooking_instruct
+field_name: field_product_cooking_instruct
+entity_type: node
+bundle: product_variant
+label: 'Cooking instructions'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
