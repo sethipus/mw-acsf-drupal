@@ -82,15 +82,8 @@
 
   &__content {
     display: flex;
-    flex-flow: column nowrap;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    min-height: 66.4rem;
-
-    @include medium {
-      justify-content: unset;
-      min-height: 74rem;
-    }
 
     @include large {
       flex-direction: row;
@@ -102,29 +95,32 @@
       @include large {
         width: 50%;
       }
+
+      &--image {
+        padding: 4rem 2rem 4rem 2rem;
+
+        @include medium {
+          padding: 4rem 4rem 4rem 4rem;
+        }
+
+        @include large {
+          padding: 8rem 2rem 8rem 4rem;
+        }
+      }
     }
   }
 
   &__product_image {
-    padding: 5rem 6rem;
+    margin: auto;
     animation: cubic-bezier(0, 0, 1, 1) action 4.8s infinite;
-
-    img {
-      min-width: 25.5rem;
-      min-height: 25.5rem;
-      max-width: 52rem;
-      max-height: 52rem;
-      object-fit: contain;
-    }
+    max-width: 27.7rem;
 
     @include medium {
-      padding: 2rem 8rem 0;
-      max-width: 640px;
-      margin: 0 auto;
+      max-width: 54.9rem;
     }
 
     @include large {
-      padding: 8rem 2rem 8rem 4rem;
+      max-width: 58rem;
     }
 
     @keyframes action {
@@ -132,53 +128,55 @@
       50%  { transform: translateY(16px); }
       100%  { transform: translateY(-16px); }
     }
+
+    img {
+      object-fit: contain;
+    }
   }
 
   &__product_text {
     position: relative;
-    padding: 6rem 2rem 2rem;
+    padding: 0 2rem 5rem 2rem;
     z-index: 2;
+
+    @include medium {
+      padding: 0 4rem 6rem 4rem;
+    }
+
+    @include large {
+      padding: 8rem 4rem 8rem 1.5rem;
+    }
 
     .eyebrow {
       @include set-font($font-type: 'primary-font');
 
-      margin-bottom: 2rem;
-      margin-top: 0;
       font-size: 1.4rem;
+      line-height: 1;
+      margin-top: 0;
+      margin-bottom: 2rem;
+
+      @include medium {
+        font-size: 1.6rem;
+        margin-bottom: 4rem;
+      }
     }
 
     .h1 {
       @include set-font($font-type: 'primary-font');
 
-      margin-bottom: 4rem;
       font-size: 4rem;
       line-height: 1;
       font-weight: 500;
-    }
+      margin-bottom: 3rem;
 
-    @include medium {
-      padding: 4rem 4rem 6rem;
-
-      .eyebrow {
-        margin-bottom: 4rem;
-        font-size: 1.6rem;
-      }
-
-      .h1 {
+      @include medium {
         font-size: 5.6rem;
+        margin-bottom: 4rem;
       }
-    }
 
-    @include large {
-      padding: 8.4rem 4rem 4rem 1.5rem;
-
-      .h1 {
-        margin-bottom: 6rem;
+      @include large {
         font-size: 6.4rem;
-      }
-
-      .default-link {
-        line-height: 6rem;
+        margin-bottom: 6rem;
       }
     }
   }
