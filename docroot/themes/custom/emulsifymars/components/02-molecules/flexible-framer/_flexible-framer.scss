@@ -1,4 +1,32 @@
+/*
+      Flexible Framer CSS grids:
+
+      We use css counter (card-counter) to determine where to start next card.
+      So card grid column index is equal to card-counter value.
+
+      Image Wrapper, Card Heading, Subheading, Body and CTA Wrapper is a grid items.
+      They've got fixed grid-row values.
+
+      ╔══════════════════════════════════════╦══════════════════════════════════════╗
+      ║                                      ║                                      ║
+      ║             Image Wrapper            ║             Image Wrapper            ║
+      ║                                      ║                                      ║
+      ╠══════════════════════════════════════╬══════════════════════════════════════╣
+      ║             Card Heading             ║             Card Heading             ║
+      ╠══════════════════════════════════════╬══════════════════════════════════════╣
+      ║              Card Body               ║              Card Body               ║
+      ╠══════════════════════════════════════╬══════════════════════════════════════╣
+      ║              CTA Wrapper             ║              CTA Wrapper             ║
+      ╠══════════════════════════════════════╬══════════════════════════════════════╣
+      ║            Card Subheading           ║            Card Subheading           ║
+      ╚══════════════════════════════════════╩══════════════════════════════════════╝
+
+      For the different amount of cards we use the equivalent amount of grid-template-columns fractions.
+      For example grid-items-3 class contains 3 fractions starting from medium size viewports.
+*/
+
 .flexible-framer {
+  /* Flexible Framer basic styles */
   @include brand-border-overflow;
   @include set-font($font-type: 'primary-font');
 
@@ -6,7 +34,7 @@
   background-color: clr(subcolor-2);
   color: clr(primary);
 
-  & .h2 {
+  &__heading {
     @include set-font($font-type: 'heading-font');
 
     position: relative;
@@ -34,66 +62,51 @@
   }
 
   &__graphic-divider {
-    margin-bottom: 0;
-  }
+    margin-bottom: 4rem;
 
-  & .image-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-
-    &.image-size-large {
-      width: 335px;
-
-      @include medium {
-        width: 334px;
-      }
-
-      @include large {
-        width: 433px;
-      }
-    }
-
-    &.image-size-small {
-      max-width: 313px;
-    }
-
-    & img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.8s;
-
-      &:hover {
-        transform: scale(1.1);
-      }
+    @include xl {
+      margin-bottom: 6rem;
     }
   }
 
-  .grid--card {
-    margin: 0 2rem;
+  /* Grid Layout */
+  .grid {
+    display: block;
     padding-bottom: 5rem;
-    flex-flow: column;
+    counter-reset: card-counter;
 
     @include medium {
+      display: grid;
       margin: 0 4rem;
       padding-bottom: 6rem;
-      flex-flow: row;
-      flex-grow: 1;
-      align-items: stretch;
+      grid-column-gap: 2rem;
     }
 
     @include xl {
       padding-bottom: 8rem;
-      flex-flow: row nowrap;
+    }
+
+    &.grid-items-2 {
+      @include medium {
+        grid-template-columns: 1fr 1fr;
+      }
     }
 
     &.grid-items-3 {
+      @include medium {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
       .image-wrapper {
         &.image-size-small {
           max-width: 293px;
         }
+      }
+    }
+
+    &.grid-items-4 {
+      @include medium {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
       }
     }
 
@@ -132,13 +145,59 @@
       }
     }
 
-    .card {
-      text-align: center;
-      align-items: center;
+    /* Card Elements Styles */
+    .image-wrapper {
+      counter-increment: card-counter;
+      grid-column-start: counter(card-counter);
+      grid-column-end: counter(card-counter);
+      grid-row-start: 1;
+      grid-row-end: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      width: 100%;
+      margin: auto;
 
+      &.image-size-large {
+        max-width: 335px;
+
+        @include medium {
+          max-width: 334px;
+        }
+
+        @include large {
+          max-width: 433px;
+        }
+      }
+
+      &.image-size-small {
+        max-width: 313px;
+      }
+
+      & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.8s;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+
+      .brand-shape {
+        display: none;
+      }
+    }
+
+    .card {
       &__heading {
         @include set-font($font-type: 'primary-font');
 
+        grid-column-start: counter(card-counter);
+        grid-column-end: counter(card-counter);
+        grid-row-start: 2;
+        grid-row-end: 2;
         text-align: center;
         color: clr(primary);
         font-size: 2rem;
@@ -162,41 +221,36 @@
       &__body {
         @include set-font($font-type: 'secondary-font');
 
-        margin-top: 1.6rem;
-        margin-bottom: 0;
+        grid-column-start: counter(card-counter);
+        grid-column-end: counter(card-counter);
+        grid-row-start: 3;
+        grid-row-end: 3;
+        margin: 1.6rem auto 0;
         font-size: 1.6rem;
         line-height: 1.4;
         flex: 1 0 auto;
         max-width: 549px;
+        text-align: center;
 
         @include large {
           font-size: 1.8rem;
         }
       }
+    }
 
-      & a.default-link {
-        height: 5rem;
-        width: 13.3rem;
-        line-height: 5rem;
-        background-color: clr(secondary);
-        font-size: 1.4rem;
-        border: none;
-        padding: 0;
+    .cta-wrapper {
+      grid-column-start: counter(card-counter);
+      grid-column-end: counter(card-counter);
+      grid-row-start: 4;
+      grid-row-end: 4;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin-top: 3rem;
 
-        @include medium {
-          font-size: 1.6rem;
-          width: 15.7rem;
-        }
-
-        @include large {
-          height: 6rem;
-          line-height: 6rem;
-          width: 20.2rem;
-        }
-
-        &:hover {
-          color: clr(secondary);
-        }
+      @include xl {
+        margin-top: 4rem;
       }
     }
 
@@ -208,34 +262,20 @@
       }
     }
 
-    .grid__item{
-      .image-size-large{
-        .brand-shape{
-          display: none;
-        }
-      }
-      .image-size-small{
-        .brand-shape{
-          display: none;
-        }
-      }
-    }
-    .grid__item:nth-child(2n-1){
-      .image-size-small{
-        .brand-shape {
-          display: block;
+    .image-wrapper--odd.image-size-small {
+      .brand-shape {
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+
+        svg {
           width: 100%;
           height: 100%;
-          position: absolute;
-
-          svg {
-            width: 100%;
-            height: 100%;
-            max-width: 27.7rem;
-            margin-left: 0%;
-            fill: clr(subcolor-1);
-            opacity: 0.2;
-          }
+          max-width: 27.7rem;
+          margin-left: 0%;
+          fill: clr(subcolor-1);
+          opacity: 0.2;
         }
       }
 
@@ -245,97 +285,17 @@
         .image {
           position: relative;
         }
-
-        &:hover {
-          background-size: 77%;
-          transition: background-size 0.8s ease;
-        }
       }
     }
   }
 
-  .grid__item {
-    display: flex;
-    flex-flow: column;
+  /* Vertical margin between cards */
+  .even + .odd,
+  .odd + .even {
     margin-top: 4rem;
-    margin-bottom: 0;
 
     @include medium {
-      flex: 1 1 50%;
-      margin-right: 2rem;
-    }
-
-    @include large {
-      flex: 1 1 100%;
-      margin-right: 0;
-      margin-top: 6rem;
-    }
-
-    .cta-wrapper {
-      flex: 1 0 auto;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      margin-top: 3rem;
-
-      @include xl {
-        margin-top: 4rem;
-      }
-    }
-  }
-
-  &--related-recipes {
-    .image-wrapper {
-      align-items: center;
-    }
-
-    .grid--card {
-      @include medium {
-        align-items: stretch;
-      }
-
-      @include large {
-        align-items: stretch;
-      }
-
-      .image-background {
-        margin: auto;
-      }
-    }
-
-    .grid-items-2 {
-      .image-wrapper {
-        @include large {
-          min-height: calc((100vw/2) * 0.5625);
-          flex: 0 0 auto;
-        }
-      }
-    }
-
-    .grid-items-3 {
-      .image-wrapper {
-        @include large {
-          min-height: calc((100vw/3) * 0.5625);
-          flex: 0 0 auto;
-        }
-      }
-
-      .card__body{
-        max-width: 433px;
-      }
-    }
-
-    .grid-items-4 {
-      .image-wrapper {
-        @include large {
-          min-height: calc((100vw/4) * 0.5625);
-          flex: 0 0 auto;
-        }
-      }
-
-      .card__body{
-        max-width: 317px;
-      }
+      margin-top: 0;
     }
   }
 }
