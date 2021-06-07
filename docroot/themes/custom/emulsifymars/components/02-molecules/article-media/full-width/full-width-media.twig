@@ -25,14 +25,21 @@
       } %}
     </div>
   {% endif %}
-
   <div {{ bem('media', [], full_width__base_class) }}>
     {% if media.image %}
-      {% set images = {
-        1440: media.src|resize(1128, 635),
-        768: media.src|resize(768, 434),
-        375: media.src|resize(375, 250),
-      } %}
+      {% if media.medias is not empty %}
+        {% set images = {
+          1440: media.medias.desktop.src|resize(1128, 635),
+          768: media.medias.tablet.src|resize(768, 434),
+          375: media.medias.mobile.src|resize(375, 250),
+        } %}
+      {% else %}
+        {% set images = {
+          1440: media.src|resize(1128, 635),
+          768: media.src|resize(768, 434),
+          375: media.src|resize(375, 250),
+        } %}
+      {% endif %}
       <div {{ bem('aspect-ratio-wrapper', [ aspect_ratio ]) }}>
         {% include "@atoms/images/image/responsive-image.twig" with {
           image_base_class: base_class,
@@ -53,11 +60,21 @@
       } %}
     {% elseif media.parallax_image %}
       {{ attach_library('emulsifymars/parallax-image') }}
-      {% set images = {
-        1440: media.src|resize(1440, 635),
-        768: media.src|resize(768, 434),
-        375: media.src|resize(375, 250),
-      } %}
+
+      {% if media.medias is not empty %}
+        {% set images = {
+          1440: media.medias.desktop.src|resize(1440, 635),
+          768: media.medias.tablet.src|resize(768, 434),
+          375: media.medias.mobile.src|resize(375, 250),
+        } %}
+      {% else %}
+        {% set images = {
+          1440: media.src|resize(1440, 635),
+          768: media.src|resize(768, 434),
+          375: media.src|resize(375, 250),
+        } %}
+      {% endif %}
+
       {% include "@atoms/images/image/responsive-image.twig" with {
         image_base_class: base_class,
         image_modifiers: image_modifiers,

@@ -21,6 +21,11 @@ class MediaHelper {
   use StringTranslationTrait;
 
   /**
+   * List of image resolutions.
+   */
+  const LIST_IMAGE_RESOLUTIONS = ['desktop', 'tablet', 'mobile'];
+
+  /**
    * Media storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
@@ -297,6 +302,51 @@ class MediaHelper {
         $media_id = NULL;
     }
     return $media_id;
+  }
+
+  /**
+   * Get list of responsive images from entity.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $contentEntity
+   *   The content enity.
+   * @param string $fieldName
+   *   The name of the field to check.
+   *
+   * @return array
+   *   List of responsive images.
+   *
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
+   */
+  public function getResponsiveImagesFromEntity(
+    ContentEntityInterface $contentEntity,
+    string $fieldName
+  ) {
+    $images = [];
+
+    foreach (self::LIST_IMAGE_RESOLUTIONS as $resolution) {
+      $name = $fieldName;
+      if ($resolution != 'desktop') {
+        $name = $name . '_' . $resolution;
+      }
+
+      // Get media id from field.
+      $media_id = $this->getTargetIdFromField($contentEntity, $name);
+
+      if (!empty($media_id)) {
+        $media = $this->getMediaParametersById($media_id);
+        if (empty($media['error']) && !empty($media['src'])) {
+          $images[$resolution] = $media;
+        }
+      }
+
+      // Set value from previous resolution if image for current doesn't exist.
+      if (empty($images[$resolution])) {
+        $last_media_resolution = end($images);
+        $images[$resolution] = $last_media_resolution;
+      }
+    }
+
+    return $images;
   }
 
   /**

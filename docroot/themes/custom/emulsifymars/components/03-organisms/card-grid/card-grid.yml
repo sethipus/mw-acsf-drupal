@@ -1,6 +1,7 @@
 theme_styles: twix
 site_search_term: 'site_search_term'
 site_search_results_num: 12
+overlaps_previous: false
 brand_border: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 51" preserveAspectRatio="xMidYMid meet">
                    <clipPath id="49t9j9vl8a">
                        <path d="M0 0H375V51H0z"></path>

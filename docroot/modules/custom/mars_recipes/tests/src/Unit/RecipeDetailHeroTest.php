@@ -282,6 +282,24 @@ class RecipeDetailHeroTest extends UnitTestCase {
       ->willReturn($nodeMock);
     $this->recipeHeroBlock->setContext('node', $nodeContext);
 
+    $this->mediaHelperMock
+      ->expects($this->once())
+      ->method('getResponsiveImagesFromEntity')
+      ->willReturn([
+        'desktop' => [
+          'src' => 'test_image_source',
+          'alt' => 'test_image_alt',
+        ],
+        'tablet' => [
+          'src' => 'test_image_source',
+          'alt' => 'test_image_alt',
+        ],
+        'mobile' => [
+          'src' => 'test_image_source',
+          'alt' => 'test_image_alt',
+        ],
+      ]);
+
     // Main testing function.
     $build = $this->recipeHeroBlock->build();
 
@@ -298,7 +316,10 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->assertArrayHasKey('#number_of_servings_label', $build);
     $this->assertArrayHasKey('#number_of_servings_measure', $build);
     $this->assertArrayHasKey('#social_text', $build);
-    $this->assertArrayHasKey('#image', $build);
+    $this->assertArrayHasKey('#images', $build);
+    foreach (['desktop', 'tablet', 'mobile'] as $resolution) {
+      $this->assertArrayHasKey($resolution, $build['#images']);
+    }
   }
 
   /**

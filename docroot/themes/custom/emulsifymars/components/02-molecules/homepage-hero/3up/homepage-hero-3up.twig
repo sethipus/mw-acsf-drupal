@@ -9,15 +9,15 @@
       <div class="wrapper">
         <div {{ bem('container', ['image'], homepage_hero__base_class) }}>
           {% set images = {
-            1440: hero_image.src|resize(937,580),
-            768: hero_image.src|resize(768,601),
-            375: hero_image.src|resize(375,435),
+            1440: hero_images.desktop.src|resize(937,580),
+            768: hero_images.tablet.src|resize(768,601),
+            375: hero_images.mobile.src|resize(375,435),
           } %}
           {% include "@atoms/images/image/responsive-image.twig" with {
             output_image_tag: true,
-            image_alt: hero_image.alt,
-            image_title: hero_image.title,
-            image_src: hero_image.src|resize(768,601),
+            image_alt: hero_images.desktop.alt,
+            image_title: hero_images.desktop.title,
+            image_src: hero_images.desktop.src|resize(768,601),
             responsive_image_blockname: 'homepage-hero-3up',
             image_array: images,
             width: "936px",

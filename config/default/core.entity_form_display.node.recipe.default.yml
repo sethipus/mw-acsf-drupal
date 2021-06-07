@@ -16,6 +16,8 @@ dependencies:
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_food_type
     - field.field.node.recipe.field_recipe_image
+    - field.field.node.recipe.field_recipe_image_mobile
+    - field.field.node.recipe.field_recipe_image_tablet
     - field.field.node.recipe.field_recipe_ingredients
     - field.field.node.recipe.field_recipe_ingredients_number
     - field.field.node.recipe.field_recipe_main_ingredient
@@ -32,10 +34,28 @@ dependencies:
   module:
     - content_moderation
     - entity_browser
+    - field_group
     - metatag
     - path
     - publication_date
     - text
+third_party_settings:
+  field_group:
+    group_image:
+      children:
+        - field_recipe_image
+        - field_recipe_image_tablet
+        - field_recipe_image_mobile
+      parent_name: ''
+      weight: 9
+      format_type: fieldset
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: true
+      label: Image
 _core:
   default_config_hash: rkTkRmZrLn5BlrQfCVXPYjUfdAjLIhskNHjvdTaNrrM
 id: node.recipe.default
@@ -50,7 +70,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_brand_initiatives:
-    weight: 26
+    weight: 22
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -60,14 +80,14 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_meta_tags:
-    weight: 27
+    weight: 23
     settings:
       sidebar: true
     third_party_settings: {  }
     type: metatag_firehose
     region: content
   field_product_diet_allergens:
-    weight: 28
+    weight: 24
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -77,7 +97,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_product_occasions:
-    weight: 17
+    weight: 19
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -87,7 +107,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_product_reference:
-    weight: 18
+    weight: 20
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -97,7 +117,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_product_used:
-    weight: 35
+    weight: 32
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -107,7 +127,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_recipe_collection:
-    weight: 34
+    weight: 31
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -117,7 +137,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_recipe_cooking_time:
-    weight: 5
+    weight: 6
     settings:
       size: 60
       placeholder: ''
@@ -128,7 +148,7 @@ content:
     type: string_textfield
     region: content
   field_recipe_culture:
-    weight: 29
+    weight: 25
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -138,7 +158,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_recipe_description:
-    weight: 13
+    weight: 16
     settings:
       rows: 5
       placeholder: ''
@@ -151,7 +171,7 @@ content:
     type: text_textarea
     region: content
   field_recipe_food_type:
-    weight: 30
+    weight: 26
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -162,7 +182,37 @@ content:
     region: content
   field_recipe_image:
     type: entity_browser_entity_reference
-    weight: 8
+    weight: 13
+    settings:
+      entity_browser: lighthouse_browser
+      field_widget_display: rendered_entity
+      field_widget_display_settings:
+        view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
+      open: true
+      selection_mode: selection_append
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_recipe_image_mobile:
+    type: entity_browser_entity_reference
+    weight: 15
+    settings:
+      entity_browser: lighthouse_browser
+      field_widget_display: rendered_entity
+      field_widget_display_settings:
+        view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
+      open: true
+      selection_mode: selection_append
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_recipe_image_tablet:
+    type: entity_browser_entity_reference
+    weight: 14
     settings:
       entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
@@ -177,21 +227,21 @@ content:
     third_party_settings: {  }
   field_recipe_ingredients:
     type: string_textfield
-    weight: 11
+    weight: 14
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
   field_recipe_ingredients_number:
-    weight: 6
+    weight: 7
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_recipe_main_ingredient:
-    weight: 31
+    weight: 27
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -201,7 +251,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_recipe_meal_type:
-    weight: 32
+    weight: 28
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -211,7 +261,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_recipe_method:
-    weight: 33
+    weight: 29
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -221,21 +271,21 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_recipe_new:
-    weight: 20
+    weight: 21
     settings:
       display_label: true
     third_party_settings: {  }
     type: boolean_checkbox
     region: content
   field_recipe_number_of_servings:
-    weight: 7
+    weight: 8
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_recipe_nutrition_module:
-    weight: 12
+    weight: 15
     settings:
       rows: 5
       placeholder: ''
@@ -243,7 +293,7 @@ content:
     type: text_textarea
     region: content
   field_recipe_prep_time:
-    weight: 34
+    weight: 30
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -254,7 +304,7 @@ content:
     region: content
   field_recipe_video:
     type: entity_browser_entity_reference
-    weight: 9
+    weight: 11
     settings:
       entity_browser: lighthouse_video_browser
       field_widget_display: rendered_entity
@@ -276,19 +326,19 @@ content:
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 15
+    weight: 18
     settings: {  }
     region: content
     third_party_settings: {  }
   path:
     type: path
-    weight: 2
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
   published_at:
     type: publication_date_timestamp
-    weight: 10
+    weight: 13
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -296,19 +346,19 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 14
+    weight: 17
     region: content
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 4
+    weight: 5
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 10
+    weight: 12
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -323,7 +373,7 @@ content:
     region: content
     third_party_settings: {  }
   url_redirects:
-    weight: 3
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }

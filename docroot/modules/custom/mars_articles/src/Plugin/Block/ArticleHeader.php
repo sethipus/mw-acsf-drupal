@@ -143,7 +143,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   public function build() {
     $node = $this->getContextValue('node');
 
-    if (!$node || !$node->bundle() == 'article') {
+    if (!$node || $node->bundle() != 'article') {
       $node = $this->nodeStorage->load($this->configuration['article']);
     }
 
@@ -156,18 +156,16 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       '#eyebrow' => $this->languageHelper->translate($this->configuration['eyebrow']),
       '#share_text' => $this->languageHelper->translate($share_text),
       '#publication_date' => $node->isPublished() ? $this->languageHelper->translate($published_label) . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
+      '#images' => [],
+      '#theme' => 'article_header_block_image',
     ];
 
-    $media_id = $this->mediaHelper->getEntityMainMediaId($node);
-    $image_arr = $this->mediaHelper->getMediaParametersById($media_id);
-    if (!($image_arr['error'] ?? FALSE) && ($image_arr['src'] ?? FALSE)) {
-      $build['#image'] = [
-        'alt' => $image_arr['alt'] ?? '',
-        'url' => $image_arr['src'] ?? '',
-      ];
-      $build['#theme'] = 'article_header_block_image';
-    }
-    else {
+    $build['#images'] = $this->mediaHelper->getResponsiveImagesFromEntity(
+      $node,
+      'field_article_image'
+    );
+
+    if (empty($build['#images']['desktop'])) {
       $build['#theme'] = 'article_header_block_no_image';
       $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     }

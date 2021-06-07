@@ -1,9 +1,9 @@
-uuid: c103c31e-2fa4-43f0-9e7b-63c51f3541b6
+uuid: 0a774405-7dc5-435c-a4d4-aa47b4825533
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_recipe_image
+    - field.storage.node.field_recipe_image_tablet
     - media.type.image
     - media.type.lighthouse_image
     - node.type.recipe
@@ -12,15 +12,13 @@ dependencies:
 third_party_settings:
   tmgmt_content:
     excluded: false
-_core:
-  default_config_hash: 5iZ2IG6vwdIJhgIY0x1oLhAM3ny3zV5XxP6nJzRoMxw
-id: node.recipe.field_recipe_image
-field_name: field_recipe_image
+id: node.recipe.field_recipe_image_tablet
+field_name: field_recipe_image_tablet
 entity_type: node
 bundle: recipe
-label: 'Image (Desktop)'
+label: 'Image (Tablet)'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
