@@ -27,7 +27,7 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'number_of_servings' => NULL,
         'number_of_servings_label' => NULL,
         'number_of_servings_measure' => NULL,
-        'image' => NULL,
+        'images' => NULL,
         'video' => NULL,
         'social_links' => NULL,
         'border' => NULL,

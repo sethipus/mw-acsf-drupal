@@ -147,7 +147,7 @@ class ParentPageHeaderBlockTest extends UnitTestCase {
    */
   public function testBuildConfigurationFormProperly() {
     $config_form = $this->block->buildConfigurationForm([], $this->formStateMock);
-    $this->assertCount(14, $config_form);
+    $this->assertCount(16, $config_form);
     $this->assertArrayHasKey('title', $config_form);
     $this->assertArrayHasKey('eyebrow', $config_form);
     $this->assertArrayHasKey('background_options', $config_form);
@@ -161,7 +161,7 @@ class ParentPageHeaderBlockTest extends UnitTestCase {
     $form_data = [];
 
     $this->formStateMock
-      ->expects($this->exactly(9))
+      ->expects($this->exactly(11))
       ->method('getValue')
       ->willReturn('');
 
@@ -188,7 +188,11 @@ class ParentPageHeaderBlockTest extends UnitTestCase {
     $this->assertArrayHasKey('#label', $build);
     // Expecting image specific keys in the build array.
     $this->assertEquals('image', $build['#media_type']);
-    $this->assertEquals(self::MEDIA_SOURCE, $build['#background']);
+
+    foreach (['desktop', 'tablet', 'mobile'] as $resolution) {
+      $this->assertArrayHasKey($resolution, $build['#background']);
+      $this->assertEquals(self::MEDIA_SOURCE, $build['#background'][$resolution]['src']);
+    }
 
     $this->assertEquals('parent_page_header_block', $build['#theme']);
   }
@@ -210,7 +214,7 @@ class ParentPageHeaderBlockTest extends UnitTestCase {
     $this->assertArrayHasKey('#label', $build);
     // Expecting video specific keys in the build array.
     $this->assertEquals('video', $build['#media_type']);
-    $this->assertEquals(self::MEDIA_SOURCE, $build['#background']);
+    $this->assertEquals(self::MEDIA_SOURCE, $build['#background']['video']['src']);
     $this->assertEquals(self::MEDIA_FORMAT, $build['#media_format']);
 
     $this->assertEquals('parent_page_header_block', $build['#theme']);

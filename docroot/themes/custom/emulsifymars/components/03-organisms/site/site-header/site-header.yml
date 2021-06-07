@@ -11,3 +11,17 @@ search_results:
   - content: 'that'
   - content: "them"
   - content: "Something"
+
+override_mobile_menu_colors: 'true'
+mobile_main_menu_items_color: 'blue'
+mobile_cross_hamburger: 'black'
+mobile_sub_menu_items_color: 'green'
+mobile_search_right_menu_section: 'red'
+
+alert_banner_override_color: 'true'
+alert_banner_bg_color: 'yellow'
+alert_banner_text_color: 'darkorange'
+
+hover_color: 'deeppink'
+
+text_color_override: '#FFFFFF'

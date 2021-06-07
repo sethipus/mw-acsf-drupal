@@ -6,16 +6,17 @@
 <section {{ bem(homepage_hero_basic_base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('background', [], homepage_hero_basic_base_class, homepage_hero__modifiers) }}>
     <div {{ bem('container', ['image'], homepage_hero_basic_base_class) }}>
+
       {% set images = {
-        1440: homepage_hero_basic_img.src|resize(1440, 580),
-        768: homepage_hero_basic_img.src|resize(768, 580),
-        375: homepage_hero_basic_img.src|resize(375, 580),
+        1440: hero_images.desktop.src|resize(1440, 580),
+        768: hero_images.tablet.src|resize(768, 580),
+        375: hero_images.mobile.src|resize(375, 580),
       } %}
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
-        image_alt: hero_image.alt,
-        image_title: hero_image.title,
-        image_src: homepage_hero_basic_img.src|resize(768, 580),
+        image_alt: hero_images.desktop.alt,
+        image_title: hero_images.desktop.title,
+        image_src: hero_images.desktop.src|resize(768, 580),
         responsive_image_blockname: 'homepage-hero-basic',
         image_array: images,
         width: "1440px",

@@ -227,6 +227,10 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    */
   public function searchCallback(Request $request) {
     $query_parameters = $request->query->all();
+    if (isset($query_parameters['grid_type']) &&
+      $query_parameters['grid_type'] != 'faq') {
+      $this->searchProcessor->getProcessManager('search_pretty_facet_process')->checkPrettyFacets($query_parameters);
+    }
     $json_output = [];
     $config = [];
     $query_parameters['grid_id'] = empty($query_parameters['grid_id']) ? 1 : $query_parameters['grid_id'];

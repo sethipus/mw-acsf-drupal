@@ -37,8 +37,8 @@
   }
 
   &--alert {
-    color: clr(subcolor-3);
-    background-color: clr(alert);
+    color: clr(subcolor-3, alert-banner-text-color);
+    background-color: clr(secondary, alert-banner-bg-color);
   }
 
   &-link {

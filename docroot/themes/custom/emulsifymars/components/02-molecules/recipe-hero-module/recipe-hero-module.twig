@@ -40,7 +40,19 @@
       </div>
     {% endblock %}
   {% else %}
-    <div class="recipe-media__image-wrapper" style="background-image: url('{{ image.url }}')">
+    <div class="recipe-media__image-wrapper">
+      {% set images_array = {
+        1440: images.desktop.src|resize(1360,583),
+        1024: images.tablet.src|resize(944,566),
+        768: images.tablet.src|resize(688,410),
+        375: images.mobile.src|resize(335,251),
+      } %}
+      {% include "@atoms/images/image/responsive-image.twig" with {
+        output_image_tag: true,
+        image_alt: '',
+        image_src: images.desktop.src|resize(1360,583),
+        image_array: images_array,
+      } %}
     </div>
   {% endif %}
   <div class="recipe-media__info">
