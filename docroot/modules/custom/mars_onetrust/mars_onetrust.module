@@ -30,7 +30,9 @@ function mars_onetrust_page_attachments(&$page) {
       '#attributes' => [
         'type' => 'text/javascript',
         'defer' => 'true',
-        'src' => 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
+        'src' => '\/',
+        'data-src' => 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
+        'id' => 'onetrust-sdk',
         'charset' => 'UTF-8',
         'data-domain-script' => $data_domain,
       ],
