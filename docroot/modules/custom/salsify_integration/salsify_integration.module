@@ -15,7 +15,7 @@ use Drupal\salsify_integration\Form\ConfigForm;
 /**
  * Implements hook_cron().
  */
-function salsify_integration_cron() {
+function salsify_integration_midnight_import() {
   $aproach = \Drupal::config('salsify_integration.settings')->get('approach');
   if ($aproach == ConfigForm::SALSIFY_API_APPROACH) {
     $product_feed = \Drupal::service('salsify_integration.salsify_fields');

@@ -21,7 +21,7 @@ source:
       label: 'CMS: Product title'
       selector: 'field_product_name/0'
   ids:
-    source_product_image:
+    source_product_image_1:
       type: string
 process:
   image:

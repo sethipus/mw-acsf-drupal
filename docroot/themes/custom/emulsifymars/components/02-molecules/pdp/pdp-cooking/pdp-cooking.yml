@@ -1,0 +1,5 @@
+theme_styles: 'twix'
+size_id: '1oz'
+pdp_common_cooking_data:
+  cooking_label: 'Cooking instructions'
+pdp_cooking_data: 'Cooking instructions paragraph'
