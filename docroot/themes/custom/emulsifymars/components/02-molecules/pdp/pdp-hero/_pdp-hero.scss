@@ -562,6 +562,7 @@
 
   &__nutrition-menu,
   &__allergen-menu,
+  &__cooking-menu,
   &__more-info-menu {
     @include set-font($font-type: 'primary-font');
 
@@ -594,7 +595,8 @@
   }
 
   &__nutrition-menu,
-  &__allergen-menu {
+  &__allergen-menu,
+  &__cooking-menu {
     @include large {
       @include large {
         &::after {
@@ -624,6 +626,7 @@
   }
 
   &__allergen-menu,
+  &__cooking-menu,
   &__more-info-menu {
     color: clr(subcolor-4);
     display: none;

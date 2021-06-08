@@ -203,6 +203,14 @@
               heading_base_class: 'allergen-menu',
             } %}
           {% endif %}
+          {% if pdp_label_cooking %}
+            {% include "@atoms/text/headings/_heading.twig" with {
+              heading_level: 5,
+              heading: pdp_label_cooking,
+              heading_blockname: pdp_hero_base_class,
+              heading_base_class: 'cooking-menu',
+            } %}
+          {% endif %}
           {% if pdp_label_more_information %}
             {% include "@atoms/text/headings/_heading.twig" with {
               heading_level: 5,

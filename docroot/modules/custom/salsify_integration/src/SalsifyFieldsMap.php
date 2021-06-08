@@ -18,6 +18,7 @@ class SalsifyFieldsMap {
     'field_product_allergen_warnings' => ['salsify:id' => 'Allergen Statement', 'salsify:data_type' => 'string'],
     'field_product_ingredients' => ['salsify:id' => 'Complete Ingredient Statement', 'salsify:data_type' => 'string'],
     'field_product_description' => ['salsify:id' => 'CMS: Description', 'salsify:data_type' => 'string'],
+    'field_product_cooking_instruct' => ['salsify:id' => 'Brandbank Cooking Guidelines', 'salsify:data_type' => 'string'],
     'field_product_protein' => [
       'salsify:id' => 'Protein',
       'salsify:data_type' => 'string',

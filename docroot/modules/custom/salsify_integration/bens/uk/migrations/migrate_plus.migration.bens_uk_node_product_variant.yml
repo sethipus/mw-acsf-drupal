@@ -41,6 +41,10 @@ source:
       label: 'GTIN'
       selector: 'field_product_sku/0'
     -
+      name: source_cooking_instructions
+      label: 'Brandbank Cooking Guidelines'
+      selector: 'field_product_cooking_instruct/0'
+    -
       name: source_size
       label: 'Net Content'
       selector: 'field_product_size/0'
@@ -169,7 +173,6 @@ source:
       label: 'LTD Reference Intake'
       selector: 'field_product_reference_intake/0'
 
-
   ids:
     source_sku:
       type: string
@@ -190,6 +193,7 @@ process:
     plugin: skip_on_empty
     method: row
     source: source_description
+  field_product_cooking_instruct/value: source_cooking_instructions
   'field_product_description/format':
     plugin: default_value
     default_value: rich_text
