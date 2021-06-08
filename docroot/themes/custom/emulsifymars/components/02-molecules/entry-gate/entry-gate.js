@@ -29,6 +29,12 @@
           }
         };
 
+        // helper for lazyloading external scripts
+        const lazyLoadThirdpartyScripts = () => {
+          _lazyLoadWhereToBuy();
+          _lazyLoadCookieBanner();
+        }
+
         // helper for getting cooke with specified name
         const getCookieDate = name => {
           const cookieArr = document.cookie.split(";");
@@ -79,6 +85,8 @@
         // display entry gate if cookie is not set or the value of cookie is not
         // enough
         if (isOldEnough(getCookieDate('dateOfBirth'))) {
+          // Lazy load scripts
+          lazyLoadThirdpartyScripts();
           entryGate.css({display: 'none'});
           entryGate.attr("aria-hidden", "true");
           $(".layout-container").attr("aria-hidden", "false");
@@ -119,6 +127,8 @@
 
         submitBtn.once('entryGate').on('click', event => {
           event.preventDefault();
+          // Lazy load scripts
+          lazyLoadThirdpartyScripts();
           const givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+dayInput.val()).slice(-2)}`;
 
           if (!isValidDate(givenDateStr) || new Date(givenDateStr).getUTCFullYear() < 1900) {
