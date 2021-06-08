@@ -3,6 +3,7 @@
 namespace Drupal\Tests\mars_seo\Unit;
 
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Cache\Context\CacheContextsManager;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\layout_builder\Field\LayoutSectionItemList;
@@ -45,6 +46,13 @@ class HeroImageServiceTest extends UnitTestCase {
   /**
    * Mock.
    *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Cache\Context\CacheContextsManager
+   */
+  protected $cacheContextsManagerMock;
+
+  /**
+   * Mock.
+   *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_media\MediaHelper
    */
   private $mediaHelperMock;
@@ -70,16 +78,32 @@ class HeroImageServiceTest extends UnitTestCase {
    * @covers \Drupal\mars_seo\HeroImageService::getOpenGraphConfig
    */
   public function testGetCacheableMetadata() {
+    $this->containerMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturnMap([
+        [
+          'cache_contexts_manager',
+          ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+          $this->cacheContextsManagerMock,
+        ],
+      ]);
+
+    $this->cacheContextsManagerMock
+      ->expects($this->any())
+      ->method('assertValidTokens')
+      ->willReturn(TRUE);
+
     // Test system with empty build context.
     $node_mock = $this->getMockBuilder(Node::class)
       ->disableOriginalConstructor()
       ->getMock();
     $node_mock->expects($this->any())->method('getCacheContexts')->willReturn(['nid' => 1, 'bundle' => 'article']);
-    $node_mock->expects($this->any())->method('getCacheTags')->willReturn(['node:id' => 1]);
+    $node_mock->expects($this->any())->method('getCacheTags')->willReturn(['node:id' => '1']);
     $node_mock->expects($this->any())->method('getCacheMaxAge')->willReturn(0);
     $config_mock = $this->createMock(ImmutableConfig::class);
     $config_mock->expects($this->any())->method('getCacheContexts')->willReturn(['config' => 'og_image']);
-    $config_mock->expects($this->any())->method('getCacheTags')->willReturn(['og:image' => 'test.png']);
+    $config_mock->expects($this->any())->method('getCacheTags')->willReturn(['og:image' => 'testpng']);
     $config_mock->expects($this->any())->method('getCacheMaxAge')->willReturn(0);
     $this->configFactoryMock->expects($this->once())->method('get')->willReturn($config_mock);
     $this->mediaHelperMock->expects($this->any())->method('getIdFromEntityBrowserSelectValue')->willReturn('1');
@@ -165,6 +189,7 @@ class HeroImageServiceTest extends UnitTestCase {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this->cacheContextsManagerMock = $this->createMock(CacheContextsManager::class);
   }
 
 }

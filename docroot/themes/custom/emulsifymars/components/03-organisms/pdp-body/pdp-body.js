@@ -233,6 +233,10 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
           $(context).scrollTop(
             $('.pdp-allergen:visible').offset().top - stickyNavTopHeight
           );
+        } else if (event.target.className.indexOf('pdp-hero__cooking-menu') > -1) {
+          $(context).scrollTop(
+            $('.pdp-cooking:visible').offset().top - stickyNavTopHeight
+          );
         } else if (event.target.className.indexOf('pdp-hero__more-info-menu') > -1) {
           $(context).scrollTop(
             $('.pdp-more-information:visible').offset().top - stickyNavTopHeight

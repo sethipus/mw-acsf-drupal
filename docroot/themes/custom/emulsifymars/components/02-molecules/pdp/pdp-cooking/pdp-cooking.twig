@@ -1,0 +1,20 @@
+{% set pdp_cooking_base_class = pdp_cooking_base_class|default('pdp-cooking') %}
+{% set scroll_mandatory_base_class = 'scroll-mandatory' %}
+
+{% if pdp_cooking_data is not empty %}
+  <section id="section-cooking-{{size_id}}" {{ bem(pdp_cooking_base_class, '', '', [scroll_mandatory_base_class]) }} data-theme="{{ theme_styles }}">
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading_level: 5,
+      heading: pdp_common_cooking_data.cooking_label,
+      heading_blockname: pdp_cooking_base_class,
+      heading_base_class: 'header',
+    } %}
+    <div {{ bem('container', [], pdp_cooking_base_class) }}>
+      {% include "@atoms/text/text/07-element.twig" with {
+        paragraph_content: pdp_cooking_data,
+        paragraph_base_class: 'content-wysiwig',
+        paragraph_blockname: pdp_cooking_base_class
+      } %}
+    </div>
+  </section>
+{% endif %}
