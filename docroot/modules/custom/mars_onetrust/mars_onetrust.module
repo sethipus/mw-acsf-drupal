@@ -9,12 +9,11 @@
  * Implements hook_page_attachments().
  */
 function mars_onetrust_page_attachments(&$page) {
-  //SDK URL
+  // SDK URL.
   $sdk_url = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
   // Get the data domain.
   $config = \Drupal::config('mars_onetrust.settings');
   $data_domain = $config->get('mars_onetrust.data_domain');
-  $current_uri = \Drupal::request()->getRequestUri();
   $entry_gate_config = \Drupal::config('mars_entry_gate.settings');
   $entry_gate_enabled = $entry_gate_config->get('enabled');
 
