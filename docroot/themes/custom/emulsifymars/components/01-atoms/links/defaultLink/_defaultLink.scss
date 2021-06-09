@@ -23,7 +23,6 @@
   overflow: hidden;
   display: inline-block;
   border-radius: variable(button-border-radius);
-  transition: color 1s cubic-bezier(.75, 0, .25, 1);
   cursor: pointer;
 
   @include cta-background-animation(clr(secondary), clr(subcolor-3));
