@@ -303,7 +303,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ];
 
     $form['wtb'] = [
-      '#type' => 'details',
+      '#type' => 'fieldset',
       '#title' => $this->t('Where to buy button settings'),
       '#description' => $this->t('Vendor: @vendor',
         ['@vendor' => $commerce_vendor]),
@@ -432,9 +432,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       default:
         break;
     }
-
     $form['nutrition'] = [
-      '#type' => 'details',
+      '#type' => 'fieldset',
       '#title' => $this->t('Nutrition part settings'),
       '#open' => TRUE,
     ];
@@ -492,14 +491,25 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#format' => 'rich_text',
       '#access' => $benefits_enabled,
     ];
-    $form['allergen_label'] = [
+    $form['labels'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Labels'),
+      '#open' => TRUE,
+    ];
+    $form['labels']['allergen_label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Diet & Allergens part label'),
-      '#default_value' => $this->configuration['allergen_label'],
+      '#default_value' => $this->configuration['labels']['allergen_label'],
       '#maxlength' => 18,
     ];
+    $form['labels']['cooking_instructions_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Cooking instructions label'),
+      '#default_value' => $this->configuration['labels']['cooking_instructions_label'],
+      '#maxlength' => 55,
+    ];
     $form['more_information'] = [
-      '#type' => 'details',
+      '#type' => 'fieldset',
       '#title' => $this->t('More information part settings'),
       '#open' => TRUE,
     ];
@@ -632,8 +642,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'benefits_title' => $config['nutrition']['benefits_title'] ?? '',
         'benefits_disclaimer' => $config['nutrition']['benefits_disclaimer']['value'] ?? '',
       ],
-      'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
-      'more_information_label' => $config['more_information']['more_information_label'] ?? $this->t('More information'),
+      'labels' => [
+        'allergen_label' => $config['labels']['allergen_label'] ?? (string) $this->t('Diet & Allergens'),
+        'cooking_instructions_label' => $config['labels']['cooking_instructions_label'] ?? (string) $this->t('Cooking instructions'),
+      ],
+      'more_information_label' => $config['more_information']['more_information_label'] ?? (string) $this->t('More information'),
       'show_more_information_label' => $config['more_information']['show_more_information_label'] ?? TRUE,
       'wtb' => [
         'data_widget_id' => $config['wtb']['data_widget_id'] ?? $this->wtbGlobalConfig->get($widget_id_field) ?? NULL,
@@ -721,7 +734,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'show_claims_benefits' => !empty($this->themeConfiguratorParser->getSettingValue('show_nutrition_claims_benefits')),
       ],
       'allergen_data' => [
-        'allergen_label' => $this->languageHelper->translate($this->configuration['allergen_label']),
+        'allergen_label' => $this->languageHelper->translate($this->configuration['labels']['allergen_label']),
+      ],
+      'cooking_data' => [
+        'cooking_label' => $this->languageHelper->translate($this->configuration['labels']['cooking_instructions_label']),
       ],
       'more_information_data' => [
         'more_information_label' => $this->languageHelper->translate($this->configuration['more_information']['more_information_label'] ?? 'More information'),
@@ -813,6 +829,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'allergen_data' => [
           'allergens_list' => $this->getVisibleAllergenItems($product_variant),
         ],
+        'cooking_data' => $this->getCookingInfo($product_variant),
         'show_rating_and_reviews' => $this->isRatingEnable($node),
         'is_main_variant' => $i === 1,
       ];
@@ -892,6 +909,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle(), $more_information_id),
         ],
         'products'  => $products_data,
+        'cooking_data' => $this->getCookingInfo($product_variant),
       ];
     }
 
@@ -1099,9 +1117,23 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * @return bool
    *   Allergen visibility
    */
-  public function isAllergenVisible() {
+  public function isAllergenVisible(): bool {
     $show_allergen_info = $this->themeConfiguratorParser->getSettingValue('show_allergen_info');
     if ($show_allergen_info) {
+      return TRUE;
+    }
+    return FALSE;
+  }
+
+  /**
+   * Get theme setting for Cooking info visibility.
+   *
+   * @return bool
+   *   Cooking info visibility
+   */
+  public function isCookingInfoVisible(): bool {
+    $show_cooking_info = $this->themeConfiguratorParser->getSettingValue('show_cooking_info');
+    if ($show_cooking_info) {
       return TRUE;
     }
     return FALSE;
@@ -1115,14 +1147,27 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @return array
    *   Allergen items array.
-   *
-   * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function getVisibleAllergenItems($node) {
     if ($this->isAllergenVisible()) {
       return $this->getAllergenItems($node);
     }
     return [];
+  }
+
+  /**
+   * Get all visible allergen items.
+   *
+   * @param object $node
+   *   Product Variant node.
+   *
+   * @return null|string
+   *   Cooking info.
+   */
+  public function getCookingInfo($node) {
+    return ($this->isCookingInfoVisible())
+      ? $node->get('field_product_cooking_instruct')->value
+      : NULL;
   }
 
   /**
@@ -1182,10 +1227,23 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       !$node->get('field_product_diet_allergens')->isEmpty()
     ) {
       $items[] = [
-        'title' => $this->languageHelper->translate($this->configuration['allergen_label']),
+        'title' => $this->languageHelper->translate($this->configuration['labels']['allergen_label']),
         'link_attributes' => [
           'class' => 'pdp-hero__allergen-menu',
           'href' => '#section-allergen-' . $size_id,
+        ],
+      ];
+    }
+
+    if (
+      $this->isCookingInfoVisible() &&
+      !$node->get('field_product_cooking_instruct')->isEmpty()
+    ) {
+      $items[] = [
+        'title' => $this->languageHelper->translate($this->configuration['labels']['cooking_instructions_label']),
+        'link_attributes' => [
+          'class' => 'pdp-hero__cooking-menu',
+          'href' => '#section-cooking-' . $size_id,
         ],
       ];
     }

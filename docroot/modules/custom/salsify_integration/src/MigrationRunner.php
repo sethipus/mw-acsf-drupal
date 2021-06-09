@@ -3,7 +3,7 @@
 namespace Drupal\salsify_integration;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\migrate\MigrateExecutable;
+use Drupal\migrate_tools\MigrateExecutable;
 use Drupal\migrate\MigrateMessage;
 use Drupal\migrate\Plugin\MigrationPluginManager;
 
@@ -59,7 +59,9 @@ class MigrationRunner {
         foreach ($migration->getMigrationDependencies() as $dependencies) {
           $this->runMigrations($dependencies);
         }
-
+        // Set migration 'sync' flag to remove outdated entities on import.
+        $migration->set('syncSource', TRUE);
+        // Run the migration.
         $executable = new MigrateExecutable($migration, new MigrateMessage());
         $executable->import();
       }
