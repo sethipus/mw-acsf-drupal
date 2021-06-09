@@ -76,7 +76,6 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      background-color: clr(subcolor-3);
       border: 1px solid clr(secondary);
       padding: 1.1rem;
       font-size: 1.2rem;
@@ -85,6 +84,7 @@
       color: clr(secondary);
       margin: 0 1rem 1.2rem 0;
       text-decoration: none;
+      @include cta-background-animation(transparent, clr(secondary));
 
       @include medium {
         padding: 17px 43px;
@@ -96,16 +96,11 @@
         font-size: 1.4rem;
       }
 
-      &.active {
-        background-color: clr(secondary);
+      &:hover {
         color: clr(subcolor-3);
       }
 
-      &::after {
-        background-color: clr(secondary);
-      }
-
-      &:hover {
+      &.active {
         background-color: clr(secondary);
         color: clr(subcolor-3);
       }

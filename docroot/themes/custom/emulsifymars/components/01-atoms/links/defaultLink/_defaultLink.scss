@@ -1,8 +1,18 @@
+@mixin cta-background-animation($mainColor, $subColor) {
+  transition: background-position 1.2s cubic-bezier(.75, 0, .25, 1);
+  background: linear-gradient(30deg, $mainColor 33%, $subColor 33%, $subColor 66%, $mainColor 66%);
+  background-size: 500%;
+  background-position: right 0% top 0%;
+
+  &:hover {
+    background-position: right 50% top 50%;
+  }
+}
+
 .default-link {
   @include set-font($font-type: 'primary-font');
 
   color: clr(text-inverse);
-  background-color: clr(secondary);
   font-size: 1.4rem;
   text-decoration: none;
   text-align: center;
@@ -12,8 +22,11 @@
   position: relative;
   overflow: hidden;
   display: inline-block;
-  transition: color .6s ease-out, background-color 1.2s cubic-bezier(.75, 0, .25, 1);
   border-radius: variable(button-border-radius);
+  transition: color 1s cubic-bezier(.75, 0, .25, 1);
+  cursor: pointer;
+
+  @include cta-background-animation(clr(secondary), clr(subcolor-3));
 
   @include medium {
     min-width: 15.7rem;
@@ -25,33 +38,8 @@
     font-size: 1.6rem;
   }
 
-  &::after {
-    content: '';
-    position: absolute;
-    display: block;
-    margin-top: -20%;
-    left: -450%;
-    top: 0;
-    width: 1000%;
-    transform: rotate(18deg);
-    height: 0;
-    background-color: clr(subcolor-3);
-    transition: height .5s 0s cubic-bezier(.75, 0, .25, 1);
-
-    @include medium {
-      margin-bottom: -20%;
-      top: auto;
-      bottom: 0;
-    }
-  }
-
   &:hover {
     color: clr(secondary);
-    background-color: transparent !important;
-
-    &::after {
-      height: 800%;
-    }
   }
 
   &__label {
@@ -66,16 +54,11 @@
   }
 
   &--light {
-    background-color: clr(subcolor-3);
     color: clr(secondary);
     box-shadow: 0 0 5px #ccc;
     margin-bottom: 2rem;
     text-align: center;
-    transition: all 1s ease;
-
-    &::after {
-      background-color: clr(secondary);
-    }
+    @include cta-background-animation(clr(subcolor-3), clr(secondary));
 
     &:hover {
       color: clr(subcolor-3);
