@@ -660,6 +660,11 @@ class ThemeConfiguratorService {
         '#title' => $this->t('Show allergen info'),
         '#default_value' => $this->getData('product_layout', 'show_allergen_info', $config),
       ];
+      $form['product_layout']['show_cooking_info'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Show cooking (instructions) info'),
+        '#default_value' => $this->getData('product_layout', 'show_cooking_info', $config),
+      ];
       $form['product_layout']['show_nutrition_claims_benefits'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Show Nutrition Claims and benefits info'),
