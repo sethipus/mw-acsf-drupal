@@ -4,6 +4,7 @@ namespace Drupal\Tests\mars_search\Unit\Processors;
 
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\search_api\Item\Field;
 use Drupal\search_api\Item\Item;
 use Drupal\search_api\Query\QueryInterface;
@@ -96,6 +97,13 @@ class SearchHelperTest extends UnitTestCase {
   protected $query;
 
   /**
+   * Language helper service mock.
+   *
+   * @var \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $languageHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -106,7 +114,8 @@ class SearchHelperTest extends UnitTestCase {
       $this->entityTypeManagerMock,
       $this->loggerFactoryMock,
       $this->requestStackMock,
-      $this->searchCategoriesMock
+      $this->searchCategoriesMock,
+      $this->languageHelperMock
     );
   }
 
@@ -122,6 +131,7 @@ class SearchHelperTest extends UnitTestCase {
     $this->requestStackMock = $this->createMock(RequestStack::class);
     $this->entityStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->query = $this->createMock(QueryInterface::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->loggerFactoryMock
       ->expects($this->any())
       ->method('get')
