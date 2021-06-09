@@ -422,6 +422,7 @@ class SalsifyFieldsMap {
     // There is a custom logic for fields with 'complex' data type in
     // SalsifyImportField class.
     'field_meta_tags' => ['salsify:id' => 'CMS: Meta tags', 'salsify:data_type' => 'complex'],
+    'field_product_generated' => ['salsify:id' => 'CMS: multipack generated', 'salsify:data_type' => 'boolean'],
   ];
 
   public const SALSIFY_FIELD_MAPPING_PRODUCT_MULTIPACK = self::SALSIFY_FIELD_MAPPING_PRODUCT + [
