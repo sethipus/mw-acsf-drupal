@@ -1,4 +1,4 @@
-function lazyLoadCookieBanner() {
+function _lazyLoadCookieBanner() {
 
     if($('#onetrust-sdk').length > 0)
     {
