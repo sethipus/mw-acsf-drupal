@@ -2,6 +2,7 @@ mars_product.commerce_connector:
   version: 1.x
   js:
     //[commerce_connector_url]: { type: external, weight: -3 }
+    js/cc-lazyload.js: {}
   dependencies:
     - core/drupal
     - core/drupalSettings
@@ -14,8 +15,10 @@ mars_product.bazaarvoice:
 smart_commerce:
   js:
     https://click2cart.co/assets/js/smartcart_min.js: { type: external }
+    # Do not remove the library below, as it fixes the SmartCommerce button appearance on Search grids!!!
     js/sc-refresh-buttons.js: {}
 
 price_spider:
   js:
-    https://cdn.pricespider.com/1/lib/ps-widget.js: { type: external , attributes: { defer: true }}
+    //[price_spider_url]: { type: external }
+    js/price-spider-lazyload.js: {}

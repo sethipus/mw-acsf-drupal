@@ -32,7 +32,10 @@
 
           const parallaxOverflow = containerHeight * parallaxCoef;
           const bgPositionOffset = parallaxOverflow / 2 * parallaxEffectPercentage;
-
+          if(!element.style.backgroundImage)
+          {
+              contentFeatureModule.setAttribute("style", "background-image: url(" + bgUrl + ");");         
+          }
           element.style.backgroundPosition = `50% calc(50% - ${bgPositionOffset}px`;
         };
 
