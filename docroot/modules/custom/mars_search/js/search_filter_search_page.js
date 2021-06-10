@@ -230,6 +230,32 @@
             if (query.hasOwnProperty('search') && query.search.hasOwnProperty('1')) {
               query['s'] = query['search']['1'];
             }
+
+            // Cleared out filters, when type changed.
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            let type = '';
+            if (urlParams.has('type[1]')) {
+              type = urlParams.get('type[1]')
+            }
+            if (query['type'][1] !== type) {
+              let protected_keys = [
+                "action_type",
+                "grid_type",
+                "limit",
+                "page_id",
+                "page_revision_id",
+                "s",
+                "search",
+                "type",
+              ];
+              Object.entries(query).forEach(([key, value]) => {
+                if(protected_keys.indexOf(key) === -1) {
+                  delete query['' + key + ''];
+                }
+              });
+            }
+
             pushQuery(query);
             query.page_id = pageId;
             query.page_revision_id = pageRevisionId;
@@ -244,6 +270,7 @@
                   updateSearchResults(data.results);
                   togglePager(data.pager);
                   dataLayerPush(data.results_count, data.search_key);
+                  setNoResults(data.no_results);
                 }
               }
             });
