@@ -353,7 +353,6 @@ function product_card_change_color(&$variables) {
  * Implements hook_js_alter().
  */
 function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
-
   $current_uri = \Drupal::request()->getRequestUri();
   $entry_gate_config = \Drupal::config('mars_entry_gate.settings');
   $entry_gate_enabled = $entry_gate_config->get('enabled');
