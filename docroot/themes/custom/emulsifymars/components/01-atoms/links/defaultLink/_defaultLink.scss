@@ -1,11 +1,11 @@
 @mixin cta-background-animation($mainColor, $subColor) {
   transition: background-position 1.2s cubic-bezier(.75, 0, .25, 0);
-  background: linear-gradient(45deg, $mainColor 50%, $subColor 50%);
+  background: linear-gradient(45deg, $subColor 50%, $mainColor 50%);
   background-size: 200% 200%;
-  background-position: left bottom;
+  background-position: right top;
 
   &:hover {
-    background-position: right top;
+    background-position: left bottom;
   }
 }
 

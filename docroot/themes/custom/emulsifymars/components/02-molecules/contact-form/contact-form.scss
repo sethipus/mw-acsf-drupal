@@ -418,14 +418,14 @@
       width: 100%;
       margin: 0;
       border: none;
-      transition: all 1.2s cubic-bezier(.75, 0, .25, 1);
-      background: linear-gradient(30deg, clr(secondary) 33%, clr(subcolor-3) 33%, clr(subcolor-3) 66%, clr(secondary) 66%) !important;
-      background-size: 500% !important;
-      background-position: right 0% top 0% !important;
+      transition: all 1.2s cubic-bezier(.75, 0, .25, 0);
+      background: linear-gradient(45deg, clr(subcolor-3) 50%, clr(secondary) 50%) !important;
+      background-size: 200% 200% !important;
+      background-position: right top !important;
 
       &:hover {
         color: clr(secondary);
-        background-position: right 50% top 50% !important;
+        background-position: left bottom !important;
       }
 
       @include medium {
