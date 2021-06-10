@@ -5,7 +5,7 @@ namespace Drupal\Tests\mars_seo\Unit\Plugin\JsonLdStrategy;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_seo\Plugin\JsonLdStrategy\Recipe;
 use Drupal\metatag\MetatagManager;
 use Drupal\Tests\UnitTestCase;
@@ -59,7 +59,7 @@ class RecipeTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_media\MediaHelper
    */
   private $mediaHelperMock;
 
@@ -239,7 +239,7 @@ class RecipeTest extends UnitTestCase {
       ->willReturnMap(
         [
           [
-            'mars_common.media_helper',
+            'mars_media.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->mediaHelperMock,
           ],

@@ -4,6 +4,7 @@ namespace Drupal\salsify_integration\Form;
 
 use Drupal\Component\EventDispatcher\ContainerAwareEventDispatcher;
 use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\MessageCommand;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Batch\BatchBuilder;
 use Drupal\Core\Cache\Cache;
@@ -20,6 +21,9 @@ use Drupal\salsify_integration\Salsify;
 use Drupal\salsify_integration\SalsifyFields;
 use Drupal\salsify_integration\SalsifyImport;
 use Drupal\salsify_integration\SalsifyImportField;
+use Drupal\salsify_integration\Run\RunResource;
+use Drupal\salsify_integration\MigrationRunner;
+use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -28,6 +32,61 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ConfigForm extends ConfigFormBase {
 
   protected const SALSIFY_LOGGER_CHANNEL = 'salsify_integration';
+
+  /**
+   * Salsify none approach id.
+   */
+  public const SALSIFY_APPROACH_NONE = 'none';
+
+  /**
+   * Salsify API approach id.
+   */
+  public const SALSIFY_API_APPROACH = 'salsify_api_approach';
+
+  /**
+   * Salsify Multichannel approach id.
+   */
+  public const SALSIFY_MULTICHANNEL_APPROACH = 'salsify_multichannel_approach';
+
+  /**
+   * Setting configuration ID.
+   */
+  public const CONFIG_NAME = 'salsify_integration.settings';
+
+  /**
+   * Runs ID mesasge.
+   */
+  protected const MSG_RUNS_ID = 'Runs ID: %s';
+
+  /**
+   * Runs status mesasge.
+   */
+  protected const MSG_RUNS_STATUS = 'Runs status: %s';
+
+  /**
+   * Runs status mesasge.
+   */
+  protected const MSG_RUNS_URL = 'Export URL: %s';
+
+  /**
+   * Form `org_id` field.
+   */
+  public const KEY_ORG_ID = 'org_id';
+
+  /**
+   * Form `channel_id` field.
+   */
+  public const KEY_CHANNEL_ID = 'channel_id';
+
+  /**
+   * Form `api_key` field.
+   */
+  public const KEY_API_KEY = 'api_key';
+
+  /**
+   * Form `url` field.
+   */
+  public const KEY_URL = 'url';
 
   /**
    * The entity type manager interface.
@@ -71,6 +130,21 @@ class ConfigForm extends ConfigFormBase {
    */
   protected $importQueue;
 
+
+  /**
+   * Salsify Runs resource.
+   *
+   * @var \Drupal\salsify_integration\Run\RunResource
+   */
+  protected $runsResource;
+
+  /**
+   * Product migration runner.
+   *
+   * @var \Drupal\salsify_integration\MigrationRunner
+   */
+  protected $migrationRunner;
+
   /**
    * ConfigForm constructor.
    *
@@ -86,6 +160,10 @@ class ConfigForm extends ConfigFormBase {
    *   The Salsify fields module.
    * @param \Drupal\Core\Queue\QueueFactory $queue_factory
    *   The Queue factory.
+   * @param \Drupal\salsify_integration\Run\RunResource $runsResource
+   *   Salsify Runs resource.
+   * @param \Drupal\salsify_integration\MigrationRunner $migrationRunner
+   *   Product migration runner.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
@@ -93,7 +171,9 @@ class ConfigForm extends ConfigFormBase {
     ContainerAwareEventDispatcher $event_dispatcher,
     ModuleHandlerInterface $module_handler,
     SalsifyFields $salsify_fields,
-    QueueFactory $queue_factory
+    QueueFactory $queue_factory,
+    RunResource $runsResource,
+    MigrationRunner $migrationRunner
   ) {
     parent::__construct($config_factory);
     $this->entityTypeManager = $entity_type_manager;
@@ -102,6 +182,8 @@ class ConfigForm extends ConfigFormBase {
     $this->salsifyFields = $salsify_fields;
     $this->batchBuilder = new BatchBuilder();
     $this->importQueue = $queue_factory->get('salsify_integration_content_import');
+    $this->runsResource = $runsResource;
+    $this->migrationRunner = $migrationRunner;
   }
 
   /**
@@ -114,7 +196,9 @@ class ConfigForm extends ConfigFormBase {
       $container->get('event_dispatcher'),
       $container->get('module_handler'),
       $container->get('salsify_integration.salsify_fields'),
-      $container->get('queue')
+      $container->get('queue'),
+      $container->get('salsify_integration.salsify.runs'),
+      $container->get('salsify_integration.migrations.products')
     );
   }
 
@@ -129,26 +213,83 @@ class ConfigForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form = parent::buildForm($form, $form_state);
-    $config = $this->config('salsify_integration.settings');
+    $config = $this->config(self::CONFIG_NAME);
+    $saved_approach = $config->get('approach');
 
-    $form['salsify_api_settings'] = [
+    $form['general'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('General configuration'),
+      '#collapsible' => FALSE,
+      '#collapsed' => FALSE,
+    ];
+
+    $form['general']['approach'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Salsify approach'),
+      '#default_value' => $saved_approach ?? static::SALSIFY_API_APPROACH,
+      '#options' => [
+        self::SALSIFY_APPROACH_NONE => $this->t('None'),
+        self::SALSIFY_API_APPROACH => $this->t('API approach'),
+        self::SALSIFY_MULTICHANNEL_APPROACH => $this->t('Multichannel approach'),
+      ],
+      '#required' => TRUE,
+    ];
+    // Build PS widget settings fieldset.
+    $form['general'][self::SALSIFY_API_APPROACH] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('API channel approach configuration'),
+      '#states' => [
+        'visible' => [
+          [':input[name="approach"]' => ['value' => self::SALSIFY_API_APPROACH]],
+        ],
+      ],
+    ];
+    // Build CC widget settings fieldset.
+    $form['general'][self::SALSIFY_MULTICHANNEL_APPROACH] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Multichannel approach configuration'),
+      '#tree' => TRUE,
+      '#states' => [
+        'visible' => [
+          [':input[name="approach"]' => ['value' => self::SALSIFY_MULTICHANNEL_APPROACH]],
+        ],
+      ],
+    ];
+    $this->buildApiApproachElement($form, $form_state);
+    $this->buildMultichannelApproachElement($form, $form_state);
+    return parent::buildForm($form, $form_state);
+  }
+
+  /**
+   * Builds  configuration fields.
+   *
+   * @param array $form
+   *   The given form to update.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The Salsify approach id.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  protected function buildApiApproachElement(array &$form, FormStateInterface $form_state) {
+    $config = $this->config(self::CONFIG_NAME);
+    $fieldset = &$form['general'][self::SALSIFY_API_APPROACH];
+    $fieldset['salsify_api_settings'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Salsify API Settings'),
       '#collapsible' => TRUE,
       '#group' => 'salsify_api_settings_group',
     ];
 
-    $form['salsify_api_settings']['product_feed_url'] = [
+    $fieldset['salsify_api_settings']['product_feed_url'] = [
       '#type' => 'url',
       '#size' => 75,
       '#title' => $this->t('Salsify Product Feed'),
       '#default_value' => $config->get('product_feed_url'),
       '#description' => $this->t('The link to the product feed from a Salsify channel. For details on channels in Salsify, see <a href="@url" target="_blank">Salsify\'s documentation</a>', ['@url' => 'https://help.salsify.com/help/getting-started-with-channels']),
-      '#required' => TRUE,
     ];
 
-    $form['salsify_api_settings']['auth_method'] = [
+    $fieldset['salsify_api_settings']['auth_method'] = [
       '#type' => 'select',
       '#title' => $this->t('Select a bundle'),
       '#options' => [
@@ -157,10 +298,9 @@ class ConfigForm extends ConfigFormBase {
       ],
       '#default_value' => $config->get('auth_method'),
       '#description' => $this->t('Please choose auth api method.'),
-      '#required' => TRUE,
     ];
 
-    $form['salsify_api_settings']['access_token'] = [
+    $fieldset['salsify_api_settings']['access_token'] = [
       '#type' => 'textfield',
       '#size' => 75,
       '#title' => $this->t('Salsify Access Token'),
@@ -171,12 +311,13 @@ class ConfigForm extends ConfigFormBase {
           ':input[name="auth_method"]' => ['value' => Salsify::AUTH_METHOD_TOKEN],
         ],
         'required' => [
+          ':input[name="approach"]' => ['value' => self::SALSIFY_API_APPROACH],
           ':input[name="auth_method"]' => ['value' => Salsify::AUTH_METHOD_TOKEN],
         ],
       ],
     ];
 
-    $form['salsify_api_settings']['client_id'] = [
+    $fieldset['salsify_api_settings']['client_id'] = [
       '#type' => 'textfield',
       '#size' => 75,
       '#title' => $this->t('Client id'),
@@ -187,12 +328,13 @@ class ConfigForm extends ConfigFormBase {
           ':input[name="auth_method"]' => ['value' => Salsify::AUTH_METHOD_SECRET],
         ],
         'required' => [
+          ':input[name="approach"]' => ['value' => self::SALSIFY_API_APPROACH],
           ':input[name="auth_method"]' => ['value' => Salsify::AUTH_METHOD_SECRET],
         ],
       ],
     ];
 
-    $form['salsify_api_settings']['client_secret'] = [
+    $fieldset['salsify_api_settings']['client_secret'] = [
       '#type' => 'textfield',
       '#size' => 75,
       '#title' => $this->t('Client secret'),
@@ -203,6 +345,7 @@ class ConfigForm extends ConfigFormBase {
           ':input[name="auth_method"]' => ['value' => 'client_secret'],
         ],
         'required' => [
+          ':input[name="approach"]' => ['value' => self::SALSIFY_API_APPROACH],
           ':input[name="auth_method"]' => ['value' => 'client_secret'],
         ],
       ],
@@ -222,19 +365,18 @@ class ConfigForm extends ConfigFormBase {
     // Get the updated entity type list from from the event.
     $entity_type_options = $event->getEntityTypesList();
 
-    $form['salsify_api_settings']['setup_types'] = [
+    $fieldset['salsify_api_settings']['setup_types'] = [
       '#type' => 'container',
       '#prefix' => '<div class="salsify-config-entity-types">',
       '#suffix' => '</div>',
     ];
 
-    $form['salsify_api_settings']['setup_types']['entity_type'] = [
+    $fieldset['salsify_api_settings']['setup_types']['entity_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Select an entity type'),
       '#options' => $entity_type_options,
       '#default_value' => $config->get('entity_type'),
       '#description' => $this->t('The entity type to use for product mapping from Salsify.'),
-      '#required' => TRUE,
       '#ajax' => [
         'callback' => '::loadEntityBundles',
         'trigger' => 'change',
@@ -256,7 +398,7 @@ class ConfigForm extends ConfigFormBase {
       foreach ($entity_bundles as $entity_bundle) {
         $entity_bundles_options[$entity_bundle->id()] = $entity_bundle->label();
       }
-      $form['salsify_api_settings']['setup_types']['bundle'] = [
+      $fieldset['salsify_api_settings']['setup_types']['bundle'] = [
         '#type' => 'select',
         '#title' => $this->t('Select a bundle'),
         '#options' => $entity_bundles_options,
@@ -274,13 +416,13 @@ class ConfigForm extends ConfigFormBase {
     if ($config->get('product_feed_url') &&
       (($config->get('access_token')) || ($config->get('client_id') && $config->get('client_secret')))&&
       $config->get('bundle')) {
-      $form['salsify_operations'] = [
+      $fieldset['salsify_operations'] = [
         '#type' => 'fieldset',
         '#title' => $this->t('Operations'),
         '#collapsible' => TRUE,
         '#group' => 'salsify_operations_group',
       ];
-      $form['salsify_operations']['salsify_manual_import_method'] = [
+      $fieldset['salsify_operations']['salsify_manual_import_method'] = [
         '#type' => 'select',
         '#title' => $this->t('Manual import method'),
         '#options' => [
@@ -288,69 +430,69 @@ class ConfigForm extends ConfigFormBase {
           'force' => $this->t('Force sync all Salsify content'),
         ],
       ];
-      $form['salsify_operations']['import_warning'] = [
+      $fieldset['salsify_operations']['import_warning'] = [
         '#type' => 'markup',
         '#markup' => '<p>' . $this->t('Use "Sync with Salsify"') .
         '<strong> ' . $this->t('only for development needs.') .
         '</strong></p>',
       ];
-      $form['salsify_operations']['salsify_start_import'] = [
+      $fieldset['salsify_operations']['salsify_start_import'] = [
         '#type' => 'submit',
         '#value' => $this->t('Sync with Salsify'),
         '#prefix' => '<p>',
         '#suffix' => '</p>',
       ];
-      $form['salsify_operations']['import_queue_items'] = [
+      $fieldset['salsify_operations']['import_queue_items'] = [
         '#type' => 'markup',
         '#markup' => '<p>Items in the queue: <strong>' . $this->importQueue->numberOfItems() . '</strong></p>',
       ];
-      $form['salsify_operations']['import_stem_one'] = [
+      $fieldset['salsify_operations']['import_stem_one'] = [
         '#type' => 'markup',
         '#markup' => '<p><strong> ' . $this->t('Step 1:') .
         '</strong></p>',
       ];
-      $form['salsify_operations']['salsify_create_queue'] = [
+      $fieldset['salsify_operations']['salsify_create_queue'] = [
         '#type' => 'submit',
         '#name' => 'create_import_queue',
         '#value' => $this->t('Add import items to the queue'),
         '#prefix' => '<p>',
         '#suffix' => '</p>',
       ];
-      $form['salsify_operations']['import_stem_two'] = [
+      $fieldset['salsify_operations']['import_stem_two'] = [
         '#type' => 'markup',
         '#markup' => '<p><strong> ' . $this->t('Step 2:') .
         '</strong></p>',
       ];
-      $form['salsify_operations']['import_queue_chunk_size'] = [
+      $fieldset['salsify_operations']['import_queue_chunk_size'] = [
         '#type' => 'number',
         '#title' => $this->t('Size of batch operation'),
         '#default_value' => $config->get('import_queue_chunk_size') ?? 20,
       ];
-      $form['salsify_operations']['salsify_run_queue'] = [
+      $fieldset['salsify_operations']['salsify_run_queue'] = [
         '#type' => 'submit',
         '#name' => 'create_run_queue',
         '#value' => $this->t('Run import queue'),
         '#prefix' => '<p>',
         '#suffix' => '</p>',
       ];
-      $form['salsify_operations']['import_queue_items'] = [
+      $fieldset['salsify_operations']['import_queue_items'] = [
         '#type' => 'markup',
         '#markup' => '<p>Items in the queue: <strong>' . $this->importQueue->numberOfItems() . '</strong></p>',
       ];
-      $form['salsify_operations']['salsify_purge_queue'] = [
+      $fieldset['salsify_operations']['salsify_purge_queue'] = [
         '#type' => 'submit',
         '#name' => 'purge_import_queue',
         '#value' => $this->t('Purge import queue'),
         '#prefix' => '<p>',
         '#suffix' => '</p>',
       ];
-      $form['salsify_operations']['salsify_import_reminder'] = [
+      $fieldset['salsify_operations']['salsify_import_reminder'] = [
         '#type' => 'markup',
         '#markup' => '<p><strong>' . $this->t('Not seeing your changes from Salsify?') . '</strong><br/>' . $this->t('If you just made a change, your product channel will need to be updated to reflect the change. For details on channels in Salsify, see <a href="@url" target="_blank">Salsify\'s documentation.</a >', ['@url' => 'https://help.salsify.com/help/getting-started-with-channels']) . '</p>',
       ];
     }
 
-    $form['admin_options'] = [
+    $fieldset['admin_options'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Additional options'),
       '#collapsible' => TRUE,
@@ -367,7 +509,7 @@ class ConfigForm extends ConfigFormBase {
       . '<em>' . $this->t('Warning:') . ' '
       . $this->t('For imports with a large number of fields, editing the Salsify entities can result performance issues and 500 errors. It is not recommended to use the "Hybrid" option for data sets with a large number of fields.') . '</em>';
 
-    $form['admin_options']['import_method'] = [
+    $fieldset['admin_options']['import_method'] = [
       '#type' => 'select',
       '#title' => $this->t('Import Method'),
       '#description' => $description,
@@ -376,10 +518,9 @@ class ConfigForm extends ConfigFormBase {
         'dynamic' => $this->t('Hybrid Manual/Dynamic Mapping'),
       ],
       '#default_value' => $config->get('import_method') ? $config->get('import_method') : 'manual',
-      '#required' => TRUE,
     ];
 
-    $form['admin_options']['entity_reference_allow'] = [
+    $fieldset['admin_options']['entity_reference_allow'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Allow mapping Salsify data to entity reference fields.'),
       '#description' => $this->t('Taxonomy term entity reference fields are supported by default. <em>To get this working correctly with entities other than taxonomy terms, additional processing via custom code will likely be required. Imports performed with this checked without any custom processing are subject to failure.</em>'),
@@ -387,7 +528,7 @@ class ConfigForm extends ConfigFormBase {
     ];
 
     if ($this->moduleHandler->moduleExists('media_entity')) {
-      $form['admin_options']['process_media_assets'] = [
+      $fieldset['admin_options']['process_media_assets'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Process Salsify media assets into media fields.'),
         '#description' => $this->t('Note: This will require media entities setup to match filetypes imported from Salsify. Importing will complete on a best effort basis.'),
@@ -395,7 +536,7 @@ class ConfigForm extends ConfigFormBase {
       ];
     }
     else {
-      $form['admin_options']['process_media_notice'] = [
+      $fieldset['admin_options']['process_media_notice'] = [
         '#type' => 'markup',
         '#markup' => $this->t('Enable the Media Entity module to allow importing media assets.'),
         '#prefix' => '<p><em>',
@@ -403,13 +544,13 @@ class ConfigForm extends ConfigFormBase {
       ];
     }
 
-    $form['admin_options']['keep_fields_on_uninstall'] = [
+    $fieldset['admin_options']['keep_fields_on_uninstall'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Leave all dynamically added fields on module uninstall.'),
       '#default_value' => $config->get('keep_fields_on_uninstall'),
     ];
 
-    $form['admin_options']['cron_force_update'] = [
+    $fieldset['admin_options']['cron_force_update'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Force entities update by cron.'),
       '#default_value' => $config->get('cron_force_update'),
@@ -422,34 +563,34 @@ class ConfigForm extends ConfigFormBase {
     [site:login-url], [site:url-brief], [salsify:validation_errors],
     [salsify:deleted_items] .');
 
-    $form['email_salsify_import'] = [
+    $fieldset['email_salsify_import'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Email notification settings'),
       '#collapsible' => TRUE,
       '#group' => 'email_settings',
     ];
 
-    $form['email_salsify_import']['send_email'] = [
+    $fieldset['email_salsify_import']['send_email'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Send email.'),
       '#description' => $this->t('If checked, Report will be send after import.'),
       '#default_value' => $config->get('send_email'),
     ];
 
-    $form['email_salsify_import']['email'] = [
+    $fieldset['email_salsify_import']['email'] = [
       '#type' => 'email',
       '#title' => $this->t('Email'),
       '#default_value' => $config->get('salsify_import.email'),
       '#maxlength' => 180,
     ];
 
-    $form['email_salsify_import']['email_salsify_import_subject'] = [
+    $fieldset['email_salsify_import']['email_salsify_import_subject'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Subject'),
       '#default_value' => $mail_config->get('salsify_import.subject'),
       '#maxlength' => 180,
     ];
-    $form['email_salsify_import']['email_salsify_import_body'] = [
+    $fieldset['email_salsify_import']['email_salsify_import_body'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Body'),
       '#default_value' => $mail_config->get('salsify_import.body'),
@@ -457,7 +598,6 @@ class ConfigForm extends ConfigFormBase {
       '#rows' => 15,
     ];
 
-    return $form;
   }
 
   /**
@@ -481,18 +621,101 @@ class ConfigForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
+  protected function buildMultichannelApproachElement(array &$form, FormStateInterface $form_state) {
+    $config = $this->config(self::CONFIG_NAME);
+    $fieldset = &$form['general'][self::SALSIFY_MULTICHANNEL_APPROACH];
+
+    $fieldset[static::KEY_URL] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('JSON file URL'),
+      '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.url'),
+    ];
+
+    $fieldset[static::KEY_ORG_ID] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Organization ID'),
+      '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.org_id'),
+      '#description' => $this->t(
+        'Orgratization identifier provided by Salsify. For details on channels in Salsify, see <a href="@url" target="_blank">Salsify\'s documentation</a>',
+        ['@url' => 'https://help.salsify.com/help/getting-started-with-channels']
+      ),
+    ];
+
+    $fieldset[static::KEY_CHANNEL_ID] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Channel ID'),
+      '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.channel_id'),
+      '#description' => $this->t(
+        'Channel ID provided by Salsify. For details on channels in Salsify, see <a href="@url" target="_blank">Salsify\'s documentation</a>',
+        ['@url' => 'https://help.salsify.com/help/getting-started-with-channels']
+      ),
+    ];
+
+    $fieldset[static::KEY_API_KEY] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Salsify API key'),
+      '#description' => $this->t(
+        'The access token from the Salsify user account to use for this integration. For details on where to find the access token, see <a href="@url" target="_blank">Salsify\'s API documentation</a>',
+        ['@url' => 'https://help.salsify.com/help/getting-started-api-authorization']
+      ),
+      '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.api_key'),
+    ];
+
+    $fieldset['actions']['request'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Request new export'),
+      '#ajax' => ['callback' => [$this, 'onRequest']],
+    ];
+
+    $fieldset['actions']['status'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Check the export status'),
+      '#ajax' => ['callback' => [$this, 'onStatus']],
+    ];
+
+    $fieldset['actions']['migration'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Run migrations'),
+      '#ajax' => ['callback' => [$this, 'onMigration']],
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $approach_id = $form_state->getValue('approach');
+    $config = $this->config(self::CONFIG_NAME);
+    $config->set('approach', $approach_id);
+    $config->save();
+    switch ($approach_id) {
+      case self::SALSIFY_API_APPROACH:
+        self::submitApiApproachElement($form, $form_state);
+        break;
+
+      case self::SALSIFY_MULTICHANNEL_APPROACH:
+        $config->set(self::SALSIFY_MULTICHANNEL_APPROACH, $form_state->getValue(self::SALSIFY_MULTICHANNEL_APPROACH));
+        $config->save();
+        break;
+
+    }
+    parent::submitForm($form, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitApiApproachElement(array &$form, FormStateInterface $form_state) {
 
     // If the form was submitted via the "Sync" button, then run the import
     // process right away.
     $trigger = $form_state->getTriggeringElement();
-
     $update_method = $form_state->getValue('salsify_manual_import_method');
     $force_update = FALSE;
     if ($update_method == 'force') {
       $force_update = TRUE;
     }
-    $config = $this->config('salsify_integration.settings');
+    $config = $this->config(self::CONFIG_NAME);
 
     if ($trigger['#id'] == 'edit-salsify-start-import') {
       $this->salsifyStartImport($force_update);
@@ -548,8 +771,6 @@ class ConfigForm extends ConfigFormBase {
     // Flush the cache entries tagged with 'salsify_config' to force the API
     // to lookup the field configurations again for the field mapping form.
     Cache::invalidateTags(['salsify_config']);
-
-    parent::submitForm($form, $form_state);
   }
 
   /**
@@ -650,17 +871,6 @@ class ConfigForm extends ConfigFormBase {
       $this->messenger()->addError($message);
       $this->messenger()->addError($e->getMessage());
     }
-  }
-
-  /**
-   * Return the configuration names.
-   *
-   * @codeCoverageIgnore
-   */
-  protected function getEditableConfigNames() {
-    return [
-      'salsify_integration.settings',
-    ];
   }
 
   /**
@@ -775,36 +985,31 @@ class ConfigForm extends ConfigFormBase {
   public static function finished($success, $results, $operations) {
     \Drupal::logger(static::SALSIFY_LOGGER_CHANNEL)
       ->info(t(
-      'The Salsify data import is complete. @created @updated', [
-        '@created' => 'Created products: ' . implode(', ', $results['created_products'] ?? []) . '.',
-        '@updated' => 'Updated products: ' . implode(', ', $results['updated_products'] ?? []) . '.',
-      ]
+        'The Salsify data import is complete. @created @updated', [
+          '@created' => 'Created products: ' . implode(', ', $results['created_products'] ?? []) . '.',
+          '@updated' => 'Updated products: ' . implode(', ', $results['updated_products'] ?? []) . '.',
+        ]
       ));
 
     // Send import report.
     if ((isset($results['validation_errors']) && !empty($results['validation_errors'])) ||
       !empty($results['deleted_items'])) {
       $validation_errors = $results['validation_errors'] ?? [];
-      \Drupal::service('salsify_integration.email_report')
-        ->sendReport($validation_errors, $results['deleted_items']);
+      \Drupal::service('salsify_integration.email_report')->sendReport($validation_errors, $results['deleted_items']);
     }
 
     $message = t('The Salsify data import is complete.');
-    \Drupal::service('messenger')
-      ->addStatus($message);
+    \Drupal::service('messenger')->addStatus($message);
   }
 
   /**
    * Finished callback for batch.
    */
   public static function finishedQueueProcess($success, $results, $operations) {
-    \Drupal::logger(static::SALSIFY_LOGGER_CHANNEL)
-      ->info(t(
-      'The Salsify data import is complete.'));
+    \Drupal::logger(static::SALSIFY_LOGGER_CHANNEL)->info(t('The Salsify data import is complete.'));
 
     $message = t('The Salsify data import is complete.');
-    \Drupal::service('messenger')
-      ->addStatus($message);
+    \Drupal::service('messenger')->addStatus($message);
   }
 
   /**
@@ -827,6 +1032,70 @@ class ConfigForm extends ConfigFormBase {
     if (empty($context['sandbox']['items'])) {
       $context['sandbox']['items'] = $items;
     }
+  }
+
+  /**
+   * Check the Slasify run status.
+   */
+  public function onStatus() {
+    $response = new AjaxResponse();
+
+    try {
+      if ($run = $this->runsResource->read()) {
+        $response->addCommand(new MessageCommand(sprintf(static::MSG_RUNS_URL, $run->product_export_url)));
+        if (empty($run->product_export_url)) {
+          $response->addCommand(new MessageCommand('New URL is assigned, please reload the page.'));
+        }
+      }
+    }
+    catch (RequestException $exception) {
+      $response->addCommand(new MessageCommand($exception->getMessage(), NULL, ['type' => 'error']));
+      return $response;
+    }
+
+    return $response;
+  }
+
+  /**
+   * Request the new Salsify run.
+   */
+  public function onRequest() {
+    $response = new AjaxResponse();
+
+    try {
+      if ($run = $this->runsResource->create()) {
+        $response->addCommand(new MessageCommand(sprintf(static::MSG_RUNS_ID, $run->id)));
+        return $response;
+      }
+    }
+    catch (RequestException $exception) {
+      $response->addCommand(new MessageCommand($exception->getMessage(), NULL, ['type' => 'error']));
+      return $response;
+    }
+
+    return $response;
+  }
+
+  /**
+   * Run salsify migrations.
+   */
+  public function onMigration() {
+    $this->migrationRunner->runProductMigration();
+
+    $response = new AjaxResponse();
+    $response->addCommand(new MessageCommand($this->t('Migration finished.')));
+    return $response;
+  }
+
+  /**
+   * Return the configuration names.
+   *
+   * @codeCoverageIgnore
+   */
+  protected function getEditableConfigNames() {
+    return [
+      self::CONFIG_NAME,
+    ];
   }
 
 }

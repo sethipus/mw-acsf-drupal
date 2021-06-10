@@ -1,9 +1,0 @@
-name: 'Mars fixture import'
-type: module
-description: 'Fixture import for functional test run of the Mars platform.'
-package: 'Mars'
-core_version_requirement: '^8.8 || ^9'
-dependencies:
-  - migrate_plus
-  - migrate_source_csv
-  - migrate_tools

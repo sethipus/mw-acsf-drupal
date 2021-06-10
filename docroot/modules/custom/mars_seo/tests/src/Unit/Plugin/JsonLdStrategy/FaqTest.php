@@ -5,7 +5,7 @@ namespace Drupal\Tests\mars_seo\Unit\Plugin\JsonLdStrategy;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Layout\LayoutDefinition;
 use Drupal\Core\Routing\UrlGeneratorInterface;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_seo\Plugin\JsonLdStrategy\Faq;
 use Drupal\Tests\UnitTestCase;
 use Spatie\SchemaOrg\FAQPage;
@@ -58,7 +58,7 @@ class FaqTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_media\MediaHelper
    */
   private $mediaHelperMock;
 

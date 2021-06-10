@@ -4,6 +4,58 @@ status: true
 dependencies:
   config:
     - entity_browser.browser.lighthouse_browser
+    - field.field.node.product_variant.field_dual_added_sugars
+    - field.field.node.product_variant.field_dual_added_sugars_daily
+    - field.field.node.product_variant.field_dual_allergen_warnings
+    - field.field.node.product_variant.field_dual_calcium
+    - field.field.node.product_variant.field_dual_calcium_daily
+    - field.field.node.product_variant.field_dual_calories
+    - field.field.node.product_variant.field_dual_calories_daily
+    - field.field.node.product_variant.field_dual_calories_fat
+    - field.field.node.product_variant.field_dual_carb
+    - field.field.node.product_variant.field_dual_carb_daily
+    - field.field.node.product_variant.field_dual_cholesterol
+    - field.field.node.product_variant.field_dual_cholesterol_daily
+    - field.field.node.product_variant.field_dual_dietary_daily
+    - field.field.node.product_variant.field_dual_dietary_fiber
+    - field.field.node.product_variant.field_dual_fibre
+    - field.field.node.product_variant.field_dual_folate
+    - field.field.node.product_variant.field_dual_folate_daily
+    - field.field.node.product_variant.field_dual_ingredients
+    - field.field.node.product_variant.field_dual_iron
+    - field.field.node.product_variant.field_dual_iron_daily
+    - field.field.node.product_variant.field_dual_ltd_calories
+    - field.field.node.product_variant.field_dual_monounsaturated_fa
+    - field.field.node.product_variant.field_dual_niacin
+    - field.field.node.product_variant.field_dual_niacin_daily
+    - field.field.node.product_variant.field_dual_polyunsaturated_fa
+    - field.field.node.product_variant.field_dual_potassium
+    - field.field.node.product_variant.field_dual_potassium_daily
+    - field.field.node.product_variant.field_dual_protein
+    - field.field.node.product_variant.field_dual_protein_daily
+    - field.field.node.product_variant.field_dual_riboflavin
+    - field.field.node.product_variant.field_dual_riboflavin_daily
+    - field.field.node.product_variant.field_dual_saturated_daily
+    - field.field.node.product_variant.field_dual_saturated_fat
+    - field.field.node.product_variant.field_dual_sodium
+    - field.field.node.product_variant.field_dual_sodium_daily
+    - field.field.node.product_variant.field_dual_sugar_alcohol
+    - field.field.node.product_variant.field_dual_sugars
+    - field.field.node.product_variant.field_dual_sugars_daily
+    - field.field.node.product_variant.field_dual_thiamin
+    - field.field.node.product_variant.field_dual_thiamin_daily
+    - field.field.node.product_variant.field_dual_total_fat
+    - field.field.node.product_variant.field_dual_total_fat_daily
+    - field.field.node.product_variant.field_dual_total_sugars
+    - field.field.node.product_variant.field_dual_trans_fat
+    - field.field.node.product_variant.field_dual_trans_fat_daily
+    - field.field.node.product_variant.field_dual_vitamin_a
+    - field.field.node.product_variant.field_dual_vitamin_a_daily
+    - field.field.node.product_variant.field_dual_vitamin_c
+    - field.field.node.product_variant.field_dual_vitamin_c_daily
+    - field.field.node.product_variant.field_dual_vitamin_d
+    - field.field.node.product_variant.field_dual_vitamin_d_daily
+    - field.field.node.product_variant.field_nutritional_claims_benefit
     - field.field.node.product_variant.field_product_added_sugars
     - field.field.node.product_variant.field_product_added_sugars_daily
     - field.field.node.product_variant.field_product_allergen_statement
@@ -18,10 +70,15 @@ dependencies:
     - field.field.node.product_variant.field_product_card_imageoverride
     - field.field.node.product_variant.field_product_cholesterol
     - field.field.node.product_variant.field_product_cholesterol_daily
+    - field.field.node.product_variant.field_product_consumption_1
+    - field.field.node.product_variant.field_product_consumption_2
+    - field.field.node.product_variant.field_product_cooking_instruct
+    - field.field.node.product_variant.field_product_description
     - field.field.node.product_variant.field_product_diet_allergens
     - field.field.node.product_variant.field_product_dietary_daily
     - field.field.node.product_variant.field_product_dietary_fiber
     - field.field.node.product_variant.field_product_family_master
+    - field.field.node.product_variant.field_product_fibre
     - field.field.node.product_variant.field_product_folate
     - field.field.node.product_variant.field_product_folate_daily
     - field.field.node.product_variant.field_product_image_1
@@ -46,6 +103,7 @@ dependencies:
     - field.field.node.product_variant.field_product_potassium_daily
     - field.field.node.product_variant.field_product_protein
     - field.field.node.product_variant.field_product_protein_daily
+    - field.field.node.product_variant.field_product_reference_intake
     - field.field.node.product_variant.field_product_riboflavin
     - field.field.node.product_variant.field_product_riboflavin_daily
     - field.field.node.product_variant.field_product_saturated_daily
@@ -92,6 +150,10 @@ third_party_settings:
         - group_allergen_information
         - group_nutritional_information
         - group_vitamins
+        - group_dual_options
+        - group_dl_allergen_information
+        - group_dl_nutritional_information
+        - group_dl_vitamins
         - group_system
       parent_name: ''
       weight: 0
@@ -107,6 +169,8 @@ third_party_settings:
         - title
         - field_product_sku
         - field_product_size
+        - field_product_description
+        - field_product_cooking_instruct
       parent_name: group_product_variant
       weight: 31
       format_type: accordion_item
@@ -123,6 +187,7 @@ third_party_settings:
         - field_product_allergen_statement
         - field_product_diet_allergens
         - field_product_allergen_warnings
+        - field_product_reference_intake
         - field_product_ingredients
       parent_name: group_product_variant
       weight: 33
@@ -138,6 +203,7 @@ third_party_settings:
     group_nutritional_information:
       children:
         - field_product_serving_size
+        - field_nutritional_claims_benefit
         - field_product_servings_per
         - group_nutritional_subgroup_1
         - group_nutritional_subgroup_2
@@ -176,7 +242,7 @@ third_party_settings:
         - field_product_folate
         - field_product_folate_daily
       parent_name: group_product_variant
-      weight: 36
+      weight: 35
       format_type: accordion_item
       region: content
       format_settings:
@@ -221,7 +287,7 @@ third_party_settings:
         - moderation_state
         - status
       parent_name: group_product_variant
-      weight: 37
+      weight: 40
       format_type: accordion_item
       region: content
       format_settings:
@@ -238,7 +304,7 @@ third_party_settings:
         - field_product_calories_daily
         - field_product_calories_fat
       parent_name: group_nutritional_information
-      weight: 20
+      weight: 21
       format_type: details
       region: content
       format_settings:
@@ -250,16 +316,16 @@ third_party_settings:
       label: 'Nutritional Subgroup 1'
     group_nutritional_subgroup_2:
       children:
+        - field_product_saturated_daily
         - field_product_total_fat
         - field_product_total_fat_daily
         - field_product_saturated_fat
-        - field_product_saturated_daily
         - field_product_trans_fat
         - field_product_trans_fat_daily
         - field_product_polyunsaturated_fa
         - field_product_monounsaturated_fa
       parent_name: group_nutritional_information
-      weight: 21
+      weight: 22
       format_type: details
       region: content
       format_settings:
@@ -277,6 +343,7 @@ third_party_settings:
         - field_product_sodium_daily
         - field_product_carb
         - field_product_carb_daily
+        - field_product_fibre
         - field_product_dietary_fiber
         - field_product_dietary_daily
         - field_product_sugars
@@ -288,7 +355,7 @@ third_party_settings:
         - field_product_protein
         - field_product_protein_daily
       parent_name: group_nutritional_information
-      weight: 22
+      weight: 23
       format_type: details
       region: content
       format_settings:
@@ -298,6 +365,153 @@ third_party_settings:
         open: false
         required_fields: true
       label: 'Nutritional Subgroup 3'
+    group_dl_nutritional_information:
+      children:
+        - group_dl_nutritional_subgroup_1
+        - group_dl_nutritional_subgroup_2
+        - group_dl_nutritional_subgroup_3
+      parent_name: group_product_variant
+      weight: 38
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        required_fields: true
+        description: ''
+      label: 'Dual Nutritional Information'
+    group_dl_nutritional_subgroup_2:
+      children:
+        - field_dual_total_fat
+        - field_dual_total_fat_daily
+        - field_dual_saturated_fat
+        - field_dual_saturated_daily
+        - field_dual_trans_fat
+        - field_dual_trans_fat_daily
+        - field_dual_polyunsaturated_fa
+        - field_dual_monounsaturated_fa
+      parent_name: group_dl_nutritional_information
+      weight: 21
+      format_type: details
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        open: false
+        required_fields: true
+      label: 'Dual Nutritional Subgroup 2'
+    group_dl_nutritional_subgroup_1:
+      children:
+        - field_dual_calories
+        - field_dual_ltd_calories
+        - field_dual_calories_daily
+        - field_dual_calories_fat
+      parent_name: group_dl_nutritional_information
+      weight: 20
+      format_type: details
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        open: false
+        required_fields: true
+      label: 'Dual Nutritional Subgroup 1'
+    group_dl_nutritional_subgroup_3:
+      children:
+        - field_dual_cholesterol
+        - field_dual_cholesterol_daily
+        - field_dual_sodium
+        - field_dual_sodium_daily
+        - field_dual_carb
+        - field_dual_carb_daily
+        - field_dual_fibre
+        - field_dual_dietary_fiber
+        - field_dual_dietary_daily
+        - field_dual_sugars
+        - field_dual_sugars_daily
+        - field_dual_total_sugars
+        - field_dual_added_sugars
+        - field_dual_added_sugars_daily
+        - field_dual_sugar_alcohol
+        - field_dual_protein
+        - field_dual_protein_daily
+      parent_name: group_dl_nutritional_information
+      weight: 22
+      format_type: details
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        open: false
+        required_fields: true
+      label: 'Dual Nutritional Subgroup 3'
+    group_dl_vitamins:
+      children:
+        - field_dual_vitamin_a
+        - field_dual_vitamin_a_daily
+        - field_dual_vitamin_c
+        - field_dual_vitamin_c_daily
+        - field_dual_vitamin_d
+        - field_dual_vitamin_d_daily
+        - field_dual_calcium
+        - field_dual_calcium_daily
+        - field_dual_thiamin
+        - field_dual_thiamin_daily
+        - field_dual_niacin
+        - field_dual_niacin_daily
+        - field_dual_iron
+        - field_dual_iron_daily
+        - field_dual_potassium
+        - field_dual_potassium_daily
+        - field_dual_riboflavin
+        - field_dual_riboflavin_daily
+        - field_dual_folate
+        - field_dual_folate_daily
+      parent_name: group_product_variant
+      weight: 39
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        required_fields: true
+        description: ''
+      label: 'Dual Vitamins'
+    group_dl_allergen_information:
+      children:
+        - field_dual_allergen_warnings
+        - field_dual_ingredients
+      parent_name: group_product_variant
+      weight: 37
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        required_fields: true
+        description: ''
+      label: 'Dual Allergen Information'
+    group_dual_options:
+      children:
+        - field_product_consumption_1
+        - field_product_consumption_2
+      parent_name: group_product_variant
+      weight: 36
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        required_fields: true
+        description: ''
+      label: 'Dual options'
 _core:
   default_config_hash: Goy_ckv6s-XOsTJg_C5mJSOBwhwihp5_duzX1Td9DOA
 id: node.product_variant.default
@@ -307,12 +521,431 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 2
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_dual_added_sugars:
+    weight: 83
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_added_sugars_daily:
+    weight: 84
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_allergen_warnings:
+    weight: 102
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_dual_calcium:
+    weight: 103
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_calcium_daily:
+    weight: 104
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_calories:
+    weight: 61
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_calories_daily:
+    weight: 63
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_calories_fat:
+    weight: 64
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_carb:
+    weight: 75
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_carb_daily:
+    weight: 76
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_cholesterol:
+    weight: 71
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_cholesterol_daily:
+    weight: 72
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_dietary_daily:
+    weight: 79
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_dietary_fiber:
+    weight: 78
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_fibre:
+    weight: 77
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_folate:
+    weight: 115
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_folate_daily:
+    weight: 116
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_ingredients:
+    weight: 103
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_dual_iron:
+    weight: 109
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_iron_daily:
+    weight: 110
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_ltd_calories:
+    weight: 62
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_monounsaturated_fa:
+    weight: 99
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_niacin:
+    weight: 107
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_niacin_daily:
+    weight: 108
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_polyunsaturated_fa:
+    weight: 98
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_potassium:
+    weight: 111
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_potassium_daily:
+    weight: 112
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_protein:
+    weight: 86
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_protein_daily:
+    weight: 87
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_riboflavin:
+    weight: 113
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_riboflavin_daily:
+    weight: 114
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_saturated_daily:
+    weight: 95
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_saturated_fat:
+    weight: 94
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_sodium:
+    weight: 73
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_sodium_daily:
+    weight: 74
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_sugar_alcohol:
+    weight: 85
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_sugars:
+    weight: 80
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_sugars_daily:
+    weight: 81
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_thiamin:
+    weight: 105
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_thiamin_daily:
+    weight: 106
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_total_fat:
+    weight: 91
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_total_fat_daily:
+    weight: 92
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_total_sugars:
+    weight: 82
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_trans_fat:
+    weight: 96
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_trans_fat_daily:
+    weight: 97
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_vitamin_a:
+    weight: 96
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_vitamin_a_daily:
+    weight: 97
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_vitamin_c:
+    weight: 98
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_vitamin_c_daily:
+    weight: 99
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_vitamin_d:
+    weight: 101
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_vitamin_d_daily:
+    weight: 102
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    region: content
+    type: string_textfield
+  field_nutritional_claims_benefit:
+    weight: 20
+    settings:
+      size: 255
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: null
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
   field_product_added_sugars:
-    weight: 35
+    weight: 40
     settings:
       size: 60
       placeholder: ''
@@ -320,7 +953,7 @@ content:
     type: string_textfield
     region: content
   field_product_added_sugars_daily:
-    weight: 36
+    weight: 41
     settings:
       size: 60
       placeholder: ''
@@ -334,7 +967,7 @@ content:
     type: options_select
     region: content
   field_product_allergen_warnings:
-    weight: 13
+    weight: 14
     settings:
       rows: 5
       placeholder: ''
@@ -342,7 +975,7 @@ content:
     type: text_textarea
     region: content
   field_product_calcium:
-    weight: 51
+    weight: 52
     settings:
       size: 60
       placeholder: ''
@@ -350,7 +983,7 @@ content:
     type: string_textfield
     region: content
   field_product_calcium_daily:
-    weight: 52
+    weight: 53
     settings:
       size: 60
       placeholder: ''
@@ -366,14 +999,6 @@ content:
     type: string_textfield
     region: content
   field_product_calories_daily:
-    weight: 23
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_calories_fat:
     weight: 24
     settings:
       size: 60
@@ -381,8 +1006,16 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_product_calories_fat:
+    weight: 25
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_product_carb:
-    weight: 28
+    weight: 33
     settings:
       size: 60
       placeholder: ''
@@ -390,7 +1023,7 @@ content:
     type: string_textfield
     region: content
   field_product_carb_daily:
-    weight: 29
+    weight: 34
     settings:
       size: 60
       placeholder: ''
@@ -399,7 +1032,7 @@ content:
     region: content
   field_product_card_imageoverride:
     type: entity_browser_entity_reference
-    weight: 22
+    weight: 23
     settings:
       entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
@@ -413,7 +1046,7 @@ content:
     region: content
     third_party_settings: {  }
   field_product_cholesterol:
-    weight: 23
+    weight: 29
     settings:
       size: 60
       placeholder: ''
@@ -421,15 +1054,47 @@ content:
     type: string_textfield
     region: content
   field_product_cholesterol_daily:
-    weight: 24
+    weight: 30
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_product_consumption_1:
+    weight: 115
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_consumption_2:
+    weight: 116
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_cooking_instruct:
+    weight: 26
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_product_description:
+    weight: 25
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
   field_product_diet_allergens:
-    weight: 12
+    weight: 13
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -439,7 +1104,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_product_dietary_daily:
-    weight: 31
+    weight: 36
     settings:
       size: 60
       placeholder: ''
@@ -447,7 +1112,7 @@ content:
     type: string_textfield
     region: content
   field_product_dietary_fiber:
-    weight: 30
+    weight: 35
     settings:
       size: 60
       placeholder: ''
@@ -461,8 +1126,16 @@ content:
     third_party_settings: {  }
     type: boolean_checkbox
     region: content
+  field_product_fibre:
+    weight: 35
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_product_folate:
-    weight: 63
+    weight: 64
     settings:
       size: 60
       placeholder: ''
@@ -470,7 +1143,7 @@ content:
     type: string_textfield
     region: content
   field_product_folate_daily:
-    weight: 64
+    weight: 65
     settings:
       size: 60
       placeholder: ''
@@ -479,7 +1152,7 @@ content:
     region: content
   field_product_image_1:
     type: entity_browser_entity_reference
-    weight: 23
+    weight: 24
     settings:
       entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
@@ -494,7 +1167,7 @@ content:
     third_party_settings: {  }
   field_product_image_1_override:
     type: entity_browser_entity_reference
-    weight: 24
+    weight: 25
     settings:
       entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
@@ -509,7 +1182,7 @@ content:
     third_party_settings: {  }
   field_product_image_2:
     type: entity_browser_entity_reference
-    weight: 25
+    weight: 26
     settings:
       entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
@@ -524,7 +1197,7 @@ content:
     third_party_settings: {  }
   field_product_image_2_override:
     type: entity_browser_entity_reference
-    weight: 26
+    weight: 27
     settings:
       entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
@@ -539,7 +1212,7 @@ content:
     third_party_settings: {  }
   field_product_image_3:
     type: entity_browser_entity_reference
-    weight: 27
+    weight: 28
     settings:
       entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
@@ -554,7 +1227,7 @@ content:
     third_party_settings: {  }
   field_product_image_3_override:
     type: entity_browser_entity_reference
-    weight: 28
+    weight: 29
     settings:
       entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
@@ -569,7 +1242,7 @@ content:
     third_party_settings: {  }
   field_product_image_4:
     type: entity_browser_entity_reference
-    weight: 29
+    weight: 30
     settings:
       entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
@@ -584,7 +1257,7 @@ content:
     third_party_settings: {  }
   field_product_image_4_override:
     type: entity_browser_entity_reference
-    weight: 30
+    weight: 31
     settings:
       entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
@@ -598,7 +1271,7 @@ content:
     region: content
     third_party_settings: {  }
   field_product_ingredients:
-    weight: 14
+    weight: 15
     settings:
       rows: 5
       placeholder: ''
@@ -606,7 +1279,7 @@ content:
     type: text_textarea
     region: content
   field_product_iron:
-    weight: 57
+    weight: 58
     settings:
       size: 60
       placeholder: ''
@@ -614,7 +1287,7 @@ content:
     type: string_textfield
     region: content
   field_product_iron_daily:
-    weight: 58
+    weight: 59
     settings:
       size: 60
       placeholder: ''
@@ -638,7 +1311,7 @@ content:
     third_party_settings: {  }
   field_product_key_image_override:
     type: entity_browser_entity_reference
-    weight: 21
+    weight: 22
     settings:
       entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
@@ -663,7 +1336,7 @@ content:
     type: string_textfield
     region: content
   field_product_monounsaturated_fa:
-    weight: 27
+    weight: 32
     settings:
       size: 60
       placeholder: ''
@@ -671,14 +1344,6 @@ content:
     type: string_textfield
     region: content
   field_product_niacin:
-    weight: 55
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_niacin_daily:
     weight: 56
     settings:
       size: 60
@@ -686,8 +1351,16 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_product_niacin_daily:
+    weight: 57
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_product_polyunsaturated_fa:
-    weight: 26
+    weight: 31
     settings:
       size: 60
       placeholder: ''
@@ -695,14 +1368,6 @@ content:
     type: string_textfield
     region: content
   field_product_potassium:
-    weight: 59
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_potassium_daily:
     weight: 60
     settings:
       size: 60
@@ -710,23 +1375,7 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_product_protein:
-    weight: 38
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_protein_daily:
-    weight: 39
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_riboflavin:
+  field_product_potassium_daily:
     weight: 61
     settings:
       size: 60
@@ -734,7 +1383,31 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_product_riboflavin_daily:
+  field_product_protein:
+    weight: 43
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_protein_daily:
+    weight: 44
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_reference_intake:
+    weight: 14
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_riboflavin:
     weight: 62
     settings:
       size: 60
@@ -742,8 +1415,16 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_product_riboflavin_daily:
+    weight: 63
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_product_saturated_daily:
-    weight: 23
+    weight: 24
     settings:
       size: 60
       placeholder: ''
@@ -751,7 +1432,7 @@ content:
     type: string_textfield
     region: content
   field_product_saturated_fat:
-    weight: 22
+    weight: 27
     settings:
       size: 60
       placeholder: ''
@@ -767,86 +1448,6 @@ content:
     type: string_textfield
     region: content
   field_product_servings_per:
-    weight: 19
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_size:
-    weight: 13
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_sku:
-    weight: 12
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_sodium:
-    weight: 25
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_sodium_daily:
-    weight: 26
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_sugar_alcohol:
-    weight: 37
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_sugars:
-    weight: 32
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_sugars_daily:
-    weight: 33
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_thiamin:
-    weight: 53
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_thiamin_daily:
-    weight: 54
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_total_fat:
     weight: 20
     settings:
       size: 60
@@ -854,23 +1455,7 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_product_total_fat_daily:
-    weight: 21
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_total_sugars:
-    weight: 34
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_trans_fat:
+  field_product_size:
     weight: 24
     settings:
       size: 60
@@ -878,8 +1463,104 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_product_trans_fat_daily:
+  field_product_sku:
+    weight: 23
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_sodium:
+    weight: 31
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_sodium_daily:
+    weight: 32
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_sugar_alcohol:
+    weight: 42
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_sugars:
+    weight: 37
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_sugars_daily:
+    weight: 38
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_thiamin:
+    weight: 54
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_thiamin_daily:
+    weight: 55
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_total_fat:
     weight: 25
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_total_fat_daily:
+    weight: 26
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_total_sugars:
+    weight: 39
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_trans_fat:
+    weight: 29
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_trans_fat_daily:
+    weight: 30
     settings:
       size: 60
       placeholder: ''
@@ -903,14 +1584,6 @@ content:
     type: string_textfield
     region: content
   field_product_vitamin_c:
-    weight: 47
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_vitamin_c_daily:
     weight: 48
     settings:
       size: 60
@@ -918,7 +1591,7 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_product_vitamin_d:
+  field_product_vitamin_c_daily:
     weight: 49
     settings:
       size: 60
@@ -926,8 +1599,16 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_product_vitamin_d_daily:
+  field_product_vitamin_d:
     weight: 50
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_vitamin_d_daily:
+    weight: 51
     settings:
       size: 60
       placeholder: ''
@@ -943,13 +1624,13 @@ content:
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 8
+    weight: 12
     settings: {  }
     region: content
     third_party_settings: {  }
   path:
     type: path
-    weight: 5
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -957,7 +1638,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 3
+    weight: 8
     region: content
     third_party_settings: {  }
   published_at:
@@ -970,19 +1651,19 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 9
+    weight: 13
     region: content
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 4
+    weight: 9
     region: content
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 11
+    weight: 22
     region: content
     settings:
       size: 60
@@ -995,7 +1676,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 1
+    weight: 6
     settings:
       match_operator: CONTAINS
       size: 60
@@ -1004,7 +1685,7 @@ content:
     region: content
     third_party_settings: {  }
   url_redirects:
-    weight: 7
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }

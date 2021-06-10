@@ -1,0 +1,25 @@
+uuid: 6ac1ea76-fece-4a1a-b452-23e2123da409
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dual_ingredients
+    - node.type.product_variant
+  module:
+    - text
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_dual_ingredients
+field_name: field_dual_ingredients
+entity_type: node
+bundle: product_variant
+label: 'Dual Ingredients'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

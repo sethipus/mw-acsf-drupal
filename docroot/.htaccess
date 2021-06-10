@@ -139,7 +139,12 @@ AddEncoding gzip svgz
   RewriteCond %{HTTP_HOST} "^dev\." [NC,OR]
   RewriteCond %{HTTP_HOST} "^qa\." [NC,OR]
   RewriteCond %{HTTP_HOST} "^test\." [NC,OR]
-  RewriteCond %{HTTP_HOST} "^live\." [NC]
+  RewriteCond %{HTTP_HOST} "^live\." [NC,OR]
+  RewriteCond %{HTTP_HOST} "^dev-" [NC,OR]
+  RewriteCond %{HTTP_HOST} "^qa-" [NC,OR]
+  RewriteCond %{HTTP_HOST} "^test-" [NC,OR]
+  RewriteCond %{HTTP_HOST} "^rollback-" [NC,OR]
+  RewriteCond %{HTTP_HOST} "^live-" [NC]
   RewriteCond %{REQUEST_URI} /robots.txt [NC]
   RewriteCond %{QUERY_STRING} "!^test$" [NC]
   RewriteRule ^ no_robots.txt [L]
@@ -148,8 +153,7 @@ AddEncoding gzip svgz
   # Quick fix. Must be removed once redirect will be done externaly.
   RewriteCond %{HTTP_HOST} ^unclebens\.com$ [NC,OR]
   RewriteCond %{HTTP_HOST} ^www\.unclebens\.com$ [NC,OR]
-  RewriteCond %{HTTP_HOST} ^bensoriginal\.com$ [NC,OR]
-  RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.com$ [NC]
+  RewriteCond %{HTTP_HOST} ^bensoriginal\.com$ [NC]
   RewriteRule ^(.*)$ https://www.bensoriginal.com/$1 [R=301,L]
 
   # Adding redirect for unclebens.com to www.bensoriginal.co.uk

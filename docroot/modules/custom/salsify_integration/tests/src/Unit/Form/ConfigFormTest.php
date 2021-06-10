@@ -24,7 +24,9 @@ use Drupal\Core\Queue\QueueInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\salsify_integration\Form\ConfigForm;
+use Drupal\salsify_integration\MigrationRunner;
 use Drupal\salsify_integration\ProductHelper;
+use Drupal\salsify_integration\Run\RunResource;
 use Drupal\salsify_integration\SalsifyEmailReport;
 use Drupal\salsify_integration\SalsifyFields;
 use Drupal\salsify_integration\SalsifyProductRepository;
@@ -221,6 +223,20 @@ class ConfigFormTest extends UnitTestCase {
   private $queueMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\salsify_integration\Run\RunResource
+   */
+  private $runsResourceMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\salsify_integration\MigrationRunner
+   */
+  private $migrationRunnerMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -233,7 +249,9 @@ class ConfigFormTest extends UnitTestCase {
       $this->eventDispatcherMock,
       $this->moduleHandlerMock,
       $this->salsifyFieldsMock,
-      $this->queueFactoryMock
+      $this->queueFactoryMock,
+      $this->runsResourceMock,
+      $this->migrationRunnerMock
     );
   }
 
@@ -242,7 +260,7 @@ class ConfigFormTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(6))
+      ->expects($this->exactly(8))
       ->method('get')
       ->willReturnMap(
         [
@@ -275,6 +293,16 @@ class ConfigFormTest extends UnitTestCase {
             'queue',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->queueFactoryMock,
+          ],
+          [
+            'salsify_integration.salsify.runs',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->runsResourceMock,
+          ],
+          [
+            'salsify_integration.migrations.products',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->migrationRunnerMock,
           ],
         ]
       );
@@ -312,7 +340,7 @@ class ConfigFormTest extends UnitTestCase {
       );
 
     $this->configFactoryMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('getEditable')
       ->willReturn(
         $this->configMock
@@ -381,7 +409,8 @@ class ConfigFormTest extends UnitTestCase {
       $this->formStateMock
     );
     $this->assertIsArray($form);
-    $this->assertNotEmpty($form['salsify_operations']['salsify_start_import']);
+    $this->assertNotEmpty($form["general"]["salsify_api_approach"]["salsify_operations"]['salsify_start_import']);
+    $this->assertNotEmpty($form["general"]["salsify_multichannel_approach"]);
   }
 
   /**
@@ -411,7 +440,7 @@ class ConfigFormTest extends UnitTestCase {
     $form = [];
 
     $this->formStateMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('getTriggeringElement')
       ->willReturn([
         '#id' => 'edit-salsify-start-import',
@@ -423,7 +452,7 @@ class ConfigFormTest extends UnitTestCase {
       ->willReturn('force');
 
     $this->salsifyFieldsMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('importProductFields')
       ->willReturn([
         'products' => [
@@ -439,7 +468,7 @@ class ConfigFormTest extends UnitTestCase {
       ]);
 
     $this->salsifyFieldsMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('prepareTermData');
 
     $this->containerMock
@@ -455,14 +484,46 @@ class ConfigFormTest extends UnitTestCase {
         ]
       );
 
+    $this->configFactoryMock
+      ->expects($this->any())
+      ->method('getEditable')
+      ->willReturn(
+        $this->configMock
+      );
+
+    $this->configFactoryMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn(
+        $this->configMock
+      );
+
+    $this->configMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn('default_value');
+
+    $this->configMock
+      ->expects($this->any())
+      ->method('set')
+      ->willReturn($this->configMock);
+
+    $this->configMock
+      ->expects($this->any())
+      ->method('save');
+
     $this->salsifyFieldsMock
       ->expects($this->any())
       ->method('addChildLinks');
+
+    $this->form->setMessenger($this->messengerMock);
 
     $this->form->submitForm(
       $form,
       $this->formStateMock
     );
+
+    $this->assertIsArray($form);
   }
 
   /**
@@ -472,7 +533,7 @@ class ConfigFormTest extends UnitTestCase {
     $form = [];
 
     $this->formStateMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('getTriggeringElement')
       ->willReturn([
         '#id' => 'submit',
@@ -508,7 +569,7 @@ class ConfigFormTest extends UnitTestCase {
       ->willReturn($this->configMock);
 
     $this->configMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('delete');
 
     $this->configMock
@@ -540,13 +601,15 @@ class ConfigFormTest extends UnitTestCase {
       ->method('addStatus');
 
     $this->cacheTagsInvalidatorMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('invalidateTags');
 
     $this->form->submitForm(
       $form,
       $this->formStateMock
     );
+
+    $this->assertIsArray($form);
   }
 
   /**
@@ -807,6 +870,8 @@ class ConfigFormTest extends UnitTestCase {
     $this->salsifyEmailReportMock = $this->createMock(SalsifyEmailReport::class);
     $this->queueFactoryMock = $this->createMock(QueueFactory::class);
     $this->queueMock = $this->createMock(QueueInterface::class);
+    $this->migrationRunnerMock = $this->createMock(MigrationRunner::class);
+    $this->runsResourceMock = $this->createMock(RunResource::class);
 
     $this->queueFactoryMock
       ->expects($this->any())

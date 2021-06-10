@@ -1,0 +1,28 @@
+uuid: 120ad87d-9b2a-435b-a190-23be06f93576
+langcode: en
+status: true
+dependencies: {  }
+title: 'Salsify: Request for new data export'
+id: salsify_integration_request
+weight: 0
+module: salsify_integration
+callback: salsify_integration_cron_salsify_request
+scheduler:
+  id: crontab
+  configuration:
+    rules:
+      - '0 0 * * *'
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+      max_execution_time: 3600
+    launcher:
+      max_threads: 1
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000

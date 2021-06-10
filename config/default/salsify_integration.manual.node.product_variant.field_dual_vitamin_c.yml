@@ -1,0 +1,9 @@
+field_id: 'Dual Vitamin C'
+salsify_id: 'Dual Vitamin C'
+salsify_data_type: string
+entity_type: node
+bundle: product_variant
+field_name: field_dual_vitamin_c
+method: manual
+created: 1546300800
+changed: 1546300801

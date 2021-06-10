@@ -1,0 +1,9 @@
+field_id: 'Dual Calories from Fat'
+salsify_id: 'Dual Calories from Fat'
+salsify_data_type: string
+entity_type: node
+bundle: product_variant
+field_name: field_dual_calories_fat
+method: manual
+created: 1546300800
+changed: 1546300801

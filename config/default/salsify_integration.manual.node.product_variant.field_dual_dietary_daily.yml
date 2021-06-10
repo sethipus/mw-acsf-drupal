@@ -1,0 +1,9 @@
+field_id: 'Dual Dietary Fiber Pct Daily Value'
+salsify_id: 'Dual Dietary Fiber Pct Daily Value'
+salsify_data_type: string
+entity_type: node
+bundle: product_variant
+field_name: field_dual_dietary_daily
+method: manual
+created: 1546300800
+changed: 1546300801

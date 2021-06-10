@@ -221,7 +221,13 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
     $node = $this->getContextValue('node');
     $config = $this->getConfiguration();
     if (empty($node) || $node->bundle() != 'recipe') {
-      $node = $this->nodeStorage->load($config['recipe_id']);
+      $recipe_id = $config['recipe_id'];
+      if ($recipe_id) {
+        $node = $this->nodeStorage->load($recipe_id);
+      }
+      else {
+        return NULL;
+      }
     }
     $node = $this->languageHelper->getTranslation($node);
     return $node;
@@ -296,6 +302,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       '#type' => 'entity_autocomplete',
       '#target_type' => 'node',
       '#title' => $this->t('Recipe ID'),
+      '#required' => TRUE,
       '#default_value' => isset($config['recipe_id']) ? $this->nodeStorage->load($this->configuration['recipe_id']) : NULL,
       '#selection_settings' => [
         'target_bundles' => ['recipe'],

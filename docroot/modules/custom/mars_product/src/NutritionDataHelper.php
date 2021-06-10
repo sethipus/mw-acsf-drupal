@@ -52,13 +52,16 @@ class NutritionDataHelper {
   /**
    * Get nutrition data fields mapping.
    *
+   * @param string $field_prefix
+   *   Prefix for the field name. Dual or product.
+   *
    * @return array
    *   Mapping.
    */
-  public function getMapping() {
+  public function getMapping(string $field_prefix = 'product') {
     $config = $this->getNutritionConfig();
     if ($config->isNew()) {
-      $nutrtition_config = $this->classResolver
+      $nutrition_config = $this->classResolver
         ->getInstanceFromDefinition(NutritionConfigForm::class)
         ->getDefaultConfiguration();
     }
@@ -70,18 +73,34 @@ class NutritionDataHelper {
         PdpHeroBlock::NUTRITION_SUBGROUP_VITAMINS,
       ];
       foreach ($groups as $group) {
-        $nutrtition_config[$group] = $config->get($group);
+        $nutrition_config[$group] = $config->get($group);
       }
     }
 
     $mapping = [];
-    foreach ($nutrtition_config as $group => $fields) {
+    foreach ($nutrition_config as $group => $fields) {
       foreach ($fields as $field) {
+        $this->replaceFieldNamePrefix($field, $field_prefix);
         $mapping[$group][$field['field']] = $field;
       }
     }
 
     return $mapping;
+  }
+
+  /**
+   * Replace field name prefix in order to support ordering for dual fields.
+   *
+   * @param array $field
+   *   Field data array.
+   * @param string $field_prefix
+   *   Field prefix.
+   */
+  private function replaceFieldNamePrefix(array &$field, string $field_prefix) {
+    $field['field'] = str_replace('product', $field_prefix, $field['field']);
+    if (isset($field['daily_field']) && $field['daily_field'] != 'none') {
+      $field['daily_field'] = str_replace('product', $field_prefix, $field['daily_field']);
+    }
   }
 
   /**

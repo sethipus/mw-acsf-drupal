@@ -1,0 +1,21 @@
+uuid: ed1ac661-2e31-468d-9a9c-07b53e6acb37
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_dual_protein
+field_name: field_dual_protein
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
