@@ -163,17 +163,4 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
     return $result;
   }
 
-  /**
-   * Get ratings id.
-   *
-   * @param string $gtin
-   *   Product gtin.
-   *
-   * @return string|null
-   *   Return ratings id.
-   */
-  public static function getRatingsId(string $gtin = NULL) {
-    return $gtin;
-  }
-
 }
