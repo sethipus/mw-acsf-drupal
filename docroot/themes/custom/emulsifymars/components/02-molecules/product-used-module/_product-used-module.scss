@@ -1,70 +1,80 @@
 .product-used-items {
-  padding: 0 0 4rem 0;
-  overflow: visible;
-
-  .product-used-nav {
-    @include xl {
-      display: none;
-    }
-  }
-
-  .swiper-scrollbar {
-    bottom: 0;
-  }
 
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
   .product-used-swiper-container {
     width: 100%;
-    height: 590px;
     overflow: visible;
-
-    @include xl {
-      height: auto;
-
-      .swiper-slide-next {
-        margin-top: 10px;
-      }
-    }
-
   }
 
-  // increasing specificity to avoid using !important
-  .product-used-swiper-container.swiper-container-horizontal>.swiper-scrollbar {
-    height: 16px;
-    transform: scale(.5);
-
-    & .swiper-scrollbar-drag {
-      background: clr(primary);
+  .swiper-wrapper {
+    @include xl { // to avoid layout jump for desktop view
+      flex-direction: column;
     }
   }
 
   .swiper-slide {
     @include card-width;
+
+    .product-card {
+      box-sizing: border-box;
+      height: 5.2rem;
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+
+      @include medium {
+        margin-bottom: 4rem;
+      }
+
+      @include xl {
+        margin-bottom: 0;
+      }
+    }
   }
 
-  .swiper-button-prev, .swiper-button-next {
-    background-color: clr(text-inverse);
-    border-radius: 50%;
-    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
-    width: 7rem;
-    height: 7rem;
+  // increasing specificity to avoid using !important
+  .swiper-scrollbar {
+    background-color: rgba(clr(secondary-rgb),0.4);
+    height: 0.5rem;
+    width: 16.1rem;
+    margin: 0 auto 3rem;
 
-    @include large {
+    @include medium {
+      height: 0.5rem;
+      width: 25.7rem;
+      margin-bottom: 4rem;
+    }
+
+    @include xl {
       display: none;
     }
 
-    @media (max-width: 768px) {
+    & .swiper-scrollbar-drag {
+      background: clr(secondary);
+    }
+  }
+
+  .swiper-button-prev, .swiper-button-next  {
+    background-color: clr(text-inverse);
+    border-radius: 50%;
+    border: 0;
+    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+    margin-top: -(5.5rem - 3rem + 3rem)/2; // -(buttonHeight - cardMarginTop + cardMarginbottom)/2
+    width: 5.5rem;
+    height: 5.5rem;
+
+    @include medium {
+      margin-top: -(6rem - 3rem + 4rem)/2;
       width: 6rem;
       height: 6rem;
     }
 
-    @media (max-width: 375px) {
-      width: 5.5rem;
-      height: 5.5rem;
+    @include xl {
+      display: none;
     }
 
     &.swiper-button-disabled {
       opacity: 0;
+      visibility: hidden;
     }
 
     &::after {
