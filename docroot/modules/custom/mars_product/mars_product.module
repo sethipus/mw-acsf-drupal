@@ -387,7 +387,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           'id' => 'cci-widget',
           'data-token' => !empty($commerce_vendor_settings['data_token']) ? $commerce_vendor_settings['data_token'] : NULL,
           'data-locale' => !empty($commerce_vendor_settings['data_locale']) ? $commerce_vendor_settings['data_locale'] : NULL,
-          'data-displaylanguage' => $locale,
+          'data-displaylanguage' => !empty($commerce_vendor_settings['data_displaylanguage']) ? $commerce_vendor_settings['data_displaylanguage'] : $locale,
           'data-widgetid' => !empty($commerce_vendor_settings['widget_id']) ? $commerce_vendor_settings['widget_id'] : NULL,
           'data-subid' => !empty($commerce_vendor_settings['data_subid']) ? $commerce_vendor_settings['data_subid'] : NULL,
         ];
