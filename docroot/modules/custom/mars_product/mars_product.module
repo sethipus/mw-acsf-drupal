@@ -417,5 +417,18 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
         'id' => 'ps-widget',
       ];
     }
+    if (strpos($key, '[smart_commerce_url]') !== FALSE) {
+      $smart_commerce_url = 'https://click2cart.co/assets/js/smartcart_min.js';
+      if ($current_uri == '/') {
+        $javascript[$key]['data'] = '\/';
+      }
+      else {
+        $javascript[$key]['data'] = $smart_commerce_url;
+      }
+      $javascript[$key]['attributes'] = [
+        'data-src' => $smart_commerce_url,
+        'id' => 'smart-commerce-widget',
+      ];
+    }
   }
 }
