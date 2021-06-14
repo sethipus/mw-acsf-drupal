@@ -115,9 +115,9 @@ function mars_product_page_attachments(&$page) {
           ],
         ],
         'smart_commerce_brand_css' => [
-          'id' => 'smart-commerce-brand-css',
           '#tag' => 'style',
           '#attributes' => [
+            'id' => 'smart-commerce-brand-css',
             'src' => (!empty($commerce_vendor_settings['brand_css']) && $current_uri !== '/') ? $commerce_vendor_settings['brand_css'] : '\/',
             'data-src' => !empty($commerce_vendor_settings['brand_css']) ? $commerce_vendor_settings['brand_css'] : '',
           ],
@@ -407,6 +407,12 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           // Updating library JS path.
           $javascript[$key]['data'] = $staging_url;
         }
+
+        $javascript[$key]['attributes'] = [
+          'data-src' => $javascript[$key]['data'],
+          'id' => 'bazaar-voice-scripts',
+        ];
+        $javascript[$key]['data'] = $current_uri == '/' ? '\/' : $javascript[$key]['data'];
       }
     }
     if (strpos($key, '[price_spider_url]') !== FALSE) {
