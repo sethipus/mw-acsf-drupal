@@ -15,7 +15,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\mars_product\Form\BazaarvoiceConfigForm;
-use Drupal\mars_product\Plugin\Block\RatingBazarvoiceBlock;
 
 /**
  * Implements hook_theme().
@@ -196,14 +195,7 @@ function product_card_add_wtb_vars(array &$variables) {
  */
 function product_card_add_bazaarvoice_vars(array &$variables) {
   $show_rating_and_reviews = NULL;
-  $ratings_id = NULL;
   $product = $variables['node'];
-
-  foreach ($product->field_product_variants as $reference) {
-    $product_variant = $reference->entity;
-    $gtin = $product_variant->get('field_product_sku')->value;
-    $ratings_id = RatingBazarvoiceBlock::getRatingsId($gtin);
-  }
 
   if ($product->hasField('field_rating_and_reviews') &&
     $product->hasField('field_override_global_rating') &&
@@ -220,7 +212,6 @@ function product_card_add_bazaarvoice_vars(array &$variables) {
     $variables['#attached']['library'][] = 'mars_product/mars_product.bazaarvoice';
   }
   $variables['show_rating_and_reviews'] = $show_rating_and_reviews;
-  $variables['ratings_id'] = $ratings_id;
 }
 
 /**
