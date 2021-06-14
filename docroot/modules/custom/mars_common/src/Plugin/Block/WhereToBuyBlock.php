@@ -183,6 +183,12 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
         ];
       }
 
+      $form['data_displaylanguage'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Commerce connector data display language'),
+        '#default_value' => $this->configuration['data_displaylanguage'],
+        '#description' => $this->t('Please use this field to specify widget display language once it is different from the site common language. Field value format sample for German sites: <b>de</b>'),
+      ];
     }
     elseif ($selected_vendor === PdpHeroBlock::VENDOR_PRICE_SPIDER) {
       $form['product_sku'] = [
@@ -219,6 +225,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       'data_token' => $config['data_token'] ?? '',
       'data_subid' => $config['data_subid'] ?? '',
       'data_locale' => $config['data_locale'] ?? '',
+      'data_displaylanguage' => $config['data_displaylanguage'] ?? '',
       'product_sku' => $config['product_sku'] ?? '',
     ];
   }
@@ -240,18 +247,19 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
         $build['#data_locale'] = $this->configuration['data_locale'];
 
         $locale = $this->languageManager->getCurrentLanguage()->getId();
-        $build['#data_displaylanguage'] = $locale;
+        $build['#data_displaylanguage'] = !empty($this->configuration['data_displaylanguage']) ? $this->configuration['data_displaylanguage'] : $locale;
 
         $build['#attached']['drupalSettings']['wtb_block'] = [
           'widget_id' => $this->configuration['widget_id'],
           'data_subid' => $this->configuration['data_subid'],
           'data_token' => $this->configuration['data_token'],
           'data_locale' => $this->configuration['data_locale'],
-          'data_displaylanguage' => $locale,
+          'data_displaylanguage' => !empty($this->configuration['data_displaylanguage']) ? $this->configuration['data_displaylanguage'] : $locale,
         ];
 
         /** @var \Drupal\node\Entity\Node[] $products */
         $products = $this->sortProductsByWeight($this->getProductsList());
+
         $products_for_render = [];
         foreach ($products as $product) {
           $variants_info = $this->addProductVariantsInfo($product);
@@ -351,11 +359,17 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       ->loadByProperties([
         'type' => ['product_multipack'],
       ]);
-    $products += $this->entityTypeManager->getStorage('node')
-      ->loadByProperties([
-        'type' => ['product'],
-        'field_product_generated' => FALSE,
-      ]);
+
+    // Get product ids which are not included to multipacks.
+    $products_query = $this->entityTypeManager->getStorage('node')->getQuery()
+      ->condition('type', 'product', '=');
+    $or_condition_group = $products_query->orConditionGroup();
+    $or_condition_group
+      ->notExists('field_product_generated')
+      ->condition('field_product_generated', 0, '=');
+    $products_ids = $products_query->condition($or_condition_group)->execute();
+    // Load found products by their ids.
+    $products += $this->entityTypeManager->getStorage('node')->loadMultiple($products_ids);
     return $products;
   }
 
