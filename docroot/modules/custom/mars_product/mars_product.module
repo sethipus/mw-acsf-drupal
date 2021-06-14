@@ -67,6 +67,7 @@ function mars_product_page_attachments(&$page) {
     $commerce_vendor_settings = !$commerce_vendor_settings->isNew() ? $commerce_vendor_settings->getRawData()['settings'] : [];
   }
   $metatags = [];
+  $current_uri = \Drupal::request()->getRequestUri();
   switch ($vendor) {
 
     case PdpHeroBlock::VENDOR_PRICE_SPIDER:
@@ -106,14 +107,18 @@ function mars_product_page_attachments(&$page) {
         'smart_commerce_brand_js' => [
           '#tag' => 'script',
           '#attributes' => [
+            'id' => 'smart-commerce-brand-js',
             'type' => 'text/javascript',
-            'src' => !empty($commerce_vendor_settings['brand_js']) ? $commerce_vendor_settings['brand_js'] : '',
+            'src' => (!empty($commerce_vendor_settings['brand_js']) && $current_uri !== '/') ? $commerce_vendor_settings['brand_js'] : '\/',
+            'data-src' => !empty($commerce_vendor_settings['brand_js']) ? $commerce_vendor_settings['brand_js'] : '',
           ],
         ],
         'smart_commerce_brand_css' => [
+          'id' => 'smart-commerce-brand-css',
           '#tag' => 'style',
           '#attributes' => [
-            'src' => !empty($commerce_vendor_settings['brand_css']) ? $commerce_vendor_settings['brand_css'] : '',
+            'src' => (!empty($commerce_vendor_settings['brand_css']) && $current_uri !== '/') ? $commerce_vendor_settings['brand_css'] : '\/',
+            'data-src' => !empty($commerce_vendor_settings['brand_css']) ? $commerce_vendor_settings['brand_css'] : '',
           ],
         ],
       ];
@@ -406,6 +411,19 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
       $javascript[$key]['attributes'] = [
         'data-src' => $price_spider_url,
         'id' => 'ps-widget',
+      ];
+    }
+    if (strpos($key, '[smart_commerce_url]') !== FALSE) {
+      $smart_commerce_url = 'https://click2cart.co/assets/js/smartcart_min.js';
+      if ($current_uri == '/') {
+        $javascript[$key]['data'] = '\/';
+      }
+      else {
+        $javascript[$key]['data'] = $smart_commerce_url;
+      }
+      $javascript[$key]['attributes'] = [
+        'data-src' => $smart_commerce_url,
+        'id' => 'smart-commerce-widget',
       ];
     }
   }
