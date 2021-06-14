@@ -40,42 +40,6 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
   protected $config;
 
   /**
-   * Bazaarvoice mapping old skus with new.
-   */
-  const BAZAARVOICE_SKU_MAPPING = [
-    'new_sku' => 'old_sku',
-    "10054800423306" => "054800030767",
-    "10054800423313" => "054800030774",
-    "10054800423320" => "054800030804",
-    "10054800423337" => "054800031764",
-    "10054800423344" => "054800031771",
-    "10054800423351" => "054800032341",
-    "10054800423368" => "054800085453",
-    "10054800423375" => "054800085477",
-    "10054800423382" => "054800344451",
-    "10054800423399" => "054800344468",
-    "10054800423412" => "054800233359",
-    "10054800423436" => "054800420803",
-    "10054800423429" => "054800420056",
-    "10054800423443" => "054800421848",
-    "10054800423405" => "054800207626",
-    "10054800423504" => "054800421992",
-    "10054800423511" => "054800421480",
-    "10054800423474" => "054800344475",
-    "10054800423481" => "054800420063",
-    "10054800423450" => "054800032358",
-    "10054800423542" => "054800010028",
-    "10054800423580" => "054800040230",
-    "10054800423627" => "054800339051",
-    "10054800423610" => "054800120017",
-    "10054800423603" => "054800120079",
-    "10054800423641" => "054800020010",
-    "10054800423658" => "054800020119",
-    "10054800423498" => "054800420797",
-    "10054800423467" => "054800085460",
-  ];
-
-  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -160,7 +124,7 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
 
         $size_id = $product_variant->id();
         $build['#items'][] = [
-          'ratings_id' => static::getRatingsId($gtin),
+          'gtin' => trim($gtin),
           'show_rating_and_reviews' => $this->isRatingEnable($node),
           'size_id' => $size_id,
         ];
@@ -197,25 +161,6 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
     }
 
     return $result;
-  }
-
-  /**
-   * Get ratings id.
-   *
-   * @param string $gtin
-   *   Product gtin.
-   *
-   * @return string|null
-   *   Return ratings id.
-   */
-  public static function getRatingsId(string $gtin = NULL) {
-    if (array_key_exists($gtin, static::BAZAARVOICE_SKU_MAPPING)) {
-      $ratings_id = static::BAZAARVOICE_SKU_MAPPING[$gtin];
-    }
-    else {
-      $ratings_id = $gtin;
-    }
-    return $ratings_id;
   }
 
 }

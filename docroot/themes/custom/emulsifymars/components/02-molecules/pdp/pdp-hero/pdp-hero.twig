@@ -108,9 +108,9 @@
       </div>
       {% if show_rating_and_reviews == true %}
         {% if pdp_is_main_variant %}
-          <div data-bv-show="rating_summary" data-bv-product-id="{{ ratings_id }}"></div>
+          <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
         {% else %}
-          <div data-bv-show="rating_summary" data-bv-product-id="{{ ratings_id }}" data-bv-seo="false"></div>
+          <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}" data-bv-seo="false"></div>
         {% endif %}
       {% endif %}
       <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
