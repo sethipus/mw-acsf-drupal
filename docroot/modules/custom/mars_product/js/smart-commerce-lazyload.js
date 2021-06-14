@@ -8,5 +8,9 @@ $('.inline-search__link').click(() => {
             $.getScript($('#smart-commerce-brand-js').attr('data-src'));
             $.getScript($('#smart-commerce-brand-css').attr('data-src'));            
         });
+        /**
+         * Load BazarVoice
+         */
+        $.getScript($('#bazaar-voice-scripts').attr('data-src'));
     }
 });
