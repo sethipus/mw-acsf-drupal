@@ -5,11 +5,12 @@ package: 'Mars'
 core: 8.x
 core_version_requirement: ^8 || ^9
 dependencies:
-  - options
-  - entity_reference
-  - field_group
-  - content_moderation
-  - entity_browser
-  - lightning_workflow
-  - lightning_media
-  - taxonomy
+  - drupal:options
+  - drupal:entity_reference
+  - field_group:field_group
+  - drupal:content_moderation
+  - entity_browser:entity_browser
+  - lightning_workflow:lightning_workflow
+  - lightning_media:lightning_media
+  - drupal:taxonomy
+  - mars_entry_gate:mars_entry_gate

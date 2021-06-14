@@ -83,20 +83,20 @@
       transition: transform cubic-bezier(0.75, 0, 0.25, 0) 0.8s, opacity .25s ease-in;
     }
 
-    &.is-in-viewport {
-      .product-card__image img {
-        transform: scale(1.1);
-      }
-
-      .product-card__img-hover img {
-        transform: translate(-50%, 0) scale(1.1);
-      }
-    }
-
     &[inert] {
       [tabindex='0'] {
         visibility: hidden !important; // fix for pricespider which add tabidex=0 asynchronously
       }
+    }
+  }
+
+  :not(.swiper-button-lock) ~ .swiper-container .swiper-slide.is-in-viewport { // skip img zoom if all items on the screen (no prev/next buttons)
+    .product-card__image img {
+      transform: scale(1.1);
+    }
+
+    .product-card__img-hover img {
+      transform: translate(-50%, 0) scale(1.1);
     }
   }
 

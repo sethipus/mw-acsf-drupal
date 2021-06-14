@@ -2,7 +2,7 @@ name: 'Mars OneTrust integration'
 description: 'Defines an integration between OneTrust and Drupal.'
 package: 'Mars'
 core_version_requirement: '^8.8 || ^9'
-
 type: module
-
 configure: mars_onetrust.form
+dependencies:
+  - mars_entry_gate:mars_entry_gate

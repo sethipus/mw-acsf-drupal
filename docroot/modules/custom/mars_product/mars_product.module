@@ -15,7 +15,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\mars_product\Form\BazaarvoiceConfigForm;
-use Drupal\mars_product\Plugin\Block\RatingBazarvoiceBlock;
 
 /**
  * Implements hook_theme().
@@ -68,6 +67,7 @@ function mars_product_page_attachments(&$page) {
     $commerce_vendor_settings = !$commerce_vendor_settings->isNew() ? $commerce_vendor_settings->getRawData()['settings'] : [];
   }
   $metatags = [];
+  $current_uri = \Drupal::request()->getRequestUri();
   switch ($vendor) {
 
     case PdpHeroBlock::VENDOR_PRICE_SPIDER:
@@ -107,14 +107,18 @@ function mars_product_page_attachments(&$page) {
         'smart_commerce_brand_js' => [
           '#tag' => 'script',
           '#attributes' => [
+            'id' => 'smart-commerce-brand-js',
             'type' => 'text/javascript',
-            'src' => !empty($commerce_vendor_settings['brand_js']) ? $commerce_vendor_settings['brand_js'] : '',
+            'src' => (!empty($commerce_vendor_settings['brand_js']) && $current_uri !== '/') ? $commerce_vendor_settings['brand_js'] : '\/',
+            'data-src' => !empty($commerce_vendor_settings['brand_js']) ? $commerce_vendor_settings['brand_js'] : '',
           ],
         ],
         'smart_commerce_brand_css' => [
+          'id' => 'smart-commerce-brand-css',
           '#tag' => 'style',
           '#attributes' => [
-            'src' => !empty($commerce_vendor_settings['brand_css']) ? $commerce_vendor_settings['brand_css'] : '',
+            'src' => (!empty($commerce_vendor_settings['brand_css']) && $current_uri !== '/') ? $commerce_vendor_settings['brand_css'] : '\/',
+            'data-src' => !empty($commerce_vendor_settings['brand_css']) ? $commerce_vendor_settings['brand_css'] : '',
           ],
         ],
       ];
@@ -191,14 +195,7 @@ function product_card_add_wtb_vars(array &$variables) {
  */
 function product_card_add_bazaarvoice_vars(array &$variables) {
   $show_rating_and_reviews = NULL;
-  $ratings_id = NULL;
   $product = $variables['node'];
-
-  foreach ($product->field_product_variants as $reference) {
-    $product_variant = $reference->entity;
-    $gtin = $product_variant->get('field_product_sku')->value;
-    $ratings_id = RatingBazarvoiceBlock::getRatingsId($gtin);
-  }
 
   if ($product->hasField('field_rating_and_reviews') &&
     $product->hasField('field_override_global_rating') &&
@@ -215,7 +212,6 @@ function product_card_add_bazaarvoice_vars(array &$variables) {
     $variables['#attached']['library'][] = 'mars_product/mars_product.bazaarvoice';
   }
   $variables['show_rating_and_reviews'] = $show_rating_and_reviews;
-  $variables['ratings_id'] = $ratings_id;
 }
 
 /**
@@ -353,7 +349,6 @@ function product_card_change_color(&$variables) {
  * Implements hook_js_alter().
  */
 function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
-
   $current_uri = \Drupal::request()->getRequestUri();
   $entry_gate_config = \Drupal::config('mars_entry_gate.settings');
   $entry_gate_enabled = $entry_gate_config->get('enabled');
@@ -383,7 +378,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           'id' => 'cci-widget',
           'data-token' => !empty($commerce_vendor_settings['data_token']) ? $commerce_vendor_settings['data_token'] : NULL,
           'data-locale' => !empty($commerce_vendor_settings['data_locale']) ? $commerce_vendor_settings['data_locale'] : NULL,
-          'data-displaylanguage' => $locale,
+          'data-displaylanguage' => !empty($commerce_vendor_settings['data_displaylanguage']) ? $commerce_vendor_settings['data_displaylanguage'] : $locale,
           'data-widgetid' => !empty($commerce_vendor_settings['widget_id']) ? $commerce_vendor_settings['widget_id'] : NULL,
           'data-subid' => !empty($commerce_vendor_settings['data_subid']) ? $commerce_vendor_settings['data_subid'] : NULL,
         ];
@@ -416,6 +411,19 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
       $javascript[$key]['attributes'] = [
         'data-src' => $price_spider_url,
         'id' => 'ps-widget',
+      ];
+    }
+    if (strpos($key, '[smart_commerce_url]') !== FALSE) {
+      $smart_commerce_url = 'https://click2cart.co/assets/js/smartcart_min.js';
+      if ($current_uri == '/') {
+        $javascript[$key]['data'] = '\/';
+      }
+      else {
+        $javascript[$key]['data'] = $smart_commerce_url;
+      }
+      $javascript[$key]['attributes'] = [
+        'data-src' => $smart_commerce_url,
+        'id' => 'smart-commerce-widget',
       ];
     }
   }
