@@ -208,11 +208,16 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
           ->loadByProperties([
             'type' => ['product_multipack'],
           ]);
-        $products += $this->entityTypeManager->getStorage('node')
-          ->loadByProperties([
-            'type' => ['product'],
-            'field_product_generated' => FALSE,
-          ]);
+        // Get product ids which are not included to multipacks.
+        $products_query = $this->entityTypeManager->getStorage('node')->getQuery()
+          ->condition('type', 'product', '=');
+        $or_condition_group = $products_query->orConditionGroup();
+        $or_condition_group
+          ->notExists('field_product_generated')
+          ->condition('field_product_generated', 0, '=');
+        $products_ids = $products_query->condition($or_condition_group)->execute();
+        // Load found products by their ids.
+        $products += $this->entityTypeManager->getStorage('node')->loadMultiple($products_ids);
         $products_for_render = [];
         foreach ($products as $product) {
           $variants_info = $this->addProductVariantsInfo($product);
