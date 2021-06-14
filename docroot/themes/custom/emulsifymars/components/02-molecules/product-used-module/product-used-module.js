@@ -9,17 +9,16 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
           return;
         }
 
+        const $productUsedContainer = $(this);
         // init swiper
         Swiper.use([Navigation, Pagination, Scrollbar]);
 
         $('.product-used-swiper-container', this).each(function(){
-          const $swiperContainer = $(this);
-
-          const $nextEl = $swiperContainer.find(".swiper-button-next").first();
+          const $nextEl = $productUsedContainer.find(".swiper-button-next").first();
           const nextEl = (typeof $nextEl[0]) !== "undefined" ? $nextEl[0] : null;
-          const $prevEl = $swiperContainer.find(".swiper-button-prev").first();
+          const $prevEl = $productUsedContainer.find(".swiper-button-prev").first();
           const prevEl = (typeof $prevEl[0]) !== "undefined" ? $prevEl[0] : null;
-          const $scrollbar = $swiperContainer.find(".swiper-scrollbar").first();
+          const $scrollbar = $productUsedContainer.find(".swiper-scrollbar").first();
           const scrollbar = (typeof $scrollbar[0]) !== "undefined" ? $scrollbar[0] : null;
 
           const swiper = new Swiper(this, {
@@ -34,7 +33,8 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
             },
             breakpoints: {
               1440: {
-                direction: 'vertical'
+                direction: 'vertical',
+                spaceBetween: 0
               }
             }
           });
