@@ -784,7 +784,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       }
 
       $item = [
-        'ratings_id' => RatingBazarvoiceBlock::getRatingsId($gtin),
         'gtin' => $gtin,
         'size_id' => $size_id,
         'active' => $state,
@@ -870,7 +869,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $state = $i == 1 ? 'true' : 'false';
       $gtin = $product_variant->get('field_product_sku')->value;
       $items[] = [
-        'ratings_id' => RatingBazarvoiceBlock::getRatingsId($gtin),
         'gtin' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $gtin,
         'size_id' => $size_id,
         'active' => $state,
