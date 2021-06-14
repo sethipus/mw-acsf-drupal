@@ -184,6 +184,12 @@ class WtbConfigForm extends ConfigFormBase {
           ],
         ];
 
+        $fieldset['data_displaylanguage'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Commerce connector data display language'),
+          '#description' => $this->t('Please use this field to specify widget display language once it is different from the site common language. Field value format sample for German sites: <b>de</b>'),
+          '#default_value' => !empty($config['settings']['data_displaylanguage']) ? $config['settings']['data_displaylanguage'] : '',
+        ];
         break;
 
       case PdpHeroBlock::VENDOR_SMART_COMMERCE:
