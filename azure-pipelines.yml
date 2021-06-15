@@ -27,6 +27,7 @@ variables:
   COMPOSER_CACHE_DIR: $(Pipeline.Workspace)/.composer
   deployment_user: 'digie'
   stack_id: 1
+  qa_env_branch: $(qa_env_branch)
 
 steps:
   - task: InstallSSHKey@0
@@ -159,7 +160,7 @@ steps:
       filePath: './scripts/deploy_tag.sh'
   - task: Bash@3
     displayName: 'Deploy Release Branch For QA Environment'
-    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], $(QA_ENV_BRANCH)))
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], variables['qa_env_branch']))
     inputs:
       targetType: 'inline'
       script: |
