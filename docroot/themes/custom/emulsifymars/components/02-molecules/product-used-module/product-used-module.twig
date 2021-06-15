@@ -29,6 +29,8 @@
         } %}
       </div>
     {% endif %}
-    <div class="swiper-scrollbar product-used-nav"></div>
   </div>
+  {% if product_used_items|length > 1 %}
+    <div class="swiper-scrollbar product-used-nav" aria-hidden="true"></div>
+  {% endif %}
 </section>
