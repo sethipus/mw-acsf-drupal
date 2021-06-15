@@ -27,7 +27,6 @@ variables:
   COMPOSER_CACHE_DIR: $(Pipeline.Workspace)/.composer
   deployment_user: 'digie'
   stack_id: 1
-  qa_env_branch: $(qa_env_branch)
 
 steps:
   - task: InstallSSHKey@0
