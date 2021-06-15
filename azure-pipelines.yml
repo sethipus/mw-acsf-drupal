@@ -130,7 +130,7 @@ steps:
   #    summaryFileLocation: 'reports/phpunit/coverage.xml'
   - task: Bash@3
     displayName: 'Deploy Branch and Trigger Application Deployment on ACSF'
-    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'dev'))
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], variables['dev_env_branch']))
     inputs:
       targetType: 'inline'
       script: |
