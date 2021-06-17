@@ -180,7 +180,7 @@
 
           $(`#${a11yDateFakeLinkId}`).remove();
 
-          $('#skip-link').focus();
+          $('#skip-link a').eq(0).focus();
 
           if (typeof dataLayer !== 'undefined') {
             dataLayer.push({

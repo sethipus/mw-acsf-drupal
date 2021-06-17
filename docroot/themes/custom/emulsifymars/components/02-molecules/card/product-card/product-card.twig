@@ -27,6 +27,8 @@
          data-datalayer-taxonomy="{{ datalayer_taxonomy }}"
          data-card-type="product-card">
 
+  <div {{ bem('hover-helper', [], card__base_class) }}></div>
+  <div {{ bem('inner', [], card__base_class) }}>
     {% if is_new %}
       {% include "@atoms/badge/badge.twig" %}
     {% endif %}
@@ -87,7 +89,7 @@
 
     {% if show_rating_and_reviews == true %}
       <div {{ bem('rating', [], card__base_class) }}>
-        <div class="inline-rating" data-bv-show="inline_rating" data-bv-product-id="{{ ratings_id }}" data-bv-redirect-url="{{ item.default_link_attributes.href }}">
+        <div class="inline-rating" data-bv-show="inline_rating" data-bv-product-id="{{ product_sku }}" data-bv-redirect-url="{{ item.default_link_attributes.href }}">
           {{ star | raw }}
           {{ star | raw }}
           {{ star | raw }}
@@ -123,4 +125,5 @@
         </div>
       {% endif %}
     </div>
+  </div>
 </section>

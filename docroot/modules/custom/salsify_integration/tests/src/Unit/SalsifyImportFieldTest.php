@@ -21,6 +21,7 @@ use Drupal\salsify_integration\SalsifyImportField;
 use Drupal\salsify_integration\SalsifyImportMedia;
 use Drupal\salsify_integration\SalsifyImportTaxonomyTerm;
 use Drupal\salsify_integration\SalsifyProductRepository;
+use Drupal\simple_sitemap\Simplesitemap;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -170,6 +171,13 @@ class SalsifyImportFieldTest extends UnitTestCase {
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Field\FieldItemListInterface
    */
   private $fieldItemListMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\simple_sitemap\Simplesitemap
+   */
+  private $sitemapGeneratorMock;
 
   /**
    * {@inheritdoc}
@@ -485,6 +493,11 @@ class SalsifyImportFieldTest extends UnitTestCase {
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->salsifyImportMediaMock,
           ],
+          [
+            'simple_sitemap.generator',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->sitemapGeneratorMock,
+          ],
         ]
       );
 
@@ -591,6 +604,11 @@ class SalsifyImportFieldTest extends UnitTestCase {
             'salsify_integration.salsify_import_media',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->salsifyImportMediaMock,
+          ],
+          [
+            'simple_sitemap.generator',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->sitemapGeneratorMock,
           ],
         ]
       );
@@ -712,6 +730,11 @@ class SalsifyImportFieldTest extends UnitTestCase {
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->salsifyImportTaxonomyTermMock,
           ],
+          [
+            'simple_sitemap.generator',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->sitemapGeneratorMock,
+          ],
         ]
       );
 
@@ -818,6 +841,11 @@ class SalsifyImportFieldTest extends UnitTestCase {
             'salsify_integration.salsify_import_taxonomy',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->salsifyImportTaxonomyTermMock,
+          ],
+          [
+            'simple_sitemap.generator',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->sitemapGeneratorMock,
           ],
         ]
       );
@@ -931,6 +959,11 @@ class SalsifyImportFieldTest extends UnitTestCase {
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->salsifyImportTaxonomyTermMock,
           ],
+          [
+            'simple_sitemap.generator',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->sitemapGeneratorMock,
+          ],
         ]
       );
 
@@ -1043,6 +1076,11 @@ class SalsifyImportFieldTest extends UnitTestCase {
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->salsifyImportTaxonomyTermMock,
           ],
+          [
+            'simple_sitemap.generator',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->sitemapGeneratorMock,
+          ],
         ]
       );
 
@@ -1150,6 +1188,11 @@ class SalsifyImportFieldTest extends UnitTestCase {
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->salsifyImportTaxonomyTermMock,
           ],
+          [
+            'simple_sitemap.generator',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->sitemapGeneratorMock,
+          ],
         ]
       );
 
@@ -1218,6 +1261,7 @@ class SalsifyImportFieldTest extends UnitTestCase {
     $this->entityTypeMock = $this->createMock(EntityTypeInterface::class);
     $this->fieldStorageConfigMock = $this->createMock(FieldStorageConfigInterface::class);
     $this->fieldItemListMock = $this->createMock(FieldItemListInterface::class);
+    $this->sitemapGeneratorMock = $this->createMock(Simplesitemap::class);
 
     $this->configFactoryMock
       ->expects($this->any())

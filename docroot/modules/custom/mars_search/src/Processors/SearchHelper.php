@@ -6,6 +6,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\search_api\Query\QueryInterface;
 use Drupal\search_api\SearchApiException;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -53,18 +54,27 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
   protected $searches = [];
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
     LoggerChannelFactoryInterface $logger_factory,
     RequestStack $request,
-    SearchCategoriesInterface $searchCategories
+    SearchCategoriesInterface $searchCategories,
+    LanguageHelper $language_helper
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->logger = $logger_factory->get('mars_search');
     $this->request = $request->getMasterRequest();
     $this->searchCategories = $searchCategories;
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -101,6 +111,10 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
       ];
     }
     $query->setOption('search_api_facets', $facet_options);
+
+    $current_language_id = $this->languageHelper->getCurrentLanguageId();
+    // Add current language to search query.
+    $query->setLanguages([$current_language_id]);
 
     $this->addQueryConditions($query, $options);
 

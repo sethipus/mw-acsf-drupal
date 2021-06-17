@@ -1,5 +1,5 @@
 function _lazyLoadWhereToBuy() {
-    
+
     if(window.location.pathname == '/')
     {
         if($('#ps-widget').length > 0 && $('.ps-enabled').length == 0)
@@ -7,5 +7,5 @@ function _lazyLoadWhereToBuy() {
             $.getScript($('#ps-widget').attr('data-src'));
         }
     }
-    
+
 }
