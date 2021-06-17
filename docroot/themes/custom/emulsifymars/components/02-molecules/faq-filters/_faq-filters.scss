@@ -101,8 +101,8 @@
       }
 
       &.active {
-        background-color: clr(secondary);
         color: clr(subcolor-3);
+        background-position: left bottom;
       }
     }
 
