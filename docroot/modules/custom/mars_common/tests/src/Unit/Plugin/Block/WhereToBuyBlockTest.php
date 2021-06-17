@@ -6,6 +6,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\Query\QueryInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
@@ -290,9 +291,25 @@ class WhereToBuyBlockTest extends UnitTestCase {
       ->method('getStorage')
       ->willReturn($this->entityStorageMock);
 
+    $entity_query_mock = $this->createMock(QueryInterface::class);
+    $entity_query_mock->expects($this->any())->method('condition')->willReturn($entity_query_mock);
+    $entity_query_mock->expects($this->any())->method('orConditionGroup')->willReturn($entity_query_mock);
+    $entity_query_mock->expects($this->any())->method('notExists')->willReturn($entity_query_mock);
+    $entity_query_mock->expects($this->any())->method('execute')->willReturn(['1' => 1]);
+
+    $this->entityStorageMock
+      ->expects($this->any())
+      ->method('getQuery')
+      ->willReturn($entity_query_mock);
+
     $this->entityStorageMock
       ->expects($this->any())
       ->method('loadByProperties')
+      ->willReturn([$this->nodeMock]);
+
+    $this->entityStorageMock
+      ->expects($this->any())
+      ->method('loadMultiple')
       ->willReturn([$this->nodeMock]);
 
     $this->nodeMock
