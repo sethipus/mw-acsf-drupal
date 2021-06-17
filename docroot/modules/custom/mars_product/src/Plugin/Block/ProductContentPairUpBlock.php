@@ -308,10 +308,10 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
    * @param \Drupal\Core\Entity\ContentEntityInterface|null $main_entity
    *   The main entity of the component.
    *
-   * @return string|null
+   * @return object|string|null
    *   The bg image.
    */
-  private function getBgImage(?ContentEntityInterface $main_entity): ?string {
+  private function getBgImage(?ContentEntityInterface $main_entity) {
     $bg_src = NULL;
     $background_id = NULL;
     $conf = $this->getConfiguration();

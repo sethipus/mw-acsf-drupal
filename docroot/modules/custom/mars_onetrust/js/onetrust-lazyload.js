@@ -6,6 +6,5 @@ function _lazyLoadCookieBanner() {
         $.getScript($('#onetrust-sdk').attr('data-src'));
     }
 
-} 
-  
+}
 

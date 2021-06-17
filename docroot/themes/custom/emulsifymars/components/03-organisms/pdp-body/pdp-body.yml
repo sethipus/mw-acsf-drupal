@@ -13,6 +13,9 @@ pdp_common_data:
     reference_for_analitics: ''
     product_CTA_title: 'WHERE TO BUY'
   nutrition_data:
+    show_claims_benefits: true
+    benefits_title: 'Nutritional claims & product benefits'
+    benefits_disclaimer: '* Nutritional Claims and benefits disclaimer'
     nutritional_label: 'NUTRITION'
     nutritional_info_serving_label: 'AMOUNT PER SERVING'
     nutritional_info_daily_label: '% DAILY VALUE'
@@ -132,6 +135,12 @@ pdp_data:
             value: '0%'
         ingredients_value: 'Milk Chocolate (sugar, Cocoa Butter, Skin Milk, Chocolate, Milkfat, Lactose, Soy Lcithin, Artifical Flavor).'
         warnings_value: 'Allergy information: Contains milk and soy products.'
+      claims_benefits:
+        - 'No Artificial Flavors'
+        - 'Low Saturated Fat'
+        - 'Cholesterol Free Food'
+        - 'High in Calcium'
+        - 'High in Calcium'
     dual_nutrition_data:
       serving_item:
         table_label: 'Per Container'
@@ -206,16 +215,6 @@ pdp_data:
           - allergen_icon: 'twix-logo-102-x2.png'
             allergen_label: 'CONTAINS SOY'
     cooking_data: 'Cooking instructions paragraph'
-    benefits_data:
-      enabled: true
-      title: 'Nutritional claims & product benefits'
-      disclaimer: '* Nutritional Claims and benefits disclaimer'
-      list:
-        - content: 'No Artificial Flavors'
-        - content: 'Low Saturated Fat'
-        - content: 'Cholesterol Free Food'
-        - content: 'High in Calcium'
-        - content: 'High in Calcium'
   - size_id: '4oz'
     gtin: '01231243341232'
     active: false
@@ -296,6 +295,12 @@ pdp_data:
         ingredients_value: 'Milk Chocolate (sugar, Cocoa Butter, Skin Milk, Chocolate, Milkfat, Lactose, Soy Lcithin, Artifical Flavor).'
         reference_intake_value: '100g'
         warnings_value: 'Allergy information: Contains milk and soy products.'
+      claims_benefits:
+        - 'No Artificial Flavors'
+        - 'Low Saturated Fat'
+        - 'Cholesterol Free Food'
+        - 'High in Calcium'
+        - 'High in Calcium'
     dual_nutrition_data:
       serving_item:
         table_label: 'Per Container'
@@ -461,6 +466,12 @@ pdp_data:
         ingredients_value: 'Milk Chocolate (sugar, Cocoa Butter, Skin Milk, Chocolate, Milkfat, Lactose, Soy Lcithin, Artifical Flavor).'
         reference_intake_value: '100g'
         warnings_value: 'Allergy information: Contains milk and soy products.'
+      claims_benefits:
+        - 'No Artificial Flavors'
+        - 'Low Saturated Fat'
+        - 'Cholesterol Free Food'
+        - 'High in Calcium'
+        - 'High in Calcium'
     allergen_data:
         multipack: false
         allergens_list:

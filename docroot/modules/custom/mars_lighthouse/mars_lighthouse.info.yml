@@ -1,9 +1,0 @@
-name: 'Mars Lighthouse'
-type: module
-description: 'Lighthouse integration module.'
-package: 'Mars'
-core_version_requirement: '^8.8 || ^9'
-dependencies:
-  - entity_browser:entity_browser
-  - remote_stream_wrapper:remote_stream_wrapper
-  - remote_stream_wrapper_widget:remote_stream_wrapper_widget

@@ -5,13 +5,21 @@
 .search-no-results-heading {
   @include set-font($font-type: 'heading-font');
 
-  font-size: 64px;
-  line-height: 1em;
+  font-size: 2.8rem;
+  line-height: 1;
   color: clr(primary);
-  text-transform: uppercase;
-  padding: 80px 0 40px 0;
-  margin: 0;
+  margin: 0 0 4rem;
   text-align: center;
+  word-break: break-word;
+
+  @include medium {
+    font-size: 4rem;
+  }
+
+  @include large {
+    font-size: 4.8rem;
+    margin-bottom: 6rem;
+  }
 }
 
 .search-no-results-text {

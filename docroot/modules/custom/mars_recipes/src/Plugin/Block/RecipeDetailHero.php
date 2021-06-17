@@ -46,6 +46,13 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   protected $viewBuilder;
 
   /**
+   * Node storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $nodeStorage;
+
+  /**
    * The configFactory.
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
@@ -96,6 +103,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
+    $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->configFactory = $config_factory;
     $this->token = $token;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
@@ -127,6 +135,16 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     /** @var \Drupal\node\Entity\Node $node */
     $node = $this->getContextValue('node');
 
+    // Load custom product.
+    if (!empty($this->configuration['recipe'])) {
+      $node = $this->nodeStorage->load($this->configuration['recipe']) ?? $node;
+    }
+
+    // Skip build process for non product entities.
+    if (empty($node) || $node->bundle() != 'recipe') {
+      return [];
+    }
+
     $build = [
       '#label' => $node->label(),
       '#description' => $node->field_recipe_description->value,
@@ -136,14 +154,10 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#theme' => 'recipe_detail_hero_block',
     ];
 
-    $media_id = $this->mediaHelper->getEntityMainMediaId($node);
-    $image_arr = $this->mediaHelper->getMediaParametersById($media_id);
-    if (!($image_arr['error'] ?? FALSE) && ($image_arr['src'] ?? FALSE)) {
-      $build['#image'] = [
-        'alt' => $image_arr['alt'] ?? '',
-        'url' => $image_arr['src'] ?? '',
-      ];
-    }
+    $build['#images'] = $this->mediaHelper->getResponsiveImagesFromEntity(
+      $node,
+      'field_recipe_image'
+    );
 
     // Get brand border path.
     $build['#border'] = $this->themeConfiguratorParser->getBrandBorder();
@@ -251,6 +265,15 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $form['recipe'] = [
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'node',
+      '#title' => $this->t('Default recipe'),
+      '#default_value' => isset($this->configuration['recipe']) ? $this->nodeStorage->load($this->configuration['recipe']) : NULL,
+      '#selection_settings' => [
+        'target_bundles' => ['recipe'],
+      ],
+    ];
     $form['use_custom_color'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Use custom color'),

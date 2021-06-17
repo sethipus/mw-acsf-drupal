@@ -7,4 +7,5 @@ function _lazyLoadWhereToBuy() {
             $.getScript($('#cci-widget').attr('data-src'));
         }
     }
-} 
+}
+

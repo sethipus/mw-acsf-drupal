@@ -8,7 +8,6 @@
   position: relative;
   cursor: pointer;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
-  padding-bottom: 8rem; /* reserve height for buttons */
   box-sizing: border-box;
 
   @include card-width;
@@ -19,12 +18,14 @@
 
   @include medium {
     &:hover {
-      // Use !important to override custom styles from _base.scss
-      background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary)) !important;
-      transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
+
+      .product-card__hover-helper {
+        opacity: 1;
+      }
 
       a, .eyebrow, .product-card__title, .cc-fi-button {
         color: clr(subcolor-3);
+        transition: inherit;
       }
 
       .product-card__image img {
@@ -46,6 +47,26 @@
         color: clr(secondary);
       }
     }
+  }
+
+  &__hover-helper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: variable(card-border-radius);
+    opacity: 0;
+    background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary));
+    transition: inherit;
+  }
+
+  &__inner {
+    position: relative;
+    padding-bottom: 8rem; /* reserve height for buttons */
+    box-sizing: border-box;
+    min-height: 520px;
+    transition: inherit;
   }
 
   .badge {
@@ -226,4 +247,3 @@
   }
 
 }
-

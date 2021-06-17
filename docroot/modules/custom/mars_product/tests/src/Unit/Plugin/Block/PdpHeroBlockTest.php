@@ -6,6 +6,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityFormBuilderInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
@@ -18,6 +19,7 @@ use Drupal\mars_product\NutritionDataHelper;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\mars_product\ProductHelper;
 use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -71,6 +73,13 @@ class PdpHeroBlockTest extends UnitTestCase {
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManagerMock;
+
+  /**
+   * Node storage.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $nodeStorageMock;
 
   /**
    * Mock.
@@ -198,7 +207,7 @@ class PdpHeroBlockTest extends UnitTestCase {
    */
   public function testBuildConfigurationFormProperly() {
     $config_form = $this->block->buildConfigurationForm([], $this->formStateMock);
-    $this->assertCount(17, $config_form);
+    $this->assertCount(18, $config_form);
     $this->assertArrayHasKey('eyebrow', $config_form);
     $this->assertArrayHasKey('available_sizes', $config_form);
     $this->assertArrayHasKey('wtb', $config_form);
@@ -303,7 +312,13 @@ class PdpHeroBlockTest extends UnitTestCase {
   public function testValidBlockBuildProductMultipack() {
     $product_node = $this->createProductMock('product_multipack');
 
+    // Mock $node->bundle().
+    $product_node->expects($this->any())
+      ->method('bundle')
+      ->willReturn('product');
+
     $nodeContext = $this->createMock(Context::class);
+
     $nodeContext
       ->method('getContextValue')
       ->willReturn($product_node);
@@ -395,6 +410,17 @@ class PdpHeroBlockTest extends UnitTestCase {
       ->expects($this->any())
       ->method('getNutritionConfig')
       ->willReturn($this->immutableConfigMock);
+
+    $this->nodeStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this->nodeStorageMock
+      ->expects($this->any())
+      ->method('load')
+      ->willReturn($this->createMock(NodeInterface::class));
+
+    $this->entityTypeManagerMock
+      ->expects($this->any())
+      ->method('getStorage')
+      ->willReturn($this->nodeStorageMock);
   }
 
   /**

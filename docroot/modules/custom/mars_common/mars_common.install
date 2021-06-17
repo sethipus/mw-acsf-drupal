@@ -177,3 +177,11 @@ function mars_common_update_8012() {
   $config->set('secondary_font_desktop_letterspacing', ThemeConfiguratorService::LETTERSPACING_DESKTOP_DEFAULT);
   $config->save();
 }
+
+/**
+ * Update modules registry for modules moved to Composer.
+ */
+function mars_common_update_8013() {
+  \Drupal::service('extension.list.module')->reset();
+  \Drupal::cache()->invalidateAll();
+}

@@ -66,15 +66,30 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
           if ($facet['filter'] == '!' || !array_key_exists($facet['filter'], $terms)) {
             continue;
           }
+          $key_taxonomy_term = $terms[$facet['filter']]->label();
+          $pretty_path_for_vocabulary = SearchPrettyFacetProcess::getPrettyFacetKeys()[$vocabulary];
           $facetValues[] = [
             'title' => $terms[$facet['filter']]->label(),
-            'key' => $grid_id . $facet['filter'],
+            'key' => $grid_id . $pretty_path_for_vocabulary . urlencode($key_taxonomy_term),
             'weight' => $terms[$facet['filter']]->get('weight')->value,
           ];
 
-          if ($this->hasQueryKey($vocabulary)) {
-            $queryValueItems = explode(',', $this->getQueryValue($vocabulary, $grid_id));
-            if (in_array($facet['filter'], $queryValueItems)) {
+          if ($this->hasQueryKey($pretty_path_for_vocabulary)) {
+
+            $ids = [];
+            $queryValueItems = explode(',', $this->getQueryValue($pretty_path_for_vocabulary, $grid_id));
+            foreach ($queryValueItems as $term_name) {
+              $term_object = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
+                'vid' => $vocabulary,
+                'name' => $term_name,
+              ]);
+              $term_object = reset($term_object);
+              if ($term_object instanceof TermInterface) {
+                $ids[] = $term_object->id();
+              }
+            }
+
+            if (in_array($facet['filter'], $ids)) {
               $facetValues[count($facetValues) - 1]['checked'] = 'checked';
               $countSelected++;
               $appliedFilters[] = $facetValues[count($facetValues) - 1];

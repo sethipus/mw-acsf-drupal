@@ -103,6 +103,11 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
   private $languageHelper;
 
   /**
+   * Minimum number of results.
+   */
+  const MINIMUM_NUMBER_OF_RESULTS = 1;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -346,11 +351,13 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
       }
       $build['#applied_filters_list'] = [];
       $build['#filters'] = [];
-      if ($facets_query['resultsCount'] > 3) {
+      // Display facets when result count more
+      // than minimum number of results.
+      if ($facets_query['resultsCount'] > static::MINIMUM_NUMBER_OF_RESULTS) {
         [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], $default_filters, $grid_id);
       }
     }
-
+    $this->searchProcessor->getProcessManager('search_pretty_facet_process')->rewriteFilterKeys($build);
     return $build;
   }
 
@@ -391,7 +398,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
 
     $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
     $build['#search_filters'] = [];
-    if ($query_search_results['resultsCount'] > 3) {
+    // Display facets when result count more
+    // than minimum number of results.
+    if ($query_search_results['resultsCount'] > static::MINIMUM_NUMBER_OF_RESULTS) {
       $build['#search_filters'] = $this->searchTermFacetProcess->prepareFacetsLinksWithCount($query_search_results['facets'], 'type', SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);
     }
 
@@ -415,7 +424,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     // Facets query.
     $facets_search_results = $this->searchHelper->getSearchResults($searchOptions, 'faq_facets');
     $build['#facets'] = [];
-    if ($facets_search_results['resultsCount'] > 3) {
+    // Display facets when result count more
+    // than minimum number of results.
+    if ($facets_search_results['resultsCount'] > static::MINIMUM_NUMBER_OF_RESULTS) {
       $build['#facets'] = $this->searchTermFacetProcess->prepareFacetsLinks($facets_search_results['facets']['faq_filter_topic'], 'faq_filter_topic');
     }
     return $build;

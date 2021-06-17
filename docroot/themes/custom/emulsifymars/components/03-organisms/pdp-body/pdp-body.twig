@@ -14,7 +14,9 @@
       pdp_label_cooking: pdp_item.cooking_data is not empty ? pdp_common_data.cooking_data.cooking_label : '',
       pdp_label_more_information: pdp_common_data.more_information_data.show_more_information_label ? pdp_common_data.more_information_data.more_information_label : '',
       show_rating_and_reviews: pdp_item.show_rating_and_reviews,
-      pdp_is_main_variant: pdp_item.is_main_variant
+      pdp_is_main_variant: pdp_item.is_main_variant,
+      pdp_description: pdp_item.product_description,
+      pdp_title: pdp_item.product_name
     } %}
 
     <!-- PDP Benefits -->
@@ -23,7 +25,7 @@
       {% set benefits_list = benefits_list|merge([{'content' : benefit_item }])   %}
     {% endfor %}
     {% set benefits_data = {
-      'enabled': pdp_item.nutrition_data.claims_benefits is not empty and pdp_common_data.nutrition_data.show_claims_benefits is not empty and pdp_common_data.nutrition_data.show_claims_benefits != 0,
+      'enabled': pdp_item.nutrition_data.claims_benefits is not empty and pdp_common_data.nutrition_data.show_claims_benefits != false and pdp_common_data.nutrition_data.show_claims_benefits != 0,
       'title': pdp_common_data.nutrition_data.benefits_title,
       'list': benefits_list,
       'disclaimer': pdp_common_data.nutrition_data.benefits_disclaimer,

@@ -18,7 +18,7 @@ function mars_articles_theme($existing, $type, $theme, $path) {
         'label' => NULL,
         'eyebrow' => NULL,
         'publication_date' => NULL,
-        'image' => NULL,
+        'images' => NULL,
         'social_links' => NULL,
         'brand_borders' => NULL,
         'share_text' => NULL,

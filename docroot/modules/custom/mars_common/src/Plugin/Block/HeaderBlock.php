@@ -203,6 +203,31 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#description' => $this->t('Ex. http://mars.com, /products'),
       '#default_value' => $config['alert_banner']['alert_banner_url'] ?? '',
     ];
+    $form['alert_banner']['override_color_scheme'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Override Alert Banner Color scheme'),
+      '#default_value' => $config['alert_banner']['override_color_scheme'] ?? NULL,
+    ];
+    $form['alert_banner']['bg_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Override banner background color'),
+      '#default_value' => $config['alert_banner']['bg_color'] ?? NULL,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[alert_banner][override_color_scheme]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+    $form['alert_banner']['text_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Override banner text color'),
+      '#default_value' => $config['alert_banner']['text_color'] ?? NULL,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[alert_banner][override_color_scheme]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
 
     $this->buildOverrideColorElement($form, $config);
 
@@ -229,10 +254,43 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#default_value' => $config['override_text_color']['override_mobile_color'] ?? NULL,
     ];
 
-    $form['override_text_color']['mobile_color'] = [
+    $form['override_text_color']['mobile_main_menu_items_color'] = [
       '#type' => 'jquery_colorpicker',
-      '#title' => $this->t('Сhoose color close button and sub-menu'),
-      '#default_value' => $config['override_text_color']['mobile_color'] ?? NULL,
+      '#title' => $this->t('Override main menu items color'),
+      '#default_value' => $config['override_text_color']['mobile_main_menu_items_color'] ?? NULL,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[override_text_color][override_mobile_color]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['override_text_color']['mobile_cross_hamburger'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Override hamburger menu & cross icons color'),
+      '#default_value' => $config['override_text_color']['mobile_cross_hamburger'] ?? NULL,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[override_text_color][override_mobile_color]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['override_text_color']['mobile_sub_menu_items_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Override menu sub-items color including "Expand" icon color'),
+      '#default_value' => $config['override_text_color']['mobile_sub_menu_items_color'] ?? NULL,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[override_text_color][override_mobile_color]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['override_text_color']['mobile_search_right_menu_section'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Override search bar and right section menu elements color'),
+      '#default_value' => $config['override_text_color']['mobile_search_right_menu_section'] ?? NULL,
       '#states' => [
         'visible' => [
           [':input[name="settings[override_text_color][override_mobile_color]"]' => ['checked' => TRUE]],
@@ -320,11 +378,26 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $build['#hover_color'] = '#' . $config['override_text_color']['hover_color'];
     }
 
-    $build['#mobile_color'] = FALSE;
-    if (!empty($config['override_text_color']['override_mobile_color']) &&
-      !empty($config['override_text_color']['mobile_color'])
-    ) {
-      $build['#mobile_color'] = '#' . $config['override_text_color']['mobile_color'];
+    $build['#override_mobile_menu_colors'] = FALSE;
+    $build['#mobile_main_menu_items_color'] = FALSE;
+    $build['#mobile_cross_hamburger'] = FALSE;
+    $build['#mobile_sub_menu_items_color'] = FALSE;
+    $build['#mobile_search_right_menu_section'] = FALSE;
+    if (!empty($config['override_text_color']['override_mobile_color'])) {
+      $build['#override_mobile_menu_colors'] = TRUE;
+      $build['#mobile_main_menu_items_color'] = !empty($config['override_text_color']['mobile_main_menu_items_color']) ? '#' . $config['override_text_color']['mobile_main_menu_items_color'] : FALSE;
+      $build['#mobile_cross_hamburger'] = !empty($config['override_text_color']['mobile_cross_hamburger']) ? '#' . $config['override_text_color']['mobile_cross_hamburger'] : FALSE;
+      $build['#mobile_sub_menu_items_color'] = !empty($config['override_text_color']['mobile_sub_menu_items_color']) ? '#' . $config['override_text_color']['mobile_sub_menu_items_color'] : FALSE;
+      $build['#mobile_search_right_menu_section'] = !empty($config['override_text_color']['mobile_search_right_menu_section']) ? '#' . $config['override_text_color']['mobile_search_right_menu_section'] : FALSE;
+    }
+
+    $build['#alert_banner_override_color'] = FALSE;
+    $build['#alert_banner_bg_color'] = FALSE;
+    $build['#alert_banner_text_color'] = FALSE;
+    if (!empty($config['alert_banner']['override_color_scheme'])) {
+      $build['#alert_banner_override_color'] = TRUE;
+      $build['#alert_banner_bg_color'] = !empty($config['alert_banner']['bg_color']) ? '#' . $config['alert_banner']['bg_color'] : FALSE;
+      $build['#alert_banner_text_color'] = !empty($config['alert_banner']['text_color']) ? '#' . $config['alert_banner']['text_color'] : FALSE;
     }
 
     CacheableMetadata::createFromRenderArray($build)

@@ -69,7 +69,7 @@
       padding-bottom: 40px;
     }
 
-    a {
+    .default-link {
       @include set-font($font-type: 'primary-font');
 
       display: inline-block;
@@ -79,18 +79,16 @@
       background-color: clr(subcolor-3);
       border: 1px solid clr(secondary);
       padding: 1.1rem;
-      border-radius: variable(button-border-radius);
       font-size: 1.2rem;
       line-height: 1;
       text-transform: uppercase;
       color: clr(secondary);
       margin: 0 1rem 1.2rem 0;
       text-decoration: none;
-      transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
-      transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
 
       @include medium {
         padding: 17px 43px;
+        margin: 0 1.2rem 2rem 0;
       }
 
       @include xl {
@@ -103,38 +101,13 @@
         color: clr(subcolor-3);
       }
 
-      span {
-        position: relative;
-        z-index: 1;
-        transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
+      &::after {
+        background-color: clr(secondary);
       }
 
-      &::after {
-        content: '';
-        position: absolute;
-        display: block;
-        bottom: -100px;
-        left: -120px;
-        width: 1000px;
-        transform: rotate(18deg);
-        height: 0;
-        background-color: clr(secondary);
-        transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
-        @include xs {
-          width: 1000px;
-        }
-        @include medium {
-          width: 750px;
-        }
-      }
       &:hover {
         background-color: clr(secondary);
         color: clr(subcolor-3);
-        transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
-
-        &::after {
-          height: 300px;
-        }
       }
     }
 

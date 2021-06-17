@@ -4,19 +4,19 @@
   <div {{ bem('inner', [], article_header) }}>
     <div {{ bem('image', [], article_header) }}>
       {% block article_media_image %}
-        {% set images = {
-          1440: image.url|resizeByHeight(617),
-          768: image.url|resizeByHeight(466),
-          375: image.url|resizeByHeight(375),
+        {% set image_array = {
+          1440: images.desktop.src|resizeByHeight(617),
+          768: images.tablet.src|resizeByHeight(466),
+          375: images.mobile.src|resizeByHeight(375),
         } %}
-        {% include "@atoms/images/image/responsive-image.twig" with { 
+        {% include "@atoms/images/image/responsive-image.twig" with {
           responsive_image_blockname: 'article-header-image',
           output_image_tag: true,
-          image_alt: image.alt,
-          image_array: images,
+          image_alt: images.desktop.alt,
+          image_array: image_array,
           height: '617px',
           width: '1440px',
-          image_src: image.url|resizeByHeight(617)
+          image_src: images.desktop.src|resizeByHeight(617)
         } %}
       {% endblock %}
       {% block article_media_devider %}

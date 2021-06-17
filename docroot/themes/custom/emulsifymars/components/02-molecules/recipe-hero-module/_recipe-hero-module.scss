@@ -5,17 +5,17 @@ $xl-left-margin: 11.583rem;
 
 .recipe-header {
   position: relative;
-  padding: 40px 0 137px;
-  margin-bottom: -117px;
+  padding: 4rem 0 11.7rem; // bg shift down according to https://app.zeplin.io/project/5f05cfbb6fcd637995593157/screen/5f05f277376fb57c78abcf68
+  margin-bottom: -11.7rem; // MUST BE equal the padding-bottom above
 
   @include medium {
-    padding: 62px 0 233px;
-    margin-bottom: -233px;
+    padding: 6rem 0 21rem;
+    margin-bottom: -21rem; // MUST BE equal the padding-bottom above
   }
 
   @include xl {
-    padding-top: 60px;
-    margin-bottom: -233px;
+    padding: 6rem 0 18.7rem;
+    margin-bottom: -18.7rem; // MUST BE equal the padding-bottom above
   }
 
   &__background {
@@ -66,14 +66,13 @@ $xl-left-margin: 11.583rem;
     @include set-font($font-type: 'primary-font');
 
     font-size: 1.4rem;
-    line-height: 1.15;
+    line-height: 1;
     color: clr(primary);
     text-align: center;
     animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
     @include medium {
       font-size: 1.6rem;
-      line-height: 1;
     }
   }
 
@@ -86,16 +85,16 @@ $xl-left-margin: 11.583rem;
     text-align: center;
     animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
     max-width: 1128px;
-    margin: 30px auto 60px;
+    margin: 3rem auto 3rem;
 
     @include medium {
       font-size: 5.6rem;
-      margin: 22px auto 40px;
+      margin: 3rem auto 4rem;
     }
 
     @include xl {
       font-size: 6.4rem;
-      margin: 30px auto 60px;
+      margin: 3rem auto 6rem;
     }
   }
 }
@@ -148,16 +147,24 @@ $xl-left-margin: 11.583rem;
   &__image-wrapper {
     display: block;
     width: 100%;
-    padding-bottom: 70.7%;
-    background-size: cover;
-    background-position: center;
+    padding-bottom: 75%;
+    position: relative;
 
     @include medium {
-      padding-bottom: 60.9%;
+      padding-bottom: 60%;
     }
 
     @include xl {
       padding-bottom: 42.8%;
+    }
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 
@@ -318,13 +325,6 @@ $xl-left-margin: 11.583rem;
     border-right: none;
     border-bottom: none;
   }
-}
-
-.recipe-header,
-.more-recipes {
-  width: 100vw;
-  margin-left: calc((100% - 100vw) / 2);
-  max-width: 100%;
 }
 
 .recipe-info {

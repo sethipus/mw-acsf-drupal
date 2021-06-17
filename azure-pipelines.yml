@@ -36,6 +36,13 @@ steps:
       sshPublicKey: $(public_ssh_key)
       sshKeySecureFile: 'mars_ssh_key'
   - task: InstallSSHKey@0
+    displayName: 'Install SSH Key for GitHub.com'
+    inputs:
+      knownHostsEntry: $(known_hosts_github)
+      sshPublicKey: $(public_ssh_key_github)
+      sshPassphrase: $(ssh_passphrase)
+      sshKeySecureFile: 'github.private'
+  - task: InstallSSHKey@0
     displayName: 'Install SSH Key for Acquia Cloud'
     inputs:
       knownHostsEntry: $(known_hosts_acquia)
@@ -123,7 +130,7 @@ steps:
   #    summaryFileLocation: 'reports/phpunit/coverage.xml'
   - task: Bash@3
     displayName: 'Deploy Branch and Trigger Application Deployment on ACSF'
-    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'dev'))
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], variables['dev_env_branch']))
     inputs:
       targetType: 'inline'
       script: |
@@ -152,7 +159,7 @@ steps:
       filePath: './scripts/deploy_tag.sh'
   - task: Bash@3
     displayName: 'Deploy Release Branch For QA Environment'
-    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranchName'], 'release'))
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], variables['qa_env_branch']))
     inputs:
       targetType: 'inline'
       script: |
