@@ -725,6 +725,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         $bg_image_media_ids['video'] = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_video']);
       }
     }
+    else {
+      foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
+        $bg_image_media_ids[$resolution] = NULL;
+      }
+    }
 
     foreach ($bg_image_media_ids as $name => $bg_image_media_id) {
       $bg_image_url = NULL;
