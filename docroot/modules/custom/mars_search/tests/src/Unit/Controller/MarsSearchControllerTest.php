@@ -18,6 +18,7 @@ use Drupal\mars_search\Processors\SearchPrettyFacetProcessInterface;
 use Drupal\mars_search\Processors\SearchQueryParserInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\node\Entity\Node;
+use Drupal\pathauto\AliasCleanerInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -161,6 +162,13 @@ class MarsSearchControllerTest extends UnitTestCase {
   protected $searchPrettyFacetProcessor;
 
   /**
+   * Language helper mock.
+   *
+   * @var \Drupal\pathauto\AliasCleanerInterface
+   */
+  private $aliasCleanerMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -212,7 +220,8 @@ class MarsSearchControllerTest extends UnitTestCase {
       $this->requestStackMock,
       $this->entityTypeManagerMock,
       $this->themeConfiguratorParserMock,
-      $this->pathValidator
+      $this->pathValidator,
+      $this->aliasCleanerMock
     );
   }
 
@@ -221,7 +230,7 @@ class MarsSearchControllerTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(6))
+      ->expects($this->exactly(7))
       ->method('get')
       ->willReturnMap(
         [
@@ -254,6 +263,11 @@ class MarsSearchControllerTest extends UnitTestCase {
             'path.validator',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->pathValidator,
+          ],
+          [
+            'pathauto.alias_cleaner',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->aliasCleanerMock,
           ],
         ]
       );
@@ -420,6 +434,7 @@ class MarsSearchControllerTest extends UnitTestCase {
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->nodeStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->searchPrettyFacetProcessor = $this->createMock(SearchPrettyFacetProcessInterface::class);
+    $this->aliasCleanerMock = $this->createMock(AliasCleanerInterface::class);
   }
 
 }
