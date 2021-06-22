@@ -3,19 +3,31 @@
 <picture
   {{ bem(picture_base_class, picture_modifiers, picture_blockname) }}
 >
-  {% if sources %}
+  {% if image_array %}
     {#
-    Internet Explorer 9 doesn't recognise source elements that are wrapped in
-    picture tags. See http://scottjehl.github.io/picturefill/#ie9
+      Internet Explorer 9 doesn't recognise source elements that are wrapped in
+      picture tags. See http://scottjehl.github.io/picturefill/#ie9
     #}
     <!--[if IE 9]><video style="display: none;"><![endif]-->
-    {% for source_attributes in sources %}
-      <source{{ source_attributes }}/>
+    {% for breakpoint, image in sources|reverse(true) %}
+      {% if loop.first %}
+        {% set first_image = breakpoint %}
+      {% endif %}
+      <source media="(max-width:{{breakpoint}}px)" srcset="{{image}}">
+      {% if loop.last %}
+      {% endif %}
     {% endfor %}
-    <!--[if IE 9]></video><![endif]-->
   {% endif %}
+
   {# The controlling image, with the fallback image in srcset. #}
   {% include "@atoms/images/image/_image.twig" with {
-    image_blockname: picture_image_blockname|default(picture_blockname),
+    image_blockname: picture_blockname,
+    image_base_class: picture_base_class,
+    image_modifiers: picture_modifiers,
+    image_src: image_src,
+    image_alt: image_alt,
+    image_title: image_title,
+    image_array: []
   } %}
+
 </picture>

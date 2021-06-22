@@ -42,8 +42,9 @@
       {% endif %}
       <div {{ bem('aspect-ratio-wrapper', [ aspect_ratio ]) }}>
         {% include "@atoms/images/image/responsive-image.twig" with {
-          image_base_class: base_class,
-          image_modifiers: image_modifiers,
+          output_image_tag: false,
+          responsive_image_base_class: base_class,
+          responsive_image_modifiers: image_modifiers,
           image_blockname: image_blockname,
           image_src: media.src|resize(1128, 635),
           image_alt: media.alt,
@@ -76,8 +77,9 @@
       {% endif %}
 
       {% include "@atoms/images/image/responsive-image.twig" with {
-        image_base_class: base_class,
-        image_modifiers: image_modifiers,
+        output_image_tag: false,
+        responsive_image_base_class: base_class,
+        responsive_image_modifiers: image_modifiers,
         image_blockname: image_blockname,
         image_src: media.src|resize(1440, 635),
         image_alt: media.alt,
