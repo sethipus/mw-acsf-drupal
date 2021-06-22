@@ -249,7 +249,13 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
 
     // Disable default label to display.
     $values['label_display'] = FALSE;
-    $values['grid_id'] = uniqid(substr(md5(serialize($values)), 0, 12));
+    if (!isset($values['title']) || !$values['title']) {
+      $values['grid_id'] = uniqid(substr(md5(serialize($values)), 0, 12));
+    }
+    else {
+      $values['grid_id'] = $this->aliasCleaner->cleanString($values['title']);
+    }
+
     // Process Top Results.
     $values['top_results_wrapper']['top_results'] = [];
     foreach ($values['top_results_wrapper'] as $key => $results) {
