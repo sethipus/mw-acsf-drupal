@@ -319,6 +319,7 @@
       border-color: #c4c4c4;
       border-radius: variable(button-border-radius);
       position: relative;
+
       &::before {
         content: '';
         position: absolute;
@@ -333,6 +334,7 @@
         right: 20px;
         cursor: pointer;
       }
+
       .ff-fileupload-select {
         color: clr(primary);
         font-size: 1.6rem;
@@ -341,15 +343,28 @@
           font-size: 1.8rem;
         }
       }
+
       .ff-fileupload-select:hover {
         color: clr(secondary) !important;
       }
+
       .ff-type-file {
         top: 0 !important;
         left: 0 !important;
         width: 100% !important;
         height: 100% !important;
         cursor: pointer;
+      }
+
+      [name="FileUploadLabel"] {
+        a {
+          display: inline-block;
+        }
+
+        img {
+          height: auto;
+          width: auto;
+        }
       }
     }
 
