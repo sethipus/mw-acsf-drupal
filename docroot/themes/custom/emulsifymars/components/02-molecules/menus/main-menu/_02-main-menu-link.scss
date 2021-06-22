@@ -121,7 +121,7 @@
     &:hover {
       @include set-font($font-type: 'primary-font');
 
-      color: clr(secondary, hover-color);
+      color: clr(secondary);
       font-weight: 500;
 
       & .menu_chevron__icon {
