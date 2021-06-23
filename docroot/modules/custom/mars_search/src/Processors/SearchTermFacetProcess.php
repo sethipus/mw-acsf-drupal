@@ -3,6 +3,7 @@
 namespace Drupal\mars_search\Processors;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\taxonomy\TermInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\Core\Url;
@@ -27,11 +28,19 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
   protected $request;
 
   /**
+   * Search categories processor.
+   *
+   * @var \Drupal\mars_search\Processors\SearchCategoriesInterface
+   */
+  protected $searchCategories;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request, SearchCategoriesInterface $searchCategories) {
     $this->entityTypeManager = $entity_type_manager;
     $this->request = $request->getMasterRequest();
+    $this->searchCategories = $searchCategories;
   }
 
   /**
@@ -305,6 +314,7 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
     $search_filters = [];
 
     $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID;
+    $content_types = $this->searchCategories->getContentTypes();
     if (!empty($facets[$facet_key])) {
       foreach ($facets[$facet_key] as $type_facet) {
         $url = $this->getCurrentUrl();
@@ -327,7 +337,7 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
         $search_filters[] = [
           'title' => [
             '#type' => 'link',
-            '#title' => SearchCategoriesInterface::CONTENT_TYPES[$type_facet['filter']] ?? $type_facet['filter'],
+            '#title' => $content_types[$type_facet['filter']] ?? $type_facet['filter'],
             '#url' => $url,
             '#attributes' => [
               'data-type' => $type_facet['filter'],

@@ -214,7 +214,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $form['content_type'] = [
       '#type' => 'radios',
       '#title' => $this->languageHelper->translate('Content type'),
-      '#options' => SearchCategoriesInterface::CONTENT_TYPES,
+      '#options' => $this->searchCategories->getContentTypes(),
       '#default_value' => $config['content_type'] ?? NULL,
       '#required' => TRUE,
     ];
@@ -405,7 +405,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
         '#target_type' => 'node',
         '#title' => $this->languageHelper->translate('Top results'),
         '#selection_settings' => [
-          'target_bundles' => array_keys(SearchCategoriesInterface::CONTENT_TYPES),
+          'target_bundles' => array_keys($this->searchCategories->getContentTypes()),
         ],
         '#tags' => TRUE,
         '#cardinality' => 1,

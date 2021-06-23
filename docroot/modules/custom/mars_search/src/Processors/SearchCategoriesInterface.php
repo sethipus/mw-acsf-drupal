@@ -84,21 +84,13 @@ interface SearchCategoriesInterface {
   ];
 
   /**
-   * List of content types which are included in indexing.
-   *
-   * @var array
-   */
-  const CONTENT_TYPES = [
-    'product' => 'Product',
-    'article' => 'Article',
-    'recipe' => 'Recipe',
-    'campaign' => 'Campaign',
-    'landing_page' => 'Landing page',
-  ];
-
-  /**
    * Return processed list of categories.
    */
   public function getCategories();
+
+  /**
+   * Return list of content types which are included in indexing.
+   */
+  public function getContentTypes();
 
 }
