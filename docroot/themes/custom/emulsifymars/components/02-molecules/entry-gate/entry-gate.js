@@ -31,8 +31,8 @@
 
         // helper for lazyloading external scripts
         const lazyLoadThirdpartyScripts = () => {
-          _lazyLoadWhereToBuy();
-          _lazyLoadCookieBanner();
+          try { _lazyLoadWhereToBuy(); } catch(e) {}
+          try { _lazyLoadCookieBanner(); } catch(e) {}
         }
 
         // helper for getting cooke with specified name
