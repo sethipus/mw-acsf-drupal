@@ -10,6 +10,7 @@ use Drupal\mars_search\Processors\SearchHelperInterface;
 use Drupal\mars_search\Processors\SearchQueryParserInterface;
 use Drupal\mars_common\LanguageHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -148,8 +149,10 @@ class SearchOverlayForm extends FormBase {
       $options['query']['s'] = $options['query']['search'][$search_id];
     }
 
+    $options['absolute'] = TRUE;
     $url->setOptions($options);
-    $form_state->setRedirectUrl($url);
+    $response = new RedirectResponse(urldecode($url->toString()));
+    $form_state->setResponse($response);
   }
 
 }
