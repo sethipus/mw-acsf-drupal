@@ -13,6 +13,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
+use Drupal\mars_search\Processors\SearchCategoriesInterface;
 
 /**
  * Class SearchGridBlock.
@@ -404,7 +405,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
         '#target_type' => 'node',
         '#title' => $this->languageHelper->translate('Top results'),
         '#selection_settings' => [
-          'target_bundles' => array_keys($this->searchCategories->getContentTypes()),
+          'target_bundles' => array_keys(SearchCategoriesInterface::CONTENT_TYPES),
         ],
         '#tags' => TRUE,
         '#cardinality' => 1,
