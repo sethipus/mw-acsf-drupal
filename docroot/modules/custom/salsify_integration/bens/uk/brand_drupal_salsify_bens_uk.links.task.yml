@@ -2,3 +2,13 @@ brand_drupal_salsify_bens_uk.migrate_configuration:
   title: 'Channel approach migration settings'
   route_name: brand_drupal_salsify_bens_uk.configuration
   base_route: salsify_integration.configuration
+
+brand_drupal_salsify_bens_uk.verify_product_import:
+  title: 'Verify multilingual product import status'
+  route_name: view.products_mapping.page_1
+  base_route: salsify_integration.configuration
+
+brand_drupal_salsify_bens_uk.verify_product_variant_import:
+  title: 'Verify multilingual product variant import status'
+  route_name: view.pv_mapping.page_1
+  base_route: salsify_integration.configuration

@@ -16,7 +16,7 @@ bundle: product_variant
 label: 'Key Product Pack Image Override'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

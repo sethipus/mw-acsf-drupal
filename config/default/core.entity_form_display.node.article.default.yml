@@ -20,6 +20,7 @@ dependencies:
     - content_moderation
     - entity_browser
     - field_group
+    - layout_builder_at
     - metatag
     - path
     - publication_date
@@ -115,7 +116,7 @@ content:
     type: boolean_checkbox
     region: content
   field_article_related_products:
-    weight: 13
+    weight: 12
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -125,7 +126,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_brand_initiatives:
-    weight: 10
+    weight: 9
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -135,14 +136,14 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_meta_tags:
-    weight: 17
+    weight: 16
     settings:
       sidebar: true
     third_party_settings: {  }
     type: metatag_firehose
     region: content
   field_product_occasions:
-    weight: 16
+    weight: 15
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -158,9 +159,16 @@ content:
     settings:
       include_locked: true
     third_party_settings: {  }
+  layout_builder__layout:
+    type: layout_builder_at_copy
+    weight: 17
+    region: content
+    settings:
+      appearance: unchecked
+    third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 15
+    weight: 14
     settings: {  }
     region: content
     third_party_settings: {  }
@@ -172,7 +180,7 @@ content:
     third_party_settings: {  }
   published_at:
     type: publication_date_timestamp
-    weight: 11
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -180,7 +188,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 14
+    weight: 13
     region: content
     third_party_settings: {  }
   title:
@@ -192,7 +200,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 12
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -212,6 +220,5 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
-  layout_builder__layout: true
   promote: true
   sticky: true

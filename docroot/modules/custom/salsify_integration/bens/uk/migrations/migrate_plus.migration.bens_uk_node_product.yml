@@ -12,7 +12,7 @@ migration_dependencies:
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
-  data_parser_plugin: json
+  data_parser_plugin: salsify_json
   item_selector: /
   track_changes: true
   constants:
@@ -126,6 +126,10 @@ process:
   status:
     plugin: default_value
     default_value: 1
+  langcode:
+    plugin: salsify_i18n_process_language
+    source: language
+    default_value: 'und'
   moderation_state:
     plugin: static_map
     source: '@status'

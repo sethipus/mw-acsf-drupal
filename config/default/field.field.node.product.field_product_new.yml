@@ -12,7 +12,7 @@ bundle: product
 label: New
 description: 'Is it a new product?'
 required: false
-translatable: false
+translatable: true
 default_value:
   -
     value: 0

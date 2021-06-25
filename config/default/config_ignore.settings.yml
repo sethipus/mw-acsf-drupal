@@ -4,6 +4,7 @@ ignored_config_entities:
   - 'system.site:page.front'
   - 'system.site:page.403'
   - 'system.site:page.404'
+  - 'system.site:default_langcode'
   - acquia_connector.settings
   - samlauth.authentication
   - mars_onetrust.settings
@@ -41,6 +42,8 @@ ignored_config_entities:
   - mars_searchmars_search.search_no_results
   - cloudflare.settings
   - salsify_integration.migrate_settings
+  - 'field.field.node.*.layout_builder__layout'
+  - field.storage.node.layout_builder__layout
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: true
