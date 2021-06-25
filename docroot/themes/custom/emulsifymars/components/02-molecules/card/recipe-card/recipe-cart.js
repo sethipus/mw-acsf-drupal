@@ -16,3 +16,9 @@
       }
     }
   })(jQuery, Drupal);
+/**
+ * Reload on page redirect / Disable cache. #249188
+ */
+window.addEventListener('popstate',()=>{
+  window.location.reload();
+});

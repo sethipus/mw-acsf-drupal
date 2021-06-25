@@ -362,6 +362,17 @@
       .ff-type-file {
         cursor: pointer;
       }
+
+      [name="FileUploadLabel"] {
+        a {
+          display: inline-block;
+        }
+
+        img {
+          height: auto;
+          width: auto;
+        }
+      }
     }
 
     .g-recaptcha div iframe {
