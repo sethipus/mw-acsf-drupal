@@ -3,7 +3,6 @@
 namespace Drupal\salsify_integration;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\migrate_tools\MigrateExecutable;
 use Drupal\migrate\MigrateMessage;
 use Drupal\migrate\Plugin\MigrationPluginManager;
 
@@ -51,6 +50,7 @@ class MigrationRunner {
    * Run list of migrations.
    */
   protected function runMigrations(array $migrationIds) {
+    asort($migrationIds);
     foreach ($migrationIds as $migrationId) {
       if ($this->migrationPluginManager->hasDefinition($migrationId)) {
         /** @var \Drupal\migrate\Plugin\Migration $migration */

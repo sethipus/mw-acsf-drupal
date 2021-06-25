@@ -1,0 +1,9 @@
+services:
+  # Decorates original MigrationCommands class
+  # to get migration source context from a new MigrateExecutable class from Salsify's namespace.
+  salsify_integration.commands:
+    class: Drupal\salsify_integration\Commands\MigrateToolsCommands
+    decorates: migrate_tools.commands
+    decoration_priority: 9
+    public: false
+    arguments: ['@plugin.manager.migration', '@date.formatter', '@entity_type.manager', '@keyvalue']
