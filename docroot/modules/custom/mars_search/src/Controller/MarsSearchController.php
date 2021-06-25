@@ -12,6 +12,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\mars_search\Processors\SearchHelperInterface;
 use Drupal\mars_search\Processors\SearchQueryParserInterface;
+use Drupal\pathauto\AliasCleanerInterface;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -96,6 +97,13 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   protected $pathValidator;
 
   /**
+   * The alias cleaner.
+   *
+   * @var \Drupal\pathauto\AliasCleanerInterface
+   */
+  protected $aliasCleaner;
+
+  /**
    * Creates a new AutocompleteController instance.
    *
    * @param \Drupal\Core\Render\RendererInterface $renderer
@@ -110,6 +118,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   Theme configurator parser service.
    * @param \Drupal\Core\Path\PathValidatorInterface $path_validator
    *   The path validator service.
+   * @param \Drupal\pathauto\AliasCleanerInterface $pathauto_alias_cleaner
+   *   The path alias cleaner.
    */
   public function __construct(
     RendererInterface $renderer,
@@ -117,7 +127,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     RequestStack $request_stack,
     EntityTypeManagerInterface $entityTypeManager,
     ThemeConfiguratorParser $theme_configurator_parser,
-    PathValidatorInterface $path_validator
+    PathValidatorInterface $path_validator,
+    AliasCleanerInterface $pathauto_alias_cleaner
   ) {
     $this->renderer = $renderer;
     $this->viewBuilder = $entityTypeManager->getViewBuilder('node');
@@ -129,6 +140,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
     $this->themeConfiguratorParser = $theme_configurator_parser;
     $this->pathValidator = $path_validator;
+    $this->aliasCleaner = $pathauto_alias_cleaner;
   }
 
   /**
@@ -141,7 +153,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       $container->get('request_stack'),
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('path.validator')
+      $container->get('path.validator'),
+      $container->get('pathauto.alias_cleaner')
     );
   }
 
@@ -183,7 +196,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       $show_all = isset($options['cards_view']) ? [
         'title' => $this->t('@show_all "@keys"', ['@show_all' => 'Show All Results for', '@keys' => $options['keys']]),
         'attributes' => [
-          'href' => Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, [
+          'href' => urldecode(Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, [
             'query' => [
               SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => [
                 SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID => $options['keys'],
@@ -191,7 +204,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
               // Adding 's' query param to pass search string to GA dashboard.
               's' => $options['keys'],
             ],
-          ]),
+          ])->toString()),
         ],
       ] : [];
     }
@@ -315,6 +328,10 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       // Adding an additional probe to get config if grid is not specified
       // because the text color may be overridden.
       if ($grid_id == 1 && !empty($config['override_text_color'])) {
+        return $config;
+      }
+      $block_grid_id = $this->aliasCleaner->cleanString($config['title']);
+      if (isset($config['title']) && $block_grid_id === $grid_id) {
         return $config;
       }
     }
