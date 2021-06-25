@@ -88,12 +88,15 @@
           // Lazy load scripts
           lazyLoadThirdpartyScripts();
           entryGate.css({display: 'none'});
+          $(document).trigger("popupClosed.entryGate");
+          entryGate.attr("data-popup-opened", false);
           entryGate.attr("aria-hidden", "true");
           $(".layout-container").attr("aria-hidden", "false");
         } else {
           let _tabElems = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]'];
-
           entryGate.css({display: 'flex'});
+          $(document).trigger("popupOpened.entryGate");
+          entryGate.attr("data-popup-opened", true);
           entryGate.attr("aria-hidden", "false");
           $(".layout-container").attr("aria-hidden", "true");
 
@@ -162,6 +165,8 @@
           // over the age limit, set cookie and hide entry gate
           document.cookie = `dateOfBirth=${givenDateStr}; path=/`;
           entryGate.css({display: 'none'});
+          $(document).trigger("popupClosed.entryGate");
+          entryGate.attr("data-popup-opened", false);
           $(".layout-container").attr("aria-hidden", "false");
           entryGate.attr("aria-hidden", "true");
 
