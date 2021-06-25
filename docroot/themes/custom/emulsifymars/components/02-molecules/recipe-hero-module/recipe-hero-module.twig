@@ -49,7 +49,7 @@
       } %}
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: false,
-        image_alt: '',
+        image_alt: images.desktop.alt,
         image_src: images.desktop.src|resize(1360,583),
         image_array: images_array,
       } %}
