@@ -119,7 +119,7 @@
     &.active,
     &:active,
     &:hover {
-      color: clr(secondary, hover-color);
+      color: clr(secondary);
       text-shadow: .2px 0 0 currentColor;
 
       & .menu_chevron__icon {

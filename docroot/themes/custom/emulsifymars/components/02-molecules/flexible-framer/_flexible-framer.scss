@@ -46,6 +46,7 @@
     padding-top: 8rem;
     font-size: 4rem;
     line-height: 4rem;
+    margin-top: 0;
     margin-bottom: 4rem;
 
     @include medium {
@@ -74,7 +75,8 @@
     display: block;
     padding-bottom: 5rem;
     counter-reset: card-counter;
-
+    margin-bottom: 0px;
+    
     @include medium {
       display: grid;
       margin: 0 4rem;
