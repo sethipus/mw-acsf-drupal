@@ -4,6 +4,7 @@ ignored_config_entities:
   - 'system.site:page.front'
   - 'system.site:page.403'
   - 'system.site:page.404'
+  - 'system.site:default_langcode'
   - acquia_connector.settings
   - samlauth.authentication
   - mars_onetrust.settings
