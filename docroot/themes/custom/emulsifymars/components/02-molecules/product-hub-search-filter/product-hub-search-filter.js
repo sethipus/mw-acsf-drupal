@@ -327,7 +327,7 @@
         query += '&limit=' + Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', '/search-callback' + query);
+        xhr.open('GET', drupalSettings.path.baseUrl + drupalSettings.path.pathPrefix + 'search-callback' + query);
         xhr.responseType = 'json';
         xhr.send();
         xhr.onload = function () {
@@ -374,7 +374,7 @@
         query += '&limit=' + Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', '/search-callback' + query);
+        xhr.open('GET', drupalSettings.path.baseUrl + drupalSettings.path.pathPrefix + 'search-callback' + query);
         xhr.responseType = 'json';
         xhr.send();
         xhr.onload = function () {
