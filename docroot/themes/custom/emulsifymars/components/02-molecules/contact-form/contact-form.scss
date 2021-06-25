@@ -431,8 +431,10 @@
       color: clr(text-inverse);
       font-size: 1.4rem;
       text-decoration: none;
+      text-align: center;
       line-height: 5rem;
-      padding: 0 2.7rem;
+      padding: 0 1rem;
+      min-width: 13.3rem;
       position: relative;
       overflow: hidden;
       display: inline-block;
@@ -440,24 +442,24 @@
       width: 100%;
       margin: 0;
       border: none;
-      transition: all 1.2s cubic-bezier(.75, 0, .25, 1);
-      background: linear-gradient(30deg, clr(secondary) 33%, clr(subcolor-3) 33%, clr(subcolor-3) 66%, clr(secondary) 66%) !important;
-      background-size: 500% !important;
-      background-position: right 0% top 0% !important;
+      transition: all .6s cubic-bezier(.75, 0, .25, 0);
+      background: linear-gradient(45deg, clr(subcolor-3) 50%, clr(secondary) 50%) !important;
+      background-size: 200% 200% !important;
+      background-position: right top !important;
 
       &:hover {
         color: clr(secondary);
-        background-position: right 50% top 50% !important;
+        background-position: left bottom !important;
       }
 
       @include medium {
-        padding: 0 3.7rem;
         width: auto;
+        min-width: 15.7rem;
       }
 
-      @include large {
+      @include xl {
+        min-width: 20.2rem;
         line-height: 6rem;
-        padding: 0 5.7rem;
         font-size: 1.6rem;
       }
     }

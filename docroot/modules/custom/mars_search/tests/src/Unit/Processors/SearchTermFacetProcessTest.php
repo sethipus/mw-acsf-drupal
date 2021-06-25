@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Drupal\mars_search\Processors\SearchCategoriesInterface;
 
 /**
  * Class SearchTermFacetProcessTest.
@@ -94,6 +95,13 @@ class SearchTermFacetProcessTest extends UnitTestCase {
   protected $searchTermFacetProcess;
 
   /**
+   * Search categories mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchCategoriesInterface
+   */
+  private $searchCategoriesMock;
+
+  /**
    * Entity type manager mock.
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Entity\EntityTypeManagerInterface
@@ -123,7 +131,8 @@ class SearchTermFacetProcessTest extends UnitTestCase {
     $this->container = new ContainerBuilder();
     $this->searchTermFacetProcess = new SearchTermFacetProcess(
       $this->entityTypeManagerMock,
-      $this->requestStackMock
+      $this->requestStackMock,
+      $this->searchCategoriesMock
     );
   }
 
@@ -134,6 +143,7 @@ class SearchTermFacetProcessTest extends UnitTestCase {
     $this->requestStackMock = $this->createMock(RequestStack::class);
     $this->requestMock = $this->createMock(Request::class);
     $this->requestMock->query = $this->createMock(ParameterBag::class);
+    $this->searchCategoriesMock = $this->createMock(SearchCategoriesInterface::class);
     $this->requestStackMock
       ->expects($this->any())
       ->method('getMasterRequest')
