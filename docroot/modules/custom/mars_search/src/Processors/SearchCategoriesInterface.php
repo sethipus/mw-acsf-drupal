@@ -101,4 +101,9 @@ interface SearchCategoriesInterface {
    */
   public function getCategories();
 
+  /**
+   * Return list of content types which are included in indexing.
+   */
+  public function getContentTypes();
+
 }
