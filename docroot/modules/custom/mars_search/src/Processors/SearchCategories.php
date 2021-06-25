@@ -82,6 +82,19 @@ class SearchCategories implements SearchCategoriesInterface, SearchProcessManage
   }
 
   /**
+   * Return processed list of content types.
+   */
+  public function getContentTypes() {
+    return [
+      'product' => $this->t('Product'),
+      'article' => $this->t('Article'),
+      'recipe' => $this->t('Recipe'),
+      'campaign' => $this->t('Campaign'),
+      'landing_page' => $this->t('Landing page'),
+    ];
+  }
+
+  /**
    * Prepare Categories list from Solr index fields.
    */
   protected function buildCategoriesList() {
