@@ -214,7 +214,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $form['content_type'] = [
       '#type' => 'radios',
       '#title' => $this->languageHelper->translate('Content type'),
-      '#options' => SearchCategoriesInterface::CONTENT_TYPES,
+      '#options' => $this->searchCategories->getContentTypes(),
       '#default_value' => $config['content_type'] ?? NULL,
       '#required' => TRUE,
     ];
