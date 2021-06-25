@@ -12,6 +12,7 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -211,10 +212,15 @@ class SearchOverlayFormTest extends UnitTestCase {
     $this->urlMock
       ->expects($this->any())
       ->method('setOptions');
+    $this->urlMock
+      ->expects($this->any())
+      ->method('toString')
+      ->willReturn('/example');
+    $response = new RedirectResponse('/example');
     $this->formStateMock
       ->expects($this->once())
-      ->method('setRedirectUrl')
-      ->with($this->urlMock);
+      ->method('setResponse')
+      ->with($response);
 
     $this->form->submitForm($form, $this->formStateMock);
   }
