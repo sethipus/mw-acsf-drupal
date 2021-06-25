@@ -185,3 +185,11 @@ function mars_common_update_8013() {
   \Drupal::service('extension.list.module')->reset();
   \Drupal::cache()->invalidateAll();
 }
+
+/**
+ * Install 'layout builder at' module in order to fix installation issue.
+ */
+function mars_common_update_8014() {
+  \Drupal::service('module_installer')
+    ->install(['layout_builder_at']);
+}

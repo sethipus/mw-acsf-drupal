@@ -10,9 +10,11 @@ dependencies:
     - field.field.node.content_hub_page.field_meta_tags
     - field.field.node.content_hub_page.layout_builder__layout
     - node.type.content_hub_page
+    - workflows.workflow.editorial
   module:
     - content_moderation
     - entity_browser
+    - layout_builder_at
     - metatag
     - path
     - publication_date
@@ -73,6 +75,13 @@ content:
     region: content
     settings:
       include_locked: true
+    third_party_settings: {  }
+  layout_builder__layout:
+    type: layout_builder_at_copy
+    weight: 16
+    region: content
+    settings:
+      appearance: unchecked
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
@@ -141,5 +150,4 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden:
-  layout_builder__layout: true
+hidden: {  }
