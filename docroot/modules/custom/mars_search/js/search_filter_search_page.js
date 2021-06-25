@@ -151,7 +151,7 @@
           query.action_type = 'results';
           query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
           $.ajax({
-            url: '/search-callback',
+            url: drupalSettings.path.baseUrl + drupalSettings.path.pathPrefix + 'search-callback',
             data: query,
             success: function (data, textStatus) {
               if (data.results !== null) {
@@ -165,7 +165,7 @@
           });
           query.action_type = 'facet';
           $.ajax({
-            url: '/search-callback',
+            url: drupalSettings.path.baseUrl + drupalSettings.path.pathPrefix + 'search-callback',
             data: query,
             success: function (data, textStatus) {
               $(selectorTypeFilterWrapper).replaceWith(data.types);
@@ -197,7 +197,7 @@
           query.action_type = 'results';
           query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
           $.ajax({
-            url: '/search-callback',
+            url: drupalSettings.path.baseUrl + drupalSettings.path.pathPrefix + 'search-callback',
             data: query,
             success: function (data, textStatus) {
               if (data.results !== null) {
@@ -209,7 +209,7 @@
           });
           query.action_type = 'facet';
           $.ajax({
-            url: '/search-callback',
+            url: drupalSettings.path.baseUrl + drupalSettings.path.pathPrefix + 'search-callback',
             data: query,
             success: function (data, textStatus) {
               $(selectorFilterWrapper).replaceWith(data.filters);
@@ -263,7 +263,7 @@
             query.action_type = 'results';
             query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
             $.ajax({
-              url: '/search-callback',
+              url: drupalSettings.path.baseUrl + drupalSettings.path.pathPrefix + 'search-callback',
               data: query,
               success: function (data, textStatus) {
                 if (data.results !== null) {
@@ -276,7 +276,7 @@
             });
             query.action_type = 'facet';
             $.ajax({
-              url: '/search-callback',
+              url: drupalSettings.path.baseUrl + drupalSettings.path.pathPrefix + 'search-callback',
               data: query,
               success: function (data, textStatus) {
                 $(selectorFilterWrapper).replaceWith(data.filters);
