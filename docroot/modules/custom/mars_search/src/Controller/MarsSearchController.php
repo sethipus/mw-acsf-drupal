@@ -196,7 +196,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       $show_all = isset($options['cards_view']) ? [
         'title' => $this->t('@show_all "@keys"', ['@show_all' => 'Show All Results for', '@keys' => $options['keys']]),
         'attributes' => [
-          'href' => Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, [
+          'href' => urldecode(Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, [
             'query' => [
               SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => [
                 SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID => $options['keys'],
@@ -204,7 +204,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
               // Adding 's' query param to pass search string to GA dashboard.
               's' => $options['keys'],
             ],
-          ]),
+          ])->toString()),
         ],
       ] : [];
     }

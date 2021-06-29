@@ -110,6 +110,7 @@ services:
       - '@http_client'
       - '@config.factory'
       - '@logger.factory'
+      - '@language_manager'
 
   salsify_integration.migrations.products:
     class: Drupal\salsify_integration\MigrationRunner

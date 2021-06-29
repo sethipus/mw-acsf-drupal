@@ -6,7 +6,7 @@ migration_tags:
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
-  data_parser_plugin: json
+  data_parser_plugin: salsify_json
   item_selector: /
   fields:
     -
@@ -24,5 +24,9 @@ process:
   vid:
     plugin: default_value
     default_value: 'mars_category'
+  langcode:
+    plugin: salsify_i18n_process_language
+    source: language
+    default_value: 'und'
 destination:
   plugin: entity:taxonomy_term

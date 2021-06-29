@@ -100,15 +100,6 @@
     }
   }
 
-  .default-link {
-    color: clr(subcolor-3);
-    background-color: clr(secondary);
-
-    &:hover {
-      color: clr(secondary);
-    }
-  }
-
   &::before {
     content: "";
     position: absolute;
@@ -121,7 +112,11 @@
   }
 }
 
-/* https://dev.azure.com/MarsDevTeam/MarsExperiencePlatform/_workitems/edit/209464 */
+/*
+  https://dev.azure.com/MarsDevTeam/MarsExperiencePlatform/_workitems/edit/209464
+  https://dev.azure.com/MarsDevTeam/MarsExperiencePlatform/_workitems/edit/253339
+*/
+
 .block[data-block-plugin-id='mars_common_content_feature_module'] +
 .block[data-block-plugin-id='mars_common_content_feature_module'],
 .block[data-block-plugin-id='freeform_story_block'] +

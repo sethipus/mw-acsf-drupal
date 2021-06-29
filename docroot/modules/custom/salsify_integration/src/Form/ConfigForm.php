@@ -8,11 +8,14 @@ use Drupal\Core\Ajax\MessageCommand;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Batch\BatchBuilder;
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\salsify_integration\Event\SalsifyGetEntityTypesEvent;
@@ -23,6 +26,7 @@ use Drupal\salsify_integration\SalsifyImport;
 use Drupal\salsify_integration\SalsifyImportField;
 use Drupal\salsify_integration\Run\RunResource;
 use Drupal\salsify_integration\MigrationRunner;
+use Drupal\views\Ajax\ScrollTopCommand;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -146,6 +150,13 @@ class ConfigForm extends ConfigFormBase {
   protected $migrationRunner;
 
   /**
+   * The language manager service.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
    * ConfigForm constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -164,6 +175,8 @@ class ConfigForm extends ConfigFormBase {
    *   Salsify Runs resource.
    * @param \Drupal\salsify_integration\MigrationRunner $migrationRunner
    *   Product migration runner.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
+   *   The language manager service.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
@@ -173,7 +186,8 @@ class ConfigForm extends ConfigFormBase {
     SalsifyFields $salsify_fields,
     QueueFactory $queue_factory,
     RunResource $runsResource,
-    MigrationRunner $migrationRunner
+    MigrationRunner $migrationRunner,
+    LanguageManagerInterface $language_manager
   ) {
     parent::__construct($config_factory);
     $this->entityTypeManager = $entity_type_manager;
@@ -184,6 +198,7 @@ class ConfigForm extends ConfigFormBase {
     $this->importQueue = $queue_factory->get('salsify_integration_content_import');
     $this->runsResource = $runsResource;
     $this->migrationRunner = $migrationRunner;
+    $this->languageManager = $language_manager;
   }
 
   /**
@@ -198,7 +213,8 @@ class ConfigForm extends ConfigFormBase {
       $container->get('salsify_integration.salsify_fields'),
       $container->get('queue'),
       $container->get('salsify_integration.salsify.runs'),
-      $container->get('salsify_integration.migrations.products')
+      $container->get('salsify_integration.migrations.products'),
+      $container->get('language_manager')
     );
   }
 
@@ -257,6 +273,7 @@ class ConfigForm extends ConfigFormBase {
     ];
     $this->buildApiApproachElement($form, $form_state);
     $this->buildMultichannelApproachElement($form, $form_state);
+    $form['#attached']['library'] = 'views/views.ajax';
     return parent::buildForm($form, $form_state);
   }
 
@@ -625,59 +642,144 @@ class ConfigForm extends ConfigFormBase {
     $config = $this->config(self::CONFIG_NAME);
     $fieldset = &$form['general'][self::SALSIFY_MULTICHANNEL_APPROACH];
 
-    $fieldset[static::KEY_URL] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('JSON file URL'),
-      '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.url'),
-    ];
+    $site_languages = $this->languageManager->getLanguages();
 
-    $fieldset[static::KEY_ORG_ID] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Organization ID'),
-      '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.org_id'),
-      '#description' => $this->t(
-        'Orgratization identifier provided by Salsify. For details on channels in Salsify, see <a href="@url" target="_blank">Salsify\'s documentation</a>',
-        ['@url' => 'https://help.salsify.com/help/getting-started-with-channels']
-      ),
-    ];
+    foreach ($site_languages as $language) {
+      $this->buildMultiChannelApproachConfiguration($fieldset, $config, $language);
+    }
+  }
 
-    $fieldset[static::KEY_CHANNEL_ID] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Channel ID'),
-      '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.channel_id'),
-      '#description' => $this->t(
-        'Channel ID provided by Salsify. For details on channels in Salsify, see <a href="@url" target="_blank">Salsify\'s documentation</a>',
-        ['@url' => 'https://help.salsify.com/help/getting-started-with-channels']
-      ),
-    ];
+  /**
+   * Builds language-dependent configuration form fields.
+   *
+   * @param array $fieldset
+   *   The initial configuration fieldset.
+   * @param \Drupal\Core\Config\Config $config
+   *   Salsify multichannel approach config.
+   * @param \Drupal\Core\Language\LanguageInterface $language
+   *   The given language object.
+   */
+  private function buildMultiChannelApproachConfiguration(array &$fieldset, Config $config, LanguageInterface $language) {
 
-    $fieldset[static::KEY_API_KEY] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Salsify API key'),
-      '#description' => $this->t(
-        'The access token from the Salsify user account to use for this integration. For details on where to find the access token, see <a href="@url" target="_blank">Salsify\'s API documentation</a>',
-        ['@url' => 'https://help.salsify.com/help/getting-started-api-authorization']
-      ),
-      '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.api_key'),
-    ];
+    if (!$language->isDefault()) {
+      $fieldset[$language->getId()]['enable'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Migrate translation for @language', ['@language' => $language->getName()]),
+        '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.' . $language->getId() . '.enable'),
+      ];
+      $fieldset[$language->getId()]['config'] = [
+        '#type' => 'fieldset',
+        '#title' => $this->t('Migrate configuration for @language', ['@language' => $language->getName()]),
+        '#states' => [
+          'visible' => [
+            [':input[name="salsify_multichannel_approach[' . $language->getId() . '][enable]"]' => ['checked' => TRUE]],
+          ],
+        ],
+      ];
 
-    $fieldset['actions']['request'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Request new export'),
-      '#ajax' => ['callback' => [$this, 'onRequest']],
-    ];
+      $fieldset[$language->getId()]['config'][static::KEY_URL] = [
+        '#type' => 'textarea',
+        '#title' => $this->t('JSON file URL'),
+        '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.' . $language->getId() . '.config.url'),
+      ];
 
-    $fieldset['actions']['status'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Check the export status'),
-      '#ajax' => ['callback' => [$this, 'onStatus']],
-    ];
+      $fieldset[$language->getId()]['config'][static::KEY_ORG_ID] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Organization ID'),
+        '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.' . $language->getId() . '.config.org_id'),
+        '#description' => $this->t(
+          'Orgratization identifier provided by Salsify. For details on channels in Salsify, see <a href="@url" target="_blank">Salsify\'s documentation</a>',
+          ['@url' => 'https://help.salsify.com/help/getting-started-with-channels']
+        ),
+      ];
 
-    $fieldset['actions']['migration'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Run migrations'),
-      '#ajax' => ['callback' => [$this, 'onMigration']],
-    ];
+      $fieldset[$language->getId()]['config'][static::KEY_CHANNEL_ID] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Channel ID'),
+        '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.' . $language->getId() . '.config.channel_id'),
+        '#description' => $this->t(
+          'Channel ID provided by Salsify. For details on channels in Salsify, see <a href="@url" target="_blank">Salsify\'s documentation</a>',
+          ['@url' => 'https://help.salsify.com/help/getting-started-with-channels']
+        ),
+      ];
+
+      $fieldset[$language->getId()]['config'][static::KEY_API_KEY] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Salsify API key'),
+        '#description' => $this->t(
+          'The access token from the Salsify user account to use for this integration. For details on where to find the access token, see <a href="@url" target="_blank">Salsify\'s API documentation</a>',
+          ['@url' => 'https://help.salsify.com/help/getting-started-api-authorization']
+        ),
+        '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.' . $language->getId() . '.config.api_key'),
+      ];
+
+      $fieldset[$language->getId()]['config']['actions']['request'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Request new "@language" export', ['@language' => $language->getName()]),
+        '#ajax' => ['callback' => [$this, 'onRequest']],
+      ];
+
+      $fieldset[$language->getId()]['config']['actions']['status'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Check the "@language" export status', ['@language' => $language->getName()]),
+        '#ajax' => ['callback' => [$this, 'onStatus']],
+      ];
+    }
+    else {
+      $fieldset[static::KEY_URL] = [
+        '#type' => 'textarea',
+        '#title' => $this->t('JSON file URL'),
+        '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.url'),
+      ];
+
+      $fieldset[static::KEY_ORG_ID] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Organization ID'),
+        '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.org_id'),
+        '#description' => $this->t(
+          'Orgratization identifier provided by Salsify. For details on channels in Salsify, see <a href="@url" target="_blank">Salsify\'s documentation</a>',
+          ['@url' => 'https://help.salsify.com/help/getting-started-with-channels']
+        ),
+      ];
+
+      $fieldset[static::KEY_CHANNEL_ID] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Channel ID'),
+        '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.channel_id'),
+        '#description' => $this->t(
+          'Channel ID provided by Salsify. For details on channels in Salsify, see <a href="@url" target="_blank">Salsify\'s documentation</a>',
+          ['@url' => 'https://help.salsify.com/help/getting-started-with-channels']
+        ),
+      ];
+
+      $fieldset[static::KEY_API_KEY] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Salsify API key'),
+        '#description' => $this->t(
+          'The access token from the Salsify user account to use for this integration. For details on where to find the access token, see <a href="@url" target="_blank">Salsify\'s API documentation</a>',
+          ['@url' => 'https://help.salsify.com/help/getting-started-api-authorization']
+        ),
+        '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.api_key'),
+      ];
+
+      $fieldset['actions']['request'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Request new export'),
+        '#ajax' => ['callback' => [$this, 'onRequest']],
+      ];
+
+      $fieldset['actions']['status'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Check the export status'),
+        '#ajax' => ['callback' => [$this, 'onStatus']],
+      ];
+      $fieldset['migration'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Run migrations'),
+        '#ajax' => ['callback' => [$this, 'onMigration']],
+        '#weight' => 100,
+      ];
+    }
   }
 
   /**
@@ -1037,19 +1139,23 @@ class ConfigForm extends ConfigFormBase {
   /**
    * Check the Slasify run status.
    */
-  public function onStatus() {
+  public function onStatus($form, $form_state) {
+    $langcode = $this->getMigrationLanguageFromFormState($form_state);
     $response = new AjaxResponse();
 
     try {
-      if ($run = $this->runsResource->read()) {
+      if ($run = $this->runsResource->read($langcode)) {
         $response->addCommand(new MessageCommand(sprintf(static::MSG_RUNS_URL, $run->product_export_url)));
+        $response->addCommand(new ScrollTopCommand('.messages-list'));
         if (empty($run->product_export_url)) {
           $response->addCommand(new MessageCommand('New URL is assigned, please reload the page.'));
+          $response->addCommand(new ScrollTopCommand('.messages-list'));
         }
       }
     }
     catch (RequestException $exception) {
       $response->addCommand(new MessageCommand($exception->getMessage(), NULL, ['type' => 'error']));
+      $response->addCommand(new ScrollTopCommand('.messages-list'));
       return $response;
     }
 
@@ -1059,17 +1165,20 @@ class ConfigForm extends ConfigFormBase {
   /**
    * Request the new Salsify run.
    */
-  public function onRequest() {
+  public function onRequest(&$form, $form_state) {
+    $langcode = $this->getMigrationLanguageFromFormState($form_state);
     $response = new AjaxResponse();
 
     try {
-      if ($run = $this->runsResource->create()) {
+      if ($run = $this->runsResource->create($langcode)) {
         $response->addCommand(new MessageCommand(sprintf(static::MSG_RUNS_ID, $run->id)));
+        $response->addCommand(new ScrollTopCommand('.messages-list'));
         return $response;
       }
     }
     catch (RequestException $exception) {
       $response->addCommand(new MessageCommand($exception->getMessage(), NULL, ['type' => 'error']));
+      $response->addCommand(new ScrollTopCommand('.messages-list'));
       return $response;
     }
 
@@ -1084,6 +1193,7 @@ class ConfigForm extends ConfigFormBase {
 
     $response = new AjaxResponse();
     $response->addCommand(new MessageCommand($this->t('Migration finished.')));
+    $response->addCommand(new ScrollTopCommand('.messages-list'));
     return $response;
   }
 
@@ -1096,6 +1206,26 @@ class ConfigForm extends ConfigFormBase {
     return [
       self::CONFIG_NAME,
     ];
+  }
+
+  /**
+   * Gets triggered button language id from the form state.
+   *
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state object.
+   *
+   * @return mixed
+   *   Returns language id.
+   */
+  protected function getMigrationLanguageFromFormState(FormStateInterface $form_state) {
+    $element = $form_state->getTriggeringElement();
+    // The hardcoded index [1] is related to the fieldset's langcode,
+    // please don't forget to change the logic if form structure is going to be
+    // changed. Langcode will be double checked on migration runner to valid id.
+    // If the langcode is incorrect we may consider that request is coming from
+    // the base migration form.
+    $langcode = $element['#parents'][1];
+    return $langcode;
   }
 
 }

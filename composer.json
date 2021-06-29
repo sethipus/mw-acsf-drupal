@@ -49,6 +49,7 @@
         "drupal/http_cache_control": "^2.0",
         "drupal/inline_entity_form": "^1.0@RC",
         "drupal/jquery_colorpicker": "^1.4",
+        "drupal/layout_builder_at": "^2.12",
         "drupal/layout_builder_lock": "^1.0@RC",
         "drupal/layout_builder_modal": "^1.1",
         "drupal/maxlength": "^1.0@RC",

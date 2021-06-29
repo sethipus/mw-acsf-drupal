@@ -46,10 +46,10 @@ class RunsCommands extends DrushCommands {
    *
    * @command salsify:runs:request
    * @aliases srreq
-   * @usage salsify:runs:request
+   * @usage salsify:runs:request or salsify:runs:request --langcode=en
    */
-  public function request(array $options = ['json-output' => FALSE]) {
-    if ($run = $this->runResource->create()) {
+  public function request(array $options = ['json-output' => FALSE, 'langcode' => '']) {
+    if ($run = $this->runResource->create($options['langcode'])) {
       if ($options['json-output']) {
         $output = json_encode([
           static::MSG_RUNS_ID => $run->id,
@@ -72,10 +72,10 @@ class RunsCommands extends DrushCommands {
    *
    * @command salsify:runs:read
    * @aliases srread
-   * @usage salsify:runs:read
+   * @usage salsify:runs:read or salsify:runs:read --langcode=en
    */
-  public function read(array $options = ['json-output' => FALSE]) {
-    if ($run = $this->runResource->read()) {
+  public function read(array $options = ['json-output' => FALSE, 'langcode' => '']) {
+    if ($run = $this->runResource->read($options['langcode'])) {
       if ($options['json-output']) {
         $output = json_encode([
           static::MSG_RUNS_ID => $run->id,

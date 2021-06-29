@@ -244,23 +244,11 @@
       width: 100%;
       max-width: 43.3rem;
       text-align: center;
-      line-height: 5rem;
-
-      &::after {
-        bottom: -125px;
-      }
     }
 
     @include medium {
-      line-height: 5rem;
       width: auto;
-      padding: 0 5.3rem;
-    }
-
-    @include large {
-      line-height: 6rem;
-      width: auto;
-      padding: 0 7rem;
+      max-width: none;
     }
   }
 
