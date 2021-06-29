@@ -396,12 +396,12 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           'data-src' => $javascript[$key]['data'],
           'id' => 'bazaar-voice-scripts',
         ];
-        $javascript[$key]['data'] = ($current_uri == '/where-buy' || strpos($current_uri, '/products') !== false) ? $javascript[$key]['data'] : '\/';
+        $javascript[$key]['data'] = ($current_uri == '/where-buy' || strpos($current_uri, '/products') !== FALSE) ? $javascript[$key]['data'] : '\/';
       }
     }
     if (strpos($key, '[price_spider_url]') !== FALSE) {
       $price_spider_url = '//cdn.pricespider.com/1/lib/ps-widget.js';
-      if ($current_uri == '/where-buy' || strpos($current_uri, '/products') !== false) {
+      if ($current_uri == '/where-buy' || strpos($current_uri, '/products') !== FALSE) {
         $javascript[$key]['data'] = $price_spider_url;
       }
       else {
@@ -414,7 +414,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
     }
     if (strpos($key, '[smart_commerce_url]') !== FALSE) {
       $smart_commerce_url = 'https://click2cart.co/assets/js/smartcart_min.js';
-      if ($current_uri == '/where-buy' || strpos($current_uri, '/products') !== false) {
+      if ($current_uri == '/where-buy' || strpos($current_uri, '/products') !== FALSE) {
         $javascript[$key]['data'] = $smart_commerce_url;
       }
       else {
