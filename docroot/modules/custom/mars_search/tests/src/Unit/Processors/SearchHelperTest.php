@@ -5,6 +5,8 @@ namespace Drupal\Tests\mars_search\Unit\Processors;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\path_alias\AliasManagerInterface;
+use Drupal\redirect\RedirectRepository;
 use Drupal\search_api\Item\Field;
 use Drupal\search_api\Item\Item;
 use Drupal\search_api\Query\QueryInterface;
@@ -104,6 +106,20 @@ class SearchHelperTest extends UnitTestCase {
   private $languageHelperMock;
 
   /**
+   * Redirect repository service mock.
+   *
+   * @var \Drupal\redirect\RedirectRepository|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $redirectRepositoryMock;
+
+  /**
+   * Alias manager service mock.
+   *
+   * @var \Drupal\path_alias\AliasManagerInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $aliasManagerMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -115,7 +131,9 @@ class SearchHelperTest extends UnitTestCase {
       $this->loggerFactoryMock,
       $this->requestStackMock,
       $this->searchCategoriesMock,
-      $this->languageHelperMock
+      $this->languageHelperMock,
+      $this->redirectRepositoryMock,
+      $this->aliasManagerMock
     );
   }
 
@@ -141,6 +159,8 @@ class SearchHelperTest extends UnitTestCase {
       ->expects($this->any())
       ->method('getMasterRequest')
       ->willReturn($masterRequest);
+    $this->redirectRepositoryMock = $this->createMock(RedirectRepository::class);
+    $this->aliasManagerMock = $this->createMock(AliasManagerInterface::class);
   }
 
   /**

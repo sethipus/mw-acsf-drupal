@@ -192,11 +192,13 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
           $suggestions[] = $options['cards_view'] ? $this->viewBuilder->view($entity, 'card') : $entity->toLink();
         }
       }
+      // Get alias for search url.
+      $search_url = $this->searchHelper->getAliasForSearchUrl();
 
       $show_all = isset($options['cards_view']) ? [
         'title' => $this->t('@show_all "@keys"', ['@show_all' => 'Show All Results for', '@keys' => $options['keys']]),
         'attributes' => [
-          'href' => urldecode(Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, [
+          'href' => urldecode(Url::fromUri('internal:' . $search_url, [
             'query' => [
               SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => [
                 SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID => $options['keys'],
