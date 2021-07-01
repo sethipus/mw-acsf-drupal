@@ -350,8 +350,6 @@ function product_card_change_color(&$variables) {
  */
 function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
   $current_uri = \Drupal::request()->getRequestUri();
-  $entry_gate_config = \Drupal::config('mars_entry_gate.settings');
-  $entry_gate_enabled = $entry_gate_config->get('enabled');
   foreach ($javascript as $key => $script) {
     if (strpos($key, '[commerce_connector_url]') !== FALSE) {
       $wtb_confg = \Drupal::config('mars_product.wtb.settings');
@@ -366,12 +364,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           ->getCurrentLanguage()->getId();
         $commerce_connector_url = '//fi-v2.global.commerce-connector.com/cc.js';
         // Updating library JS path.
-        if ($current_uri == '/' && $entry_gate_enabled) {
-          $javascript[$key]['data'] = '\/';
-        }
-        else {
-          $javascript[$key]['data'] = $commerce_connector_url;
-        }
+        $javascript[$key]['data'] = '\/';
         // Setting library attributes.
         $javascript[$key]['attributes'] = [
           'data-src' => $commerce_connector_url,
@@ -403,16 +396,16 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           'data-src' => $javascript[$key]['data'],
           'id' => 'bazaar-voice-scripts',
         ];
-        $javascript[$key]['data'] = $current_uri == '/' ? '\/' : $javascript[$key]['data'];
+        $javascript[$key]['data'] = ($current_uri == '/where-buy' || strpos($current_uri, '/products') !== FALSE) ? $javascript[$key]['data'] : '\/';
       }
     }
     if (strpos($key, '[price_spider_url]') !== FALSE) {
       $price_spider_url = '//cdn.pricespider.com/1/lib/ps-widget.js';
-      if ($current_uri == '/' && $entry_gate_enabled) {
-        $javascript[$key]['data'] = '\/';
+      if ($current_uri == '/where-buy' || strpos($current_uri, '/products') !== FALSE) {
+        $javascript[$key]['data'] = $price_spider_url;
       }
       else {
-        $javascript[$key]['data'] = $price_spider_url;
+        $javascript[$key]['data'] = '\/';
       }
       $javascript[$key]['attributes'] = [
         'data-src' => $price_spider_url,
@@ -421,11 +414,11 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
     }
     if (strpos($key, '[smart_commerce_url]') !== FALSE) {
       $smart_commerce_url = 'https://click2cart.co/assets/js/smartcart_min.js';
-      if ($current_uri == '/') {
-        $javascript[$key]['data'] = '\/';
+      if ($current_uri == '/where-buy' || strpos($current_uri, '/products') !== FALSE) {
+        $javascript[$key]['data'] = $smart_commerce_url;
       }
       else {
-        $javascript[$key]['data'] = $smart_commerce_url;
+        $javascript[$key]['data'] = '\/';
       }
       $javascript[$key]['attributes'] = [
         'data-src' => $smart_commerce_url,
