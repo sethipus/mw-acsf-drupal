@@ -36,10 +36,9 @@
         <div {{ bem('branding', [], header__base_class) }}>
           {% block header__branding %}
           <div {{ bem('logo', [], header__base_class) }}>
-          <p>buuuu</p>
             {% embed "@atoms/links/link/link.twig" with {
               link_modifiers: ['logo'],
-              link_url: logo_link__url|default(url('<front>')),
+              link_url: logo_link__url|default('/'),
               text_color_override: false,
             } %}
               {% block link_content %}
