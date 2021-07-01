@@ -317,6 +317,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $facetOptions['conditions'] = $conditions;
 
     if ($grid_type == 'grid') {
+      $facetOptions['facet_option'] = TRUE;
       $facetOptions = $this->searchQueryParser->parseFilterPreset($facetOptions, $config);
     }
     unset($facetOptions['limit']);
