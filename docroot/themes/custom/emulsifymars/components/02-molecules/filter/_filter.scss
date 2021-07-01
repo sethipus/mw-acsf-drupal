@@ -108,8 +108,17 @@
       overflow: hidden;
 
       .checkbox-item {
-        padding-right: 4rem;
-        margin-right: 1rem
+        padding-right: 40px;
+
+        &__label {
+          &::before {
+            right: 1.2rem;
+          }
+
+          &::after {
+            right: 1.5rem;
+          }
+        }
       }
 
       .search-filter-block__button--apply {
