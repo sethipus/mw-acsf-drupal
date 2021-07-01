@@ -88,7 +88,7 @@
       top: 0;
       width: 1px;
       height: 3.9rem;
-      background: clr(primary);
+      background: clr(primary, text-color-override);
     }
   }
 
@@ -96,7 +96,7 @@
     @include set-font($font-type: 'primary-font');
 
     padding: 1rem 3rem 1rem 1.5rem;
-    color: clr(subcolor-3);
+    color: clr(subcolor-3, mobile-search-right-menu-section);
     background: transparent;
     font-size: 1.4rem;
     line-height: 1.4rem;
@@ -107,6 +107,20 @@
     @include medium {
       font-size: 1.8rem;
       line-height: 1.8rem;
+    }
+
+    @include large {
+      color: clr(primary, text-color-override);
+      font-size: 1.4rem;
+      line-height: 1.4rem;
+    }
+
+    &:hover {
+      color: clr(subcolor-3);
+
+      @include large {
+        color: clr(secondary, hover-color);
+      }
     }
 
     &::after {
@@ -120,16 +134,6 @@
 
       @include large {
         top: 9px;
-      }
-    }
-
-    @include large {
-      color: clr(primary);
-      font-size: 1.4rem;
-      line-height: 1.4rem;
-
-      &:hover {
-        color: clr(secondary);
       }
     }
   }
