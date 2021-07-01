@@ -1,7 +1,11 @@
 .search-filter-container {
-  padding: 2rem;
+  padding: 2rem 2rem 1rem;
   background-color: clr(subcolor-2);
   position: relative;
+
+  @include medium {
+    padding: 2rem;
+  }
 
   &__search {
     margin: 60px auto;
@@ -58,7 +62,13 @@
     left: auto;
     height: auto;
     width: auto;
-    margin-bottom: 1rem;
+
+    // Use negative margin-bottom to compensate .filter-title bottom margins.
+    margin-bottom: -1rem;
+  }
+
+  @include large {
+    margin-bottom: -3rem;
   }
 
   &--opened {
