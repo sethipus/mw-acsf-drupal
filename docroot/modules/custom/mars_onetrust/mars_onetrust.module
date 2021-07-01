@@ -14,8 +14,6 @@ function mars_onetrust_page_attachments(&$page) {
   // Get the data domain.
   $config = \Drupal::config('mars_onetrust.settings');
   $data_domain = $config->get('mars_onetrust.data_domain');
-  $entry_gate_config = \Drupal::config('mars_entry_gate.settings');
-  $entry_gate_enabled = $entry_gate_config->get('enabled');
 
   if ($data_domain) {
     // Adding the initial OneTrust scripts.
@@ -34,7 +32,7 @@ function mars_onetrust_page_attachments(&$page) {
       '#attributes' => [
         'type' => 'text/javascript',
         'defer' => 'true',
-        'src' => $entry_gate_enabled ? '\/' : $sdk_url,
+        'src' => '\/',
         'data-src' => $sdk_url,
         'id' => 'onetrust-sdk',
         'charset' => 'UTF-8',
