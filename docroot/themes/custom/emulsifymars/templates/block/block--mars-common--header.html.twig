@@ -43,7 +43,7 @@
     <div {{ bem('logo', [], header__base_class) }}>
       {% embed "@atoms/links/link/link.twig" with {
         link_modifiers: ['logo'],
-        link_url: logo_link__url|default('/'),
+        link_url: logo_link__url|default(url('<front>')),
         link_attributes: data_attributes['logo'],
       } %}
         {% block link_content %}
