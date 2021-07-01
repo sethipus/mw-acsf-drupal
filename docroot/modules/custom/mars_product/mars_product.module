@@ -184,6 +184,15 @@ function product_card_add_wtb_vars(array &$variables) {
     $variables['wtb_widget_id'] = !empty($commerce_vendor_settings[$widget_id_field]) ? $commerce_vendor_settings[$widget_id_field] : NULL;
     $variables['wtb_cta_title'] = !empty($commerce_vendor_settings['cta_title']) ? $commerce_vendor_settings['cta_title'] : NULL;
     $variables['wtb_display'] = $display;
+
+    $button_class = (
+        $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR &&
+        $commerce_vendor_settings['add_class']
+      )
+      ? $commerce_vendor_settings['button_class']
+      : NULL;
+
+    $variables['wtb_button_class'] = $button_class;
   }
 }
 

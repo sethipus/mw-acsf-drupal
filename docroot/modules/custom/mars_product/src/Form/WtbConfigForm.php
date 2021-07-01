@@ -184,6 +184,23 @@ class WtbConfigForm extends ConfigFormBase {
           ],
         ];
 
+        $fieldset['add_class'] = [
+          '#type' => 'checkbox',
+          '#title' => $this->t('Add class to the button'),
+          '#default_value' => !empty($config['settings']['add_class']) ? $config['settings']['add_class'] : FALSE,
+        ];
+
+        $fieldset['button_class'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Button class'),
+          '#default_value' => !empty($config['settings']['button_class']) ? $config['settings']['button_class'] : '',
+          '#states' => [
+            'visible' => [
+              [':input[name="' . PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR . '[add_class]"]' => ['checked' => TRUE]],
+            ],
+          ],
+        ];
+
         $fieldset['data_displaylanguage'] = [
           '#type' => 'textfield',
           '#title' => $this->t('Commerce connector data display language'),
