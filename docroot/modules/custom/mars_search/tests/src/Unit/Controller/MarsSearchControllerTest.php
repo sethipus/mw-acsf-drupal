@@ -10,7 +10,6 @@ use Drupal\Core\Field\FieldItemList;
 use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
-use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\Controller\MarsSearchController;
 use Drupal\mars_search\Processors\SearchBuilder;
@@ -165,16 +164,9 @@ class MarsSearchControllerTest extends UnitTestCase {
   /**
    * Language helper mock.
    *
-   * @var \Drupal\pathauto\AliasCleanerInterface|\PHPUnit\Framework\MockObject\MockObject
+   * @var \Drupal\pathauto\AliasCleanerInterface
    */
   private $aliasCleanerMock;
-
-  /**
-   * Language helper mock.
-   *
-   * @var \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
-   */
-  protected $languageHelperMock;
 
   /**
    * {@inheritdoc}
@@ -189,24 +181,15 @@ class MarsSearchControllerTest extends UnitTestCase {
       ->method('getViewBuilder')
       ->with('node')
       ->willReturn($this->entityViewBuilderMock);
-    $nodeMock = $this->createMock(NodeInterface::class);
-    $nodeMock
-      ->expects($this->any())
-      ->method('getTranslation')
-      ->willReturn($nodeMock);
     $this->nodeStorageMock
       ->expects($this->any())
       ->method('load')
-      ->willReturn($nodeMock);
-
+      ->willReturn($this->createMock(NodeInterface::class));
     $this->entityTypeManagerMock
       ->expects($this->any())
       ->method('getStorage')
       ->willReturn($this->nodeStorageMock);
-    $this->languageHelperMock
-      ->expects($this->any())
-      ->method('getCurrentLanguageId')
-      ->willReturn('en');
+
     $this->searchProcessFactoryMock
       ->expects($this->any())
       ->method('getProcessManager')
@@ -238,8 +221,7 @@ class MarsSearchControllerTest extends UnitTestCase {
       $this->entityTypeManagerMock,
       $this->themeConfiguratorParserMock,
       $this->pathValidator,
-      $this->aliasCleanerMock,
-      $this->languageHelperMock
+      $this->aliasCleanerMock
     );
   }
 
@@ -248,7 +230,7 @@ class MarsSearchControllerTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(8))
+      ->expects($this->exactly(7))
       ->method('get')
       ->willReturnMap(
         [
@@ -286,11 +268,6 @@ class MarsSearchControllerTest extends UnitTestCase {
             'pathauto.alias_cleaner',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->aliasCleanerMock,
-          ],
-          [
-            'mars_common.language_helper',
-            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->languageHelperMock,
           ],
         ]
       );
@@ -458,7 +435,6 @@ class MarsSearchControllerTest extends UnitTestCase {
     $this->nodeStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->searchPrettyFacetProcessor = $this->createMock(SearchPrettyFacetProcessInterface::class);
     $this->aliasCleanerMock = $this->createMock(AliasCleanerInterface::class);
-    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
   }
 
 }
