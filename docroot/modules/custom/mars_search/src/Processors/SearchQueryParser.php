@@ -199,7 +199,7 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
         'IN',
       ];
     }
-    elseif (!empty($config['top_results_wrapper']['top_results']) && empty($searchOptions['facet_option'])) {
+    elseif (!empty($config['top_results_wrapper']['top_results'])) {
       $top_result_ids = array_map(function ($value) {
         return $value['target_id'];
       }, $config['top_results_wrapper']['top_results']);
