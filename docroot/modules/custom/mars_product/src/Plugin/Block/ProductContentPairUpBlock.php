@@ -166,6 +166,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       ->themeConfiguratorParser
       ->getGraphicDivider();
     if ($main_entity) {
+      $this->languageHelper->getTranslation($main_entity);
       $build['#lead_card_entity'] = $main_entity;
       $build['#lead_card_eyebrow'] = $this->languageHelper->translate($conf['lead_card_eyebrow'] ?? $main_entity->type->entity->label());
       $build['#lead_card_title'] = $this->languageHelper->translate($conf['lead_card_title'] ?? NULL) ?: $main_entity->getTitle();
