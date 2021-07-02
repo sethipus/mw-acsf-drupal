@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\mars_search\Processors\SearchHelperInterface;
@@ -104,6 +105,13 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   protected $aliasCleaner;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  protected $languageHelper;
+
+  /**
    * Creates a new AutocompleteController instance.
    *
    * @param \Drupal\Core\Render\RendererInterface $renderer
@@ -120,6 +128,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   The path validator service.
    * @param \Drupal\pathauto\AliasCleanerInterface $pathauto_alias_cleaner
    *   The path alias cleaner.
+   * @param \Drupal\mars_common\LanguageHelper $language_helper
+   *   The language helper service.
    */
   public function __construct(
     RendererInterface $renderer,
@@ -128,7 +138,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     EntityTypeManagerInterface $entityTypeManager,
     ThemeConfiguratorParser $theme_configurator_parser,
     PathValidatorInterface $path_validator,
-    AliasCleanerInterface $pathauto_alias_cleaner
+    AliasCleanerInterface $pathauto_alias_cleaner,
+    LanguageHelper $language_helper
   ) {
     $this->renderer = $renderer;
     $this->viewBuilder = $entityTypeManager->getViewBuilder('node');
@@ -141,6 +152,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     $this->themeConfiguratorParser = $theme_configurator_parser;
     $this->pathValidator = $path_validator;
     $this->aliasCleaner = $pathauto_alias_cleaner;
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -154,7 +166,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('path.validator'),
-      $container->get('pathauto.alias_cleaner')
+      $container->get('pathauto.alias_cleaner'),
+      $container->get('mars_common.language_helper')
     );
   }
 
@@ -319,6 +332,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     $nodeStorage = $this->entityTypeManager()->getStorage('node');
     /** @var \Drupal\node\Entity\Node $node */
     $node = !empty($vid) ? $nodeStorage->loadRevision($vid) : $nodeStorage->load($nid);
+    $node = $node->getTranslation($this->languageHelper->getCurrentLanguageId());
     $nodeIterator = new NodeLBComponentIterator($node);
     foreach ($nodeIterator as $component) {
       $config = $component->get('configuration');
