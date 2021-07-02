@@ -35,4 +35,9 @@ interface SearchHelperInterface {
    */
   public function getCurrentUrl();
 
+  /**
+   * Get alias for search url.
+   */
+  public function getAliasForSearchUrl();
+
 }
