@@ -7,6 +7,8 @@ use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\path_alias\AliasManagerInterface;
+use Drupal\redirect\RedirectRepository;
 use Drupal\search_api\Query\QueryInterface;
 use Drupal\search_api\SearchApiException;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -61,6 +63,20 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
   private $languageHelper;
 
   /**
+   * Redirect repository service.
+   *
+   * @var \Drupal\redirect\RedirectRepository
+   */
+  private $redirectRepository;
+
+  /**
+   * Alias manager service.
+   *
+   * @var \Drupal\path_alias\AliasManagerInterface
+   */
+  private $aliasManager;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -68,13 +84,17 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
     LoggerChannelFactoryInterface $logger_factory,
     RequestStack $request,
     SearchCategoriesInterface $searchCategories,
-    LanguageHelper $language_helper
+    LanguageHelper $language_helper,
+    RedirectRepository $redirect_repository,
+    AliasManagerInterface $alias_manager
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->logger = $logger_factory->get('mars_search');
     $this->request = $request->getMasterRequest();
     $this->searchCategories = $searchCategories;
     $this->languageHelper = $language_helper;
+    $this->redirectRepository = $redirect_repository;
+    $this->aliasManager = $alias_manager;
   }
 
   /**
@@ -259,6 +279,22 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
     // Adding GET parameters.
     $url->setOption('query', $this->request->query->all());
     return $url;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAliasForSearchUrl() {
+    $redirects = $this->redirectRepository->findBySourcePath(SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH);
+    if (!empty($redirects)) {
+      $redirect = array_shift($redirects);
+      $url = $redirect->getRedirectUrl();
+      $search_url = $this->aliasManager->getAliasByPath($url->toString());
+    }
+    else {
+      $search_url = '/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH;
+    }
+    return $search_url;
   }
 
 }
