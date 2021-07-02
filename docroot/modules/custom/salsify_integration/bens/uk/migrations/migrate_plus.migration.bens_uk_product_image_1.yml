@@ -6,7 +6,7 @@ migration_tags:
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
-  data_parser_plugin: json
+  data_parser_plugin: salsify_json
   node_type: product_variant
   item_selector: /
   constants:
@@ -32,6 +32,10 @@ process:
     alt: source_product_title
     skip_on_error: yes
   thumbnail: '@image'
+  langcode:
+    plugin: salsify_i18n_process_language
+    source: language
+    default_value: 'und'
 destination:
   plugin: 'entity:media'
   default_bundle: image

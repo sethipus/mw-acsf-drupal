@@ -24,6 +24,7 @@ dependencies:
   module:
     - content_moderation
     - field_group
+    - layout_builder_at
     - metatag
     - path
     - publication_date
@@ -138,7 +139,7 @@ content:
     type: options_select
     region: content
   field_meta_tags:
-    weight: 28
+    weight: 4
     settings:
       sidebar: true
     third_party_settings: {  }
@@ -228,10 +229,17 @@ content:
     region: content
   langcode:
     type: language_select
-    weight: 2
+    weight: 1
     region: content
     settings:
       include_locked: true
+    third_party_settings: {  }
+  layout_builder__layout:
+    type: layout_builder_at_copy
+    weight: 5
+    region: content
+    settings:
+      appearance: unchecked
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
@@ -254,7 +262,7 @@ content:
     third_party_settings: {  }
   published_at:
     type: publication_date_timestamp
-    weight: 10
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -281,7 +289,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 10
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -301,6 +309,5 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
-  layout_builder__layout: true
   salsify_id: true
   salsify_updated: true

@@ -17,6 +17,7 @@ dependencies:
   module:
     - content_moderation
     - entity_browser
+    - layout_builder_at
     - metatag
     - path
     - publication_date
@@ -108,6 +109,13 @@ content:
     settings:
       include_locked: true
     third_party_settings: {  }
+  layout_builder__layout:
+    type: layout_builder_at_copy
+    weight: 19
+    region: content
+    settings:
+      appearance: unchecked
+    third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
     weight: 11
@@ -175,5 +183,4 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden:
-  layout_builder__layout: true
+hidden: {  }

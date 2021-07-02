@@ -9,6 +9,31 @@
 
   &__list {
     padding-left: 0;
+
+    @include desktop {
+      margin-top: 0;
+      padding-top: 1rem;
+      padding-left: 1.2rem;
+      max-height: 20rem;
+      overflow-x: hidden;
+      overflow-y: auto;
+      box-shadow: 0 -1rem 1rem -1rem rgba(0, 0, 0, 0.1) inset;
+      scrollbar-color: clr(primary);
+      scrollbar-width: thin;
+
+      &::-webkit-scrollbar {
+        width: .4rem;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: clr(highlight-high);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: clr(primary);
+        border-radius: variable(button-border-radius);
+      }
+    }
   }
 
   @include desktop {
@@ -56,27 +81,6 @@
       }
     }
 
-    &__checkboxes {
-      position: absolute;
-      z-index: 1;
-      padding: 0 12px;
-      box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
-      background-color: clr(subcolor-3);
-      border-radius: 10px;
-      display: none;
-      width: 230px;
-
-      .checkbox-item {
-        padding-right: 40px;
-      }
-
-      .search-filter-block__button--apply {
-        margin: 10px auto;
-        width: 208px;
-        text-align: center;
-      }
-    }
-
     &--open {
       .filter-title {
         &::before {
@@ -87,6 +91,40 @@
 
       .filter-block__checkboxes {
         display: block;
+      }
+    }
+  }
+
+  &__checkboxes {
+    @include desktop {
+      position: absolute;
+      z-index: 1;
+      box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+      background-color: clr(subcolor-3);
+      border-radius: 10px;
+      display: none;
+      width: 230px;
+      margin-top: -2.2rem;
+      overflow: hidden;
+
+      .checkbox-item {
+        padding-right: 40px;
+
+        &__label {
+          &::before {
+            right: 1.2rem;
+          }
+
+          &::after {
+            right: 1.5rem;
+          }
+        }
+      }
+
+      .search-filter-block__button--apply {
+        margin: 10px auto;
+        width: 208px;
+        text-align: center;
       }
     }
   }

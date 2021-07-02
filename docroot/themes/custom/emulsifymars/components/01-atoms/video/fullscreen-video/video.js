@@ -8,6 +8,8 @@
       }
 
       var videoInitState = function (videoContainer) {
+        const isPopupOpened = $('[data-popup-opened="true"]').length > 0;
+
         // Setup memoize function for video elements selectors
         var videoElements = (function () {
           var memo = {};
@@ -33,8 +35,14 @@
         videoElements('video').controls = false;
         videoElements('video').muted = true;
         videoElements('video').loop = true;
-        videoElements('video').autoplay = true;
-        videoElements('video').play();
+        videoElements('video').autoplay = isPopupOpened ? false : true;
+
+        if (!isPopupOpened) {
+          videoElements('video').play();
+          videoElements('video').removeAttribute("playsinline");
+        } else {
+          videoElements('video').pause();
+        };
 
         // Display the user defined video controls
         videoElements('controls').setAttribute('data-state', 'hidden');
@@ -68,6 +76,15 @@
           videoElements('video').addEventListener('volumechange', function () {
             checkVolume(videoElements);
           }, false);
+
+          $(document).on( "popupOpened.entryGate", function() {
+            videoElements('video').pause();
+          });
+
+          $(document).on( "popupClosed.entryGate", function() {
+            videoElements('video').play();
+            videoElements('video').removeAttribute("playsinline");
+          });
 
           // Add event listeners to provide info to Data layer
           if (typeof dataLayer !== 'undefined') {
@@ -205,6 +222,8 @@
           // Listen to scroll event to pause video when out of viewport
           let videoVisible = false;
           document.addEventListener('scroll', function () {
+            if (isPopupOpened) {return;}
+
             let videoPosition = videoElements('video').getBoundingClientRect().top;
             let videoHeight = videoElements('video').getBoundingClientRect().height;
             let windowHeight = window.innerHeight;

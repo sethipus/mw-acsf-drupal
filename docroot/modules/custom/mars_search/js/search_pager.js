@@ -42,7 +42,7 @@
         }
 
         $.ajax({
-          url: '/search-callback',
+          url: drupalSettings.path.baseUrl + drupalSettings.path.pathPrefix + 'search-callback',
           data: query,
           success: function (data) {
             if (data.results !== null) {
@@ -72,7 +72,7 @@
         var searchItems = $('.faq').find('ol.faq_list');
         query.offset = searchItems.children().length;
         $.ajax({
-          url: '/search-callback',
+          url: drupalSettings.path.baseUrl + drupalSettings.path.pathPrefix + 'search-callback',
           data: query,
           success: function (data, textStatus) {
             if (data.results !== null) {
@@ -104,7 +104,7 @@
           var searchItems = selectorContext.find('.ajax-card-grid__content').find('.ajax-card-grid__items');
           query.offset = searchItems.children().length;
           $.ajax({
-            url: '/search-callback',
+            url: drupalSettings.path.baseUrl + drupalSettings.path.pathPrefix + 'search-callback',
             data: query,
             success: function (data) {
               if (data.results !== null) {
