@@ -37,6 +37,7 @@ function mars_onetrust_page_attachments(&$page) {
         'id' => 'onetrust-sdk',
         'charset' => 'UTF-8',
         'data-domain-script' => $data_domain,
+        'data-document-language' => 'true',
       ],
       '#weight' => -2,
     ];
