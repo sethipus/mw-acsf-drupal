@@ -57,6 +57,12 @@ class MenuBuilder {
     $tree = $this->menuLinkTree->transform($tree, $manipulators);
     // And the last step is to actually build the tree.
     $menu = $this->menuLinkTree->build($tree);
+    // Iterate menu items through translatable_menu_link module function to get
+    // the correct menu link URI according to the selected site language.
+    foreach ($menu['#items'] as $menu_item_id => $menu_item) {
+      translatable_menu_link_uri_iterate_menu($menu_item);
+      $menu['#items'][$menu_item_id] = $menu_item;
+    }
 
     return $this->processMenuRenderArray($menu['#items'] ?? []);
   }
