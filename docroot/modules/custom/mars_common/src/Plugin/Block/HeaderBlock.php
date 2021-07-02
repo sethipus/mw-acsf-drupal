@@ -4,6 +4,7 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\ContentEntityInterface;
@@ -575,6 +576,13 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       }
     }
     return $languages;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheContexts() {
+    return Cache::mergeContexts(parent::getCacheContexts(), ['url.path']);
   }
 
 }
