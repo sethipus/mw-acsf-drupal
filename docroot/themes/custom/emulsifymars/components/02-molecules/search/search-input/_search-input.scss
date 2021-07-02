@@ -52,6 +52,7 @@
     &::placeholder {
       font-size: 1.6rem;
       color: clr(primary);
+      opacity: 1;
 
       @include xl {
         font-size: 1.8rem;

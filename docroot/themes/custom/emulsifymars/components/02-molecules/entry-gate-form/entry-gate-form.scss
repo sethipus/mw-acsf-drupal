@@ -142,7 +142,7 @@
       &:hover {
         color: clr(primary);
         background-color: transparent;
-        transition: background-color 0.5s cubic-bezier(.75, 0, .25, 1);
+        transition: background-color .6s cubic-bezier(.75, 0, .25, 0);
       }
 
       &::after {

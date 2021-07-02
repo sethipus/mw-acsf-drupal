@@ -119,7 +119,7 @@
           query.limit = 4;
           query.offset = 0;
           $.ajax({
-            url: '/search-callback',
+            url: drupalSettings.path.baseUrl + drupalSettings.path.pathPrefix + 'search-callback',
             data: query,
             success: function (data, textStatus) {
               if (data.results !== null) {
@@ -156,7 +156,7 @@
         query.page_revision_id = $('[data-layer-page-revision-id]').attr('data-layer-page-revision-id');
         query.limit = 4;
         $.ajax({
-          url: '/search-callback',
+          url: drupalSettings.path.baseUrl + drupalSettings.path.pathPrefix + 'search-callback',
           data: query,
           success: function (data, textStatus) {
             if (data.results !== null) {

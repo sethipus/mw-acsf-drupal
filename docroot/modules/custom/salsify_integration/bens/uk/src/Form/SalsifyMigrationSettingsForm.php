@@ -86,7 +86,7 @@ class SalsifyMigrationSettingsForm extends ConfigFormBase {
     if (!empty($migration_definitions)) {
       foreach ($migration_definitions as $migration_definition_id => $migration_definition) {
         if (strstr($migration_definition_id, 'node_product') || strstr($migration_definition_id, 'node_product_variant')) {
-          $migrations_to_display[$migration_definition_id] = '[' . $migration_definition['migration_group'] . '] ' . $migration_definition['label'];
+          $migrations_to_display[$migration_definition_id] = $migration_definition['label'];
         }
       }
     }

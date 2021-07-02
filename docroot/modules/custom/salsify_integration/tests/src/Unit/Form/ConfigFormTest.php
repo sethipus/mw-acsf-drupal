@@ -16,6 +16,8 @@ use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Entity\Query\QueryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Language\Language;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\Messenger\MessengerInterface;
@@ -237,6 +239,13 @@ class ConfigFormTest extends UnitTestCase {
   private $migrationRunnerMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Language\LanguageManagerInterface
+   */
+  private $languageManagerMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -251,7 +260,8 @@ class ConfigFormTest extends UnitTestCase {
       $this->salsifyFieldsMock,
       $this->queueFactoryMock,
       $this->runsResourceMock,
-      $this->migrationRunnerMock
+      $this->migrationRunnerMock,
+      $this->languageManagerMock
     );
   }
 
@@ -260,7 +270,7 @@ class ConfigFormTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(8))
+      ->expects($this->exactly(9))
       ->method('get')
       ->willReturnMap(
         [
@@ -303,6 +313,11 @@ class ConfigFormTest extends UnitTestCase {
             'salsify_integration.migrations.products',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->migrationRunnerMock,
+          ],
+          [
+            'language_manager',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->languageManagerMock,
           ],
         ]
       );
@@ -403,6 +418,14 @@ class ConfigFormTest extends UnitTestCase {
       ->expects($this->once())
       ->method('moduleExists')
       ->willReturn(TRUE);
+
+    $default_language_mock = $this->createMock(Language::class);
+    $default_language_mock->expects($this->any())->method('getId')->willReturn('en');
+    $default_language_mock->expects($this->any())->method('getName')->willReturn('English');
+    $default_language_mock->expects($this->any())->method('isDefault')->willReturn(TRUE);
+    $this->languageManagerMock->expects($this->any())->method('getLanguages')->willReturn([
+      $default_language_mock,
+    ]);
 
     $form = $this->form->buildForm(
       $form,
@@ -872,6 +895,7 @@ class ConfigFormTest extends UnitTestCase {
     $this->queueMock = $this->createMock(QueueInterface::class);
     $this->migrationRunnerMock = $this->createMock(MigrationRunner::class);
     $this->runsResourceMock = $this->createMock(RunResource::class);
+    $this->languageManagerMock = $this->createMock(LanguageManagerInterface::class);
 
     $this->queueFactoryMock
       ->expects($this->any())

@@ -312,8 +312,12 @@ function salsify_integration_cron_salsify_request() {
   if ($aproach == ConfigForm::SALSIFY_MULTICHANNEL_APPROACH) {
     /** @var \Drupal\salsify_integration\Run\RunResource $service */
     $service = \Drupal::service('salsify_integration.salsify.runs');
-    $service->create();
-    $service->read();
+    $available_languages = \Drupal::languageManager()->getLanguages();
+    foreach ($available_languages as $language) {
+      $langcode = $language->getId();
+      $service->create($langcode);
+      $service->read($langcode);
+    }
   }
 }
 
