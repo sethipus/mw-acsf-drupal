@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\mars_search\Processors\SearchHelperInterface;
@@ -104,6 +105,13 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   protected $aliasCleaner;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Creates a new AutocompleteController instance.
    *
    * @param \Drupal\Core\Render\RendererInterface $renderer
@@ -128,7 +136,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     EntityTypeManagerInterface $entityTypeManager,
     ThemeConfiguratorParser $theme_configurator_parser,
     PathValidatorInterface $path_validator,
-    AliasCleanerInterface $pathauto_alias_cleaner
+    AliasCleanerInterface $pathauto_alias_cleaner,
+    LanguageHelper $language_helper
   ) {
     $this->renderer = $renderer;
     $this->viewBuilder = $entityTypeManager->getViewBuilder('node');
@@ -141,6 +150,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     $this->themeConfiguratorParser = $theme_configurator_parser;
     $this->pathValidator = $path_validator;
     $this->aliasCleaner = $pathauto_alias_cleaner;
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -154,7 +164,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('path.validator'),
-      $container->get('pathauto.alias_cleaner')
+      $container->get('pathauto.alias_cleaner'),
+      $container->get('mars_common.language_helper'),
     );
   }
 
@@ -211,8 +222,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     // Set Card view FLASE by default.
     $options['cards_view'] = $options['cards_view'] ?? FALSE;
     $config_no_results = $this->config('mars_search.search_no_results');
-    $empty_text_heading = $config_no_results->get('no_results_heading');
-    $empty_text_description = $config_no_results->get('no_results_text');
+    $empty_text_heading = $this->languageHelper->translate($config_no_results->get('no_results_heading'));
+    $empty_text_description = $this->languageHelper->translate($config_no_results->get('no_results_text'));
     $build = [
       '#theme' => 'mars_search_suggestions',
       '#suggestions' => $suggestions,

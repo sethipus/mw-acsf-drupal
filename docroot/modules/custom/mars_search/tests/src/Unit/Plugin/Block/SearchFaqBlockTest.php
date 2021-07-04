@@ -270,15 +270,15 @@ class SearchFaqBlockTest extends UnitTestCase {
       ->willReturn([]);
 
     $this->languageHelperMock
-      ->expects($this->once())
+      ->expects($this->exactly(3))
       ->method('translate');
 
     $build = $this->block->build();
     $this->assertEquals('mars_search_faq_block', $build['#theme']);
     $this->assertEquals('Test FAQ title', $build['#faq_title']);
     $this->assertEquals(1, $build['#search_result_counter']);
-    $this->assertEquals('test_heading with "test_search_key"', $build['#no_results_heading']);
-    $this->assertEquals('test_text', $build['#no_results_text']);
+    $this->assertArrayHasKey('#no_results_heading', $build);
+    $this->assertArrayHasKey('#no_results_text', $build);
   }
 
   /**

@@ -10,6 +10,7 @@ use Drupal\Core\Field\FieldItemList;
 use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\Controller\MarsSearchController;
 use Drupal\mars_search\Processors\SearchBuilder;
@@ -164,6 +165,13 @@ class MarsSearchControllerTest extends UnitTestCase {
   /**
    * Language helper mock.
    *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
+   * Language helper mock.
+   *
    * @var \Drupal\pathauto\AliasCleanerInterface
    */
   private $aliasCleanerMock;
@@ -221,7 +229,8 @@ class MarsSearchControllerTest extends UnitTestCase {
       $this->entityTypeManagerMock,
       $this->themeConfiguratorParserMock,
       $this->pathValidator,
-      $this->aliasCleanerMock
+      $this->aliasCleanerMock,
+      $this->languageHelper
     );
   }
 
@@ -230,7 +239,7 @@ class MarsSearchControllerTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(7))
+      ->expects($this->exactly(8))
       ->method('get')
       ->willReturnMap(
         [
@@ -268,6 +277,11 @@ class MarsSearchControllerTest extends UnitTestCase {
             'pathauto.alias_cleaner',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->aliasCleanerMock,
+          ],
+          [
+            'mars_common.language_helper',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->languageHelper,
           ],
         ]
       );
@@ -435,6 +449,7 @@ class MarsSearchControllerTest extends UnitTestCase {
     $this->nodeStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->searchPrettyFacetProcessor = $this->createMock(SearchPrettyFacetProcessInterface::class);
     $this->aliasCleanerMock = $this->createMock(AliasCleanerInterface::class);
+    $this->languageHelper = $this->createMock(LanguageHelper::class);
   }
 
 }
