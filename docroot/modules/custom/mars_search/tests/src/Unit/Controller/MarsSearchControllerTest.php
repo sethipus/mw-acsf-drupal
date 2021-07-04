@@ -165,16 +165,17 @@ class MarsSearchControllerTest extends UnitTestCase {
   /**
    * Language helper mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+
+   * @var \Drupal\pathauto\AliasCleanerInterface|\PHPUnit\Framework\MockObject\MockObject
    */
-  private $languageHelper;
+  private $aliasCleanerMock;
 
   /**
    * Language helper mock.
    *
-   * @var \Drupal\pathauto\AliasCleanerInterface
+   * @var \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
    */
-  private $aliasCleanerMock;
+  protected $languageHelperMock;
 
   /**
    * {@inheritdoc}
@@ -189,15 +190,24 @@ class MarsSearchControllerTest extends UnitTestCase {
       ->method('getViewBuilder')
       ->with('node')
       ->willReturn($this->entityViewBuilderMock);
+    $nodeMock = $this->createMock(NodeInterface::class);
+    $nodeMock
+      ->expects($this->any())
+      ->method('getTranslation')
+      ->willReturn($nodeMock);
     $this->nodeStorageMock
       ->expects($this->any())
       ->method('load')
-      ->willReturn($this->createMock(NodeInterface::class));
+      ->willReturn($nodeMock);
+
     $this->entityTypeManagerMock
       ->expects($this->any())
       ->method('getStorage')
       ->willReturn($this->nodeStorageMock);
-
+    $this->languageHelperMock
+      ->expects($this->any())
+      ->method('getCurrentLanguageId')
+      ->willReturn('en');
     $this->searchProcessFactoryMock
       ->expects($this->any())
       ->method('getProcessManager')
@@ -230,7 +240,7 @@ class MarsSearchControllerTest extends UnitTestCase {
       $this->themeConfiguratorParserMock,
       $this->pathValidator,
       $this->aliasCleanerMock,
-      $this->languageHelper
+      $this->languageHelperMock
     );
   }
 
@@ -281,7 +291,7 @@ class MarsSearchControllerTest extends UnitTestCase {
           [
             'mars_common.language_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->languageHelper,
+            $this->languageHelperMock,
           ],
         ]
       );
@@ -449,7 +459,7 @@ class MarsSearchControllerTest extends UnitTestCase {
     $this->nodeStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->searchPrettyFacetProcessor = $this->createMock(SearchPrettyFacetProcessInterface::class);
     $this->aliasCleanerMock = $this->createMock(AliasCleanerInterface::class);
-    $this->languageHelper = $this->createMock(LanguageHelper::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
   }
 
 }

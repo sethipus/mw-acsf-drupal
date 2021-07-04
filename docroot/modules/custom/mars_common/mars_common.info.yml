@@ -6,3 +6,4 @@ core_version_requirement: '^8.8 || ^9'
 dependencies:
   - juicer_io:juicer_io
   - mars_media:mars_media
+  - translatable_menu_link_uri:translatable_menu_link_uri

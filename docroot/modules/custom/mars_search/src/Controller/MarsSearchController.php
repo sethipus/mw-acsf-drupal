@@ -109,7 +109,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *
    * @var \Drupal\mars_common\LanguageHelper
    */
-  private $languageHelper;
+  protected $languageHelper;
 
   /**
    * Creates a new AutocompleteController instance.
@@ -129,7 +129,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    * @param \Drupal\pathauto\AliasCleanerInterface $pathauto_alias_cleaner
    *   The path alias cleaner.
    * @param \Drupal\mars_common\LanguageHelper $language_helper
-   *   Language helper.
+   *   The language helper service.
    */
   public function __construct(
     RendererInterface $renderer,
@@ -167,7 +167,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('path.validator'),
       $container->get('pathauto.alias_cleaner'),
-      $container->get('mars_common.language_helper'),
+      $container->get('mars_common.language_helper')
     );
   }
 
@@ -205,11 +205,13 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
           $suggestions[] = $options['cards_view'] ? $this->viewBuilder->view($entity, 'card') : $entity->toLink();
         }
       }
+      // Get alias for search url.
+      $search_url = $this->searchHelper->getAliasForSearchUrl();
 
       $show_all = isset($options['cards_view']) ? [
         'title' => $this->t('@show_all "@keys"', ['@show_all' => 'Show All Results for', '@keys' => $options['keys']]),
         'attributes' => [
-          'href' => urldecode(Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, [
+          'href' => urldecode(Url::fromUri('internal:' . $search_url, [
             'query' => [
               SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => [
                 SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID => $options['keys'],
@@ -332,6 +334,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     $nodeStorage = $this->entityTypeManager()->getStorage('node');
     /** @var \Drupal\node\Entity\Node $node */
     $node = !empty($vid) ? $nodeStorage->loadRevision($vid) : $nodeStorage->load($nid);
+    $node = $node->getTranslation($this->languageHelper->getCurrentLanguageId());
     $nodeIterator = new NodeLBComponentIterator($node);
     foreach ($nodeIterator as $component) {
       $config = $component->get('configuration');
