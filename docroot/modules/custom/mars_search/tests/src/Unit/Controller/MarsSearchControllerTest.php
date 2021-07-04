@@ -165,7 +165,6 @@ class MarsSearchControllerTest extends UnitTestCase {
   /**
    * Language helper mock.
    *
-
    * @var \Drupal\pathauto\AliasCleanerInterface|\PHPUnit\Framework\MockObject\MockObject
    */
   private $aliasCleanerMock;
