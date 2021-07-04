@@ -128,6 +128,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   The path validator service.
    * @param \Drupal\pathauto\AliasCleanerInterface $pathauto_alias_cleaner
    *   The path alias cleaner.
+   * @param \Drupal\mars_common\LanguageHelper $language_helper
+   *   Language helper.
    */
   public function __construct(
     RendererInterface $renderer,
