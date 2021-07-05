@@ -8,6 +8,7 @@ use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_search\Form\SearchOverlayForm;
+use Drupal\mars_search\Processors\SearchHelperInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -86,6 +87,13 @@ class SearchOverlayFormTest extends UnitTestCase {
   private $configMock;
 
   /**
+   * Search helper mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchHelperInterface
+   */
+  private $searchHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -96,7 +104,8 @@ class SearchOverlayFormTest extends UnitTestCase {
     $this->form = new SearchOverlayForm(
       $this->requestStackMock,
       $this->languageHelper,
-      $this->configMock
+      $this->configMock,
+      $this->searchHelperMock
     );
   }
 
@@ -105,7 +114,7 @@ class SearchOverlayFormTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(3))
+      ->expects($this->exactly(4))
       ->method('get')
       ->willReturnMap(
         [
@@ -123,6 +132,11 @@ class SearchOverlayFormTest extends UnitTestCase {
             'config.factory',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->configMock,
+          ],
+          [
+            'mars_search.search_helper',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->searchHelperMock,
           ],
         ]
       );
@@ -237,6 +251,7 @@ class SearchOverlayFormTest extends UnitTestCase {
     $this->pathValidatorMock = $this->createMock(PathValidatorInterface::class);
     $this->languageHelper = $this->createMock(LanguageHelper::class);
     $this->configMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->searchHelperMock = $this->createMock(SearchHelperInterface::class);
   }
 
 }

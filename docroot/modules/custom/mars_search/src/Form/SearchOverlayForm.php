@@ -50,6 +50,13 @@ class SearchOverlayForm extends FormBase {
   private $config;
 
   /**
+   * Search helper.
+   *
+   * @var \Drupal\mars_search\Processors\SearchHelperInterface
+   */
+  protected $searchHelper;
+
+  /**
    * Constructs a new SearchOverlayForm.
    *
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
@@ -58,15 +65,19 @@ class SearchOverlayForm extends FormBase {
    *   The language helper service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config
    *   The config factory service.
+   * @param \Drupal\mars_search\Processors\SearchHelperInterface $search_helper
+   *   The search helper.
    */
   public function __construct(
     RequestStack $request_stack,
     LanguageHelper $language_helper,
-    ConfigFactoryInterface $config
+    ConfigFactoryInterface $config,
+    SearchHelperInterface $search_helper
   ) {
     $this->requestStack = $request_stack;
     $this->languageHelper = $language_helper;
     $this->config = $config;
+    $this->searchHelper = $search_helper;
   }
 
   /**
@@ -76,7 +87,8 @@ class SearchOverlayForm extends FormBase {
     return new static(
       $container->get('request_stack'),
       $container->get('mars_common.language_helper'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('mars_search.search_helper')
     );
   }
 
@@ -134,7 +146,10 @@ class SearchOverlayForm extends FormBase {
 
     $keys = $form_state->getValue('search');
 
-    $url = Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH);
+    // Get alias for search url.
+    $search_url = $this->searchHelper->getAliasForSearchUrl();
+
+    $url = Url::fromUri('internal:' . $search_url);
     $options = $url->getOptions();
 
     if ($keys) {
