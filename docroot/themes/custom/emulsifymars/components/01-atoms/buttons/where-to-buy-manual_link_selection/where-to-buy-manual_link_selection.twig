@@ -1,0 +1,29 @@
+{#
+/**
+ * Available variables:
+ * - where_to_buy_base_class -
+ * - wtb_manual_link_info -
+ *
+ */
+#}
+{% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
+
+{% if wtb_manual_link_info is not empty %}
+  {% set button_link_attributes = {
+    href: wtb_manual_link_info.button_url,
+    taget: (wtb_manual_link_info.button_new_tab) ? '_blank' : '_self'
+  } %}
+  <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname) }}>
+{#      <a#}
+{#        class="cc-fi-button text_link"#}
+{#        href="{{ wtb_manual_link_info.button_url }}"#}
+{#        {% if not wtb_manual_link_info.button_new_tab %}target="_self"{% endif %}#}
+{#      >#}
+{#        {{ wtb_manual_link_info.button_name }}#}
+{#      </a>#}
+    {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+      default_link_content:  wtb_manual_link_info.button_name,
+      default_link_attributes: button_link_attributes,
+    } %}
+  </div>
+{% endif %}

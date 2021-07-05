@@ -24,6 +24,9 @@
 {% elseif (commerce_vendor == 'smart_commerce') %}
   <!-- Smart Commerce -->
   {% include "@atoms/buttons/where-to-buy-smart_commerce/where-to-buy-smart_commerce.twig" %}
+{% elseif (commerce_vendor == 'manual_link_selection') %}
+  <!-- Manual Link -->
+  {% include "@atoms/buttons/where-to-buy-manual_link_selection/where-to-buy-manual_link_selection.twig" %}
 {% else %}
   <!-- Default Variant -->
   {% include "@atoms/buttons/where-to-buy-commerce_connector/where-to-buy-commerce_connector.twig" %}
