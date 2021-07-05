@@ -11,23 +11,24 @@
     background-color: var(--c-background);
   }
 }
+
 .faq-heading {
   @include set-font($font-type: 'primary-font');
 
   font-weight: normal;
   color: clr(primary);
   text-align: center;
-
-  @include small {
-    font-size: 20px;
-  }
+  font-size: 20px;
+  margin: 4rem auto 2rem;
 
   @include medium {
     font-size: 26px;
+    margin: 6rem auto;
   }
 
   @include xl {
     font-size: 28px;
+    margin: 8rem auto 3.3rem;
   }
 }
 
