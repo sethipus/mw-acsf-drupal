@@ -20,3 +20,74 @@ mars_common.card_color_settings:
     select_background_color_article:
       type: string
       label: 'Article card background color'
+
+block.settings.header_block:
+  type: block_settings
+  label: 'Mars Header Block'
+  mapping:
+    primary_menu:
+      type: string
+      label: 'Primary Menu'
+    secondary_menu:
+      type: string
+      label: 'Secondary Menu'
+    search_block:
+      type: integer
+      label: 'Search block'
+    language_selector:
+      type: integer
+      label: 'Language Selector block'
+    alert_banner:
+      type: mapping
+      label: 'Alert banner'
+      mapping:
+        alert_banner_text:
+          type: mapping
+          label: 'Alert banner text'
+          mapping:
+            value:
+              type: string
+              label: 'Field value'
+            format:
+              type: string
+              label: 'Field format'
+        alert_banner_url:
+          type: label
+          label: 'Alert banner URL'
+        override_color_scheme:
+          type: integer
+          label: 'Override alert banner color'
+        bg_color:
+          type: string
+          label: 'Background color'
+        text_color:
+          type: string
+          label: 'Background color'
+    override_text_color:
+      type: mapping
+      label: 'Override theme text color'
+      mapping:
+        override_color:
+          type: integer
+          label: 'Override color'
+        сhoose_override_hover:
+          type: integer
+          label: 'Choose hover color'
+        hover_color:
+          type: string
+          label: 'Override hover color'
+        override_mobile_color:
+          type: integer
+          label: 'Override mobile header element colors'
+        mobile_main_menu_items_color:
+          type: string
+          label: 'Override mobile menu color'
+        mobile_cross_hamburger:
+          type: string
+          label: 'Override mobile cross/hamburher menu color'
+        mobile_sub_menu_items_color:
+          type: string
+          label: 'Override mobile submenu items color'
+        mobile_search_right_menu_section:
+          type: string
+          label: 'Override right menu section on mobile'
