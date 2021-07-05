@@ -3,6 +3,7 @@
  */
 function _lazyLoadWhereToBuy() {
 
+    smartCommerceLoaded = true;
     if(typeof SmartCart === "undefined")
     {
         $.getScript($('#smart-commerce-widget').attr('data-src')).done(() => {
@@ -46,7 +47,6 @@ $(window).scroll(function(){
         )
     {
         _lazyLoadWhereToBuy();
-        smartCommerceLoaded = true;
     }
 })
 
