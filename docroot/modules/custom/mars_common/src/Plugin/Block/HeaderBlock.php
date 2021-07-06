@@ -500,7 +500,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
           $page_entity->toUrl('canonical', ['language' => $link_data['language']])->toString()
           : Url::fromRoute('<current>', [], ['language' => $link_data['language']]);
         $render_links[] = [
-          'title' => $link_data['title'],
+          'title' => $this->languageHelper->translate($link_data['title']),
           'abbr' => mb_strtoupper($link_key),
           'url' => $url,
           'selected' => $link_data['selected'] ?? FALSE,
