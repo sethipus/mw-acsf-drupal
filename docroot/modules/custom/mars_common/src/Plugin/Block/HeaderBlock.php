@@ -4,6 +4,7 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\ContentEntityInterface;
@@ -498,7 +499,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
           $page_entity->toUrl('canonical', ['language' => $link_data['language']])->toString()
           : Url::fromRoute('<current>', [], ['language' => $link_data['language']]);
         $render_links[] = [
-          'title' => $link_data['title'],
+          'title' => $this->languageHelper->translate($link_data['title']),
           'abbr' => mb_strtoupper($link_key),
           'url' => $url,
           'selected' => $link_data['selected'] ?? FALSE,
@@ -575,6 +576,13 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       }
     }
     return $languages;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheContexts() {
+    return Cache::mergeContexts(parent::getCacheContexts(), ['url.path']);
   }
 
 }
