@@ -14,16 +14,21 @@
     taget: (wtb_manual_link_info.button_new_tab) ? '_blank' : '_self'
   } %}
   <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname) }}>
-{#      <a#}
-{#        class="cc-fi-button text_link"#}
-{#        href="{{ wtb_manual_link_info.button_url }}"#}
-{#        {% if not wtb_manual_link_info.button_new_tab %}target="_self"{% endif %}#}
-{#      >#}
-{#        {{ wtb_manual_link_info.button_name }}#}
-{#      </a>#}
-    {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-      default_link_content:  wtb_manual_link_info.button_name,
-      default_link_attributes: button_link_attributes,
-    } %}
+
+    {% if wtb_manual_link_info.button_style == 'button' %}
+      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+        default_link_content:  wtb_manual_link_info.button_name,
+        default_link_attributes: button_link_attributes,
+      } %}
+    {% else %}
+      {% include "@atoms/links/link/link.twig" with {
+        "link_content": wtb_manual_link_info.button_name,
+        "link_url": wtb_manual_link_info.button_url,
+        "link_attributes": {
+          taget: (wtb_manual_link_info.button_new_tab) ? '_blank' : '_self'
+        },
+        "link_base_class": 'link-base-class',
+      } %}
+    {% endif %}
   </div>
 {% endif %}
