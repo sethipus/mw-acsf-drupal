@@ -1,5 +1,6 @@
 function _lazyLoadWhereToBuy() {
 
+    pricespiderLoaded = true;
     if($('#ps-widget').length > 0 && $('.ps-enabled').length == 0)
     {
         $.getScript($('#ps-widget').attr('data-src'));
@@ -22,7 +23,6 @@ $(window).scroll(function(){
         )
     {
         _lazyLoadWhereToBuy();
-        pricespiderLoaded = true;
     }
 })
 

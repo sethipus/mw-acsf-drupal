@@ -1,5 +1,6 @@
 function _lazyLoadWhereToBuy() {
 
+    commerceConnetor = true;
     if($('#cci-widget').length > 0 && $('.cci-root-container').length == 0)
     {
         $.getScript($('#cci-widget').attr('data-src'));
@@ -21,7 +22,6 @@ $(window).scroll(function(){
         )
     {
         _lazyLoadWhereToBuy();
-        commerceConnetor = true;
     }
 })
 
