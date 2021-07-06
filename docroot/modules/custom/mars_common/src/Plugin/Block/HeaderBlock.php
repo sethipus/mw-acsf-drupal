@@ -390,7 +390,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#primary_menu'] = $this->menuBuilder->getMenuItemsArray($config['primary_menu'], 2);
     $build['#secondary_menu'] = $this->menuBuilder->getMenuItemsArray($config['secondary_menu']);
 
-    $current_language_id = $this->languageHelper->getCurrentLanguageId();
+    $derivative_id = LanguageInterface::TYPE_URL;
+    $current_language_id = $this->languageHelper->getLanguageManager()->getCurrentLanguage($derivative_id)->getId();
     $build['#language_selector_current'] = mb_strtoupper($current_language_id);
     $build['#language_selector_label'] = $this->languageHelper->translate('Select language');
     $language_selector_items = [];
