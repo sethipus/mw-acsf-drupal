@@ -11,7 +11,7 @@
 {% if wtb_manual_link_info is not empty %}
   {% set button_link_attributes = {
     href: wtb_manual_link_info.button_url,
-    taget: (wtb_manual_link_info.button_new_tab) ? '_blank' : '_self'
+    target: (wtb_manual_link_info.button_new_tab) ? '_blank' : '_self'
   } %}
   <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname) }}>
 
@@ -25,7 +25,7 @@
         "link_content": wtb_manual_link_info.button_name,
         "link_url": wtb_manual_link_info.button_url,
         "link_attributes": {
-          taget: (wtb_manual_link_info.button_new_tab) ? '_blank' : '_self'
+          target: (wtb_manual_link_info.button_new_tab) ? '_blank' : '_self'
         },
         "link_base_class": 'link-base-class',
       } %}

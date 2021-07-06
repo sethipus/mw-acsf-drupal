@@ -1,6 +1,5 @@
-product_sku: '00012937003801'
-commerce_vendor: 'commerce_connector'
-data_widget_id: 'Jqj7gyEopK_3fb7bfa0-ede2-11ea-8576-a5b7bf52a57e85'
-reference_for_analitics: ''
-button_type: 'my_own'
-cta_title: 'WHERE TO BUY'
+wtb_manual_link_info:
+  button_name: 'name'
+  button_url: 'https://url.url'
+  button_new_tab: 1
+  button_style: 'button'

@@ -292,7 +292,7 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['button_new_tab'] = [
           '#type' => 'checkbox',
           '#title' => $this->t('Open in new tab'),
-          '#default_value' => !empty($config['settings']['button_new_tab']) ? $config['settings']['button_new_tab'] : TRUE,
+          '#default_value' => $config['settings']['button_new_tab'] ?? TRUE,
         ];
         $fieldset['button_style'] = [
           '#type' => 'select',
