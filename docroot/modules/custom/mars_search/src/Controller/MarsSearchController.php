@@ -347,7 +347,10 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         return $config;
       }
       $block_grid_id = $this->aliasCleaner->cleanString($config['title']);
-      if (isset($config['title']) && $block_grid_id === $grid_id) {
+      if (isset($config['grid_id']) &&
+        !empty($config['grid_id']) &&
+        isset($config['title']) &&
+        $block_grid_id === $grid_id) {
         return $config;
       }
     }
