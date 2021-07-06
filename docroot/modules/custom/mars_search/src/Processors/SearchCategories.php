@@ -128,7 +128,7 @@ class SearchCategories implements SearchCategoriesInterface, SearchProcessManage
           ) {
             $fieldIndexName = $indexFields[$field_name];
             $listFields[$fieldIndexName] = $listFields[$fieldIndexName] ?? ['label' => $field_definition->getLabel()];
-            $listFields[$fieldIndexName]['label'] = $siteLabelConfig->get($fieldIndexName) ?? $listFields[$fieldIndexName]['label'];
+            $listFields[$fieldIndexName]['label'] = $this->languageHelper->translate($siteLabelConfig->get($fieldIndexName)) ?? $listFields[$fieldIndexName]['label'];
             $listFields[$fieldIndexName]['content_types'] = $fieldsDef[$field_name];
             $listFields[$fieldIndexName]['machine_name'] = $field_name;
           }
