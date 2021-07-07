@@ -204,9 +204,13 @@ class WtbConfigForm extends ConfigFormBase {
         ];
 
         $fieldset['button_class'] = [
-          '#type' => 'textfield',
+          '#type' => 'select',
           '#title' => $this->t('Button class'),
-          '#default_value' => !empty($config['settings']['button_class']) ? $config['settings']['button_class'] : '',
+          '#default_value' => !empty($config['settings']['button_class']) ? $config['settings']['button_class'] : 'link',
+          '#options' => [
+            'link' => $this->t('Link'),
+            'button' => $this->t('Button'),
+          ],
           '#states' => [
             'visible' => [
               [':input[name="' . PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR . '[add_class]"]' => ['checked' => TRUE]],
