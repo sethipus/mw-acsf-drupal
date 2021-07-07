@@ -6,7 +6,7 @@
   bottom: 0;
   right: 0;
   left: 0;
-  background-color: #fff;
+  background-color: #FFF;
   max-height: 90%;
   overflow-x: hidden;
   overflow-y: auto;
@@ -14,7 +14,7 @@
   align-items: center;
   color: #696969;
   font-size: 13px;
-  box-shadow: 0 0 18px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 18px rgba(0, 0, 0, .2);
 
   @include xs {
     flex-direction: column;
@@ -31,7 +31,7 @@
 }
 
 .cookie-banner-link {
-  flex: 0.45;
+  flex: .45;
   justify-content: center;
   display: flex;
 
@@ -48,7 +48,7 @@
   #onetrust-accept-btn-handler {
     background-color: #0000a0;
     border-color: #0000a0;
-    color: #FFFFFF;
+    color: #FFF;
     min-width: 125px;
     margin-left: 2em;
     padding: 12px 10px;
@@ -65,15 +65,15 @@
   }
 
   @include large {
-    margin-top: 0px;
+    margin-top: 0;
   }
 }
 
 .cookie-banner-content {
-  flex: 0.55;
+  flex: .55;
 
   p {
-    margin: 0px;
+    margin: 0;
   }
 
   p > a {
@@ -93,7 +93,7 @@
   border: none;
   position: absolute;
   cursor: pointer;
-  
+
   @include xs {
     right: 10px;
     top: 10px;
@@ -108,5 +108,4 @@
     right: 20px;
     top: 50%;
   }
-
 }
