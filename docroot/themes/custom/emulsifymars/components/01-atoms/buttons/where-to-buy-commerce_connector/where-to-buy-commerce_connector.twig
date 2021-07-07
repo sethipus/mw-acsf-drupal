@@ -8,18 +8,23 @@
  * - reference_for_analitics -
  * - cta_title -
  * - button_type -
+ * - where_to_buy_type -
+ * - where_to_buy_button_type - 'button' or 'link'
  *
  */
 #}
 {% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
+{% set where_to_buy_type = ['commerce-connector'] %}
+{% set where_to_buy_button_type_classname =  ['where-to-buy-', where_to_buy_button_type]|join %}
+
 {% if product_sku is not empty %}
-  <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname) }}
+  <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname, where_to_buy_type) }}
     {% if button_type != 'my_own' %}
       data-ccid="cc-wtb-button-container"
     {% endif %}
   >
     {% if button_type == 'my_own' %}
-      <button type="button" class="cc-fi-button text_link" data-ccwid="{{ data_widget_id }}"
+      <button type="button" class="cc-fi-button {{ where_to_buy_button_type_classname }}" data-ccwid="{{ data_widget_id }}"
          data-ean="{{ product_sku }}">{{ cta_title }}</button>
     {% else %}
       <div data-ccid="wtb-target" data-ccwid="{{ data_widget_id }}" data-ean="{{ product_sku }}"></div>
