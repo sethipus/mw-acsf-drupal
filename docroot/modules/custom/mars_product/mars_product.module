@@ -357,6 +357,28 @@ function mars_product_form_alter(array &$form, FormStateInterface $form_state, $
       ],
     ];
   }
+  if ($form_id == 'node_product_variant_form' || $form_id == 'node_product_variant_edit_form') {
+
+    $wtb_config = \Drupal::config('mars_product.wtb.settings');
+    $vendor = $wtb_config->get('commerce_vendor') ?? '';
+
+    if ($vendor == PdpHeroBlock::VENDOR_MANUAL_LINK_SELECTION) {
+      $form['field_product_wtb_button_name']['widget']['#required'] = TRUE;
+      $form['field_product_wtb_button_name']['widget'][0]['#required'] = TRUE;
+      $form['field_product_wtb_button_name']['widget'][0]['value']['#required'] = TRUE;
+      $form['field_product_wtb_button_url']['widget']['#required'] = TRUE;
+      $form['field_product_wtb_button_url']['widget'][0]['#required'] = TRUE;
+      $form['field_product_wtb_button_url']['widget'][0]['value']['#required'] = TRUE;
+    }
+    else {
+      unset($form['#fieldgroups']['group_wtb_manual_link']);
+      $form['field_product_wtb_button_name']['#access'] = FALSE;
+      $form['field_product_wtb_button_url']['#access'] = FALSE;
+      $form['field_product_wtb_button_style']['#access'] = FALSE;
+      $form['field_product_hide_wtb_link']['#access'] = FALSE;
+      $form['field_product_wtb_new_tab']['#access'] = FALSE;
+    }
+  }
 }
 
 /**
