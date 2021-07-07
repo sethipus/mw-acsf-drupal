@@ -1,21 +1,18 @@
 let scriptLoadInProgress = false;
 function _lazyLoadCookieBanner(callBackSettings = false) {
 
-    if($('#onetrust-sdk').length > 0 && !scriptLoadInProgress)
+    if($('#onetrust-sdk').length > 0 && !scriptLoadInProgress && callBackSettings)
     {
         scriptLoadInProgress = true;
         $('#onetrust-sdk').attr('src',$('#onetrust-sdk').attr('data-src'));
         $.getScript($('#onetrust-sdk').attr('data-src')).then(() => {
-            if(callBackSettings)
-            {
-                const checkElement = setInterval(() => {
-                    if($('#onetrust-pc-btn-handler').length > 0)
-                    {
-                        clearInterval(checkElement);
-                        $('#onetrust-pc-btn-handler').trigger('click');
-                    }
-                }, 100);
-            }
+            const checkElement = setInterval(() => {
+                if($('#onetrust-pc-btn-handler').length > 0)
+                {
+                    clearInterval(checkElement);
+                    $('#onetrust-pc-btn-handler').trigger('click');
+                }
+            }, 100);
         });
     }
 
