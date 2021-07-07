@@ -136,7 +136,7 @@ class WtbConfigFormTest extends UnitTestCase {
     $form = [];
 
     $this->configFactoryMock
-      ->expects($this->exactly(4))
+      ->expects($this->exactly(5))
       ->method('getEditable')
       ->willReturn(
         $this->configMock

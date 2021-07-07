@@ -937,10 +937,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'products'  => $products_data,
         'cooking_data' => $this->getCookingInfo($product_variant),
       ];
-      if ($this->getCommerceVendor() == self::VENDOR_MANUAL_LINK_SELECTION && $product_variant->get('field_product_hide_wtb_link') != FALSE) {
+      if ($this->getCommerceVendor() == self::VENDOR_MANUAL_LINK_SELECTION && !$product_variant->get('field_product_hide_wtb_link')->value) {
         $item['wtb_manual_link_info'] = $this->getManualLinkInfo($product_variant);
       }
-      $item[] = $item;
+      $items[] = $item;
     }
 
     return $items;
