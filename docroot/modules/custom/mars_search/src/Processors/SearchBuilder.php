@@ -317,6 +317,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $facetOptions['conditions'] = $conditions;
 
     if ($grid_type == 'grid') {
+      $facetOptions['facet_option'] = TRUE;
       $facetOptions = $this->searchQueryParser->parseFilterPreset($facetOptions, $config);
     }
     unset($facetOptions['limit']);
@@ -527,11 +528,11 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
   public function getSearchNoResult($key, $grid_type) {
     $config = $this->configFactory->get('mars_search.search_no_results');
     $heading = (!empty($key))
-      ? str_replace('@keys', $key, $config->get('no_results_heading'))
-      : $config->get('no_results_heading_empty_str');
+      ? str_replace('@keys', $key, $this->languageHelper->translate($config->get('no_results_heading')))
+      : $this->languageHelper->translate($config->get('no_results_heading_empty_str'));
     $build = [
       '#no_results_heading' => $heading,
-      '#no_results_text' => $config->get('no_results_text'),
+      '#no_results_text' => $this->languageHelper->translate($config->get('no_results_text')),
       '#theme' => 'mars_search_no_results',
       '#graphic_divider' => $this->themeConfiguratorParser->getGraphicDivider(),
     ];
