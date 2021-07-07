@@ -226,8 +226,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     // Set Card view FLASE by default.
     $options['cards_view'] = $options['cards_view'] ?? FALSE;
     $config_no_results = $this->config('mars_search.search_no_results');
-    $empty_text_heading = $config_no_results->get('no_results_heading');
-    $empty_text_description = $config_no_results->get('no_results_text');
+    $empty_text_heading = $this->languageHelper->translate($config_no_results->get('no_results_heading'));
+    $empty_text_description = $this->languageHelper->translate($config_no_results->get('no_results_text'));
     $build = [
       '#theme' => 'mars_search_suggestions',
       '#suggestions' => $suggestions,
@@ -347,7 +347,10 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         return $config;
       }
       $block_grid_id = $this->aliasCleaner->cleanString($config['title']);
-      if (isset($config['title']) && $block_grid_id === $grid_id) {
+      if (isset($config['grid_id']) &&
+        !empty($config['grid_id']) &&
+        isset($config['title']) &&
+        $block_grid_id === $grid_id) {
         return $config;
       }
     }

@@ -1091,7 +1091,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       foreach ($fields as $field => $field_data) {
         $bold_modifier = (bool) $field_data['bold'];
         $item = [
-          'label' => $field_data['label'],
+          'label' => $this->languageHelper->translate($field_data['label']),
           'value' => $node->get($field)->value,
           'bold_modifier' => $bold_modifier,
           'weight' => $field_data['weight'],
