@@ -10,26 +10,14 @@
 {% set where_to_buy_type = ['manual-link-selector'] %}
 
 {% if wtb_manual_link_info is not empty %}
-  {% set button_link_attributes = {
-    href: wtb_manual_link_info.button_url,
-    target: (wtb_manual_link_info.button_new_tab) ? '_blank' : '_self'
-  } %}
   <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname, where_to_buy_type) }}>
-
-    {% if wtb_manual_link_info.button_style == 'button' %}
-      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-        default_link_content:  wtb_manual_link_info.button_name,
-        default_link_attributes: button_link_attributes,
-      } %}
-    {% else %}
       {% include "@atoms/links/link/link.twig" with {
         "link_content": wtb_manual_link_info.button_name,
         "link_url": wtb_manual_link_info.button_url,
         "link_attributes": {
           target: (wtb_manual_link_info.button_new_tab) ? '_blank' : '_self'
         },
-        "link_extra_classes": ['where-to-buy-link'],
+        "link_extra_classes": (wtb_manual_link_info.button_style == 'button')? ['where-to-buy-button'] : ['where-to-buy-link']
       } %}
-    {% endif %}
   </div>
 {% endif %}
