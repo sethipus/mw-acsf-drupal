@@ -189,6 +189,11 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#options' => $options,
       '#default_value' => $config['secondary_menu'] ?? '',
     ];
+    $form['disable_mobile_menu_view'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Disable mobile hamburger menu view'),
+      '#default_value' => $config['disable_mobile_menu_view'] ?? FALSE,
+    ];
     $form['search_block'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Search block'),
@@ -389,6 +394,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#alert_banner_url'] = $this->languageHelper->translate($config['alert_banner']['alert_banner_url']);
     $build['#primary_menu'] = $this->menuBuilder->getMenuItemsArray($config['primary_menu'], 2);
     $build['#secondary_menu'] = $this->menuBuilder->getMenuItemsArray($config['secondary_menu']);
+    $build['#disable_mobile_menu_view'] = $config['disable_mobile_menu_view'] ?? FALSE;
 
     $derivative_id = LanguageInterface::TYPE_URL;
     $current_language_id = $this->languageHelper->getLanguageManager()->getCurrentLanguage($derivative_id)->getId();
