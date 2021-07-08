@@ -109,7 +109,7 @@ function mars_product_page_attachments(&$page) {
           '#attributes' => [
             'id' => 'smart-commerce-brand-js',
             'type' => 'text/javascript',
-            'src' => ($current_uri == '/where-buy' || count(explode("/", $current_uri)) >= 1) ? $commerce_vendor_settings['brand_js'] : '\/',
+            'src' => ($current_uri == '/where-buy' || count(explode("/", $current_uri)) >= 4) ? $commerce_vendor_settings['brand_js'] : '\/',
             'data-src' => !empty($commerce_vendor_settings['brand_js']) ? $commerce_vendor_settings['brand_js'] : '',
           ],
         ],
@@ -117,7 +117,7 @@ function mars_product_page_attachments(&$page) {
           '#tag' => 'style',
           '#attributes' => [
             'id' => 'smart-commerce-brand-css',
-            'src' => ($current_uri == '/where-buy' || count(explode("/", $current_uri)) >= 1) ? $commerce_vendor_settings['brand_css'] : '\/',
+            'src' => ($current_uri == '/where-buy' || count(explode("/", $current_uri)) >= 4) ? $commerce_vendor_settings['brand_css'] : '\/',
             'data-src' => !empty($commerce_vendor_settings['brand_css']) ? $commerce_vendor_settings['brand_css'] : '',
           ],
         ],
@@ -397,7 +397,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           'type' => 'text/javascript',
           'id' => 'bazaar-voice-scripts',
         ];
-        $javascript[$key]['data'] = ($current_uri == '/where-buy' || count(explode("/", $current_uri)) >= 1) ? $javascript[$key]['data'] : '\/';
+        $javascript[$key]['data'] = ($current_uri == '/where-buy' || count(explode("/", $current_uri)) >= 4) ? $javascript[$key]['data'] : '\/';
       }
     }
     if (strpos($key, '[price_spider_url]') !== FALSE) {
@@ -415,7 +415,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
     }
     if (strpos($key, '[smart_commerce_url]') !== FALSE) {
       $smart_commerce_url = '//click2cart.co/assets/js/smartcart_min.js';
-      if ($current_uri == '/where-buy' || count(explode("/", $current_uri)) >= 1) {
+      if ($current_uri == '/where-buy' || count(explode("/", $current_uri)) >= 4) {
         $javascript[$key]['data'] = $smart_commerce_url;
       }
       else {
