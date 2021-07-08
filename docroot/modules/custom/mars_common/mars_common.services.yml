@@ -51,3 +51,9 @@ services:
     class: Drupal\mars_common\Twig\BgColorClassMapper
     tags:
       - { name: twig.extension }
+
+  mars_common_event_subscriber:
+    class: Drupal\mars_common\EventSubscriber\LanguageAccessSubscriber
+    arguments: ['@current_user', '@language_manager', '@request_stack', '@config.factory']
+    tags:
+      - {name: event_subscriber}
