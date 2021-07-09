@@ -319,11 +319,6 @@
       border-color: #c4c4c4;
       border-radius: variable(button-border-radius);
 
-      [name="FileUploadLabel"] {
-        display: flex;
-        align-items: center;
-      }
-
       .ff-fileupload-select {
         display: block;
         width: 100%;
@@ -364,6 +359,9 @@
       }
 
       [name="FileUploadLabel"] {
+        display: flex;
+        align-items: center;
+
         a {
           display: inline-block;
         }

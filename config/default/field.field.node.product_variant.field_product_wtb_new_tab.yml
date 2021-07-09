@@ -1,0 +1,28 @@
+uuid: 71e90ca7-8365-43af-99a1-4be9b279b3a4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_wtb_new_tab
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_wtb_new_tab
+field_name: field_product_wtb_new_tab
+entity_type: node
+bundle: product_variant
+label: 'Open link in a new tab'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

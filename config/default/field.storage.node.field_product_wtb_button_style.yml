@@ -1,0 +1,27 @@
+uuid: 53a50f73-21e9-43d7-881c-5b04f1a306df
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_product_wtb_button_style
+field_name: field_product_wtb_button_style
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: link
+      label: Link
+    -
+      value: button
+      label: Button
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

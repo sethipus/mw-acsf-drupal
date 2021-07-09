@@ -1,0 +1,27 @@
+uuid: 681db12c-663d-4022-b77e-d687827f8a2f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_wtb_button_style
+    - node.type.product_variant
+  module:
+    - options
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_wtb_button_style
+field_name: field_product_wtb_button_style
+entity_type: node
+bundle: product_variant
+label: 'Button style'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: link
+default_value_callback: ''
+settings: {  }
+field_type: list_string

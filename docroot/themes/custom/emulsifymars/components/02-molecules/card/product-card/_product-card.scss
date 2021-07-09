@@ -23,7 +23,7 @@
         opacity: 1;
       }
 
-      a, .eyebrow, .product-card__title, .cc-fi-button {
+      .eyebrow, .product-card__title {
         color: clr(subcolor-3);
         transition: inherit;
       }
@@ -41,10 +41,6 @@
         .hover-image__image {
           opacity: 1;
         }
-      }
-
-      .product-card__button a{
-        color: clr(secondary);
       }
     }
   }
@@ -189,57 +185,8 @@
     left: 3rem;
   }
 
-  &__button {
-    .default-link {
-      display: block;
-      text-align: center;
-      white-space: nowrap;
-
-      @include medium {
-        transition: color 1s cubic-bezier(.75, 0, .25, .8), background-color 1s cubic-bezier(.75, 0, .25, .8);
-        &:hover {
-          color: clr(subcolor-3) !important;
-          transition: color 1s cubic-bezier(.75, 0, .25, .8);
-          background-color: clr(subcolor-3) !important;
-        }
-      }
-
-    }
-
-    .default-link--light {
-      margin-bottom: 0;
-      box-shadow: none;
-    }
-  }
-
   &__link {
     padding-left: 1rem;
-  }
-
-  & .cc-fi-button {
-    @include set-font($font-type: 'secondary-font');
-
-    display: block;
-    padding: 1.8rem 1rem;
-    line-height: 1;
-    font-size: 1.4rem;
-    text-align: center;
-    text-decoration: none;
-    font-weight: bold;
-    color: clr(primary);
-    text-transform: uppercase;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-
-    &[disabled] {
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 
   .ps-disabled {
