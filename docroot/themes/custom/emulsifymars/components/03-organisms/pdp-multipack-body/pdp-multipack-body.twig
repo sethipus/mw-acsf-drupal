@@ -14,6 +14,7 @@
       pdp_label_allergen: '',
       pdp_label_cooking: pdp_item.cooking_data is not empty ? pdp_common_data.cooking_data.cooking_label : '',
       pdp_label_more_information: pdp_common_data.more_information_data.show_more_information_label ? pdp_common_data.more_information_data.more_information_label : '',
+      wtb_manual_link_info: pdp_item.wtb_manual_link_info
     } %}
     {% for pdp_product in pdp_item.products %}
       <!-- PDP Multipack Product Header -->
