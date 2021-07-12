@@ -38,6 +38,7 @@ function mars_entry_gate_theme($existing, $type, $theme, $path) {
  */
 function mars_entry_gate_preprocess_html(&$variables) {
   $config = Drupal::config('mars_entry_gate.settings');
+  $language_helper = \Drupal::service('mars_common.language_helper');
   $text_color_override = FALSE;
   if (!empty($config->get('override_text_color')['override_color'])) {
     $text_color_override = OverrideThemeTextColorTrait::$overrideColor;
@@ -68,7 +69,7 @@ function mars_entry_gate_preprocess_html(&$variables) {
   ];
 
   foreach ($keys as $key) {
-    $entry_gate_render_array['#' . $key] = $config->get($key) ?? '';
+    $entry_gate_render_array['#' . $key] = $language_helper->translate($config->get($key)) ?? '';
   }
 
   /** @var \Drupal\mars_common\ThemeConfiguratorParser $theme_configurator */
