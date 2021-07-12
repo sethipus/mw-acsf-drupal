@@ -438,16 +438,14 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
       ksort($links);
       if (isset($links[$current_language])) {
-        $links[$current_language]['url'] = Url::fromRoute('<current>');
+        $links[$current_language]['url'] = Url::fromRoute('<front>');
         $links[$current_language]['selected'] = TRUE;
       }
       if (isset($links[$default_language])) {
         $links = [$default_language => $links[$default_language]] + $links;
       }
       foreach ($links as $link_key => $link_data) {
-        $url = $page_entity ?
-          $page_entity->toUrl('canonical', ['language' => $link_data['language']])->toString()
-          : Url::fromRoute('<current>', [], ['language' => $link_data['language']]);
+        $url = Url::fromRoute('<front>', [], ['language' => $link_data['language']]);
         $render_links[] = [
           'title' => $this->languageHelper->translate($link_data['title']),
           'abbr' => mb_strtoupper($link_key),
