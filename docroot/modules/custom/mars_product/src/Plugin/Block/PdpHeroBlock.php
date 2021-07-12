@@ -6,6 +6,7 @@ use Drupal\Component\Utility\Html;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityFormBuilderInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
@@ -134,6 +135,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * WTB Smart Commerce provider id.
    */
   const VENDOR_SMART_COMMERCE = 'smart_commerce';
+
+  /**
+   * WTB Manual Link selection provider id.
+   */
+  const VENDOR_MANUAL_LINK_SELECTION = 'manual_link_selection';
 
   /**
    * WTB none provider id.
@@ -839,10 +845,32 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $item['nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_1')->value;
         $item['dual_nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_2')->value;
       }
+      if ($this->getCommerceVendor() == self::VENDOR_MANUAL_LINK_SELECTION && !$product_variant->get('field_product_hide_wtb_link')->value) {
+        $item['wtb_manual_link_info'] = $this->getManualLinkInfo($product_variant);
+      }
       $items[] = $item;
     }
 
     return $items;
+  }
+
+  /**
+   * Get WTB manual link attributes.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $product_variant
+   *   Product variant node.
+   *
+   * @return array
+   *   Manual link attributes.
+   */
+  private function getManualLinkInfo(ContentEntityInterface $product_variant): array {
+    $global_config = $this->getCommerceVendorInfo(self::VENDOR_MANUAL_LINK_SELECTION);
+    return [
+      'button_name' => $product_variant->get('field_product_wtb_button_name')->value ?? $global_config['button_name'],
+      'button_url' => $product_variant->get('field_product_wtb_button_url')->value ?? $global_config['button_url'],
+      'button_new_tab' => $product_variant->get('field_product_wtb_new_tab')->value ?? $global_config['button_new_tab'],
+      'button_style' => $product_variant->get('field_product_wtb_button_style')->value ?? $global_config['button_style'],
+    ];
   }
 
   /**
@@ -898,7 +926,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $i++;
       $state = $i == 1 ? 'true' : 'false';
       $gtin = $product_variant->get('field_product_sku')->value;
-      $items[] = [
+      $item = [
         'gtin' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $gtin,
         'size_id' => $size_id,
         'active' => $state,
@@ -909,6 +937,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'products'  => $products_data,
         'cooking_data' => $this->getCookingInfo($product_variant),
       ];
+      if ($this->getCommerceVendor() == self::VENDOR_MANUAL_LINK_SELECTION && !$product_variant->get('field_product_hide_wtb_link')->value) {
+        $item['wtb_manual_link_info'] = $this->getManualLinkInfo($product_variant);
+      }
+      $items[] = $item;
     }
 
     return $items;
