@@ -7,6 +7,10 @@ function _lazyLoadWhereToBuy() {
     }
 }
 
+$('.inline-search__link').click(() => {
+    _lazyLoadWhereToBuy();
+});
+
 let commerceConnetor = false;
 $(window).scroll(function(){
     if (
