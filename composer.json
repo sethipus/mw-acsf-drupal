@@ -28,8 +28,8 @@
         "drupal/cloudflare": "^1.0@beta",
         "drupal/cog": "^1.0.0",
         "drupal/computed_field": "^3.0@alpha",
-        "drupal/config_ignore": "^2.2",
-        "drupal/config_split": "^1.0.0",
+        "drupal/config_ignore": "^2.3",
+        "drupal/config_split": "^1.7",
         "drupal/core-recommended": "^8.9",
         "drupal/csp": "^1.13",
         "drupal/datalayer": "^1.0@beta",
@@ -166,7 +166,7 @@
                 "3143039 - file_save_data with FILE_EXISTS_REPLACE results in WSOD": "https://www.drupal.org/files/issues/2021-02-11/acquia_contenthub-8.x-2.x-3143039-5.patch"
             },
             "drupal/config_ignore": {
-                "Correct drush filtering": "https://www.drupal.org/files/issues/2020-08-18/support-for-export-2857247-54.patch",
+                "Correct drush filtering": "https://www.drupal.org/files/issues/2021-01-04/config_ignore_2857247-61.patch",
                 "Config ignore collection": "https://www.drupal.org/files/issues/2020-11-04/config-ignore-collections-2973431-57.patch"
             },
             "drupal/core": {
