@@ -27,7 +27,7 @@
         "drupal/ckeditor_config": "^3.0",
         "drupal/cloudflare": "^1.0@beta",
         "drupal/cog": "^1.0.0",
-        "drupal/computed_field": "^2.0",
+        "drupal/computed_field": "^3.0@alpha",
         "drupal/config_ignore": "^2.2",
         "drupal/config_split": "^1.0.0",
         "drupal/core-recommended": "^8.9",
@@ -46,7 +46,7 @@
         "drupal/gtm": "^1.6",
         "drupal/http_cache_control": "^2.0",
         "drupal/inline_entity_form": "^1.0@RC",
-        "drupal/jquery_colorpicker": "^1.4",
+        "drupal/jquery_colorpicker": "dev-1.x#d50c211f7491db49afa17a54538cf72719360f0d",
         "drupal/layout_builder_at": "^2.12",
         "drupal/layout_builder_lock": "^1.0@RC",
         "drupal/layout_builder_modal": "^1.1",
@@ -61,6 +61,7 @@
         "drupal/openapi_ui": "^1.0@RC",
         "drupal/openapi_ui_redoc": "^1.0@RC",
         "drupal/openapi_ui_swagger": "^1.0@RC",
+        "drupal/panels": "^4.6",
         "drupal/poll": "^1.4",
         "drupal/printable": "^2.0",
         "drupal/publication_date": "^2.0@beta",
@@ -172,7 +173,8 @@
                 "2321071 - Base field overrides fix": "https://www.drupal.org/files/issues/2019-12-24/2321071-39.patch"
             },
             "drupal/jquery_colorpicker": {
-                "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch"
+                "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch",
+                "Automated Drupal 9 compatibility fixes. NOTE: Using the dev module version to apply the patch correctly.": "https://www.drupal.org/files/issues/2020-06-16/jquery_colorpicker.1.x-dev.rector.patch"
             },
             "drupal/acquia_connector": {
                 "Enable multisite search support": "https://www.drupal.org/files/issues/2020-05-04/acquia_connector-2871721-29.patch"
