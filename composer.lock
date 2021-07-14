@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "815b99837509a95985e276a07e5a1287",
+    "content-hash": "439f6f4b48645d26e1a2b4a7cfe000e3",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -1772,16 +1772,16 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "1.4.1",
+            "version": "1.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "1ab9842d69e64fb3a01be6b656501032d1b78cb7"
+                "reference": "f27e06cd9675801df441b3656569b328e04aa37c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/1ab9842d69e64fb3a01be6b656501032d1b78cb7",
-                "reference": "1ab9842d69e64fb3a01be6b656501032d1b78cb7",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/f27e06cd9675801df441b3656569b328e04aa37c",
+                "reference": "f27e06cd9675801df441b3656569b328e04aa37c",
                 "shasum": ""
             },
             "require": {
@@ -1789,7 +1789,8 @@
                 "psr/log": "^1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.7 || 6.5 - 8"
+                "phpstan/phpstan": "^0.12.55",
+                "symfony/phpunit-bridge": "^4.2 || ^5"
             },
             "type": "library",
             "autoload": {
@@ -1812,7 +1813,21 @@
                 "Xdebug",
                 "performance"
             ],
-            "time": "2020-03-01T12:26:26+00:00"
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-03-25T17:01:18+00:00"
         },
         {
             "name": "consolidation/annotated-command",
@@ -4384,6 +4399,10 @@
                     "homepage": "https://www.drupal.org/user/47194"
                 },
                 {
+                    "name": "bburg",
+                    "homepage": "https://www.drupal.org/user/1867900"
+                },
+                {
                     "name": "garethhallnz",
                     "homepage": "https://www.drupal.org/user/772766"
                 }
@@ -5159,9 +5178,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.11",
                     "datestamp": "1585606458",
@@ -5831,13 +5847,13 @@
             "version": "3.4.0",
             "require": {
                 "drupal/core": "^8 || ^9",
-                "drupal/ctools": "self.version"
+                "drupal/ctools": "*"
             },
             "type": "metapackage",
             "extra": {
                 "drupal": {
                     "version": "8.x-3.4",
-                    "datestamp": "1585763383",
+                    "datestamp": "1620838181",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -6137,9 +6153,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.0",
                     "datestamp": "1578322688",
@@ -6879,9 +6892,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.1",
                     "datestamp": "1581284770",
@@ -8181,9 +8191,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.0-alpha2",
                     "datestamp": "1582916647",
@@ -8292,9 +8299,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.0-beta2",
                     "datestamp": "1582217387",
@@ -10369,9 +10373,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-2.0-rc2",
                     "datestamp": "1585779664",
@@ -10393,6 +10394,10 @@
                 {
                     "name": "e0ipso",
                     "homepage": "https://www.drupal.org/user/550110"
+                },
+                {
+                    "name": "phenaproxima",
+                    "homepage": "https://www.drupal.org/user/205645"
                 },
                 {
                     "name": "richgerdes",
@@ -10800,14 +10805,11 @@
             "name": "drupal/panels_ipe",
             "version": "4.4.0",
             "require": {
-                "drupal/core": "*",
-                "drupal/panels": "self.version"
+                "drupal/core": "^8",
+                "drupal/panels": "*"
             },
             "type": "metapackage",
             "extra": {
-                "branch-alias": {
-                    "dev-4.x": "4.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-4.4",
                     "datestamp": "1553565784",
@@ -11641,9 +11643,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.0-beta2",
                     "datestamp": "1585777919",
@@ -11724,13 +11723,10 @@
             "version": "1.0.0-beta2",
             "require": {
                 "drupal/core": "^8 || ^9",
-                "drupal/schemata": "self.version"
+                "drupal/schemata": "*"
             },
             "type": "metapackage",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.0-beta2",
                     "datestamp": "1585777919",
@@ -12163,8 +12159,16 @@
             "authors": [
                 {
                     "name": "Mateu Aguiló Bosch",
-                    "homepage": "https://www.drupal.org/user/550110",
+                    "homepage": "https://www.drupal.org/user/405824",
                     "email": "mateu.aguilo.bosch@gmail.com"
+                },
+                {
+                    "name": "e0ipso",
+                    "homepage": "https://www.drupal.org/user/550110"
+                },
+                {
+                    "name": "mglaman",
+                    "homepage": "https://www.drupal.org/user/2416470"
                 },
                 {
                     "name": "pcambra",
@@ -12937,6 +12941,80 @@
             }
         },
         {
+            "name": "drupal/upgrade_status",
+            "version": "3.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/upgrade_status.git",
+                "reference": "8.x-3.7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/upgrade_status-8.x-3.7.zip",
+                "reference": "8.x-3.7",
+                "shasum": "f060f72dcf539084c5beb997b2920f04c9a517fc"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9",
+                "mathieuviossat/arraytotexttable": "~1.0.0",
+                "mglaman/phpstan-drupal": "^0.12.9",
+                "nikic/php-parser": "^4.0.0",
+                "phpstan/phpstan-deprecation-rules": "^0.12.0",
+                "webflo/drupal-finder": "^1.2"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-3.7",
+                    "datestamp": "1624540305",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9 || ^10"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Gábor Hojtsy",
+                    "homepage": "https://www.drupal.org/user/4166"
+                },
+                {
+                    "name": "colan",
+                    "homepage": "https://www.drupal.org/user/58704"
+                },
+                {
+                    "name": "herczogzoltan",
+                    "homepage": "https://www.drupal.org/user/3528391"
+                },
+                {
+                    "name": "sun",
+                    "homepage": "https://www.drupal.org/user/54136"
+                },
+                {
+                    "name": "webchick",
+                    "homepage": "https://www.drupal.org/user/24967"
+                },
+                {
+                    "name": "xjm",
+                    "homepage": "https://www.drupal.org/user/65776"
+                }
+            ],
+            "description": "Review Drupal major upgrade readiness of the environment and components of the site.",
+            "homepage": "http://drupal.org/project/upgrade_status",
+            "support": {
+                "source": "https://git.drupalcode.org/project/upgrade_status"
+            }
+        },
+        {
             "name": "drupal/video_embed_field",
             "version": "2.4.0",
             "source": {
@@ -13089,6 +13167,12 @@
             "description": "Try to guess the host operating system.",
             "keywords": [
                 "operating system detection"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/drupol",
+                    "type": "github"
+                }
             ],
             "abandoned": "loophp/phposinfo",
             "time": "2020-05-19T14:14:28+00:00"
@@ -14453,6 +14537,85 @@
             "time": "2020-03-29T12:36:29+00:00"
         },
         {
+            "name": "laminas/laminas-servicemanager",
+            "version": "3.6.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-servicemanager.git",
+                "reference": "b1445e1a7077c21b0fad0974a1b7a11b9dbe0828"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/b1445e1a7077c21b0fad0974a1b7a11b9dbe0828",
+                "reference": "b1445e1a7077c21b0fad0974a1b7a11b9dbe0828",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "^1.2",
+                "laminas/laminas-stdlib": "^3.2.1",
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "php": "^7.3 || ~8.0.0",
+                "psr/container": "^1.0"
+            },
+            "conflict": {
+                "laminas/laminas-code": "<3.3.1",
+                "zendframework/zend-code": "<3.3.1"
+            },
+            "provide": {
+                "container-interop/container-interop-implementation": "^1.2",
+                "psr/container-implementation": "^1.0"
+            },
+            "replace": {
+                "zendframework/zend-servicemanager": "^3.4.0"
+            },
+            "require-dev": {
+                "composer/package-versions-deprecated": "^1.0",
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "laminas/laminas-container-config-test": "^0.3",
+                "laminas/laminas-dependency-plugin": "^2.1",
+                "mikey179/vfsstream": "^1.6.8",
+                "ocramius/proxy-manager": "^2.2.3",
+                "phpbench/phpbench": "^1.0.0-alpha3",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.4"
+            },
+            "suggest": {
+                "ocramius/proxy-manager": "ProxyManager ^2.1.1 to handle lazy initialization of services"
+            },
+            "bin": [
+                "bin/generate-deps-for-config-factory",
+                "bin/generate-factory-for-class"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\ServiceManager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Factory-Driven Dependency Injection Container",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "PSR-11",
+                "dependency-injection",
+                "di",
+                "dic",
+                "laminas",
+                "service-manager",
+                "servicemanager"
+            ],
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2021-02-03T08:44:41+00:00"
+        },
+        {
             "name": "laminas/laminas-stdlib",
             "version": "3.2.1",
             "source": {
@@ -14501,6 +14664,58 @@
                 "stdlib"
             ],
             "time": "2019-12-31T17:51:15+00:00"
+        },
+        {
+            "name": "laminas/laminas-text",
+            "version": "2.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-text.git",
+                "reference": "d696fa1fb3880b9b8f02c08be58685013b421608"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-text/zipball/d696fa1fb3880b9b8f02c08be58685013b421608",
+                "reference": "d696fa1fb3880b9b8f02c08be58685013b421608",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-servicemanager": "^3.4",
+                "laminas/laminas-stdlib": "^3.1",
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "php": "^7.3 || ~8.0.0"
+            },
+            "replace": {
+                "zendframework/zend-text": "^2.7.1"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "laminas/laminas-config": "^3.4",
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Text\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Create FIGlets and text-based tables",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "laminas",
+                "text"
+            ],
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2021-02-17T21:24:58+00:00"
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
@@ -15038,28 +15253,76 @@
             "time": "2017-09-04T12:26:28+00:00"
         },
         {
-            "name": "mglaman/drupal-check",
-            "version": "1.0.14",
+            "name": "mathieuviossat/arraytotexttable",
+            "version": "v1.0.8",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mglaman/drupal-check.git",
-                "reference": "e079026d9659698709d2893ee54b2364488d8dea"
+                "url": "https://github.com/viossat/arraytotexttable.git",
+                "reference": "6b1af924478cb9c3a903269e304fff006fe0dbf4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mglaman/drupal-check/zipball/e079026d9659698709d2893ee54b2364488d8dea",
-                "reference": "e079026d9659698709d2893ee54b2364488d8dea",
+                "url": "https://api.github.com/repos/viossat/arraytotexttable/zipball/6b1af924478cb9c3a903269e304fff006fe0dbf4",
+                "reference": "6b1af924478cb9c3a903269e304fff006fe0dbf4",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-text": "^2.7",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MathieuViossat\\Util\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mathieu Viossat",
+                    "email": "mathieu@viossat.fr",
+                    "homepage": "https://viossat.fr"
+                }
+            ],
+            "description": "Display arrays in terminal",
+            "homepage": "https://github.com/viossat/arraytotexttable",
+            "keywords": [
+                "array",
+                "ascii",
+                "table",
+                "terminal",
+                "text",
+                "unicode"
+            ],
+            "time": "2020-06-23T17:14:22+00:00"
+        },
+        {
+            "name": "mglaman/drupal-check",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mglaman/drupal-check.git",
+                "reference": "3ec4b60f86caa6fabd8067726908afd66ee3ec01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mglaman/drupal-check/zipball/3ec4b60f86caa6fabd8067726908afd66ee3ec01",
+                "reference": "3ec4b60f86caa6fabd8067726908afd66ee3ec01",
                 "shasum": ""
             },
             "require": {
                 "composer/xdebug-handler": "^1.3",
                 "jean85/pretty-package-versions": "^1.2",
-                "mglaman/phpstan-drupal": "^0.11.1",
-                "mglaman/phpstan-junit": "^0.11.1",
-                "php": "~7.1",
-                "phpstan/phpstan": "^0.11.17",
-                "phpstan/phpstan-deprecation-rules": "^0.11.0",
+                "mglaman/phpstan-drupal": "^0.12",
+                "nette/neon": "^3.1",
+                "php": "~7.2",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-deprecation-rules": "^0.12",
                 "symfony/console": "~3.2 || ~4.0",
+                "symfony/process": "~3.2 || ~4.0",
                 "webflo/drupal-finder": "^1.1"
             },
             "conflict": {
@@ -15088,40 +15351,43 @@
                 }
             ],
             "description": "CLI tool for running checks on a Drupal code base",
-            "time": "2019-10-28T20:19:39+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/mglaman",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-02-27T03:18:28+00:00"
         },
         {
             "name": "mglaman/phpstan-drupal",
-            "version": "0.11.14",
+            "version": "0.12.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mglaman/phpstan-drupal.git",
-                "reference": "3458665f7bb579f700c1384d5bc05d879757f76c"
+                "reference": "b8b6642861662cefb86bf19d9faab01715f38b68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mglaman/phpstan-drupal/zipball/3458665f7bb579f700c1384d5bc05d879757f76c",
-                "reference": "3458665f7bb579f700c1384d5bc05d879757f76c",
+                "url": "https://api.github.com/repos/mglaman/phpstan-drupal/zipball/b8b6642861662cefb86bf19d9faab01715f38b68",
+                "reference": "b8b6642861662cefb86bf19d9faab01715f38b68",
                 "shasum": ""
             },
             "require": {
-                "nette/di": "^3.0",
-                "php": "^7.1",
-                "phpstan/phpstan": "~0.11.0",
+                "nette/finder": "^2.5",
+                "php": "^7.1 || ^8.0",
+                "phpstan/phpstan": "^0.12.64",
                 "symfony/yaml": "~3.4.5|^4.2",
                 "webflo/drupal-finder": "^1.2"
             },
-            "conflict": {
-                "phpstan/phpstan": ">=0.12",
-                "phpstan/phpstan-deprecation-rules": ">=0.12"
-            },
             "require-dev": {
-                "composer/installers": "^1.6",
-                "drupal/core-recommended": "^8.8@alpha",
-                "drush/drush": "^9.6",
-                "phpstan/phpstan-deprecation-rules": "~0.11.0",
-                "phpstan/phpstan-strict-rules": "~0.11.0",
-                "phpunit/phpunit": "^7.5",
+                "composer/installers": "^1.9",
+                "drupal/core-dev": "^8.8@alpha || ^9.0",
+                "drupal/core-recommended": "^8.8@alpha || ^9.0",
+                "drush/drush": "^9.6 | ^10.0",
+                "phpstan/phpstan-deprecation-rules": "~0.12.0",
+                "phpstan/phpstan-strict-rules": "^0.12.0",
+                "phpunit/phpunit": "^6.5 || ^7.5 || ^8.0 || ^9",
                 "squizlabs/php_codesniffer": "^3.3"
             },
             "suggest": {
@@ -15156,6 +15422,9 @@
                 }
             },
             "autoload": {
+                "files": [
+                    "drupal-phpunit-hack.php"
+                ],
                 "psr-4": {
                     "PHPStan\\": "src/"
                 }
@@ -15171,49 +15440,21 @@
                 }
             ],
             "description": "Drupal extension and rules for PHPStan",
-            "time": "2019-12-10T15:17:37+00:00"
-        },
-        {
-            "name": "mglaman/phpstan-junit",
-            "version": "0.11.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mglaman/phpstan-junit.git",
-                "reference": "f5a3bd48e2868902e540d8ff44af9da1853aa37e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mglaman/phpstan-junit/zipball/f5a3bd48e2868902e540d8ff44af9da1853aa37e",
-                "reference": "f5a3bd48e2868902e540d8ff44af9da1853aa37e",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "phpstan/phpstan": "^0.11.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.12-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PHPStan\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
+            "funding": [
                 {
-                    "name": "Matt Glaman",
-                    "email": "nmd.matt@gmail.com"
+                    "url": "https://github.com/mglaman",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/phpstan-drupal",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/mglaman/phpstan-drupal",
+                    "type": "tidelift"
                 }
             ],
-            "description": "ErrorFormatter for PHPStan to output errors in JUnit format",
-            "time": "2019-02-15T19:43:32+00:00"
+            "time": "2021-05-12T20:49:49+00:00"
         },
         {
             "name": "mikehaertl/php-shellcommand",
@@ -15653,154 +15894,6 @@
             "time": "2021-02-24T17:30:44+00:00"
         },
         {
-            "name": "nette/bootstrap",
-            "version": "v3.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nette/bootstrap.git",
-                "reference": "67830a65b42abfb906f8e371512d336ebfb5da93"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nette/bootstrap/zipball/67830a65b42abfb906f8e371512d336ebfb5da93",
-                "reference": "67830a65b42abfb906f8e371512d336ebfb5da93",
-                "shasum": ""
-            },
-            "require": {
-                "nette/di": "^3.0",
-                "nette/utils": "^3.0",
-                "php": ">=7.1"
-            },
-            "conflict": {
-                "tracy/tracy": "<2.6"
-            },
-            "require-dev": {
-                "latte/latte": "^2.2",
-                "nette/application": "^3.0",
-                "nette/caching": "^3.0",
-                "nette/database": "^3.0",
-                "nette/forms": "^3.0",
-                "nette/http": "^3.0",
-                "nette/mail": "^3.0",
-                "nette/robot-loader": "^3.0",
-                "nette/safe-stream": "^2.2",
-                "nette/security": "^3.0",
-                "nette/tester": "^2.0",
-                "phpstan/phpstan-nette": "^0.12",
-                "tracy/tracy": "^2.6"
-            },
-            "suggest": {
-                "nette/robot-loader": "to use Configurator::createRobotLoader()",
-                "tracy/tracy": "to use Configurator::enableTracy()"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0-only",
-                "GPL-3.0-only"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "https://davidgrudl.com"
-                },
-                {
-                    "name": "Nette Community",
-                    "homepage": "https://nette.org/contributors"
-                }
-            ],
-            "description": "🅱 Nette Bootstrap: the simple way to configure and bootstrap your Nette application.",
-            "homepage": "https://nette.org",
-            "keywords": [
-                "bootstrapping",
-                "configurator",
-                "nette"
-            ],
-            "time": "2020-05-26T08:46:23+00:00"
-        },
-        {
-            "name": "nette/di",
-            "version": "v3.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nette/di.git",
-                "reference": "34d3e47ebe96229b7671664893a3b1128c102213"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nette/di/zipball/34d3e47ebe96229b7671664893a3b1128c102213",
-                "reference": "34d3e47ebe96229b7671664893a3b1128c102213",
-                "shasum": ""
-            },
-            "require": {
-                "ext-tokenizer": "*",
-                "nette/neon": "^3.0",
-                "nette/php-generator": "^3.3.3",
-                "nette/robot-loader": "^3.2",
-                "nette/schema": "^1.0",
-                "nette/utils": "^3.1",
-                "php": ">=7.1"
-            },
-            "conflict": {
-                "nette/bootstrap": "<3.0"
-            },
-            "require-dev": {
-                "nette/tester": "^2.2",
-                "phpstan/phpstan": "^0.12",
-                "tracy/tracy": "^2.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0-only",
-                "GPL-3.0-only"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "https://davidgrudl.com"
-                },
-                {
-                    "name": "Nette Community",
-                    "homepage": "https://nette.org/contributors"
-                }
-            ],
-            "description": "💎 Nette Dependency Injection Container: Flexible, compiled and full-featured DIC with perfectly usable autowiring and support for all new PHP 7.1 features.",
-            "homepage": "https://nette.org",
-            "keywords": [
-                "compiled",
-                "di",
-                "dic",
-                "factory",
-                "ioc",
-                "nette",
-                "static"
-            ],
-            "time": "2020-05-14T10:29:59+00:00"
-        },
-        {
             "name": "nette/finder",
             "version": "v2.5.2",
             "source": {
@@ -15865,149 +15958,20 @@
         },
         {
             "name": "nette/neon",
-            "version": "v3.1.2",
+            "version": "v3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/neon.git",
-                "reference": "3c3dcbc6bf6c80dc97b1fc4ba9a22ae67930fc0e"
+                "reference": "e4ca6f4669121ca6876b1d048c612480e39a28d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/neon/zipball/3c3dcbc6bf6c80dc97b1fc4ba9a22ae67930fc0e",
-                "reference": "3c3dcbc6bf6c80dc97b1fc4ba9a22ae67930fc0e",
+                "url": "https://api.github.com/repos/nette/neon/zipball/e4ca6f4669121ca6876b1d048c612480e39a28d5",
+                "reference": "e4ca6f4669121ca6876b1d048c612480e39a28d5",
                 "shasum": ""
             },
             "require": {
-                "ext-iconv": "*",
                 "ext-json": "*",
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "nette/tester": "^2.0",
-                "phpstan/phpstan": "^0.12",
-                "tracy/tracy": "^2.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.1-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0-only",
-                "GPL-3.0-only"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "https://davidgrudl.com"
-                },
-                {
-                    "name": "Nette Community",
-                    "homepage": "https://nette.org/contributors"
-                }
-            ],
-            "description": "🍸 Nette NEON: encodes and decodes NEON file format.",
-            "homepage": "https://ne-on.org",
-            "keywords": [
-                "export",
-                "import",
-                "neon",
-                "nette",
-                "yaml"
-            ],
-            "time": "2020-03-04T11:47:04+00:00"
-        },
-        {
-            "name": "nette/php-generator",
-            "version": "v3.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nette/php-generator.git",
-                "reference": "ea2c8e8d6439f0a4e3cd3431c572b51a8131539b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nette/php-generator/zipball/ea2c8e8d6439f0a4e3cd3431c572b51a8131539b",
-                "reference": "ea2c8e8d6439f0a4e3cd3431c572b51a8131539b",
-                "shasum": ""
-            },
-            "require": {
-                "ext-tokenizer": "*",
-                "nette/utils": "^2.4.2 || ^3.0",
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "nette/tester": "^2.0",
-                "nikic/php-parser": "^4.4",
-                "phpstan/phpstan": "^0.12",
-                "tracy/tracy": "^2.3"
-            },
-            "suggest": {
-                "nikic/php-parser": "to use ClassType::withBodiesFrom() & GlobalFunction::withBodyFrom()"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.4-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0-only",
-                "GPL-3.0-only"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "https://davidgrudl.com"
-                },
-                {
-                    "name": "Nette Community",
-                    "homepage": "https://nette.org/contributors"
-                }
-            ],
-            "description": "🐘 Nette PHP Generator: generates neat PHP code for you. Supports new PHP 7.4 features.",
-            "homepage": "https://nette.org",
-            "keywords": [
-                "code",
-                "nette",
-                "php",
-                "scaffolding"
-            ],
-            "time": "2020-05-26T16:32:45+00:00"
-        },
-        {
-            "name": "nette/robot-loader",
-            "version": "v3.2.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nette/robot-loader.git",
-                "reference": "726c462e73e739e965ec654a667407074cfe83c0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nette/robot-loader/zipball/726c462e73e739e965ec654a667407074cfe83c0",
-                "reference": "726c462e73e739e965ec654a667407074cfe83c0",
-                "shasum": ""
-            },
-            "require": {
-                "ext-tokenizer": "*",
-                "nette/finder": "^2.5 || ^3.0",
-                "nette/utils": "^3.0",
                 "php": ">=7.1"
             },
             "require-dev": {
@@ -16042,89 +16006,36 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "🍀 Nette RobotLoader: high performance and comfortable autoloader that will search and autoload classes within your application.",
-            "homepage": "https://nette.org",
+            "description": "🍸 Nette NEON: encodes and decodes NEON file format.",
+            "homepage": "https://ne-on.org",
             "keywords": [
-                "autoload",
-                "class",
-                "interface",
+                "export",
+                "import",
+                "neon",
                 "nette",
-                "trait"
+                "yaml"
             ],
-            "time": "2020-02-28T13:10:07+00:00"
-        },
-        {
-            "name": "nette/schema",
-            "version": "v1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nette/schema.git",
-                "reference": "febf71fb4052c824046f5a33f4f769a6e7fa0cb4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nette/schema/zipball/febf71fb4052c824046f5a33f4f769a6e7fa0cb4",
-                "reference": "febf71fb4052c824046f5a33f4f769a6e7fa0cb4",
-                "shasum": ""
-            },
-            "require": {
-                "nette/utils": "^3.1",
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "nette/tester": "^2.2",
-                "phpstan/phpstan-nette": "^0.12",
-                "tracy/tracy": "^2.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": []
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0",
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "https://davidgrudl.com"
-                },
-                {
-                    "name": "Nette Community",
-                    "homepage": "https://nette.org/contributors"
-                }
-            ],
-            "description": "📐 Nette Schema: validating data structures against a given Schema.",
-            "homepage": "https://nette.org",
-            "keywords": [
-                "config",
-                "nette"
-            ],
-            "time": "2020-01-06T22:52:48+00:00"
+            "time": "2021-02-28T12:30:32+00:00"
         },
         {
             "name": "nette/utils",
-            "version": "v3.1.2",
+            "version": "v3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "488f58378bba71767e7831c83f9e0fa808bf83b9"
+                "reference": "967cfc4f9a1acd5f1058d76715a424c53343c20c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/488f58378bba71767e7831c83f9e0fa808bf83b9",
-                "reference": "488f58378bba71767e7831c83f9e0fa808bf83b9",
+                "url": "https://api.github.com/repos/nette/utils/zipball/967cfc4f9a1acd5f1058d76715a424c53343c20c",
+                "reference": "967cfc4f9a1acd5f1058d76715a424c53343c20c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "php": ">=7.2 <8.1"
+            },
+            "conflict": {
+                "nette/di": "<3.0.6"
             },
             "require-dev": {
                 "nette/tester": "~2.0",
@@ -16143,7 +16054,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
@@ -16167,7 +16078,7 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "🛠 Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
+            "description": "🛠  Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
             "homepage": "https://nette.org",
             "keywords": [
                 "array",
@@ -16185,20 +16096,20 @@
                 "utility",
                 "validation"
             ],
-            "time": "2020-05-27T09:58:51+00:00"
+            "time": "2021-03-03T22:53:25+00:00"
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.5.0",
+            "version": "v4.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "53c2753d756f5adb586dca79c2ec0e2654dd9463"
+                "reference": "fe14cf3672a149364fb66dfe11bf6549af899f94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/53c2753d756f5adb586dca79c2ec0e2654dd9463",
-                "reference": "53c2753d756f5adb586dca79c2ec0e2654dd9463",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/fe14cf3672a149364fb66dfe11bf6549af899f94",
+                "reference": "fe14cf3672a149364fb66dfe11bf6549af899f94",
                 "shasum": ""
             },
             "require": {
@@ -16206,8 +16117,8 @@
                 "php": ">=7.0"
             },
             "require-dev": {
-                "ircmaxell/php-yacc": "0.0.5",
-                "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0"
+                "ircmaxell/php-yacc": "^0.0.7",
+                "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0"
             },
             "bin": [
                 "bin/php-parse"
@@ -16215,7 +16126,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3-dev"
+                    "dev-master": "4.9-dev"
                 }
             },
             "autoload": {
@@ -16237,7 +16148,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2020-06-03T07:24:19+00:00"
+            "time": "2021-07-03T13:36:55+00:00"
         },
         {
             "name": "ocramius/package-versions",
@@ -17008,159 +16919,93 @@
             "time": "2020-07-14T18:50:27+00:00"
         },
         {
-            "name": "phpstan/phpdoc-parser",
-            "version": "0.3.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "8c4ef2aefd9788238897b678a985e1d5c8df6db4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/8c4ef2aefd9788238897b678a985e1d5c8df6db4",
-                "reference": "8c4ef2aefd9788238897b678a985e1d5c8df6db4",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~7.1"
-            },
-            "require-dev": {
-                "consistence/coding-standard": "^3.5",
-                "jakub-onderka/php-parallel-lint": "^0.9.2",
-                "phing/phing": "^2.16.0",
-                "phpstan/phpstan": "^0.10",
-                "phpunit/phpunit": "^6.3",
-                "slevomat/coding-standard": "^4.7.2",
-                "squizlabs/php_codesniffer": "^3.3.2",
-                "symfony/process": "^3.4 || ^4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PHPStan\\PhpDocParser\\": [
-                        "src/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "PHPDoc parser with support for nullable, intersection and generic types",
-            "time": "2019-06-07T19:13:52+00:00"
-        },
-        {
             "name": "phpstan/phpstan",
-            "version": "0.11.19",
+            "version": "0.12.92",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "63cc502f6957b7f74efbac444b4cf219dcadffd7"
+                "reference": "64d4c5dc8ea96972bc18432d137a330239a5d2b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/63cc502f6957b7f74efbac444b4cf219dcadffd7",
-                "reference": "63cc502f6957b7f74efbac444b4cf219dcadffd7",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/64d4c5dc8ea96972bc18432d137a330239a5d2b2",
+                "reference": "64d4c5dc8ea96972bc18432d137a330239a5d2b2",
                 "shasum": ""
             },
             "require": {
-                "composer/xdebug-handler": "^1.3.0",
-                "jean85/pretty-package-versions": "^1.0.3",
-                "nette/bootstrap": "^2.4 || ^3.0",
-                "nette/di": "^2.4.7 || ^3.0",
-                "nette/neon": "^2.4.3 || ^3.0",
-                "nette/robot-loader": "^3.0.1",
-                "nette/schema": "^1.0",
-                "nette/utils": "^2.4.5 || ^3.0",
-                "nikic/php-parser": "^4.2.3",
-                "php": "~7.1",
-                "phpstan/phpdoc-parser": "^0.3.5",
-                "symfony/console": "~3.2 || ~4.0",
-                "symfony/finder": "~3.2 || ~4.0"
+                "php": "^7.1|^8.0"
             },
             "conflict": {
-                "symfony/console": "3.4.16 || 4.1.5"
-            },
-            "require-dev": {
-                "brianium/paratest": "^2.0 || ^3.0",
-                "consistence/coding-standard": "^3.5",
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
-                "ext-intl": "*",
-                "ext-mysqli": "*",
-                "ext-simplexml": "*",
-                "ext-soap": "*",
-                "ext-zip": "*",
-                "jakub-onderka/php-parallel-lint": "^1.0",
-                "localheinz/composer-normalize": "^1.1.0",
-                "phing/phing": "^2.16.0",
-                "phpstan/phpstan-deprecation-rules": "^0.11",
-                "phpstan/phpstan-php-parser": "^0.11",
-                "phpstan/phpstan-phpunit": "^0.11",
-                "phpstan/phpstan-strict-rules": "^0.11",
-                "phpunit/phpunit": "^7.5.14 || ^8.0",
-                "slevomat/coding-standard": "^4.7.2",
-                "squizlabs/php_codesniffer": "^3.3.2"
+                "phpstan/phpstan-shim": "*"
             },
             "bin": [
-                "bin/phpstan"
+                "phpstan",
+                "phpstan.phar"
             ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.11-dev"
+                    "dev-master": "0.12-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "PHPStan\\": [
-                        "src/"
-                    ]
-                }
+                "files": [
+                    "bootstrap.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
-            "time": "2019-10-22T20:20:22+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/ondrejmirtes",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/phpstan",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/phpstan",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-07-10T13:53:49+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
-            "version": "0.11.2",
+            "version": "0.12.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-deprecation-rules.git",
-                "reference": "5685fe48873efc5af1f2cc95d9c1b8ae82c728fe"
+                "reference": "46dbd43c2db973d2876d6653e53f5c2cc3a01fbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-deprecation-rules/zipball/5685fe48873efc5af1f2cc95d9c1b8ae82c728fe",
-                "reference": "5685fe48873efc5af1f2cc95d9c1b8ae82c728fe",
+                "url": "https://api.github.com/repos/phpstan/phpstan-deprecation-rules/zipball/46dbd43c2db973d2876d6653e53f5c2cc3a01fbb",
+                "reference": "46dbd43c2db973d2876d6653e53f5c2cc3a01fbb",
                 "shasum": ""
             },
             "require": {
-                "nikic/php-parser": "^4.0",
-                "php": "~7.1",
-                "phpstan/phpstan": "^0.11.8"
+                "php": "^7.1 || ^8.0",
+                "phpstan/phpstan": "^0.12.60"
             },
             "require-dev": {
-                "consistence/coding-standard": "^3.0.1",
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
-                "jakub-onderka/php-parallel-lint": "^1.0",
-                "phing/phing": "^2.16.0",
-                "phpstan/phpstan-phpunit": "^0.11",
-                "phpunit/phpunit": "^7.0",
-                "slevomat/coding-standard": "^4.5.2"
+                "phing/phing": "^2.16.3",
+                "php-parallel-lint/php-parallel-lint": "^1.2",
+                "phpstan/phpstan-phpunit": "^0.12",
+                "phpunit/phpunit": "^7.5.20"
             },
             "type": "phpstan-extension",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.11-dev"
+                    "dev-master": "0.12-dev"
                 },
                 "phpstan": {
                     "includes": [
@@ -17178,7 +17023,7 @@
                 "MIT"
             ],
             "description": "PHPStan rules for detecting usage of deprecated classes, methods, properties, constants and traits.",
-            "time": "2019-05-28T19:54:04+00:00"
+            "time": "2020-12-13T10:20:54+00:00"
         },
         {
             "name": "psr/cache",
@@ -20061,6 +19906,20 @@
             ],
             "description": "Symfony ClassLoader Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-03-15T09:38:08+00:00"
         },
         {
@@ -20197,6 +20056,20 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-30T18:58:05+00:00"
         },
         {
@@ -20315,6 +20188,20 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-22T18:25:20+00:00"
         },
         {
@@ -20386,6 +20273,20 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-30T21:06:01+00:00"
         },
         {
@@ -20506,6 +20407,20 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-05T15:06:23+00:00"
         },
         {
@@ -20560,27 +20475,22 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v4.4.13",
+            "version": "v4.4.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "2a78590b2c7e3de5c429628457c47541c58db9c7"
+                "reference": "ed33314396d968a8936c95f5bd1b88bd3b3e94a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/2a78590b2c7e3de5c429628457c47541c58db9c7",
-                "reference": "2a78590b2c7e3de5c429628457c47541c58db9c7",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/ed33314396d968a8936c95f5bd1b88bd3b3e94a3",
+                "reference": "ed33314396d968a8936c95f5bd1b88bd3b3e94a3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1.3"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.4-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\Finder\\": ""
@@ -20603,9 +20513,23 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony Finder Component",
+            "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
-            "time": "2020-08-17T09:56:45+00:00"
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-05-26T11:20:16+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -20659,6 +20583,20 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-16T13:15:54+00:00"
         },
         {
@@ -20749,6 +20687,20 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-08-31T05:53:42+00:00"
         },
         {
@@ -20806,6 +20758,20 @@
                 "ctype",
                 "polyfill",
                 "portable"
+            ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
             ],
             "time": "2020-05-12T16:14:59+00:00"
         },
@@ -20865,6 +20831,20 @@
                 "polyfill",
                 "portable",
                 "shim"
+            ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
             ],
             "time": "2020-05-12T16:47:27+00:00"
         },
@@ -20992,6 +20972,20 @@
                 "portable",
                 "shim"
             ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-12T16:47:27+00:00"
         },
         {
@@ -21118,6 +21112,20 @@
                 "portable",
                 "shim"
             ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-12T16:47:27+00:00"
         },
         {
@@ -21173,6 +21181,20 @@
                 "polyfill",
                 "portable",
                 "shim"
+            ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
             ],
             "time": "2020-05-12T16:47:27+00:00"
         },
@@ -21233,6 +21255,20 @@
                 "portable",
                 "shim"
             ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-12T16:47:27+00:00"
         },
         {
@@ -21287,6 +21323,20 @@
                 "polyfill",
                 "portable",
                 "shim"
+            ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
             ],
             "time": "2020-05-12T16:47:27+00:00"
         },
@@ -21402,6 +21452,20 @@
                 "polyfill",
                 "shim"
             ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-12T16:14:59+00:00"
         },
         {
@@ -21451,6 +21515,20 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-23T17:05:51+00:00"
         },
         {
@@ -21590,6 +21668,20 @@
                 "uri",
                 "url"
             ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-30T19:50:06+00:00"
         },
         {
@@ -21669,6 +21761,20 @@
             ],
             "description": "Symfony Serializer Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-30T18:58:05+00:00"
         },
         {
@@ -21886,6 +21992,20 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-30T18:58:05+00:00"
         },
         {
@@ -22063,6 +22183,20 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-30T18:43:38+00:00"
         },
         {
@@ -22268,6 +22402,20 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-11T07:51:54+00:00"
         },
         {
@@ -22738,16 +22886,16 @@
         },
         {
             "name": "webflo/drupal-finder",
-            "version": "1.2.0",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webflo/drupal-finder.git",
-                "reference": "123e248e14ee8dd3fbe89fb5a733a6cf91f5820e"
+                "reference": "c8e5dbe65caef285fec8057a4c718a0d4138d1ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webflo/drupal-finder/zipball/123e248e14ee8dd3fbe89fb5a733a6cf91f5820e",
-                "reference": "123e248e14ee8dd3fbe89fb5a733a6cf91f5820e",
+                "url": "https://api.github.com/repos/webflo/drupal-finder/zipball/c8e5dbe65caef285fec8057a4c718a0d4138d1ee",
+                "reference": "c8e5dbe65caef285fec8057a4c718a0d4138d1ee",
                 "shasum": ""
             },
             "require": {
@@ -22765,7 +22913,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -22774,7 +22922,7 @@
                 }
             ],
             "description": "Helper class to locate a Drupal installation from a given path.",
-            "time": "2019-08-02T08:06:18+00:00"
+            "time": "2020-10-27T09:42:17+00:00"
         },
         {
             "name": "webmozart/assert",
