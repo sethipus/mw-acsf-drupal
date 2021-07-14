@@ -58,6 +58,8 @@
         "drupal/migrate_plus": "^5.1",
         "drupal/migrate_source_csv": "^3.4",
         "drupal/migrate_tools": "^5.0",
+        "drupal/openapi_ui": "^1.0@RC",
+        "drupal/openapi_ui_swagger": "^1.0@RC",
         "drupal/poll": "^1.4",
         "drupal/printable": "^2.0",
         "drupal/publication_date": "^2.0@beta",
