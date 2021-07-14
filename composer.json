@@ -201,7 +201,8 @@
                 "Basic role assignment D8 https://www.drupal.org/project/samlauth/issues/3070028": "https://www.drupal.org/files/issues/2020-11-20/patch_role_d8_20201120.patch"
             },
             "drupal/printable": {
-                "Fix printable stream wrapper.": "patches/fix-url-scheme-for-alter-3190197-4.patch"
+                "Fix printable stream wrapper.": "patches/fix-url-scheme-for-alter-3190197-4.patch",
+                "Printable_pdf submodule not compatible with Drupal 9": "https://www.drupal.org/files/issues/2021-05-26/drupal9-compatibiliy-3206982-4.patch"
             }
         }
     },

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a1ca9ab8f02f202e5c1f2eef720c797",
+    "content-hash": "b302a7a83675e27dfb4969405a6d1c65",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -5511,8 +5511,7 @@
                     "2321071 - Base field overrides fix": "https://www.drupal.org/files/issues/2019-12-24/2321071-39.patch",
                     "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2869592-remove-update-warning-7.patch",
                     "1356276 - Allow profiles to define a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2019-11-05/1356276-531-8.8.x-4.patch",
-                    "2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2018-07-09/2914389-8-do-not-test.patch",
-                    "2815221 - Add quickedit to the latest-revision route": "https://www.drupal.org/files/issues/2019-11-27/2815221-125.patch"
+                    "2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2018-07-09/2914389-8-do-not-test.patch"
                 }
             },
             "autoload": {
@@ -10619,7 +10618,8 @@
                     }
                 },
                 "patches_applied": {
-                    "Fix printable stream wrapper.": "patches/fix-url-scheme-for-alter-3190197-4.patch"
+                    "Fix printable stream wrapper.": "patches/fix-url-scheme-for-alter-3190197-4.patch",
+                    "Printable_pdf submodule not compatible with Drupal 9": "https://www.drupal.org/files/issues/2021-05-26/drupal9-compatibiliy-3206982-4.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
