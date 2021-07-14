@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b302a7a83675e27dfb4969405a6d1c65",
+    "content-hash": "ee435c2fa9a0570b9ff56e8c0ff0c4a4",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -7105,29 +7105,26 @@
         },
         {
             "name": "drupal/fast_404",
-            "version": "2.0.0-alpha5",
+            "version": "dev-2.x",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/fast_404.git",
-                "reference": "8.x-2.0-alpha5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/fast_404-8.x-2.0-alpha5.zip",
-                "reference": "8.x-2.0-alpha5",
-                "shasum": "071518c28f73ed011068ec0dbfe07a5904b8f982"
+                "reference": "5382a99335ee466f8261dc1774a3d56f1699da81"
             },
             "require": {
-                "drupal/core": "^8.8"
+                "drupal/core": "^8.8 || ^9"
             },
             "type": "drupal-module",
             "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev"
+                },
                 "drupal": {
-                    "version": "8.x-2.0-alpha5",
-                    "datestamp": "1590876049",
+                    "version": "8.x-2.0-alpha5+6-dev",
+                    "datestamp": "1600095923",
                     "security-coverage": {
                         "status": "not-covered",
-                        "message": "Alpha releases are not covered by Drupal security advisories."
+                        "message": "Dev releases are not covered by Drupal security advisories."
                     }
                 }
             },
@@ -7160,7 +7157,8 @@
             "homepage": "https://www.drupal.org/project/fast_404",
             "support": {
                 "source": "https://git.drupalcode.org/project/fast_404"
-            }
+            },
+            "time": "2020-09-14T15:03:19+00:00"
         },
         {
             "name": "drupal/field_group",
@@ -10938,20 +10936,14 @@
         },
         {
             "name": "drupal/remote_stream_wrapper_widget",
-            "version": "1.2.0",
+            "version": "dev-1.x",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/remote_stream_wrapper_widget.git",
-                "reference": "8.x-1.2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/remote_stream_wrapper_widget-8.x-1.2.zip",
-                "reference": "8.x-1.2",
-                "shasum": "539803c7b5696675830928fce56cdf498471ec68"
+                "reference": "de8bf2986cce89f6644a6da5067be232ebc0c212"
             },
             "require": {
-                "drupal/core": "~8.0",
+                "drupal/core": "^8 || ^9",
                 "drupal/remote_stream_wrapper": "*"
             },
             "type": "drupal-module",
@@ -10960,11 +10952,11 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.2",
-                    "datestamp": "1559752088",
+                    "version": "8.x-1.2+1-dev",
+                    "datestamp": "1590304829",
                     "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
                     }
                 }
             },
@@ -10982,7 +10974,8 @@
             "homepage": "https://www.drupal.org/project/remote_stream_wrapper_widget",
             "support": {
                 "source": "https://git.drupalcode.org/project/remote_stream_wrapper_widget"
-            }
+            },
+            "time": "2020-05-24T07:20:06+00:00"
         },
         {
             "name": "drupal/robotstxt",
@@ -24251,12 +24244,13 @@
         "acquia/lightning": 20,
         "drupal/cloudflare": 10,
         "drupal/datalayer": 10,
-        "drupal/fast_404": 15,
+        "drupal/fast_404": 20,
         "drupal/inline_entity_form": 5,
         "drupal/layout_builder_lock": 5,
         "drupal/maxlength": 5,
         "drupal/publication_date": 10,
         "drupal/rabbit_hole": 10,
+        "drupal/remote_stream_wrapper_widget": 20,
         "drupal/ultimate_cron": 15,
         "mars/mars_lighthouse": 20,
         "mikemadison13/blt-azure-pipelines": 20,
