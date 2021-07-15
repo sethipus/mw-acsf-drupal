@@ -7,7 +7,6 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ImmutableConfig;
-use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityMalformedException;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
