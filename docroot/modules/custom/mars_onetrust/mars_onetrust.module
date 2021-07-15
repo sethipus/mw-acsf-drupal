@@ -9,41 +9,43 @@
  * Implements hook_page_attachments().
  */
 function mars_onetrust_page_attachments(&$page) {
-  // SDK URL.
-  $sdk_url = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
-  // Get the data domain.
-  $config = \Drupal::config('mars_onetrust.settings');
-  $data_domain = $config->get('mars_onetrust.data_domain');
+  if (\Drupal::currentUser()->isAnonymous()) {
+    // SDK URL.
+    $sdk_url = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
+    // Get the data domain.
+    $config = \Drupal::config('mars_onetrust.settings');
+    $data_domain = $config->get('mars_onetrust.data_domain');
 
-  if ($data_domain) {
-    // Adding the initial OneTrust scripts.
-    $init_script = [
-      '#tag' => 'script',
-      '#attributes' => [
-        'type' => 'text/javascript',
-        'defer' => 'true',
-        'src' => 'https://cdn.cookielaw.org/consent/' . $data_domain . '/OtAutoBlock.js',
-      ],
-      '#weight' => -3,
-    ];
+    if ($data_domain) {
+      // Adding the initial OneTrust scripts.
+      $init_script = [
+        '#tag' => 'script',
+        '#attributes' => [
+          'type' => 'text/javascript',
+          'defer' => 'true',
+          'src' => 'https://cdn.cookielaw.org/consent/' . $data_domain . '/OtAutoBlock.js',
+        ],
+        '#weight' => -3,
+      ];
 
-    $template_script = [
-      '#tag' => 'script',
-      '#attributes' => [
-        'type' => 'text/javascript',
-        'defer' => 'true',
-        'src' => $sdk_url,
-        'data-src' => $sdk_url,
-        'id' => 'onetrust-sdk',
-        'charset' => 'UTF-8',
-        'data-domain-script' => $data_domain,
-        'data-document-language' => 'true',
-      ],
-      '#weight' => -2,
-    ];
+      $template_script = [
+        '#tag' => 'script',
+        '#attributes' => [
+          'type' => 'text/javascript',
+          'defer' => 'true',
+          'src' => $sdk_url,
+          'data-src' => $sdk_url,
+          'id' => 'onetrust-sdk',
+          'charset' => 'UTF-8',
+          'data-domain-script' => $data_domain,
+          'data-document-language' => 'true',
+        ],
+        '#weight' => -2,
+      ];
 
-    $page['#attached']['html_head'][] = [$init_script, 'onetrust_init'];
-    $page['#attached']['html_head'][] = [$template_script, 'onetrust_template'];
-    $page['#attached']['library'][] = 'mars_onetrust/onetrust';
+      $page['#attached']['html_head'][] = [$init_script, 'onetrust_init'];
+      $page['#attached']['html_head'][] = [$template_script, 'onetrust_template'];
+      $page['#attached']['library'][] = 'mars_onetrust/onetrust';
+    }
   }
 }
