@@ -8,6 +8,10 @@ function _lazyLoadWhereToBuy() {
     
 }
 
+$('.inline-search__link').click(() => {
+    _lazyLoadWhereToBuy();
+});
+
 let pricespiderLoaded = false;
 $(window).scroll(function(){
     if (
