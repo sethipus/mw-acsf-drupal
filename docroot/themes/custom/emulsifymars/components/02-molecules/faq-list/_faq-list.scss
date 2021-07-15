@@ -46,6 +46,16 @@
 .faq__see_all {
   text-align: center;
   display: none;
+  margin-bottom: 5rem;
+
+
+  @include medium {
+    margin-bottom: 6rem;
+  }
+
+  @include xl {
+    margin-bottom: 8rem;
+  }
 
   &.active {
     display: block;
@@ -60,7 +70,6 @@
   padding: 0 3rem;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 50px;
   height: 50px;
   line-height: 50px;
   min-width: 100%;
@@ -70,14 +79,12 @@
   }
 
   @include medium {
-    margin-bottom: 60px;
     min-width: 157px;
   }
 
   @include xl {
     height: 60px;
     line-height: 6rem;
-    margin-bottom: 108px;
     min-width: 202px;
   }
 
