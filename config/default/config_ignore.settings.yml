@@ -39,7 +39,7 @@ ignored_config_entities:
   - purge_queuer_coretags.settings
   - mars_product.bazaarvoice.settings
   - mars_product.nutrition_table_settings
-  - mars_searchmars_search.search_no_results
+  - mars_search.search_no_results
   - cloudflare.settings
   - salsify_integration.migrate_settings
   - 'field.field.node.*.layout_builder__layout'
