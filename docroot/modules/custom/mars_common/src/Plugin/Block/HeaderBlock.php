@@ -429,7 +429,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     if (count($languages) > static::MINIMUM_LANGUAGES) {
       $derivative_id = LanguageInterface::TYPE_URL;
-      $page_entity = $this->getPageEntity();
       $route = $this->pathMatcher->isFrontPage() ? '<front>' : '<current>';
 
       $current_language = $languageManager->getCurrentLanguage($derivative_id)->getId();
@@ -455,23 +454,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       }
     }
     return $render_links;
-  }
-
-  /**
-   * Retrieves the current page entity.
-   *
-   * @return \Drupal\Core\Entity\ContentEntityInterface|bool
-   *   The retrieved entity, or FALSE if none found.
-   */
-  protected function getPageEntity() {
-    $params = $this->currentRouteMatch->getParameters()->all();
-
-    foreach ($params as $param) {
-      if ($param instanceof ContentEntityInterface) {
-        return $param;
-      }
-    }
-    return FALSE;
   }
 
   /**
