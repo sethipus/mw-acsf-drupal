@@ -1743,3 +1743,21 @@ function card_change_color(&$variables, $color_key) {
 
   $variables['select_background_color'] = $background_color;
 }
+
+/**
+ * Implements hook_language_switch_links_alter().
+ */
+function mars_common_language_switch_links_alter(array &$links, $type, Url $url) {
+  if (\Drupal::currentUser()->isAnonymous()) {
+    $languages = \Drupal::languageManager()->getLanguages();
+    $disable_languages = \Drupal::config('mars_common.disable_language');
+    foreach ($languages as $language) {
+      if ($disable_languages->get($language->getId()) == TRUE) {
+        if (isset($links[$language->getId()])) {
+          unset($links[$language->getId()]);
+        }
+      }
+    }
+  }
+
+}

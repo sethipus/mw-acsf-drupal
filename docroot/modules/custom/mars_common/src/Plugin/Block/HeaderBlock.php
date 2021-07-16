@@ -7,7 +7,6 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ImmutableConfig;
-use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityMalformedException;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -17,7 +16,6 @@ use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\CurrentRouteMatch;
-use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MenuBuilder;
@@ -106,13 +104,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   const MINIMUM_LANGUAGES = 1;
 
   /**
-   * The Current User object.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $currentUser;
-
-  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -127,8 +118,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     LanguageHelper $language_helper,
     RendererInterface $renderer,
     ThemeConfiguratorParser $theme_configurator_parser,
-    ImmutableConfig $label_config,
-    AccountInterface $current_user
+    ImmutableConfig $label_config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->currentRouteMatch = $current_route_match;
@@ -140,7 +130,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $this->renderer = $renderer;
     $this->themeConfiguratorParser = $theme_configurator_parser;
     $this->labelConfig = $label_config;
-    $this->currentUser = $current_user;
   }
 
   /**
@@ -162,8 +151,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $container->get('mars_common.language_helper'),
       $container->get('renderer'),
       $container->get('mars_common.theme_configurator_parser'),
-      $label_config,
-      $container->get('current_user')
+      $label_config
     );
   }
 
@@ -206,34 +194,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#description' => $this->t('Display Language Selector block?'),
       '#default_value' => $config['language_selector'] ?? TRUE,
     ];
-
-    $langcodes = $this->languageHelper->getLanguageManager()->getLanguages();
-    $langcodes_list = array_keys($langcodes);
-
-    if (count($langcodes_list) > static::MINIMUM_LANGUAGES) {
-      $form['exclude_language'] = [
-        '#type' => 'fieldset',
-        '#title' => $this->t('Exclude language from language switcher (for anonymous users only)'),
-        '#states' => [
-          'visible' => [
-            [':input[name="settings[language_selector]"]' => ['checked' => TRUE]],
-          ],
-        ],
-      ];
-      foreach ($langcodes_list as $langcode) {
-        $form['exclude_language']['language'][$langcode] = [
-          '#type' => 'checkbox',
-          '#title' => '<b>' . $langcodes[$langcode]->getName() . ' (' . $langcode . ')</b>',
-          '#default_value' => $config['exclude_language']['language'][$langcode] ?? FALSE,
-        ];
-        if ($this->languageHelper->getLanguageManager()->getDefaultLanguage()->getId() == $langcode) {
-          $form['exclude_language']['language'][$langcode]['#disabled'] = TRUE;
-          $form['exclude_language']['language'][$langcode]['#default_value'] = FALSE;
-          $form['exclude_language']['language'][$langcode]['#description'] = $this->t('Disable ability to exclude default language.');
-        }
-      }
-    }
-
     $form['alert_banner'] = [
       '#type' => 'details',
       '#title' => $this->t('Alert banner'),
@@ -470,16 +430,10 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected function getLanguageLinks() {
     $languageManager = $this->languageHelper->getLanguageManager();
     $languages = $languageManager->getLanguages();
-    // Enable exclude languages only for anonymous user.
-    if ($this->currentUser->isAnonymous()) {
-      // Recount languages for condition below.
-      $this->excludeLanguagesFromSwitcher($languages);
-    }
     $render_links = [];
 
     if (count($languages) > static::MINIMUM_LANGUAGES) {
       $derivative_id = LanguageInterface::TYPE_URL;
-      $page_entity = $this->getPageEntity();
       $route = $this->pathMatcher->isFrontPage() ? '<front>' : '<current>';
 
       $current_language = $languageManager->getCurrentLanguage($derivative_id)->getId();
@@ -488,23 +442,14 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
       ksort($links);
       if (isset($links[$current_language])) {
-        $links[$current_language]['url'] = Url::fromRoute('<current>');
+        $links[$current_language]['url'] = Url::fromRoute('<front>');
         $links[$current_language]['selected'] = TRUE;
       }
       if (isset($links[$default_language])) {
         $links = [$default_language => $links[$default_language]] + $links;
       }
-
-      // Enable exclude languages only for anonymous user.
-      if ($this->currentUser->isAnonymous()) {
-        // Exclude language from switcher.
-        $this->excludeLanguagesFromSwitcher($links);
-      }
-
       foreach ($links as $link_key => $link_data) {
-        $url = $page_entity ?
-          $page_entity->toUrl('canonical', ['language' => $link_data['language']])->toString()
-          : Url::fromRoute('<current>', [], ['language' => $link_data['language']]);
+        $url = Url::fromRoute('<front>', [], ['language' => $link_data['language']]);
         $render_links[] = [
           'title' => $this->languageHelper->translate($link_data['title']),
           'abbr' => mb_strtoupper($link_key),
@@ -514,23 +459,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       }
     }
     return $render_links;
-  }
-
-  /**
-   * Retrieves the current page entity.
-   *
-   * @return \Drupal\Core\Entity\ContentEntityInterface|bool
-   *   The retrieved entity, or FALSE if none found.
-   */
-  protected function getPageEntity() {
-    $params = $this->currentRouteMatch->getParameters()->all();
-
-    foreach ($params as $param) {
-      if ($param instanceof ContentEntityInterface) {
-        return $param;
-      }
-    }
-    return FALSE;
   }
 
   /**
@@ -559,30 +487,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $form['#input_form']['search']['#attributes']['class'][] = 'data-layer-search-form-input';
 
     return $this->renderer->render($form);
-  }
-
-  /**
-   * Exclude languages from switcher.
-   *
-   * @param array $languages
-   *   List of languages set up on the site.
-   *
-   * @return array
-   *   Return List of languages after excluded filter.
-   */
-  protected function excludeLanguagesFromSwitcher(array &$languages) {
-    $config = $this->getConfiguration();
-    if (isset($config['exclude_language']) &&
-    isset($config['exclude_language']['language']) &&
-    is_array($config['exclude_language']['language']) &&
-    !empty($config['exclude_language']['language'])) {
-      foreach ($config['exclude_language']['language'] as $key => $language) {
-        if ($language == TRUE && $key != $this->languageHelper->getLanguageManager()->getDefaultLanguage()->getId()) {
-          unset($languages[$key]);
-        }
-      }
-    }
-    return $languages;
   }
 
   /**

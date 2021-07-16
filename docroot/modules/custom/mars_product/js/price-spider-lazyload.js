@@ -8,6 +8,10 @@ function _lazyLoadWhereToBuy() {
     
 }
 
+$('.inline-search__link').click(() => {
+    _lazyLoadWhereToBuy();
+});
+
 let pricespiderLoaded = false;
 $(window).scroll(function(){
     if (
@@ -17,6 +21,8 @@ $(window).scroll(function(){
                 isInView($('div[data-block-plugin-id="product_content_pair_up_block"]')) 
                 || 
                 isInView($('div[data-block-plugin-id="recommendations_module"]'))
+                ||
+                isInView($('div[data-block-plugin-id="recipe_detail_body"]'))  
             ) 
             && 
             !pricespiderLoaded
