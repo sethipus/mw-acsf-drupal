@@ -6,6 +6,8 @@
 .grid {
   @include grid;
 
+  max-width: 1440px;
+
   &--card {
     @include space-stack-page;
   }
