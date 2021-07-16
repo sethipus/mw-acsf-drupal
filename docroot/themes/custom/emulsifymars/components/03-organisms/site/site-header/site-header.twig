@@ -2,6 +2,7 @@
 {# If `directory` is defined, set the path relative for Drupal.
  # Otherwise, set the path relative to the Component Library. #}
 {% set header__logo_src = directory ? '/' ~ directory ~ '/images/mars_logo.png' : 'images/mars_logo.png' %}
+{% set secondary_menu_class = disable_mobile_menu_view ? ['disable_mobile_menu_view'] : [] %}
 
 <header {{ bem(header__base_class) }} data-theme="{{ theme_styles }}" style="
   {% if text_color_override is not empty %}
@@ -66,10 +67,11 @@
               items: menu_items,
               header_inline_menu_items: header_inline_menu_items,
               text_color_override: false,
+              disable_mobile_menu_view:disable_mobile_menu_view
             } %}
           {% endblock %}
         </div>
-        <nav {{ bem('menu', ['secondary'], header__base_class) }} role="navigation">
+        <nav {{ bem('menu', ['secondary'], header__base_class, secondary_menu_class) }} role="navigation">
           {% block header__menu_secondary %}
             {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" with {
               menu_class: 'header-secondary-menu',

@@ -114,6 +114,16 @@
         width: 100%;
         text-align: right;
       }
+      &.disable_mobile_menu_view {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        text-align: right;
+
+        .header-inline-menu {
+          margin: 0 1.5rem 0 0;
+        }
+      }
     }
 
     & .header-inline-menu__link {
