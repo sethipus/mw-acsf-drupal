@@ -8,7 +8,7 @@ function _lazyLoadWhereToBuy() {
     {
         $.getScript($('#smart-commerce-widget').attr('data-src')).done(() => {
             $.getScript($('#smart-commerce-brand-js').attr('data-src'));
-            $.getStylesheet($('#smart-commerce-brand-css').attr('data-src'));            
+            getStylesheet($('#smart-commerce-brand-css').attr('data-src'));            
         });
         /**
          * Load BazarVoice
@@ -17,7 +17,7 @@ function _lazyLoadWhereToBuy() {
     }
 }
 
-$.getStylesheet = function (href) {
+var getStylesheet = function (href) {
     var $d = $.Deferred();
     var $link = $('<link/>', {
         rel: 'stylesheet',
