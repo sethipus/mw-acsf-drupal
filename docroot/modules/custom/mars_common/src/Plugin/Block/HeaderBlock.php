@@ -7,7 +7,6 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ImmutableConfig;
-use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityMalformedException;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -429,7 +428,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     if (count($languages) > static::MINIMUM_LANGUAGES) {
       $derivative_id = LanguageInterface::TYPE_URL;
-      $page_entity = $this->getPageEntity();
       $route = $this->pathMatcher->isFrontPage() ? '<front>' : '<current>';
 
       $current_language = $languageManager->getCurrentLanguage($derivative_id)->getId();
@@ -438,16 +436,14 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
       ksort($links);
       if (isset($links[$current_language])) {
-        $links[$current_language]['url'] = Url::fromRoute('<current>');
+        $links[$current_language]['url'] = Url::fromRoute('<front>');
         $links[$current_language]['selected'] = TRUE;
       }
       if (isset($links[$default_language])) {
         $links = [$default_language => $links[$default_language]] + $links;
       }
       foreach ($links as $link_key => $link_data) {
-        $url = $page_entity ?
-          $page_entity->toUrl('canonical', ['language' => $link_data['language']])->toString()
-          : Url::fromRoute('<current>', [], ['language' => $link_data['language']]);
+        $url = Url::fromRoute('<front>', [], ['language' => $link_data['language']]);
         $render_links[] = [
           'title' => $this->languageHelper->translate($link_data['title']),
           'abbr' => mb_strtoupper($link_key),
@@ -457,23 +453,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       }
     }
     return $render_links;
-  }
-
-  /**
-   * Retrieves the current page entity.
-   *
-   * @return \Drupal\Core\Entity\ContentEntityInterface|bool
-   *   The retrieved entity, or FALSE if none found.
-   */
-  protected function getPageEntity() {
-    $params = $this->currentRouteMatch->getParameters()->all();
-
-    foreach ($params as $param) {
-      if ($param instanceof ContentEntityInterface) {
-        return $param;
-      }
-    }
-    return FALSE;
   }
 
   /**
