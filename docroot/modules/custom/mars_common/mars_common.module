@@ -368,6 +368,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'text_block' => [
       'variables' => [
+        'header' => NULL,
         'drop_cap' => NULL,
         'content' => NULL,
       ],

@@ -3,11 +3,13 @@
  * @file
  * Text component.
  * 'content' => NULL,
- * 'drop_cap' => NULL
+ * 'drop_cap' => NULL,
+ * 'header' => NULL,
  */
 #}
 
 <div {{ bem('block') }}>
+	<h1>{{ header }}</h1>
     {{ title_prefix }}
     {{ title_suffix }}
     {% block content %}
