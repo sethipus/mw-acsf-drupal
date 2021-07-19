@@ -124,9 +124,18 @@
 
         firstInputElement.focus();
 
-        dayInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
-        monthInput.once('entryGate').on('keypress', e => checkValueLength(e, monthInput, 2));
-        yearInput.once('entryGate').on('keypress', e => checkValueLength(e, yearInput, 4));
+        dayInput.once('entryGate').on('keypress', e => {
+          checkValueLength(e, dayInput, 2);
+          monthInput.focus();
+        });
+        monthInput.once('entryGate').on('keypress', e => {
+          checkValueLength(e, monthInput, 2);
+          yearInput.focus();
+        });
+        yearInput.once('entryGate').on('keypress', e => {
+          checkValueLength(e, yearInput, 4);
+          submitBtn.click();
+        });
 
         submitBtn.once('entryGate').on('click', event => {
           event.preventDefault();
