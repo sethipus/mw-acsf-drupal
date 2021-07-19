@@ -135,7 +135,7 @@ $outer-container-break: $small;
       transform: none;
       background-color: $white;
       margin-top: 5rem;
-	
+
 	    @include medium {
 	      margin-top: 6rem;
 	    }
@@ -161,5 +161,16 @@ $outer-container-break: $small;
     background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
     background-size: 20px 20px;
     background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+  }
+}
+
+@mixin cta-background-animation($mainColor, $subColor) {
+  transition: background-position .6s cubic-bezier(.75, 0, .25, 0);
+  background: linear-gradient(45deg, $subColor 50%, $mainColor 50%);
+  background-size: 200% 200%;
+  background-position: right top;
+
+  &:hover {
+    background-position: left bottom;
   }
 }

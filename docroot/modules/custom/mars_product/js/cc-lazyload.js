@@ -1,10 +1,15 @@
 function _lazyLoadWhereToBuy() {
 
+    commerceConnetor = true;
     if($('#cci-widget').length > 0 && $('.cci-root-container').length == 0)
     {
         $.getScript($('#cci-widget').attr('data-src'));
     }
 }
+
+$('.inline-search__link').click(() => {
+    _lazyLoadWhereToBuy();
+});
 
 let commerceConnetor = false;
 $(window).scroll(function(){
@@ -15,13 +20,14 @@ $(window).scroll(function(){
                 isInView($('div[data-block-plugin-id="product_content_pair_up_block"]')) 
                 || 
                 isInView($('div[data-block-plugin-id="recommendations_module"]'))
+                ||
+                isInView($('div[data-block-plugin-id="recipe_detail_body"]'))  
             ) 
             && 
             !commerceConnetor
         )
     {
         _lazyLoadWhereToBuy();
-        commerceConnetor = true;
     }
 })
 

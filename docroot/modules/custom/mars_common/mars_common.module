@@ -131,6 +131,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'logo_alt' => NULL,
         'primary_menu' => NULL,
         'secondary_menu' => NULL,
+        'disable_mobile_menu_view' => NULL,
         'search_menu' => NULL,
         'language_selector' => NULL,
         'language_selector_current' => NULL,
@@ -1741,4 +1742,22 @@ function card_change_color(&$variables, $color_key) {
   $cacheMetadata->applyTo($variables);
 
   $variables['select_background_color'] = $background_color;
+}
+
+/**
+ * Implements hook_language_switch_links_alter().
+ */
+function mars_common_language_switch_links_alter(array &$links, $type, Url $url) {
+  if (\Drupal::currentUser()->isAnonymous()) {
+    $languages = \Drupal::languageManager()->getLanguages();
+    $disable_languages = \Drupal::config('mars_common.disable_language');
+    foreach ($languages as $language) {
+      if ($disable_languages->get($language->getId()) == TRUE) {
+        if (isset($links[$language->getId()])) {
+          unset($links[$language->getId()]);
+        }
+      }
+    }
+  }
+
 }

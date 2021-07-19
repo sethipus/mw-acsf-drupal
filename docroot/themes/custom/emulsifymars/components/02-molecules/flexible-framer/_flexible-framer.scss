@@ -75,8 +75,8 @@
     display: block;
     padding-bottom: 5rem;
     counter-reset: card-counter;
-    margin-bottom: 0px;
-    
+    margin-bottom: 0;
+
     @include medium {
       display: grid;
       margin: 0 4rem;

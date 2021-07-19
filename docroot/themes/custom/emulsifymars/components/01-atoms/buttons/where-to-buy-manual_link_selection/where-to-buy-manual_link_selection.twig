@@ -1,0 +1,23 @@
+{#
+/**
+ * Available variables:
+ * - where_to_buy_base_class -
+ * - wtb_manual_link_info -
+ *
+ */
+#}
+{% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
+{% set where_to_buy_type = ['manual-link-selector'] %}
+
+{% if wtb_manual_link_info is not empty %}
+  <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname, where_to_buy_type) }}>
+      {% include "@atoms/links/link/link.twig" with {
+        "link_content": wtb_manual_link_info.button_name,
+        "link_url": wtb_manual_link_info.button_url,
+        "link_attributes": {
+          target: (wtb_manual_link_info.button_new_tab) ? '_blank' : '_self'
+        },
+        "link_extra_classes": (wtb_manual_link_info.button_style == 'button')? ['where-to-buy-button'] : ['where-to-buy-link']
+      } %}
+  </div>
+{% endif %}

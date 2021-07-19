@@ -1,0 +1,5 @@
+wtb_manual_link_info:
+  button_name: 'name'
+  button_url: 'https://url.url'
+  button_new_tab: 1
+  button_style: 'button'
