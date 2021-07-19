@@ -401,7 +401,8 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
           $form_state->setErrorByName('items][' . $key . '][cta][url', $this->t('The URL is not valid.'));
         }
       }
-    } else {
+    }
+    else {
       $form_state->setErrorByName('items', $this->t('2 minimum items is required'));
     }
   }
