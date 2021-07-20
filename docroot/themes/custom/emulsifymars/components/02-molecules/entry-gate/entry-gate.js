@@ -87,7 +87,7 @@
         // enough
         if (isOldEnough(getCookieDate('dateOfBirth'))) {
           // Lazy load scripts
-          lazyLoadThirdpartyScripts();
+          //lazyLoadThirdpartyScripts();
           entryGate.css({display: 'none'});
           $(document).trigger("popupClosed.entryGate");
           entryGate.attr("data-popup-opened", false);
@@ -152,7 +152,7 @@
         submitBtn.once('entryGate').on('click', event => {
           event.preventDefault();
           // Lazy load scripts
-          lazyLoadThirdpartyScripts();
+          //lazyLoadThirdpartyScripts();
           const givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+dayInput.val()).slice(-2)}`;
 
           if (!isValidDate(givenDateStr) || new Date(givenDateStr).getUTCFullYear() < 1900) {
