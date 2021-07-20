@@ -14,7 +14,6 @@
         const a11yDataAttrName = 'data-a11y-block-tabbable';
         const a11yDateFakeLinkId = 'a11y-entry-gate-first-link';
         const firstInputElement = $('.entry-gate-form__input', this)[0];
-        const dateFormat = fieldset.data('date-format');
 
         firstInputElement.onkeydown = function(e) {
           if ((e.code === 'Tab' && e.shiftKey) || (e.code === 'ArrowLeft' && e.ctrlKey)) {
@@ -124,30 +123,10 @@
         }
 
         firstInputElement.focus();
-        if (dateFormat == 'mm_dd') {
-          monthInput.once('entryGate').on('keypress', e => {
-            checkValueLength(e, monthInput, 2);
-            dayInput.focus();
-          });
-          dayInput.once('entryGate').on('keypress', e => {
-            checkValueLength(e, dayInput, 2);
-            yearInput.focus();
-          });
 
-        } else {
-          dayInput.once('entryGate').on('keypress', e => {
-            checkValueLength(e, dayInput, 2);
-            monthInput.focus();
-          });
-          monthInput.once('entryGate').on('keypress', e => {
-            checkValueLength(e, monthInput, 2);
-            yearInput.focus();
-          });
-        }
-        yearInput.once('entryGate').on('keypress', e => {
-          checkValueLength(e, yearInput, 4);
-          submitBtn.click();
-        });
+        dayInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
+        monthInput.once('entryGate').on('keypress', e => checkValueLength(e, monthInput, 2));
+        yearInput.once('entryGate').on('keypress', e => checkValueLength(e, yearInput, 4));
 
         submitBtn.once('entryGate').on('click', event => {
           event.preventDefault();
