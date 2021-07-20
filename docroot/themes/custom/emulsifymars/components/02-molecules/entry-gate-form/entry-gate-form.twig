@@ -1,7 +1,7 @@
 {% set entry_gate_form_base_class = 'entry-gate-form' %}
 
 <form {{ bem(entry_gate_form_base_class, entry_gate_form_modifiers) }} data-theme={{ theme_styles }}>
-  <div class="entry-gate-form__fieldset">
+  <div class="entry-gate-form__fieldset" data-date-format="{{ entry_gate_date_format }}">
     {% if entry_gate_date_format == 'mm_dd' %}
       <!-- mm -->
       <div class="entry-gate-form__input-container">
