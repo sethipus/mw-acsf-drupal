@@ -391,7 +391,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
   public function blockValidate($form, FormStateInterface $form_state) {
     if (!empty($form_state->get('items_storage')) && is_array($form_state->get('items_storage'))) {
       if (count($form_state->get('items_storage')) < 2) {
-        $form_state->setErrorByName('items', $this->t('2 minimum items is required'));
+        $form_state->setErrorByName('items', $this->t('2 minimum items are required'));
       }
 
       $keys = array_keys($form_state->get('items_storage'));
@@ -403,7 +403,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       }
     }
     else {
-      $form_state->setErrorByName('items', $this->t('2 minimum items is required'));
+      $form_state->setErrorByName('items', $this->t('2 minimum items are required'));
     }
   }
 
