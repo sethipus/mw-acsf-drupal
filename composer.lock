@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ac277c0b45b5a63a06086f3cc464559",
+    "content-hash": "445e1792c6c7fae0697ac3a7eb32edf1",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -1376,12 +1376,12 @@
             "version": "v5.7.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:enyo/dropzone.git",
+                "url": "https://github.com/dropzone/dropzone.git",
                 "reference": "5b82186d5f18540a1d13b6f4914fdc6220617ef5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/enyo/dropzone/zipball/5b82186d5f18540a1d13b6f4914fdc6220617ef5",
+                "url": "https://api.github.com/repos/dropzone/dropzone/zipball/5b82186d5f18540a1d13b6f4914fdc6220617ef5",
                 "reference": "5b82186d5f18540a1d13b6f4914fdc6220617ef5"
             },
             "type": "bower-asset"
@@ -1391,7 +1391,7 @@
             "version": "3.5.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:jquery/jquery-dist.git",
+                "url": "https://github.com/jquery/jquery-dist.git",
                 "reference": "4c0e4becb8263bb5b3e6dadc448d8e7305ef8215"
             },
             "dist": {
@@ -12863,6 +12863,9 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "patches_applied": {
+                    "Invalid values given. Values must be represented as an associative array.": "https://www.drupal.org/files/issues/2021-05-07/3168466-values-must-be-represented-as-an-associative-array-11.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
