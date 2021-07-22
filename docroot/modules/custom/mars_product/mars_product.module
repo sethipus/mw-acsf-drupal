@@ -109,7 +109,7 @@ function mars_product_page_attachments(&$page) {
           '#attributes' => [
             'id' => 'smart-commerce-brand-js',
             'type' => 'text/javascript',
-            'src' => (!empty($commerce_vendor_settings['brand_js']) && $current_uri !== '/') ? $commerce_vendor_settings['brand_js'] : '\/',
+            'src' => ($current_uri == '/where-buy' || $current_uri == '/where-to-buy' || count(explode("/", $current_uri)) >= 4) ? $commerce_vendor_settings['brand_js'] : '\/',
             'data-src' => !empty($commerce_vendor_settings['brand_js']) ? $commerce_vendor_settings['brand_js'] : '',
           ],
         ],
@@ -117,7 +117,7 @@ function mars_product_page_attachments(&$page) {
           '#tag' => 'style',
           '#attributes' => [
             'id' => 'smart-commerce-brand-css',
-            'src' => (!empty($commerce_vendor_settings['brand_css']) && $current_uri !== '/') ? $commerce_vendor_settings['brand_css'] : '\/',
+            'src' => ($current_uri == '/where-buy' || $current_uri == '/where-to-buy' || count(explode("/", $current_uri)) >= 4) ? $commerce_vendor_settings['brand_css'] : '\/',
             'data-src' => !empty($commerce_vendor_settings['brand_css']) ? $commerce_vendor_settings['brand_css'] : '',
           ],
         ],
@@ -184,6 +184,28 @@ function product_card_add_wtb_vars(array &$variables) {
     $variables['wtb_widget_id'] = !empty($commerce_vendor_settings[$widget_id_field]) ? $commerce_vendor_settings[$widget_id_field] : NULL;
     $variables['wtb_cta_title'] = !empty($commerce_vendor_settings['cta_title']) ? $commerce_vendor_settings['cta_title'] : NULL;
     $variables['wtb_display'] = $display;
+
+    $button_class = (
+        $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR &&
+        $commerce_vendor_settings['add_class']
+      )
+      ? $commerce_vendor_settings['button_class']
+      : NULL;
+
+    $variables['wtb_button_class'] = $button_class;
+
+    $variant = $variables['main_variant'] ?? NULL;
+    if (isset($variant) &&
+      $vendor == PdpHeroBlock::VENDOR_MANUAL_LINK_SELECTION &&
+      !$variant->get('field_product_hide_wtb_link')->value) {
+
+      $variables['wtb_manual_link_info'] = [
+        'button_name' => $variant->get('field_product_wtb_button_name')->value ?? $commerce_vendor_settings['button_name'],
+        'button_url' => $variant->get('field_product_wtb_button_url')->value ?? $commerce_vendor_settings['button_url'],
+        'button_new_tab' => $variant->get('field_product_wtb_new_tab')->value ?? $commerce_vendor_settings['button_new_tab'],
+        'button_style' => $variant->get('field_product_wtb_button_style')->value ?? $commerce_vendor_settings['button_style'],
+      ];
+    }
   }
 }
 
@@ -335,6 +357,28 @@ function mars_product_form_alter(array &$form, FormStateInterface $form_state, $
       ],
     ];
   }
+  if ($form_id == 'node_product_variant_form' || $form_id == 'node_product_variant_edit_form') {
+
+    $wtb_config = \Drupal::config('mars_product.wtb.settings');
+    $vendor = $wtb_config->get('commerce_vendor') ?? '';
+
+    if ($vendor == PdpHeroBlock::VENDOR_MANUAL_LINK_SELECTION) {
+      $form['field_product_wtb_button_name']['widget']['#required'] = TRUE;
+      $form['field_product_wtb_button_name']['widget'][0]['#required'] = TRUE;
+      $form['field_product_wtb_button_name']['widget'][0]['value']['#required'] = TRUE;
+      $form['field_product_wtb_button_url']['widget']['#required'] = TRUE;
+      $form['field_product_wtb_button_url']['widget'][0]['#required'] = TRUE;
+      $form['field_product_wtb_button_url']['widget'][0]['value']['#required'] = TRUE;
+    }
+    else {
+      unset($form['#fieldgroups']['group_wtb_manual_link']);
+      $form['field_product_wtb_button_name']['#access'] = FALSE;
+      $form['field_product_wtb_button_url']['#access'] = FALSE;
+      $form['field_product_wtb_button_style']['#access'] = FALSE;
+      $form['field_product_hide_wtb_link']['#access'] = FALSE;
+      $form['field_product_wtb_new_tab']['#access'] = FALSE;
+    }
+  }
 }
 
 /**
@@ -364,7 +408,12 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           ->getCurrentLanguage()->getId();
         $commerce_connector_url = '//fi-v2.global.commerce-connector.com/cc.js';
         // Updating library JS path.
-        $javascript[$key]['data'] = '\/';
+        if ($current_uri == '/where-buy' || $current_uri == '/where-to-buy' || strpos($current_uri, '/products') !== FALSE || count(explode("/", $current_uri)) >= 4) {
+          $javascript[$key]['data'] = $commerce_connector_url;
+        }
+        else {
+          $javascript[$key]['data'] = '\/';
+        }
         // Setting library attributes.
         $javascript[$key]['attributes'] = [
           'data-src' => $commerce_connector_url,
@@ -394,14 +443,15 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
 
         $javascript[$key]['attributes'] = [
           'data-src' => $javascript[$key]['data'],
+          'type' => 'text/javascript',
           'id' => 'bazaar-voice-scripts',
         ];
-        $javascript[$key]['data'] = ($current_uri == '/where-buy' || strpos($current_uri, '/products') !== FALSE) ? $javascript[$key]['data'] : '\/';
+        $javascript[$key]['data'] = ($current_uri == '/where-buy' || $current_uri == '/where-to-buy' || count(explode("/", $current_uri)) >= 4) ? $javascript[$key]['data'] : '\/';
       }
     }
     if (strpos($key, '[price_spider_url]') !== FALSE) {
       $price_spider_url = '//cdn.pricespider.com/1/lib/ps-widget.js';
-      if ($current_uri == '/where-buy' || strpos($current_uri, '/products') !== FALSE) {
+      if ($current_uri == '/where-buy' || $current_uri == '/where-to-buy' || strpos($current_uri, '/products') !== FALSE || count(explode("/", $current_uri)) >= 4) {
         $javascript[$key]['data'] = $price_spider_url;
       }
       else {
@@ -413,8 +463,8 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
       ];
     }
     if (strpos($key, '[smart_commerce_url]') !== FALSE) {
-      $smart_commerce_url = 'https://click2cart.co/assets/js/smartcart_min.js';
-      if ($current_uri == '/where-buy' || strpos($current_uri, '/products') !== FALSE) {
+      $smart_commerce_url = '//click2cart.co/assets/js/smartcart_min.js';
+      if ($current_uri == '/where-buy' || $current_uri == '/where-to-buy'  || count(explode("/", $current_uri)) >= 4) {
         $javascript[$key]['data'] = $smart_commerce_url;
       }
       else {
@@ -422,7 +472,9 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
       }
       $javascript[$key]['attributes'] = [
         'data-src' => $smart_commerce_url,
+        'type' => 'text/javascript',
         'id' => 'smart-commerce-widget',
+        'data-ot-ignore' => TRUE,
       ];
     }
   }

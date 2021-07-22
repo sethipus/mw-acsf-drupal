@@ -81,6 +81,7 @@ dependencies:
     - field.field.node.product_variant.field_product_fibre
     - field.field.node.product_variant.field_product_folate
     - field.field.node.product_variant.field_product_folate_daily
+    - field.field.node.product_variant.field_product_hide_wtb_link
     - field.field.node.product_variant.field_product_image_1
     - field.field.node.product_variant.field_product_image_1_override
     - field.field.node.product_variant.field_product_image_2
@@ -130,6 +131,10 @@ dependencies:
     - field.field.node.product_variant.field_product_vitamin_c_daily
     - field.field.node.product_variant.field_product_vitamin_d
     - field.field.node.product_variant.field_product_vitamin_d_daily
+    - field.field.node.product_variant.field_product_wtb_button_name
+    - field.field.node.product_variant.field_product_wtb_button_style
+    - field.field.node.product_variant.field_product_wtb_button_url
+    - field.field.node.product_variant.field_product_wtb_new_tab
     - field.field.node.product_variant.salsify_id
     - field.field.node.product_variant.salsify_updated
     - node.type.product_variant
@@ -154,6 +159,7 @@ third_party_settings:
         - group_dl_allergen_information
         - group_dl_nutritional_information
         - group_dl_vitamins
+        - group_wtb_manual_link
         - group_system
       parent_name: ''
       weight: 0
@@ -287,7 +293,7 @@ third_party_settings:
         - moderation_state
         - status
       parent_name: group_product_variant
-      weight: 40
+      weight: 41
       format_type: accordion_item
       region: content
       format_settings:
@@ -512,6 +518,24 @@ third_party_settings:
         required_fields: true
         description: ''
       label: 'Dual options'
+    group_wtb_manual_link:
+      children:
+        - field_product_hide_wtb_link
+        - field_product_wtb_button_name
+        - field_product_wtb_button_url
+        - field_product_wtb_new_tab
+        - field_product_wtb_button_style
+      parent_name: group_product_variant
+      weight: 40
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        required_fields: true
+        description: ''
+      label: 'WTB manual link'
 _core:
   default_config_hash: Goy_ckv6s-XOsTJg_C5mJSOBwhwihp5_duzX1Td9DOA
 id: node.product_variant.default
@@ -1150,6 +1174,13 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_product_hide_wtb_link:
+    weight: 122
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
   field_product_image_1:
     type: entity_browser_entity_reference
     weight: 24
@@ -1614,6 +1645,35 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_product_wtb_button_name:
+    weight: 123
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_wtb_button_style:
+    weight: 126
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_product_wtb_button_url:
+    weight: 124
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_wtb_new_tab:
+    weight: 125
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   langcode:
     type: language_select

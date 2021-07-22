@@ -755,55 +755,6 @@
     visibility: hidden;
     opacity: 0;
   }
-
-  &--pdp-hero {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-
-    @include large {
-      display: inline-block;
-      width: auto;
-    }
-
-    .cc-fi-button {
-      @include set-font($font-type: 'primary-font');
-      @include cta-background-animation(clr(secondary), clr(subcolor-3));
-
-      border: 0;
-      color: clr(text-inverse);
-      font-size: 1.4rem;
-      line-height: 6rem;
-      text-decoration: none;
-      text-transform: uppercase;
-      text-align: center;
-      padding: 0 1rem;
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
-      border-radius: variable(button-border-radius);
-      width: 100%;
-      cursor: pointer;
-      transition: all .6s cubic-bezier(.75, 0, .25, 0);
-
-      @include large {
-        min-width: 20.2rem;
-        line-height: 6rem;
-        font-size: 1.6rem;
-        width: auto;
-      }
-
-      &:hover {
-        color: clr(secondary);
-      }
-
-      &[disabled] {
-        cursor: not-allowed;
-        opacity: 0.6;
-      }
-    }
-  }
-
 }
 
 .default-link {

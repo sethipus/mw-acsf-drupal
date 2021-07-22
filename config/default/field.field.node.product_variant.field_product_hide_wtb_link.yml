@@ -1,0 +1,28 @@
+uuid: 466281fb-d056-46ef-a2b8-1638f86dee13
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_hide_wtb_link
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_hide_wtb_link
+field_name: field_product_hide_wtb_link
+entity_type: node
+bundle: product_variant
+label: 'Hide WTB manual link'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

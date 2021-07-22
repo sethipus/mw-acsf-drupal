@@ -115,12 +115,14 @@
       {% if wtb_commerce_vendor %}
         <div {{ bem('link', [], card__base_class) }}>
           {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
-              product_sku: product_sku,
-              commerce_vendor: wtb_commerce_vendor,
-              cta_title: link_content,
-              button_type: wtb_button_type,
-              data_widget_id: wtb_widget_id,
-              data_display: wtb_display
+            product_sku: product_sku,
+            commerce_vendor: wtb_commerce_vendor,
+            cta_title: link_content,
+            button_type: wtb_button_type,
+            data_widget_id: wtb_widget_id,
+            data_display: wtb_display,
+            wtb_manual_link_info: wtb_manual_link_info,
+            where_to_buy_button_type: (wtb_button_class)? wtb_button_class : 'link'
           } %}
         </div>
       {% endif %}

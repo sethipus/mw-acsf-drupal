@@ -11,3 +11,10 @@ mars_common.admin.card_color_settings:
   parent: system.admin_config_system
   route_name: mars_common.card_color_settings
   weight: 100
+
+mars_common.disable_language:
+  title: 'Exclude language settings'
+  parent: system.admin_config_regional
+  description: 'Exclude language from language switcher and disable access to pages with selected language(s) (for anonymous users only)'
+  route_name: mars_common.admin.disable_language
+  weight: 100

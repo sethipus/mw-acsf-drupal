@@ -1,22 +1,11 @@
 let scriptLoadInProgress = false;
-function _lazyLoadCookieBanner(callBackSettings = false) {
+function _lazyLoadCookieBanner() {
 
     if($('#onetrust-sdk').length > 0 && !scriptLoadInProgress)
     {
         scriptLoadInProgress = true;
         $('#onetrust-sdk').attr('src',$('#onetrust-sdk').attr('data-src'));
-        $.getScript($('#onetrust-sdk').attr('data-src')).then(() => {
-            if(callBackSettings)
-            {
-                const checkElement = setInterval(() => {
-                    if($('#onetrust-pc-btn-handler').length > 0)
-                    {
-                        clearInterval(checkElement);
-                        $('#onetrust-pc-btn-handler').trigger('click');
-                    }
-                }, 100);
-            }
-        });
+        $.getScript($('#onetrust-sdk').attr('data-src'));
     }
 
 }
@@ -33,7 +22,7 @@ const getCookieData = name => {
 };
 
 window.onload = () => {
-    if(getCookieData('OptanonAlertBoxClosed') == null)
+    if(getCookieData('OptanonAlertBoxClosed') == null && false)
     {
         $('.cookie-parent-div').slideDown('slow');	
         $('.cookie-parent-div').css('display','flex');
