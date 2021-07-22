@@ -211,6 +211,31 @@ Following best practices for engineering your solution and code syntax ensures t
 
 ---
 
+# Additional Steps
+
+If you had trouble with composer install because the new ddev starts you off with composer 2
+
+```
+ddev . composer self-update --1
+```
+
+Set Environment debuging to verbose error reporting (docroot/sites/default/settings.ddev.php)
+
+```
+$config['system.logging']['error_level'] = 'verbose';
+```
+
+If you're getting this error locally:
+```
+Error: Call to undefined function translatable_menu_link_uri_iterate_menu() in Drupal\mars_common\MenuBuilder->getMenuItemsArray() (line 63 of modules/custom/mars_common/src/MenuBuilder.php).
+```
+
+To turn off the CDN images, do that here: https://mars.ddev.site:8443/admin/config/services/mars_media
+(after logging in with ddev . drush uli)
+
+you need to run `drush cim -y`
+and in order to run that, you might need to run `drush pm-uninstall acsf`
+
 # Code Collaboration
 
 * Understand the requirements or bug fix clearly for which the PR raised. Ensure you have access to DevOps ticket where the User story or Bug fix is maintained.
