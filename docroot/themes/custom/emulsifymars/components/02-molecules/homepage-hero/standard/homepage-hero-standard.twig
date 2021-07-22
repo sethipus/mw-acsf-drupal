@@ -3,7 +3,7 @@
 <section {{ bem(homepage_hero__base_class) }} id="homepage-hero-standard" data-theme="{{ theme_styles }}">
   <div {{ bem('inner', [], homepage_hero__base_class) }}
     {% if background_color %}
-    style="background-color: #{{ background_color }};"
+    style="background-color: {{ background_color }};"
     {% endif %}
   >
     <div {{ bem('bubble', ['1'], homepage_hero__base_class) }}>
