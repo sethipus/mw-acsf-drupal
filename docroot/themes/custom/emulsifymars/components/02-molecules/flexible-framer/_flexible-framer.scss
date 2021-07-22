@@ -92,6 +92,8 @@
       @include medium {
         grid-template-columns: 1fr 1fr;
       }
+      max-width: 113rem;
+      margin: 0 auto;
     }
 
     &.grid-items-3 {
@@ -117,7 +119,8 @@
       margin: 0 auto;
       width: 100%;
 
-      a, .image-container {
+      a,
+      .image-container {
         position: absolute;
         top: 0;
         left: 0;
