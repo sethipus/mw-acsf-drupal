@@ -1595,7 +1595,7 @@ function _layout_builder_post_update_section_storage_context_mapping(&$sandbox =
  */
 function mars_common_page_attachments(&$page) {
 
-  _layout_builder_post_update_section_storage_context_mapping();
+//  _layout_builder_post_update_section_storage_context_mapping();
 
   $current_route = Drupal::routeMatch();
   $route_name = $current_route->getRouteName();
@@ -1615,10 +1615,19 @@ function mars_common_page_attachments(&$page) {
       $page['#attached']['library'][] = 'mars_product/mars_product.bazaarvoice';
     }
   }
+}
 
-  $theme = \Drupal::theme()->getActiveTheme()->getName();
-  if ($theme == 'emulsifymars') {
-    $page['#attached']['library'][] = 'mars_common/colorpicker-fix-css';
+/**
+ * Update jquery_colorpicker css. Fix colorpicker images.
+ *
+ * @param $libraries
+ * @param $extension
+ */
+function mars_common_library_info_alter(&$libraries, $extension) {
+  if ($extension == 'jquery_colorpicker') {
+    $libraries['library']['css']['theme'] = [
+      '/' . drupal_get_path('module', 'mars_common') . '/css/colorpicker.css' => []
+    ];
   }
 }
 

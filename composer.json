@@ -68,7 +68,8 @@
         "drupal/qa_accounts": "^1.0@beta",
         "drupal/rabbit_hole": "^1.0@beta",
         "drupal/redirect": "^1.6",
-        "drupal/remote_stream_wrapper_widget": "dev-1.x#de8bf2986cce89f6644a6da5067be232ebc0c212",
+        "drupal/remote_stream_wrapper": "^1.5",
+        "drupal/remote_stream_wrapper_widget": "^1.2",
         "drupal/robotstxt": "^1.4",
         "drupal/samlauth": "^3.3",
         "drupal/search_api": "^1.20",
@@ -247,7 +248,9 @@
             "drupal/lightning_workflow": {
                 "Update scheduled status change": "https://www.drupal.org/files/issues/2020-11-12/take-workflow-transitions-into-account-3182093-1.patch"
             },
-
+            "drupal/remote_stream_wrapper": {
+                "Remote Stream Wrapper does not work after upgrade drupal 9": "https://www.drupal.org/files/issues/2021-05-10/3185015-29.patch"
+            },
             "drupal/field_group": {
                 "Ensure visibility of invalid fields (JS) https://www.drupal.org/project/field_group/issues/2787179": "https://www.drupal.org/files/issues/2020-05-19/2787179-highlight-html5-validation-52.patch"
             },

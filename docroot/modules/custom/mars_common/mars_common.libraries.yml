@@ -9,9 +9,3 @@ poll_ajax:
     js/poll_ajax.js: {}
   dependencies:
     - core/drupal
-
-# Jquery Colorpicker broken CSS fix
-colorpicker-fix-css:
-  css:
-    theme:
-      css/colorpicker-fix.css: {}

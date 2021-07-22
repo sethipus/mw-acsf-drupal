@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1de76fb689d3ce0620d85ecb9bf0745c",
+    "content-hash": "1fdee1e2825d028d5403a315db1c9293",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -11482,6 +11482,9 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "patches_applied": {
+                    "Remote Stream Wrapper does not work after upgrade drupal 9": "https://www.drupal.org/files/issues/2021-05-10/3185015-29.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -25263,6 +25266,7 @@
                     "type": "github"
                 }
             ],
+            "abandoned": true,
             "time": "2020-09-28T06:45:17+00:00"
         },
         {
@@ -25580,7 +25584,6 @@
         "drupal/publication_date": 10,
         "drupal/qa_accounts": 10,
         "drupal/rabbit_hole": 10,
-        "drupal/remote_stream_wrapper_widget": 20,
         "drupal/ultimate_cron": 15,
         "mars/mars_lighthouse": 20,
         "mars/mars_seo": 20,
