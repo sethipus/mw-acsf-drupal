@@ -146,7 +146,9 @@
         }
         yearInput.once('entryGate').on('keypress', e => {
           checkValueLength(e, yearInput, 4);
-          submitBtn.click();
+          if (e.keyCode == 13) {
+            submitBtn.click();
+          }
         });
 
         submitBtn.once('entryGate').on('click', event => {
