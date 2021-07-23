@@ -124,6 +124,7 @@
         }
 
         firstInputElement.focus();
+        
         if (dateFormat == 'mm_dd') {
           monthInput.once('entryGate').on('keypress', e => {
             checkValueLength(e, monthInput, 2);
@@ -133,7 +134,6 @@
             checkValueLength(e, dayInput, 2);
             yearInput.focus();
           });
-
         } else {
           dayInput.once('entryGate').on('keypress', e => {
             checkValueLength(e, dayInput, 2);
