@@ -14,6 +14,7 @@
         const a11yDataAttrName = 'data-a11y-block-tabbable';
         const a11yDateFakeLinkId = 'a11y-entry-gate-first-link';
         const firstInputElement = $('.entry-gate-form__input', this)[0];
+        const dateFormat = fieldset.data('date-format');
 
         firstInputElement.onkeydown = function(e) {
           if ((e.code === 'Tab' && e.shiftKey) || (e.code === 'ArrowLeft' && e.ctrlKey)) {
@@ -86,7 +87,7 @@
         // enough
         if (isOldEnough(getCookieDate('dateOfBirth'))) {
           // Lazy load scripts
-          lazyLoadThirdpartyScripts();
+          //lazyLoadThirdpartyScripts();
           entryGate.css({display: 'none'});
           $(document).trigger("popupClosed.entryGate");
           entryGate.attr("data-popup-opened", false);
@@ -123,15 +124,37 @@
         }
 
         firstInputElement.focus();
+        if (dateFormat == 'mm_dd') {
+          monthInput.once('entryGate').on('keypress', e => {
+            checkValueLength(e, monthInput, 2);
+            dayInput.focus();
+          });
+          dayInput.once('entryGate').on('keypress', e => {
+            checkValueLength(e, dayInput, 2);
+            yearInput.focus();
+          });
 
-        dayInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
-        monthInput.once('entryGate').on('keypress', e => checkValueLength(e, monthInput, 2));
-        yearInput.once('entryGate').on('keypress', e => checkValueLength(e, yearInput, 4));
+        } else {
+          dayInput.once('entryGate').on('keypress', e => {
+            checkValueLength(e, dayInput, 2);
+            monthInput.focus();
+          });
+          monthInput.once('entryGate').on('keypress', e => {
+            checkValueLength(e, monthInput, 2);
+            yearInput.focus();
+          });
+        }
+        yearInput.once('entryGate').on('keypress', e => {
+          checkValueLength(e, yearInput, 4);
+          if (e.keyCode == 13) {
+            submitBtn.click();
+          }
+        });
 
         submitBtn.once('entryGate').on('click', event => {
           event.preventDefault();
           // Lazy load scripts
-          lazyLoadThirdpartyScripts();
+          //lazyLoadThirdpartyScripts();
           const givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+dayInput.val()).slice(-2)}`;
 
           if (!isValidDate(givenDateStr) || new Date(givenDateStr).getUTCFullYear() < 1900) {
