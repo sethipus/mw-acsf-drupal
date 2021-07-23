@@ -287,6 +287,12 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
             updateSizeSlider(e, item.dataset.sizeId);
             updateReview(e, item.dataset.sizeId);
             initSnapScroller();
+            if (
+              typeof (window.PriceSpider) !== 'undefined' &&
+              typeof (window.PriceSpider.rebind) === 'function'
+            ) {
+              window.PriceSpider.rebind();
+            }
           }
         }, false);
       });
