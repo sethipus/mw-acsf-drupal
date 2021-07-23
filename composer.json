@@ -84,7 +84,7 @@
         "drupal/ultimate_cron": "^2.0@alpha",
         "emulsify-ds/emulsify-drupal": "2.2.0",
         "eyecon/jquery_colorpicker": "master",
-        "mars/mars_lighthouse": "dev-master",
+        "mars/mars_lighthouse": "v0.0.1",
         "mars/mars_seo": "*",
         "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
@@ -254,12 +254,12 @@
             "type": "package",
             "package": {
                 "name": "mars/mars_lighthouse",
-                "version": "dev-master",
+                "version": "v0.0.1",
                 "type":"drupal-module",
                 "source": {
                     "url": "git@github.com:Mars-Incorporated/mars_lighthouse.git",
                     "type": "git",
-                    "reference": "master"
+                    "reference": "v0.0.1"
                 }
             }
         }
