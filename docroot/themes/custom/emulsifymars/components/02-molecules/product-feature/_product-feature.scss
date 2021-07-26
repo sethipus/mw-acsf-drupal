@@ -1,4 +1,6 @@
 .product-feature {
+    position: relative;
+    overflow: hidden;
     text-align: left;
     background-color: clr(secondary);
 
@@ -6,7 +8,8 @@
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    max-width: 1440px;
+    margin: 0 auto;
   }
 
   &__bubble {
