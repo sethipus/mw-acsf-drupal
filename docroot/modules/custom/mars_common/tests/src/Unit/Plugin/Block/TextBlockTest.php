@@ -89,6 +89,7 @@ class TextBlockTest extends UnitTestCase {
     $this->block->setConfiguration([
       'body' => ['value' => 'test_value'],
       'drop_cap' => FALSE,
+      'header' => 'test_header',
     ]);
     $build = $this->block->build();
     $this->assertEquals('text_block', $build['#theme']);

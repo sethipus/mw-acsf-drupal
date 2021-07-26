@@ -204,6 +204,9 @@
             },
             "drupal/printable": {
                 "Fix printable stream wrapper.": "patches/fix-url-scheme-for-alter-3190197-4.patch"
+            },
+            "drupal/translatable_menu_link_uri": {
+                "Invalid values given. Values must be represented as an associative array.": "https://www.drupal.org/files/issues/2021-05-07/3168466-values-must-be-represented-as-an-associative-array-11.patch"
             }
         }
     },
