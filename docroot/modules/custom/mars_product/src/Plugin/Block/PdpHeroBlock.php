@@ -897,7 +897,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       }
       $serving_items = ($this->isNutritionDataVisible())
         ? $this->getServingItems($product_variant_first)
-        : NULL;
+        : [];
 
       $item = [
         'product_title' => $product->getTitle(),
@@ -1180,7 +1180,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function isNutritionDataVisible(): bool {
     $show_nutrition_data = $this->themeConfiguratorParser->getSettingValue('show_nutrition_info');
-    if ($show_nutrition_data) {
+    if ($show_nutrition_data || $show_nutrition_data === '') {
       return TRUE;
     }
     return FALSE;
