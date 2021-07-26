@@ -1,0 +1,117 @@
+.where-to-buy {
+  .where-to-buy-link {
+    @include set-font($font-type: 'secondary-font');
+    @include text_link;
+
+    display: block;
+    padding: 1.8rem 1rem;
+    line-height: 1;
+    font-size: 1.4rem;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: clr(primary);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .where-to-buy-button {
+    @include set-font($font-type: 'primary-font');
+
+    color: clr(text-inverse);
+    font-size: 1.4rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 5rem;
+    padding: 0 1rem;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    border: none;
+    border-radius: variable(button-border-radius);
+    cursor: pointer;
+
+    @include cta-background-animation(clr(secondary), clr(subcolor-3));
+
+    transition: all .6s cubic-bezier(.75, 0, .25, 0);
+  }
+
+  &--pdp-hero {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    @include large {
+      display: inline-block;
+      width: auto;
+    }
+
+    .where-to-buy-button {
+      width: 100%;
+      min-width: 13.3rem;
+
+      @include medium {
+        min-width: 15.7rem;
+      }
+
+      @include large {
+        width: auto;
+      }
+
+      @include xl {
+        min-width: 20.2rem;
+        line-height: 6rem;
+        font-size: 1.6rem;
+      }
+
+      &:hover {
+        color: clr(secondary);
+      }
+    }
+  }
+}
+
+.product-card:hover {
+  .where-to-buy-button {
+    color: clr(secondary);
+    text-align: center;
+    @include cta-background-animation(clr(subcolor-3), clr(secondary));
+
+    transition: all .6s cubic-bezier(.75, 0, .25, 0);
+
+    &:hover {
+      color: clr(subcolor-3);
+    }
+  }
+
+  @include medium {
+    .default-link {
+      color: clr(secondary);
+      box-shadow: none;
+
+      &:hover {
+        color: clr(subcolor-3);
+      }
+    }
+
+    .where-to-buy {
+      color: clr(subcolor-3);
+
+      .where-to-buy-link {
+        color: currentColor;
+      }
+    }
+  }
+}

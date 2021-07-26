@@ -12,6 +12,19 @@
         width: 100%;
         object-fit: cover;
       }
+      picture {
+        @include small {
+          height: 211px;
+        }
+  
+        @include medium {
+          height: 432px;
+        }
+  
+        @include xl {
+          height: 810px;
+        }
+      }
     }
   }
 
