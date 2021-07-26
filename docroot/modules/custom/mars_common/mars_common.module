@@ -1562,41 +1562,9 @@ function mars_common_node_presave(NodeInterface $node) {
 }
 
 /**
- * Update view displays that use Layout Builder to add empty context mappings.
- */
-function _layout_builder_post_update_section_storage_context_mapping(&$sandbox = []) {
-  $config_entity_updater = \Drupal::classResolver(\Drupal\Core\Config\Entity\ConfigEntityUpdater::class);
-
-  $callback = function (\Drupal\Core\Entity\Display\EntityViewDisplayInterface $display) {
-    $needs_update = FALSE;
-
-    // Only update entity view displays where Layout Builder is enabled.
-    if ($display instanceof LayoutEntityDisplayInterface && $display->isLayoutBuilderEnabled()) {
-      foreach ($display->getSections() as $section) {
-        // Add an empty context mapping to each section where one doesn't exist.
-         $section->setLayoutSettings($section->getLayoutSettings() + [
-            'context_mapping' => [],
-          ]);
-
-        // Flag this display as needing to be updated.
-        $needs_update = TRUE;
-      }
-    }
-
-    return $needs_update;
-  };
-
-  $config_entity_updater->update($sandbox, 'entity_view_display', $callback);
-}
-
-
-/**
  * Implements hook_page_attachments().
  */
 function mars_common_page_attachments(&$page) {
-
-//  _layout_builder_post_update_section_storage_context_mapping();
-
   $current_route = Drupal::routeMatch();
   $route_name = $current_route->getRouteName();
   $supported_routes = [
