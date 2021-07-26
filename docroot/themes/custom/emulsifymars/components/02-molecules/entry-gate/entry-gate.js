@@ -10,25 +10,25 @@
         const yearInput = $('.entry-gate--year', this);
         const submitBtn = $('.entry-gate-form__submit-btn', this);
         const errorMessage = $('.entry-gate-form__error-message', this);
-        const link = $('.entry-gate__bottom-paragraph a', this).length > 0 ? $('.entry-gate__bottom-paragraph a', this).last()[0] : submitBtn[0];
+        const link = $('.entry-gate__bottom-paragraph a', this).length > 0 ? $('.entry-gate__bottom-paragraph a', this).last() : submitBtn;
         const a11yDataAttrName = 'data-a11y-block-tabbable';
         const a11yDateFakeLinkId = 'a11y-entry-gate-first-link';
-        const firstInputElement = $('.entry-gate-form__input', this)[0];
+        const firstInputElement = $('.entry-gate-form__input', this).first();
         const dateFormat = fieldset.data('date-format');
 
-        firstInputElement.onkeydown = function(e) {
+        firstInputElement.on('keydown', function (e) {
           if ((e.code === 'Tab' && e.shiftKey) || (e.code === 'ArrowLeft' && e.ctrlKey)) {
-              e.preventDefault();
-              link.focus();
+            e.preventDefault();
+            link.focus();
           }
-        };
+        });
 
-        link.onkeydown = function(e) {
+        link.on('keydown', function (e) {
           if ((e.code === 'Tab'  && !e.shiftKey) || (e.code === 'ArrowRight' && e.ctrlKey)) {
             e.preventDefault();
             firstInputElement.focus();
           }
-        };
+        });
 
         // helper for lazyloading external scripts
         const lazyLoadThirdpartyScripts = () => {
@@ -69,25 +69,19 @@
           return false;
         };
 
-        // allow only numbers and max 2 characters length
+        // allow only numbers and non-printable keys (Ctrl, Alt, Tab etc.)
         const checkValueLength = (event, field, limit) => {
           fieldset.removeClass('entry-gate-form__fieldset--error');
           errorMessage.css({display: 'none'})
-          if (/[0-9]/.test(event.key)) {
-            if (field.val().length > limit) {
-              field.val(field.val().subString(0, limit));
-            }
-          }
-          else {
-            event.preventDefault();
-          }
+          if (((/[0-9]/.test(event.key)) && (field.val().length >= limit)) ||
+          (/^[a-z!"#$%&'()*+,.\/:;<=>?@\[\] ^_`{|}~-]*$/.test(event.key))) { event.preventDefault(); }
         };
 
         // display entry gate if cookie is not set or the value of cookie is not
         // enough
         if (isOldEnough(getCookieDate('dateOfBirth'))) {
           // Lazy load scripts
-          lazyLoadThirdpartyScripts();
+          //lazyLoadThirdpartyScripts();
           entryGate.css({display: 'none'});
           $(document).trigger("popupClosed.entryGate");
           entryGate.attr("data-popup-opened", false);
@@ -124,35 +118,48 @@
         }
 
         firstInputElement.focus();
-        if (dateFormat == 'mm_dd') {
-          monthInput.once('entryGate').on('keypress', e => {
-            checkValueLength(e, monthInput, 2);
-            dayInput.focus();
-          });
-          dayInput.once('entryGate').on('keypress', e => {
-            checkValueLength(e, dayInput, 2);
-            yearInput.focus();
+
+        dayInput.once('entryGate')
+          .keydown(function(e) {
+            if (e.keyCode == 13) {
+              // move focus on "enter keyDown" and prevent sending of the form
+              (dateFormat == 'mm_dd') ? yearInput.focus() : monthInput.focus();
+              e.preventDefault();
+            } else {
+              checkValueLength(e, dayInput, 2)
+            }
+          })
+          .keyup(function(e) {
+            // Move focus if field is full and digit has just been printed
+            if ((dayInput.val().length == 2) && (/[0-9]/.test(e.key))) {
+              (dateFormat == 'mm_dd') ? yearInput.focus() : monthInput.focus();
+            }
           });
 
-        } else {
-          dayInput.once('entryGate').on('keypress', e => {
-            checkValueLength(e, dayInput, 2);
-            monthInput.focus();
+        monthInput.once('entryGate')
+          .keydown(function(e) {
+            if (e.keyCode == 13) {
+              // move focus on "enter keyDown" and prevent sending of the form
+              (dateFormat == 'mm_dd') ? dayInput.focus() : yearInput.focus();
+              e.preventDefault();
+            } else {
+              checkValueLength(e, monthInput, 2);
+            }
+          })
+          .keyup(function (e) {
+            // Move focus if field is full and digit has just been printed
+            if ((monthInput.val().length == 2) && (/[0-9]/.test(e.key))) {
+              (dateFormat == 'mm_dd') ? dayInput.focus() : yearInput.focus();
+            }
           });
-          monthInput.once('entryGate').on('keypress', e => {
-            checkValueLength(e, monthInput, 2);
-            yearInput.focus();
-          });
-        }
-        yearInput.once('entryGate').on('keypress', e => {
-          checkValueLength(e, yearInput, 4);
-          submitBtn.click();
-        });
+
+        yearInput.once('entryGate')
+          .keydown( e => checkValueLength(e, yearInput, 4));
 
         submitBtn.once('entryGate').on('click', event => {
           event.preventDefault();
           // Lazy load scripts
-          lazyLoadThirdpartyScripts();
+          //lazyLoadThirdpartyScripts();
           const givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+dayInput.val()).slice(-2)}`;
 
           if (!isValidDate(givenDateStr) || new Date(givenDateStr).getUTCFullYear() < 1900) {
