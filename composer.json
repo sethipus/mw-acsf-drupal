@@ -13,7 +13,7 @@
         "acquia/memcache-settings": "^1.0",
         "composer/installers": "^1.9",
         "drupal/acquia_connector": "^3",
-        "drupal/acquia_contenthub": "^2.25",
+        "drupal/acquia_contenthub": "^2.26",
         "drupal/acquia_lift": "^4.4",
         "drupal/acquia_purge": "^1.1",
         "drupal/acquia_search": "^3.0",
@@ -218,9 +218,6 @@
             "drupal/core": "-p2"
         },
         "patches": {
-            "drupal/acquia_contenthub": {
-                "3143039 - file_save_data with FILE_EXISTS_REPLACE results in WSOD": "https://www.drupal.org/files/issues/2021-02-11/acquia_contenthub-8.x-2.x-3143039-5.patch"
-            },
             "drupal/config_ignore": {
                 "Correct drush filtering": "https://www.drupal.org/files/issues/2021-01-04/config_ignore_2857247-61.patch",
                 "Config ignore collection": "https://www.drupal.org/files/issues/2020-11-04/config-ignore-collections-2973431-57.patch"
