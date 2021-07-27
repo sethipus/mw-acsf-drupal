@@ -71,7 +71,7 @@ class SrOnlyTwigFilter extends \Twig_Extension {
         if (!empty($link_text) &&
           (UrlHelper::isExternal($url) || $link_has_target_blank)
         ) {
-          $sr_text_link = $link_text . ' <span class="sronly">' . $this->t('(opens in new window)') . '</span>';
+          $sr_text_link = $link_text . ' <span class="sronly">' . $this->languageHelper->translate('(opens in new window)') . '</span>';
           $result = str_replace($link_text, $sr_text_link, $full_link);
           $string = str_replace($full_link, $result, $string);
         }
