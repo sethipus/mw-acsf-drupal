@@ -58,7 +58,7 @@
       width: auto;
     }
 
-    #where-to-buy-button {
+    .where-to-buy-button {
       width: 100%;
       min-width: 13.3rem;
 
@@ -83,9 +83,9 @@
 }
 
 .product-card {
-  #where-to-buy-link {
-    background-color: unset;
-    color: clr(primary);
+  .where-to-buy-link {
+    background-color: unset !important;
+    color: clr(primary) !important;
     transition: inherit;
     border: transparent;
   }
@@ -123,7 +123,8 @@
     }
   }
 
-  #where-to-buy-link {
+  .where-to-buy-link {
     color: clr(subcolor-3);
+    border: transparent !important;
   }
 }

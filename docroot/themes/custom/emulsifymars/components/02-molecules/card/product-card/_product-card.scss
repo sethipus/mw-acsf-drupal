@@ -203,9 +203,9 @@
 
   &__button {
     .default-link {
-      pointer-events: none;
+      pointer-events: none !important;
       .default-link__label {
-        transition: none;
+        transition: none !important;
       }
     }
   }

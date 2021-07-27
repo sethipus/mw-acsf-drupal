@@ -16,6 +16,6 @@
 
 {% if product_sku is not empty %}
   <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname, where_to_buy_type) }}>
-    <div id="where-to-buy-{{where_to_buy_button_type}}" class="ps-widget" ps-config="{{ data_widget_id }}" ps-sku="{{ product_sku }}"></div>
+    <div class="where-to-buy-{{where_to_buy_button_type}} ps-widget" ps-config="{{ data_widget_id }}" ps-sku="{{ product_sku }}"></div>
   </div>
 {% endif %}
