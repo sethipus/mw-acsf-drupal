@@ -7,6 +7,8 @@ use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Field\FieldItemList;
+use Drupal\Core\Language\Language;
+use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
@@ -177,6 +179,20 @@ class MarsSearchControllerTest extends UnitTestCase {
   protected $languageHelperMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Language\LanguageManagerInterface
+   */
+  private $languageManagerMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Language\LanguageInterface
+   */
+  private $languageMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -230,6 +246,21 @@ class MarsSearchControllerTest extends UnitTestCase {
           ],
         ]
       );
+
+    $this->languageHelperMock
+      ->expects($this->any())
+      ->method('getLanguageManager')
+      ->willReturn($this->languageManagerMock);
+
+    $this->languageManagerMock
+      ->expects($this->any())
+      ->method('getCurrentLanguage')
+      ->willReturn($this->languageMock);
+
+    $this->languageMock
+      ->expects($this->any())
+      ->method('getId')
+      ->willReturn('en');
 
     $this->controller = new MarsSearchController(
       $this->rendererMock,
@@ -459,6 +490,8 @@ class MarsSearchControllerTest extends UnitTestCase {
     $this->searchPrettyFacetProcessor = $this->createMock(SearchPrettyFacetProcessInterface::class);
     $this->aliasCleanerMock = $this->createMock(AliasCleanerInterface::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
+    $this->languageMock = $this->createMock(Language::class);
+    $this->languageManagerMock = $this->createMock(LanguageManager::class);
   }
 
 }
