@@ -63,11 +63,7 @@
   }
 
   &__graphic-divider {
-    margin-bottom: 4rem;
-
-    @include xl {
-      margin-bottom: 6rem;
-    }
+    margin-bottom: 6rem;
   }
 
   /* Grid Layout */
