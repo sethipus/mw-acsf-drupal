@@ -1,12 +1,15 @@
 .social-feed {
   position: relative;
+  overflow: hidden;
+  background-color: clr(subcolor-2);
   @include brand-border-overflow;
 
   &__content {
     position: relative;
-    background-color: clr(subcolor-2);
     padding-bottom: 8rem;
     padding-top: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
   }
 
   &__heading {
@@ -42,6 +45,7 @@
 
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
   .social-feed-swiper-container {
+    overflow: unset;
     width: 100%;
   }
 
