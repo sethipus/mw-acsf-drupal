@@ -30,6 +30,15 @@
         min-height: 580px;
       }
 
+      & .container {
+        @include large {
+          position: relative;
+          max-width: 1440px;
+          height: 100%;
+          margin: 0 auto;
+        }
+      }
+
       & .eyebrow {
         @include set-font($font-type: 'primary-font');
 
