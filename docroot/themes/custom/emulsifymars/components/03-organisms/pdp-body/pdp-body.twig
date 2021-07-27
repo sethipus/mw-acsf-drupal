@@ -9,7 +9,7 @@
       pdp_common_hero_data: pdp_common_data.hero_data,
       pdp_size_items_data: pdp_size_data,
       pdp_hero_data: pdp_item.hero_data,
-      pdp_label_nutrition: pdp_common_data.nutrition_data.nutritional_label,
+      pdp_label_nutrition: (pdp_common_data.nutrition_data.show_nutrition_data) ? pdp_common_data.nutrition_data.nutritional_label : FALSE,
       pdp_label_allergen: pdp_item.allergen_data.allergens_list|length ? pdp_common_data.allergen_data.allergen_label : '',
       pdp_label_cooking: pdp_item.cooking_data is not empty ? pdp_common_data.cooking_data.cooking_label : '',
       pdp_label_more_information: pdp_common_data.more_information_data.show_more_information_label ? pdp_common_data.more_information_data.more_information_label : '',
@@ -34,22 +34,25 @@
     {% include "@molecules/pdp/pdp-benefits/pdp-benefits.twig" with {
       benefits_data: benefits_data,
     } %}
-    <!-- PDP Nutrition -->
-    {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
-      size_id: pdp_item.size_id,
-      pdp_nutrition_data: pdp_item.nutrition_data,
-      pdp_common_nutrition_data: pdp_common_data.nutrition_data,
-      show_table_footer: pdp_item.dual_nutrition_data is empty
-    } %}
 
-    <!-- PDP Dual Nutrition -->
-    {% if pdp_item.dual_nutrition_data is not empty  %}
+    {% if pdp_common_data.nutrition_data.show_nutrition_data %}
+      <!-- PDP Nutrition -->
       {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
         size_id: pdp_item.size_id,
-        pdp_nutrition_data: pdp_item.dual_nutrition_data,
+        pdp_nutrition_data: pdp_item.nutrition_data,
         pdp_common_nutrition_data: pdp_common_data.nutrition_data,
-        show_table_footer: true
+        show_table_footer: pdp_item.dual_nutrition_data is empty
       } %}
+
+      <!-- PDP Dual Nutrition -->
+      {% if pdp_item.dual_nutrition_data is not empty  %}
+        {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
+          size_id: pdp_item.size_id,
+          pdp_nutrition_data: pdp_item.dual_nutrition_data,
+          pdp_common_nutrition_data: pdp_common_data.nutrition_data,
+          show_table_footer: true
+        } %}
+      {% endif %}
     {% endif %}
 
     <!-- PDP Allergen -->
