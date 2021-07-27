@@ -409,7 +409,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           ->getCurrentLanguage()->getId();
         $commerce_connector_url = '//fi-v2.global.commerce-connector.com/cc.js';
         // Updating library JS path.
-        if ($current_uri == '/where-buy' || $current_uri == '/where-to-buy' || strpos($current_uri, '/products') !== FALSE) {
+        if ($current_uri == '/where-buy' || $current_uri == '/where-to-buy' || strpos($current_uri, '/products') !== FALSE || count(explode("/", $current_uri)) >= 4) {
           $javascript[$key]['data'] = $commerce_connector_url;
         }
         else {
@@ -452,7 +452,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
     }
     if (strpos($key, '[price_spider_url]') !== FALSE) {
       $price_spider_url = '//cdn.pricespider.com/1/lib/ps-widget.js';
-      if ($current_uri == '/where-buy' || $current_uri == '/where-to-buy' || strpos($current_uri, '/products') !== FALSE) {
+      if ($current_uri == '/where-buy' || $current_uri == '/where-to-buy' || strpos($current_uri, '/products') !== FALSE || count(explode("/", $current_uri)) >= 4) {
         $javascript[$key]['data'] = $price_spider_url;
       }
       else {
