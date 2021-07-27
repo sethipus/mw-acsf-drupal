@@ -3,7 +3,6 @@
 namespace Drupal\mars_common\Twig;
 
 use Drupal\Component\Utility\UrlHelper;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\mars_common\LanguageHelper;
 use Twig\TwigFilter;
 
@@ -13,8 +12,6 @@ use Twig\TwigFilter;
  * @package Drupal\mars_common\Twig
  */
 class SrOnlyTwigFilter extends \Twig_Extension {
-
-  use StringTranslationTrait;
 
   /**
    * Language helper service.
