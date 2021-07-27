@@ -5,6 +5,7 @@ namespace Drupal\mars_search\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
@@ -334,7 +335,9 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     $nodeStorage = $this->entityTypeManager()->getStorage('node');
     /** @var \Drupal\node\Entity\Node $node */
     $node = !empty($vid) ? $nodeStorage->loadRevision($vid) : $nodeStorage->load($nid);
-    $node = $node->getTranslation($this->languageHelper->getCurrentLanguageId());
+    $derivative_id = LanguageInterface::TYPE_URL;
+    $current_language_id = $this->languageHelper->getLanguageManager()->getCurrentLanguage($derivative_id)->getId();
+    $node = $node->getTranslation($current_language_id);
     $nodeIterator = new NodeLBComponentIterator($node);
     foreach ($nodeIterator as $component) {
       $config = $component->get('configuration');
@@ -346,12 +349,13 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       if ($grid_id == 1 && !empty($config['override_text_color'])) {
         return $config;
       }
-      $block_grid_id = $this->aliasCleaner->cleanString($config['title']);
-      if (isset($config['grid_id']) &&
-        !empty($config['grid_id']) &&
-        isset($config['title']) &&
-        $block_grid_id === $grid_id) {
-        return $config;
+      if (isset($config['title'])) {
+        $block_grid_id = $this->aliasCleaner->cleanString($config['title']);
+        if (isset($config['grid_id']) &&
+          !empty($config['grid_id']) &&
+          $block_grid_id === $grid_id) {
+          return $config;
+        }
       }
     }
     return [];

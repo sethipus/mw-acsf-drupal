@@ -78,7 +78,7 @@ $xl-left-margin: 11.583rem;
     line-height: 1.6;
     list-style: none;
     color: clr(primary);
-    padding: 0;
+    padding: 0 0 0 20px;
     margin: 2rem 0 4rem; // visually margin-bottom is 50px according to Zeplin
 
     @include medium {
@@ -89,7 +89,7 @@ $xl-left-margin: 11.583rem;
       font-size: 2rem;
       line-height: 1.8;
       max-width: 1125px;
-      padding: 0 460px 0 0;
+      padding-right: 460px;
       margin: 3rem 0 7rem 11.6rem; // visually margin-bottom is 80px according to Zeplin
     }
 
@@ -99,16 +99,16 @@ $xl-left-margin: 11.583rem;
       margin: 0;
 
       &::before {
-        content: "•\00a0";
+        content: '•\00a0';
         color: clr(secondary);
         letter-spacing: 0;
+        margin-left: -20px;
       }
     }
   }
 
-  .ambient-video__control[data-state="play"] {
+  .ambient-video__control[data-state='play'] {
     left: calc(50% - 30px);
     top: calc(50% - 30px);
   }
-
 }

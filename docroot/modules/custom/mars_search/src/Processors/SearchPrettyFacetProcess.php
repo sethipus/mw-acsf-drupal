@@ -3,6 +3,8 @@
 namespace Drupal\mars_search\Processors;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\taxonomy\TermInterface;
 
 /**
@@ -18,10 +20,18 @@ class SearchPrettyFacetProcess implements SearchProcessManagerInterface, SearchP
   protected $entityTypeManager;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, LanguageHelper $language_helper) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -41,12 +51,15 @@ class SearchPrettyFacetProcess implements SearchProcessManagerInterface, SearchP
         $facet_key = array_search($key, static::getPrettyFacetKeys());
         unset($query_parameters[$key]);
         if (is_array($query_parameter)) {
+          $derivative_id = LanguageInterface::TYPE_URL;
+          $current_language_id = $this->languageHelper->getLanguageManager()->getCurrentLanguage($derivative_id)->getId();
           $terms = explode(",", current($query_parameter));
           $ids = [];
           foreach ($terms as $term_name) {
             $term_object = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
               'vid' => $facet_key,
               'name' => urldecode($term_name),
+              'langcode' => $current_language_id,
             ]);
             $term_object = reset($term_object);
             if ($term_object instanceof TermInterface) {
