@@ -7,6 +7,12 @@
     width: 10rem;
   }
 
+  &__container {
+    position: relative;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
   &__brand-shape {
     position: absolute;
     z-index: 1;
