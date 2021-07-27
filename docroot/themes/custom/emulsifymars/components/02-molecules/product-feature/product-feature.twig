@@ -33,9 +33,7 @@
       </div>
       <div {{ bem('content-column', [], product_feature_base_class) }}>
         <div {{ bem('product_text', [], product_feature_base_class) }}>
-          {% include "@atoms/text/eyebrow/eyebrow.twig" with {
-            eyebrow_text: eyebrow_text
-          } %}
+          <div {{ bem('product_eyebrow', [], product_feature_base_class) }}>{{ eyebrow_text }}</div>
           {% include "@atoms/text/headings/_heading.twig" with {
             heading: heading,
             heading_level: heading_level,

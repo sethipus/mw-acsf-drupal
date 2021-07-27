@@ -180,6 +180,24 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       ), ['#text_color_override' => $text_color_override]);
     }
     $build['#background'] = $this->getBgImage($main_entity);
+    $build['#background_alt'] = '';
+    if (!empty($conf['background'])) {
+      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background']);
+      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+      if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+        $build['#background_alt'] = $media_params['alt'];
+      }
+    }
+    elseif ($main_entity) {
+      $background_id = $this->mediaHelper->getEntityMainMediaId($main_entity);
+      if ($background_id) {
+        $background_params = $this->mediaHelper->getMediaParametersById($background_id);
+        if (!isset($background_params['error'])) {
+          $build['#background_alt'] = $background_params['alt'];
+        }
+      }
+    }
+
     $build['#dark_overlay'] = $conf['use_dark_overlay'] ?? TRUE;
     return $build;
   }

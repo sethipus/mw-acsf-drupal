@@ -3,6 +3,8 @@
 namespace Drupal\mars_search\Processors;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\taxonomy\TermInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\Core\Url;
@@ -34,12 +36,20 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
   protected $searchCategories;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request, SearchCategoriesInterface $searchCategories) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request, SearchCategoriesInterface $searchCategories, LanguageHelper $language_helper) {
     $this->entityTypeManager = $entity_type_manager;
     $this->request = $request->getMasterRequest();
     $this->searchCategories = $searchCategories;
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -83,13 +93,15 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
           ];
 
           if ($this->hasQueryKey($pretty_path_for_vocabulary)) {
-
+            $derivative_id = LanguageInterface::TYPE_URL;
+            $current_language_id = $this->languageHelper->getLanguageManager()->getCurrentLanguage($derivative_id)->getId();
             $ids = [];
             $queryValueItems = explode(',', $this->getQueryValue($pretty_path_for_vocabulary, $grid_id));
             foreach ($queryValueItems as $term_name) {
               $term_object = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
                 'vid' => $vocabulary,
                 'name' => $term_name,
+                'langcode' => $current_language_id,
               ]);
               $term_object = reset($term_object);
               if ($term_object instanceof TermInterface) {
@@ -291,11 +303,14 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   private function getFaqFacetWeight(string $name) {
+    $derivative_id = LanguageInterface::TYPE_URL;
+    $current_language_id = $this->languageHelper->getLanguageManager()->getCurrentLanguage($derivative_id)->getId();
     $term = $this->entityTypeManager
       ->getStorage('taxonomy_term')
       ->loadByProperties([
         'name' => $name,
         'vid' => 'faq_filter_topic',
+        'langcode' => $current_language_id,
       ]);
     $term = reset($term);
 

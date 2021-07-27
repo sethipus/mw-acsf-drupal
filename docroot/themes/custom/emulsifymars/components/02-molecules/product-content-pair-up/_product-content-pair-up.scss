@@ -1,4 +1,7 @@
 .product-content-pair-up {
+  position: relative;
+  background-color: clr(subcolor-2);
+
   &__heading {
     @include set-font($font-type: 'heading-font');
 
@@ -31,11 +34,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: clr(subcolor-2);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
     padding: 5rem 0;
+    max-width: 1440px;
+    margin: 0 auto;
 
     @include medium {
       padding: 6rem 0;
