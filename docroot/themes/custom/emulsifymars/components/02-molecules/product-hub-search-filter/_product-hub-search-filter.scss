@@ -359,6 +359,11 @@
   .search-filter-container {
     background-color: clr(subcolor-3);
     padding-top: 0;
+
+    // to apply only from 0 to 767
+    @media (max-width: $medium - 1) {
+      padding-bottom: 0;
+    }
   }
 }
 
