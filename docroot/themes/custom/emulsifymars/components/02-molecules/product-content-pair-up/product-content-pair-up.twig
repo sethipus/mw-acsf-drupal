@@ -19,21 +19,20 @@
     } %}
   {% endif %}
 
-  <div {{ bem('bg-image', [], product_content_pair_up_base_class) }}>
-    {% set images = {
-      1440: background|resize(1440,750),
-      768: background|resize(768,1003),
-      375: background|resize(375,845),
-    } %}
-    {% include "@atoms/images/image/responsive-image.twig" with {
-      output_image_tag: true,
-      image_alt: '',
-      image_src: background|resize(768,1003),
-      image_array: images,
-    } %}
-  </div>
-
   <div {{ bem('container', [], product_content_pair_up_base_class) }}>
+    <div {{ bem('bg-image', [], product_content_pair_up_base_class) }}>
+      {% set images = {
+        1440: background|resize(1440,750),
+        768: background|resize(768,1003),
+        375: background|resize(375,845),
+      } %}
+      {% include "@atoms/images/image/responsive-image.twig" with {
+        output_image_tag: true,
+        image_alt: '',
+        image_src: background|resize(768,1003),
+        image_array: images,
+      } %}
+    </div>
     <div {{ bem('lead-card', [], product_content_pair_up_base_class) }}>
       {% include "@atoms/text/eyebrow/eyebrow.twig" with {
         eyebrow_text: lead_card_eyebrow
