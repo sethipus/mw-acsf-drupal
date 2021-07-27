@@ -38,9 +38,9 @@ class SrOnlyTwigFilter extends \Twig_Extension {
       new TwigFilter('srOnlyTwigForTextarea', [$this, 'srOnlyTwigPreprocessForTextarea']),
     ];
   }
-  
+
   /**
-   * Gets a unique identifier for this Twig extension.
+   * {@inheritdoc}
    */
   public function getName() {
     return 'mars_common.screen_reader_twig_filters';
