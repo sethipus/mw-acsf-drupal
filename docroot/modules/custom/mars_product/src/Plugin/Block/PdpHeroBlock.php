@@ -729,6 +729,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'card_sticky_bg_color' => $card_grid_bg_color_key,
       ],
       'nutrition_data' => [
+        'show_nutrition_data' => $this->isNutritionDataVisible(),
         'nutritional_label' => $this->languageHelper->translate($this->configuration['nutrition']['label']) ?? '',
         'nutritional_info_serving_label' => $this->languageHelper->translate($this->configuration['nutrition']['serving_label']) ?? '',
         'nutritional_info_daily_label' => $this->languageHelper->translate($this->configuration['nutrition']['daily_label']) ?? '',
@@ -829,7 +830,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         ],
         'nutrition_data' => [
           'claims_benefits' => $this->getNutritionClaimsBenefits($product_variant),
-          'serving_item' => $this->getServingItems($product_variant),
+          'serving_item' => ($this->isNutritionDataVisible()) ? $this->getServingItems($product_variant) : NULL,
         ],
         'allergen_data' => [
           'allergens_list' => $this->getVisibleAllergenItems($product_variant),
@@ -894,7 +895,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       if (empty($product_variant_first)) {
         continue;
       }
-      $serving_items = $this->getServingItems($product_variant_first);
+      $serving_items = ($this->isNutritionDataVisible())
+        ? $this->getServingItems($product_variant_first)
+        : [];
 
       $item = [
         'product_title' => $product->getTitle(),
@@ -1170,6 +1173,20 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   /**
+   * Get theme setting for Nutrition info visibility.
+   *
+   * @return bool
+   *   Nutrition info visibility
+   */
+  public function isNutritionDataVisible(): bool {
+    $show_nutrition_data = $this->themeConfiguratorParser->getSettingValue('show_nutrition_info');
+    if ($show_nutrition_data || $show_nutrition_data === '') {
+      return TRUE;
+    }
+    return FALSE;
+  }
+
+  /**
    * Get all visible allergen items.
    *
    * @param object $node
@@ -1243,13 +1260,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function getMobileItems(EntityInterface $node, string $bundle, string $more_information_id) {
     $size_id = $node->id();
     $items = [];
-    $items[] = [
-      'title' => $this->languageHelper->translate($this->configuration['nutrition']['label']),
-      'link_attributes' => [
-        'class' => 'pdp-hero__nutrition-menu',
-        'href' => '#section-nutrition--' . $size_id,
-      ],
-    ];
+
+    if ($this->isNutritionDataVisible()) {
+      $items[] = [
+        'title' => $this->languageHelper->translate($this->configuration['nutrition']['label']),
+        'link_attributes' => [
+          'class' => 'pdp-hero__nutrition-menu',
+          'href' => '#section-nutrition--' . $size_id,
+        ],
+      ];
+    }
 
     if (
       $bundle !== 'product_multipack' &&

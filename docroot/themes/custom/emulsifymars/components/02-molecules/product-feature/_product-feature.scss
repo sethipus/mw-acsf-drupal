@@ -1,4 +1,6 @@
 .product-feature {
+    position: relative;
+    overflow: hidden;
     text-align: left;
     background-color: clr(secondary);
 
@@ -6,7 +8,8 @@
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    max-width: 1440px;
+    margin: 0 auto;
   }
 
   &__bubble {
@@ -124,9 +127,15 @@
     }
 
     @keyframes action {
-      0%   { transform: translateY(-16px); }
-      50%  { transform: translateY(16px); }
-      100%  { transform: translateY(-16px); }
+      0% {
+        transform: translateY(-16px);
+      }
+      50% {
+        transform: translateY(16px);
+      }
+      100% {
+        transform: translateY(-16px);
+      }
     }
 
     img {
@@ -147,20 +156,6 @@
       padding: 8rem 4rem 8rem 1.5rem;
     }
 
-    .eyebrow {
-      @include set-font($font-type: 'primary-font');
-
-      font-size: 1.4rem;
-      line-height: 1;
-      margin-top: 0;
-      margin-bottom: 2rem;
-
-      @include medium {
-        font-size: 1.6rem;
-        margin-bottom: 4rem;
-      }
-    }
-
     .h1 {
       @include set-font($font-type: 'primary-font');
 
@@ -178,6 +173,23 @@
         font-size: 6.4rem;
         margin-bottom: 6rem;
       }
+    }
+  }
+
+  &__product_eyebrow {
+    @include set-font($font-type: 'secondary-font');
+
+    font-size: 1.4rem;
+    line-height: 1;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    color: clr(subcolor-3);
+    display: block;
+
+    @include medium {
+      font-size: 1.6rem;
+      margin-bottom: 4rem;
     }
   }
 }

@@ -131,6 +131,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'logo_alt' => NULL,
         'primary_menu' => NULL,
         'secondary_menu' => NULL,
+        'disable_mobile_menu_view' => NULL,
         'search_menu' => NULL,
         'language_selector' => NULL,
         'language_selector_current' => NULL,

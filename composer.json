@@ -84,7 +84,7 @@
         "drupal/ultimate_cron": "^2.0@alpha",
         "emulsify-ds/emulsify-drupal": "2.2.0",
         "eyecon/jquery_colorpicker": "master",
-        "mars/mars_lighthouse": "dev-master",
+        "mars/mars_lighthouse": "v0.0.1",
         "mars/mars_seo": "*",
         "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
@@ -204,6 +204,9 @@
             },
             "drupal/printable": {
                 "Fix printable stream wrapper.": "patches/fix-url-scheme-for-alter-3190197-4.patch"
+            },
+            "drupal/translatable_menu_link_uri": {
+                "Invalid values given. Values must be represented as an associative array.": "https://www.drupal.org/files/issues/2021-05-07/3168466-values-must-be-represented-as-an-associative-array-11.patch"
             }
         }
     },
@@ -254,12 +257,12 @@
             "type": "package",
             "package": {
                 "name": "mars/mars_lighthouse",
-                "version": "dev-master",
+                "version": "v0.0.1",
                 "type":"drupal-module",
                 "source": {
                     "url": "git@github.com:Mars-Incorporated/mars_lighthouse.git",
                     "type": "git",
-                    "reference": "master"
+                    "reference": "v0.0.1"
                 }
             }
         }
