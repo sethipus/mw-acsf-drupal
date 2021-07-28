@@ -1,11 +1,13 @@
 .homepage-hero-standard {
   overflow: hidden;
+  background-color: clr(secondary);
 
   &__inner {
     display: flex;
     flex-flow: column;
     position: relative;
-    background-color: clr(secondary);
+    max-width: 1440px;
+    margin: 0 auto;
 
     @include medium {
       flex-flow: row nowrap;
