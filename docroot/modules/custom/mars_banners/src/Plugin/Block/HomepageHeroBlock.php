@@ -2,7 +2,6 @@
 
 namespace Drupal\mars_banners\Plugin\Block;
 
-use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
