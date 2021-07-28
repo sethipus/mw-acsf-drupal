@@ -773,22 +773,22 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       foreach ($product_cards as $key => $product_card) {
         $cards_title_url = $product_card['title']['url'];
         $cards_cta_url = $product_card['cta']['url'];
-        if (!(UrlHelper::isValid($cards_title_url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $cards_title_url))) {
+        if (!((bool) preg_match("/^(http:\/\/|https:\/\/|\/)(?:[\p{L}\p{N}\x7f-\xff#!:\.\?\+=&@$'~*,;_\/\(\)\[\]\-]|%[0-9a-f]{2})+$/i", $cards_title_url))) {
           $form_state->setErrorByName('card][' . $key . '][title][url', $this->t('The URL is not valid.'));
         }
-        if (!(UrlHelper::isValid($cards_cta_url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $cards_cta_url))) {
+        if (!((bool) preg_match("/^(http:\/\/|https:\/\/|\/)(?:[\p{L}\p{N}\x7f-\xff#!:\.\?\+=&@$'~*,;_\/\(\)\[\]\-]|%[0-9a-f]{2})+$/i", $cards_cta_url))) {
           $form_state->setErrorByName('card][' . $key . '][cta][url', $this->t('The URL is not valid.'));
         }
       }
     }
 
     if (!empty($title_url)) {
-      if (!(UrlHelper::isValid($title_url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $title_url))) {
+      if (!((bool) preg_match("/^(http:\/\/|https:\/\/|\/)(?:[\p{L}\p{N}\x7f-\xff#!:\.\?\+=&@$'~*,;_\/\(\)\[\]\-]|%[0-9a-f]{2})+$/i", $title_url))) {
         $form_state->setErrorByName('title][url', $this->t('The URL is not valid.'));
       }
     }
     if (!empty($cta_url)) {
-      if (!(UrlHelper::isValid($cta_url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $cta_url))) {
+      if (!((bool) preg_match("/^(http:\/\/|https:\/\/|\/)(?:[\p{L}\p{N}\x7f-\xff#!:\.\?\+=&@$'~*,;_\/\(\)\[\]\-]|%[0-9a-f]{2})+$/i", $cta_url))) {
         $form_state->setErrorByName('cta][url', $this->t('The URL is not valid.'));
       }
     }
