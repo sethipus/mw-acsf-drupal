@@ -191,12 +191,14 @@
 
       <div class='menu-container'>
         <div {{ bem('pdp-hero-menu-container', '', '', [scroll_mandatory_base_class]) }} id='section-nutrition--{{size_id}}'>
-          {% include "@atoms/text/headings/_heading.twig" with {
-            heading_level: 5,
-            heading: pdp_label_nutrition,
-            heading_blockname: pdp_hero_base_class,
-            heading_base_class: 'nutrition-menu',
-          } %}
+          {% if pdp_label_nutrition %}
+            {% include "@atoms/text/headings/_heading.twig" with {
+              heading_level: 5,
+              heading: pdp_label_nutrition,
+              heading_blockname: pdp_hero_base_class,
+              heading_base_class: 'nutrition-menu',
+            } %}
+          {% endif %}
           {% if pdp_label_allergen %}
             {% include "@atoms/text/headings/_heading.twig" with {
               heading_level: 5,
