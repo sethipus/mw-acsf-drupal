@@ -2,9 +2,12 @@
 {% set content_feature_base_class = 'content-feature' %}
 {% set content_feature_heading_base_class = 'content-feature__heading' %}
 {% set content_feature_paragraph_base_class = 'content-feature__paragraph' %}
+{% if dark_overlay %}
+  {% set dark_overlay__modifier = 'dark-overlay' %}
+{% endif %}
 
 <section {{ bem(content_feature_base_class) }} data-theme="{{theme_styles}}">
-  <div {{ bem('bg-image', [], content_feature_base_class) }}>
+  <div {{ bem('bg-image', [dark_overlay__modifier], content_feature_base_class) }}>
     {% set images = {
       1920: background_images.desktop.src|resize(1920,650),
       1440: background_images.desktop.src|resize(1440,650),
