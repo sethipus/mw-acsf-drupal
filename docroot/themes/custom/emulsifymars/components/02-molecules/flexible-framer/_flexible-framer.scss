@@ -63,11 +63,7 @@
   }
 
   &__graphic-divider {
-    margin-bottom: 4rem;
-
-    @include xl {
-      margin-bottom: 6rem;
-    }
+    margin-bottom: 6rem;
   }
 
   /* Grid Layout */
@@ -98,7 +94,11 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      max-width: 113rem;
+      @include xl {
+        grid-column-gap: 3rem;
+      }
+
+      max-width: 120.8rem;
       margin: 0 auto;
     }
 
