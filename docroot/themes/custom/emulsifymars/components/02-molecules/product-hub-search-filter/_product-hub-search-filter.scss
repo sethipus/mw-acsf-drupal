@@ -357,7 +357,11 @@
 .search-results-filter {
   .search-filter-container {
     background-color: clr(subcolor-3);
-    padding-top: 0;
+    padding: 0 2rem;
+
+    @include medium {
+      padding-bottom: 2rem;
+    }
   }
 }
 
