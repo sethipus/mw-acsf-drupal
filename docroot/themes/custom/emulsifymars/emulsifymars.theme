@@ -22,6 +22,10 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
   $form['logo']['settings']['logo_upload']['#upload_validators']['file_validate_extensions'] = [
     'png gif jpg jpeg apng svg',
   ];
+
+  $form['favicon']['default_favicon']['#type'] = 'hidden';
+  $form['favicon']['default_favicon']['#value'] = FALSE;
+  $form['favicon']['settings']['favicon_upload']['#description'] .= ' <br /> Recommended image size for favicons is 64x64px.';
 }
 
 /**
