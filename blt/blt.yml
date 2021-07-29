@@ -43,6 +43,7 @@ validate:
       - mainVariant
       - productCardMedia
       - bgColorClassMap
+      - srOnlyTwigForTextarea
 tests:
   phpunit:
     -

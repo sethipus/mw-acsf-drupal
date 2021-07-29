@@ -51,4 +51,12 @@
       color: clr(subcolor-3);
     }
   }
+
+  & + & {
+    margin-top: 2rem;
+
+    @include medium {
+      margin-top: 0;
+    }
+  }
 }
