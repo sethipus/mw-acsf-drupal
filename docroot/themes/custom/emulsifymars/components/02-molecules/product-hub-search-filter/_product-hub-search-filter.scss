@@ -1,10 +1,10 @@
 .search-filter-container {
-  padding: 2rem 2rem 1rem;
+  padding: 7.8rem 2rem 1rem;
   background-color: clr(subcolor-2);
   position: relative;
 
   @include medium {
-    padding: 2rem;
+    padding-bottom: 2rem;
   }
 
   &__search {
@@ -23,7 +23,8 @@
   .search-input-wrapper {
     &.suggested {
       .search-input {
-        border-radius: variable(card-border-radius) variable(card-border-radius) 0 0;
+        border-radius: variable(card-border-radius) variable(card-border-radius)
+          0 0;
         border-bottom: none;
 
         &__field {
@@ -111,7 +112,7 @@
     }
 
     &--disabled {
-      opacity: .6;
+      opacity: 0.6;
       cursor: default;
     }
   }
@@ -234,7 +235,6 @@
       margin-left: 2rem;
     }
   }
-
 }
 
 .search-filter-open-button {
@@ -283,7 +283,6 @@
     line-height: 1.4;
     color: clr(primary);
     text-transform: uppercase;
-
   }
 
   &__applied-text {
@@ -358,7 +357,11 @@
 .search-results-filter {
   .search-filter-container {
     background-color: clr(subcolor-3);
-    padding-top: 0;
+    padding: 0 2rem;
+
+    @include medium {
+      padding-bottom: 2rem;
+    }
   }
 }
 
