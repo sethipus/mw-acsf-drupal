@@ -1,16 +1,22 @@
 .pdp-hero {
   position: relative;
-  padding: 2rem 2rem 0;
-  background-color: clr(subcolor-2);
   overflow: hidden;
+  background-color: clr(subcolor-2);
 
-  @include medium {
-    padding: 2rem 4rem 0;
-  }
+  &__wrapper {
+    position: relative;
+    padding: 2rem 2rem 0;
+    max-width: 1440px;
+    margin: 0 auto;
 
-  @include large {
-    padding-top: 4.8rem;
-    padding-bottom: 0;
+    @include medium {
+      padding: 2rem 4rem 0;
+    }
+
+    @include large {
+      padding-top: 4.8rem;
+      padding-bottom: 0;
+    }
   }
 
   &__bubble {
