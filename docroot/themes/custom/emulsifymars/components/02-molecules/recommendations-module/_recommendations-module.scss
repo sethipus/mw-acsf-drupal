@@ -5,6 +5,12 @@
 
   @include brand-border-overflow;
 
+  &__wrapper {
+    position: relative;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
   &__heading {
     display: flex;
     justify-content: center;
