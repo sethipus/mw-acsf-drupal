@@ -200,13 +200,4 @@
   .ps-disabled {
     display: none !important;
   }
-
-  &__button {
-    .default-link {
-      pointer-events: none !important;
-      .default-link__label {
-        transition: none !important;
-      }
-    }
-  }
 }
