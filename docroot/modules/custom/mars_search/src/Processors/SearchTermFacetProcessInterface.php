@@ -3,7 +3,7 @@
 namespace Drupal\mars_search\Processors;
 
 /**
- * Class SearchTermFacetProcessInterface.
+ * Class SearchTermFacetProcessInterface contains description for methods.
  */
 interface SearchTermFacetProcessInterface {
 

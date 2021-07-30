@@ -3,7 +3,7 @@
 namespace Drupal\mars_google_analytics\DataCollector;
 
 /**
- * Interface DataCollectorInterface.
+ * Interface DataCollectorInterface - contains collect method.
  */
 interface DataCollectorInterface {
 

@@ -13,7 +13,7 @@ use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class CarouselBlock.
+ * Class CarouselBlock is responsible for Carousel component logic.
  *
  * @Block(
  *   id = "carousel_block",

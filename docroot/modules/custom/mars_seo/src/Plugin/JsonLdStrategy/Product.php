@@ -45,7 +45,7 @@ class Product extends JsonLdStrategyPluginBase {
     $options = ['absolute' => TRUE];
     $url = $this->urlGenerator->generateFromRoute('entity.node.canonical', ['node' => $node->id()], $options);
 
-    // TODO: Import from rating engine or similar.
+    // @todo Import from rating engine or similar.
     return Schema::product()
       ->name($node->getTitle())
       ->identifier($url)

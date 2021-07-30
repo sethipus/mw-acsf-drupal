@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\Core\Url;
 
 /**
- * Class SearchTermFacetProcess.
+ * Class SearchTermFacetProcess - facet terms processing logic.
  */
 class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchProcessManagerInterface {
 

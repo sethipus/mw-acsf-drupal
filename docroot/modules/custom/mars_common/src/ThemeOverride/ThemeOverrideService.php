@@ -48,7 +48,7 @@ class ThemeOverrideService {
    *   The current campaign node.
    */
   private function getCurrentCampaignNode(): ?NodeInterface {
-    /* @var $node \Drupal\node\NodeInterface|null */
+    /** @var \Drupal\node\NodeInterface|null $node */
     $node = $this->currentRoute->getParameter('node');
     if ($node instanceof NodeInterface && $node->bundle() === 'campaign') {
       return $node;

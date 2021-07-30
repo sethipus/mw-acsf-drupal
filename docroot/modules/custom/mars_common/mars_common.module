@@ -1208,7 +1208,7 @@ function _mars_common_form_menu_edit_form_validate(array &$form, FormStateInterf
       ]
     ));
 
-    // TODO: find a proper fix.
+    // @todo find a proper fix.
     /*
      * Upon validation error, the form should show the invalid state in which it
      * was submitted. In this case because of tabledrag behavior, upon
@@ -1647,7 +1647,10 @@ function mars_common_include_ief_entities(array $entity_form, FormStateInterface
  * Implements hook_pathauto_punctuation_chars_alter().
  */
 function mars_common_pathauto_punctuation_chars_alter(array &$punctuation) {
-  $punctuation['registered_trademark'] = ['value' => '®', 'name' => t('Registered trademark symbol')];
+  $punctuation['registered_trademark'] = [
+    'value' => '®',
+    'name' => t('Registered trademark symbol'),
+  ];
 }
 
 /**

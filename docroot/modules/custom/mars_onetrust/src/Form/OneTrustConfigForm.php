@@ -6,7 +6,7 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * OneTrustConfigForm class.
+ * OneTrustConfigForm class - configuration for one trust banner.
  */
 class OneTrustConfigForm extends ConfigFormBase {
 

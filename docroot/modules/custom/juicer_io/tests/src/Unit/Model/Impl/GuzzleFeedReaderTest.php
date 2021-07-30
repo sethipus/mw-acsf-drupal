@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\juicer_io\Unit\Model\Impl;
 
-use Closure;
 use Drupal\juicer_io\Entity\FeedConfiguration;
 use Drupal\juicer_io\Model\FeedException;
 use Drupal\juicer_io\Model\Impl\GuzzleFeedReader;
@@ -215,7 +214,7 @@ class GuzzleFeedReaderTest extends UnitTestCase {
    * @param \Closure $callback
    *   The callback which should return true if the URI is correct.
    */
-  private function expectsRequestWithUri(Closure $callback) {
+  private function expectsRequestWithUri(\Closure $callback) {
     $this->guzzleClient
       ->expects($this->once())
       ->method('request')
