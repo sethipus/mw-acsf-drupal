@@ -60,7 +60,7 @@ function hook_salsify_process_node_title_alter(&$title, array $salsify_field_dat
  * @see \Drupal\salsify_integration\SalsifyImportSerialized::processSalsifyItem()
  */
 function hook_salsify_process_field_alter(&$options, array $salsify_field_data) {
-  /* @var \Drupal\field\Entity\FieldConfig $field_config */
+  /** @var \Drupal\field\Entity\FieldConfig $field_config */
 }
 
 /**
@@ -79,7 +79,7 @@ function hook_salsify_process_field_alter(&$options, array $salsify_field_data) 
  * @see \Drupal\salsify_integration\SalsifyImportSerialized::processSalsifyItem()
  */
 function hook_salsify_process_field_FIELD_TYPE_alter(&$options, array $salsify_field_data) {
-  /* @var \Drupal\field\Entity\FieldConfig $field_config */
+  /** @var \Drupal\field\Entity\FieldConfig $field_config */
 }
 
 /**

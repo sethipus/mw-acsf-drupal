@@ -7,7 +7,7 @@ use Drupal\mars_common\LanguageHelper;
 use Twig\TwigFilter;
 
 /**
- * Class SrOnlyTwigFilter.
+ * Class SrOnlyTwigFilter - sr twig filter logic.
  *
  * @package Drupal\mars_common\Twig
  */
@@ -35,7 +35,10 @@ class SrOnlyTwigFilter extends \Twig_Extension {
    */
   public function getFilters() {
     return [
-      new TwigFilter('srOnlyTwigForTextarea', [$this, 'srOnlyTwigPreprocessForTextarea']),
+      new TwigFilter(
+        'srOnlyTwigForTextarea',
+        [$this, 'srOnlyTwigPreprocessForTextarea']
+      ),
     ];
   }
 

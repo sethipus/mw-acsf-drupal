@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\Context\Context;
 
 /**
- * Class ErrorPageBlockTest.
+ * Class ErrorPageBlockTest - unit tests.
  */
 class ErrorPageBlockTest extends UnitTestCase {
 

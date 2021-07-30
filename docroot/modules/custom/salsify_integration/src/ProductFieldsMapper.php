@@ -3,7 +3,7 @@
 namespace Drupal\salsify_integration;
 
 /**
- * Class ProductFieldsMapper.
+ * Class ProductFieldsMapper - mapping logic (Salsify - Drupal fields).
  *
  * @package Drupal\salsify_integration
  */
