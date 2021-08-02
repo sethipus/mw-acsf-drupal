@@ -14,7 +14,7 @@ use Drupal\search_api\SearchApiException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Class SearchHelper.
+ * Class SearchHelper - search helper methods.
  */
 class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterface {
 

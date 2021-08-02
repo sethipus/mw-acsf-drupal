@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Drupal\mars_search\Processors\SearchCategoriesInterface;
 
 /**
- * Class SearchTermFacetProcessTest.
+ * Class SearchTermFacetProcessTest - unit tests.
  */
 class SearchTermFacetProcessTest extends UnitTestCase {
 
