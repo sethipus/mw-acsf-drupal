@@ -135,6 +135,7 @@ class ThemeConfiguratorServiceTest extends UnitTestCase {
     $form_state = (new FormState())->setValues([
       'test' => 'test date',
     ]);
+    $form['favicon']['settings']['favicon_upload']['#description'] = 'test Description';
     $storage = [
       'social' => [
         '0' => [
