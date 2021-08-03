@@ -135,7 +135,7 @@ class ThemeConfiguratorServiceTest extends UnitTestCase {
     $form_state = (new FormState())->setValues([
       'test' => 'test date',
     ]);
-    $form['favicon']['settings']['favicon_upload']['#description'] = $this->t('test Description');
+
     $storage = [
       'social' => [
         '0' => [
@@ -295,18 +295,6 @@ class ThemeConfiguratorServiceTest extends UnitTestCase {
    */
   private function configHasValue(string $config_key, $value) {
     $this->configValues[$config_key] = $value;
-  }
-
-  /**
-   * Shadow t() system call.
-   *
-   * @param string $string
-   *   A string containing the English text to translate.
-   *
-   * @return string
-   */
-  function t($string) {
-    return $string;
   }
 
 }

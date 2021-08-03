@@ -459,11 +459,15 @@ class ThemeConfiguratorService {
 
     $form['favicon']['default_favicon']['#type'] = 'hidden';
     $form['favicon']['default_favicon']['#value'] = FALSE;
-    $form['favicon']['settings']['favicon_upload']['#description'] .= ' <br /> Recommended image size for favicons is 64x64px.';
+    if (isset($form['favicon']['settings']['favicon_upload'])) {
+      $form['favicon']['settings']['favicon_upload']['#description'] .= $this->t(' <br /> Recommended image size for favicons is 64x64px.');
+    }
 
     $form['logo']['default_logo']['#type'] = 'hidden';
     $form['logo']['default_logo']['#value'] = FALSE;
-
+    if (isset($form['logo']['settings']['logo_upload'])) {
+      $form['logo']['settings']['logo_upload']['#description'] .= $this->t(' <br /> The recommended image size should be “minimum width for wide logos: 212 px, minimum height for tall logos: 95px”');
+    }
     $form['icons_settings'] = [
       '#type'        => 'details',
       '#title'       => $this->t('Theme images settings'),
