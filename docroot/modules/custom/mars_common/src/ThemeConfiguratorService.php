@@ -461,6 +461,9 @@ class ThemeConfiguratorService {
     $form['favicon']['default_favicon']['#value'] = FALSE;
     $form['favicon']['settings']['favicon_upload']['#description'] .= ' <br /> Recommended image size for favicons is 64x64px.';
 
+    $form['logo']['default_logo']['#type'] = 'hidden';
+    $form['logo']['default_logo']['#value'] = FALSE;
+
     $form['icons_settings'] = [
       '#type'        => 'details',
       '#title'       => $this->t('Theme images settings'),
