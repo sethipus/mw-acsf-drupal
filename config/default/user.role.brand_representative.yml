@@ -8,7 +8,7 @@ third_party_settings:
   lightning_core:
     description: ''
 id: brand_representative
-label: 'Brand Representative'
+label: 'Global Brand Representative'
 weight: -4
 is_admin: null
 permissions:

@@ -6,7 +6,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\node\NodeInterface;
 
 /**
- * Class PageDataCollector.
+ * Class PageDataCollector - collects data of the page.
  */
 class PageDataCollector implements DataCollectorInterface, DataLayerCollectorInterface {
 

@@ -3,7 +3,7 @@
 namespace Drupal\mars_search\Processors;
 
 /**
- * SearchCategoriesInterface.
+ * SearchCategoriesInterface contains description for search category methods.
  */
 interface SearchCategoriesInterface {
 
