@@ -1,5 +1,4 @@
 import React from 'react';
-import {useEffect} from "@storybook/client-api";
 
 import flexibleFramer from './flexible-framer.twig';
 import flexibleFramerData from './flexible-framer.yml';
