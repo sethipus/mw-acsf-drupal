@@ -195,7 +195,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
             'word_boundary' => TRUE,
             'ellipsis' => TRUE,
           ];
-          $suggestion_value = str_replace('&nbsp;',' ', strip_tags($entity->get('field_qa_item_question')->value));
+          $suggestion_value = str_replace('&nbsp;', ' ', strip_tags($entity->get('field_qa_item_question')->value));
           $suggestions[] = [
             '#type' => 'html_tag',
             '#tag' => 'button',
