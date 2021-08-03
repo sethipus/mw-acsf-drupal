@@ -544,7 +544,7 @@ class ThemeConfiguratorService {
     ];
 
     $form['icons_settings']['brand_borders_2'] = [
-      '#title'           => $this->t('Brand Borders for Cards'),
+      '#title'           => $this->t('Secondary Brand Border'),
       '#type'            => 'managed_file',
       '#description'     => $this->t('Will be designed by each brand team.
       Size and format requirements detailed out in the Style Guide.'),
