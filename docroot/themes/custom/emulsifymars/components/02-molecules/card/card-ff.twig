@@ -93,12 +93,18 @@
   {% set heading_link_attributes = {
     'target': card__link__new_window,
   } %}
+
+ {#
+ card__heading + space.
+ https://dev.azure.com/MarsDevTeam/MarsExperiencePlatform/_workitems/edit/210929
+ https://dev.azure.com/MarsDevTeam/MarsExperiencePlatform/_workitems/edit/290644
+ #}
   {% include "@atoms/text/headings/_heading.twig" with {
     heading_base_class: card__heading__base_class|default('heading'),
     heading_modifiers: card__heading__modifiers,
     heading_blockname: card__base_class,
     heading_level: 2,
-    heading: card__heading,
+    heading: card__heading ~ ' ',
     heading_url: card__heading__link|default(card__link__url),
     heading_link_base_class: card__heading__link_base_class|default('heading-link'),
     heading_link_blockname: card__base_class,
