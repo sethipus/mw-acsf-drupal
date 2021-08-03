@@ -16,7 +16,7 @@ use Drupal\file\Element\ManagedFile;
 use Drupal\mars_common\Element\OverrideFile;
 
 /**
- * Class ThemeConfiguratorService.
+ * Class ThemeConfiguratorService is responsible for theme BE logic.
  *
  * @package Drupal\mars_common
  */

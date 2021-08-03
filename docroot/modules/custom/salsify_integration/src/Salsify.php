@@ -17,7 +17,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 
 /**
- * Class Salsify.
+ * Class Salsify - salsify core logic of import process.
  *
  * @package Drupal\salsify_integration
  */
@@ -240,12 +240,15 @@ class Salsify {
         'timeout' => 60000,
       ]);
 
-      /* @var \GuzzleHttp\Psr7\Response $generate_product_feed */
+      /** @var \GuzzleHttp\Psr7\Response $generate_product_feed */
       $response = $generate_product_feed->getBody()->__toString();
       return $this->mulesoftConnector->transformData($response);
     }
     catch (RequestException $e) {
-      $this->logger->notice('Could not make GET request to %endpoint because of error "%error".', ['%endpoint' => $endpoint, '%error' => $e->getMessage()]);
+      $this->logger->notice(
+        'Could not make GET request to %endpoint because of error "%error".',
+        ['%endpoint' => $endpoint, '%error' => $e->getMessage()]
+      );
       throw new MissingDataException(__CLASS__ . ': Could not make GET request to ' . $endpoint . ' because of error "' . $e->getMessage() . '".');
     }
   }
@@ -480,7 +483,7 @@ class Salsify {
    */
   public static function setConfig(array $values) {
     $config_name = static::getConfigName($values);
-    /* @var \Drupal\Core\Config\Config $config */
+    /** @var \Drupal\Core\Config\Config $config */
     $config = \Drupal::service('config.factory')->getEditable($config_name);
     foreach ($values as $label => $value) {
       $config->set($label, $value);
@@ -496,7 +499,7 @@ class Salsify {
    */
   public static function deleteConfig(array $values) {
     $config_name = static::getConfigName($values);
-    /* @var \Drupal\Core\Config\Config $config */
+    /** @var \Drupal\Core\Config\Config $config */
     $config = \Drupal::service('config.factory')->getEditable($config_name);
     $config->delete();
   }

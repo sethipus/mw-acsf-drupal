@@ -684,7 +684,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     // Skip build process for non product entities.
-    if (empty($node) || !in_array($node->bundle(), ['product', 'product_multipack'])) {
+    if (empty($node) || !in_array($node->bundle(), [
+      'product',
+      'product_multipack',
+    ])) {
       return [];
     }
 
@@ -799,7 +802,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $items = [];
     $i = 0;
 
-    /* @var \Drupal\node\NodeInterface $node */
+    /** @var \Drupal\node\NodeInterface $node */
     $main_variant = $this->productHelper->mainVariant($node);
 
     foreach ($node->field_product_variants as $reference) {

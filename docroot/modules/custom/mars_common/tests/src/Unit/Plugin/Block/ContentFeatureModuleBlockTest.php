@@ -11,7 +11,7 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class ContentFeatureModuleBlockTest.
+ * Class ContentFeatureModuleBlockTest - unit tests for component.
  */
 class ContentFeatureModuleBlockTest extends UnitTestCase {
 

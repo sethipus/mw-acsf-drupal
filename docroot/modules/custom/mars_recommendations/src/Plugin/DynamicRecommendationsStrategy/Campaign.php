@@ -31,7 +31,7 @@ class Campaign extends DynamicRecommendationsStrategyPluginBase {
       return $this->getFallbackPlugin()->generate();
     }
 
-    // TODO: Replace 4 with default config value.
+    // @todo Replace 4 with default config value.
     $limit = $this->configuration['limit'] ?? 4;
     $nodes = [];
 

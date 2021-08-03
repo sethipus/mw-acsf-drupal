@@ -7,7 +7,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\node\Entity\Node;
 
 /**
- * Class SalsifyProductRepository.
+ * Class SalsifyProductRepository is responsible for manipulation with entities.
  *
  * @package Drupal\salsify_integration
  */
@@ -63,7 +63,7 @@ class SalsifyProductRepository {
         ->loadMultiple($parent_entity_ids);
 
       foreach ($parent_entities as $parent_entity) {
-        /* @var \Drupal\node\Entity\Node $parent_entity */
+        /** @var \Drupal\node\Entity\Node $parent_entity */
         if ($parent_entity->hasField($parent_field) &&
           !$this->haveChildValue($parent_entity, $parent_field, $child_entity->id())) {
 
@@ -109,7 +109,7 @@ class SalsifyProductRepository {
 
     $deleted_gtins = [];
     foreach ($product_entities_delete as $product) {
-      /* @var \Drupal\node\NodeInterface $product */
+      /** @var \Drupal\node\NodeInterface $product */
       $deleted_gtins[] = $product->get('salsify_id')->value;
     }
 
@@ -136,7 +136,7 @@ class SalsifyProductRepository {
   private function haveChildValue(Node $parent_entity, $field_name, $value) {
     $has_value = FALSE;
 
-    /* @var \Drupal\node\Entity\Node $parent_entity */
+    /** @var \Drupal\node\Entity\Node $parent_entity */
     $entiry_ref_field = $parent_entity->get($field_name)->getValue();
     if (is_array($entiry_ref_field)) {
       foreach ($entiry_ref_field as $entiry_ref_field_value) {
