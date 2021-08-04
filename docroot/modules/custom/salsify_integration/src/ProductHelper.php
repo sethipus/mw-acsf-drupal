@@ -6,7 +6,7 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Class ProductHelper.
+ * Class ProductHelper - operations with product data.
  *
  * @package Drupal\salsify_integration
  */

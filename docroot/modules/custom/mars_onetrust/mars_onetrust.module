@@ -44,7 +44,10 @@ function mars_onetrust_page_attachments(&$page) {
       ];
 
       $page['#attached']['html_head'][] = [$init_script, 'onetrust_init'];
-      $page['#attached']['html_head'][] = [$template_script, 'onetrust_template'];
+      $page['#attached']['html_head'][] = [
+        $template_script,
+        'onetrust_template',
+      ];
       $page['#attached']['library'][] = 'mars_onetrust/onetrust';
     }
   }

@@ -155,7 +155,10 @@ class Carousel extends JsonLdStrategyPluginBase {
               ->item(
                 Schema::product()
                   ->name($node->getTitle())
-                  ->url($node->toUrl('canonical', ['absolute' => TRUE, 'fragment' => $variant->id()])->toString())
+                  ->url($node->toUrl('canonical', [
+                    'absolute' => TRUE,
+                    'fragment' => $variant->id(),
+                  ])->toString())
                   ->aggregateRating(Schema::aggregateRating()
                     ->ratingValue(5)
                     ->ratingCount(18)

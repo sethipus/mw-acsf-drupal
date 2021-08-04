@@ -57,7 +57,7 @@ class SalsifyImportTaxonomyTerm extends SalsifyImport {
     $existing_terms = $this->getTaxonomyTerms($field_name, $salsify_ids, $vid);
     $updated_ids = [];
     foreach ($existing_terms as $existing_term) {
-      /* @var \Drupal\taxonomy\Entity\Term $existing_term */
+      /** @var \Drupal\taxonomy\Entity\Term $existing_term */
       $salsify_id = $existing_term->{$field_name}->value;
       if (isset($salsify_field_data['values'][$salsify_id]) && $salsify_field_data['values'][$salsify_id]['salsify:name'] != $existing_term->name->value) {
         $existing_term->set('name', $salsify_field_data['values'][$salsify_id]['salsify:name']);

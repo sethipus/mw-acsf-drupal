@@ -16,7 +16,7 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Class StoryHighlightBlockTest.
+ * Class StoryHighlightBlockTest - unit tests.
  *
  * @covers \Drupal\mars_common\Plugin\Block\StoryHighlightBlock
  */

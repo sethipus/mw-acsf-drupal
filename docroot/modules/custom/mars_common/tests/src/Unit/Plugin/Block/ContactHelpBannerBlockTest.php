@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
-use Drupal;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\Plugin\Block\ContactHelpBannerBlock;
 use Drupal\mars_media\SVG\SVG;
@@ -11,7 +10,7 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class ContactHelpBannerBlockTest.
+ * Class ContactHelpBannerBlockTest - unit tests for component.
  *
  * @package Drupal\Tests\mars_common\Unit
  * @covers \Drupal\mars_common\Plugin\Block\ContactFormBlock
@@ -90,7 +89,7 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
   protected function setUp() {
     parent::setUp();
     $this->createMocks();
-    Drupal::setContainer($this->containerMock);
+    \Drupal::setContainer($this->containerMock);
 
     $definitions = [
       'provider' => 'test',

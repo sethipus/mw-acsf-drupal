@@ -8,7 +8,7 @@ use Acquia\ContentHubClient\Settings;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Class EnqueueProducts.
+ * Class EnqueueProducts is responsible for enqueueing of products.
  */
 class EnqueueProducts implements EventSubscriberInterface {
 

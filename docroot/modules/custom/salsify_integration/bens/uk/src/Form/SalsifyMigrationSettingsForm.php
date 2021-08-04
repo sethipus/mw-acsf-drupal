@@ -10,7 +10,7 @@ use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class SalsifyMigrationSettingsForm.
+ * Class SalsifyMigrationSettingsForm - migration settings form.
  *
  * @package Drupal\brand_drupal_salsify_bens_uk\Form
  */
