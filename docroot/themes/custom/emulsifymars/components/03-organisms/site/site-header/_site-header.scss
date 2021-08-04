@@ -21,6 +21,9 @@
 
     @include xl {
       background-image: unset;
+      position: relative;
+      width: 1440px;
+      margin: 0 auto;
     }
 
     &-container {
