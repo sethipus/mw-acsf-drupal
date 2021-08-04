@@ -1,7 +1,7 @@
 global:
   css:
     theme:
-      dist/css/theme_style.css: {} 
+      dist/css/theme_style.css: {}
   js:
     dist/js/object_fit_polyfill.js: {}
 
@@ -227,13 +227,6 @@ product-selector:
     dist/js/02-molecules/product-selector/product-selector.js: {weight: -1}
   dependencies:
     - core/drupal
-
-flexible-framer:
-  js:
-    dist/js/02-molecules/flexible-framer/flexible-framer.js: {}
-  dependencies:
-    - core/drupal
-    - core/jquery
 
 feedback-module:
   js:
