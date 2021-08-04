@@ -457,6 +457,17 @@ class ThemeConfiguratorService {
       '#default_value'   => $secondary_font_desktop_letterspacing ?? self::LETTERSPACING_DESKTOP_DEFAULT,
     ];
 
+    $form['favicon']['default_favicon']['#type'] = 'hidden';
+    $form['favicon']['default_favicon']['#value'] = FALSE;
+    if (isset($form['favicon']['settings']['favicon_upload'])) {
+      $form['favicon']['settings']['favicon_upload']['#description'] .= $this->t('<br /> Recommended image size for favicons is 64x64px.');
+    }
+
+    $form['logo']['default_logo']['#type'] = 'hidden';
+    $form['logo']['default_logo']['#value'] = FALSE;
+    if (isset($form['logo']['settings']['logo_upload'])) {
+      $form['logo']['settings']['logo_upload']['#description'] .= $this->t('<br /> The recommended image size should be “minimum width for wide logos: 212px, minimum height for tall logos: 95px”');
+    }
     $form['icons_settings'] = [
       '#type'        => 'details',
       '#title'       => $this->t('Theme images settings'),
@@ -533,7 +544,7 @@ class ThemeConfiguratorService {
     ];
 
     $form['icons_settings']['brand_borders_2'] = [
-      '#title'           => $this->t('Brand Borders for Cards'),
+      '#title'           => $this->t('Secondary Brand Border'),
       '#type'            => 'managed_file',
       '#description'     => $this->t('Will be designed by each brand team.
       Size and format requirements detailed out in the Style Guide.'),
