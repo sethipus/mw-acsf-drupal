@@ -11,7 +11,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\TempStore\SharedTempStoreFactory;
 
 /**
- * Class SalsifyEmailReport.
+ * Class SalsifyEmailReport - email reporting logic.
  *
  * @package Drupal\salsify_integration
  */

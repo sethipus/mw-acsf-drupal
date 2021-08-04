@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\mars_articles\Unit\Plugin\Block;
 
-use Drupal;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
@@ -173,7 +172,7 @@ class ArticleHeaderTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
-    Drupal::setContainer($this->containerMock);
+    \Drupal::setContainer($this->containerMock);
 
     $this->entityTypeManagerMock
       ->expects($this->any())

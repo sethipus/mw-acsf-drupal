@@ -8,7 +8,7 @@ use Drupal\mars_common\LanguageHelper;
 use Drupal\taxonomy\TermInterface;
 
 /**
- * Class SearchPrettyFacetProcess.
+ * Class SearchPrettyFacetProcess - pretty facet processing logic.
  */
 class SearchPrettyFacetProcess implements SearchProcessManagerInterface, SearchPrettyFacetProcessInterface {
 

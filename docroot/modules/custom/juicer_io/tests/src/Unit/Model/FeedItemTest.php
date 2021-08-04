@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\juicer_io\Unit\Model;
 
-use DateTime;
 use Drupal\juicer_io\Model\FeedItem;
 use Drupal\Tests\UnitTestCase;
 
@@ -22,14 +21,14 @@ class FeedItemTest extends UnitTestCase {
     $image_url = 'image_url';
     $unformatted_message = 'unformatted_message';
     $link = 'link_value';
-    $created_at = DateTime::createFromFormat('Y-m-d', '2020-07-31');
+    $created_at = \DateTime::createFromFormat('Y-m-d', '2020-07-31');
     $expected_array = [
       'image' => [
         'url' => $image_url,
         'alt' => $unformatted_message,
       ],
       'link' => $link,
-      'createdAt' => $created_at->format(DateTime::RFC3339_EXTENDED),
+      'createdAt' => $created_at->format(\DateTime::RFC3339_EXTENDED),
     ];
 
     $item = new FeedItem($image_url, $unformatted_message, $link, $created_at);
@@ -49,7 +48,7 @@ class FeedItemTest extends UnitTestCase {
       'image_url',
       $unformatted_message,
       'link_value',
-      new DateTime()
+      new \DateTime()
     );
 
     $alt_text = $item->getImageAlt();
@@ -69,7 +68,7 @@ class FeedItemTest extends UnitTestCase {
       'image_url',
       $unformatted_message,
       'link_value',
-      new DateTime()
+      new \DateTime()
     );
 
     $alt_text = $item->getImageAlt();
