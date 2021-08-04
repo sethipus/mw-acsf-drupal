@@ -28,7 +28,7 @@
 >
   {% block link_content %}
     {{ link_content }}
-    {% if link_attributes.target == '_blank' %}
+    {% if link_attributes.target == '_blank' or item.item_attributes.target == '_blank' %}
       {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
         sronly_content: ' (opens in new window)' | mt,
       } %}
