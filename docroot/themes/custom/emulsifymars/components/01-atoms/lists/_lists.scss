@@ -158,13 +158,14 @@ ol {
 
   @include medium {
     position: absolute;
-    top: 3.2rem;
+    top: 3.4rem;
     left: 0;
     font-size: 2.6rem;
     margin-bottom: 0;
   }
 
   @include xl {
+    top: 3.7rem;
     font-size: 2.8rem;
   }
 }
@@ -197,6 +198,10 @@ ol {
 
 .list-item__question {
   border-bottom: 1px solid clr(highlight);
+
+  @include medium {
+    padding-bottom: 30px;
+  }
 }
 
 .article-detail {

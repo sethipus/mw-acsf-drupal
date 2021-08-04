@@ -2,12 +2,18 @@
   background-color: clr(subcolor-2);
   background-position: center;
   background-size: cover;
-  padding: 12rem 4rem 8rem 4rem;
   position: relative;
   overflow: hidden;
 
-  @include small {
-    padding: 5rem 4rem 8rem 4rem;
+  .wrapper {
+    padding: 12rem 4rem 8rem 4rem;
+    position: relative;
+    max-width: 1440px;
+    margin: 0 auto;
+  
+    @include small {
+      padding: 5rem 4rem 8rem 4rem;
+    } 
   }
 
   .bg-video {
@@ -33,7 +39,7 @@
     }
   }
 
-  & > *:not(.bg-video) {
+  & .wrapper > *:not(.bg-video) {
     position: relative;
     z-index: 3;
   }
@@ -61,7 +67,7 @@
 
     @include small {
       font-size: 4rem;
-      line-height: 4rem;
+      line-height: 4.4rem;
     }
 
     @include medium {
@@ -100,10 +106,12 @@
   }
 
   &--with-min-height {
-    min-height: 45.2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    .wrapper {
+      min-height: 45.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
 
     .brand-shape {
       position: absolute;
@@ -176,7 +184,9 @@
     }
 
     @include medium {
-      min-height: 48.3rem;
+      .wrapper {
+        min-height: 48.3rem;
+      }
 
       .eyebrow {
         margin-top: 5rem;
@@ -185,7 +195,9 @@
     }
 
     @include large {
-      min-height: 52rem;
+      .wrapper {
+        min-height: 52rem;
+      }
     }
   }
 
@@ -207,7 +219,9 @@
   }
 
   &--with-bg-video {
-    padding: 0;
+    .wrapper {
+      padding: 0;
+    }
 
     .content {
       position: absolute;

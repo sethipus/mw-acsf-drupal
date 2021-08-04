@@ -9,6 +9,11 @@
     display: flex;
     flex-flow: column nowrap;
     position: relative;
+
+    @include xl {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
   }
 
   &__primary {
