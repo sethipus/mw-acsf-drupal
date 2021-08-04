@@ -164,6 +164,7 @@
               updateSearchResults(data.results);
               togglePager(data.pager);
               dataLayerPush(data.results_count, data.search_key);
+              setNoResults(data.no_results);
             }
           }
         });
