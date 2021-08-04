@@ -1051,7 +1051,7 @@ class ConfigForm extends ConfigFormBase {
 
       $import_plugin = \Drupal::service('plugin.manager.queue_worker')
         ->createInstance('salsify_integration_content_import');
-      /* @var \Drupal\salsify_integration\Plugin\QueueWorker\SalsifyContentImport $import_plugin */
+      /** @var \Drupal\salsify_integration\Plugin\QueueWorker\SalsifyContentImport $import_plugin */
       foreach ($items as $item) {
         $import_plugin->processItem($item);
       }

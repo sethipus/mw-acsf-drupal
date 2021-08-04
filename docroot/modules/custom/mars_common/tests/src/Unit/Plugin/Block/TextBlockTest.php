@@ -88,7 +88,6 @@ class TextBlockTest extends UnitTestCase {
   public function testShouldBuild() {
     $this->block->setConfiguration([
       'body' => ['value' => 'test_value'],
-      'drop_cap' => FALSE,
       'header' => 'test_header',
     ]);
     $build = $this->block->build();

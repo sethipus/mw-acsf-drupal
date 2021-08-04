@@ -3,7 +3,7 @@
 namespace Drupal\mars_common\Form\Alter;
 
 /**
- * Class WhereToBuyLayoutFormAlter.
+ * Class WhereToBuyLayoutFormAlter contains list of required sections.
  *
  * @package Drupal\mars_common\Form\Alter
  */

@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
-use Drupal;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -17,7 +16,7 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class FooterBlockTest.
+ * Class FooterBlockTest is responsible for footer component logic.
  *
  * @package Drupal\Tests\mars_common\Unit
  * @covers \Drupal\mars_common\Plugin\Block\FooterBlock
@@ -115,7 +114,7 @@ class FooterBlockTest extends UnitTestCase {
   protected function setUp() {
     parent::setUp();
     $this->createMocks();
-    Drupal::setContainer($this->containerMock);
+    \Drupal::setContainer($this->containerMock);
     $this->configuration = [
       'top_footer_menu' => 'top footer menu',
       'legal_links' => 'legal menu links',

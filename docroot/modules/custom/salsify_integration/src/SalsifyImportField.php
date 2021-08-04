@@ -349,7 +349,7 @@ class SalsifyImportField extends SalsifyImport {
           ->validateDataRecord($product_data, $field)) {
 
         $options = SalsifyImport::getFieldOptions((array) $field, $product_data[$field['salsify_id']]);
-        /* @var \Drupal\field\Entity\FieldConfig $field_config */
+        /** @var \Drupal\field\Entity\FieldConfig $field_config */
         $field_config = $filtered_fields[$field['field_name']];
 
         // Run all digital assets through additional processing as media
@@ -422,7 +422,7 @@ class SalsifyImportField extends SalsifyImport {
   ) {
     if (\Drupal::service('module_handler')->moduleExists('media')) {
       if ($field['salsify_data_type'] == 'digital_asset') {
-        /* @var \Drupal\media_entity\Entity\Media $media */
+        /** @var \Drupal\media_entity\Entity\Media $media */
         $media_entities = \Drupal::service('salsify_integration.salsify_import_media')
           ->processSalsifyMediaItem($field, $product_data);
         $options = [];
@@ -595,7 +595,7 @@ class SalsifyImportField extends SalsifyImport {
       ->getTaxonomyTerms('salsify_id', $salsify_values, $vid);
     if ($term_entities) {
       $options = [];
-      /* @var \Drupal\taxonomy\Entity\Term $term_entity */
+      /** @var \Drupal\taxonomy\Entity\Term $term_entity */
       foreach ($term_entities as $term_entity) {
         $options[] = ['target_id' => $term_entity->id()];
       }
@@ -667,7 +667,7 @@ class SalsifyImportField extends SalsifyImport {
     &$options
   ) {
 
-    /* @var \Drupal\Core\Entity\FieldableEntityInterface $entity */
+    /** @var \Drupal\Core\Entity\FieldableEntityInterface $entity */
     $meta_tags = $entity->get($field['field_name'])->value;
     $meta_tags_value = [];
     if (isset($meta_tags)) {
