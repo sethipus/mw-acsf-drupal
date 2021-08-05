@@ -566,7 +566,7 @@ class ThemeConfiguratorService {
       '#title'           => $this->t('PNG Asset'),
       '#type'            => 'managed_file',
       '#description'     => $this->t('Will be designed by each brand team.
-      Size and format requirements detailed out in the Style Guide.'),
+      Size and format requirements detailed out in the Style Guide. <br /> Recommended image size : Minimum width 375px.'),
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
       '#process'         => [
