@@ -43,6 +43,8 @@ validate:
       - mainVariant
       - productCardMedia
       - bgColorClassMap
+      - srOnlyTwigForTextarea
+      - brAfterFirstWord
 tests:
   phpunit:
     -

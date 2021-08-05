@@ -40,13 +40,12 @@
     max-width: 62.5rem;
 
     @include medium {
-      max-width: 71.0rem;
+      max-width: 71rem;
     }
 
     @include xl {
       max-width: 140.5rem;
     }
-
 
     & .product-card {
       margin-bottom: 4rem;
@@ -99,7 +98,8 @@
       width: 25%;
     }
 
-    & > section, & > article {
+    & > section,
+    & > article {
       display: block;
       margin-left: auto;
       margin-right: auto;

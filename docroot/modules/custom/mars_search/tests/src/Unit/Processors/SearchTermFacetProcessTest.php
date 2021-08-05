@@ -5,6 +5,7 @@ namespace Drupal\Tests\mars_search\Unit\Processors;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_search\Processors\SearchHelper;
 use Drupal\mars_search\Processors\SearchQueryParser;
 use Drupal\mars_search\Processors\SearchQueryParserInterface;
@@ -123,6 +124,13 @@ class SearchTermFacetProcessTest extends UnitTestCase {
   private $parameterBagMock;
 
   /**
+   * Language helper service mock.
+   *
+   * @var \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $languageHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -132,7 +140,8 @@ class SearchTermFacetProcessTest extends UnitTestCase {
     $this->searchTermFacetProcess = new SearchTermFacetProcess(
       $this->entityTypeManagerMock,
       $this->requestStackMock,
-      $this->searchCategoriesMock
+      $this->searchCategoriesMock,
+      $this->languageHelperMock
     );
   }
 
@@ -149,7 +158,7 @@ class SearchTermFacetProcessTest extends UnitTestCase {
       ->method('getMasterRequest')
       ->willReturn($this->requestMock);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManager::class);
-
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
   }
 
   /**

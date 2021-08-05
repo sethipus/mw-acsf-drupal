@@ -57,3 +57,15 @@ services:
     arguments: ['@current_user', '@language_manager', '@request_stack', '@config.factory']
     tags:
       - {name: event_subscriber}
+
+  mars_common.screen_reader_twig_filters:
+    class: Drupal\mars_common\Twig\SrOnlyTwigFilter
+    arguments:
+      [ '@mars_common.language_helper' ]
+    tags:
+      - {name: twig.extension}
+
+  mars_common.add_br_tag_after_first_word:
+    class: Drupal\mars_common\Twig\BrAfterFirstWord
+    tags:
+      - {name: twig.extension}

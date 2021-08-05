@@ -4,7 +4,11 @@
   min-height: 520px;
   border-radius: variable(card-border-radius);
   transition: cubic-bezier(0.75, 0, 0.25, 0), 0.8s;
-  background-image: radial-gradient(circle at 50% 40%, clr(card-background) 10%, clr(subcolor-1));
+  background-image: radial-gradient(
+    circle at 50% 40%,
+    clr(card-background) 10%,
+    clr(subcolor-1)
+  );
   position: relative;
   cursor: pointer;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
@@ -18,12 +22,12 @@
 
   @include medium {
     &:hover {
-
       .product-card__hover-helper {
         opacity: 1;
       }
 
-      .eyebrow, .product-card__title {
+      .eyebrow,
+      .product-card__title {
         color: clr(subcolor-3);
         transition: inherit;
       }
@@ -53,7 +57,11 @@
     right: 0;
     border-radius: variable(card-border-radius);
     opacity: 0;
-    background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary));
+    background-image: radial-gradient(
+      circle at 50% 50%,
+      clr(secondary),
+      clr(secondary)
+    );
     transition: inherit;
   }
 
@@ -129,7 +137,7 @@
       left: 50%;
       transform: translate(-50%, 0);
       position: absolute;
-      transition: opacity .25s ease-in;
+      transition: opacity 0.25s ease-in;
       object-fit: contain;
 
       &.product-image__image {
@@ -192,5 +200,4 @@
   .ps-disabled {
     display: none !important;
   }
-
 }
