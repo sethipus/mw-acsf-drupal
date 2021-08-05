@@ -279,7 +279,7 @@ function product_card_add_datalayer_vars(array &$variables) {
 
       $term_entites = $node->get($field_name)->referencedEntities();
       foreach ($term_entites as $term_entity) {
-        /* @var \Drupal\taxonomy\Entity\Term $term_entity */
+        /** @var \Drupal\taxonomy\Entity\Term $term_entity */
         $terms[$term_entity->referencedEntities()[0]->label()][$term_entity->label()] = $term_entity->label();
       }
     }

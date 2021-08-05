@@ -663,7 +663,7 @@ class SalsifyFields extends Salsify {
     $field_name = $field_mapping['field_name'];
     if (isset($field_configs[$field_name])) {
       $field_config = $field_configs[$field_name];
-      /* @var \Drupal\field\Entity\FieldConfig $field_config */
+      /** @var \Drupal\field\Entity\FieldConfig $field_config */
       if ($field_config->getType() == 'entity_reference' && isset($salsify_fields[$salsify_field_name]['values'])) {
         $salsify_values = $salsify_fields[$salsify_field_name]['values'];
         $field_handler = $field_config->getSetting('handler');
@@ -758,7 +758,7 @@ class SalsifyFields extends Salsify {
   ) {
     $config = \Drupal::service('config.factory')
       ->get('salsify_integration.settings');
-    /* @var \Drupal\Core\Config\ImmutableConfig $config */
+    /** @var \Drupal\Core\Config\ImmutableConfig $config */
     if (!$entity_type) {
       $entity_type = $config->get('entity_type');
     }
@@ -947,7 +947,7 @@ class SalsifyFields extends Salsify {
    *   The view mode on which to add the field.
    */
   public static function createFieldViewDisplay($entity_type, $entity_bundle, $field_name, $view_mode) {
-    /* @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $view_storage */
+    /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $view_storage */
     $view_storage = \Drupal::entityTypeManager()
       ->getStorage('entity_view_display')
       ->load($entity_type . '.' . $entity_bundle . '.' . $view_mode);
@@ -984,7 +984,7 @@ class SalsifyFields extends Salsify {
    *   The Salsify data type for this field.
    */
   public static function createFieldFormDisplay($entity_type, $entity_bundle, $field_name, $salsify_type) {
-    /* @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $form_storage */
+    /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $form_storage */
     $form_storage_id = $entity_type . '.' . $entity_bundle . '.default';
     $form_storage = \Drupal::entityTypeManager()
       ->getStorage('entity_form_display')

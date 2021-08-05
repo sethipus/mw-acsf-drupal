@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\mars_recipes\Unit;
 
-use Drupal;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\mars_common\LanguageHelper;
@@ -16,7 +15,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Plugin\Context\Context;
 
 /**
- * Class RecipeDetailBodyTest.
+ * Class RecipeDetailBodyTest - unit tests.
  *
  * @package Drupal\Tests\mars_recipes\Unit
  * @covers \Drupal\mars_recipes\Plugin\Block\RecipeDetailBody
@@ -78,7 +77,7 @@ class RecipeDetailBodyTest extends UnitTestCase {
   protected function setUp() {
     parent::setUp();
     $this->createMocks();
-    Drupal::setContainer($this->containerMock);
+    \Drupal::setContainer($this->containerMock);
 
     $this->entityTypeManagerMock
       ->expects($this->any())
@@ -173,7 +172,7 @@ class RecipeDetailBodyTest extends UnitTestCase {
     // Main testing function.
     $build = $this->recipeBodyBlock->build();
 
-    // TODO Should we add test for related products?
+    // @todo Should we add test for related products?
     $this->assertEquals('recipe_detail_body_block', $build['#theme']);
     $this->assertArrayHasKey('#ingredients_list', $build);
     $this->assertArrayHasKey('#nutrition_module', $build);

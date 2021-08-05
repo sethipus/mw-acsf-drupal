@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
- * Class RecipeFeatureBlock.
+ * Class RecipeFeatureBlock - recipe feature component logic.
  *
  * @Block(
  *   id = "recipe_feature_block",

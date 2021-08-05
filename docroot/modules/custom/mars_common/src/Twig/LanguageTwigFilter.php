@@ -7,7 +7,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 /**
- * Class LanguageTwigFilter.
+ * Class LanguageTwigFilter - new filter for twig (mt).
  *
  * @package Drupal\mars_common\Twig
  */
