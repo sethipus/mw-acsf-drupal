@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class BlockAjaxController.
+ * Class BlockAjaxController is responsible for Ajax block callback logic.
  *
  * @package Drupal\mars_common\Controller
  */

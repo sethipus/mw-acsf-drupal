@@ -9,7 +9,7 @@ use Drupal\Core\StringTranslation\TranslationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class LanguageHelper.
+ * Class LanguageHelper is responsible for some i18n BE logic.
  */
 class LanguageHelper {
 

@@ -47,7 +47,7 @@ class ContentAlterSubscriber implements EventSubscriberInterface {
    *   The content alter event.
    */
   public function onContentAlter(ContentAlterEvent $event) {
-    /* @var \Drupal\node\NodeInterface $entity */
+    /** @var \Drupal\node\NodeInterface $entity */
     $entity = $event->getEntity();
 
     if ($entity->bundle() == 'recipe' || $entity->bundle() == 'article') {

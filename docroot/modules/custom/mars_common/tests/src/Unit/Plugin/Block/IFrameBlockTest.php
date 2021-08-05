@@ -2,13 +2,12 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
-use Drupal;
 use Drupal\mars_common\Plugin\Block\IFrameBlock;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class IFrameBlockTest.
+ * Class IFrameBlockTest - unit tests.
  *
  * @package Drupal\Tests\mars_common\Unit
  * @covers \Drupal\mars_common\Plugin\Block\ContactFormBlock
@@ -45,7 +44,7 @@ class IFrameBlockTest extends UnitTestCase {
   protected function setUp() {
     parent::setUp();
     $this->createMocks();
-    Drupal::setContainer($this->containerMock);
+    \Drupal::setContainer($this->containerMock);
 
     $definitions = [
       'provider'    => 'test',

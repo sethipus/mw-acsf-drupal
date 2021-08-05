@@ -36,7 +36,9 @@
     {% endif %}
       <ul {{ bem('list', [], status__base_class)}}>
         {% for message in messages %}
-          <li {{ bem(status__base_class, [type])}}>{{ message }}</li>
+          <li {{ bem(status__base_class, [type])}}>
+            <div {{ bem('message', [], status__base_class)}}>{{ message }}</div>
+          </li>
         {% endfor %}
       </ul>
     {% if type == 'error' %}

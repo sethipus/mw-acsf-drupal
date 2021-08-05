@@ -5,7 +5,7 @@ namespace Drupal\salsify_integration\Event;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class SalsifyGetEntityTypesEvent.
+ * Class SalsifyGetEntityTypesEvent - get entity type event.
  *
  * @package Drupal\salsify_integration
  */
