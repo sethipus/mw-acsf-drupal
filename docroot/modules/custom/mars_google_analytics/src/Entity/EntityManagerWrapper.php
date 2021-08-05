@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class EntityManagerWrapper.
+ * Class EntityManagerWrapper - wrapper for entities.
  */
 class EntityManagerWrapper extends EntityTypeManager implements EntityTypeManagerInterface, ContainerAwareInterface {
 
@@ -49,7 +49,8 @@ class EntityManagerWrapper extends EntityTypeManager implements EntityTypeManage
    * {@inheritdoc}
    */
   public function getStorage($entity_type) {
-    return $this->entityManager->getStorage($entity_type);;
+    return $this->entityManager->getStorage($entity_type);
+    ;
   }
 
   /**

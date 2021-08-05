@@ -6,7 +6,7 @@ use Drupal\Component\Plugin\Exception\ContextException;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Trait BlockVisibilityConditionsTrait.
+ * Trait BlockVisibilityConditionsTrait is responsible for block visibility.
  *
  * @package Drupal\mars_entry_gate\Traits
  */
@@ -150,7 +150,10 @@ trait BlockVisibilityConditionsTrait {
     $bundle_visibility['id'] = 'entity_bundle:node';
     $request_path_visibility = $form_state->getValue('request_path');
     $request_path_visibility['id'] = 'request_path';
-    $configuration->set('visibility', ['entity_bundle:node' => $bundle_visibility, 'request_path' => $request_path_visibility]);
+    $configuration->set('visibility', [
+      'entity_bundle:node' => $bundle_visibility,
+      'request_path' => $request_path_visibility,
+    ]);
   }
 
 }

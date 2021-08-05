@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * SearchHelperTest class.
+ * SearchHelperTest class - unit tests.
  */
 class SearchHelperTest extends UnitTestCase {
 

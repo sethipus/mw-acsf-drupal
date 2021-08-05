@@ -7,7 +7,7 @@ use Drupal\mars_common\Form\MarsSiteInformationForm;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
- * Class RouteSubscriber.
+ * Class RouteSubscriber - route alter logic.
  *
  * @package Drupal\mars_common\Routing
  */

@@ -5,7 +5,7 @@ namespace Drupal\mars_google_analytics\Entity;
 use Drupal\mars_google_analytics\Decorator;
 
 /**
- * Class EntityDecorator.
+ * Class EntityDecorator is responsible for decorating of entities.
  */
 class EntityDecorator extends Decorator {
 
