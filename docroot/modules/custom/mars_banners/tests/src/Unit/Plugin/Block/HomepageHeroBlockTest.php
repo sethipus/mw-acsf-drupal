@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\mars_banners\Unit\Plugin\Block;
 
-use Drupal;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Url;
@@ -128,7 +127,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
-    Drupal::setContainer($this->containerMock);
+    \Drupal::setContainer($this->containerMock);
 
     $this->homepageBlock = new HomepageHeroBlock(
       self::TEST_CONFIGURATION,

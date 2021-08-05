@@ -3,7 +3,7 @@
 namespace Drupal\mars_common\Form\Alter;
 
 /**
- * Class LandingPageLayoutFormAlter.
+ * Class LandingPageLayoutFormAlter contains list of required sections.
  *
  * @package Drupal\mars_common\Form\Alter
  */

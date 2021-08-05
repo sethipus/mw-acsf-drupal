@@ -12,7 +12,7 @@ use Drupal\mars_search\SearchProcessFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * SearchForm.
+ * SearchForm - search form logic.
  */
 class SearchForm extends FormBase {
 
@@ -53,7 +53,8 @@ class SearchForm extends FormBase {
     SearchProcessFactoryInterface $searchProcessor,
     LanguageHelper $language_helper
   ) {
-    $this->searchHelper = $searchProcessor->getProcessManager('search_helper');;
+    $this->searchHelper = $searchProcessor->getProcessManager('search_helper');
+    ;
     $this->languageHelper = $language_helper;
   }
 

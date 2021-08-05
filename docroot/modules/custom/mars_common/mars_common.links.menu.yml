@@ -18,3 +18,11 @@ mars_common.disable_language:
   description: 'Exclude language from language switcher and disable access to pages with selected language(s) (for anonymous users only)'
   route_name: mars_common.admin.disable_language
   weight: 100
+
+mars_common.theme_configuration:
+  title: 'Theme Configurator'
+  description: 'Configure Theme'
+  parent: system.themes_page
+  route_name: system.theme_settings_theme
+  route_parameters: { theme: 'emulsifymars'}
+  weight: -10

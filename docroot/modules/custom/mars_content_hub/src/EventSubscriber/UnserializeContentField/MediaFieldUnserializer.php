@@ -45,7 +45,10 @@ class MediaFieldUnserializer implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    $events[AcquiaContentHubEvents::UNSERIALIZE_CONTENT_ENTITY_FIELD] = ['onUnserializeContentField', 200];
+    $events[AcquiaContentHubEvents::UNSERIALIZE_CONTENT_ENTITY_FIELD] = [
+      'onUnserializeContentField',
+      200,
+    ];
     return $events;
   }
 
@@ -102,7 +105,7 @@ class MediaFieldUnserializer implements EventSubscriberInterface {
    *   The subscribed event.
    */
   protected function handleComponents(array &$components, UnserializeCdfEntityFieldEvent $event) {
-    // @TODO Add dependency restore for recommendation module manual logic and content pair up and recipe feature.
+    // @todo Add dependency restore for recommendation module manual logic and content pair up and recipe feature.
     foreach ($components as &$component) {
       $componentConfiguration = $this->getComponentConfiguration($component);
       $this->iterateConfig($componentConfiguration, $event);

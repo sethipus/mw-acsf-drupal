@@ -18,7 +18,7 @@ use Drupal\Core\Plugin\Context\Context;
 use Drupal\Core\Url;
 
 /**
- * Class RecipeFeatureBlockTest.
+ * Class RecipeFeatureBlockTest - unit tests.
  *
  * @package Drupal\Tests\mars_recipes\Unit
  * @covers \Drupal\mars_recipes\Plugin\Block\RecipeFeatureBlock
