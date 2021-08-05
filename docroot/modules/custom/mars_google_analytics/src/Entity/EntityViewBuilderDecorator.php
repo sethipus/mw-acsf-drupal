@@ -11,7 +11,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class EntityViewBuilderDecorator.
+ * Class EntityViewBuilderDecorator - decorator for entity view builder class.
  */
 class EntityViewBuilderDecorator extends EntityDecorator implements EntityHandlerInterface, EntityViewBuilderInterface {
 

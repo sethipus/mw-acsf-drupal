@@ -9,7 +9,7 @@ use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\Plugin\Block\FlexibleDriverBlock;
 
 /**
- * Class FlexibleDriverBlockTest.
+ * Class FlexibleDriverBlockTest - unit tests.
  *
  * @package Drupal\Tests\mars_common\Unit
  * @covers \Drupal\mars_common\Plugin\Block\FooterBlock

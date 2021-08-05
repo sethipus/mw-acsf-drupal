@@ -3,7 +3,7 @@
 namespace Drupal\mars_common\Constants;
 
 /**
- * Class MenuConstants.
+ * Class MenuConstants consists of constants for menu logic.
  *
  * @package Drupal\mars_common\Constants
  */

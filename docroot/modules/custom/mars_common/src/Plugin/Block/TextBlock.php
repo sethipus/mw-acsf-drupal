@@ -65,12 +65,6 @@ class TextBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#default_value' => $config['header'] ?? '',
     ];
 
-    $form['drop_cap'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Drop cap'),
-      '#default_value' => $config['drop_cap'] ?? FALSE,
-    ];
-
     $form['body'] = [
       '#type' => 'text_format',
       '#title' => $this->t('Body'),
@@ -99,7 +93,7 @@ class TextBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $config = $this->getConfiguration();
 
     $build['#content'] = $this->languageHelper->translate($config['body']['value']);
-    $build['#drop_cap'] = $config['drop_cap'];
+    $build['#header'] = $config['header'];
 
     $build['#theme'] = 'text_block';
 

@@ -362,7 +362,10 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     EntityInterface $supporting_entity
   ): array {
     $conf = $this->getConfiguration();
-    $is_product_card = in_array($supporting_entity->bundle(), ['product', 'product_multipack']);
+    $is_product_card = in_array($supporting_entity->bundle(), [
+      'product',
+      'product_multipack',
+    ]);
 
     $render_array = $this->viewBuilder->view(
       $supporting_entity,

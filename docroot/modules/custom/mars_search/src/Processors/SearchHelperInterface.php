@@ -3,7 +3,7 @@
 namespace Drupal\mars_search\Processors;
 
 /**
- * SearchHelperInterface.
+ * SearchHelperInterface contains description for helper methods.
  */
 interface SearchHelperInterface {
 

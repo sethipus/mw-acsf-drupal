@@ -9,7 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\Plugin\Block\NewsletterSignUpFormBlock;
 
 /**
- * Class NewsletterSignUpFormBlockTest.
+ * Class NewsletterSignUpFormBlockTest - unit tests.
  *
  * @package Drupal\Tests\mars_common\Unit
  * @covers \Drupal\mars_common\Plugin\Block\newsletterSignUpFormBlock

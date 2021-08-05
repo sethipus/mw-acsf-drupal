@@ -33,7 +33,7 @@ class ListItemFormatter extends FileFormatterBase {
 
     foreach ($files as $delta => $file) {
       $cache_contexts = [];
-      /* @var \Drupal\file\Entity\File $file */
+      /** @var \Drupal\file\Entity\File $file */
       $item_uri = $file->getFileUri();
       // As a work-around, we currently add the 'url.site' cache
       // context to ensure different file URLs are generated for different
@@ -44,7 +44,7 @@ class ListItemFormatter extends FileFormatterBase {
 
       // Extract field item attributes for the theme function, and unset them
       // from the $item so that the field template does not re-render them.
-      /* @var \Drupal\mars_common\Plugin\Field\FieldType\ListItem $item */
+      /** @var \Drupal\mars_common\Plugin\Field\FieldType\ListItem $item */
       $item = $file->_referringItem;
 
       $elements[$delta] = [

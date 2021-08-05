@@ -12,7 +12,7 @@ use Drupal\migrate_tools\Commands\MigrateToolsCommands;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 
 /**
- * Class MigrateToolsDecorator.
+ * Class MigrateToolsDecorator - decorator for migrate tools service.
  *
  * @package Drupal\brand_drupal_salsify_bens_uk\Service
  */

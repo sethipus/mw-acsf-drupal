@@ -159,7 +159,10 @@ class ErrorPageBlock extends BlockBase implements ContextAwarePluginInterface, C
     $menu_links = [];
     if (!empty($menu['#items'])) {
       foreach ($menu['#items'] as $item) {
-        array_push($menu_links, ['title' => $item['title'], 'url' => $item['url']->setAbsolute()->toString()]);
+        array_push($menu_links, [
+          'title' => $item['title'],
+          'url' => $item['url']->setAbsolute()->toString(),
+        ]);
       }
     }
     return $menu_links;

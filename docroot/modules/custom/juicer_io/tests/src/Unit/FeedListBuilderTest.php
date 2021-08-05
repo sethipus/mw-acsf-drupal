@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\juicer_io\Unit;
 
-use Drupal;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
@@ -92,7 +91,7 @@ class FeedListBuilderTest extends UnitTestCase {
    *   The created FeedListBuilder object.
    */
   private function createListBuilder(): FeedListBuilder {
-    Drupal::setContainer($this->createMock(ContainerInterface::class));
+    \Drupal::setContainer($this->createMock(ContainerInterface::class));
     $entity_type = $this->createMock(EntityTypeInterface::class);
     $entity_storage = $this->createMock(EntityStorageInterface::class);
     $module_handler = $this->createMock(ModuleHandlerInterface::class);

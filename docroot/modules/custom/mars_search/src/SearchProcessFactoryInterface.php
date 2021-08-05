@@ -5,7 +5,7 @@ namespace Drupal\mars_search;
 use Drupal\mars_search\Processors\SearchProcessManagerInterface;
 
 /**
- * Class SearchProcessFactoryInterface.
+ * Class SearchProcessFactoryInterface contains description for methods.
  */
 interface SearchProcessFactoryInterface {
 
