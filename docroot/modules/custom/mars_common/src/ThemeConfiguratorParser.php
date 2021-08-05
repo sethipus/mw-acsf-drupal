@@ -13,7 +13,7 @@ use Drupal\mars_media\SVG\SVGFactory;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class ThemeConfiguratorParser.
+ * Class ThemeConfiguratorParser is responsible for parsing of theme settings.
  *
  * @package Drupal\mars_common
  */

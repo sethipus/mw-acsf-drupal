@@ -37,7 +37,7 @@ function mars_google_analytics_page_attachments(array &$page) {
  */
 function mars_google_analytics_taxonomy_term_load($terms) {
   foreach ($terms as $term) {
-    /* @var \Drupal\taxonomy\Entity\Term $term */
+    /** @var \Drupal\taxonomy\Entity\Term $term */
     \Drupal::service('mars_google_analytics.data_collector.terms')
       ->addLoadedTerms($term->referencedEntities()[0]->label(), $term->label());
   }

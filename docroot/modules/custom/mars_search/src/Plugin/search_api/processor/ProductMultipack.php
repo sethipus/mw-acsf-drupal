@@ -86,7 +86,7 @@ class ProductMultipack extends ProcessorPluginBase {
     /** @var \Drupal\search_api\Item\ItemInterface $item */
     foreach ($items as $item_id => $item) {
       $node = $item->getOriginalObject()->getEntity();
-      /* @var \Drupal\Core\Entity\EntityInterface $node */
+      /** @var \Drupal\Core\Entity\EntityInterface $node */
       if ($node->bundle() == 'product' &&
         $node->get('field_product_generated')->value) {
         unset($items[$item_id]);

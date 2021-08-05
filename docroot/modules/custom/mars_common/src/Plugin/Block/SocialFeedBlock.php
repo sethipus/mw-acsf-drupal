@@ -16,7 +16,6 @@ use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
-use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -185,7 +184,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     try {
       $form['feed']['#default_value'] = $this->getFeedConfig();
     }
-    catch (RuntimeException $e) {
+    catch (\RuntimeException $e) {
       // Cannot set default value as feed config is missing.
     }
 
@@ -245,7 +244,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
    */
   private function getFeedConfig(): FeedConfiguration {
     if (!isset($this->configuration['feed'])) {
-      throw new RuntimeException('Feed id is missing from social feed block.');
+      throw new \RuntimeException('Feed id is missing from social feed block.');
     }
 
     /** @var \Drupal\juicer_io\Entity\FeedConfiguration|null $configEntity */
@@ -256,7 +255,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
         'Could not load feed config entity with id: %s',
         $this->configuration['feed']
       );
-      throw new RuntimeException($message);
+      throw new \RuntimeException($message);
     }
     return $configEntity;
   }

@@ -14,7 +14,7 @@ use Drupal\mars_media\Media\NonResizableImageUri;
 use Drupal\mars_product\ProductHelper;
 
 /**
- * Class MediaHelpers.
+ * Class MediaHelpers - media helper methods.
  */
 class MediaHelper {
 
@@ -152,7 +152,7 @@ class MediaHelper {
         return [
           'video' => TRUE,
           'src' => $entity->field_media_video_file_1->entity->createFileUrl(!$absolute_urls),
-          // Todo: Get proper format data.
+          // @todo Get proper format data.
           'format' => 'video/mp4',
         ];
 
@@ -164,7 +164,7 @@ class MediaHelper {
         return [
           'video' => TRUE,
           'src' => $entity->field_media_video_file->entity->createFileUrl(!$absolute_urls),
-          // Todo: Get proper format data.
+          // @todo Get proper format data.
           'format' => 'video/mp4',
         ];
 
@@ -242,7 +242,7 @@ class MediaHelper {
   public function getEntityMainMediaId(
     ContentEntityInterface $contentEntity
   ): ?string {
-    // TODO: Use event dispatch to handle this.
+    // @todo Use event dispatch to handle this.
     $media_id = NULL;
     switch ($contentEntity->bundle()) {
       case 'article':

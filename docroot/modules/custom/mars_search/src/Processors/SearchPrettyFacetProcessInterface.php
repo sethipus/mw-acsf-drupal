@@ -3,7 +3,7 @@
 namespace Drupal\mars_search\Processors;
 
 /**
- * SearchPrettyFacetProcessInterface.
+ * SearchPrettyFacetProcessInterface contains description for methods.
  */
 interface SearchPrettyFacetProcessInterface {
 
