@@ -7,7 +7,7 @@ use Drupal\layout_builder\Form\DefaultsEntityForm;
 use Drupal\layout_builder\Form\OverridesEntityForm;
 
 /**
- * Class LayoutFormAlterBase.
+ * Class LayoutFormAlterBase is responsible for layout validation logic.
  *
  * @package Drupal\mars_common\Form\Alter
  */
@@ -43,7 +43,7 @@ abstract class LayoutFormAlterBase {
     }
 
     foreach ($sections as $section) {
-      /* @var \Drupal\layout_builder\Section $section */
+      /** @var \Drupal\layout_builder\Section $section */
       if (
         in_array($section->getLayoutId(), static::FIXED_SECTIONS) &&
         empty($section->getComponents())

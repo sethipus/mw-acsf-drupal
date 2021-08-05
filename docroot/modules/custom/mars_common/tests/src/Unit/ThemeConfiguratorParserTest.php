@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\mars_common\Unit;
 
-use Drupal;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -17,7 +16,7 @@ use Drupal\mars_media\SVG\SVG;
 use Drupal\Core\Url;
 
 /**
- * Class ThemeConfiguratorParserTest.
+ * Class ThemeConfiguratorParserTest - unit tests.
  *
  * @package Drupal\Tests\mars_common\Unit
  * @covers \Drupal\mars_common\ThemeConfiguratorParser
@@ -103,7 +102,7 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
   protected function setUp() {
     parent::setUp();
     $this->createMocks();
-    Drupal::setContainer($this->containerMock);
+    \Drupal::setContainer($this->containerMock);
 
     $vfsRoot = vfsStream::setup('root');
     $vfsFile = vfsStream::newFile('mock.file')

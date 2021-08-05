@@ -9,7 +9,7 @@ use Drupal\mars_google_analytics\Entity\EntityDecorator;
 use Drupal\node\NodeInterface;
 
 /**
- * Class TermsDataCollector.
+ * Class TermsDataCollector collects data of terms.
  */
 class TermsDataCollector implements DataCollectorInterface, DataLayerCollectorInterface {
 
@@ -143,7 +143,7 @@ class TermsDataCollector implements DataCollectorInterface, DataLayerCollectorIn
 
         $term_entites = $node->get($field_name)->referencedEntities();
         foreach ($term_entites as $term_entity) {
-          /* @var \Drupal\taxonomy\Entity\Term $term_entity */
+          /** @var \Drupal\taxonomy\Entity\Term $term_entity */
           $terms[$term_entity->referencedEntities()[0]->label()][$term_entity->label()] = $term_entity->label();
         }
       }

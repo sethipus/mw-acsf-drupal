@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * SearchOverlayForm.
+ * SearchOverlayForm - search overlay form logic.
  */
 class SearchOverlayForm extends FormBase {
 

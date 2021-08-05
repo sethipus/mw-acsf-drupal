@@ -38,7 +38,9 @@ class CarouselItemWidget extends FileTextWidgetBase {
       '#weight' => -12,
       '#access' => (bool) $item['fids'] && $element['#desc_field'],
       '#required' => $element['#desc_field_required'],
-      '#element_validate' => $element['#desc_field_required'] == 1 ? [[get_called_class(), 'validateRequiredFields']] : [],
+      '#element_validate' => $element['#desc_field_required'] == 1
+      ? [[get_called_class(), 'validateRequiredFields']]
+      : [],
     ];
 
     return parent::process($element, $form_state, $form);
