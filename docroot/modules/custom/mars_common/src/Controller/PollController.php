@@ -14,7 +14,7 @@ use Drupal\user\UserStorage;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class PollController.
+ * Class PollController is responsible for Poll endpoints logic.
  *
  * @package Drupal\mars_common\Controller
  */

@@ -98,7 +98,10 @@ class HeroImageServiceTest extends UnitTestCase {
     $node_mock = $this->getMockBuilder(Node::class)
       ->disableOriginalConstructor()
       ->getMock();
-    $node_mock->expects($this->any())->method('getCacheContexts')->willReturn(['nid' => 1, 'bundle' => 'article']);
+    $node_mock
+      ->expects($this->any())
+      ->method('getCacheContexts')
+      ->willReturn(['nid' => 1, 'bundle' => 'article']);
     $node_mock->expects($this->any())->method('getCacheTags')->willReturn(['node:id' => '1']);
     $node_mock->expects($this->any())->method('getCacheMaxAge')->willReturn(0);
     $config_mock = $this->createMock(ImmutableConfig::class);
@@ -161,8 +164,17 @@ class HeroImageServiceTest extends UnitTestCase {
     $layout_builder_section_mock = $this->createMock(Section::class);
     $section_component_mock = $this->createMock(SectionComponent::class);
     $section_component_mock->expects($this->any())->method('getPluginId')->willReturn('homepage_hero_block');
-    $section_component_mock->expects($this->any())->method('get')->with('configuration')->willReturn(['block_type' => 'image', 'background_image' => 'hero_image_field']);
-    $layout_builder_section_mock->expects($this->any())->method('getComponents')->willReturn(
+    $section_component_mock
+      ->expects($this->any())
+      ->method('get')
+      ->with('configuration')
+      ->willReturn([
+        'block_type' => 'image',
+        'background_image' => 'hero_image_field',
+      ]);
+    $layout_builder_section_mock
+      ->expects($this->any())
+      ->method('getComponents')->willReturn(
       [
         $section_component_mock,
         $section_component_mock,

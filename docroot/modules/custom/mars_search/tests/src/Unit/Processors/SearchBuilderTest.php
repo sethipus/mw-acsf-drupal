@@ -19,7 +19,7 @@ use Drupal\mars_search\Processors\SearchHelperInterface;
 use Drupal\mars_search\Processors\SearchBuilder;
 
 /**
- * Class SearchBuilderTest.
+ * Class SearchBuilderTest - unit tests.
  */
 class SearchBuilderTest extends UnitTestCase {
 

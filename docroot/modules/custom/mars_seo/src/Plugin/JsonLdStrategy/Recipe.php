@@ -83,7 +83,7 @@ class Recipe extends JsonLdStrategyPluginBase implements ContainerFactoryPluginI
     // Need to generate elements to get processed tokens.
     $metatags = $this->metatagManager->generateRawElements($this->metatagManager->tagsFromEntityWithDefaults($node), $node);
 
-    // TODO: Import from rating engine or similar.
+    // @todo Import from rating engine or similar.
     return Schema::recipe()
       ->name($node->getTitle())
       ->if($node->field_recipe_image->target_id, function (SchemaRecipe $recipe) use ($node) {

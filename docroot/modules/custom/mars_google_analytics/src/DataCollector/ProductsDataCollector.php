@@ -6,7 +6,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_google_analytics\Entity\EntityDecorator;
 
 /**
- * Class ProductsDataCollector.
+ * Class ProductsDataCollector collects data of products.
  */
 class ProductsDataCollector implements DataCollectorInterface, DataLayerCollectorInterface {
 

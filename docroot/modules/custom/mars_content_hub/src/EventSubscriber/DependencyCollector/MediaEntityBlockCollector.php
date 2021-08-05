@@ -8,7 +8,7 @@ use Drupal\depcalc\Event\SectionComponentDependenciesEvent;
 use Drupal\depcalc\EventSubscriber\DependencyCollector\BaseDependencyCollector;
 
 /**
- * Class MediaEntityBlockCollector.
+ * Class MediaEntityBlockCollector is responsible for dep calculation.
  */
 class MediaEntityBlockCollector extends BaseDependencyCollector {
 
