@@ -12,6 +12,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
+ * Unit tests for FlexibleFramerBlock class.
+ *
  * @coversDefaultClass \Drupal\mars_common\Plugin\Block\FlexibleFramerBlock
  * @group mars
  * @group mars_common

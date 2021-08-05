@@ -135,6 +135,7 @@ class ThemeConfiguratorServiceTest extends UnitTestCase {
     $form_state = (new FormState())->setValues([
       'test' => 'test date',
     ]);
+
     $storage = [
       'social' => [
         '0' => [

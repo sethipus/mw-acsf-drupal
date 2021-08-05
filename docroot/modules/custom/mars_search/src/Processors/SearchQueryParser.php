@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\search_api\Query\QueryInterface;
 
 /**
- * Class SearchQueryParser.
+ * Class SearchQueryParser - query parser logic.
  */
 class SearchQueryParser implements SearchQueryParserInterface, SearchProcessManagerInterface {
 
@@ -83,7 +83,10 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
       unset($options[SearchQueryParserInterface::MARS_SEARCH_SEARCH_KEY]);
     }
     // Prepare filter conditions.
-    $filter['conditions'] = array_merge($filter['conditions'], array_map([$this, 'mapGridConditions'], array_keys($options), $options));
+    $filter['conditions'] = array_merge(
+      $filter['conditions'],
+      array_map([$this, 'mapGridConditions'], array_keys($options), $options)
+    );
     // Getting search filters query logic.
     $filter['options_logic'] = !empty($query_parameters['options_logic']) ? $query_parameters['options_logic'] : $filter['options_logic'];
     // Autocomplete specific option for header search overlay.

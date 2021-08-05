@@ -12,7 +12,7 @@ use Drupal\mars_common\Plugin\Block\FreeformStoryBlock;
 use Drupal\mars_common\ThemeConfiguratorParser;
 
 /**
- * Class FreeformStoryBlockTest.
+ * Class FreeformStoryBlockTest - unit tests.
  *
  * @package Drupal\Tests\mars_common\Unit
  * @covers \Drupal\mars_common\Plugin\Block\FreeformStoryBlock

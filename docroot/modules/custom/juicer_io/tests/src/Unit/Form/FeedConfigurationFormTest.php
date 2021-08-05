@@ -11,7 +11,6 @@ if (!defined('SAVED_UPDATED')) {
   define('SAVED_UPDATED', 2);
 }
 
-use Drupal;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
@@ -60,7 +59,7 @@ class FeedConfigurationFormTest extends UnitTestCase {
    */
   protected function setUp() {
     parent::setUp();
-    Drupal::setContainer($this->createMock(ContainerInterface::class));
+    \Drupal::setContainer($this->createMock(ContainerInterface::class));
     $this->formEntity = $this->createMock(FeedConfiguration::class);
     $this->messenger = $this->createMock(MessengerInterface::class);
     $this->entityCollectionUrl = $this->createMock(Url::class);
