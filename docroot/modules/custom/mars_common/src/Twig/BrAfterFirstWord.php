@@ -5,7 +5,7 @@ namespace Drupal\mars_common\Twig;
 use Twig\TwigFilter;
 
 /**
- * Class BrAfterFirstWord.
+ * Class Twig extension for adding BR tag after first word in the given string.
  *
  * @package Drupal\mars_common\Twig
  */
