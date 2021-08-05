@@ -85,7 +85,7 @@
         "drupal/ultimate_cron": "^2.0@alpha",
         "emulsify-ds/emulsify-drupal": "^3.0",
         "eyecon/jquery_colorpicker": "master",
-        "mars/mars_lighthouse": "v0.0.1",
+        "mars/mars_lighthouse": "dev-master",
         "mars/mars_seo": "*",
         "mikemadison13/blt-azure-pipelines": "dev-master",
         "symfony/string": "^5.3"
