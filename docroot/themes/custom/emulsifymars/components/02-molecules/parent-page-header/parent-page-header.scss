@@ -39,7 +39,7 @@
     }
   }
 
-  & .wrapper > *:not(.bg-video) {
+  & .wrapper > *:not(.bg-video):not(.brand-shape) {
     position: relative;
     z-index: 3;
   }

@@ -11,6 +11,9 @@ module: tmgmt_smartling
 callback: tmgmt_smartling_cron
 scheduler:
   id: simple
+  configuration:
+    rules:
+      - '0+@ */3 * * *'
 launcher:
   id: serial
 logger:
