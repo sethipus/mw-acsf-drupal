@@ -26,6 +26,10 @@
       fill: clr(secondary);
       margin: auto 35%;
     }
+
+    @include xl {
+      right: calc((100% - 1440px) / 2 + 15px);
+    }
   }
 
   &__control[data-state="pause"] {
@@ -43,6 +47,10 @@
       border-right: 4px solid clr(text-inverse);
       border-left: 4px solid clr(text-inverse);
       margin: auto;
+    }
+
+    @include xl {
+      right: calc((100% - 1440px) / 2 + 15px);
     }
   }
 

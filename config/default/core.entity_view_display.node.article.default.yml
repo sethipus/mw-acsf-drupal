@@ -172,8 +172,7 @@ third_party_settings:
       whitelisted_blocks:
         article_article_body:
           all_regions:
-            Article:
-              - article_header
+            Article: {  }
             'Chaos Tools': {  }
             'Content fields': {  }
             'Custom block types': {  }
@@ -192,7 +191,6 @@ third_party_settings:
               - contact_help_banner_block
               - feedback_block
               - iframe_block
-              - newsletter_signup_form
               - poll_block
               - recommendations_module
               - story_highlight
