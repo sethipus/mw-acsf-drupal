@@ -96,3 +96,22 @@ function mars_search_update_8002() {
     'field_product_brand'
   )->delete();
 }
+
+/**
+ * Field types clean-up.
+ */
+function mars_search_update_8003() {
+  module_load_include('install', 'search_api_solr');
+  search_api_solr_update_8301();
+}
+
+function mars_search_update_8004() {
+  $query = \Drupal::database()->delete('acquia_contenthub_publisher_export_tracking');
+  $query->condition('entity_type', 'solr_field_type');
+  $query->condition('entity_id', ['text_en_6_0_0', 'text_en_7_0_0'], 'IN');
+  return $query->execute();
+}
+
+function mars_search_update_8005() {
+  mars_search_update_8004();
+}
