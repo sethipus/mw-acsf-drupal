@@ -11,6 +11,9 @@ module: system
 callback: system_cron
 scheduler:
   id: simple
+  configuration:
+    rules:
+      - '0+@ */3 * * *'
 launcher:
   id: serial
 logger:
