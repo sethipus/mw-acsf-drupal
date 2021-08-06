@@ -112,15 +112,21 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       $plugin->setContext('node', $this->getContext('node'));
     }
 
+    $recommendation_render_arrays = $plugin->getRenderedRecommendations();
     $node = $this->getContextValue('node');
+    $type = $node->type->entity->label();
+    if (isset($recommendation_render_arrays[0])) {
+      $type = $recommendation_render_arrays[0]['#node']->type->entity->label();
+    }
+
     $title = empty($this->configuration['title'])
-      ? $this->languageHelper->translate('More @types Like This', ['@type' => $node->type->entity->label()])
+      ? $this->languageHelper->translate('More @types Like This', ['@type' => $type])
       : $this->languageHelper->translate($this->configuration['title']);
     $text_color_override = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
       $text_color_override = static::$overrideColor;
     }
-    $recommendation_render_arrays = $plugin->getRenderedRecommendations();
+
     if (!empty($text_color_override)) {
       foreach ($recommendation_render_arrays as &$item) {
         $item['#text_color_override'] = $text_color_override;
