@@ -201,6 +201,19 @@
     }
   }
 
+  &--left-right-block {
+    @include xl {
+      .homepage-hero-3up__left .container {
+        max-width: unset;
+        margin-left: calc((100vw - 1440px) / 2);
+        margin-right: 0;
+      }
+
+      .homepage-hero-3up__right__wrapper {
+        padding-right: calc((100vw - 1440px) / 2 + 4rem);
+      }
+    }
+  }
 }
 
 @keyframes hero-3up-image-animates-in {

@@ -3,12 +3,14 @@
  * @file
  * Text component.
  * 'content' => NULL,
- * 'drop_cap' => NULL
+ * 'content' => NULL,
+ * 'header' => NULL,
  */
 #}
 
 <div {{ bem('block') }}>
     {{ title_prefix }}
+    {{ header }}
     {{ title_suffix }}
     {% block content %}
         {% include "@molecules/article-media/wysiwyg/article-wysiwyg.twig" with {
