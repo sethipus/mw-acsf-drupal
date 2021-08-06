@@ -11,6 +11,9 @@ module: lightning_scheduler
 callback: lightning_scheduler_cron
 scheduler:
   id: simple
+  configuration:
+    rules:
+      - '0+@ */3 * * *'
 launcher:
   id: serial
 logger:

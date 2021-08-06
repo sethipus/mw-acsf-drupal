@@ -86,6 +86,11 @@
     @include large {
       width: 62%;
     }
+
+    @include xl {
+      max-width: 893px;
+      left: calc((100% - 1440px) / 2);
+    }
   }
 
   .eyebrow {

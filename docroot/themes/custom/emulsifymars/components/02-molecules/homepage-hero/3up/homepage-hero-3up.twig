@@ -1,10 +1,13 @@
 {% set homepage_hero__base_class = 'homepage-hero-3up' %}
+{% if blocks %}
+  {% set homepage_hero__modifiers = ['left-right-block'] %}
+{% endif %}
 {% if dark_overlay %}
-  {% set homepage_hero__modifiers = ['dark-overlay'] %}
+  {% set homepage_hero_inner__modifiers = ['dark-overlay'] %}
 {% endif %}
 
-<section {{ bem(homepage_hero__base_class) }} data-theme="{{ theme_styles }}">
-  <div {{ bem('inner', [], homepage_hero__base_class, homepage_hero__modifiers) }}>
+<section {{ bem(homepage_hero__base_class, homepage_hero__modifiers) }} data-theme="{{ theme_styles }}">
+  <div {{ bem('inner', [], homepage_hero__base_class, homepage_hero_inner__modifiers) }}>
     <div {{ bem('left', [], homepage_hero__base_class) }} >
       <div class="wrapper">
         <div {{ bem('container', ['image'], homepage_hero__base_class) }}>
