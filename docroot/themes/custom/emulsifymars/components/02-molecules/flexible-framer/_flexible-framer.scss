@@ -34,6 +34,12 @@
   background-color: clr(subcolor-2);
   color: clr(primary);
 
+  &__border {
+    &--no-overflow {
+      margin-top: 3.36rem;
+    }
+  }
+
   &__heading {
     @include set-font($font-type: 'heading-font');
 
@@ -64,6 +70,12 @@
 
   &__graphic-divider {
     margin-bottom: 6rem;
+  }
+
+  &--brand-border {
+    .flexible-framer__heading {
+      padding-top: 4rem;
+    }
   }
 
   /* Grid Layout */
