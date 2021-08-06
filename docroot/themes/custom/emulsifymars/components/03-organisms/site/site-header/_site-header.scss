@@ -1,14 +1,27 @@
 .header {
   background-color: clr(subcolor-3);
 
+  @include xl {
+    background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
+  }
+
   &__inner {
     display: flex;
     flex-flow: column nowrap;
     position: relative;
+
+    @include xl {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
   }
 
   &__primary {
     background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
+
+    @include xl {
+      background-image: unset;
+    }
 
     &-container {
       display: flex;
@@ -113,6 +126,16 @@
         justify-content: flex-end;
         width: 100%;
         text-align: right;
+      }
+      &.disable_mobile_menu_view {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        text-align: right;
+
+        .header-inline-menu {
+          margin: 0 1.5rem 0 0;
+        }
       }
     }
 

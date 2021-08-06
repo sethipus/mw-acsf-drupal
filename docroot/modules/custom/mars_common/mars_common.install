@@ -193,3 +193,14 @@ function mars_common_update_8014() {
   \Drupal::service('module_installer')
     ->install(['layout_builder_at']);
 }
+
+/**
+ * Set default value for nutrition table visibility option.
+ */
+function mars_common_update_8015() {
+  /** @var \Drupal\Core\Config\ConfigFactoryInterface $config_factory */
+  $config_factory = \Drupal::service('config.factory');
+  $config = $config_factory->getEditable('emulsifymars.settings');
+  $config->set('show_nutrition_info', TRUE);
+  $config->save();
+}

@@ -390,13 +390,20 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
    */
   public function blockValidate($form, FormStateInterface $form_state) {
     if (!empty($form_state->get('items_storage')) && is_array($form_state->get('items_storage'))) {
+      if (count($form_state->get('items_storage')) < 2) {
+        $form_state->setErrorByName('items', $this->t('2 minimum items are required'));
+      }
+
       $keys = array_keys($form_state->get('items_storage'));
       foreach ($keys as $key) {
         $url = $form_state->getValue('items')[$key]['cta']['url'];
-        if (!empty($url) && !((bool) preg_match("/^(http:\/\/|https:\/\/|\/)(?:[\p{L}\p{N}#!:\.\?\+=&@$'~*,;\/\(\)\[\]\-]|%[0-9a-f]{2})+$/i", $url))) {
+        if (!empty($url) && !((bool) preg_match("/^(http:\/\/|https:\/\/|\/)(?:[\p{L}\p{N}\x7f-\xff#!:\.\?\+=&@$'~*,;_\/\(\)\[\]\-]|%[0-9a-f]{2})+$/i", $url))) {
           $form_state->setErrorByName('items][' . $key . '][cta][url', $this->t('The URL is not valid.'));
         }
       }
+    }
+    else {
+      $form_state->setErrorByName('items', $this->t('2 minimum items are required'));
     }
   }
 

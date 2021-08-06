@@ -665,6 +665,11 @@ class ThemeConfiguratorService {
         '#title' => $this->t('Show cooking (instructions) info'),
         '#default_value' => $this->getData('product_layout', 'show_cooking_info', $config),
       ];
+      $form['product_layout']['show_nutrition_info'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Show nutrition (table) info'),
+        '#default_value' => $this->getData('product_layout', 'show_nutrition_info', $config) ?? TRUE,
+      ];
       $form['product_layout']['show_nutrition_claims_benefits'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Show Nutrition Claims and benefits info'),
