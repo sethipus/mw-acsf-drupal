@@ -15,90 +15,93 @@
     data-component-title="{{ heading }}"
   {% endif %}
 >
-  {% if media.parallax_image is empty %}
-    <div {{ bem('heading', [], full_width__base_class) }}>
-      {% include "@atoms/text/headings/_heading.twig" with {
-        heading_level: 3,
-        heading_base_class: 'article-full-width__heading',
-        heading_modifiers: heading_modifiers,
-        heading: heading
-      } %}
-    </div>
-  {% endif %}
-  <div {{ bem('media', [], full_width__base_class) }}>
-    {% if media.image %}
-      {% if media.medias is not empty %}
-        {% set images = {
-          1440: media.medias.desktop.src|resize(1128, 635),
-          768: media.medias.tablet.src|resize(768, 434),
-          375: media.medias.mobile.src|resize(375, 250),
+
+  <div {{ bem('container', [], full_width__base_class) }}>
+    {% if media.parallax_image is empty %}
+      <div {{ bem('heading', [], full_width__base_class) }}>
+        {% include "@atoms/text/headings/_heading.twig" with {
+          heading_level: 3,
+          heading_base_class: 'article-full-width__heading',
+          heading_modifiers: heading_modifiers,
+          heading: heading
         } %}
-      {% else %}
-        {% set images = {
-          1440: media.src|resize(1128, 635),
-          768: media.src|resize(768, 434),
-          375: media.src|resize(375, 250),
+      </div>
+    {% endif %}
+    <div {{ bem('media', [], full_width__base_class) }}>
+      {% if media.image %}
+        {% if media.medias is not empty %}
+          {% set images = {
+            1440: media.medias.desktop.src|resize(1128, 635),
+            768: media.medias.tablet.src|resize(768, 434),
+            375: media.medias.mobile.src|resize(375, 250),
+          } %}
+        {% else %}
+          {% set images = {
+            1440: media.src|resize(1128, 635),
+            768: media.src|resize(768, 434),
+            375: media.src|resize(375, 250),
+          } %}
+        {% endif %}
+        <div {{ bem('aspect-ratio-wrapper', [ aspect_ratio ]) }}>
+          {% include "@atoms/images/image/responsive-image.twig" with {
+            output_image_tag: false,
+            responsive_image_base_class: base_class,
+            responsive_image_modifiers: image_modifiers,
+            image_blockname: image_blockname,
+            image_src: media.src|resize(1128, 635),
+            image_alt: media.alt,
+            image_title: media.title,
+            image_array: images,
+          } %}
+        </div>
+      {% elseif media.video %}
+        {{ attach_library('emulsifymars/inline-video') }}
+        {% include "@atoms/video/inline-video/video.twig" with {
+          video__src__url: media.src,
+          video__control: true,
+          data_layer: data_layer,
         } %}
-      {% endif %}
-      <div {{ bem('aspect-ratio-wrapper', [ aspect_ratio ]) }}>
+      {% elseif media.parallax_image %}
+        {{ attach_library('emulsifymars/parallax-image') }}
+
+        {% if media.medias is not empty %}
+          {% set images = {
+            1440: media.medias.desktop.src|resize(1440, 635),
+            768: media.medias.tablet.src|resize(768, 434),
+            375: media.medias.mobile.src|resize(375, 250),
+          } %}
+        {% else %}
+          {% set images = {
+            1440: media.src|resize(1440, 635),
+            768: media.src|resize(768, 434),
+            375: media.src|resize(375, 250),
+          } %}
+        {% endif %}
+
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: false,
           responsive_image_base_class: base_class,
           responsive_image_modifiers: image_modifiers,
           image_blockname: image_blockname,
-          image_src: media.src|resize(1128, 635),
+          image_src: media.src|resize(1440, 635),
           image_alt: media.alt,
           image_title: media.title,
           image_array: images,
-        } %}
-      </div>
-    {% elseif media.video %}
-      {{ attach_library('emulsifymars/inline-video') }}
-      {% include "@atoms/video/inline-video/video.twig" with {
-        video__src__url: media.src,
-        video__control: true,
-        data_layer: data_layer,
-      } %}
-    {% elseif media.parallax_image %}
-      {{ attach_library('emulsifymars/parallax-image') }}
-
-      {% if media.medias is not empty %}
-        {% set images = {
-          1440: media.medias.desktop.src|resize(1440, 635),
-          768: media.medias.tablet.src|resize(768, 434),
-          375: media.medias.mobile.src|resize(375, 250),
-        } %}
-      {% else %}
-        {% set images = {
-          1440: media.src|resize(1440, 635),
-          768: media.src|resize(768, 434),
-          375: media.src|resize(375, 250),
+          height: '635px',
+          width: '1440px',
         } %}
       {% endif %}
+    </div>
 
-      {% include "@atoms/images/image/responsive-image.twig" with {
-        output_image_tag: false,
-        responsive_image_base_class: base_class,
-        responsive_image_modifiers: image_modifiers,
-        image_blockname: image_blockname,
-        image_src: media.src|resize(1440, 635),
-        image_alt: media.alt,
-        image_title: media.title,
-        image_array: images,
-        height: '635px',
-        width: '1440px',
-      } %}
+    {% if content %}
+      <div {{ bem('content', [], full_width__base_class) }}>
+        {% include "@atoms/text/text/01-paragraph.twig" with {
+          paragraph_size: paragraph_size,
+          paragraph_content: content,
+          paragraph_base_class: paragraph_base_class,
+          paragraph_modifiers: paragraph_modifiers
+        } %}
+      </div>
     {% endif %}
   </div>
-
-  {% if content %}
-    <div {{ bem('content', [], full_width__base_class) }}>
-      {% include "@atoms/text/text/01-paragraph.twig" with {
-        paragraph_size: paragraph_size,
-        paragraph_content: content,
-        paragraph_base_class: paragraph_base_class,
-        paragraph_modifiers: paragraph_modifiers
-      } %}
-    </div>
-  {% endif %}
 </section>
