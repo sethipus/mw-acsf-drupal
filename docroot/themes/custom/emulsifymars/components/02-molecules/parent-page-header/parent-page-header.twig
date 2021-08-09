@@ -34,13 +34,14 @@
     <div class="bg-image">
       {% set images = {
         1440: parent_page_media_entities.desktop.src|resize(1440,640),
+        1024: parent_page_media_entities.tablet.src|resize(1024,550),
         768: parent_page_media_entities.tablet.src|resize(768,603),
         375: parent_page_media_entities.mobile.src|resize(375,612),
       } %}
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: false,
         image_alt: parent_page_media_entities.desktop.alt,
-        image_src: parent_page_media_entities.desktop.src|resize(768,603),
+        image_src: parent_page_media_entities.desktop.src|resize(1440,650),
         image_array: images,
       } %}
     </div>
