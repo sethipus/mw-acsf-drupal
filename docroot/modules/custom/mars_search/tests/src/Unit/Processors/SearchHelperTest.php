@@ -215,7 +215,7 @@ class SearchHelperTest extends UnitTestCase {
 
     $search_results = $this->searchHelper->getSearchResults([], 'searcher_default');
 
-    $this->assertArrayEquals([
+    $this->assertEquals([
       'facets' => [
         '1' => [
           '1' => [
@@ -273,7 +273,7 @@ class SearchHelperTest extends UnitTestCase {
       'mars_product_used',
       'mars_recipe_collection',
     ];
-    $this->assertArrayEquals($facet_keys_expected_result, $facet_keys);
+    $this->assertEquals($facet_keys_expected_result, $facet_keys);
   }
 
   /**

@@ -67,7 +67,7 @@ field_settings:
     label: Answer
     datasource_id: 'entity:node'
     property_path: field_qa_item_answer
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_qa_item_answer
@@ -75,7 +75,7 @@ field_settings:
     label: Question
     datasource_id: 'entity:node'
     property_path: field_qa_item_question
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_qa_item_question
@@ -91,7 +91,7 @@ field_settings:
     label: 'Brand Initiatives » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_brand_initiatives:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_brand_initiatives
@@ -109,7 +109,7 @@ field_settings:
     label: 'Category » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_category:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_product_category
@@ -127,7 +127,7 @@ field_settings:
     label: 'Culture » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_recipe_culture:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_recipe_culture
@@ -148,7 +148,7 @@ field_settings:
     label: 'Product Variants » Content » Diet & Allergens » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_variants:entity:field_product_diet_allergens:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_product_diet_allergens
@@ -168,7 +168,7 @@ field_settings:
     label: 'Flavor » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_flavor:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_product_flavor
@@ -186,7 +186,7 @@ field_settings:
     label: 'Food Type » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_recipe_food_type:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_recipe_food_type
@@ -204,7 +204,7 @@ field_settings:
     label: 'Format » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_format:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_product_format
@@ -222,7 +222,7 @@ field_settings:
     label: 'Main Ingredient » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_recipe_main_ingredient:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_recipe_main_ingredient
@@ -240,7 +240,7 @@ field_settings:
     label: 'Meal Type » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_recipe_meal_type:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_recipe_meal_type
@@ -258,7 +258,7 @@ field_settings:
     label: 'Method » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_recipe_method:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_recipe_method
@@ -276,7 +276,7 @@ field_settings:
     label: 'Occasions » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_occasions:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_product_occasions
@@ -294,7 +294,7 @@ field_settings:
     label: 'Prep Time » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_recipe_prep_time:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_recipe_prep_time
@@ -312,7 +312,7 @@ field_settings:
     label: 'Product used » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_used:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_product_used
@@ -330,7 +330,7 @@ field_settings:
     label: 'Recipe Collection » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_recipe_collection:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_recipe_collection
@@ -348,7 +348,7 @@ field_settings:
     label: 'Trade item description » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_trade_description:entity:name'
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     dependencies:
       config:
         - field.storage.node.field_product_trade_description
@@ -366,7 +366,7 @@ field_settings:
     label: 'Product Name'
     datasource_id: 'entity:node'
     property_path: field_product_name
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     boost: !!float 5
     dependencies:
       config:
@@ -375,7 +375,7 @@ field_settings:
     label: Title
     datasource_id: 'entity:node'
     property_path: title
-    type: solr_text_ngram
+    type: 'solr_text_custom:edge'
     boost: !!float 5
     dependencies:
       module:
@@ -453,3 +453,17 @@ options:
   index_directly: true
   cron_limit: 50
 server: acquia_search_server
+third_party_settings:
+  search_api_solr:
+    highlighter:
+      highlight:
+        snippets: 3
+        fragsize: 0
+    advanced:
+      index_prefix: ''
+    multilingual:
+      limit_to_content_language: false
+      include_language_independent: true
+    term_modifiers:
+      slop: 10000000
+      fuzzy: 2

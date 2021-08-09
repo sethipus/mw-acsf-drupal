@@ -245,7 +245,7 @@ class CarouselTest extends UnitTestCase {
     $config_mock->expects($this->any())->method('isNew')->willReturn(FALSE);
     $this->configFactoryMock->expects($this->once())->method('get')->willReturn($config_mock);
     $this->mediaHelperMock->expects($this->any())->method('getMediaUrl')->willReturn('test_image.jpeg');
-    $this->mediaHelperMock->expects($this->any())->method('getEntityMainMediaId')->willReturn(1);
+    $this->mediaHelperMock->expects($this->any())->method('getEntityMainMediaId')->willReturn('1');
     $variants_mock_node_array = [
       '__get' => [
         '_with' => 'field_product_sku',

@@ -254,7 +254,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
    */
   public function testShouldAddCardAjaxCallback() {
     $card_container = $this->homepageBlock->ajaxAddCardCallback(self::TEST_FORM, $this->formStateMock);
-    $this->assertArrayEquals(self::TEST_CARD, $card_container);
+    $this->assertEquals(self::TEST_CARD, $card_container);
   }
 
   /**
@@ -262,7 +262,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
    */
   public function testShouldRemoveCardAjaxCallback() {
     $card_container = $this->homepageBlock->ajaxRemoveCardCallback(self::TEST_FORM, $this->formStateMock);
-    $this->assertArrayEquals(self::TEST_CARD, $card_container);
+    $this->assertEquals(self::TEST_CARD, $card_container);
   }
 
   /**

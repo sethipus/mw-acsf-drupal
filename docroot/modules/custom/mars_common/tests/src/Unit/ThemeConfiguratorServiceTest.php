@@ -159,7 +159,7 @@ class ThemeConfiguratorServiceTest extends UnitTestCase {
     ]);
     $result = $this->themeConfiguratorService->themeSettingsAjaxAddSocial(static::FORM, $form_state);
 
-    $this->assertArrayEquals([
+    $this->assertEquals([
       '0' => [
         'icon' => 'icon.png',
         'link' => 'http://example.com',
@@ -216,7 +216,7 @@ class ThemeConfiguratorServiceTest extends UnitTestCase {
     ]);
     $result = $this->themeConfiguratorService->themeSettingsAjaxRemoveSocial(static::FORM, $form_state);
 
-    $this->assertArrayEquals([
+    $this->assertEquals([
       '0' => [
         'icon' => 'icon.png',
         'link' => 'http://example.com',

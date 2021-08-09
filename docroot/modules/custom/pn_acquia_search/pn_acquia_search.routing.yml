@@ -1,0 +1,7 @@
+pn_acquia_search.settings:
+  path: '/admin/config/mars/acquia_search'
+  defaults:
+    _form: 'Drupal\pn_acquia_search\Form\AcquiaSearchOverrideForm'
+    _title: 'Local Overrides for Acquia Search'
+  requirements:
+    _permission: 'administer site configuration'

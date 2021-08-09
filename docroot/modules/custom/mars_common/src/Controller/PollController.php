@@ -78,6 +78,7 @@ class PollController extends ControllerBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
+    if (1) {}
     return new static(
       $container->get('database'),
       $container->get('current_route_match'),
