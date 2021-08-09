@@ -4,14 +4,19 @@ namespace Drupal\mars_recipes\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\DependencyInjection\ClassResolverInterface;
+use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\MediaHelper;
 use Drupal\mars_media\SVG\SVG;
+use Drupal\mars_recipes\Form\RecipeEmailForm;
+use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -88,6 +93,27 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   private $languageHelper;
 
   /**
+   * The Form builder service.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  private $formBuilder;
+
+  /**
+   * The class resolver service.
+   *
+   * @var \Drupal\Core\DependencyInjection\ClassResolverInterface
+   */
+  private $classResolver;
+
+  /**
+   * The renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  private $renderer;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -99,7 +125,10 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     Token $token,
     ThemeConfiguratorParser $themeConfiguratorParser,
     MediaHelper $media_helper,
-    LanguageHelper $language_helper
+    LanguageHelper $language_helper,
+    FormBuilderInterface $form_builder,
+    ClassResolverInterface $class_resolver,
+    RendererInterface $renderer
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
@@ -109,6 +138,9 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->mediaHelper = $media_helper;
     $this->languageHelper = $language_helper;
+    $this->formBuilder = $form_builder;
+    $this->classResolver = $class_resolver;
+    $this->renderer = $renderer;
   }
 
   /**
@@ -124,7 +156,10 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       $container->get('token'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('mars_media.media_helper'),
-      $container->get('mars_common.language_helper')
+      $container->get('mars_common.language_helper'),
+      $container->get('form_builder'),
+      $container->get('class_resolver'),
+      $container->get('renderer')
     );
   }
 
@@ -201,11 +236,75 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $build['#use_custom_color'] = (bool) ($this->configuration['use_custom_color'] ?? 0);
     $build['#brand_shape_enabled'] = (bool) ($this->configuration['brand_shape_enabled'] ?? 0);
 
+    $build['#email_recipe'] = $this->getEmailRecipeData($block_config, $node);
+
+    $form_object = $this->classResolver
+      ->getInstanceFromDefinition(RecipeEmailForm::class);
+    $form_object->setRecipe($node);
+    $form_object->setContextData($build['#email_recipe']);
+
+    $recipe_form = $this->formBuilder->getForm($form_object);
+    $build['#email_recipe_form'] = (string) $this->renderer
+      ->renderRoot(
+        $recipe_form
+      );
+    $build['#attached'] = (isset($build['#attached']))
+      ? array_merge_recursive($build['#attached'], $recipe_form['#attached'])
+      : $recipe_form['#attached'];
+
     $cacheMetadata = CacheableMetadata::createFromRenderArray($build);
     $cacheMetadata->addCacheableDependency($label_config);
     $cacheMetadata->applyTo($build);
 
     return $build;
+  }
+
+  /**
+   * Get default values for recipe email functionality.
+   *
+   * @return array
+   *   Email recipe form default values.
+   */
+  public function getRecipeEmailDefault(): array {
+    return [
+      'email_hint' => $this->languageHelper->translate('Use email icon to send the Grocery and Recipe to email'),
+      'email_overlay_title' => $this->languageHelper->translate('Share your Recipe'),
+      'email_overlay_description' => $this->languageHelper->translate('Select options'),
+      'checkboxes_container' => [
+        'grocery_list' => $this->languageHelper->translate('Email a grocery list'),
+        'email_recipe' => $this->languageHelper->translate('Email a recipe'),
+      ],
+      'email_address_hint' => $this->languageHelper->translate('Email address'),
+      'error_message' => $this->languageHelper->translate('Please check your details'),
+      'cta_title' => $this->languageHelper->translate('Submit'),
+      'confirmation_message' => $this->languageHelper->translate('You are all set'),
+    ];
+  }
+
+  /**
+   * Get recipe data for email form.
+   *
+   * @param array|null $block_config
+   *   Block config.
+   * @param \Drupal\node\NodeInterface $node
+   *   Context recipe.
+   */
+  private function getEmailRecipeData(array $block_config, NodeInterface $node): ?array {
+    return (isset($block_config['email_recipe']) && $block_config['email_recipe'])
+      ? [
+        'email_hint' => $block_config['email_recipe_container']['email_hint'] ?? $this->getRecipeEmailDefault()['email_hint'],
+        'email_overlay_title' => $block_config['email_recipe_container']['email_overlay_title'] ?? $this->getRecipeEmailDefault()['email_overlay_title'],
+        'email_overlay_description' => $block_config['email_recipe_container']['email_overlay_description'] ?? $this->getRecipeEmailDefault()['email_overlay_description'],
+        'checkboxes_container' => [
+          'grocery_list' => $block_config['email_recipe_container']['checkboxes_container']['grocery_list'] ?? $this->getRecipeEmailDefault()['checkboxes_container']['grocery_list'],
+          'email_recipe' => $block_config['email_recipe_container']['checkboxes_container']['email_recipe'] ?? $this->getRecipeEmailDefault()['checkboxes_container']['email_recipe'],
+        ],
+        'email_address_hint' => $block_config['email_recipe_container']['email_address_hint'] ?? $this->getRecipeEmailDefault()['email_address_hint'],
+        'error_message' => $block_config['email_recipe_container']['error_message'] ?? $this->getRecipeEmailDefault()['error_message'],
+        'cta_title' => $block_config['email_recipe_container']['cta_title'] ?? $this->getRecipeEmailDefault()['cta_title'],
+        'confirmation_message' => $block_config['email_recipe_container']['confirmation_message'] ?? $this->getRecipeEmailDefault()['confirmation_message'],
+      ]
+      : NULL;
   }
 
   /**
@@ -294,7 +393,180 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#default_value' => $this->configuration['brand_shape_enabled'] ?? FALSE,
     ];
 
+    $this->buildEmailRecipeForm($form);
+
     return $form;
+  }
+
+  /**
+   * Email recipe feature part of form.
+   *
+   * @param array $form
+   *   Form array.
+   */
+  public function buildEmailRecipeForm(array &$form) {
+
+    $form['email_recipe'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Email recipe feature enabled'),
+      '#default_value' => $this->configuration['email_recipe'] ?? FALSE,
+    ];
+
+    $form['email_recipe_container'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Email recipe settings'),
+      '#open' => TRUE,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['email_recipe_container']['email_hint'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Hint'),
+      '#maxlength' => 160,
+      '#default_value' => $this->configuration['email_recipe_container']['email_hint'] ?? $this->getRecipeEmailDefault()['email_hint'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['email_recipe_container']['email_overlay_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Overlay title'),
+      '#maxlength' => 55,
+      '#default_value' => $this->configuration['email_recipe_container']['email_overlay_title'] ?? $this->getRecipeEmailDefault()['email_overlay_title'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['email_recipe_container']['email_overlay_description'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Overlay description'),
+      '#maxlength' => 150,
+      '#default_value' => $this->configuration['email_recipe_container']['email_overlay_description'] ?? $this->getRecipeEmailDefault()['email_overlay_description'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['email_recipe_container']['checkboxes_container'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Checkboxes labels'),
+      '#open' => TRUE,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['email_recipe_container']['checkboxes_container']['grocery_list'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Grocery list label'),
+      '#maxlength' => 55,
+      '#default_value' => $this->configuration['email_recipe_container']['checkboxes_container']['grocery_list'] ?? $this->getRecipeEmailDefault()['checkboxes_container']['grocery_list'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['email_recipe_container']['checkboxes_container']['email_recipe'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Email a recipe label'),
+      '#maxlength' => 55,
+      '#default_value' => $this->configuration['email_recipe_container']['checkboxes_container']['email_recipe'] ?? $this->getRecipeEmailDefault()['checkboxes_container']['email_recipe'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['email_recipe_container']['email_address_hint'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Email address hint'),
+      '#maxlength' => 35,
+      '#required' => TRUE,
+      '#default_value' => $this->configuration['email_recipe_container']['email_address_hint'] ?? $this->getRecipeEmailDefault()['email_address_hint'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+        'required' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['email_recipe_container']['error_message'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Error message'),
+      '#maxlength' => 100,
+      '#required' => TRUE,
+      '#default_value' => $this->configuration['email_recipe_container']['error_message'] ?? $this->getRecipeEmailDefault()['error_message'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+        'required' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['email_recipe_container']['cta_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('CTA title'),
+      '#maxlength' => 35,
+      '#required' => TRUE,
+      '#default_value' => $this->configuration['email_recipe_container']['cta_title'] ?? $this->getRecipeEmailDefault()['cta_title'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+        'required' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['email_recipe_container']['confirmation_message'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Confirmation message'),
+      '#maxlength' => 55,
+      '#required' => TRUE,
+      '#default_value' => $this->configuration['email_recipe_container']['confirmation_message'] ?? $this->getRecipeEmailDefault()['confirmation_message'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+        'required' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+    $form['email_recipe_container']['captcha'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable captcha'),
+      '#default_value' => $this->configuration['email_recipe_container']['captcha'] ?? TRUE,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
   }
 
   /**
