@@ -92,6 +92,11 @@
       grid-column-gap: 2rem;
     }
 
+    // images hover overlap issue fix
+    @include large {
+      grid-column-gap: 3rem;
+    }
+
     @include larger {
       margin-left: auto;
       margin-right: auto;
@@ -104,10 +109,6 @@
     &.grid-items-2 {
       @include medium {
         grid-template-columns: 1fr 1fr;
-      }
-
-      @include xl {
-        grid-column-gap: 3rem;
       }
 
       max-width: 120.8rem;
