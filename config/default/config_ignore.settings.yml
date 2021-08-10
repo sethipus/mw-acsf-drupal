@@ -47,6 +47,7 @@ ignored_config_entities:
   - mars_common.disable_language
   - 'ultimate_cron.job.*'
   - 'sendgrid_integration.settings:apikey'
+  - mars_common.emails_configuration
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: true

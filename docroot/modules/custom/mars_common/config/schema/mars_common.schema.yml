@@ -100,7 +100,7 @@ mars_common.emails_configuration:
       type: string
       label: 'FROM email'
     grocery_list_subject:
-      type: string
+      type: label
       label: 'Grocery list email subject'
     grocery_list_body:
       type: text
@@ -112,7 +112,7 @@ mars_common.emails_configuration:
       type: string
       label: 'FROM email'
     recipe_subject:
-      type: string
+      type: label
       label: 'Recipe email subject'
     recipe_body:
       type: text
@@ -120,6 +120,6 @@ mars_common.emails_configuration:
     recipe_signature:
       type: text
       label: 'Recipe email signature'
-    language:
+    default_langcode:
       type: string
-      label: 'Language code'
+      label: 'Site default language code'
