@@ -1,6 +1,9 @@
 {{ attach_library('emulsifymars/recommendations-module') }}
 {% set recommendations_base_class = recommendations_base_class|default('recommendations') %}
 {% set border_overflow = overlaps_previous ? '' : 'no-overflow' %}
+{% if brand_border is not empty %}
+  {% set recommendations_modifiers = ['brand-border'] %}
+{% endif %}
 
 <section id="recommendations" {{ bem(recommendations_base_class, recommendations_modifiers) }} data-theme="{{ theme_styles }}">
   {% if brand_border is not empty %}

@@ -1,7 +1,10 @@
 {% set related_recipes__base_class = 'flexible-framer' %}
 {% set border_overflow = overlaps_previous ? '' : 'no-overflow' %}
+{% if brand_border is not empty %}
+  {% set related_recipes_modifiers = ['brand-border'] %}
+{% endif %}
 
-<section {{ bem(related_recipes__base_class) }} data-theme="{{ theme_styles }}"
+<section {{ bem(related_recipes__base_class, related_recipes_modifiers) }} data-theme="{{ theme_styles }}"
   {% if select_background_color|length > 0 %}
     style="background-color: {{ 'var(' ~ select_background_color ~ ')' }}"
   {% endif %}
