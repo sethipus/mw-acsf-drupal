@@ -86,7 +86,7 @@
         "emulsify-ds/emulsify-drupal": "^3.0",
         "eyecon/jquery_colorpicker": "master",
         "mars/mars_lighthouse": "dev-master",
-        "mars/mars_seo": "*",
+        "mars/mars_seo": "dev-master",
         "mikemadison13/blt-azure-pipelines": "dev-master",
         "symfony/string": "^5.3"
     },
