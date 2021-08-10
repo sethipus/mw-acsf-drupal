@@ -4,6 +4,8 @@ namespace Drupal\mars_recipes\Form;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\InsertCommand;
+use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormInterface;
@@ -64,29 +66,28 @@ class RecipeEmailForm extends FormBase implements FormInterface {
     $form['context_data']['#value'] = $this->contextData;
 
     $form['#id'] = Html::getId($this->getFormId());
-    if ($form_state->get('email_form_submitted')) {
+    if ($form_state->get('email_form_submitted') && !$form_state->get('validation_error')) {
       $form['#theme'] = 'recipe_email_final';
     }
     else {
       $form['grocery_list'] = [
         '#type' => 'checkbox',
-        '#title' => $this->t('Email a grocery list'),
+        '#title' => $this->contextData['checkboxes_container']['grocery_list'] ?? $this->t('Email a grocery list'),
         '#default_value' => FALSE,
-        '#description' => $this->t('Email a grocery lis'),
+        '#description' => $this->contextData['checkboxes_container']['grocery_list'] ?? $this->t('Email a grocery list'),
       ];
 
       $form['email_recipe'] = [
         '#type' => 'checkbox',
-        '#title' => $this->t('Email a recipe'),
+        '#title' => $this->contextData['checkboxes_container']['email_recipe'] ?? $this->t('Email a recipe'),
         '#default_value' => FALSE,
-        '#description' => $this->t('Email a recipe'),
+        '#description' => $this->contextData['checkboxes_container']['email_recipe'] ?? $this->t('Email a recipe'),
       ];
 
       $form['email'] = [
-        '#type' => 'email',
-        '#title' => $this->t('Email address'),
-        '#required' => TRUE,
-        '#description' => $this->t('Email address'),
+        '#type' => 'textfield',
+        '#title' => $this->contextData['email_address_hint'] ?? $this->t('Email address'),
+        '#description' => $this->contextData['email_address_hint'] ?? $this->t('Email address'),
       ];
 
       $form['#theme'] = 'recipe_email';
@@ -98,8 +99,7 @@ class RecipeEmailForm extends FormBase implements FormInterface {
       $form['actions']['submit'] = [
         '#type' => 'submit',
         '#name' => 'submit',
-        '#value' => 'Submit',
-        '#validate' => ['::validateEmailForm'],
+        '#value' => $this->contextData['cta_title'] ?? $this->t('Submit'),
         '#submit' => ['::submitEmailForm'],
         '#ajax' => [
           'callback' => [static::class, 'ajaxReplaceForm'],
@@ -116,16 +116,57 @@ class RecipeEmailForm extends FormBase implements FormInterface {
    * Ajax callback to replace the email recipe form.
    */
   public static function ajaxReplaceForm(array &$form, FormStateInterface $form_state) {
-    /** @var \Drupal\Core\Render\RendererInterface $renderer */
-    $renderer = \Drupal::service('renderer');
-    // Render the form.
-    $output = $renderer->renderRoot($form);
-
     $response = new AjaxResponse();
-    $response->setAttachments($form['#attached']);
 
-    // Replace the form completely and return it.
-    return $response->addCommand(new ReplaceCommand('#' . $form['#id'], $output));
+    $email = $form_state->getValue('email');
+    $grocery_value = $form_state->getValue('grocery_list');
+    $email_recipe_value = $form_state->getValue('email_recipe');
+
+    // Clear error styles.
+    $response->addCommand(new InvokeCommand(
+      '#' . $form['#id'] . ' input',
+      'removeClass',
+      ['error-border']
+    ));
+
+    // Error border for checkboxes.
+    if (!$grocery_value && !$email_recipe_value) {
+      $response->addCommand(new InvokeCommand(
+        '[name=email_recipe], [name=grocery_list]',
+        'addClass',
+        ['error-border']
+      ));
+    }
+
+    // Error border for email field.
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $response->addCommand(new InvokeCommand(
+        '[name=email]',
+        'addClass',
+        ['error-border']
+      ));
+    }
+
+    // Add error message.
+    if (!static::isValidSubmit($form_state)) {
+      $error_message = $form_state->getValue('context_data')['error_message'];
+      $response->addCommand(new InsertCommand(
+        '.email-recipe-message',
+        $error_message
+      ));
+    }
+    else {
+      // Success response.
+      /** @var \Drupal\Core\Render\RendererInterface $renderer */
+      $renderer = \Drupal::service('renderer');
+      // Render the form.
+      $output = $renderer->renderRoot($form);
+      $response->setAttachments($form['#attached']);
+
+      // Replace the form completely and return it.
+      $response->addCommand(new ReplaceCommand('#' . $form['#id'], $output));
+    }
+    return $response;
   }
 
   /**
@@ -144,20 +185,32 @@ class RecipeEmailForm extends FormBase implements FormInterface {
    *   Form state object.
    */
   public function submitEmailForm(array $form, FormStateInterface $form_state) {
-    $form_state->set('email_form_submitted', TRUE);
+    if (static::isValidSubmit($form_state)) {
+      $form_state->set('email_form_submitted', TRUE);
+    }
+    else {
+      $form_state->set('validation_error', TRUE);
+    }
     $form_state->setRebuild(TRUE);
   }
 
   /**
-   * Validates the vote action.
+   * Validate submit data.
    *
-   * @param array $form
-   *   Form array.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   Form state object.
+   *
+   * @return bool
+   *   Valid or not.
    */
-  public function validateEmailForm(array &$form, FormStateInterface $form_state) {
+  public static function isValidSubmit(FormStateInterface $form_state): bool {
+    $email = $form_state->getValue('email');
+    $grocery_value = $form_state->getValue('grocery_list');
+    $email_recipe_value = $form_state->getValue('email_recipe');
 
+    return !((!$grocery_value && !$email_recipe_value)
+    || empty($email)
+    || !filter_var($email, FILTER_VALIDATE_EMAIL));
   }
 
 }

@@ -341,25 +341,25 @@ class RecipeDetailHeroTest extends UnitTestCase {
       ]);
 
     $this->classResolverMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('getInstanceFromDefinition')
       ->willReturn($this->recipeEmailFormMock);
 
     $this->recipeEmailFormMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('setRecipe');
 
     $this->recipeEmailFormMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('setContextData');
 
     $this->formBuilderMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('getForm')
       ->willReturn(['#attached' => []]);
 
     $this->rendererMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('renderRoot')
       ->willReturn('form_markup');
 

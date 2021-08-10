@@ -238,19 +238,21 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
 
     $build['#email_recipe'] = $this->getEmailRecipeData($block_config, $node);
 
-    $form_object = $this->classResolver
-      ->getInstanceFromDefinition(RecipeEmailForm::class);
-    $form_object->setRecipe($node);
-    $form_object->setContextData($build['#email_recipe']);
+    if (isset($block_config['email_recipe']) && $block_config['email_recipe']) {
+      $form_object = $this->classResolver
+        ->getInstanceFromDefinition(RecipeEmailForm::class);
+      $form_object->setRecipe($node);
+      $form_object->setContextData($build['#email_recipe']);
 
-    $recipe_form = $this->formBuilder->getForm($form_object);
-    $build['#email_recipe_form'] = (string) $this->renderer
-      ->renderRoot(
-        $recipe_form
-      );
-    $build['#attached'] = (isset($build['#attached']))
-      ? array_merge_recursive($build['#attached'], $recipe_form['#attached'])
-      : $recipe_form['#attached'];
+      $recipe_form = $this->formBuilder->getForm($form_object);
+      $build['#email_recipe_form'] = (string) $this->renderer
+        ->renderRoot(
+          $recipe_form
+        );
+      $build['#attached'] = (isset($build['#attached']))
+        ? array_merge_recursive($build['#attached'], $recipe_form['#attached'])
+        : $recipe_form['#attached'];
+    }
 
     $cacheMetadata = CacheableMetadata::createFromRenderArray($build);
     $cacheMetadata->addCacheableDependency($label_config);
