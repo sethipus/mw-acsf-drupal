@@ -91,3 +91,35 @@ block.settings.header_block:
         mobile_search_right_menu_section:
           type: string
           label: 'Override right menu section on mobile'
+
+mars_common.emails_configuration:
+  type: config_object
+  label: 'Emails configuration'
+  mapping:
+    grocery_list_from:
+      type: string
+      label: 'FROM email'
+    grocery_list_subject:
+      type: string
+      label: 'Grocery list email subject'
+    grocery_list_body:
+      type: text
+      label: 'Grocery list email body'
+    grocery_list_signature:
+      type: text
+      label: 'Grocery list email signature'
+    recipe_from:
+      type: string
+      label: 'FROM email'
+    recipe_subject:
+      type: string
+      label: 'Recipe email subject'
+    recipe_body:
+      type: text
+      label: 'Recipe email body'
+    recipe_signature:
+      type: text
+      label: 'Recipe email signature'
+    language:
+      type: string
+      label: 'Language code'
