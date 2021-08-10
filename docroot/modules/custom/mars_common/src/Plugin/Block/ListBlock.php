@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 
 /**
- * Class ListBlock.
+ * Class ListBlock is responsible for List component logic.
  *
  * @Block(
  *   id = "list_block",

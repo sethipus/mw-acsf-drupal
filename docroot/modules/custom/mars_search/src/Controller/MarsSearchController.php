@@ -195,11 +195,12 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
             'word_boundary' => TRUE,
             'ellipsis' => TRUE,
           ];
+          $suggestion_value = str_replace('&nbsp;', ' ', strip_tags($entity->get('field_qa_item_question')->value));
           $suggestions[] = [
             '#type' => 'html_tag',
             '#tag' => 'button',
             '#attributes' => [],
-            '#value' => FieldPluginBase::trimText($alter, strip_tags($entity->get('field_qa_item_question')->value)),
+            '#value' => FieldPluginBase::trimText($alter, $suggestion_value),
           ];
         }
         else {
@@ -210,7 +211,10 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       $search_url = $this->searchHelper->getAliasForSearchUrl();
 
       $show_all = isset($options['cards_view']) ? [
-        'title' => $this->t('@show_all "@keys"', ['@show_all' => 'Show All Results for', '@keys' => $options['keys']]),
+        'title' => $this->t('@show_all "@keys"', [
+          '@show_all' => 'Show All Results for',
+          '@keys' => $options['keys'],
+        ]),
         'attributes' => [
           'href' => urldecode(Url::fromUri('internal:' . $search_url, [
             'query' => [

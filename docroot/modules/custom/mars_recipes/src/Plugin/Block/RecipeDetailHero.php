@@ -20,7 +20,7 @@ use Drupal\Core\Utility\Token;
 use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 
 /**
- * Class RecipeDetailHero.
+ * Class RecipeDetailHero - recipe detail hero logic.
  *
  * @Block(
  *   id = "recipe_detail_hero",

@@ -369,7 +369,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'text_block' => [
       'variables' => [
-        'drop_cap' => NULL,
+        'header' => NULL,
         'content' => NULL,
       ],
       'template' => 'text-block',
@@ -561,9 +561,7 @@ function mars_common_preprocess_block__inline_block__list(array &$variables) {
  */
 function mars_common_preprocess_block__inline_block__text_component(array &$variables) {
   $field_body = $variables['content']['field_text_component_body'];
-  $field_drop_cap = $variables['content']['field_text_component_drop_cap'];
   $variables['content'] = $field_body['#items'][0]->value;
-  $variables['drop_cap'] = $field_drop_cap['#items'][0]->value;
 }
 
 /**
@@ -1208,7 +1206,7 @@ function _mars_common_form_menu_edit_form_validate(array &$form, FormStateInterf
       ]
     ));
 
-    // TODO: find a proper fix.
+    // @todo find a proper fix.
     /*
      * Upon validation error, the form should show the invalid state in which it
      * was submitted. In this case because of tabledrag behavior, upon
@@ -1647,7 +1645,10 @@ function mars_common_include_ief_entities(array $entity_form, FormStateInterface
  * Implements hook_pathauto_punctuation_chars_alter().
  */
 function mars_common_pathauto_punctuation_chars_alter(array &$punctuation) {
-  $punctuation['registered_trademark'] = ['value' => '®', 'name' => t('Registered trademark symbol')];
+  $punctuation['registered_trademark'] = [
+    'value' => '®',
+    'name' => t('Registered trademark symbol'),
+  ];
 }
 
 /**

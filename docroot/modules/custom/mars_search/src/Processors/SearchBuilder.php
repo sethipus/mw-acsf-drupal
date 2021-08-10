@@ -13,7 +13,7 @@ use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Class SearchBuilder.
+ * Class SearchBuilder - core logic of search processing.
  */
 class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInterface {
 
@@ -228,7 +228,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
   private function sortTopResults(array $results, array $weights) {
     $results_weighted = [];
     foreach ($results as $result) {
-      /* @var \Drupal\node\NodeInterface $result */
+      /** @var \Drupal\node\NodeInterface $result */
       $results_weighted[$weights[$result->id()]] = $result;
     }
     ksort($results_weighted);
@@ -593,7 +593,10 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $menu_links = [];
     if (!empty($menu['#items'])) {
       foreach ($menu['#items'] as $item) {
-        array_push($menu_links, ['title' => $item['title'], 'url' => $item['url']->setAbsolute()->toString()]);
+        array_push($menu_links, [
+          'title' => $item['title'],
+          'url' => $item['url']->setAbsolute()->toString(),
+        ]);
       }
     }
     return $menu_links;

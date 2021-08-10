@@ -8,7 +8,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Class SearchCategories.
+ * Class SearchCategories - search categories logic.
  */
 class SearchCategories implements SearchCategoriesInterface, SearchProcessManagerInterface {
 

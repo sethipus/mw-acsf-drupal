@@ -19,7 +19,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Utility\Token;
 
 /**
- * Class ArticleHeader.
+ * Class ArticleHeader is responsible for article header logic.
  *
  * @Block(
  *   id = "article_header",

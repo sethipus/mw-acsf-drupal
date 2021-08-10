@@ -8,7 +8,7 @@ use Drupal\depcalc\Event\SectionComponentDependenciesEvent;
 use Drupal\depcalc\EventSubscriber\DependencyCollector\BaseDependencyCollector;
 
 /**
- * Class ManualRecommendationBlockCollector.
+ * Class ManualRecommendationBlockCollector is responsible for dep calculation.
  */
 class ManualRecommendationBlockCollector extends BaseDependencyCollector {
 
