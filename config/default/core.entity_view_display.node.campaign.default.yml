@@ -122,10 +122,12 @@ third_party_settings:
             'Mars Common':
               - contact_help_banner_block
               - feedback_block
+              - freeform_story_block
               - iframe_block
               - js_block
               - newsletter_signup_form
               - poll_block
+              - product_feature
               - recommendations_module
               - story_highlight
             'Mars Product':
