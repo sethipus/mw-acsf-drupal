@@ -18,7 +18,7 @@ id: node.recipe.field_recipe_image
 field_name: field_recipe_image
 entity_type: node
 bundle: recipe
-label: 'Image (Desktop)'
+label: Image
 description: ''
 required: true
 translatable: false
