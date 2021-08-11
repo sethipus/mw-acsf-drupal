@@ -157,6 +157,7 @@ class ThemeConfiguratorService {
     FormStateInterface $form_state,
     array $config = NULL
   ) {
+    global $base_url;
     $form_storage = $form_state->getStorage();
     $social_settings = !empty($config) ? $config['social'] : theme_get_setting('social');
     // Init social form elements.
@@ -531,6 +532,7 @@ class ThemeConfiguratorService {
       '#preview_image_style' => 'medium',
       '#default_value'       => $this->getIconSettingsData('brand_borders', $config),
     ];
+    $image_path = $base_url . '/themes/custom/emulsifymars/images/';
 
     $form['icons_settings']['brand_border_style'] = [
       '#type'          => 'radios',
@@ -541,6 +543,7 @@ class ThemeConfiguratorService {
         self::BORDER_STYLE_REPEAT => $this->t('Repeat'),
         self::BORDER_STYLE_STRETCH => $this->t('Stretch'),
       ],
+      '#markup' => '<b>Example</b>: <br /><br />Repeat <img src="' . $image_path . 'border_style_repeat.svg' . '"/><br />Stretch <img src="' . $image_path . 'border_style_stretch.svg' . '"/>',
     ];
 
     $form['icons_settings']['brand_borders_2'] = [
