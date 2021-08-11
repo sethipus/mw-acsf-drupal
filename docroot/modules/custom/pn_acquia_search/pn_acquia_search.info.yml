@@ -1,7 +1,0 @@
-name: 'PN Acquia Search'
-description: 'Overrides to facilitate local development against Acquia Solr search.'
-package: 'PN Custom'
-type: module
-core_version_requirement: '^8.8 || ^9'
-dependencies:
-  - acquia_search:acquia_search
