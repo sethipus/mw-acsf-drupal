@@ -9,7 +9,6 @@ folder: ../config/envs/stage
 module:
   acquia_connector: 0
   history: 0
-  shield: 0
   syslog: 0
   acsf: 0
   acsf_duplication: 0
