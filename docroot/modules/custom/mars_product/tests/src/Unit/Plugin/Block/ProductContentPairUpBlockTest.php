@@ -295,7 +295,7 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
 
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->mediaHelperMock->method('getEntityMainMediaId')
-      ->willReturn(1);
+      ->willReturn('1');
     $this->mediaHelperMock->method('getMediaParametersById')
       ->willReturn(
         [

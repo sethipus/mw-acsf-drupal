@@ -47,9 +47,9 @@ trait SelectBackgroundColorTrait {
         '#title' => $this->t('Select background color'),
         '#options' => [
           'default' => $this->t('Default'),
-          'color_c' => 'Color C - #' . $color_c,
-          'color_d' => 'Color D - #' . $color_d,
-          'color_e' => 'Color E - #' . $color_e,
+          'color_c' => 'Color C - ' . $color_c,
+          'color_d' => 'Color D - ' . $color_d,
+          'color_e' => 'Color E - ' . $color_e,
         ],
         '#default_value' => $this->configuration['select_background_color'] ?? '',
       ];

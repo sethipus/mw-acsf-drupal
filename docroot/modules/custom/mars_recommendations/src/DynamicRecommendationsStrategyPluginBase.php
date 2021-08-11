@@ -3,15 +3,20 @@
 namespace Drupal\mars_recommendations;
 
 use Drupal;
+use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginBase;
+use Drupal\Core\Plugin\ContextAwarePluginTrait;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Base class for dynamic_recommendations_strategy plugins.
  */
-abstract class DynamicRecommendationsStrategyPluginBase extends ContextAwarePluginBase implements DynamicRecommendationsStrategyInterface, ContainerFactoryPluginInterface {
+abstract class DynamicRecommendationsStrategyPluginBase extends PluginBase implements DynamicRecommendationsStrategyInterface, ContainerFactoryPluginInterface {
+
+  use ContextAwarePluginTrait;
+  use StringTranslationTrait;
 
   /**
    * Node storage.

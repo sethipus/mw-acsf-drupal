@@ -230,7 +230,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#text_color_override' => FALSE,
     ];
 
-    $this->assertArrayEquals($expected, $build);
+    $this->assertEquals($expected, $build);
   }
 
   /**
@@ -293,7 +293,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#text_color_override' => FALSE,
     ];
 
-    $this->assertArrayEquals($expected, $build);
+    $this->assertEquals($expected, $build);
   }
 
   /**
@@ -354,7 +354,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#text_color_override' => FALSE,
     ];
 
-    $this->assertArrayEquals($expected, $build);
+    $this->assertEquals($expected, $build);
   }
 
   /**

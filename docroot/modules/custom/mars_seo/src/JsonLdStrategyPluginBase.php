@@ -3,9 +3,11 @@
 namespace Drupal\mars_seo;
 
 use Drupal\Component\Plugin\Exception\PluginException;
+use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginBase;
+use Drupal\Core\Plugin\ContextAwarePluginTrait;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\mars_media\MediaHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -13,7 +15,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Base class for Mars JSON LD Strategy plugins.
  */
-abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implements JsonLdStrategyInterface, ContainerFactoryPluginInterface {
+abstract class JsonLdStrategyPluginBase extends PluginBase implements JsonLdStrategyInterface, ContainerFactoryPluginInterface {
+
+  use ContextAwarePluginTrait;
 
   /**
    * Supported node types.

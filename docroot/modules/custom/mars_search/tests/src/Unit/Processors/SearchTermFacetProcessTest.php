@@ -296,7 +296,7 @@ class SearchTermFacetProcessTest extends UnitTestCase {
     $expected = [
       'result' => 'test',
     ];
-    $this->assertArrayEquals($expected, $has_query_key);
+    $this->assertEquals($expected, $has_query_key);
   }
 
 }

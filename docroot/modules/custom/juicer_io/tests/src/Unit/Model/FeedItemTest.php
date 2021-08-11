@@ -34,7 +34,7 @@ class FeedItemTest extends UnitTestCase {
 
     $item = new FeedItem($image_url, $unformatted_message, $link, $created_at);
 
-    $this->assertArrayEquals($expected_array, $item->toArray());
+    $this->assertEquals($expected_array, $item->toArray());
   }
 
   /**

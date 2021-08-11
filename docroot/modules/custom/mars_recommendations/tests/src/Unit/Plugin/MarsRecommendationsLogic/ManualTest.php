@@ -281,7 +281,7 @@ class ManualTest extends UnitTestCase {
   public function testAjaxCallbackProperly() {
     $form = self::TEST_FORM;
     $nodes = $this->manual->ajaxCallback($form, $this->formStateMock);
-    $this->assertArrayEquals([], $nodes);
+    $this->assertEquals([], $nodes);
   }
 
   /**

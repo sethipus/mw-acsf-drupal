@@ -144,7 +144,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     );
 
     $build = $block->build();
-    $this->assertArrayEquals([], $build);
+    $this->assertEquals([], $build);
   }
 
   /**
@@ -257,12 +257,12 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $this->assertIsArray($form['population']['plugin_id']);
     $this->assertEquals($form['population']['plugin_id']['#type'], 'radios');
     $this->assertEquals($form['population']['plugin_id']['#title'], $this->t('Population Logic'));
-    $this->assertArrayEquals($form['population']['plugin_id']['#options'], Drupal::service('mars_recommendations.recommendations_service')->getPopulationLogicOptions());
+    $this->assertEquals($form['population']['plugin_id']['#options'], Drupal::service('mars_recommendations.recommendations_service')->getPopulationLogicOptions());
     $this->assertTrue($form['population']['plugin_id']['#required']);
 
     $this->assertArrayHasKey('configuration', $form['population']);
     $this->assertIsArray($form['population']['configuration']);
-    $this->assertArrayEquals([
+    $this->assertEquals([
       '#type' => 'container',
       '#attributes' => [
         'id' => 'recommendations-population-configuration',
@@ -308,12 +308,12 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $this->assertIsArray($form['population']['plugin_id']);
     $this->assertEquals($form['population']['plugin_id']['#type'], 'radios');
     $this->assertEquals($form['population']['plugin_id']['#title'], $this->t('Population Logic'));
-    $this->assertArrayEquals($form['population']['plugin_id']['#options'], Drupal::service('mars_recommendations.recommendations_service')->getPopulationLogicOptions());
+    $this->assertEquals($form['population']['plugin_id']['#options'], Drupal::service('mars_recommendations.recommendations_service')->getPopulationLogicOptions());
     $this->assertTrue($form['population']['plugin_id']['#required']);
 
     $this->assertArrayHasKey('configuration', $form['population']);
     $this->assertIsArray($form['population']['configuration']);
-    $this->assertArrayEquals([
+    $this->assertEquals([
       '#type' => 'container',
       '#attributes' => [
         'id' => 'recommendations-population-configuration',
@@ -346,7 +346,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $this->assertIsArray($form['population']['plugin_id']);
     $this->assertEquals($form['population']['plugin_id']['#type'], 'radios');
     $this->assertEquals($form['population']['plugin_id']['#title'], $this->t('Population Logic'));
-    $this->assertArrayEquals($form['population']['plugin_id']['#options'], Drupal::service('mars_recommendations.recommendations_service')->getPopulationLogicOptions());
+    $this->assertEquals($form['population']['plugin_id']['#options'], Drupal::service('mars_recommendations.recommendations_service')->getPopulationLogicOptions());
     $this->assertTrue($form['population']['plugin_id']['#required']);
     $this->assertEquals($form['population']['plugin_id']['#default_value'], 'test_plugin_1');
 
@@ -354,7 +354,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $this->assertIsArray($form['population']['configuration']);
     $this->assertEquals($form['population']['configuration']['#type'], 'container');
     $this->assertIsArray($form['population']['configuration']['subform']);
-    $this->assertArrayEquals(self::TEST_PLUGIN_CONFIGURATION_FORM, $form['population']['configuration']['subform']);
+    $this->assertEquals(self::TEST_PLUGIN_CONFIGURATION_FORM, $form['population']['configuration']['subform']);
   }
 
   /**
@@ -507,7 +507,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $form = self::TEST_FORM;
     $configuration_form = $block->getPopulationLogicSettingsForm($form, $this->formStateMock);
 
-    $this->assertArrayEquals($expected, $configuration_form);
+    $this->assertEquals($expected, $configuration_form);
   }
 
   /**

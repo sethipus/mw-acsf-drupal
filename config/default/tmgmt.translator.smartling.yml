@@ -34,4 +34,6 @@ settings:
     login: ''
     password: ''
   download_by_job_items: false
+  exclude_translatable_attributes: ''
+  force_block_for_tags: ''
 remote_languages_mappings: {  }

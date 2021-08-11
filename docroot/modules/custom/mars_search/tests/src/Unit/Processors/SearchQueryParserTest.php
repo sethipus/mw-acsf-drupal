@@ -111,7 +111,7 @@ class SearchQueryParserTest extends UnitTestCase {
         'title' => 'ASC',
       ],
     ];
-    $this->assertArrayEquals($expected, $filter);
+    $this->assertEquals($expected, $filter);
   }
 
   /**
@@ -168,7 +168,7 @@ class SearchQueryParserTest extends UnitTestCase {
       ],
     ];
 
-    $this->assertArrayEquals($expected, $resultSearchOptions);
+    $this->assertEquals($expected, $resultSearchOptions);
   }
 
 }
