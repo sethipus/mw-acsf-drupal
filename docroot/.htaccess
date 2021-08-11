@@ -192,6 +192,82 @@ AddEncoding gzip svgz
   RewriteCond %{HTTP_HOST} ^www\.unclebens\.de$ [NC]
   RewriteRule ^(.*)$ https://de.bensoriginal.com/$1 [R=301,L]
 
+ # Adding redirect for unclebens.fr to www.bensoriginal.fr
+ # Quick fix. Must be removed once redirect will be done externaly.
+ RewriteCond %{HTTP_HOST} ^unclebens\.fr$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.fr$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.fr$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.fr$ [NC]
+ RewriteRule ^(.*)$ https://fr.bensoriginal.com/$1 [R=301,L]
+
+ # Adding redirect for unclebens.ca to  www.bensoriginal.ca
+ # Quick fix. Must be removed once redirect will be done externaly.
+ RewriteCond %{HTTP_HOST} ^unclebens\.ca$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.ca$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.ca$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.ca$ [NC]
+ RewriteRule ^(.*)$ https://ca.bensoriginal.com/$1 [R=301,L]
+
+ # Adding redirect for unclebens.no to  www.bensoriginal.no
+ # Quick fix. Must be removed once redirect will be done externaly.
+ RewriteCond %{HTTP_HOST} ^unclebens\.no$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.no$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.no$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.no$ [NC]
+ RewriteRule ^(.*)$ https://no.bensoriginal.com/$1 [R=301,L]
+
+ # Adding redirect for unclebens.fi to www.bensoriginal.fi
+ # Quick fix. Must be removed once redirect will be done externally.
+ RewriteCond %{HTTP_HOST} ^unclebens\.fi$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.fi$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.fi$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.fi$ [NC]
+ RewriteRule ^(.*)$ https://fi.bensoriginal.com/$1 [R=301,L]
+
+ # Adding redirect for unclebens.se to www.bensoriginal.se
+ # Quick fix. Must be removed once redirect will be done externally.
+ RewriteCond %{HTTP_HOST} ^unclebens\.se$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.se$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.se$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.se$ [NC]
+ RewriteRule ^(.*)$ https://se.bensoriginal.com/$1 [R=301,L]
+
+ # Adding redirect for unclebens.dk to www.bensoriginal.dk
+ # Quick fix. Must be removed once redirect will be done externally.
+ RewriteCond %{HTTP_HOST} ^unclebens\.dk$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.dk$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.dk$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.dk$ [NC]
+ RewriteRule ^(.*)$ https://dk.bensoriginal.com/$1 [R=301,L]
+
+ # Adding redirect for unclebens.be to www.bensoriginal.be
+ # Quick fix. Must be removed once redirect will be done externally.
+ RewriteCond %{HTTP_HOST} ^unclebens\.be$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.be$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.be$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.be$ [NC]
+ RewriteRule ^(.*)$ https://be.bensoriginal.com/$1 [R=301,L]
+
+ # Adding redirect for unclebens.com.au to www.bensoriginal.com.au
+ # Quick fix. Must be removed once redirect will be done externally.
+ RewriteCond %{HTTP_HOST} ^unclebens\.com.au$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^unclebens\.co.nz$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.com.au$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.co.nz$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.com.au$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.co.nz/$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.co.nz$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.com.au$ [NC]
+ RewriteRule ^(.*)$ https://au.bensoriginal.com/$1 [R=301,L]
+
+ # Adding redirect for unclebens.gr to www.bensoriginal.gr
+ # Quick fix. Must be removed once redirect will be done externally.
+ RewriteCond %{HTTP_HOST} ^unclebens\.gr$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.gr$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.gr$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.gr$ [NC]
+ RewriteRule ^(.*)$ https://gr.bensoriginal.com/$1 [R=301,L]
+
   # Redirect common PHP files to their new locations.
   RewriteCond %{REQUEST_URI} ^(.*)?/(install.php) [OR]
   RewriteCond %{REQUEST_URI} ^(.*)?/(rebuild.php)

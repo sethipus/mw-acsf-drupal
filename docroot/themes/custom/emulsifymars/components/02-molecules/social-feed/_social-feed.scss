@@ -4,6 +4,19 @@
   background-color: clr(subcolor-2);
   @include brand-border-overflow;
 
+  &__border {
+    margin-top: 0;
+    padding-top: 14.6rem;
+
+    @include medium {
+      padding-top: 12.61rem;
+    }
+
+    @include xl {
+      padding-top: 6.41rem;
+    }
+  }
+
   &__content {
     position: relative;
     padding-bottom: 8rem;
@@ -35,6 +48,16 @@
       @include large {
         font-size: 6.4rem;
         margin-bottom: 6rem;
+      }
+    }
+  }
+
+  &__border + &__content &__heading {
+    h2 {
+      margin-top: 1.6rem;
+
+      @include medium {
+        margin-top: 2rem;
       }
     }
   }

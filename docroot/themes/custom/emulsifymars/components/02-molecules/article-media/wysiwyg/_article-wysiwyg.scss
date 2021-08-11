@@ -22,6 +22,27 @@
     margin: 0 auto;
   }
 
+  &__heading {
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    margin: 50px 0 20px;
+
+    @include medium {
+      font-size: 2.6rem;
+      letter-spacing: 0.13rem;
+      margin: 60px 0 30px;
+    }
+
+    @include xl {
+      font-size: 2.8rem;
+      letter-spacing: 0.14rem;
+      margin: 60px 0 30px;
+    }
+  }
+
   &__content {
     margin: 0 20px;
 
