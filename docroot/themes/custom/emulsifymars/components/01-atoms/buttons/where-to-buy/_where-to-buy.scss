@@ -53,9 +53,14 @@
     display: flex;
     justify-content: center;
 
+    @include medium {
+      padding: 0 59px;
+    }
+
     @include large {
       display: inline-block;
       width: auto;
+      padding: 0;
     }
 
     .where-to-buy-button {
@@ -78,11 +83,12 @@
       }
     }
 
-    .ps-widget {
+    .ps-widget.ps-enabled[ps-sku] {
       flex-grow: 1;
 
       @include large {
         flex-grow: 0;
+        min-width: 202px;
       }
     }
   }
