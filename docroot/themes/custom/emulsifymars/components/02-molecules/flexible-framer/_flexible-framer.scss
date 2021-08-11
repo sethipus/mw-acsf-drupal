@@ -34,6 +34,12 @@
   background-color: clr(subcolor-2);
   color: clr(primary);
 
+  &__border {
+    &--no-overflow {
+      margin-top: 3.36rem;
+    }
+  }
+
   &__heading {
     @include set-font($font-type: 'heading-font');
 
@@ -66,6 +72,12 @@
     margin-bottom: 6rem;
   }
 
+  &--brand-border {
+    .flexible-framer__heading {
+      padding-top: 4rem;
+    }
+  }
+
   /* Grid Layout */
   .grid {
     display: block;
@@ -80,6 +92,11 @@
       grid-column-gap: 2rem;
     }
 
+    // images hover overlap issue fix
+    @include large {
+      grid-column-gap: 3rem;
+    }
+
     @include larger {
       margin-left: auto;
       margin-right: auto;
@@ -92,10 +109,6 @@
     &.grid-items-2 {
       @include medium {
         grid-template-columns: 1fr 1fr;
-      }
-
-      @include xl {
-        grid-column-gap: 3rem;
       }
 
       max-width: 120.8rem;
