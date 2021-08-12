@@ -50,6 +50,7 @@
 
   &--pdp-hero {
     width: 100%;
+    max-width: 100%;
     display: flex;
     justify-content: center;
 
@@ -85,9 +86,18 @@
 
     .ps-widget.ps-enabled[ps-sku] {
       flex-grow: 1;
+      max-width: 100%;
+      padding: 0 20px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
 
       @include large {
         flex-grow: 0;
+        min-width: 202px;
+      }
+      
+      &:hover {
         min-width: 202px;
       }
     }
