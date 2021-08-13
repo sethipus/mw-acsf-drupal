@@ -338,7 +338,9 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       }
       $social_menu_items[$name]['title'] = $social_media['text'];
       $social_menu_items[$name]['url'] = $this->token->replace($social_media['api_url'], ['node' => $node]);
-      $social_menu_items[$name]['item_modifiers'] = $social_media['attributes'];
+      $social_menu_items[$name]['item_modifiers'] = $this->transformAttributesToArray(
+        $social_media['attributes']
+        );
       $social_menu_items[$name]['weight'] = $social_media['weight'];
 
       if (isset($social_media['default_img']) && $social_media['default_img']) {
@@ -371,6 +373,25 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     });
 
     return $social_menu_items;
+  }
+
+  /**
+   * Transform string attributes to array.
+   *
+   * @param array|null $attributes
+   *   Attributes.
+   *
+   * @return array
+   *   Array of attributes.
+   */
+  private function transformAttributesToArray(?string $attributes): array {
+    $attributes = preg_split('/\n|\r\n?/', $attributes);
+    $item_modifiers = [];
+    foreach ($attributes as $attribute) {
+      $attribute_value = explode('|', $attribute);
+      $item_modifiers[$attribute_value[0]] = $attribute_value[1];
+    }
+    return $item_modifiers;
   }
 
   /**

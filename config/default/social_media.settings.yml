@@ -67,12 +67,12 @@ social_media:
     img: themes/custom/emulsifymars/images/icons/download.svg
   email:
     enable: 1
-    api_url: 'mailto:?subject=[current-page:title]&body=Check out this site [current-page:url]'
+    api_url: '#'
     api_event: onclick
     text: Email
     default_img: 1
     weight: '9'
-    attributes: class|recipe-email-button
+    attributes: class|js-social-email-btn
     drupalSettings: ''
     library: ''
     img: ''
