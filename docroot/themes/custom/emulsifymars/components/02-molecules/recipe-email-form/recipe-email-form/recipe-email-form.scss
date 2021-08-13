@@ -121,6 +121,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    position: relative;
 
     input {
       @include set-font($font-type: 'primary-font');
