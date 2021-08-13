@@ -239,3 +239,10 @@ common-assets:
   css:
     theme:
       components/02-molecules/slide/social-feed-slide/swiper-bundle.min.css: {}
+
+recipe-email-form:
+  js:
+    dist/js/02-molecules/recipe-email-form/recipe-email-form-layout/recipe-email-form-layout.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery

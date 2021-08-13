@@ -1,0 +1,35 @@
+{{ attach_library('emulsifymars/email-recipe-form') }}
+
+<div class="dove email-recipe-form">
+<!-- Embed form content -->
+<form class="email-recipe-form">
+  <div class="email-recipe-form-lightbox">
+    <!-- Heading -->
+    <div class="email-recipe-form-heading">Email your recipe</div>
+    <!-- Grocery List & Recipe-->
+    <div class="email-recipe-form-row">
+      <!-- Grocery List -->
+      <div class="email-recipe-form-checkbox">
+        <input class="email-recipe-form-checkbox__input" name="terms-and-conditions" type="checkbox" id="email-grocery" value="agreed" required>
+        <label class="email-recipe-form-checkbox__label" for="email-grocery">Email a grocery list</label>
+      </div>
+      <div class="email-recipe-form-checkbox">
+        <input class="email-recipe-form-checkbox__input" name="terms-and-conditions" type="checkbox" id="email-recipe" value="agreed" required>
+        <label class="email-recipe-form-checkbox__label" for="email-recipe">Email a recipe</label>
+      </div>
+    </div>
+    <!-- Email Address -->
+    <div class="email-recipe-form-row">
+      <div class="email-recipe-form-item">
+        <input id="email" name="" type="text" class="email-recipe-form-item__input" aria-labelledby="email" required>
+        <label for="email" class="email-recipe-form-item__label">Email Address*</label>
+      </div>
+    </div>
+
+    <div class="email-recipe-form-row email-recipe-form-row--submit">
+      <button class="email-recipe-form-submit" type="submit">Submit</button>
+    </div>
+  </div>
+</form>
+<!-- Embed form content ends -->
+</div>

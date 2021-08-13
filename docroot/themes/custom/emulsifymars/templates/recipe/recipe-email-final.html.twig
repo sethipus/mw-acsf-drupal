@@ -1,1 +1,6 @@
-{{ form }}
+{# {{ kint(form) }} #}
+
+{% include "@molecules/recipe-email-form/recipe-email-form-final/recipe-email-form-final.twig" with {
+  theme_styles: 'drupal',
+  confirmation_message: form.context_data['#value'].confirmation_message,
+} %}

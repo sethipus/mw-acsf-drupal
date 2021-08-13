@@ -1,3 +1,13 @@
-{{ form }}
+{# {{ kint(form) }} #}
 
-<div class="email-recipe-message"> </div>
+{% include "@molecules/recipe-email-form/recipe-email-form/recipe-email-form.twig" with {
+  theme_styles: 'drupal',
+  recipe_heading: form.context_data['#value'].email_overlay_title,
+  recipe_description: form.context_data['#value'].email_overlay_description,
+  grocery_list_checkbox: form.grocery_list,
+  email_recipe_checkbox: form.email_recipe,
+  email_input_field: form.email,
+  submit_button: form.actions.submit,
+  captcha: "CAPTCHA",
+  hidden_form_inputs: form|without('actions', 'grocery_list', 'email_recipe', 'email')
+} %}
