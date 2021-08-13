@@ -1,5 +1,3 @@
-{% set recipe_email_png_asset_alt = "Image Alternative Text" %}
-
 <div class="recipe-email-form__submitted">
   <div class="recipe-email-form__submitted-text">{{ confirmation_message }}</div>
   <div class="recipe-email-form__submitted-img">
@@ -13,8 +11,8 @@
   <div class="recipe-email-form__png-asset">
     {% include "@atoms/images/image/responsive-image.twig" with {
       output_image_tag: true,
-      image_alt: recipe_email_png_asset_alt,
-      image_src: recipe_email_png_asset,
+      image_alt: 'Brand Shape',
+      image_src: png_asset,
       image_array: images,
       height: '260px',
       width: '346px',
