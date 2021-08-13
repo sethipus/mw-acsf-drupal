@@ -7,16 +7,19 @@ use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Ajax\ReplaceCommand;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * RecipeViewForm contains logic of email form.
  */
-class RecipeEmailForm extends FormBase implements FormInterface {
+class RecipeEmailForm extends FormBase implements FormInterface, ContainerInjectionInterface {
 
   /**
    * The context recipe of the form.
@@ -30,6 +33,31 @@ class RecipeEmailForm extends FormBase implements FormInterface {
    * @var array|null
    */
   protected $contextData;
+
+  /**
+   * ThemeConfiguratorParser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(
+    ThemeConfiguratorParser $theme_config_parser
+  ) {
+    $this->themeConfiguratorParser = $theme_config_parser;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('mars_common.theme_configurator_parser')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -46,6 +74,16 @@ class RecipeEmailForm extends FormBase implements FormInterface {
    */
   public function setRecipe(NodeInterface $recipe) {
     $this->recipe = $recipe;
+  }
+
+  /**
+   * Setter for theme configuration parser.
+   *
+   * @param \Drupal\mars_common\ThemeConfiguratorParser $parser
+   *   The theme configuration parser.
+   */
+  public function setThemeConfigParser(ThemeConfiguratorParser $parser) {
+    $this->themeConfiguratorParser = $parser;
   }
 
   /**
@@ -72,6 +110,10 @@ class RecipeEmailForm extends FormBase implements FormInterface {
     $form['#id'] = Html::getId($this->getFormId());
     if ($form_state->get('email_form_submitted') && !$form_state->get('validation_error')) {
       $form['#theme'] = 'recipe_email_final';
+      $form['png_asset']['#type'] = 'value';
+      $form['png_asset']['#value'] = $this->themeConfiguratorParser
+        ->getUrlForFile('png_asset')
+        ->toString();
     }
     else {
       $form['grocery_list'] = [
@@ -103,6 +145,9 @@ class RecipeEmailForm extends FormBase implements FormInterface {
       }
 
       $form['#theme'] = 'recipe_email';
+      $form['brand_shape']['#type'] = 'value';
+      $form['brand_shape']['#value'] = $this->themeConfiguratorParser
+        ->getBrandShapeWithoutFill();
 
       $form['actions'] = [
         '#type' => 'actions',

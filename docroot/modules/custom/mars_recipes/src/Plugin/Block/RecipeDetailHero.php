@@ -221,7 +221,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     // Toggle to simplify unit test.
     $block_config = $this->getConfiguration();
     if (!array_key_exists('social_links_toggle', $block_config)) {
-      $build['#social_links'] = $this->socialLinks();
+      $build['#social_links'] = $this->socialLinks($block_config);
     }
 
     $background_color = '';
@@ -325,7 +325,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    * @return array
    *   Rendered menu.
    */
-  protected function socialLinks() {
+  protected function socialLinks(array $block_config) {
     global $base_url;
     $node = $this->getContextValue('node');
     $social_menu_items = [];
@@ -363,6 +363,14 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
         }
       }
     }
+
+    // Remove email button if email recipe is disable.
+    if ((!isset($block_config['email_recipe']) || !$block_config['email_recipe']) &&
+    isset($social_menu_items['email'])) {
+      unset($social_menu_items['email']);
+    }
+
+    // Sort accordint to weight in configuration.
     usort($social_menu_items, function ($a, $b) {
       if ($a['weight'] == $b['weight']) {
         return 0;
