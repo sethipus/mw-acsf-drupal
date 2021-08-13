@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "179b41ef8c7c9ffe670f1df10980ab73",
+    "content-hash": "1354a846ce1b99f507d36b7f46e04e4a",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -5467,6 +5467,7 @@
                 },
                 "patches_applied": {
                     "2321071 - Base field overrides fix": "https://www.drupal.org/files/issues/2019-12-24/2321071-39.patch",
+                    "2925297 - Fatal error on config form with translation enabled when config is missing": "https://www.drupal.org/files/issues/2019-09-26/core-typed_config_handle_missing_config-2925297-18.patch",
                     "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2869592-remove-update-warning-7.patch",
                     "1356276 - Allow profiles to define a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2019-11-05/1356276-531-8.8.x-4.patch",
                     "2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2018-07-09/2914389-8-do-not-test.patch",
@@ -15261,11 +15262,11 @@
         },
         {
             "name": "mars/mars_lighthouse",
-            "version": "v0.0.1",
+            "version": "v0.0.2",
             "source": {
                 "type": "git",
                 "url": "git@github.com:Mars-Incorporated/mars_lighthouse.git",
-                "reference": "v0.0.1"
+                "reference": "v0.0.2"
             },
             "type": "drupal-module"
         },
