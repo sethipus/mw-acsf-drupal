@@ -4,12 +4,9 @@ import { useEffect } from '@storybook/client-api';
 import doveKeepInTouchForm from './keep-in-touch/keep-in-touch.twig';
 import doveNewsletterSignupForm from './newsletter-signup-form/newsletter-signup-form.twig';
 import doveNewsletterSignupFormSuccess from './newsletter-signup-form-success/newsletter-signup-form-success.twig';
-import doveEmailRecipeForm from './email-recipe-form/email-recipe-form.twig';
-import doveEmailRecipeFormSuccess from './email-recipe-form-success/email-recipe-form-success.twig';
 
 import './keep-in-touch/keep-in-touch';
 import './newsletter-signup-form/newsletter-signup-form';
-import './email-recipe-form/email-recipe-form';
 
 /**
  * Storybook Definition.
@@ -29,14 +26,4 @@ export const doveNewsletterSignupFormModule = () => {
 export const doveNewsletterSignupFormSuccessModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   return <div dangerouslySetInnerHTML={{ __html: doveNewsletterSignupFormSuccess() }} />
-};
-
-export const doveEmailRecipeFormModule = () => {
-  useEffect(() => Drupal.attachBehaviors(), []);
-  return <div dangerouslySetInnerHTML={{ __html: doveEmailRecipeForm() }} />
-};
-
-export const doveEmailRecipeSuccessModule = () => {
-  useEffect(() => Drupal.attachBehaviors(), []);
-  return <div dangerouslySetInnerHTML={{ __html: doveEmailRecipeFormSuccess() }} />
 };
