@@ -5,7 +5,7 @@
     "license": "proprietary",
     "require": {
         "acquia/acsf-tools": "dev-9.x-dev",
-        "acquia/blt": "^12.7",
+        "acquia/blt": "^13.0",
         "acquia/cohesion": "^6.6",
         "acquia/cohesion-theme": "^6.6",
         "acquia/drupal-spec-tool": "^4.1",
@@ -259,6 +259,9 @@
             "drupal/printable": {
                 "Fix printable stream wrapper.": "patches/fix-url-scheme-for-alter-3190197-4.patch",
                 "Printable_pdf submodule not compatible with Drupal 9": "https://www.drupal.org/files/issues/2021-05-26/drupal9-compatibiliy-3206982-4.patch"
+            },
+            "mikemadison13/blt-azure-pipelines": {
+                "Pipelines builds fail with 'Command validate:all is not defined'": "patches/blt-azure-pipelines.patch"
             }
         }
     },
