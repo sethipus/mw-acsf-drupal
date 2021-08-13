@@ -1,7 +1,7 @@
 (function($, Drupal){
   Drupal.behaviors.recipeEmailForm = {
     attach(context) {
-      const openPopupButton = $('.js-email-recipe-btn');
+      const openPopupButton = $('.js-social-email-btn');
       const recipeEmailLayout = $('.recipe-email-layout');
       const recipeEmailLightbox = $('.recipe-email-lightbox');
       const recipeEmailCloseButton = $('.recipe-email-close-btn');
