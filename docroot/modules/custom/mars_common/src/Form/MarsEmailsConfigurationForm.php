@@ -39,14 +39,18 @@ class MarsEmailsConfigurationForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config(static::SETTINGS);
 
+    // Use the default site mail if one is already configured, or fall back to
+    // PHP's configured sendmail_from.
+    $default_site_mail = $this->config('system.site')->get('mail') ?: ini_get('sendmail_from');
+
     $form['grocery_list'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Email a grocery list'),
     ];
     $form['grocery_list']['grocery_list_from'] = [
-      '#type' => 'textfield',
+      '#type' => 'email',
       '#title' => $this->t('FROM email'),
-      '#default_value' => $config->get('grocery_list_from'),
+      '#default_value' => !empty($config->get('grocery_list_from')) ? $config->get('grocery_list_from') : $default_site_mail,
     ];
     $form['grocery_list']['grocery_list_subject'] = [
       '#type' => 'textfield',
@@ -71,9 +75,9 @@ class MarsEmailsConfigurationForm extends ConfigFormBase {
       '#title' => $this->t('Email a recipe'),
     ];
     $form['recipe']['recipe_from'] = [
-      '#type' => 'textfield',
+      '#type' => 'email',
       '#title' => $this->t('FROM email'),
-      '#default_value' => $config->get('recipe_from'),
+      '#default_value' => !empty($config->get('recipe_from')) ? $config->get('recipe_from') : $default_site_mail,
     ];
     $form['recipe']['recipe_subject'] = [
       '#type' => 'textfield',
