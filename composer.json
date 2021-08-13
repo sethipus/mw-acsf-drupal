@@ -5,7 +5,7 @@
     "license": "proprietary",
     "require": {
         "acquia/acsf-tools": "dev-9.x-dev",
-        "acquia/blt": "^13.0",
+        "acquia/blt": "12.7",
         "acquia/cohesion": "^6.6",
         "acquia/cohesion-theme": "^6.6",
         "acquia/drupal-spec-tool": "^4.1",
