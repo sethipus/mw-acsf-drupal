@@ -7,8 +7,6 @@
       const recipeEmailCloseButton = $('.recipe-email-close-btn');
       const inputFields = $('.recipe-email .form-item');
       const errorMsg = $('.email-recipe-message-box');
-      const formSubmitButton = $('.js-form-submit');
-      const recipeEmailForm = $('#recipe-email-form');
 
       openPopupButton.on('click', (e) => {
         $('.recipe-email-layout').addClass('recipe-email-layout--opened');
@@ -32,11 +30,7 @@
       // Validation events
       inputFields.on('focus click', () => {
         errorMsg.html('');
-        recipeEmailForm.removeClass('recipe-email-form--invalid');
-      });
-
-      formSubmitButton.on('click', () => {
-        recipeEmailForm.addClass('recipe-email-form--invalid');
+        $('error-border').removeClass('error-border');
       });
     },
   };

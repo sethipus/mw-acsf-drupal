@@ -74,6 +74,10 @@
       border-color: clr(secondary);
     }
 
+    input.error-border + label::before {
+      border-color: clr(secondary);
+    }
+
     input:checked + label::after {
       content: "";
       display: block;
@@ -102,6 +106,10 @@
       outline: none;
       width: 100%;
       border-radius: var(--card-border-radius);
+
+      &.error-border {
+        box-shadow: 0 0 0 1px rgba(clr(secondary-rgb), 1);
+      }
     }
 
     label {
@@ -201,16 +209,6 @@
   .form-item__description {
     display: none;
   }
-
-  &--invalid {
-    .recipe-email__checkbox label::before {
-      border-color: clr(secondary);
-    }
-
-    .recipe-email__text-input input {
-      box-shadow: 0 0 0 1px rgba(clr(secondary-rgb), 1);
-    }
-  }
 }
 
 .email-recipe-message:not(:empty) {
@@ -221,4 +219,8 @@
   font-size: 1.8rem;
   line-height: 2.5rem;
   margin-top: 1rem;
+}
+
+iframe.error-border {
+  border: 1px solid clr(secondary);
 }
