@@ -19,6 +19,7 @@ module:
   block_content: 0
   brand_drupal_salsify_bens_uk: 0
   breakpoint: 0
+  captcha: 0
   ckeditor: 0
   ckeditor_config: 0
   color: 0
@@ -163,6 +164,7 @@ module:
   quickedit: 0
   rabbit_hole: 0
   rdf: 0
+  recaptcha: 0
   redirect: 0
   remote_stream_wrapper: 0
   remote_stream_wrapper_widget: 0

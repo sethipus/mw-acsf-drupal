@@ -245,8 +245,9 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       $form_object->setContextData($build['#email_recipe']);
 
       $recipe_form = $this->formBuilder->getForm($form_object);
+
       $build['#email_recipe_form'] = (string) $this->renderer
-        ->renderRoot(
+        ->render(
           $recipe_form
         );
       $build['#attached'] = (isset($build['#attached']))
@@ -280,6 +281,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       'error_message' => $this->languageHelper->translate('Please check your details'),
       'cta_title' => $this->languageHelper->translate('Submit'),
       'confirmation_message' => $this->languageHelper->translate('You are all set'),
+      'captcha' => TRUE,
     ];
   }
 
@@ -305,6 +307,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
         'error_message' => $block_config['email_recipe_container']['error_message'] ?? $this->getRecipeEmailDefault()['error_message'],
         'cta_title' => $block_config['email_recipe_container']['cta_title'] ?? $this->getRecipeEmailDefault()['cta_title'],
         'confirmation_message' => $block_config['email_recipe_container']['confirmation_message'] ?? $this->getRecipeEmailDefault()['confirmation_message'],
+        'captcha' => $block_config['email_recipe_container']['captcha'] ?? $this->getRecipeEmailDefault()['captcha'],
       ]
       : NULL;
   }
@@ -336,6 +339,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       $social_menu_items[$name]['title'] = $social_media['text'];
       $social_menu_items[$name]['url'] = $this->token->replace($social_media['api_url'], ['node' => $node]);
       $social_menu_items[$name]['item_modifiers'] = $social_media['attributes'];
+      $social_menu_items[$name]['weight'] = $social_media['weight'];
 
       if (isset($social_media['default_img']) && $social_media['default_img']) {
         $icon_path = $base_url . '/' . drupal_get_path('module', 'social_media') . '/icons/';
@@ -357,6 +361,14 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
         }
       }
     }
+    usort($social_menu_items, function ($a, $b) {
+      if ($a['weight'] == $b['weight']) {
+        return 0;
+      }
+      return ($a['weight'] >= $b['weight'])
+        ? 1
+        : -1;
+    });
 
     return $social_menu_items;
   }

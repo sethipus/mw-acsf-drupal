@@ -360,7 +360,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
 
     $this->rendererMock
       ->expects($this->any())
-      ->method('renderRoot')
+      ->method('render')
       ->willReturn('form_markup');
 
     // Main testing function.
