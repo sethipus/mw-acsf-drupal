@@ -1,0 +1,338 @@
+diff --git a/modules/acquia_contenthub_publisher/src/Event/ContentHubEntityEligibilityEvent.php b/modules/acquia_contenthub_publisher/src/Event/ContentHubEntityEligibilityEvent.php
+index 2f1c7e1..a22cc39 100644
+--- a/modules/acquia_contenthub_publisher/src/Event/ContentHubEntityEligibilityEvent.php
++++ b/modules/acquia_contenthub_publisher/src/Event/ContentHubEntityEligibilityEvent.php
+@@ -3,7 +3,7 @@
+ namespace Drupal\acquia_contenthub_publisher\Event;
+ 
+ use Drupal\Core\Entity\EntityInterface;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Event fired for eligibility of an entity to POST to ContentHub.
+diff --git a/modules/acquia_contenthub_publisher/src/Event/NotConfirmedEntitiesFoundEvent.php b/modules/acquia_contenthub_publisher/src/Event/NotConfirmedEntitiesFoundEvent.php
+index d0ff38f..e3847e1 100644
+--- a/modules/acquia_contenthub_publisher/src/Event/NotConfirmedEntitiesFoundEvent.php
++++ b/modules/acquia_contenthub_publisher/src/Event/NotConfirmedEntitiesFoundEvent.php
+@@ -2,7 +2,7 @@
+ 
+ namespace Drupal\acquia_contenthub_publisher\Event;
+ 
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Event for not entities not yet in a confirmed state.
+diff --git a/src/Event/AcquiaContentHubSettingsEvent.php b/src/Event/AcquiaContentHubSettingsEvent.php
+index 0057abf..4825d1d 100644
+--- a/src/Event/AcquiaContentHubSettingsEvent.php
++++ b/src/Event/AcquiaContentHubSettingsEvent.php
+@@ -4,7 +4,7 @@ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Acquia\ContentHubClient\Settings;
+ 
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * The event dispatched to find settings for the ContentHub Service.
+diff --git a/src/Event/AcquiaContentHubUnregisterEvent.php b/src/Event/AcquiaContentHubUnregisterEvent.php
+index 9eaa799..b71d9bc 100644
+--- a/src/Event/AcquiaContentHubUnregisterEvent.php
++++ b/src/Event/AcquiaContentHubUnregisterEvent.php
+@@ -2,7 +2,7 @@
+ 
+ namespace Drupal\acquia_contenthub\Event;
+ 
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Event dispatched on webhook deletion.
+diff --git a/src/Event/BuildClientCdfEvent.php b/src/Event/BuildClientCdfEvent.php
+index 2233c3d..37b16c0 100644
+--- a/src/Event/BuildClientCdfEvent.php
++++ b/src/Event/BuildClientCdfEvent.php
+@@ -3,7 +3,7 @@
+ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Acquia\ContentHubClient\CDF\ClientCDFObject;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * The event dispatched to build the clientcdf.
+diff --git a/src/Event/CdfAttributesEvent.php b/src/Event/CdfAttributesEvent.php
+index a145a17..aecb068 100644
+--- a/src/Event/CdfAttributesEvent.php
++++ b/src/Event/CdfAttributesEvent.php
+@@ -5,7 +5,7 @@ namespace Drupal\acquia_contenthub\Event;
+ use Acquia\ContentHubClient\CDF\CDFObject;
+ use Drupal\Core\Entity\EntityInterface;
+ use Drupal\depcalc\DependentEntityWrapperInterface;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * The event which adds custom CDF attributes to the CDF objects.
+diff --git a/src/Event/CleanUpStubsEvent.php b/src/Event/CleanUpStubsEvent.php
+index e690123..efbc006 100644
+--- a/src/Event/CleanUpStubsEvent.php
++++ b/src/Event/CleanUpStubsEvent.php
+@@ -4,7 +4,7 @@ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Drupal\Core\Entity\EntityInterface;
+ use Drupal\depcalc\DependencyStack;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Event to clean up stubs after import.
+diff --git a/src/Event/ConfigDataEvent.php b/src/Event/ConfigDataEvent.php
+index ac568b7..8c6db17 100644
+--- a/src/Event/ConfigDataEvent.php
++++ b/src/Event/ConfigDataEvent.php
+@@ -3,7 +3,7 @@
+ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Drupal\Core\Config\Entity\ConfigEntityInterface;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Event for configuration data.
+diff --git a/src/Event/ContentHubPublishEntitiesEvent.php b/src/Event/ContentHubPublishEntitiesEvent.php
+index 53a9ecc..0483b40 100644
+--- a/src/Event/ContentHubPublishEntitiesEvent.php
++++ b/src/Event/ContentHubPublishEntitiesEvent.php
+@@ -3,7 +3,7 @@
+ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Drupal\depcalc\DependentEntityWrapperInterface;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Event fired for publishing of entities.
+diff --git a/src/Event/CreateCdfEntityEvent.php b/src/Event/CreateCdfEntityEvent.php
+index 0eb64ca..ca70c4f 100644
+--- a/src/Event/CreateCdfEntityEvent.php
++++ b/src/Event/CreateCdfEntityEvent.php
+@@ -4,7 +4,7 @@ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Acquia\ContentHubClient\CDF\CDFObject;
+ use Drupal\Core\Entity\EntityInterface;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * The event dispatched to create new CDF objects.
+diff --git a/src/Event/DeleteRemoteEntityEvent.php b/src/Event/DeleteRemoteEntityEvent.php
+index c8c29e2..3eb3bce 100644
+--- a/src/Event/DeleteRemoteEntityEvent.php
++++ b/src/Event/DeleteRemoteEntityEvent.php
+@@ -2,7 +2,7 @@
+ 
+ namespace Drupal\acquia_contenthub\Event;
+ 
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * The event dispatched to inform of remote entity deletion.
+diff --git a/src/Event/EntityDataTamperEvent.php b/src/Event/EntityDataTamperEvent.php
+index 35a5191..5bc25a0 100644
+--- a/src/Event/EntityDataTamperEvent.php
++++ b/src/Event/EntityDataTamperEvent.php
+@@ -4,7 +4,7 @@ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Acquia\ContentHubClient\CDFDocument;
+ use Drupal\depcalc\DependencyStack;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * The event dispatched to populate the DependencyStack without using CDF data.
+diff --git a/src/Event/EntityImportEvent.php b/src/Event/EntityImportEvent.php
+index 6164007..d8b3592 100644
+--- a/src/Event/EntityImportEvent.php
++++ b/src/Event/EntityImportEvent.php
+@@ -4,7 +4,7 @@ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Acquia\ContentHubClient\CDF\CDFObject;
+ use Drupal\Core\Entity\EntityInterface;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * An event for invoking post-entity-save operations.
+diff --git a/src/Event/ExcludeEntityFieldEvent.php b/src/Event/ExcludeEntityFieldEvent.php
+index 7778606..e8fc237 100644
+--- a/src/Event/ExcludeEntityFieldEvent.php
++++ b/src/Event/ExcludeEntityFieldEvent.php
+@@ -4,7 +4,7 @@ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Drupal\Core\Entity\EntityInterface;
+ use Drupal\Core\Field\FieldItemListInterface;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Event fired when serializing individual entity fields for syndication.
+diff --git a/src/Event/FailedImportEvent.php b/src/Event/FailedImportEvent.php
+index 2e0d5da..79dc87c 100644
+--- a/src/Event/FailedImportEvent.php
++++ b/src/Event/FailedImportEvent.php
+@@ -5,7 +5,7 @@ namespace Drupal\acquia_contenthub\Event;
+ use Acquia\ContentHubClient\CDFDocument;
+ use Drupal\acquia_contenthub\EntityCdfSerializer;
+ use Drupal\depcalc\DependencyStack;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * An event for responding to failed imports.
+diff --git a/src/Event/HandleWebhookEvent.php b/src/Event/HandleWebhookEvent.php
+index abb2a5f..2cdfee4 100644
+--- a/src/Event/HandleWebhookEvent.php
++++ b/src/Event/HandleWebhookEvent.php
+@@ -4,7 +4,7 @@ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Acquia\ContentHubClient\ContentHubClient;
+ use Acquia\Hmac\KeyInterface;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ use Symfony\Component\HttpFoundation\Request;
+ use Symfony\Component\HttpFoundation\Response;
+ 
+diff --git a/src/Event/LoadLocalEntityEvent.php b/src/Event/LoadLocalEntityEvent.php
+index 489eb87..2e30aab 100644
+--- a/src/Event/LoadLocalEntityEvent.php
++++ b/src/Event/LoadLocalEntityEvent.php
+@@ -6,7 +6,7 @@ use Acquia\ContentHubClient\CDF\CDFObject;
+ use Drupal\Core\Entity\EntityInterface;
+ use Drupal\depcalc\DependencyStack;
+ use Drupal\depcalc\DependentEntityWrapper;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Class LoadLocalEntityEvent.
+diff --git a/src/Event/ParseCdfEntityEvent.php b/src/Event/ParseCdfEntityEvent.php
+index 75990f9..a1e7e5f 100644
+--- a/src/Event/ParseCdfEntityEvent.php
++++ b/src/Event/ParseCdfEntityEvent.php
+@@ -5,7 +5,7 @@ namespace Drupal\acquia_contenthub\Event;
+ use Acquia\ContentHubClient\CDF\CDFObject;
+ use Drupal\Core\Entity\EntityInterface;
+ use Drupal\depcalc\DependencyStack;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * The event fired during importing a CDF into a local entity.
+diff --git a/src/Event/PreEntitySaveEvent.php b/src/Event/PreEntitySaveEvent.php
+index daf10db..6c484f0 100644
+--- a/src/Event/PreEntitySaveEvent.php
++++ b/src/Event/PreEntitySaveEvent.php
+@@ -5,7 +5,7 @@ namespace Drupal\acquia_contenthub\Event;
+ use Acquia\ContentHubClient\CDF\CDFObject;
+ use Drupal\Core\Entity\EntityInterface;
+ use Drupal\depcalc\DependencyStack;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Event that fires prior to an entity save.
+diff --git a/src/Event/PruneCdfEntitiesEvent.php b/src/Event/PruneCdfEntitiesEvent.php
+index 4c88bbd..dcdf629 100644
+--- a/src/Event/PruneCdfEntitiesEvent.php
++++ b/src/Event/PruneCdfEntitiesEvent.php
+@@ -3,7 +3,7 @@
+ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Acquia\ContentHubClient\CDFDocument;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Use to remove entities a subscriber does not want to import.
+diff --git a/src/Event/PrunePublishCdfEntitiesEvent.php b/src/Event/PrunePublishCdfEntitiesEvent.php
+index 6b474cf..a3ce5e0 100644
+--- a/src/Event/PrunePublishCdfEntitiesEvent.php
++++ b/src/Event/PrunePublishCdfEntitiesEvent.php
+@@ -4,7 +4,7 @@ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Acquia\ContentHubClient\CDFDocument;
+ use Acquia\ContentHubClient\ContentHubClient;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Class TrackTotalsEvent.
+diff --git a/src/Event/SerializeAdditionalMetadataEvent.php b/src/Event/SerializeAdditionalMetadataEvent.php
+index 08271e5..f994b89 100644
+--- a/src/Event/SerializeAdditionalMetadataEvent.php
++++ b/src/Event/SerializeAdditionalMetadataEvent.php
+@@ -4,7 +4,7 @@ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Acquia\ContentHubClient\CDF\CDFObject;
+ use Drupal\Core\Entity\ContentEntityInterface;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * The event dispatched to serialize additional metadata for a Content Entity.
+diff --git a/src/Event/SerializeCdfEntityFieldEvent.php b/src/Event/SerializeCdfEntityFieldEvent.php
+index 7f09f77..74bb29c 100644
+--- a/src/Event/SerializeCdfEntityFieldEvent.php
++++ b/src/Event/SerializeCdfEntityFieldEvent.php
+@@ -5,7 +5,7 @@ namespace Drupal\acquia_contenthub\Event;
+ use Acquia\ContentHubClient\CDF\CDFObject;
+ use Drupal\Core\Entity\ContentEntityInterface;
+ use Drupal\Core\Field\FieldItemListInterface;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Event fired when serializing individual entity fields for syndication.
+diff --git a/src/Event/TrackTotalsEvent.php b/src/Event/TrackTotalsEvent.php
+index d70ff9e..274eaab 100644
+--- a/src/Event/TrackTotalsEvent.php
++++ b/src/Event/TrackTotalsEvent.php
+@@ -3,7 +3,7 @@
+ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Acquia\ContentHubClient\ContentHubClient;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Event for tracking totals for status metrics.
+diff --git a/src/Event/UnserializeAdditionalMetadataEvent.php b/src/Event/UnserializeAdditionalMetadataEvent.php
+index ac5ae6d..21c4d1b 100644
+--- a/src/Event/UnserializeAdditionalMetadataEvent.php
++++ b/src/Event/UnserializeAdditionalMetadataEvent.php
+@@ -4,7 +4,7 @@ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Acquia\ContentHubClient\CDF\CDFObject;
+ use Drupal\Core\Entity\ContentEntityInterface;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * The event dispatched to unserialize additional metadata for a Content Entity.
+diff --git a/src/Event/UnserializeCdfEntityFieldEvent.php b/src/Event/UnserializeCdfEntityFieldEvent.php
+index bf71a5f..7ca23c8 100644
+--- a/src/Event/UnserializeCdfEntityFieldEvent.php
++++ b/src/Event/UnserializeCdfEntityFieldEvent.php
+@@ -4,7 +4,7 @@ namespace Drupal\acquia_contenthub\Event;
+ 
+ use Drupal\Core\Entity\EntityTypeInterface;
+ use Drupal\depcalc\DependencyStack;
+-use Symfony\Component\EventDispatcher\Event;
++use Symfony\Contracts\EventDispatcher\Event;
+ 
+ /**
+  * Unserializes ContentEntity fields syndicated from CDF.

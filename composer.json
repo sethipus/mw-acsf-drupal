@@ -272,6 +272,9 @@
             },
             "symfony/dependency-injection": {
                 "Fixed error with cross services": "patches/dependency-injection.patch"
+            },
+            "drupal/acquia_contenthub": {
+                "Fixed stopPropagation method is deprecated": "patches/stopPropagation-method-is-deprecated.patch"
             }
         }
     },

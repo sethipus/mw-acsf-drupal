@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b63242cf2b54442059baac6b445914a",
+    "content-hash": "b216c047e8ff086448e89c5f46e1a0c7",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -3873,6 +3873,9 @@
                 },
                 "branch-alias": {
                     "dev-8.x-2.x": "2.x-dev"
+                },
+                "patches_applied": {
+                    "Fixed stopPropagation method is deprecated": "patches/stopPropagation-method-is-deprecated.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
