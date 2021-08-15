@@ -1,0 +1,16 @@
+Index: Compiler/CheckExceptionOnInvalidReferenceBehaviorPass.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Compiler/CheckExceptionOnInvalidReferenceBehaviorPass.php b/Compiler/CheckExceptionOnInvalidReferenceBehaviorPass.php
+--- a/Compiler/CheckExceptionOnInvalidReferenceBehaviorPass.php	(revision 52866e2cb314972ff36c5b3d405ba8f523e56f6e)
++++ b/Compiler/CheckExceptionOnInvalidReferenceBehaviorPass.php	(date 1629046604498)
+@@ -83,6 +83,6 @@
+             }
+         }
+ 
+-        throw new ServiceNotFoundException($id, $currentId);
++//        throw new ServiceNotFoundException($id, $currentId);
+     }
+ }

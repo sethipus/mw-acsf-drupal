@@ -30,6 +30,20 @@ dependencies:
     - taxonomy
     - search_api
     - mars_search
+third_party_settings:
+  search_api_solr:
+    highlighter:
+      highlight:
+        snippets: 3
+        fragsize: 0
+    advanced:
+      index_prefix: ''
+    multilingual:
+      limit_to_content_language: false
+      include_language_independent: true
+    term_modifiers:
+      slop: 10000000
+      fuzzy: 2
 _core:
   default_config_hash: 5kXLh0sYJ2Yc_THnDbYg_pPAc1UJ0gabzabQYjrYyAc
 id: acquia_search_index
@@ -453,17 +467,3 @@ options:
   index_directly: true
   cron_limit: 50
 server: acquia_search_server
-third_party_settings:
-  search_api_solr:
-    highlighter:
-      highlight:
-        snippets: 3
-        fragsize: 0
-    advanced:
-      index_prefix: ''
-    multilingual:
-      limit_to_content_language: false
-      include_language_independent: true
-    term_modifiers:
-      slop: 10000000
-      fuzzy: 2

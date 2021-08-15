@@ -262,6 +262,9 @@
             },
             "mikemadison13/blt-azure-pipelines": {
                 "Pipelines builds fail with 'Command validate:all is not defined'": "patches/blt-azure-pipelines.patch"
+            },
+            "symfony/dependency-injection": {
+                "Fixed error with cross services": "patches/dependency-injection.patch"
             }
         }
     },
