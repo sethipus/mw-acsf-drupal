@@ -57,7 +57,7 @@ class GuzzleFeedReaderTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->guzzleClient = $this->createMock(ClientInterface::class);

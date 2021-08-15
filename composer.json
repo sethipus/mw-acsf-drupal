@@ -217,6 +217,11 @@
             "bower-asset",
             "npm-asset"
         ],
+        "drush": {
+            "services": {
+                "drush.services.yml": "^9"
+            }
+        },
         "patchLevel": {
             "drupal/core": "-p2"
         },

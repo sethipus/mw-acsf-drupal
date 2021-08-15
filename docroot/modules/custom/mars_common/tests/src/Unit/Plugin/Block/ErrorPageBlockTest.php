@@ -62,7 +62,7 @@ class ErrorPageBlockTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
     \Drupal::setContainer($this->containerMock);

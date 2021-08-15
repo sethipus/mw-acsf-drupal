@@ -58,7 +58,7 @@ class FeedConfigurationFormTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     Drupal::setContainer($this->createMock(ContainerInterface::class));
     $this->formEntity = $this->createMock(FeedConfiguration::class);
