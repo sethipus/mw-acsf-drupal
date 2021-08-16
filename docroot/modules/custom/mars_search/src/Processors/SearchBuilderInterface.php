@@ -3,7 +3,7 @@
 namespace Drupal\mars_search\Processors;
 
 /**
- * SearchBuilderInterface.
+ * SearchBuilderInterface contains main search builder methods.
  */
 interface SearchBuilderInterface {
 

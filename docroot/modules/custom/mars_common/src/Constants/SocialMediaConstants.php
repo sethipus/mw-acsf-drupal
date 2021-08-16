@@ -3,7 +3,7 @@
 namespace Drupal\mars_common\Constants;
 
 /**
- * Class SocialMediaConstants.
+ * Class SocialMediaConstants consists of constants for social media logic.
  *
  * @package Drupal\mars_common\Constants
  */

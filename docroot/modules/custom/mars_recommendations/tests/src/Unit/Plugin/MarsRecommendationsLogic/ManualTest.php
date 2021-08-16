@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Class ManualTest.
+ * Class ManualTest - unit tests.
  *
  * @package Drupal\Tests\mars_recommendations\Unit
  * @covers \Drupal\mars_recommendations\Plugin\MarsRecommendationsLogic\Manual

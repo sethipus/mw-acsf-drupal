@@ -214,7 +214,8 @@ class PollControllerTest extends UnitTestCase {
   private function createPollMock() {
     $pollMock = $this->getMockBuilder(Poll::class)
       ->disableOriginalConstructor()
-      ->getMock();;
+      ->getMock();
+    ;
     $pollMock
       ->expects($this->any())
       ->method('id')

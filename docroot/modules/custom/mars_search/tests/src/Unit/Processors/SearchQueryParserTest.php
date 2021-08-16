@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Class SearchQueryParserTest.
+ * Class SearchQueryParserTest - unit tests.
  */
 class SearchQueryParserTest extends UnitTestCase {
 

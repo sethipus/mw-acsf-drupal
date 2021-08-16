@@ -65,8 +65,11 @@
         min-width: 15.7rem;
       }
 
+      @include large {
+        min-width: 20.2rem !important;
+      }
+
       @include xl {
-        min-width: 20.2rem;
         font-size: 1.6rem;
       }
 

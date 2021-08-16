@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\mars_recipes\Unit;
 
-use Drupal;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\SVG\SVG;
@@ -23,7 +22,7 @@ use Drupal\mars_media\MediaHelper;
 use Drupal\Core\Utility\Token;
 
 /**
- * Class RecipeDetailHeroTest.
+ * Class RecipeDetailHeroTest - unit tests.
  *
  * @package Drupal\Tests\mars_recipes\Unit
  * @covers \Drupal\mars_recipes\Plugin\Block\RecipeDetailHero
@@ -127,7 +126,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
   protected function setUp() {
     parent::setUp();
     $this->createMocks();
-    Drupal::setContainer($this->containerMock);
+    \Drupal::setContainer($this->containerMock);
 
     $this->entityTypeManagerMock
       ->expects($this->any())

@@ -2,8 +2,6 @@
 
 namespace Drupal\juicer_io\Model;
 
-use DateTime;
-use DateTimeInterface;
 use function Symfony\Component\String\s as string;
 
 /**
@@ -55,7 +53,7 @@ class FeedItem {
     string $image_url,
     string $unformatted_message,
     string $link,
-    DateTime $created_at
+    \DateTime $created_at
   ) {
     $this->imageUrl = $image_url;
     $this->unformattedMessage = $unformatted_message;
@@ -77,8 +75,8 @@ class FeedItem {
       $item['image'],
       $item['unformatted_message'],
       $item['full_url'],
-      DateTime::createFromFormat(
-        DateTimeInterface::RFC3339_EXTENDED,
+      \DateTime::createFromFormat(
+        \DateTimeInterface::RFC3339_EXTENDED,
         $item['external_created_at']
       )
     );
@@ -121,7 +119,7 @@ class FeedItem {
    * @return \DateTime
    *   Creation time of the item.
    */
-  public function getCreatedAt(): DateTime {
+  public function getCreatedAt(): \DateTime {
     return $this->createdAt;
   }
 
@@ -139,7 +137,7 @@ class FeedItem {
       ],
       'link' => $this->getLink(),
       'createdAt' => $this->getCreatedAt()
-        ->format(DateTimeInterface::RFC3339_EXTENDED),
+        ->format(\DateTimeInterface::RFC3339_EXTENDED),
     ];
   }
 

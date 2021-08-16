@@ -5,7 +5,7 @@ namespace Drupal\mars_google_analytics;
 use Drupal\mars_google_analytics\DataCollector\DataCollectorInterface;
 
 /**
- * Class DataCollectorServiceManager.
+ * Class DataCollectorServiceManager - service manager for data collection.
  */
 class DataCollectorServiceManager {
 

@@ -7,7 +7,6 @@ use Drupal\juicer_io\Model\FeedException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Uri;
-use JsonException;
 use Drupal\juicer_io\Model\FeedReaderInterface;
 use Psr\Http\Message\UriInterface;
 
@@ -70,7 +69,7 @@ class GuzzleFeedReader implements FeedReaderInterface {
         JSON_THROW_ON_ERROR
       );
     }
-    catch (JsonException $e) {
+    catch (\JsonException $e) {
       throw FeedException::wrap(
         $e,
         'Error happened during decoding the feed data.'
