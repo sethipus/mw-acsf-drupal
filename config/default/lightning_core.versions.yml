@@ -108,6 +108,7 @@ lightning_search: 5.0.0
 lightning_workflow: 3.14.0
 link: 8.8.1
 locale: 8.9.6
+mailsystem: 4.3.0
 mars_articles: 0.0.0
 mars_banners: 0.0.0
 mars_common: 0.0.0
@@ -165,6 +166,7 @@ schemata: 1.0.0-beta1
 schemata_json_schema: 1.0.0-beta1
 search_api: 1.15.0
 search_api_db: 1.15.0
+sendgrid_integration: 1.7.0
 serialization: 8.8.1
 shortcut: 8.8.1
 simple_gmap: 1.4.0
@@ -173,6 +175,7 @@ simple_oauth_extras: 3.16.0
 simple_sitemap: 3.7.0
 slick: 2.0.0
 slick_entityreference: 2.0.0-rc1
+swiftmailer: 2.0.0
 syslog: 8.9.13
 system: 8.8.1
 taxonomy: 8.8.1

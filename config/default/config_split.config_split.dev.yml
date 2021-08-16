@@ -8,15 +8,14 @@ description: ''
 folder: ../config/envs/dev
 module:
   acquia_connector: 0
-  dblog: 0
-  history: 0
-  shield: 0
-  syslog: 0
   acsf: 0
   acsf_duplication: 0
-  acsf_sso: 0
   acsf_theme: 0
   acsf_variables: 0
+  dblog: 0
+  history: 0
+  syslog: 0
+  acsf_sso: 0
 theme: {  }
 blacklist: {  }
 graylist: {  }

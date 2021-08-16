@@ -13,9 +13,11 @@
       {% if loop.first %}
         {% set first_image = breakpoint %}
       {% endif %}
-      <source media="(max-width:{{breakpoint}}px)" srcset="{{image}}">
+      {% set media_string = "(max-width:" ~ breakpoint ~ "px)" %}
       {% if loop.last %}
+        {% set media_string = "(min-width: 769px)" %}
       {% endif %}
+      <source media={{media_string}} srcset="{{image}}">
     {% endfor %}
   {% endif %}
 

@@ -104,6 +104,7 @@ permissions:
   - 'delete terms in mars_occasions'
   - 'delete terms in mars_regions'
   - 'delete terms in mars_trade_item_description'
+  - 'dropzone upload files'
   - 'edit any about_page content'
   - 'edit any article content'
   - 'edit any audio_file media'
