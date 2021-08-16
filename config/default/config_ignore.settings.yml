@@ -48,6 +48,7 @@ ignored_config_entities:
   - 'ultimate_cron.job.*'
   - 'sendgrid_integration.settings:apikey'
   - mars_common.emails_configuration
+  - recaptcha.settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: true

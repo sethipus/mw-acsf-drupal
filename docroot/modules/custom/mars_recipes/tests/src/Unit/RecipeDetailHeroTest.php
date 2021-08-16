@@ -3,8 +3,12 @@
 namespace Drupal\Tests\mars_recipes\Unit;
 
 use Drupal\Core\Config\ImmutableConfig;
+use Drupal\Core\DependencyInjection\ClassResolverInterface;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\SVG\SVG;
+use Drupal\mars_recipes\Form\RecipeEmailForm;
 use Drupal\mars_recipes\Plugin\Block\RecipeDetailHero;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -56,6 +60,34 @@ class RecipeDetailHeroTest extends UnitTestCase {
    * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactoryMock;
+
+  /**
+   * Form builder mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilderMock;
+
+  /**
+   * Form builder mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\DependencyInjection\ClassResolverInterface
+   */
+  protected $classResolverMock;
+
+  /**
+   * Form builder mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Render\RendererInterface
+   */
+  protected $rendererMock;
+
+  /**
+   * Form builder mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_recipes\Form\RecipeEmailForm
+   */
+  protected $recipeEmailFormMock;
 
   /**
    * Tested recipe hero block.
@@ -194,7 +226,10 @@ class RecipeDetailHeroTest extends UnitTestCase {
       $this->tokenMock,
       $this->themeConfiguratorParserMock,
       $this->mediaHelperMock,
-      $this->languageHelperMock
+      $this->languageHelperMock,
+      $this->formBuilderMock,
+      $this->classResolverMock,
+      $this->rendererMock
     );
 
     $this->themeSettings = [
@@ -223,7 +258,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
    */
   public function blockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(6))
+      ->expects($this->exactly(9))
       ->method('get')
       ->withConsecutive(
         [$this->equalTo('entity_type.manager')],
@@ -231,7 +266,10 @@ class RecipeDetailHeroTest extends UnitTestCase {
         [$this->equalTo('token')],
         [$this->equalTo('mars_common.theme_configurator_parser')],
         [$this->equalTo('mars_media.media_helper')],
-        [$this->equalTo('mars_common.language_helper')]
+        [$this->equalTo('mars_common.language_helper')],
+        [$this->equalTo('form_builder')],
+        [$this->equalTo('class_resolver')],
+        [$this->equalTo('renderer')]
       )
       ->will($this->onConsecutiveCalls(
         $this->entityTypeManagerMock,
@@ -240,6 +278,9 @@ class RecipeDetailHeroTest extends UnitTestCase {
         $this->themeConfiguratorParserMock,
         $this->mediaHelperMock,
         $this->languageHelperMock,
+        $this->formBuilderMock,
+        $this->classResolverMock,
+        $this->rendererMock
       ));
 
     $this->entityTypeManagerMock
@@ -299,6 +340,29 @@ class RecipeDetailHeroTest extends UnitTestCase {
         ],
       ]);
 
+    $this->classResolverMock
+      ->expects($this->any())
+      ->method('getInstanceFromDefinition')
+      ->willReturn($this->recipeEmailFormMock);
+
+    $this->recipeEmailFormMock
+      ->expects($this->any())
+      ->method('setRecipe');
+
+    $this->recipeEmailFormMock
+      ->expects($this->any())
+      ->method('setContextData');
+
+    $this->formBuilderMock
+      ->expects($this->any())
+      ->method('getForm')
+      ->willReturn(['#attached' => []]);
+
+    $this->rendererMock
+      ->expects($this->any())
+      ->method('render')
+      ->willReturn('form_markup');
+
     // Main testing function.
     $build = $this->recipeHeroBlock->build();
 
@@ -335,6 +399,10 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->tokenMock = $this->createMock(Token::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
+    $this->formBuilderMock = $this->createMock(FormBuilderInterface::class);
+    $this->classResolverMock = $this->createMock(ClassResolverInterface::class);
+    $this->rendererMock = $this->createMock(RendererInterface::class);
+    $this->recipeEmailFormMock = $this->createMock(RecipeEmailForm::class);
   }
 
   /**

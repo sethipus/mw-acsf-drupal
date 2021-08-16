@@ -22,7 +22,7 @@ social_media:
     attributes: "target|_blank\r\nclass|facebook-msg\r\nrel|nooopener noreffer"
     img: ''
   linkedin:
-    enable: 0
+    enable: false
     api_url: 'http://www.linkedin.com/shareArticle?mini=true&url=[current-page:url]&title=[current-page:title]&source=[current-page:url]'
     api_event: href
     text: Linkedin
@@ -66,13 +66,13 @@ social_media:
     text: Download
     img: themes/custom/emulsifymars/images/icons/download.svg
   email:
-    enable: 0
-    api_url: 'mailto:?subject=[current-page:title]&body=Check out this site [current-page:url]'
-    api_event: href
+    enable: 1
+    api_url: '#'
+    api_event: onclick
     text: Email
     default_img: 1
-    weight: '7'
-    attributes: class|email
+    weight: '9'
+    attributes: class|js-social-email-btn
     drupalSettings: ''
     library: ''
     img: ''

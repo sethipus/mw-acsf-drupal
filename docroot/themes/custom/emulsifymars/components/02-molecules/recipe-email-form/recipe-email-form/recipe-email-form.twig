@@ -1,0 +1,18 @@
+<div class="recipe-email__brand-shape-wrapper">
+  <div class="entry-gate__brand-shape">
+    {{ brand_shape | raw }}
+  </div>
+</div>
+
+<div class="recipe-email__title">{{ recipe_heading }}</div>
+<div class="recipe-email__description">{{ recipe_description }}</div>
+<div class="recipe-email__checkbox">{{ grocery_list_checkbox }}</div>
+<div class="recipe-email__checkbox">{{ email_recipe_checkbox }}</div>
+<div class="recipe-email__text-input">{{ email_input_field }}</div>
+<div class="recipe-email__submit">
+  {{ captcha }}
+  {{ submit_button }}
+</div>
+<div class="email-recipe-message"></div>
+
+{{ hidden_form_inputs }}
