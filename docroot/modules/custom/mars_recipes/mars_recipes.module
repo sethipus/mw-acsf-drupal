@@ -37,6 +37,7 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'brand_shape' => NULL,
         'select_background_color' => NULL,
         'social_text' => NULL,
+        'email_recipe_form' => NULL,
       ],
       'template' => 'block--mars-recipes--recipe-detail-hero',
     ],
@@ -63,6 +64,14 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'text_color_override' => NULL,
       ],
       'template' => 'block--mars-recipes--recipe-feature-block',
+    ],
+    'recipe_email' => [
+      'template' => 'recipe-email',
+      'render element' => 'form',
+    ],
+    'recipe_email_final' => [
+      'template' => 'recipe-email-final',
+      'render element' => 'form',
     ],
   ];
 }

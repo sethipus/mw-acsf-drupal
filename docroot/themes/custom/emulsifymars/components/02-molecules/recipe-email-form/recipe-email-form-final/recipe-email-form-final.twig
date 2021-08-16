@@ -1,0 +1,21 @@
+<div class="recipe-email-form__submitted">
+  <div class="recipe-email-form__submitted-text">{{ confirmation_message }}</div>
+  <div class="recipe-email-form__submitted-img">
+    <div class="recipe-email-form__circle"></div>
+    <div class="recipe-email-form__tick">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="19" fill="none" viewBox="0 0 26 19">
+        <path fill="#E62B1E" fill-rule="evenodd" d="M24.828.944c.546.545.546 1.43 0 1.976L9.453 18.296c-.546.546-1.431.546-1.977 0l-6.989-6.99c-.546-.545-.546-1.43 0-1.976s1.43-.546 1.977 0l6 6L22.851.945c.546-.546 1.431-.546 1.977 0z" clip-rule="evenodd"/>
+      </svg>
+    </div>
+  </div>
+  <div class="recipe-email-form__png-asset">
+    {% include "@atoms/images/image/responsive-image.twig" with {
+      output_image_tag: true,
+      image_alt: 'Brand Shape',
+      image_src: png_asset,
+      image_array: images,
+      height: '260px',
+      width: '346px',
+    } %}
+  </div>
+</div>
