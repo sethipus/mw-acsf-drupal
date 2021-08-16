@@ -16,7 +16,7 @@ use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\mars_search\Processors\SearchCategoriesInterface;
 
 /**
- * Class SearchGridBlock.
+ * Class SearchGridBlock - search grid block logic.
  *
  * @Block(
  *   id = "search_grid_block",
@@ -433,7 +433,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
    *   Exposed form elements.
    */
   protected function buildExposedFilters() {
-    // TODO Add filters configuration.
+    // @todo Add filters configuration.
     $form = [];
     $config = $this->getConfiguration();
 

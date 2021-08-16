@@ -13,7 +13,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 
 /**
- * Class FeedbackBlockTest.
+ * Class FeedbackBlockTest - unit tests.
  */
 class FeedbackBlockTest extends UnitTestCase {
 

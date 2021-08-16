@@ -381,7 +381,10 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     // Entity Browser element for video.
     $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
       $video_default, $form_state, 1, 'default', function ($form_state) {
-        return in_array($form_state->getValue(['settings', 'block_type']), [self::KEY_OPTION_VIDEO, self::KEY_OPTION_VIDEO_LOOP]);
+        return in_array($form_state->getValue(
+          ['settings', 'block_type']),
+          [self::KEY_OPTION_VIDEO, self::KEY_OPTION_VIDEO_LOOP]
+        );
       }
     );
     // Convert the wrapping container to a details element.
@@ -675,7 +678,10 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     }
 
     $this->configuration['background_video'] = $this->getEntityBrowserValue($form_state, 'background_video');
-    $this->configuration['custom_foreground_image']['image'] = $this->getEntityBrowserValue($form_state, ['custom_foreground_image', 'image']);
+    $this->configuration['custom_foreground_image']['image'] = $this->getEntityBrowserValue(
+      $form_state,
+      ['custom_foreground_image', 'image']
+    );
     if (isset($values['card']) && !empty($values['card'])) {
       foreach ($values['card'] as $key => $card) {
         $this->configuration['card'][$key]['foreground_image'] = $this->getEntityBrowserValue($form_state, [
@@ -700,7 +706,10 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $title = 'homepage hero background image';
     $alt = 'homepage hero background image';
 
-    if (in_array($config['block_type'], [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT])) {
+    if (in_array(
+      $config['block_type'],
+      [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT]
+    )) {
       foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
         // Generate image field name.
         // NOTE: "background_image" for desktop without any suffixes
@@ -717,7 +726,10 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         }
       }
     }
-    elseif (in_array($config['block_type'], [self::KEY_OPTION_VIDEO, self::KEY_OPTION_VIDEO_LOOP])) {
+    elseif (in_array(
+      $config['block_type'],
+      [self::KEY_OPTION_VIDEO, self::KEY_OPTION_VIDEO_LOOP]
+    )) {
       $bg_image_media_ids['video'] = NULL;
 
       if (!empty($config['background_video'])) {

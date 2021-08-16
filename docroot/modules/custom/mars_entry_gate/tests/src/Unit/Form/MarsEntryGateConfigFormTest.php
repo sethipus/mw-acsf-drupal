@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\mars_entry_gate\Unit\Form;
 
-use Drupal;
 use Drupal\Core\Condition\ConditionManager;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -82,7 +81,7 @@ class MarsEntryGateConfigFormTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
-    Drupal::setContainer($this->containerMock);
+    \Drupal::setContainer($this->containerMock);
 
     $this->form = new EntryGateConfigForm(
       $this->configFactoryMock,

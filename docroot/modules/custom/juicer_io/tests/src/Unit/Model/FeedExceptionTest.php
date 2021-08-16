@@ -4,7 +4,6 @@ namespace Drupal\Tests\juicer_io\Unit\Model;
 
 use Drupal\juicer_io\Model\FeedException;
 use Drupal\Tests\UnitTestCase;
-use Exception;
 
 /**
  * Unit tests for FeedException class.
@@ -19,7 +18,7 @@ class FeedExceptionTest extends UnitTestCase {
    * @test
    */
   public function wrappedExceptionShouldContainOriginalOne() {
-    $original_exception = new Exception();
+    $original_exception = new \Exception();
 
     $wrapped_exception = FeedException::wrap(
       $original_exception,
@@ -35,7 +34,7 @@ class FeedExceptionTest extends UnitTestCase {
    * @test
    */
   public function wrappedExceptionShouldBeFeedExceptionInstance() {
-    $original_exception = new Exception();
+    $original_exception = new \Exception();
 
     $wrapped_exception = FeedException::wrap(
       $original_exception,
@@ -52,7 +51,7 @@ class FeedExceptionTest extends UnitTestCase {
    */
   public function wrappedExceptionShouldContainOriginalErrorMessage() {
     $original_message = 'Original error message.';
-    $original_exception = new Exception($original_message);
+    $original_exception = new \Exception($original_message);
 
     $wrapped_exception = FeedException::wrap(
       $original_exception,
@@ -71,7 +70,7 @@ class FeedExceptionTest extends UnitTestCase {
    * @test
    */
   public function wrappedExceptionShouldStartWithNewErrorMessage() {
-    $original_exception = new Exception();
+    $original_exception = new \Exception();
 
     $new_error_message = 'Additional error message';
     $wrapped_exception = FeedException::wrap(

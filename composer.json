@@ -84,7 +84,7 @@
         "drupal/ultimate_cron": "^2.0@alpha",
         "emulsify-ds/emulsify-drupal": "2.2.0",
         "eyecon/jquery_colorpicker": "master",
-        "mars/mars_lighthouse": "v0.0.1",
+        "mars/mars_lighthouse": "v0.0.2",
         "mars/mars_seo": "*",
         "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
@@ -160,9 +160,6 @@
             "drupal/core": "-p2"
         },
         "patches": {
-            "drupal/acquia_contenthub": {
-                "3143039 - file_save_data with FILE_EXISTS_REPLACE results in WSOD": "https://www.drupal.org/files/issues/2021-02-11/acquia_contenthub-8.x-2.x-3143039-5.patch"
-            },
             "drupal/config_ignore": {
                 "Correct drush filtering": "https://www.drupal.org/files/issues/2020-08-18/support-for-export-2857247-54.patch",
                 "Config ignore collection": "https://www.drupal.org/files/issues/2020-11-04/config-ignore-collections-2973431-57.patch"
@@ -257,12 +254,12 @@
             "type": "package",
             "package": {
                 "name": "mars/mars_lighthouse",
-                "version": "v0.0.1",
+                "version": "v0.0.2",
                 "type":"drupal-module",
                 "source": {
                     "url": "git@github.com:Mars-Incorporated/mars_lighthouse.git",
                     "type": "git",
-                    "reference": "v0.0.1"
+                    "reference": "v0.0.2"
                 }
             }
         }

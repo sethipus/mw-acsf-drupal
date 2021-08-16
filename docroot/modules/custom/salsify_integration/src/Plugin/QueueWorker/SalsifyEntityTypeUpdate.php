@@ -128,7 +128,7 @@ class SalsifyEntityTypeUpdate extends QueueWorkerBase implements ContainerFactor
 
     foreach ($salsify_field_mapping as $field_name => $salsify_field) {
       if (isset($fields[$field_name])) {
-        /* @var \Drupal\field\Entity\FieldConfig $field */
+        /** @var \Drupal\field\Entity\FieldConfig $field */
         $field = $fields[$field_name];
         $field_storage = $fields_storage[$field_name];
 

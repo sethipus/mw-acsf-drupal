@@ -13,7 +13,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 
 /**
- * Class DynamicTest.
+ * Class DynamicTest - unit tests.
  *
  * @package Drupal\Tests\mars_recommendations\Unit
  * @covers \Drupal\mars_recommendations\Plugin\MarsRecommendationsLogic\Dynamic

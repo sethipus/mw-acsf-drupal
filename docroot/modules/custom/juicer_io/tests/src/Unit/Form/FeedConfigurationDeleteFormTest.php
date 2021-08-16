@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\juicer_io\Unit\Form;
 
-use Drupal;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
@@ -40,7 +39,7 @@ class FeedConfigurationDeleteFormTest extends UnitTestCase {
    */
   protected function setUp() {
     parent::setUp();
-    Drupal::setContainer($this->createMock(ContainerInterface::class));
+    \Drupal::setContainer($this->createMock(ContainerInterface::class));
     $this->formEntity = $this->createMock(EntityInterface::class);
     $this->messenger = $this->createMock(MessengerInterface::class);
 

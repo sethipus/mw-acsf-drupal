@@ -11,6 +11,9 @@ module: acquia_contenthub_publisher
 callback: acquia_contenthub_publisher_cron
 scheduler:
   id: simple
+  configuration:
+    rules:
+      - '0+@ */3 * * *'
 launcher:
   id: serial
 logger:

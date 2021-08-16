@@ -3,7 +3,7 @@
 namespace Drupal\mars_search\Processors;
 
 /**
- * SearchQueryParserInterface.
+ * SearchQueryParserInterface contains description of methods.
  */
 interface SearchQueryParserInterface {
 
