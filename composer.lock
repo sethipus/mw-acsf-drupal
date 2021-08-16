@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b216c047e8ff086448e89c5f46e1a0c7",
+    "content-hash": "f59656b54a9b87cd44bd729445c9a29f",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -108,37 +108,42 @@
             ],
             "description": "Drush powered command line tools for working with Acquia Cloud Site Factory.",
             "homepage": "https://github.com/acquia/acsf-tools",
+            "support": {
+                "issues": "https://github.com/acquia/acsf-tools/issues",
+                "source": "https://github.com/acquia/acsf-tools/tree/9.x-dev"
+            },
             "time": "2021-08-12T09:01:34+00:00"
         },
         {
             "name": "acquia/blt",
-            "version": "12.7.0",
+            "version": "13.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/blt.git",
-                "reference": "ce857cf07a25f7e638b9cde5bf7adc42085eb40b"
+                "reference": "21fc8247248eab0030f8c82211cdcd799abe763e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/blt/zipball/ce857cf07a25f7e638b9cde5bf7adc42085eb40b",
-                "reference": "ce857cf07a25f7e638b9cde5bf7adc42085eb40b",
+                "url": "https://api.github.com/repos/acquia/blt/zipball/21fc8247248eab0030f8c82211cdcd799abe763e",
+                "reference": "21fc8247248eab0030f8c82211cdcd799abe763e",
                 "shasum": ""
             },
             "require": {
-                "acquia/drupal-environment-detector": "^1.2.1",
-                "composer-plugin-api": "^1.1.0 || ^2.0",
+                "acquia/drupal-environment-detector": "^1.3.0",
+                "composer-plugin-api": "^2.0",
+                "composer-runtime-api": "^2.0",
                 "consolidation/comments": "^1.0",
                 "consolidation/config": "^1.0.0",
                 "consolidation/robo": "^1.4.12 || ^2",
                 "dflydev/dot-access-data": "^1.1.0",
                 "doctrine/annotations": "^1.10.0",
                 "drupal/core": "^9.0.0-alpha1",
-                "drupol/phposinfo": "^1.6",
                 "drush/drush": "^10.2.2",
                 "enlightn/security-checker": "^1.3",
                 "ext-json": "*",
                 "grasmash/yaml-cli": "^2.0.0",
                 "grasmash/yaml-expander": "^1.2.0",
+                "loophp/phposinfo": "^1.7.1",
                 "php": ">=7.3",
                 "symfony/config": "^4.4",
                 "symfony/console": "^4.4.6",
@@ -204,9 +209,9 @@
             "support": {
                 "docs": "https://docs.acquia.com/blt/",
                 "issues": "https://github.com/acquia/blt/issues",
-                "source": "https://github.com/acquia/blt/tree/12.7.0"
+                "source": "https://github.com/acquia/blt/tree/13.0.1"
             },
-            "time": "2021-01-30T01:31:53+00:00"
+            "time": "2021-06-29T16:19:00+00:00"
         },
         {
             "name": "acquia/blt-behat",
@@ -251,6 +256,10 @@
                 }
             ],
             "description": "Behat integration for Acquia BLT",
+            "support": {
+                "issues": "https://github.com/acquia/blt-behat/issues",
+                "source": "https://github.com/acquia/blt-behat/tree/v1.1.1"
+            },
             "time": "2021-01-07T23:57:03+00:00"
         },
         {
@@ -288,6 +297,10 @@
                 }
             ],
             "description": "PHPUnit integration for Acquia BLT",
+            "support": {
+                "issues": "https://github.com/acquia/blt-drupal-test/issues",
+                "source": "https://github.com/acquia/blt-drupal-test/tree/v1.0.0"
+            },
             "time": "2020-11-03T23:25:11+00:00"
         },
         {
@@ -340,16 +353,16 @@
         },
         {
             "name": "acquia/cohesion",
-            "version": "6.6.0",
+            "version": "6.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/cohesion.git",
-                "reference": "91bfaabc430de438070147be39333a734ea293c9"
+                "reference": "8c8a6c16bb7186df4cd8446dd7724a65ae4e700f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/cohesion/zipball/91bfaabc430de438070147be39333a734ea293c9",
-                "reference": "91bfaabc430de438070147be39333a734ea293c9",
+                "url": "https://api.github.com/repos/acquia/cohesion/zipball/8c8a6c16bb7186df4cd8446dd7724a65ae4e700f",
+                "reference": "8c8a6c16bb7186df4cd8446dd7724a65ae4e700f",
                 "shasum": ""
             },
             "require": {
@@ -399,22 +412,22 @@
             ],
             "description": "Site Studio",
             "support": {
-                "source": "https://github.com/acquia/cohesion/tree/6.6.0"
+                "source": "https://github.com/acquia/cohesion/tree/6.6.1"
             },
-            "time": "2021-06-23T13:05:37+00:00"
+            "time": "2021-08-16T09:52:22+00:00"
         },
         {
             "name": "acquia/cohesion-theme",
-            "version": "6.6.0",
+            "version": "6.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/cohesion-theme.git",
-                "reference": "364d380b550ca010931d36ff3e76b221597f3daf"
+                "reference": "1f9e939906de24f010da0d2d2af217e926f322d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/cohesion-theme/zipball/364d380b550ca010931d36ff3e76b221597f3daf",
-                "reference": "364d380b550ca010931d36ff3e76b221597f3daf",
+                "url": "https://api.github.com/repos/acquia/cohesion-theme/zipball/1f9e939906de24f010da0d2d2af217e926f322d9",
+                "reference": "1f9e939906de24f010da0d2d2af217e926f322d9",
                 "shasum": ""
             },
             "type": "drupal-theme",
@@ -432,9 +445,9 @@
             "description": "Site Studio minimal theme",
             "support": {
                 "issues": "https://github.com/acquia/cohesion-theme/issues",
-                "source": "https://github.com/acquia/cohesion-theme/tree/6.6.0"
+                "source": "https://github.com/acquia/cohesion-theme/tree/6.6.1"
             },
-            "time": "2021-06-23T13:06:00+00:00"
+            "time": "2021-08-16T09:52:37+00:00"
         },
         {
             "name": "acquia/content-hub-php",
@@ -546,6 +559,10 @@
                 }
             ],
             "description": "A package providing Acquia ContentHub commands for the CommonConsole command line interface.",
+            "support": {
+                "issues": "https://github.com/acquia/contenthub-console/issues",
+                "source": "https://github.com/acquia/contenthub-console/tree/1.3.1"
+            },
             "time": "2021-08-10T14:24:41+00:00"
         },
         {
@@ -891,6 +908,9 @@
                 "GPL-2.0-or-later"
             ],
             "description": "The best of Drupal, curated by Acquia",
+            "support": {
+                "source": "https://github.com/acquia/lightning/tree/5.2.2"
+            },
             "time": "2021-08-12T18:44:10+00:00"
         },
         {
@@ -1481,6 +1501,10 @@
                 "Behat",
                 "TDD"
             ],
+            "support": {
+                "issues": "https://github.com/tkotosz/behat-extension-driver-locator/issues",
+                "source": "https://github.com/tkotosz/behat-extension-driver-locator/tree/2.0.1"
+            },
             "time": "2020-04-07T10:03:13+00:00"
         },
         {
@@ -1549,6 +1573,10 @@
                 "TDD",
                 "behat-screenshot"
             ],
+            "support": {
+                "issues": "https://github.com/elvetemedve/behat-screenshot/issues",
+                "source": "https://github.com/elvetemedve/behat-screenshot/tree/2.1.0"
+            },
             "time": "2020-04-07T17:03:14+00:00"
         },
         {
@@ -1574,7 +1602,7 @@
             "version": "3.6.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:jquery/jquery-dist.git",
+                "url": "https://github.com/jquery/jquery-dist.git",
                 "reference": "e786e3d9707ffd9b0dd330ca135b66344dcef85a"
             },
             "dist": {
@@ -1837,6 +1865,9 @@
                 "ext-zip": "Enabling the zip extension allows you to unzip archives",
                 "ext-zlib": "Allow gzip compression of HTTP requests"
             },
+            "bin": [
+                "bin/composer"
+            ],
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -3351,6 +3382,9 @@
                 }
             ],
             "description": "Mink driver for controlling chrome without selenium",
+            "support": {
+                "issues": "https://gitlab.com/api/v4/projects/3255077/issues"
+            },
             "time": "2021-04-25T06:49:32+00:00"
         },
         {
@@ -3873,9 +3907,6 @@
                 },
                 "branch-alias": {
                     "dev-8.x-2.x": "2.x-dev"
-                },
-                "patches_applied": {
-                    "Fixed stopPropagation method is deprecated": "patches/stopPropagation-method-is-deprecated.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -5334,8 +5365,7 @@
             "homepage": "https://www.drupal.org/project/computed_field",
             "support": {
                 "source": "https://git.drupalcode.org/project/computed_field"
-            },
-            "time": "2020-05-27T22:07:14+00:00"
+            }
         },
         {
             "name": "drupal/config_filter",
@@ -5430,10 +5460,6 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
-                },
-                "patches_applied": {
-                    "Correct drush filtering": "https://www.drupal.org/files/issues/2021-01-04/config_ignore_2857247-61.patch",
-                    "Config ignore collection": "https://www.drupal.org/files/issues/2020-11-04/config-ignore-collections-2973431-57.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -5922,13 +5948,6 @@
                         "[web-root]/profiles/README.txt": "assets/scaffold/files/profiles.README.txt",
                         "[web-root]/themes/README.txt": "assets/scaffold/files/themes.README.txt"
                     }
-                },
-                "patches_applied": {
-                    "2321071 - Base field overrides fix": "https://www.drupal.org/files/issues/2019-12-24/2321071-39.patch",
-                    "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2869592-remove-update-warning-7.patch",
-                    "[subprofile support] 1356276 - Allow profiles to define a base/parent profile and load them in the correct order / 2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2021-05-20/3143958-14-subprofile-support-9.2.x.patch",
-                    "REMOVE: 2031261 - Fix SQLite variable limit": "https://www.drupal.org/files/issues/2021-02-07/2031261-137.patch",
-                    "REMOVE: Allow installation profile to be changed from Lightning during config sync": "https://www.drupal.org/files/issues/2021-01-21/3143958-12-change-profile-config-sync-9.1.x.patch"
                 }
             },
             "autoload": {
@@ -5974,6 +5993,9 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
+            "support": {
+                "source": "https://github.com/drupal/core/tree/9.2.4"
+            },
             "time": "2021-08-12T17:48:08+00:00"
         },
         {
@@ -6021,6 +6043,9 @@
             "keywords": [
                 "drupal"
             ],
+            "support": {
+                "source": "https://github.com/drupal/core-composer-scaffold/tree/9.2.4"
+            },
             "time": "2021-07-10T22:39:33+00:00"
         },
         {
@@ -6070,6 +6095,9 @@
                 "GPL-2.0-or-later"
             ],
             "description": "require-dev dependencies from drupal/drupal; use in addition to drupal/core-recommended to run tests from drupal/core.",
+            "support": {
+                "source": "https://github.com/drupal/core-dev/tree/9.2.4"
+            },
             "time": "2021-06-01T16:41:50+00:00"
         },
         {
@@ -6108,6 +6136,9 @@
             "keywords": [
                 "drupal"
             ],
+            "support": {
+                "source": "https://github.com/drupal/core-project-message/tree/9.2.4"
+            },
             "time": "2020-09-14T13:40:36+00:00"
         },
         {
@@ -6192,6 +6223,9 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Locked core dependencies; require this project INSTEAD OF drupal/core.",
+            "support": {
+                "source": "https://github.com/drupal/core-recommended/tree/9.2.4"
+            },
             "time": "2021-08-12T17:48:08+00:00"
         },
         {
@@ -6230,6 +6264,9 @@
             "keywords": [
                 "drupal"
             ],
+            "support": {
+                "source": "https://github.com/drupal/core-vendor-hardening/tree/9.2.4"
+            },
             "time": "2021-04-22T15:46:23+00:00"
         },
         {
@@ -7836,8 +7873,7 @@
             "homepage": "https://www.drupal.org/project/fast_404",
             "support": {
                 "source": "https://git.drupalcode.org/project/fast_404"
-            },
-            "time": "2020-09-14T15:03:19+00:00"
+            }
         },
         {
             "name": "drupal/field_group",
@@ -7868,9 +7904,6 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
-                },
-                "patches_applied": {
-                    "Ensure visibility of invalid fields (JS) https://www.drupal.org/project/field_group/issues/2787179": "https://www.drupal.org/files/issues/2020-05-19/2787179-highlight-html5-validation-52.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -8368,9 +8401,6 @@
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."
                     }
-                },
-                "patches_applied": {
-                    "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -9731,9 +9761,6 @@
                     "docroot/themes/contrib/{$name}": [
                         "type:drupal-theme"
                     ]
-                },
-                "patches_applied": {
-                    "Update scheduled status change": "https://www.drupal.org/files/issues/2020-11-12/take-workflow-transitions-into-account-3182093-1.patch"
                 }
             },
             "autoload": {
@@ -9814,10 +9841,6 @@
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."
                     }
-                },
-                "patches_applied": {
-                    "Extra, unconnected max length counter with an id of undefined-counter": "https://www.drupal.org/files/issues/2020-07-27/3076581-9.patch",
-                    "Max length in lines (in textarea field)": "https://www.drupal.org/files/issues/2021-04-13/maxlength-max-length-in-lines-in-textarea-field-2463193-4.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -11166,9 +11189,6 @@
                         "status": "not-covered",
                         "message": "Beta releases are not covered by Drupal security advisories."
                     }
-                },
-                "patches_applied": {
-                    "2778565 - Multilingual support for Panelizer": "https://www.drupal.org/files/issues/2020-03-23/2778565-47.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -11252,9 +11272,6 @@
                 },
                 "branch-alias": {
                     "dev-8.x-4.x": "4.x-dev"
-                },
-                "patches_applied": {
-                    "2878684 - Use String.match to correlate regions when switching Layouts in Panels IPE": "https://www.drupal.org/files/issues/panels-ipe-2878684-3.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -11501,8 +11518,7 @@
             "homepage": "https://www.drupal.org/project/pdf_api",
             "support": {
                 "source": "https://git.drupalcode.org/project/pdf_api"
-            },
-            "time": "2020-11-04T06:26:38+00:00"
+            }
         },
         {
             "name": "drupal/pendo",
@@ -11587,9 +11603,6 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
-                },
-                "patches_applied": {
-                    "Make form actions unique": "https://www.drupal.org/files/issues/2019-04-16/poll-unique_id_actions-3048428-2.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -11648,10 +11661,6 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
-                },
-                "patches_applied": {
-                    "Fix printable stream wrapper.": "patches/fix-url-scheme-for-alter-3190197-4.patch",
-                    "Printable_pdf submodule not compatible with Drupal 9": "https://www.drupal.org/files/issues/2021-05-26/drupal9-compatibiliy-3206982-4.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -12109,9 +12118,6 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
-                },
-                "patches_applied": {
-                    "Remote Stream Wrapper does not work after upgrade drupal 9": "https://www.drupal.org/files/issues/2021-05-10/3185015-29.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -12178,8 +12184,7 @@
             "homepage": "https://www.drupal.org/project/remote_stream_wrapper_widget",
             "support": {
                 "source": "https://git.drupalcode.org/project/remote_stream_wrapper_widget"
-            },
-            "time": "2020-05-24T07:20:06+00:00"
+            }
         },
         {
             "name": "drupal/robotstxt",
@@ -13209,10 +13214,6 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
-                },
-                "patches_applied": {
-                    "The job has no provider assigned": "https://www.drupal.org/files/issues/2020-10-30/tmgmt-2690201-19.patch",
-                    "Source list limit setting": "https://www.drupal.org/files/issues/2020-11-11/tmgmt-settings-limit.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -13417,9 +13418,6 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
-                },
-                "patches_applied": {
-                    "The job has no provider assigned": "https://www.drupal.org/files/issues/2020-11-06/tmgmt-smartling-the-job-has-no-provider-assigned.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -13667,9 +13665,6 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
-                },
-                "patches_applied": {
-                    "Unable to load the vendor files": "https://www.drupal.org/files/issues/2020-06-28/vendor_stream_wrapper_3060176_16.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -13810,62 +13805,6 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/views_infinite_scroll"
             }
-        },
-        {
-            "name": "drupol/phposinfo",
-            "version": "1.6.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/drupol/phposinfo.git",
-                "reference": "36b0250d38279c8a131a1898a31e359606024507"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/drupol/phposinfo/zipball/36b0250d38279c8a131a1898a31e359606024507",
-                "reference": "36b0250d38279c8a131a1898a31e359606024507",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">= 7.1.3"
-            },
-            "require-dev": {
-                "drupol/php-conventions": "^1.7.1",
-                "friends-of-phpspec/phpspec-code-coverage": "^4.3.2",
-                "infection/infection": "^0.13.6 || ^0.15.0",
-                "phpspec/phpspec": "^5.1.2 || ^6.1.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "drupol\\phposinfo\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Pol Dellaiera",
-                    "email": "pol.dellaiera@protonmail.com"
-                }
-            ],
-            "description": "Try to guess the host operating system.",
-            "keywords": [
-                "operating system detection"
-            ],
-            "support": {
-                "issues": "https://github.com/drupol/phposinfo/issues",
-                "source": "https://github.com/drupol/phposinfo/tree/master"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/drupol",
-                    "type": "github"
-                }
-            ],
-            "abandoned": "loophp/phposinfo",
-            "time": "2020-05-19T14:14:28+00:00"
         },
         {
             "name": "drush/drush",
@@ -15231,6 +15170,10 @@
                 }
             ],
             "description": "Behat 3 JUnit xml formatter",
+            "support": {
+                "issues": "https://github.com/j-arnaiz/behat-junit-formatter/issues",
+                "source": "https://github.com/j-arnaiz/behat-junit-formatter/tree/master"
+            },
             "time": "2016-01-26T17:05:07+00:00"
         },
         {
@@ -16139,6 +16082,68 @@
             "time": "2019-05-05T09:22:01+00:00"
         },
         {
+            "name": "loophp/phposinfo",
+            "version": "1.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/loophp/phposinfo.git",
+                "reference": "106e7b3f00849dce1787ebf38da493ba586b48f2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/loophp/phposinfo/zipball/106e7b3f00849dce1787ebf38da493ba586b48f2",
+                "reference": "106e7b3f00849dce1787ebf38da493ba586b48f2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 7.3"
+            },
+            "require-dev": {
+                "drupol/php-conventions": "^3.0.2",
+                "friends-of-phpspec/phpspec-code-coverage": "^5",
+                "infection/infection": "^0.18",
+                "infection/phpspec-adapter": "^0.1.1",
+                "phpspec/phpspec": "^6",
+                "vimeo/psalm": "^4.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "loophp\\phposinfo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pol Dellaiera",
+                    "email": "pol.dellaiera@protonmail.com"
+                }
+            ],
+            "description": "Try to guess the host operating system.",
+            "keywords": [
+                "operating system detection"
+            ],
+            "support": {
+                "docs": "https://loophp-collection.rtfd.io",
+                "issues": "https://github.com/loophp/collection/issues",
+                "source": "https://github.com/loophp/collection"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/drupol",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.paypal.me/drupol",
+                    "type": "paypal"
+                }
+            ],
+            "time": "2021-06-29T07:18:36+00:00"
+        },
+        {
             "name": "maennchen/zipstream-php",
             "version": "2.1.0",
             "source": {
@@ -16217,8 +16222,7 @@
                 "url": "git@github.com:Mars-Incorporated/mars_lighthouse.git",
                 "reference": "master"
             },
-            "type": "drupal-module",
-            "time": "2021-08-06T09:53:18+00:00"
+            "type": "drupal-module"
         },
         {
             "name": "mars/mars_seo",
@@ -16455,12 +16459,8 @@
                 "url": "https://github.com/mikemadison13/blt-azure-pipelines",
                 "reference": "98ee713d53e6d82fe6df313b39c58315505bfe60"
             },
+            "default-branch": true,
             "type": "library",
-            "extra": {
-                "patches_applied": {
-                    "Pipelines builds fail with 'Command validate:all is not defined'": "patches/blt-azure-pipelines.patch"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Acquia\\AzurePipelines\\": "./src/"
@@ -20364,6 +20364,10 @@
                 }
             ],
             "description": "SAML2 PHP library from SimpleSAMLphp",
+            "support": {
+                "issues": "https://github.com/simplesamlphp/saml2/issues",
+                "source": "https://github.com/simplesamlphp/saml2/tree/v4.2.3"
+            },
             "time": "2021-08-10T07:09:22+00:00"
         },
         {
@@ -20496,16 +20500,16 @@
         },
         {
             "name": "simplesamlphp/simplesamlphp-module-adfs",
-            "version": "v0.9.6",
+            "version": "v0.9.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/simplesamlphp-module-adfs.git",
-                "reference": "425e5ebbdd097c92fe5265a6b48d32a3095c7237"
+                "reference": "2f26487736cb4011fe353528b3afe01630259094"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp-module-adfs/zipball/425e5ebbdd097c92fe5265a6b48d32a3095c7237",
-                "reference": "425e5ebbdd097c92fe5265a6b48d32a3095c7237",
+                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp-module-adfs/zipball/2f26487736cb4011fe353528b3afe01630259094",
+                "reference": "2f26487736cb4011fe353528b3afe01630259094",
                 "shasum": ""
             },
             "require": {
@@ -20514,7 +20518,9 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "~5.7",
+                "sensiolabs/security-checker": "^5.0",
                 "simplesamlphp/simplesamlphp": "^1.17",
+                "simplesamlphp/simplesamlphp-test-framework": "^0.0.15",
                 "webmozart/assert": "<1.7"
             },
             "type": "simplesamlphp-module",
@@ -20542,7 +20548,7 @@
                 "issues": "https://github.com/tvdijen/simplesamlphp-module-adfs/issues",
                 "source": "https://github.com/tvdijen/simplesamlphp-module-adfs"
             },
-            "time": "2020-03-31T14:29:24+00:00"
+            "time": "2021-08-16T08:56:26+00:00"
         },
         {
             "name": "simplesamlphp/simplesamlphp-module-authcrypt",
@@ -22047,16 +22053,16 @@
         },
         {
             "name": "smalot/pdfparser",
-            "version": "v1.0.2",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smalot/pdfparser.git",
-                "reference": "35c88120b7a6edebb54037a3bb15c5de3a5c8a24"
+                "reference": "43e436f32fd0e3d1f808c3b1768975c598c9a7df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/35c88120b7a6edebb54037a3bb15c5de3a5c8a24",
-                "reference": "35c88120b7a6edebb54037a3bb15c5de3a5c8a24",
+                "url": "https://api.github.com/repos/smalot/pdfparser/zipball/43e436f32fd0e3d1f808c3b1768975c598c9a7df",
+                "reference": "43e436f32fd0e3d1f808c3b1768975c598c9a7df",
                 "shasum": ""
             },
             "require": {
@@ -22091,9 +22097,9 @@
             ],
             "support": {
                 "issues": "https://github.com/smalot/pdfparser/issues",
-                "source": "https://github.com/smalot/pdfparser/tree/v1.0.2"
+                "source": "https://github.com/smalot/pdfparser/tree/v1.1.0"
             },
-            "time": "2021-06-17T07:28:42+00:00"
+            "time": "2021-08-03T08:33:34+00:00"
         },
         {
             "name": "solarium/solarium",
@@ -22152,6 +22158,10 @@
                 "search",
                 "solr"
             ],
+            "support": {
+                "issues": "https://github.com/solariumphp/solarium/issues",
+                "source": "https://github.com/solariumphp/solarium/tree/6.1.5"
+            },
             "time": "2021-08-12T15:28:32+00:00"
         },
         {
@@ -22278,28 +22288,28 @@
         },
         {
             "name": "spatie/ssl-certificate",
-            "version": "1.21.0",
+            "version": "1.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ssl-certificate.git",
-                "reference": "3f827acdbff1745e1af2a4a38d7b985494db4ac1"
+                "reference": "c4756c3f18f9abeea62cfe99fc841229d9fead2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ssl-certificate/zipball/3f827acdbff1745e1af2a4a38d7b985494db4ac1",
-                "reference": "3f827acdbff1745e1af2a4a38d7b985494db4ac1",
+                "url": "https://api.github.com/repos/spatie/ssl-certificate/zipball/c4756c3f18f9abeea62cfe99fc841229d9fead2c",
+                "reference": "c4756c3f18f9abeea62cfe99fc841229d9fead2c",
                 "shasum": ""
             },
             "require": {
                 "ext-intl": "*",
                 "ext-json": "*",
-                "nesbot/carbon": "^2.3",
-                "php": "^7.2",
+                "nesbot/carbon": "^2.23",
+                "php": "^7.4|^8.0",
                 "spatie/macroable": "^1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.0",
-                "spatie/phpunit-snapshot-assertions": "^2.0"
+                "phpunit/phpunit": "^9.0",
+                "spatie/phpunit-snapshot-assertions": "^4.2.3"
             },
             "type": "library",
             "autoload": {
@@ -22330,14 +22340,19 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/ssl-certificate/issues",
-                "source": "https://github.com/spatie/ssl-certificate/tree/1.21.0"
+                "source": "https://github.com/spatie/ssl-certificate/tree/1.22.1"
             },
             "funding": [
                 {
-                    "type": "spatie"
+                    "url": "https://github.com/sponsors/spatie",
+                    "type": "github"
+                },
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "other"
                 }
             ],
-            "time": "2020-10-19T06:41:57+00:00"
+            "time": "2021-02-15T15:42:15+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -22504,6 +22519,10 @@
                 "swagger",
                 "ui"
             ],
+            "support": {
+                "issues": "https://github.com/swagger-api/swagger-ui/issues",
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.52.0"
+            },
             "time": "2021-08-09T15:14:18+00:00"
         },
         {
@@ -23160,11 +23179,6 @@
                 "symfony/yaml": ""
             },
             "type": "library",
-            "extra": {
-                "patches_applied": {
-                    "Fixed error with cross services": "patches/dependency-injection.patch"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\DependencyInjection\\": ""
@@ -26220,6 +26234,10 @@
                 }
             ],
             "description": "WebSocket client and server",
+            "support": {
+                "issues": "https://github.com/Textalk/websocket-php/issues",
+                "source": "https://github.com/Textalk/websocket-php/tree/1.5.5"
+            },
             "time": "2021-08-07T10:21:40+00:00"
         },
         {
@@ -27040,7 +27058,14 @@
     },
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=7.4",
+        "ext-dom": "*",
+        "ext-json": "*"
+    },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "platform-overrides": {
+        "php": "7.4"
+    },
+    "plugin-api-version": "2.1.0"
 }
