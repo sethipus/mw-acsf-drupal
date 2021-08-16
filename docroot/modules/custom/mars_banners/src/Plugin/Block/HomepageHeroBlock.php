@@ -355,8 +355,13 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         };
       }
 
-      $form[$name] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
-        $image_default, $form_state, 1, 'thumbnail', $validate_callback,
+      $form[$name] = $this->getEntityBrowserForm(
+        self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $image_default,
+        $form_state,
+        1,
+        'thumbnail',
+        $validate_callback
       );
 
       // Convert the wrapping container to a details element.
