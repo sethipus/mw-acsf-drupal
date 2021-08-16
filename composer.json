@@ -8,7 +8,7 @@
         "ext-dom": "*",
         "ext-json": "*",
         "acquia/acsf-tools": "dev-9.x-dev",
-        "acquia/blt": "^13",
+        "acquia/blt": "12.7",
         "acquia/blt-behat": "^1.1",
         "acquia/blt-drupal-test": "^1.0",
         "acquia/cohesion": "^6.6",
