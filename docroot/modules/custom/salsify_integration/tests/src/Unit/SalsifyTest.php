@@ -228,9 +228,11 @@ class SalsifyTest extends UnitTestCase {
           'salsify:url' => 'https://tes.t/test',
         ],
         'products' => [
-          'salsify:id' => '00040000004059',
-          'GTIN' => '00040000004059',
-          'Trade Item Description' => 'TWIX CARAMEL KING SIZE 3.02 OUNCE',
+          [
+            'salsify:id' => '00040000004059',
+            'GTIN' => '00040000004059',
+            'Trade Item Description' => 'TWIX CARAMEL KING SIZE 3.02 OUNCE',
+          ],
         ],
         'mapping' => [],
         'market' => 'US',

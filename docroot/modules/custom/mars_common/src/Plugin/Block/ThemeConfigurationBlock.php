@@ -142,6 +142,30 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
     $this->themeConfiguratorService->formSystemThemeSettingsSubmit($form, $form_state);
     $font_fields = $this->themeConfiguratorService->getFontFields();
     $form_state_values = $form_state->getValues();
+    $temp_form_state_values = $form_state_values;
+
+    // Compare values to theme config.
+    $default_config = $this->defaultConfiguration();
+    foreach ($form_state_values as $key => $value) {
+      if (!isset($default_config[$key])) {
+        continue;
+      }
+
+      if (is_array($value)) {
+        foreach ($value as $key2 => $value2) {
+          if ($value2 === theme_get_setting($key2)) {
+            unset($temp_form_state_values[$key][$key2]);
+          }
+        }
+      }
+      else {
+        if ($value === theme_get_setting($key)) {
+          unset($temp_form_state_values[$key]);
+        }
+      }
+    }
+    $form_state_values = $temp_form_state_values;
+
     foreach ($font_fields as $field) {
       if ($form_state->hasValue($field . '_path')) {
         $form_state_values['font_settings'][$field . '_path'] = $form_state->getValue($field . '_path');
