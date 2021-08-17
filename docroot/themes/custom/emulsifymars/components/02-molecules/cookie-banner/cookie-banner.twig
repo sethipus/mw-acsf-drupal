@@ -1,12 +1,28 @@
-<div class="cookie-parent-div">
-  <div class="cookie-banner-content">
-    <p>
-      We use cookies to personalize content and ads, to provide social media features and to analyze our traffic. See our <a href="https://www.mars.com/cookies-english" target="_blank" aria-label="See our Cookie Policy">cookie policy</a> You can use cookie settings to change your preferences.
-    </p>
+{% set cookie_banner__base_class = cookie_banner__base_class|default('cookie-banner') %}
+{% if brand_border is not empty %}
+  {% set cookie_banner__modifiers = ['brand-border'] %}
+{% endif %}
+
+<div {{ bem(cookie_banner__base_class, cookie_banner__modifiers) }} data-theme="{{ theme_styles }}">
+  {% if brand_border is not empty %}
+    {% block brand_border %}
+      <div {{  bem('border', [], cookie_banner__base_class)  }}>
+        {{ brand_border | raw }}
+      </div>
+    {% endblock %}
+  {% endif %}
+
+  <div {{ bem('wrapper', [], cookie_banner__base_class) }}>
+    <div {{ bem('content', [], cookie_banner__base_class) }}>
+      <p>
+        We use cookies to personalize content and ads, to provide social media features and to analyze our traffic. See our <a href="https://www.mars.com/cookies-english" target="_blank" aria-label="See our Cookie Policy">cookie policy</a> You can use cookie settings to change your preferences.
+      </p>
+    </div>
+    <div {{ bem('link', [], cookie_banner__base_class) }}>
+      <button id="cookie-banner-settings">Cookie Settings</button>
+      <button id="onetrust-accept-btn-handler">Accept Cookies</button>
+    </div>
+    <button class="cookie-banner-close-button"></button>
   </div>
-  <div class="cookie-banner-link">
-    <button id="cookie-banner-settings">Cookie Settings</button>
-    <button id="onetrust-accept-btn-handler">Accept Cookies</button>
-  </div>
-  <button class="cookie-banner-close-button"></button>
 </div>
+
