@@ -142,16 +142,39 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
     $this->themeConfiguratorService->formSystemThemeSettingsSubmit($form, $form_state);
     $font_fields = $this->themeConfiguratorService->getFontFields();
     $form_state_values = $form_state->getValues();
+    if (isset($form_state_values['social']) && isset($form_state_values['social']['add_social'])) {
+      unset($form_state_values['social']['add_social']);
+    }
     $temp_form_state_values = $form_state_values;
 
     // Compare values to theme config.
     $default_config = $this->defaultConfiguration();
     foreach ($form_state_values as $key => $value) {
-      if (!isset($default_config[$key])) {
+      if (in_array($key, ['provider', 'label', 'label_display'])) {
         continue;
       }
 
-      if (is_array($value)) {
+      if ($key == 'social') {
+        foreach ($value as $key2 => $value2) {
+          unset($value2['remove_social']);
+          if ($value2 === theme_get_setting('social.'.$key2)) {
+            unset($temp_form_state_values[$key][$key2]);
+          }
+        }
+      }
+      elseif ($key === 'logo') {
+        foreach ($value['settings'] as $key2 => $value2) {
+          $setting_path = $key2;
+          if ($setting_path === 'logo_path') {
+            $setting_path = 'logo.path';
+          }
+          if ($value2 === theme_get_setting($setting_path)) {
+            unset($temp_form_state_values['logo']['settings'][$key2]);
+          }
+        }
+      }
+      // Color settings and font settings are flattened in the theme config, but nested in this config.
+      elseif (in_array($key, ['color_settings', 'font_settings'])) {
         foreach ($value as $key2 => $value2) {
           if ($value2 === theme_get_setting($key2)) {
             unset($temp_form_state_values[$key][$key2]);
@@ -164,15 +187,13 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
         }
       }
     }
+
     $form_state_values = $temp_form_state_values;
 
     foreach ($font_fields as $field) {
       if ($form_state->hasValue($field . '_path')) {
         $form_state_values['font_settings'][$field . '_path'] = $form_state->getValue($field . '_path');
       }
-    }
-    if (isset($form_state_values['social']) && isset($form_state_values['social']['add_social'])) {
-      unset($form_state_values['social']['add_social']);
     }
 
     // If the user uploaded a new logo, save it to a permanent location
