@@ -216,7 +216,7 @@ class ThemeConfiguratorService {
     $form['logo']['settings']['logo_alt'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Alternative image text'),
-      '#default_value' => $this->getLogoAltData('logo_alt'),
+      '#default_value' => $this->getLogoAltData('logo_alt', $config),
     ];
 
     $form['color_settings'] = [

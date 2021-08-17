@@ -142,38 +142,47 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
     $this->themeConfiguratorService->formSystemThemeSettingsSubmit($form, $form_state);
     $font_fields = $this->themeConfiguratorService->getFontFields();
     $form_state_values = $form_state->getValues();
+
+    // Collapse these values to match structure.
+    if (!empty($form_state_values['logo']['settings'])) {
+      foreach ($form_state_values['logo']['settings'] as $key => $value) {
+        $form_state_values['logo'][$key] = $value;
+      }
+      unset($form_state_values['logo']['settings']);
+    }
+
     if (isset($form_state_values['social']) && isset($form_state_values['social']['add_social'])) {
       unset($form_state_values['social']['add_social']);
     }
     $temp_form_state_values = $form_state_values;
 
     // Compare values to theme config.
-    $default_config = $this->defaultConfiguration();
     foreach ($form_state_values as $key => $value) {
       if (in_array($key, ['provider', 'label', 'label_display'])) {
         continue;
       }
 
-      if ($key == 'social') {
+      if ($key === 'social') {
         foreach ($value as $key2 => $value2) {
           unset($value2['remove_social']);
-          if ($value2 === theme_get_setting('social.'.$key2)) {
+          if ($value2 === theme_get_setting('social.' . $key2)) {
             unset($temp_form_state_values[$key][$key2]);
           }
         }
       }
       elseif ($key === 'logo') {
-        foreach ($value['settings'] as $key2 => $value2) {
+        foreach ($value as $key2 => $value2) {
           $setting_path = $key2;
           if ($setting_path === 'logo_path') {
             $setting_path = 'logo.path';
           }
           if ($value2 === theme_get_setting($setting_path)) {
-            unset($temp_form_state_values['logo']['settings'][$key2]);
+            unset($temp_form_state_values['logo'][$key2]);
           }
         }
       }
-      // Color settings and font settings are flattened in the theme config, but nested in this config.
+      // Color settings and font settings are flattened in the theme config,
+      // but nested in this config.
       elseif (in_array($key, ['color_settings', 'font_settings'])) {
         foreach ($value as $key2 => $value2) {
           if ($value2 === theme_get_setting($key2)) {
