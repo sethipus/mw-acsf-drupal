@@ -166,9 +166,7 @@ class ThemeConfiguratorService {
         $form_storage['social'] = $social_settings;
       }
       else {
-        $form_storage['social'] = [
-          ['icon' => '', 'link' => '', 'name' => ''],
-        ];
+        $form_storage['social'] = [];
       }
     }
     // Process multiple social links with form_state.
