@@ -191,7 +191,8 @@
     right: 1.5rem;
 
     @include medium {
-      right: 3rem;
+      right: calc(50% + 3rem);
+      transform: translateX(50vw);
     }
   }
 
@@ -199,7 +200,8 @@
     left: 1.5rem;
 
     @include medium {
-      left: 3rem;
+      left: calc(50% + 3rem);
+      transform: translateX(-50vw);
     }
   }
 
