@@ -38,23 +38,16 @@
 .no-results-links-container {
   display: flex;
   justify-content: center;
-  padding-bottom: 80px;
   flex-direction: column;
+  padding: 0 40px 80px;
 
   @include medium {
     flex-direction: row;
   }
 
-  .default-link {
-    margin: 0 40px;
-    text-align: center;
-
+  .default-link + .default-link {
     @include medium {
-      margin: 0 20px 0 0;
-
-      &:last-child {
-        margin-right: 0;
-      }
+      margin-left: 20px;
     }
   }
 }
