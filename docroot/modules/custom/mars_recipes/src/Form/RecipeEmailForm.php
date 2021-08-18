@@ -116,7 +116,8 @@ class RecipeEmailForm extends FormBase implements FormInterface, ContainerInject
         ->toString();
     }
     else {
-      if ($this->recipe && $this->recipe->get('field_recipe_ingredients')->getValue()) {
+      if (($this->recipe && $this->recipe->get('field_recipe_ingredients')->getValue()) &&
+        !empty($this->contextData['checkboxes_container']['grocery_list'])) {
         $form['grocery_list'] = [
           '#type' => 'checkbox',
           '#title' => $this->contextData['checkboxes_container']['grocery_list'] ?? $this->t('Email a grocery list'),
@@ -125,12 +126,14 @@ class RecipeEmailForm extends FormBase implements FormInterface, ContainerInject
         ];
       }
 
-      $form['email_recipe'] = [
-        '#type' => 'checkbox',
-        '#title' => $this->contextData['checkboxes_container']['email_recipe'] ?? $this->t('Email a recipe'),
-        '#default_value' => FALSE,
-        '#description' => $this->contextData['checkboxes_container']['email_recipe'] ?? $this->t('Email a recipe'),
-      ];
+      if (!empty($this->contextData['checkboxes_container']['email_recipe'])) {
+        $form['email_recipe'] = [
+          '#type' => 'checkbox',
+          '#title' => $this->contextData['checkboxes_container']['email_recipe'] ?? $this->t('Email a recipe'),
+          '#default_value' => FALSE,
+          '#description' => $this->contextData['checkboxes_container']['email_recipe'] ?? $this->t('Email a recipe'),
+        ];
+      }
 
       $form['email'] = [
         '#type' => 'textfield',
@@ -190,7 +193,8 @@ class RecipeEmailForm extends FormBase implements FormInterface, ContainerInject
     ));
 
     // Error border for checkboxes.
-    if (!$grocery_value && !$email_recipe_value) {
+    if (!$grocery_value && !$email_recipe_value &&
+      (isset($form['email_recipe']) || isset($form['grocery_list']))) {
       $response->addCommand(new InvokeCommand(
         '[name=email_recipe], [name=grocery_list]',
         'addClass',
@@ -289,7 +293,7 @@ class RecipeEmailForm extends FormBase implements FormInterface, ContainerInject
       }
 
       $send_recipe_email = $form_state->getValue('email_recipe');
-      if ($send_recipe_email) {
+      if ($send_recipe_email || (!isset($form['email_recipe']) && !isset($form['grocery_list']))) {
         try {
           \Drupal::service('plugin.manager.mail')->mail(
             'mars_recipe',
@@ -344,7 +348,8 @@ class RecipeEmailForm extends FormBase implements FormInterface, ContainerInject
       $form_state->set('is_captcha_valid', $is_captcha_valid);
     }
 
-    return !((!$grocery_value && !$email_recipe_value)
+    return !((!$grocery_value && !$email_recipe_value &&
+        (isset($form['email_recipe']) || isset($form['grocery_list'])))
     || empty($email)
     || !filter_var($email, FILTER_VALIDATE_EMAIL)
     || (isset($is_captcha_valid) && !$is_captcha_valid));
