@@ -2,19 +2,12 @@
   position: relative;
   text-align: center;
   padding: 5rem 2rem;
-  margin-bottom: 0.375rem;
-  
+
   @include medium {
-    margin-bottom: 1.125rem;
     padding: 6rem 2rem;
   }
-  
-  @include large {
-    margin-bottom: 1.688rem;  
-  }
-  
+
   @include xl {
-    margin-bottom: 2.78vw;
       padding: 8rem 2rem;
   }
 
