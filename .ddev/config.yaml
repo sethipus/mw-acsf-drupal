@@ -1,8 +1,9 @@
 APIVersion: v1.13.1
 name: mars
-type: drupal8
+type: drupal9
 docroot: docroot
 php_version: "7.4"
+mariadb_version: 10.5
 webserver_type: nginx-fpm
 router_http_port: "8080"
 router_https_port: "8443"
@@ -48,7 +49,6 @@ timezone: ""
 # mariadb_version and mysql_version
 # ddev can use many versions of mariadb and mysql
 # However these directives are mutually exclusive
-mariadb_version: 10.5
 # mysql_version: 8.0
 
 # router_http_port: <port>  # Port to be used for http (defaults to port 80)

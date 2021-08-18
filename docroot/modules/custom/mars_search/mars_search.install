@@ -133,7 +133,7 @@ function mars_search_update_8005() {
 }
 
 /**
- * Disable new view 'Acquia Search' for remove 'Search' link from main menu.
+ * Disable new view 'Acquia Search' for removing 'Search' link from main menu.
  */
 function mars_search_update_8006() {
   $storage = \Drupal::entityTypeManager()->getStorage('view');
