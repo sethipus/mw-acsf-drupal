@@ -116,12 +116,14 @@ class RecipeEmailForm extends FormBase implements FormInterface, ContainerInject
         ->toString();
     }
     else {
-      $form['grocery_list'] = [
-        '#type' => 'checkbox',
-        '#title' => $this->contextData['checkboxes_container']['grocery_list'] ?? $this->t('Email a grocery list'),
-        '#default_value' => FALSE,
-        '#description' => $this->contextData['checkboxes_container']['grocery_list'] ?? $this->t('Email a grocery list'),
-      ];
+      if ($this->recipe && $this->recipe->get('field_recipe_ingredients')->getValue()) {
+        $form['grocery_list'] = [
+          '#type' => 'checkbox',
+          '#title' => $this->contextData['checkboxes_container']['grocery_list'] ?? $this->t('Email a grocery list'),
+          '#default_value' => FALSE,
+          '#description' => $this->contextData['checkboxes_container']['grocery_list'] ?? $this->t('Email a grocery list'),
+        ];
+      }
 
       $form['email_recipe'] = [
         '#type' => 'checkbox',
