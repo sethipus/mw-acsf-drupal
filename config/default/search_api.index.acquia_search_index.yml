@@ -420,6 +420,42 @@ processor_settings:
     content_type_weight: {  }
   entity_status: {  }
   faq_item_queue_weight: {  }
+  ignore_character:
+    all_fields: false
+    fields:
+      - faq_filter_topic
+      - field_qa_item_answer
+      - field_qa_item_question
+      - mars_brand_initiatives_name
+      - mars_category_name
+      - mars_culture_name
+      - mars_diet_allergens_name
+      - mars_flavor_name
+      - mars_food_type_name
+      - mars_format_name
+      - mars_main_ingredient_name
+      - mars_meal_type_name
+      - mars_method_name
+      - mars_occasions_name
+      - mars_prep_time_name
+      - mars_product_used_name
+      - mars_recipe_collection_name
+      - mars_trade_item_description_name
+      - product_name
+      - title
+      - type
+    ignorable: '[''¿¡!?,.:;]'
+    ignorable_classes:
+      - Pc
+      - Pd
+      - Pe
+      - Pf
+      - Pi
+      - Po
+      - Ps
+    weights:
+      preprocess_index: -10
+      preprocess_query: -10
   language_with_fallback: {  }
   mars_highlight:
     highlight: always
