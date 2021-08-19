@@ -24,6 +24,7 @@
     right: -60%;
     width: 145%;
     height: 145%;
+    pointer-events: none;
 
     @include medium {
       top: -5%;
