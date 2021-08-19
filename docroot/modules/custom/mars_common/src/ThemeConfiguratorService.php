@@ -133,10 +133,10 @@ class ThemeConfiguratorService {
   }
 
   /**
-   * Get data.
+   * Get data from the passed config array or from current theme.
    */
   protected function getData(string $subject, string $key, array $config = NULL) {
-    return !empty($config) ? $config[$subject][$key] : theme_get_setting($key);
+    return !empty($config[$subject][$key]) ? $config[$subject][$key] : theme_get_setting($key);
   }
 
   /**
@@ -159,7 +159,7 @@ class ThemeConfiguratorService {
   ) {
     global $base_url;
     $form_storage = $form_state->getStorage();
-    $social_settings = !empty($config) ? $config['social'] : theme_get_setting('social');
+    $social_settings = !empty($config['social']) ? $config['social'] : theme_get_setting('social');
     // Init social form elements.
     if (!isset($form_storage['social'])) {
       if (isset($social_settings) && count($social_settings) > 0) {
@@ -196,7 +196,7 @@ class ThemeConfiguratorService {
       $form['logo']['settings']['logo_path'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Path to custom logo'),
-        '#default_value' => !empty($config) ? $config['logo_path'] : '',
+        '#default_value' => !empty($config['logo_path']) ? $config['logo_path'] : \theme_get_setting('logo.path'),
       ];
       $form['logo']['settings']['logo_upload'] = [
         '#type' => 'file',
@@ -216,7 +216,7 @@ class ThemeConfiguratorService {
     $form['logo']['settings']['logo_alt'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Alternative image text'),
-      '#default_value' => $this->getLogoAltData('logo_alt'),
+      '#default_value' => $this->getLogoAltData('logo_alt', $config),
     ];
 
     $form['color_settings'] = [
