@@ -13,6 +13,7 @@
     position: relative;
     max-width: 1440px;
     margin: 0 auto;
+    overflow: hidden;
   }
 
   &__heading {
@@ -191,8 +192,7 @@
     right: 1.5rem;
 
     @include medium {
-      right: calc(50% + 3rem);
-      transform: translateX(50vw);
+      right: 3rem;
     }
   }
 
@@ -200,8 +200,7 @@
     left: 1.5rem;
 
     @include medium {
-      left: calc(50% + 3rem);
-      transform: translateX(-50vw);
+      left: 3rem;
     }
   }
 
