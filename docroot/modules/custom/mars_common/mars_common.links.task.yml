@@ -3,3 +3,7 @@ mars_common.poll.votes:
   base_route: entity.poll.canonical
   title: 'Results'
   weight: 10
+mars_common.emails_configuration:
+  route_name: mars_common.admin.emails_configuration
+  title: 'Emails configuration'
+  base_route: mars_common.admin.emails_configuration

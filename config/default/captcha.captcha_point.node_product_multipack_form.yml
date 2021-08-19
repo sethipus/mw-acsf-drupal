@@ -1,0 +1,7 @@
+uuid: aced579e-744d-49ec-a69e-eda68dda932b
+langcode: en
+status: false
+dependencies: {  }
+formId: node_product_multipack_form
+captchaType: default
+label: null
