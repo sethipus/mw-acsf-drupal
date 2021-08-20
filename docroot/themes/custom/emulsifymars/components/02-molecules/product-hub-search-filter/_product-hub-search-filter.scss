@@ -7,6 +7,14 @@
     padding-bottom: 2rem;
   }
 
+  @include tablet {
+    padding: 6rem 2rem 2rem;
+  }
+
+  @include small {
+    padding: 5rem 2rem 1rem
+  }
+
   &__search {
     margin: 60px auto;
     max-width: 896px;
