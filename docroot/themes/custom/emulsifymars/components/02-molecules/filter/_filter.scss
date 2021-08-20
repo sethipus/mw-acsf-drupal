@@ -134,7 +134,7 @@
   border: none;
   text-align: left;
 
-  @include large {
+  @include desktop {
     margin: 0 0 3rem;
   }
 
