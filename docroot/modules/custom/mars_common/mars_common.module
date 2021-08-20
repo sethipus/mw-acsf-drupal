@@ -908,14 +908,14 @@ function add_cache_by_label_config(array &$variables) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function mars_common_form_node_campaign_edit_form_alter(&$form, FormStateInterface $form_state, $form_id){
+function mars_common_form_node_campaign_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $form['form_help_text'] = _campaign_form_theme_config_help_text();
 }
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function mars_common_form_node_campaign_form_alter(&$form, FormStateInterface $form_state, $form_id){
+function mars_common_form_node_campaign_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $form['form_help_text'] = _campaign_form_theme_config_help_text();
 }
 
@@ -923,7 +923,7 @@ function mars_common_form_node_campaign_form_alter(&$form, FormStateInterface $f
  * Returns a help text markup element.
  *
  * @return array
- *  The markup element.
+ *   The markup element.
  */
 function _campaign_form_theme_config_help_text() {
   return [
