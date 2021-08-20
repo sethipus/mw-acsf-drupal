@@ -1,4 +1,9 @@
 .where-to-buy {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  white-space: nowrap;
+
   .where-to-buy-link {
     @include set-font($font-type: 'secondary-font');
     @include text_link;
@@ -41,7 +46,9 @@
     display: inline-block;
     border: none;
     border-radius: variable(button-border-radius);
+    white-space: nowrap;
     cursor: pointer;
+    flex-grow: 1;
 
     @include cta-background-animation(clr(secondary), clr(subcolor-3));
 
@@ -50,12 +57,18 @@
 
   &--pdp-hero {
     width: 100%;
+    max-width: 100%;
     display: flex;
     justify-content: center;
+
+    @include medium {
+      padding: 0 59px;
+    }
 
     @include large {
       display: inline-block;
       width: auto;
+      padding: 0;
     }
 
     .where-to-buy-button {
@@ -78,21 +91,41 @@
       }
     }
 
-    .ps-widget {
+    .ps-widget.ps-enabled[ps-sku] {
       flex-grow: 1;
+      max-width: 100%;
+      padding: 0 20px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
 
       @include large {
         flex-grow: 0;
+        min-width: 202px;
+      }
+
+      &:hover {
+        min-width: 202px;
       }
     }
   }
 }
 
 .product-card {
+  .where-to-buy {
+    .where-to-buy-link,
+    .where-to-buy-button {
+      max-width: 16.5rem;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+
   &:hover {
     .where-to-buy-button {
       color: clr(secondary);
       text-align: center;
+      text-decoration: none;
       @include cta-background-animation(clr(subcolor-3), clr(secondary));
 
       transition: all 0.6s cubic-bezier(0.75, 0, 0.25, 0);
@@ -138,5 +171,16 @@
     border: none !important;
     background-position: right top;
     transition: color 0.6s cubic-bezier(0.75, 0, 0.25, 0);
+    display: flex;
+    flex-grow: 1;
+    min-width: auto;
+    max-width: 16.5rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    .ps-button-label {
+      flex-grow: 1;
+      min-width: auto;
+    }
   }
 }

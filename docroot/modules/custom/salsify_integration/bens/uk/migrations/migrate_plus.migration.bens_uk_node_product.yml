@@ -103,7 +103,7 @@ process:
       - bens_uk_term_product_flavor
     source: source_product_flavor
     no_stub: true
-  metatags/0/title: source_product_title
+  metatags/0/title: source_meta_title
   metatags/0/description: source_meta_description
   metatags/0/keywords: source_keywords
   field_meta_tags:
