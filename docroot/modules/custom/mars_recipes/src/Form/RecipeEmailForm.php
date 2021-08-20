@@ -77,16 +77,6 @@ class RecipeEmailForm extends FormBase implements FormInterface, ContainerInject
   }
 
   /**
-   * Setter for theme configuration parser.
-   *
-   * @param \Drupal\mars_common\ThemeConfiguratorParser $parser
-   *   The theme configuration parser.
-   */
-  public function setThemeConfigParser(ThemeConfiguratorParser $parser) {
-    $this->themeConfiguratorParser = $parser;
-  }
-
-  /**
    * Set the context data of this form.
    *
    * @param array|null $data
