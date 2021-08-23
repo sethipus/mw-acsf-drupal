@@ -15,6 +15,15 @@
       });
 
       // Popup open/close events
+      $(document).keydown(function(e) {
+        if (e.keyCode === 27) {
+          if ($('.recipe-email-layout--opened').length !== 0) {
+            e.stopPropagation();
+            $('.recipe-email-layout').removeClass('recipe-email-layout--opened');
+          }
+        }
+      });
+
       recipeEmailCloseButton.on('click', () => {
         $('.recipe-email-layout').removeClass('recipe-email-layout--opened');
       });

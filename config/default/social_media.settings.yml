@@ -70,12 +70,12 @@ social_media:
     api_url: '#'
     api_event: onclick
     text: Email
-    default_img: 1
+    default_img: 0
     weight: '9'
     attributes: class|js-social-email-btn
     drupalSettings: ''
     library: ''
-    img: ''
+    img: themes/custom/emulsifymars/images/icons/email.svg
     enable_forward: 0
     show_forward: '1'
   print:
