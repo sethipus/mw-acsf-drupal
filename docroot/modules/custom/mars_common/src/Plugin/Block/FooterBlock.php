@@ -196,7 +196,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $build['#hover_color'] = '#' . $conf['override_text_color']['hover_color'];
     }
 
-    $build['#cta_button_label'] = $this->languageHelper->translate($conf['cta_button_label']) ?? strtoupper($this->languageHelper->translate('See All'));
+    $build['#cta_button_label'] = isset($conf['cta_button_label']) ? $this->languageHelper->translate($conf['cta_button_label']) : strtoupper($this->languageHelper->translate('See All'));
 
     CacheableMetadata::createFromRenderArray($build)
       ->merge(
