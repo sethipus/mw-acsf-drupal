@@ -128,6 +128,7 @@ class FooterBlockTest extends UnitTestCase {
       ],
       'social_links_toggle' => FALSE,
       'region_selector_toggle' => TRUE,
+      'cta_button_label' => 'See All',
     ];
     $definitions = [
       'provider'    => 'test',
@@ -236,6 +237,7 @@ class FooterBlockTest extends UnitTestCase {
     $this->assertArrayHasKey('corporate_tout', $config_form);
     $this->assertArrayHasKey('social_links_toggle', $config_form);
     $this->assertArrayHasKey('region_selector_toggle', $config_form);
+    $this->assertArrayHasKey('cta_button_label', $config_form);
   }
 
   /**
@@ -288,6 +290,7 @@ class FooterBlockTest extends UnitTestCase {
     $this->assertArrayHasKey('#marketing', $build);
     $this->assertArrayHasKey('#corporate_tout_text', $build);
     $this->assertArrayHasKey('#corporate_tout_url', $build);
+    $this->assertArrayHasKey('#cta_button_label', $build);
     $this->assertArrayHasKey('#region_title', $build);
     $this->assertArrayHasKey('#social_header', $build);
     $this->assertArrayHasKey('#text_color_override', $build);
