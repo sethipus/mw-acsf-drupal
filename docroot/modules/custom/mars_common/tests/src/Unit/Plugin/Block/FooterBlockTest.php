@@ -128,7 +128,7 @@ class FooterBlockTest extends UnitTestCase {
       ],
       'social_links_toggle' => FALSE,
       'region_selector_toggle' => TRUE,
-      'cta_button_label' => 'See All'
+      'cta_button_label' => 'See All',
     ];
     $definitions = [
       'provider'    => 'test',
