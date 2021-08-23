@@ -69,6 +69,7 @@ class TextBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#type' => 'text_format',
       '#title' => $this->t('Body'),
       '#default_value' => $config['body']['value'] ?? '',
+      '#format' => $config['body']['format'] ?? 'rich_text',
     ];
 
     return $form;
