@@ -296,17 +296,17 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   private function getEmailRecipeData(array $block_config, NodeInterface $node): ?array {
     return (isset($block_config['email_recipe']) && $block_config['email_recipe'])
       ? [
-        'email_hint' => $block_config['email_recipe_container']['email_hint'] ?? $this->getRecipeEmailDefault()['email_hint'],
-        'email_overlay_title' => $block_config['email_recipe_container']['email_overlay_title'] ?? $this->getRecipeEmailDefault()['email_overlay_title'],
-        'email_overlay_description' => $block_config['email_recipe_container']['email_overlay_description'] ?? $this->getRecipeEmailDefault()['email_overlay_description'],
+        'email_hint' => $this->languageHelper->translate($block_config['email_recipe_container']['email_hint']) ?? $this->getRecipeEmailDefault()['email_hint'],
+        'email_overlay_title' => $this->languageHelper->translate($block_config['email_recipe_container']['email_overlay_title']) ?? $this->getRecipeEmailDefault()['email_overlay_title'],
+        'email_overlay_description' => $this->languageHelper->translate($block_config['email_recipe_container']['email_overlay_description']) ?? $this->getRecipeEmailDefault()['email_overlay_description'],
         'checkboxes_container' => [
-          'grocery_list' => $block_config['email_recipe_container']['checkboxes_container']['grocery_list'] ?? $this->getRecipeEmailDefault()['checkboxes_container']['grocery_list'],
-          'email_recipe' => $block_config['email_recipe_container']['checkboxes_container']['email_recipe'] ?? $this->getRecipeEmailDefault()['checkboxes_container']['email_recipe'],
+          'grocery_list' => $this->languageHelper->translate($block_config['email_recipe_container']['checkboxes_container']['grocery_list']) ?? $this->getRecipeEmailDefault()['checkboxes_container']['grocery_list'],
+          'email_recipe' => $this->languageHelper->translate($block_config['email_recipe_container']['checkboxes_container']['email_recipe']) ?? $this->getRecipeEmailDefault()['checkboxes_container']['email_recipe'],
         ],
-        'email_address_hint' => $block_config['email_recipe_container']['email_address_hint'] ?? $this->getRecipeEmailDefault()['email_address_hint'],
-        'error_message' => $block_config['email_recipe_container']['error_message'] ?? $this->getRecipeEmailDefault()['error_message'],
-        'cta_title' => $block_config['email_recipe_container']['cta_title'] ?? $this->getRecipeEmailDefault()['cta_title'],
-        'confirmation_message' => $block_config['email_recipe_container']['confirmation_message'] ?? $this->getRecipeEmailDefault()['confirmation_message'],
+        'email_address_hint' => $this->languageHelper->translate($block_config['email_recipe_container']['email_address_hint']) ?? $this->getRecipeEmailDefault()['email_address_hint'],
+        'error_message' => $this->languageHelper->translate($block_config['email_recipe_container']['error_message']) ?? $this->getRecipeEmailDefault()['error_message'],
+        'cta_title' => $this->languageHelper->translate($block_config['email_recipe_container']['cta_title']) ?? $this->getRecipeEmailDefault()['cta_title'],
+        'confirmation_message' => $this->languageHelper->translate($block_config['email_recipe_container']['confirmation_message']) ?? $this->getRecipeEmailDefault()['confirmation_message'],
         'captcha' => $block_config['email_recipe_container']['captcha'] ?? $this->getRecipeEmailDefault()['captcha'],
       ]
       : NULL;
