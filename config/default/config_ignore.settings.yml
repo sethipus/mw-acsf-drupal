@@ -45,6 +45,8 @@ ignored_config_entities:
   - 'field.field.node.*.layout_builder__layout'
   - field.storage.node.layout_builder__layout
   - mars_common.disable_language
+  - acquia_search.settings
+  - search_api.server.acquia_search_server
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: true
