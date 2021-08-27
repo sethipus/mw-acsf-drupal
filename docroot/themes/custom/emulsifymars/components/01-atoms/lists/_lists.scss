@@ -196,6 +196,11 @@ ol {
   }
 }
 
+.list-item__answer > table {
+  display: block;
+  overflow-x: auto;
+}
+
 .list-item__question {
   border-bottom: 1px solid clr(highlight);
 
