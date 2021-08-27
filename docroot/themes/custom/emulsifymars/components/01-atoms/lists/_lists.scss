@@ -76,9 +76,8 @@ ol {
 
       @include medium {
         font-size: 1.6rem;
-        left: calc(20px + 32px / 2);
+        left: 50px;
         top: calc(50% - 32px / 2);
-        transform: none;
       }
 
       @include large {
