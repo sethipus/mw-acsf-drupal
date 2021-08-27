@@ -5,7 +5,7 @@ function _lazyLoadWhereToBuy() {
     {
         $.getScript($('#ps-widget').attr('data-src'));
     }
-    
+
 }
 let pricespiderLoaded = false;
 
@@ -13,19 +13,19 @@ let pricespiderLoaded = false;
     $('.inline-search__link').click(() => {
         _lazyLoadWhereToBuy();
     });
-    
+
     $(window).scroll(function(){
         if (
                 (
-                    isInView($('.ajax-card-grid__items')) 
-                    || 
-                    isInView($('div[data-block-plugin-id="product_content_pair_up_block"]')) 
-                    || 
+                    isInView($('.ajax-card-grid__items'))
+                    ||
+                    isInView($('div[data-block-plugin-id="product_content_pair_up_block"]'))
+                    ||
                     isInView($('div[data-block-plugin-id="recommendations_module"]'))
                     ||
-                    isInView($('div[data-block-plugin-id="recipe_detail_body"]'))  
-                ) 
-                && 
+                    isInView($('div[data-block-plugin-id="recipe_detail_body"]'))
+                )
+                &&
                 !pricespiderLoaded
             )
         {
