@@ -1,0 +1,112 @@
+.recipe-email-form {
+  &__submitted {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__submitted-text {
+    @include set-font($font-type: 'heading-font');
+
+    color: clr(primary);
+    font-weight: 500;
+    margin: 0 0 2rem;
+    font-size: 4rem;
+    line-height: 1;
+    text-align: center;
+    position: relative;
+
+    @include medium {
+      font-size: 4rem;
+    }
+
+    @include large {
+      margin-bottom: 3rem;
+      font-size: 6.4rem;
+    }
+  }
+
+  &__submitted-img {
+    position: relative;
+    display: block;
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+
+    @include medium {
+      width: 6.8rem;
+      height: 6.8rem;
+    }
+
+    @include large {
+      width: 8.6rem;
+      height: 8.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__circle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(clr(subcolor-1-rgb), 0.2);
+    border-radius: 50%;
+  }
+
+  &__tick {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 1.2rem;
+    left: 1.3rem;
+
+    @include medium {
+      top: 1.7rem;
+      left: 1.9rem;
+    }
+
+    @include large {
+      top: 2.4rem;
+      left: 2.3rem;
+    }
+  }
+
+  &__png-asset {
+    position: absolute;
+    display: block;
+    z-index: 1;
+    width: 17rem;
+    height: 9rem;
+    bottom: -35px;
+    right: 5px;
+
+    img {
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    @include medium {
+      width: 22rem;
+      height: 12rem;
+      bottom: -30px;
+      right: 15px;
+    }
+
+    @include large {
+      width: 35rem;
+      height: 19rem;
+      bottom: -30px;
+      right: 0;
+    }
+  }
+}

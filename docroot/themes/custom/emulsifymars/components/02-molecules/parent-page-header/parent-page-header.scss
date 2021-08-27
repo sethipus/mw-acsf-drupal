@@ -5,6 +5,10 @@
   position: relative;
   overflow: hidden;
 
+  @include desktop {
+    height: 480px;
+  }
+
   .wrapper {
     padding: 12rem 4rem 8rem 4rem;
     position: relative;
@@ -39,7 +43,7 @@
     }
   }
 
-  & .wrapper > *:not(.bg-video) {
+  & .wrapper > *:not(.bg-video):not(.brand-shape) {
     position: relative;
     z-index: 3;
   }

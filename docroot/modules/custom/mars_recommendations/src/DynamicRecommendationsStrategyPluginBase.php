@@ -2,7 +2,6 @@
 
 namespace Drupal\mars_recommendations;
 
-use Drupal;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginBase;
@@ -77,7 +76,7 @@ abstract class DynamicRecommendationsStrategyPluginBase extends ContextAwarePlug
    */
   protected function getFallbackPlugin() {
     /** @var \Drupal\mars_recommendations\DynamicRecommendationsStrategyPluginManager $plugin_manager */
-    $plugin_manager = Drupal::service('plugin.manager.dynamic_recommendations_strategy');
+    $plugin_manager = \Drupal::service('plugin.manager.dynamic_recommendations_strategy');
 
     /** @var \Drupal\mars_recommendations\DynamicRecommendationsStrategyInterface $plugin */
     $plugin = $plugin_manager->createInstance($this->getFallbackPluginId() ?? 'default');

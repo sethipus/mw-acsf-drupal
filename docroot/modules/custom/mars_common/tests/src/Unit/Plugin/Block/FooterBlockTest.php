@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
-use Drupal;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -17,7 +16,7 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class FooterBlockTest.
+ * Class FooterBlockTest is responsible for footer component logic.
  *
  * @package Drupal\Tests\mars_common\Unit
  * @covers \Drupal\mars_common\Plugin\Block\FooterBlock
@@ -115,7 +114,7 @@ class FooterBlockTest extends UnitTestCase {
   protected function setUp() {
     parent::setUp();
     $this->createMocks();
-    Drupal::setContainer($this->containerMock);
+    \Drupal::setContainer($this->containerMock);
     $this->configuration = [
       'top_footer_menu' => 'top footer menu',
       'legal_links' => 'legal menu links',
@@ -129,6 +128,7 @@ class FooterBlockTest extends UnitTestCase {
       ],
       'social_links_toggle' => FALSE,
       'region_selector_toggle' => TRUE,
+      'cta_button_label' => 'See All',
     ];
     $definitions = [
       'provider'    => 'test',
@@ -237,6 +237,7 @@ class FooterBlockTest extends UnitTestCase {
     $this->assertArrayHasKey('corporate_tout', $config_form);
     $this->assertArrayHasKey('social_links_toggle', $config_form);
     $this->assertArrayHasKey('region_selector_toggle', $config_form);
+    $this->assertArrayHasKey('cta_button_label', $config_form);
   }
 
   /**
@@ -289,6 +290,7 @@ class FooterBlockTest extends UnitTestCase {
     $this->assertArrayHasKey('#marketing', $build);
     $this->assertArrayHasKey('#corporate_tout_text', $build);
     $this->assertArrayHasKey('#corporate_tout_url', $build);
+    $this->assertArrayHasKey('#cta_button_label', $build);
     $this->assertArrayHasKey('#region_title', $build);
     $this->assertArrayHasKey('#social_header', $build);
     $this->assertArrayHasKey('#text_color_override', $build);

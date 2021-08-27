@@ -1,7 +1,7 @@
 global:
   css:
     theme:
-      dist/css/theme_style.css: {} 
+      dist/css/theme_style.css: {}
   js:
     dist/js/object_fit_polyfill.js: {}
 
@@ -228,13 +228,6 @@ product-selector:
   dependencies:
     - core/drupal
 
-flexible-framer:
-  js:
-    dist/js/02-molecules/flexible-framer/flexible-framer.js: {}
-  dependencies:
-    - core/drupal
-    - core/jquery
-
 feedback-module:
   js:
     dist/js/02-molecules/feedback-module/feedback.js: {}
@@ -246,3 +239,10 @@ common-assets:
   css:
     theme:
       components/02-molecules/slide/social-feed-slide/swiper-bundle.min.css: {}
+
+recipe-email-form:
+  js:
+    dist/js/02-molecules/recipe-email-form/recipe-email-form-layout/recipe-email-form-layout.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery

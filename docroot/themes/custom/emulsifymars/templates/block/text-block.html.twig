@@ -3,7 +3,8 @@
  * @file
  * Text component.
  * 'content' => NULL,
- * 'drop_cap' => NULL
+ * 'content' => NULL,
+ * 'header' => NULL,
  */
 #}
 
@@ -14,6 +15,7 @@
         {% include "@molecules/article-media/wysiwyg/article-wysiwyg.twig" with {
             theme_styles: 'drupal',
             content: content,
+            heading: header,
         } %}
     {% endblock %}
 </div>

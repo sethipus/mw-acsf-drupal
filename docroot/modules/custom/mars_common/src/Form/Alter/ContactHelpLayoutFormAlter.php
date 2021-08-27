@@ -3,7 +3,7 @@
 namespace Drupal\mars_common\Form\Alter;
 
 /**
- * Class ContactHelpLayoutFormAlter.
+ * Class ContactHelpLayoutFormAlter contains list of required sections.
  *
  * @package Drupal\mars_common\Form\Alter
  */

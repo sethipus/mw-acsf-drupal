@@ -16,7 +16,7 @@ use Drupal\file\Element\ManagedFile;
 use Drupal\mars_common\Element\OverrideFile;
 
 /**
- * Class ThemeConfiguratorService.
+ * Class ThemeConfiguratorService is responsible for theme BE logic.
  *
  * @package Drupal\mars_common
  */
@@ -133,10 +133,10 @@ class ThemeConfiguratorService {
   }
 
   /**
-   * Get data.
+   * Get data from the passed config array or from current theme.
    */
   protected function getData(string $subject, string $key, array $config = NULL) {
-    return !empty($config) ? $config[$subject][$key] : theme_get_setting($key);
+    return !empty($config[$subject][$key]) ? $config[$subject][$key] : theme_get_setting($key);
   }
 
   /**
@@ -157,17 +157,16 @@ class ThemeConfiguratorService {
     FormStateInterface $form_state,
     array $config = NULL
   ) {
+    global $base_url;
     $form_storage = $form_state->getStorage();
-    $social_settings = !empty($config) ? $config['social'] : theme_get_setting('social');
+    $social_settings = !empty($config['social']) ? $config['social'] : theme_get_setting('social');
     // Init social form elements.
     if (!isset($form_storage['social'])) {
       if (isset($social_settings) && count($social_settings) > 0) {
         $form_storage['social'] = $social_settings;
       }
       else {
-        $form_storage['social'] = [
-          ['icon' => '', 'link' => '', 'name' => ''],
-        ];
+        $form_storage['social'] = [];
       }
     }
     // Process multiple social links with form_state.
@@ -197,7 +196,7 @@ class ThemeConfiguratorService {
       $form['logo']['settings']['logo_path'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Path to custom logo'),
-        '#default_value' => !empty($config) ? $config['logo_path'] : '',
+        '#default_value' => !empty($config['logo_path']) ? $config['logo_path'] : \theme_get_setting('logo.path'),
       ];
       $form['logo']['settings']['logo_upload'] = [
         '#type' => 'file',
@@ -217,7 +216,7 @@ class ThemeConfiguratorService {
     $form['logo']['settings']['logo_alt'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Alternative image text'),
-      '#default_value' => $this->getLogoAltData('logo_alt'),
+      '#default_value' => $this->getLogoAltData('logo_alt', $config),
     ];
 
     $form['color_settings'] = [
@@ -457,6 +456,17 @@ class ThemeConfiguratorService {
       '#default_value'   => $secondary_font_desktop_letterspacing ?? self::LETTERSPACING_DESKTOP_DEFAULT,
     ];
 
+    $form['favicon']['default_favicon']['#type'] = 'hidden';
+    $form['favicon']['default_favicon']['#value'] = FALSE;
+    if (isset($form['favicon']['settings']['favicon_upload'])) {
+      $form['favicon']['settings']['favicon_upload']['#description'] .= $this->t('<br /> Recommended image size for favicons is 64x64px.');
+    }
+
+    $form['logo']['default_logo']['#type'] = 'hidden';
+    $form['logo']['default_logo']['#value'] = FALSE;
+    if (isset($form['logo']['settings']['logo_upload'])) {
+      $form['logo']['settings']['logo_upload']['#description'] .= $this->t('<br /> The recommended image size should be “minimum width for wide logos: 212px, minimum height for tall logos: 95px”');
+    }
     $form['icons_settings'] = [
       '#type'        => 'details',
       '#title'       => $this->t('Theme images settings'),
@@ -520,6 +530,7 @@ class ThemeConfiguratorService {
       '#preview_image_style' => 'medium',
       '#default_value'       => $this->getIconSettingsData('brand_borders', $config),
     ];
+    $image_path = $base_url . '/themes/custom/emulsifymars/images/';
 
     $form['icons_settings']['brand_border_style'] = [
       '#type'          => 'radios',
@@ -530,10 +541,11 @@ class ThemeConfiguratorService {
         self::BORDER_STYLE_REPEAT => $this->t('Repeat'),
         self::BORDER_STYLE_STRETCH => $this->t('Stretch'),
       ],
+      '#markup' => '<b>Example</b>: <br /><br />Repeat <img src="' . $image_path . 'border_style_repeat.svg' . '"/><br />Stretch <img src="' . $image_path . 'border_style_stretch.svg' . '"/>',
     ];
 
     $form['icons_settings']['brand_borders_2'] = [
-      '#title'           => $this->t('Brand Borders for Cards'),
+      '#title'           => $this->t('Secondary Brand Border'),
       '#type'            => 'managed_file',
       '#description'     => $this->t('Will be designed by each brand team.
       Size and format requirements detailed out in the Style Guide.'),
@@ -555,7 +567,7 @@ class ThemeConfiguratorService {
       '#title'           => $this->t('PNG Asset'),
       '#type'            => 'managed_file',
       '#description'     => $this->t('Will be designed by each brand team.
-      Size and format requirements detailed out in the Style Guide.'),
+      Size and format requirements detailed out in the Style Guide. <br /> Recommended image size : Minimum width 375px.'),
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
       '#process'         => [

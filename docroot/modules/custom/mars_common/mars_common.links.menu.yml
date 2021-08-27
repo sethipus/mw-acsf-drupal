@@ -5,6 +5,13 @@ mars_common.admin.site_labels:
   route_name: mars_common.admin.site_labels
   weight: 100
 
+mars_common.admin.emails_configuration:
+  title: 'MARS Emails configuration'
+  description: 'Settings of MARS emails forms elements'
+  parent: system.admin_config_system
+  route_name: mars_common.admin.emails_configuration
+  weight: 100
+
 mars_common.admin.card_color_settings:
   title: 'MARS Card background color settings'
   description: 'Background settings for cards'
@@ -18,3 +25,11 @@ mars_common.disable_language:
   description: 'Exclude language from language switcher and disable access to pages with selected language(s) (for anonymous users only)'
   route_name: mars_common.admin.disable_language
   weight: 100
+
+mars_common.theme_configuration:
+  title: 'Theme Configurator'
+  description: 'Configure Theme'
+  parent: system.themes_page
+  route_name: system.theme_settings_theme
+  route_parameters: { theme: 'emulsifymars'}
+  weight: -10

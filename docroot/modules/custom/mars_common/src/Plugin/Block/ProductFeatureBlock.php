@@ -148,6 +148,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
       '#maxlength' => 7,
       '#default_value' => $this->configuration['background_color'] ?? '',
       '#required' => FALSE,
+      '#description' => $this->t('Must be AA compliant. Note that the Secondary Color / Color B will be used for CTAs background color.'),
     ];
 
     $image_default = isset($config['image']) ? $config['image'] : NULL;

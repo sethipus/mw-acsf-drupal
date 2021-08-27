@@ -5,10 +5,15 @@
 
   @include brand-border-overflow;
 
+  &__border {
+    margin-top: 0;
+  }
+
   &__wrapper {
     position: relative;
     max-width: 1440px;
     margin: 0 auto;
+    overflow: hidden;
   }
 
   &__heading {
@@ -44,6 +49,12 @@
 
     @include large {
       margin-bottom: 2.5rem; // margin-top 3.5rem on the card due to "new" badge
+    }
+  }
+
+  &--brand-border {
+    .recommendations__heading--main-heading {
+      margin-top: 0;
     }
   }
 

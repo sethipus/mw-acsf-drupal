@@ -238,7 +238,7 @@ class SalsifyImportMedia extends SalsifyImport {
         $media_id = array_pop($results);
 
         $media_storage = $this->entityTypeManager->getStorage('media');
-        /* @var \Drupal\media\Entity\Media $media */
+        /** @var \Drupal\media\Entity\Media $media */
         $media = $media_storage->load($media_id);
       }
     }

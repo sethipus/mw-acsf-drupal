@@ -8,7 +8,7 @@ use Drupal\printable\PrintableEntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Class RouteSubscriber.
+ * Class RouteSubscriber - route alter logic.
  *
  * @package Drupal\mars_print\Routing
  */
