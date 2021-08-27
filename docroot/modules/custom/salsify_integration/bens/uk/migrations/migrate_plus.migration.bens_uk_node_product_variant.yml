@@ -7,6 +7,9 @@ migration_dependencies:
   optional:
     - bens_uk_product_key_image
     - bens_uk_product_image_1
+    - bens_uk_product_image_2
+    - bens_uk_product_image_3
+    - bens_uk_product_image_4
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
@@ -28,6 +31,18 @@ source:
       name: source_product_image_1
       label: 'CMS: Image 2'
       selector: 'field_product_image_1/0'
+    -
+      name: source_product_image_2
+      label: 'CMS: Image 3'
+      selector: 'field_product_image_2/0'
+    -
+      name: source_product_image_3
+      label: 'CMS: Image 4'
+      selector: 'field_product_image_3/0'
+    -
+      name: source_product_image_4
+      label: 'CMS: Image 5'
+      selector: 'field_product_image_4/0'
     -
       name: source_name
       label: 'CMS: Product name'
@@ -284,6 +299,24 @@ process:
     migration:
       - bens_uk_product_image_1
     source: source_product_image_1
+    no_stub: true
+  field_product_image_2/target_id:
+    plugin: migration_lookup
+    migration:
+      - bens_uk_product_image_2
+    source: source_product_image_2
+    no_stub: true
+  field_product_image_3/target_id:
+    plugin: migration_lookup
+    migration:
+      - bens_uk_product_image_3
+    source: source_product_image_3
+    no_stub: true
+  field_product_image_4/target_id:
+    plugin: migration_lookup
+    migration:
+      - bens_uk_product_image_4
+    source: source_product_image_4
     no_stub: true
   'field_product_allergen_warnings/value': source_allergen_warnings
   'field_product_allergen_warnings/format':
