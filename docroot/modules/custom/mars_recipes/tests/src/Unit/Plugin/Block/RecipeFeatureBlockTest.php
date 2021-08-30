@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\mars_recipes\Unit;
+namespace Drupal\Tests\mars_recipes\Unit\Plugin\Block;
 
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\file\Entity\File;
