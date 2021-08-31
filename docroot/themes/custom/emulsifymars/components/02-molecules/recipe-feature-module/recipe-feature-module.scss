@@ -82,7 +82,7 @@
     width: 100%;
 
     @include large {
-      min-height: $recipe-feature-desktop-max-height;
+      height: $recipe-feature-desktop-max-height;
       flex: 1;
       overflow: initial;
     }
@@ -138,6 +138,7 @@
     text-align: center;
 
     @include large {
+      height: $recipe-feature-desktop-max-height;
       flex: 0 1 41%;
       padding: 4rem 0;
     }
