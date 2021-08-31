@@ -2,7 +2,6 @@
   display: flex;
   flex-grow: 1;
   justify-content: center;
-  white-space: nowrap;
 
   .where-to-buy-link {
     @include set-font($font-type: 'secondary-font');
