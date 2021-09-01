@@ -30,18 +30,11 @@ variables:
 
 steps:
   - task: InstallSSHKey@0
-    displayName: 'Install SSH Key for GitHub'
+    displayName: 'Install SSH Key for GitHub Cloud'
     inputs:
-      knownHostsEntry: $(known_hosts)
-      sshPublicKey: $(public_ssh_key)
-      sshKeySecureFile: 'mars_ssh_key'
-  - task: InstallSSHKey@0
-    displayName: 'Install SSH Key for GitHub.com'
-    inputs:
-      knownHostsEntry: $(known_hosts_github)
-      sshPublicKey: $(public_ssh_key_github)
-      sshPassphrase: $(ssh_passphrase)
-      sshKeySecureFile: 'github.private'
+      knownHostsEntry: $(New_GitHub_Enterprise_Cloud__known_hosts)
+      sshPublicKey: $(New_GitHub_Enterprise_Cloud_Public_Key.pub)
+      sshKeySecureFile: 'New_GitHub_Enterprise_Cloud_Private_Key'
   - task: InstallSSHKey@0
     displayName: 'Install SSH Key for Acquia Cloud'
     inputs:
