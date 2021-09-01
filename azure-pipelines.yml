@@ -33,8 +33,8 @@ steps:
     displayName: 'Install SSH Key for GitHub Cloud'
     inputs:
       knownHostsEntry: $(New_GitHub_Enterprise_Cloud__known_hosts)
-      sshPublicKey: $(New_GitHub_Enterprise_Cloud_Public_Key.pub)
-      sshKeySecureFile: 'New_GitHub_Enterprise_Cloud_Private_Key'
+      sshPublicKey: $(mars_ci__id_rsa.pub)
+      sshKeySecureFile: 'mars_ci__id_rsa'
   - task: InstallSSHKey@0
     displayName: 'Install SSH Key for Acquia Cloud'
     inputs:
