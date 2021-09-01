@@ -29,7 +29,7 @@ docroot/themes/custom/*/css
 docroot/themes/custom/*/styleguide
 docroot/themes/custom/*/dist
 
-# Ignore build artifacts
+# Ignore build artifacts.
 deployment_identifier
 /deploy
 bin/*
