@@ -1,4 +1,4 @@
-(function (Drupal) {
+(function ($, Drupal) {
   Drupal.behaviors.inlineVideoPlayer = {
     attach(context) {
       // Does the browser actually support the video element?
@@ -87,7 +87,7 @@
 
             let videoEndedHandler = () => {
               var tr = videoElements('video').played;
-              var hasLoopedOnce = (tr.length > 0) ? 
+              var hasLoopedOnce = (tr.length > 0) ?
                                     (tr.end(tr.length - 1) == videoElements('video').duration):
                                     false;
               if (hasLoopedOnce) {
@@ -245,4 +245,4 @@
       });
     }
   };
-})(Drupal);
+})(jQuery, Drupal);
