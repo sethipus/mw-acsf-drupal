@@ -41,12 +41,6 @@ steps:
       knownHostsEntry: $(known_hosts_acquia)
       sshPublicKey: $(public_ssh_key_acquia)
       sshKeySecureFile: 'acquia_cloud'
-  - task: InstallSSHKey@0
-    displayName: 'Install SSH Key for Acquia Cloud (temporary)'
-    inputs:
-      knownHostsEntry: $(known_hosts_acquia)
-      sshPublicKey: $(acquia_ci__id_rsa.pub)
-      sshKeySecureFile: 'acquia_ci__id_rsa'
   - checkout: self
     persistCredentials: true
   - task: Bash@3
