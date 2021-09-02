@@ -37,7 +37,7 @@ tmp
 reports
 /travis_wait*
 
-# OS X
+# OS X.
 .DS_Store
 .AppleDouble
 .LSOverride
