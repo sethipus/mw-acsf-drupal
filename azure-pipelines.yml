@@ -35,12 +35,12 @@ steps:
       knownHostsEntry: $(New_GitHub_Enterprise_Cloud__known_hosts)
       sshPublicKey: $(mars_ci__id_rsa.pub)
       sshKeySecureFile: 'mars_ci__id_rsa'
-  - task: InstallSSHKey@0
-    displayName: 'Install SSH Key for Acquia Cloud'
-    inputs:
-      knownHostsEntry: $(known_hosts_acquia)
-      sshPublicKey: $(public_ssh_key_acquia)
-      sshKeySecureFile: 'acquia_cloud'
+  # - task: InstallSSHKey@0
+  #   displayName: 'Install SSH Key for Acquia Cloud'
+  #   inputs:
+  #     knownHostsEntry: $(known_hosts_acquia)
+  #     sshPublicKey: $(public_ssh_key_acquia)
+  #     sshKeySecureFile: 'acquia_cloud'
   - task: InstallSSHKey@0
     displayName: 'Install SSH Key for Acquia Cloud (temporary)'
     inputs:
