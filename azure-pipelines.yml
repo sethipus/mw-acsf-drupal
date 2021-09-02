@@ -128,12 +128,13 @@ steps:
   #  inputs:
   #    summaryFileLocation: 'reports/phpunit/coverage.xml'
   - task: Bash@3
-    displayName: 'Deploy Branch and Trigger Application Deployment on ACSF'
+    displayName: 'Deploy Branch and Trigger Application Deployment on DEV of ACSF'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], variables['dev_env_branch']))
     inputs:
       targetType: 'inline'
       script: |
-        ./scripts/deploy_branch.sh
+        ./scripts/deploy_branch.sh &&
+        ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key) $(stack_id)
   # - task: Bash@3
   #   displayName: 'Deploy master Branch and Trigger Application Deployment to QA env'
   #   condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'master'))
