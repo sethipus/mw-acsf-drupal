@@ -8,7 +8,7 @@ function _lazyLoadWhereToBuy() {
     {
         $.getScript($('#smart-commerce-widget').attr('data-src')).done(() => {
             $.getScript($('#smart-commerce-brand-js').attr('data-src'));
-            $.getStylesheet($('#smart-commerce-brand-css').attr('data-src'));            
+            $.getStylesheet($('#smart-commerce-brand-css').attr('data-src'));
         });
         /**
          * Load BazarVoice
@@ -19,7 +19,7 @@ function _lazyLoadWhereToBuy() {
 let smartCommerceLoaded = false;
 
 (function($){
-    
+
     $.getStylesheet = function (href) {
         var $d = $.Deferred();
         var $link = $('<link/>', {
@@ -30,23 +30,23 @@ let smartCommerceLoaded = false;
         $d.resolve($link);
         return $d.promise();
     };
-    
+
     $('.inline-search__link').click(() => {
         _lazyLoadWhereToBuy();
     });
-    
+
     $(window).scroll(function(){
         if (
                 (
-                    isInView($('.ajax-card-grid__items')) 
-                    || 
-                    isInView($('div[data-block-plugin-id="product_content_pair_up_block"]')) 
-                    || 
+                    isInView($('.ajax-card-grid__items'))
+                    ||
+                    isInView($('div[data-block-plugin-id="product_content_pair_up_block"]'))
+                    ||
                     isInView($('div[data-block-plugin-id="recommendations_module"]'))
                     ||
-                    isInView($('div[data-block-plugin-id="recipe_detail_body"]'))  
-                ) 
-                && 
+                    isInView($('div[data-block-plugin-id="recipe_detail_body"]'))
+                )
+                &&
                 !smartCommerceLoaded
             )
         {
@@ -57,5 +57,5 @@ let smartCommerceLoaded = false;
 })(jQuery);
 
 function isInView(elem){
-   return $(elem).length > 0 ? $(elem).offset().top - $(window).scrollTop() < $(elem).height() : false;
+  return $(elem).length > 0 ? $(elem).offset().top - $(window).scrollTop() < $(elem).height() : false;
 }

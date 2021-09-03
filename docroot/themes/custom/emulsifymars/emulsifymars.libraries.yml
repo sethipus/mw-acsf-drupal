@@ -131,24 +131,28 @@ ambient-video:
   js:
     dist/js/01-atoms/video/ambient-video/video.js: {}
   dependencies:
+    - core/jquery
     - core/drupal
 
 fullscreen-video:
   js:
     dist/js/01-atoms/video/fullscreen-video/video.js: {}
   dependencies:
+    - core/jquery
     - core/drupal
 
 inline-video:
   js:
     dist/js/01-atoms/video/inline-video/video.js: {}
   dependencies:
+    - core/jquery
     - core/drupal
 
 overlay-video:
   js:
     dist/js/01-atoms/video/overlay-video/video.js: {}
   dependencies:
+    - core/jquery
     - core/drupal
 
 iframe:
@@ -239,3 +243,10 @@ common-assets:
   css:
     theme:
       components/02-molecules/slide/social-feed-slide/swiper-bundle.min.css: {}
+
+recipe-email-form:
+  js:
+    dist/js/02-molecules/recipe-email-form/recipe-email-form-layout/recipe-email-form-layout.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery

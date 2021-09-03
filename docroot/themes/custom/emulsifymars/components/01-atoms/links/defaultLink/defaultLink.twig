@@ -14,7 +14,7 @@
   {% for key, value in default_link_attributes %}
     {{ key }}="{{ value }}"
   {% endfor %}
-  aria-label="{{ default_link_content | mt }}"
+  aria-label="{{ default_link_content }}"
 >
   {% block default_link_content %}
     <span class="{{ default_link_base_class ~ '__label' }}" aria-label="{{ default_link_content }}">{{ default_link_content }}</span>

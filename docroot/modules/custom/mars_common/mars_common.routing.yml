@@ -21,6 +21,16 @@ mars_common.admin.site_labels:
     _admin_route: TRUE,
     no_cache: 'TRUE'
 
+mars_common.admin.emails_configuration:
+  path: '/admin/config/emails-configuration'
+  defaults:
+    _form: '\Drupal\mars_common\Form\MarsEmailsConfigurationForm'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE,
+    no_cache: 'TRUE'
+
 mars_common.card_color_settings:
   path: '/admin/config/card-color-settings'
   defaults:
@@ -45,3 +55,10 @@ mars_common.admin.disable_language:
   options:
     _admin_route: TRUE,
     no_cache: 'TRUE'
+
+mars_common.theme_api:
+  path: '/api/v1/theme-configuration'
+  defaults:
+    _controller: '\Drupal\mars_common\Controller\ThemeSettingsApiController::main'
+  requirements:
+    _permission: 'access content'

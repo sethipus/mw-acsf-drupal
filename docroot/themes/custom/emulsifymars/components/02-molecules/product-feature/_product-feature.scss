@@ -4,6 +4,10 @@
     text-align: left;
     background-color: clr(secondary);
 
+  @include desktop {
+    height: 660px;
+  }
+
   &__inner {
     position: relative;
     width: 100%;
