@@ -6,7 +6,7 @@ import { useEffect } from '@storybook/client-api';
 import recipeCardMaxLengthData from './recipe-card-max-length.yml';
 import recipeCardPairUpData from './recipe-card-content-pair-up.yml';
 
-import './recipe-cart';
+import './recipe-card';
 
 export default {
   title: 'Molecules/Cards/Recipe Card',
