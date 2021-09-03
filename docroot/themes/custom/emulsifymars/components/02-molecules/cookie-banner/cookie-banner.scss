@@ -137,7 +137,20 @@
   transition: 500ms transform ease;
   transform: translateY(150%);
 
+  // image border
+  .cookie-banner__border svg {
+    position: absolute;
+    bottom: 2px;
+    width: 100%;
+  }
+
   // inner container
+  [role="alertdialog"] {
+    position: relative;
+    margin: 0 auto;
+    max-width: 1440px;
+  }
+
   .ot-sdk-container {
     padding: 20px 49px 30px 20px;
 
@@ -150,16 +163,9 @@
     }
   }
 
-  // image border
-  .cookie-banner__border svg {
-    position: absolute;
-    bottom: 2px;
-    width: 100%;
-  }
-
   // paragraph
   #onetrust-group-container {
-    width: initial;
+    width: 100%;
 
     #onetrust-policy {
       margin: 0;
