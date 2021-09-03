@@ -1,3 +1,7 @@
+// 1.1 Custom cookie banner
+// 1.2 OneTrust cookie banner
+
+// 1.1 Custom cookie banner
 .cookie-banner {
   position: fixed;
   z-index: 2147483644;
@@ -115,6 +119,85 @@
     @include large {
       right: 20px;
       top: 50%;
+    }
+  }
+}
+
+// 1.2 OneTrust cookie banner
+#onetrust-consent-sdk.--loaded #onetrust-banner-sdk.bottom {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#onetrust-consent-sdk #onetrust-banner-sdk.bottom {
+  @include set-font($font-type: 'secondary-font');
+  
+  overflow: initial;
+  background-image: radial-gradient(circle at 0 0, var(--c-cookie-banner-gradient), var(--c-cookie-banner));
+  transition: 500ms transform ease;
+  transform: translateY(150%);
+
+  // inner container
+  .ot-sdk-container {
+    padding: 20px 49px 30px 20px;
+
+    @include medium {
+      padding: 40px 80px 40px 40px;
+    }
+
+    @include xl {
+      padding: 40px 350px 60px 40px;
+    }
+  }
+
+  // image border
+  .cookie-banner__border svg {
+    position: absolute;
+    bottom: 2px;
+    width: 100%;
+  }
+
+  // paragraph
+  #onetrust-group-container {
+    width: initial;
+
+    #onetrust-policy {
+      margin: 0;
+      font-size: 1.8rem;
+      line-height: 1.4;
+    }
+
+    #onetrust-policy-text,
+    a[href],
+    a[href] font,
+    .ot-link-btn { color: var(--c-primary); }
+  }
+
+  // "cookie settings" button
+  #onetrust-button-group-parent {
+    position: relative;
+    left: 0;
+    width: initial;
+    padding: 0;
+    transform: none;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.16rem;
+    text-align: initial;
+
+    #onetrust-button-group {
+      display: inline-block;
+      margin-right: 6rem;
+    }
+
+    #onetrust-pc-btn-handler {
+      margin: 0;
+      min-width: initial;
+      text-align: left;
+      text-transform: uppercase;
+      background-color: initial;
+      color: clr(primary);
     }
   }
 }
