@@ -32,7 +32,7 @@ steps:
   - task: InstallSSHKey@0
     displayName: 'Install SSH Key for GitHub Cloud'
     inputs:
-      knownHostsEntry: $(New_GitHub_Enterprise_Cloud__known_hosts)
+      knownHostsEntry: $(github_ci__known_hosts)
       sshPublicKey: $(mars_ci__id_rsa.pub)
       sshKeySecureFile: 'mars_ci__id_rsa'
   - task: InstallSSHKey@0
