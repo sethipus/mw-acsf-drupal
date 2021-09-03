@@ -3,6 +3,10 @@
   text-align: center;
   padding: 5rem 2rem;
 
+  @include desktop {
+    height: 544px;
+  }
+
   @include medium {
     padding: 6rem 2rem;
   }
@@ -64,6 +68,14 @@
     }
   }
 
+  &__graphic-divider {
+
+    @include large {
+      margin-bottom: 3rem !important;
+    }
+
+  }
+
   &__heading {
     @include set-font($font-type: 'heading-font');
 
@@ -109,7 +121,7 @@
     @include large {
         font-size: 2.2rem;
         line-height: 3.52rem;
-        margin: 0 auto 6rem;
+        margin: 0 auto 3rem;
         max-width: 817px;
     }
   }

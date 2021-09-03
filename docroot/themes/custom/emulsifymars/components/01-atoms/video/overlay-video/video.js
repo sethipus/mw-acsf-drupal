@@ -1,4 +1,4 @@
-(function (Drupal) {
+(function ($, Drupal) {
   Drupal.behaviors.overlayVideoPlayer = {
     attach(context) {
       // Does the browser actually support the video element?
@@ -225,4 +225,4 @@
       });
     }
   };
-})(Drupal);
+})(jQuery, Drupal);

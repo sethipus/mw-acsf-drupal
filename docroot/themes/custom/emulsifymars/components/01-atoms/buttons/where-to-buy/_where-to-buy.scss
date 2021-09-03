@@ -2,7 +2,6 @@
   display: flex;
   flex-grow: 1;
   justify-content: center;
-  white-space: nowrap;
 
   .where-to-buy-link {
     @include set-font($font-type: 'secondary-font');
@@ -167,7 +166,7 @@
   }
 
   .where-to-buy.price-spider .ps-widget {
-    padding: 0;
+    padding: 0 1rem;
     border: none !important;
     background-position: right top;
     transition: color 0.6s cubic-bezier(0.75, 0, 0.25, 0);
@@ -177,6 +176,7 @@
     max-width: 16.5rem;
     text-overflow: ellipsis;
     overflow: hidden;
+    white-space: nowrap;
 
     .ps-button-label {
       flex-grow: 1;

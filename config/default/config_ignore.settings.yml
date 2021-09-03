@@ -46,6 +46,9 @@ ignored_config_entities:
   - field.storage.node.layout_builder__layout
   - mars_common.disable_language
   - 'ultimate_cron.job.*'
+  - 'sendgrid_integration.settings:apikey'
+  - mars_common.emails_configuration
+  - recaptcha.settings
   - 'simple_sitemap.settings:base_url'
   - 'simple_sitemap.settings:excluded_languages'
 _core:

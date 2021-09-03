@@ -41,6 +41,8 @@ use Drupal\mars_common\Constants\SocialMediaConstants;
 use Drupal\node\NodeInterface;
 use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 use Drupal\mars_product\Form\BazaarvoiceConfigForm;
+use Drupal\mars_common\Form\MarsEmailsConfigurationForm;
+use Drupal\Core\Render\Markup;
 
 /**
  * Implements hook_menu_insert().
@@ -906,18 +908,37 @@ function add_cache_by_label_config(array &$variables) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mars_common_form_node_campaign_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['form_help_text'] = _campaign_form_theme_config_help_text();
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mars_common_form_node_campaign_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['form_help_text'] = _campaign_form_theme_config_help_text();
+}
+
+/**
+ * Returns a help text markup element.
+ *
+ * @return array
+ *   The markup element.
+ */
+function _campaign_form_theme_config_help_text() {
+  return [
+    '#type' => 'markup',
+    '#markup' => '<strong>Theme Configuration Override</strong><br/>To override the theme, add a "MARS: Theme Configuration Block" to the layout tab of this page.',
+    '#weight' => 19,
+  ];
+}
+
+/**
  * Implements hook_form_alter().
  */
 function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-
-  if ($form_id === 'node_campaign_form') {
-    $form['form_help_text'] = [
-      '#type' => 'markup',
-      '#markup' => '<strong>Theme Configuration Override</strong><br/>To override the theme, add a "MARS: Theme Configuration Block" to the layout tab of this page.',
-      '#weight' => 19,
-    ];
-  }
-
   if (
     $form_id === 'block_form' ||
     $form_id === 'layout_builder_add_block' ||
@@ -1770,4 +1791,84 @@ function mars_common_language_switch_links_alter(array &$links, $type, Url $url)
     }
   }
 
+}
+
+/**
+ * Implements hook_mail_alter().
+ */
+function mars_common_mail_alter(&$message) {
+  $html = '';
+  $emails_configuration_original = \Drupal::configFactory()->get(MarsEmailsConfigurationForm::SETTINGS);
+  $languages = \Drupal::languageManager()->getLanguages();
+  if (!empty($languages)) {
+    $emails_configuration_translation = \Drupal::languageManager()->getLanguageConfigOverride($message["langcode"], MarsEmailsConfigurationForm::SETTINGS);
+  }
+
+  if (isset($message["id"]) &&
+    isset($message["key"]) &&
+    $message["key"] == 'email' &&
+    $message["id"] == 'mars_recipe_email') {
+    $recipe_from = $emails_configuration_translation->get('recipe_from')
+      ?: $emails_configuration_original->get('recipe_from');
+    $recipe_subject = $emails_configuration_translation->get('recipe_subject')
+      ?: $emails_configuration_original->get('recipe_subject');
+    $recipe_body = $emails_configuration_translation->get('recipe_body')
+      ?: $emails_configuration_original->get('recipe_body');
+    $recipe_signature = $emails_configuration_translation->get('recipe_signature')
+      ?: $emails_configuration_original->get('recipe_signature');
+
+    if (!empty($recipe_body)) {
+      $html .= $recipe_body;
+      $html .= "\r\n";
+    }
+    $html .= $message["params"]["recipe_url"];
+    if (!empty($recipe_signature)) {
+      $html .= "\r\n";
+      $html .= $recipe_signature;
+    }
+
+    // Prepare render array.
+    $render = ['#markup' => Markup::create($html)];
+    $message["from"] = $recipe_from;
+    $message["subject"] = $recipe_subject;
+    $message["body"] = $render;
+    $message['headers']['Content-Type'] = SWIFTMAILER_FORMAT_HTML;
+  }
+  elseif (isset($message["id"]) &&
+    isset($message["key"]) &&
+    $message["key"] == 'grocery' &&
+    $message["id"] == 'mars_recipe_grocery') {
+    $grocery_list_from = $emails_configuration_translation->get('grocery_list_from')
+      ?: $emails_configuration_original->get('grocery_list_from');
+    $grocery_list_subject = $emails_configuration_translation->get('grocery_list_subject')
+      ?: $emails_configuration_original->get('grocery_list_subject');
+    $grocery_list_body = $emails_configuration_translation->get('grocery_list_body')
+      ?: $emails_configuration_original->get('grocery_list_body');
+    $grocery_list_signature = $emails_configuration_translation->get('grocery_list_signature')
+      ?: $emails_configuration_original->get('grocery_list_signature');
+
+    if (!empty($grocery_list_body)) {
+      $html .= $grocery_list_body;
+      $html .= "\r\n";
+    }
+    $ingredients = $message["params"]["ingredients"];
+    if (!empty($ingredients) && is_array($ingredients)) {
+      foreach ($ingredients as $ingredient) {
+        $html .= $ingredient['value'];
+        $html .= "<br />";
+      }
+    }
+    if (!empty($grocery_list_signature)) {
+      $html .= "\r\n";
+      $html .= $grocery_list_signature;
+    }
+    // Prepare render array.
+    $render = ['#markup' => Markup::create($html)];
+    if (!empty($grocery_list_from)) {
+      $message["from"] = $grocery_list_from;
+    }
+    $message["subject"] = $grocery_list_subject;
+    $message["body"] = $render;
+    $message['headers']['Content-Type'] = SWIFTMAILER_FORMAT_HTML;
+  }
 }
