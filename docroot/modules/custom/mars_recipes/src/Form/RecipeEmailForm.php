@@ -248,6 +248,7 @@ class RecipeEmailForm extends FormBase implements FormInterface, ContainerInject
    */
   public static function submitEmailForm(array $form, FormStateInterface $form_state) {
     if (static::isValidSubmit($form, $form_state)) {
+      $languageHelper = \Drupal::getContainer()->get('mars_common.language_helper');
       $form_state->set('validation_error', FALSE);
       $form_state->set('email_form_submitted', TRUE);
       $email = $form_state->getValue('email');
@@ -257,8 +258,7 @@ class RecipeEmailForm extends FormBase implements FormInterface, ContainerInject
         ->getId();
 
       $recipe_id = $form_state->getValue('context_recipe');
-      $recipe = Node::load($recipe_id);
-
+      $recipe = $languageHelper->getTranslation(Node::load($recipe_id));
       $send_grocery_list = $form_state->getValue('grocery_list');
       if ($send_grocery_list) {
         try {
