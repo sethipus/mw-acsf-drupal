@@ -369,6 +369,7 @@ $xl-left-margin: 11.583rem;
 
   &__social {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     margin-top: 34px;
     padding-bottom: 36px;
@@ -393,6 +394,11 @@ $xl-left-margin: 11.583rem;
       display: flex;
       flex-flow: row nowrap;
       align-items: center;
+    }
+    .social-info__text {
+      font-size: 20px;
+      line-height: 3em;
+      flex-direction: column;
     }
   }
 
