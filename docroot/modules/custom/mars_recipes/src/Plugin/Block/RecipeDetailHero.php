@@ -237,7 +237,6 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $build['#brand_shape_enabled'] = (bool) ($this->configuration['brand_shape_enabled'] ?? 0);
 
     $build['#email_recipe'] = $this->getEmailRecipeData($block_config, $node);
-    $build['#byy'] = 'email_recipe';
 
     if (isset($block_config['email_recipe']) && $block_config['email_recipe']) {
       $form_object = $this->classResolver
