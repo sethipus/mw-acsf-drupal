@@ -237,6 +237,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $build['#brand_shape_enabled'] = (bool) ($this->configuration['brand_shape_enabled'] ?? 0);
 
     $build['#email_recipe'] = $this->getEmailRecipeData($block_config, $node);
+    $build['#byy'] = 'email_recipe';
 
     if (isset($block_config['email_recipe']) && $block_config['email_recipe']) {
       $form_object = $this->classResolver
@@ -296,7 +297,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   private function getEmailRecipeData(array $block_config, NodeInterface $node): ?array {
     return (isset($block_config['email_recipe']) && $block_config['email_recipe'])
       ? [
-        'email_hint' => $this->languageHelper->translate($block_config['email_recipe_container']['email_hint']) ?? $this->getRecipeEmailDefault()['email_hint'],
+        'email_hint' => $this->languageHelper->translate($block_config['email_recipe_container']['email_hint']),
         'email_overlay_title' => $this->languageHelper->translate($block_config['email_recipe_container']['email_overlay_title']) ?? $this->getRecipeEmailDefault()['email_overlay_title'],
         'email_overlay_description' => $this->languageHelper->translate($block_config['email_recipe_container']['email_overlay_description']) ?? $this->getRecipeEmailDefault()['email_overlay_description'],
         'checkboxes_container' => [

@@ -107,6 +107,9 @@
         social_menu_items: social_menu_items,
       } %}
     {% endblock %}
+    {% if email_recipe.email_hint %}
+       <div class="social-info__text">{{ email_recipe.email_hint }}</div>
+    {% endif %}
   </div>
 </div>
 
