@@ -24,6 +24,7 @@ ckeditor_config: 3.0.0
 cloudflare: 1.0.0-beta2
 cloudflarepurger: 1.0.0-beta2
 color: 8.8.1
+colorapi: 1.1.0
 components: 1.1.0
 computed_field: 2.0.0
 config: 8.8.1
@@ -151,6 +152,7 @@ pdf_api: 0.0.0
 poll: 1.4.0
 printable: 1.1.0
 printable_pdf: 1.1.0
+profile_switcher: 1.0.0-alpha5
 publication_date: 2.0.0-beta1
 purge: 3.0.0
 quickedit: 8.8.1
@@ -192,6 +194,7 @@ token: 1.6.0
 toolbar: 8.8.1
 update: 8.8.1
 user: 8.8.1
+vendor_stream_wrapper: 1.6.0
 video_embed_field: 2.2.0
 video_embed_media: 2.2.0
 views: 8.8.1

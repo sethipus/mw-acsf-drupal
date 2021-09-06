@@ -10,7 +10,7 @@ services:
       - 'mars_media.settings'
   mars_media.media_helper:
     class: Drupal\mars_media\MediaHelper
-    arguments: [ '@entity_type.manager', '@mars_product.product_helper', '@mars_common.language_helper','@mars_media.media_settings']
+    arguments: [ '@entity_type.manager', '@?mars_product.product_helper', '@?mars_common.language_helper','@mars_media.media_settings']
   mars_media.media_helper_twig_filters:
     class: Drupal\mars_media\Twig\MediaHelperFilters
     arguments:
