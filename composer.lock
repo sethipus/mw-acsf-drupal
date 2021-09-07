@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d15d7e797998de2b84bb74439e2a1d4",
+    "content-hash": "be59087df098d2499baecc6c11b04686",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -27705,7 +27705,8 @@
         "drupal/qa_accounts": 10,
         "drupal/rabbit_hole": 10,
         "drupal/ultimate_cron": 15,
-        "mikemadison13/blt-azure-pipelines": 20
+        "mikemadison13/blt-azure-pipelines": 20,
+        "drupal/pendo": 15
     },
     "prefer-stable": true,
     "prefer-lowest": false,
