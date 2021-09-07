@@ -3,12 +3,16 @@
   text-align: center;
   padding: 5rem 2rem;
 
+  @include desktop {
+    height: 544px;
+  }
+
   @include medium {
     padding: 6rem 2rem;
   }
 
   @include xl {
-      padding: 8rem 2rem;
+      padding: 8rem 2rem 5.55vw;
   }
 
   &__bg-image {
@@ -44,6 +48,8 @@
 
   &__content {
     position: relative;
+    margin: 0 auto;
+    max-width: 1050px;
   }
 
   & .eyebrow {
@@ -60,6 +66,14 @@
       font-size: 1.6rem;
       line-height: 1.6rem;
     }
+  }
+
+  &__graphic-divider {
+
+    @include large {
+      margin-bottom: 3rem !important;
+    }
+
   }
 
   &__heading {
@@ -107,8 +121,8 @@
     @include large {
         font-size: 2.2rem;
         line-height: 3.52rem;
-        margin: 0 auto 6rem;
-        max-width: 817px;
+        margin: 0 auto 3rem;
+        max-width: 1050px;
     }
   }
 
