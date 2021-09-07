@@ -131,24 +131,28 @@ ambient-video:
   js:
     dist/js/01-atoms/video/ambient-video/video.js: {}
   dependencies:
+    - core/jquery
     - core/drupal
 
 fullscreen-video:
   js:
     dist/js/01-atoms/video/fullscreen-video/video.js: {}
   dependencies:
+    - core/jquery
     - core/drupal
 
 inline-video:
   js:
     dist/js/01-atoms/video/inline-video/video.js: {}
   dependencies:
+    - core/jquery
     - core/drupal
 
 overlay-video:
   js:
     dist/js/01-atoms/video/overlay-video/video.js: {}
   dependencies:
+    - core/jquery
     - core/drupal
 
 iframe:
