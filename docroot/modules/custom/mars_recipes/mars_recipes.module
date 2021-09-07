@@ -38,6 +38,7 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'select_background_color' => NULL,
         'social_text' => NULL,
         'email_recipe_form' => NULL,
+        'email_recipe' => NULL,
       ],
       'template' => 'block--mars-recipes--recipe-detail-hero',
     ],

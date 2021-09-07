@@ -49,6 +49,8 @@ ignored_config_entities:
   - 'sendgrid_integration.settings:apikey'
   - mars_common.emails_configuration
   - recaptcha.settings
+  - 'simple_sitemap.settings:base_url'
+  - 'simple_sitemap.settings:excluded_languages'
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: true

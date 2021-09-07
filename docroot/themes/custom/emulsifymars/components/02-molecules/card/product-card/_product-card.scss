@@ -186,14 +186,22 @@
   &__link_section {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     position: absolute;
     right: 3rem;
     bottom: 3rem;
     left: 3rem;
+    height: 5rem;
+    font-size: 0; // reset to remove extra height
+
+    &--no-commerce-vendor {
+      justify-content: space-between;
+    }
   }
 
   &__link {
+    display: flex;
+    flex-grow: 1;
     padding-left: 1rem;
   }
 
