@@ -4,6 +4,10 @@
     text-align: left;
     background-color: clr(secondary);
 
+  @include desktop {
+    height: 660px;
+  }
+
   &__inner {
     position: relative;
     width: 100%;
@@ -107,7 +111,7 @@
         }
 
         @include large {
-          padding: 8rem 10rem 8rem 4rem;
+          padding: 4rem 10rem 2rem 4rem;
         }
       }
     }

@@ -1,5 +1,6 @@
 {% set card__base_class = 'product-card' %}
 {% set card__modificators = [] %}
+{% set link_section__modificators = [] %}
 {% set link_content = wtb_cta_title ? wtb_cta_title|mt : 'Buy now'|mt %}
 {{ attach_library('emulsifymars/product-card') }}
 
@@ -18,6 +19,10 @@
 
 {% if show_rating_and_reviews == true %}
   {% set card__modificators = card__modificators | merge(["with-rating"]) %}
+{% endif %}
+
+{% if not wtb_commerce_vendor %}
+  {% set link_section__modificators = link_section__modificators | merge(["no-commerce-vendor"]) %}
 {% endif %}
 
 <section {{ bem(card__base_class, card__modificators, card__blockname, card__extra_classes) }}
@@ -103,7 +108,7 @@
       </div>
     {% endif %}
 
-    <div {{ bem('link_section', [], card__base_class) }}>
+    <div {{ bem('link_section', link_section__modificators, card__base_class) }}>
       <div {{ bem('button', [], card__base_class) }}>
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
           default_link_content: default_link_content,

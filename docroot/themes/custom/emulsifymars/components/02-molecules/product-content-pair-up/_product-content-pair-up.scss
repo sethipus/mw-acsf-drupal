@@ -2,6 +2,10 @@
   position: relative;
   background-color: clr(subcolor-2);
 
+  @include desktop {
+    height: 670px;
+  }
+
   &__heading {
     @include set-font($font-type: 'heading-font');
 

@@ -35,6 +35,9 @@
   color: clr(primary);
 
   &__border {
+    z-index: 0;
+    transform: translateY(-50%);
+
     &--no-overflow {
       margin-top: 3.36rem;
     }

@@ -1,9 +1,10 @@
 .recipe-feature-block {
-  $recipe-feature-desktop-max-height: 567px;
+  $recipe-feature-desktop-max-height: 460px;
   $recipe-feature-tablet-max-height: 432px;
   $recipe-feature-mobile-max-height: 211px;
 
-  padding-bottom: 8rem;
+  margin-bottom: 8rem;
+  background-color: clr(subcolor-2);
 
   &__title {
     @include set-font($font-type: 'heading-font');
@@ -62,11 +63,28 @@
     }
   }
 
-  .media {
+  &__wrapper {
+    @include desktop {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    @include larger {
+      max-width: 144rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &__media {
     position: relative;
     overflow: hidden;
+    width: 100%;
+
     @include large {
       height: $recipe-feature-desktop-max-height;
+      flex: 1;
+      overflow: initial;
     }
 
     &__desktop-only {
@@ -88,8 +106,11 @@
       }
 
       @include large {
+        position: absolute;
+        right: 0;
+        width: 59vw;
         height: 100%;
-        width: 59%;
+        max-width: initial;
       }
     }
 
@@ -106,121 +127,114 @@
         right: calc(5% + 40px);
       }
     }
+  }
 
-    .media-info {
-      background-color: clr(subcolor-2);
-      position: relative;
-      text-align: center;
-      margin-right: 0;
-      margin-left: 0;
+  &__info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+
+    @include large {
+      height: $recipe-feature-desktop-max-height;
+      flex: 0 1 41%;
+      padding: 4rem 0;
+    }
+
+    .eyebrow {
+      @include set-font($font-type: 'primary-font');
+
+      font-size: 14px;
+      line-height: 14px;
+      color: clr(primary);
+      text-transform: uppercase;
+      margin: 0;
+
+      @include xs {
+        padding-top: 3rem;
+      }
+
+      @include medium {
+        padding-top: 4rem;
+      }
 
       @include large {
-        position: absolute;
-        left: 59%;
-        width: 41%;
-        margin-left: 0;
-        margin-right: 0;
-        top: 0;
-        height: 100%;
-        display: inline-flex;
-        justify-content: center;
-        flex-flow: column nowrap;
+        padding-top: 0;
+      }
+    }
+
+    .title {
+      @include set-font($font-type: 'primary-font');
+
+      font-size: 5.6rem;
+      line-height: 100%;
+      max-width: 510px;
+      font-weight: 500;
+      margin: 3rem auto 2rem;
+
+      @include xs {
+        padding: 0 1.2rem;
+      }
+
+      @include medium {
+        margin-bottom: 4rem;
+        padding: 0 4rem;
+      }
+
+      @include large {
+        font-size: 6.4rem;
+        min-height: 18rem;
+        margin: 3rem auto 4rem;
         padding: 0;
       }
 
-      .eyebrow {
-        @include set-font($font-type: 'primary-font');
+      @include xl {
+        font-size: 6.4rem;
+        min-height: 18rem;
+        margin: 4rem;
+        padding: 0;
+      }
 
-        font-size: 14px;
-        line-height: 14px;
+      @media (min-width: 1441px){
+        margin: 4rem;
+        max-width: 100%;
+      }
+
+      a.link {
         color: clr(primary);
-        text-transform: uppercase;
-        margin: 0;
-
-        @include xs {
-          padding-top: 3rem;
-        }
-
-        @include medium {
-          padding-top: 4rem;
-        }
+        text-decoration: none;
 
         @include large {
-          padding-top: 0;
+          display: block;
+          margin: -10px auto -5px auto;
         }
       }
+    }
 
-      .title {
-        @include set-font($font-type: 'primary-font');
+    .cta-btn {
+      // Removing additionalspacing which comes from space
+      line-height: 0;
+    }
 
-        font-size: 5.6rem;
-        line-height: 100%;
-        max-width: 510px;
-        font-weight: 500;
-        margin: 3rem auto 2rem;
+    .default-link {
+      background-color: clr(secondary);
 
-        @include xs {
-          padding: 0 1.2rem;
-        }
-
-        @include medium {
-          margin-bottom: 4rem;
-          padding: 0 4rem;
-        }
-
-        @include large {
-          font-size: 6.4rem;
-          min-height: 18rem;
-          margin: 3rem auto 4rem;
-          padding: 0;
-        }
-
-        @include xl {
-          font-size: 6.4rem;
-          min-height: 18rem;
-          margin: 4rem;
-          padding: 0;
-        }
-
-        @media (min-width: 1441px){
-          margin: 4rem;
-          max-width: 100%;
-        }
-
-        a.link {
-          color: clr(primary);
-          text-decoration: none;
-
-          @include large {
-            display: block;
-            margin: -10px auto -5px auto;
-          }
-        }
+      @include xs {
+        margin-bottom: 40px;
       }
 
-      .cta-btn {
-        // Removing additionalspacing which comes from space
-        line-height: 0;
+      @include medium {
+        margin-bottom: 60px;
       }
 
-      .default-link {
-        background-color: clr(secondary);
+      @include large {
+        margin-bottom: 0;
+      }
 
-        @include xs {
-          margin-bottom: 40px;
-        }
-
-        @include medium {
-          margin-bottom: 60px;
-        }
-
-        @include large {
-          margin-bottom: 0;
-        }
-
-        &:hover {
-          color: clr(secondary);
-        }
+      &:hover {
+        color: clr(secondary);
       }
     }
   }
