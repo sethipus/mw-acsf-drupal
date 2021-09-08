@@ -30,18 +30,11 @@ variables:
 
 steps:
   - task: InstallSSHKey@0
-    displayName: 'Install SSH Key for GitHub'
+    displayName: 'Install SSH Key for GitHub Cloud'
     inputs:
-      knownHostsEntry: $(known_hosts)
-      sshPublicKey: $(public_ssh_key)
-      sshKeySecureFile: 'mars_ssh_key'
-  - task: InstallSSHKey@0
-    displayName: 'Install SSH Key for GitHub.com'
-    inputs:
-      knownHostsEntry: $(known_hosts_github)
-      sshPublicKey: $(public_ssh_key_github)
-      sshPassphrase: $(ssh_passphrase)
-      sshKeySecureFile: 'github.private'
+      knownHostsEntry: $(github_ci__known_hosts)
+      sshPublicKey: $(mars_ci__id_rsa.pub)
+      sshKeySecureFile: 'mars_ci__id_rsa'
   - task: InstallSSHKey@0
     displayName: 'Install SSH Key for Acquia Cloud'
     inputs:
@@ -129,7 +122,7 @@ steps:
   #  inputs:
   #    summaryFileLocation: 'reports/phpunit/coverage.xml'
   - task: Bash@3
-    displayName: 'Deploy Branch and Trigger Application Deployment on ACSF'
+    displayName: 'Deploy Branch and Trigger Application Deployment on DEV of ACSF'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], variables['dev_env_branch']))
     inputs:
       targetType: 'inline'
