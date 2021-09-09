@@ -133,7 +133,7 @@
   @include set-font($font-type: 'secondary-font');
   
   overflow: initial;
-  background-image: radial-gradient(circle at 0 0, var(--c-cookie-banner-gradient), var(--c-cookie-banner));
+  background-image: radial-gradient(circle at 50% 30vw,var(--c-cookie-banner-gradient), var(--c-cookie-banner) 50%);
   transition: 500ms transform ease;
   transform: translateY(150%);
 
