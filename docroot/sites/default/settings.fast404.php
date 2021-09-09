@@ -68,7 +68,7 @@ $settings['fast404_whitelist'] = ['index.php', 'rss.xml', 'install.php', 'cron.p
  *
  * Default value for this setting is FALSE.
  */
-$settings['fast404_string_whitelisting'] = ['/advagg_'];
+$settings['fast404_string_whitelisting'] = ['/advagg_', '/vendor_files'];
 
 /**
  * When Fast 404 checks for missing file assets, it will return a response

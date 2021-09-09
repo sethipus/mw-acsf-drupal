@@ -48,7 +48,7 @@ class MarsMediaConfigFormTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->messengerMock = $this->createMock(MessengerInterface::class);
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
