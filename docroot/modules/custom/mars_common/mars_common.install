@@ -248,14 +248,14 @@ function mars_common_update_8017() {
     $orGroup->condition('lb.layout_builder__layout_section','%' . $color_field . '%', 'LIKE');
   }
   $query->condition($orGroup);
-  $query->groupBy('entity_id');
 
   $results = $query->execute()->fetchAll();
 
+  $entity_ids = array_column($results, 'entity_id', 'entity_id');
   $storage_handler = \Drupal::entityTypeManager()->getStorage('node');
 
-  foreach ($results as $result) {
-    $node = $storage_handler->load($result->entity_id);
+  foreach ($entity_ids as $entity_id) {
+    $node = $storage_handler->load($entity_id);
 
     foreach ($node->layout_builder__layout->getSections() as $section) {
       foreach ($section->getComponents() as $component) {
