@@ -217,6 +217,12 @@ module:
   views: 10
   publication_date: 99
   minimal: 1000
+  acsf: 0
+  acsf_duplication: 0
+  acsf_sj: 0
+  acsf_sso: 0
+  acsf_theme: 0
+  acsf_variables: 0
 theme:
   stable: 0
   bartik: 0

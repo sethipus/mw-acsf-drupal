@@ -6,6 +6,7 @@ use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginTrait;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Base class for mars_recommendations_logic plugins.
  */
-abstract class RecommendationsLogicPluginBase extends PluginBase implements RecommendationsLogicPluginInterface, ContainerFactoryPluginInterface {
+abstract class RecommendationsLogicPluginBase extends PluginBase implements RecommendationsLogicPluginInterface, ContainerFactoryPluginInterface, ContextAwarePluginInterface {
 
   use ContextAwarePluginTrait;
   use StringTranslationTrait;
