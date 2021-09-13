@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Config\InstallStorage;
 use Drupal\Core\Config\StorageComparer;
 use Drupal\Core\Config\ConfigImporter;
 use Drupal\Core\Config\StorageInterface;
@@ -110,7 +111,7 @@ function mars_search_update_8003() {
  */
 function mars_search_update_8004() {
   $extension_path = drupal_get_path('module', 'search_api_solr');
-  $default_install_path = $extension_path . '/' . \Drupal\Core\Config\InstallStorage::CONFIG_OPTIONAL_DIRECTORY;
+  $default_install_path = $extension_path . '/' . InstallStorage::CONFIG_OPTIONAL_DIRECTORY;
   $storage = new FileStorage($default_install_path, StorageInterface::DEFAULT_COLLECTION);
   $config_names = $storage->listAll();
 

@@ -100,14 +100,14 @@ steps:
     displayName: 'Run Php Unit Tests'
     inputs:
       filePath: './scripts/phpunit_test.sh'
-  - task: SonarQubePrepare@4
-    displayName: 'SonarQube Prepare'
-    inputs:
-      SonarQube: 'sonarqubetest'
-      scannerMode: 'CLI'
-      configMode: 'file'
-  - task: SonarQubeAnalyze@4
-    displayName: 'SonarQube Validation'
+#  - task: SonarQubePrepare@4
+#    displayName: 'SonarQube Prepare'
+#    inputs:
+#      SonarQube: 'sonarqubetest'
+#      scannerMode: 'CLI'
+#      configMode: 'file'
+#  - task: SonarQubeAnalyze@4
+#    displayName: 'SonarQube Validation'
   #- task: SonarQubePublish@4
   #  displayName: 'SonarQube Publish'
   #  inputs:
