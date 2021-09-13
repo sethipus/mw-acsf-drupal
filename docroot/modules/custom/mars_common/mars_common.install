@@ -303,3 +303,17 @@ function mars_common_update_8018() {
 
   $config->setData($data)->save();
 }
+
+/**
+ * Import layout_selection field for Basic Page CT.
+ */
+function mars_common_update_8021(&$sandbox = []) {
+  $config_entity_updater = \Drupal::classResolver(\Drupal\Core\Config\Entity\ConfigEntityUpdater::class);
+  try {
+    $config_entity_updater->update($sandbox, 'entity_view_display');
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('my_module')->error($e->getMessage());
+  }
+}
+

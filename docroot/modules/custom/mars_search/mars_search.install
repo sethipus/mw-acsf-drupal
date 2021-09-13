@@ -109,19 +109,19 @@ function mars_search_update_8003() {
  * Delete text_en_6_0_0 and text_en_7_0_0 from acquia_contenthub_publisher_export_tracking.
  */
 function mars_search_update_8004() {
-  $types = [
-    'text_en_6_0_0',
-    'text_en_7_0_0',
-    'text_de_6_0_0',
-    'text_de_7_0_0',
-    'text_fr_6_0_0',
-    'text_fr_7_0_0',
-    'text_de_scientific_6_0_0',
-    'text_de_scientific_7_0_0',
-  ];
+  $extension_path = drupal_get_path('module', 'search_api_solr');
+  $default_install_path = $extension_path . '/' . \Drupal\Core\Config\InstallStorage::CONFIG_OPTIONAL_DIRECTORY;
+  $storage = new FileStorage($default_install_path, StorageInterface::DEFAULT_COLLECTION);
+  $config_names = $storage->listAll();
+
+  array_walk($config_names, function (&$val, $key) {
+    $parts = explode('.', $val);
+    $val = array_pop($parts);
+  });
+
   $query = \Drupal::database()->delete('acquia_contenthub_publisher_export_tracking');
   $query->condition('entity_type', 'solr_field_type');
-  $query->condition('entity_id', $types, 'IN');
+  $query->condition('entity_id', $config_names, 'IN');
   $query->execute();
 }
 
