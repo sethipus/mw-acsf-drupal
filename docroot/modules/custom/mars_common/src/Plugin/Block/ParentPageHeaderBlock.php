@@ -357,13 +357,11 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   private function getTextColor() {
     $color_option = $this->configuration['text_color'];
     if ($color_option == self::KEY_OPTION_OTHER_COLOR) {
-      $color = $this->configuration['text_color_other'];
+      return $this->configuration['text_color_other'];
     }
-    else {
-      $color = $this->themeConfiguratorParser
-        ->getSettingValue($color_option);
-    }
-    return '#' . $color;
+
+    return '#' . $this->themeConfiguratorParser
+      ->getSettingValue($color_option);
   }
 
   /**

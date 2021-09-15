@@ -95,7 +95,7 @@ class ProductTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
     \Drupal::setContainer($this->containerMock);
@@ -176,7 +176,7 @@ class ProductTest extends UnitTestCase {
     ];
     $this->jsonLdPlugin->setContext('node', $this->createNodeContextMock($node_context_params));
     $this->mediaHelperMock->expects($this->any())->method('getMediaUrl')->willReturn('test_image.jpeg');
-    $this->mediaHelperMock->expects($this->any())->method('getEntityMainMediaId')->willReturn(1);
+    $this->mediaHelperMock->expects($this->any())->method('getEntityMainMediaId')->willReturn('1');
     $config_mock = $this->createMock(Config::class);
     $config_mock->expects($this->any())->method('get')->willReturn('Mars');
     $config_mock->expects($this->any())->method('isNew')->willReturn(FALSE);

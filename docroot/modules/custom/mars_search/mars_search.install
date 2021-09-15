@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Config\InstallStorage;
 use Drupal\Core\Config\StorageComparer;
 use Drupal\Core\Config\ConfigImporter;
 use Drupal\Core\Config\StorageInterface;
@@ -95,4 +96,57 @@ function mars_search_update_8002() {
     'product_multipack',
     'field_product_brand'
   )->delete();
+}
+
+/**
+ * Field types clean-up.
+ */
+function mars_search_update_8003() {
+  module_load_include('install', 'search_api_solr');
+  search_api_solr_update_8301();
+}
+
+/**
+ * Delete text_en_6_0_0 and text_en_7_0_0 from acquia_contenthub_publisher_export_tracking.
+ */
+function mars_search_update_8004() {
+  $extension_path = drupal_get_path('module', 'search_api_solr');
+  $default_install_path = $extension_path . '/' . InstallStorage::CONFIG_OPTIONAL_DIRECTORY;
+  $storage = new FileStorage($default_install_path, StorageInterface::DEFAULT_COLLECTION);
+  $config_names = $storage->listAll();
+
+  array_walk($config_names, function (&$val, $key) {
+    $parts = explode('.', $val);
+    $val = array_pop($parts);
+  });
+
+  $query = \Drupal::database()->delete('acquia_contenthub_publisher_export_tracking');
+  $query->condition('entity_type', 'solr_field_type');
+  $query->condition('entity_id', $config_names, 'IN');
+  $query->execute();
+}
+
+/**
+ * Delete text_en_6_0_0 and text_en_7_0_0 from acquia_contenthub_publisher_export_tracking.
+ */
+function mars_search_update_8005() {
+  mars_search_update_8004();
+}
+
+/**
+ * Disable new view 'Acquia Search' for removing 'Search' link from main menu.
+ */
+function mars_search_update_8006() {
+  $storage = \Drupal::entityTypeManager()->getStorage('view');
+  $view = $storage->load('acquia_search');
+  $view->disable()->save();
+}
+
+/**
+ * Create translations dir.
+ */
+function mars_search_update_8007() {
+  if (!file_exists('public://translations')) {
+    \Drupal::service('file_system')->mkdir('public://translations');
+  }
 }
