@@ -790,7 +790,7 @@ class ConfigForm extends ConfigFormBase {
       '#title' => $this->t('Brand name'),
       '#description' => $this->t(
         'Fill out the brand name in the case when you use one channel for many brands in other cases please leave it empty.',
-        ),
+      ),
       '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.' . static::BRAND_NAME),
     ];
   }
