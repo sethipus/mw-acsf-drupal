@@ -31,7 +31,7 @@ class FeedTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->feedReader = $this->createMock(FeedReaderInterface::class);
     $this->feedReader->method('read')->willReturnReference($this->feedData);

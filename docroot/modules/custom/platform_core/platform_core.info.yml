@@ -1,5 +1,0 @@
-name: 'Mars Platform Core'
-type: module
-description: 'Core functionality for Mars platform.'
-package: 'Mars'
-core_version_requirement: '^8.8 || ^9'

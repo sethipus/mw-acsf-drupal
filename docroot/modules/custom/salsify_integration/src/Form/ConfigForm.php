@@ -88,6 +88,11 @@ class ConfigForm extends ConfigFormBase {
   public const KEY_API_KEY = 'api_key';
 
   /**
+   * Form `brand_name` field.
+   */
+  public const BRAND_NAME = 'brand_name';
+
+  /**
    * Form `url` field.
    */
   public const KEY_URL = 'url';
@@ -780,6 +785,14 @@ class ConfigForm extends ConfigFormBase {
         '#weight' => 100,
       ];
     }
+    $fieldset[static::BRAND_NAME] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Brand name'),
+      '#description' => $this->t(
+        'Fill out the brand name in the case when you use one channel for many brands in other cases please leave it empty.',
+      ),
+      '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.' . static::BRAND_NAME),
+    ];
   }
 
   /**

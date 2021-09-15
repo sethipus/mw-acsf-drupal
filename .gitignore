@@ -162,3 +162,6 @@ docroot/sites/default/settings.ddev.php
 .ddev/docker-compose.override.yml
 .ddev/commands/web/npm
 .ddev/commands/web/npx
+
+# Ignore SimpleTest multi-site environment.
+docroot/sites/simpletest
