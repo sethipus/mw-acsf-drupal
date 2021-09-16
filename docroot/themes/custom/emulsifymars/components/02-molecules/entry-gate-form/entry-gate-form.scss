@@ -78,6 +78,10 @@
       font-size: 1.2rem;
     }
 
+    &--invalid,
+    &--invalid + label {
+      color: clr(secondary);
+    }
   }
 
   .entry-gate-form__input-container:last-child input:invalid:not(:placeholder-shown) + label{
