@@ -1,5 +1,6 @@
 //calculated at recipe hero for large screen
 $xl-left-margin: 11.583rem;
+$product-used-breakpoint: 1130px;
 
 .product-used {
   position: relative;
@@ -7,7 +8,7 @@ $xl-left-margin: 11.583rem;
   border-top: 1px solid rgba(196, 196, 196, 0.6);
   border-bottom: 1px solid rgba(196, 196, 196, 0.6);
 
-  @include xl {
+  @include breakpoint($product-used-breakpoint) {
     position: absolute;
     top: 0;
     right: 5rem;
@@ -89,8 +90,11 @@ $xl-left-margin: 11.583rem;
       font-size: 2rem;
       line-height: 1.8;
       max-width: 1125px;
-      padding-right: 460px;
       margin: 3rem 0 7rem 11.6rem; // visually margin-bottom is 80px according to Zeplin
+    }
+
+    @include breakpoint($product-used-breakpoint) {
+      padding-right: 460px;
     }
 
     .list-item {
@@ -110,5 +114,11 @@ $xl-left-margin: 11.583rem;
   .ambient-video__control[data-state='play'] {
     left: calc(50% - 30px);
     top: calc(50% - 30px);
+  }
+}
+
+.recipe-info {
+  @include breakpoint($product-used-breakpoint) {
+    padding-right: 460px;
   }
 }
