@@ -1,9 +1,14 @@
 .search-filter-container {
-  padding: 7.8rem 2rem 1rem;
+  padding: 5rem 2rem 1rem;
   background-color: clr(subcolor-2);
   position: relative;
 
-  @include medium {
+  @include tablet {
+    padding-top: 6rem;
+  }
+
+  @include desktop {
+    padding-top: 8rem;
     padding-bottom: 2rem;
   }
 

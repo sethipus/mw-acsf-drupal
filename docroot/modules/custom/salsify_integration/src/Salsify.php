@@ -319,6 +319,19 @@ class Salsify {
       $this->moduleHandler
         ->alter('salsify_product_data', $new_product_data);
 
+      $output = '';
+      foreach ($new_product_data['products'] as $product) {
+        $output .= '---';
+        $output .= "\n";
+        foreach ($product as $key => $value) {
+          $output .= "$key: " . (string) $value;
+          $output .= "\n";
+        }
+        $output .= "\n";
+      }
+
+      $this->logger->notice('Salsify product data for product import: <pre>@fetched_data</pre>', ['@fetched_data' => $output]);
+
       // Add the newly updated product data into the site cache.
       $this->cache->set('salsify_import_product_data', $new_product_data);
 

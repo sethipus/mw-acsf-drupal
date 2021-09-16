@@ -8,7 +8,7 @@
 {% set inline_search__close_btn = search_close_label|default('Close' | mt) %}
 
 <div {{ bem(search__base_class, [], '') }}>
-  <div class="wrapper-overlay">
+  <div class="wrapper-overlay grid">
     <div {{ bem('branding', [], header__base_class) }}>
       {% block header__branding %}
         <div {{ bem('logo', [], header__base_class) }}>

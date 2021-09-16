@@ -55,3 +55,10 @@ mars_common.admin.disable_language:
   options:
     _admin_route: TRUE,
     no_cache: 'TRUE'
+
+mars_common.theme_api:
+  path: '/api/v1/theme-configuration'
+  defaults:
+    _controller: '\Drupal\mars_common\Controller\ThemeSettingsApiController::main'
+  requirements:
+    _permission: 'access content'
