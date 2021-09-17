@@ -1,20 +1,19 @@
 {% set recipe_template__base_class = 'recipe-detail' %}
-{{ attach_library('emulsifymars/recipe-body') }}
 
 <section {{ bem(recipe_template__base_class) }} data-theme="{{ theme_styles }}">
-<div class="recipe-body-content recipe-body-content__top">
-  <h2 class="recipe-body-content-header">{{ ingredients_used_label }}</h2>
-  {% include "@atoms/lists/ul.twig" with {
-    ul_items: ingredients_list,
-    ul_base_class: 'recipe-body-ingredients-list'
-  }%}
-  {% if product_used_items is not empty %}
-    <div class="product-used">
-      <div class="product-used__title">{{ products_used_label }}</div>
-      {% include "@molecules/product-used-module/product-used-module.twig" with {
-        items: product_used_items
-      } %}
-    </div>
-  {% endif %}
-</div>
+  <div class="recipe-body-content recipe-body-content__top">
+    <h2 class="recipe-body-content-header">{{ ingredients_used_label }}</h2>
+    {% include "@atoms/lists/ul.twig" with {
+      ul_items: ingredients_list,
+      ul_base_class: 'recipe-body-ingredients-list'
+    }%}
+    {% if product_used_items is not empty %}
+      <div class="product-used">
+        <div class="product-used__title">{{ products_used_label }}</div>
+        {% include "@molecules/product-used-module/product-used-module.twig" with {
+          items: product_used_items
+        } %}
+      </div>
+    {% endif %}
+  </div>
 </section>
