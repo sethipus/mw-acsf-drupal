@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da20551038b618dbf3dd043a9c0cae6c",
+    "content-hash": "9c9b06d34ad8166ee8b620a33f3f9c74",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -13701,17 +13701,17 @@
         },
         {
             "name": "drupal/tmgmt_smartling",
-            "version": "4.17.0",
+            "version": "4.18.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/tmgmt_smartling.git",
-                "reference": "8.x-4.17"
+                "reference": "8.x-4.18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/tmgmt_smartling-8.x-4.17.zip",
-                "reference": "8.x-4.17",
-                "shasum": "bf1d799389008f4d38d4ddff35e24f7835bbbb90"
+                "url": "https://ftp.drupal.org/files/projects/tmgmt_smartling-8.x-4.18.zip",
+                "reference": "8.x-4.18",
+                "shasum": "f12fa2111e7560ca61233de254fa588d0c2fac3d"
             },
             "require": {
                 "drupal/core": "^8.8 || ^9",
@@ -13722,8 +13722,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-4.17",
-                    "datestamp": "1630080935",
+                    "version": "8.x-4.18",
+                    "datestamp": "1631883763",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -14623,21 +14623,6 @@
                 "source": "https://github.com/enlightn/security-checker/tree/v1.9.0"
             },
             "time": "2021-05-06T09:03:35+00:00"
-        },
-        {
-            "name": "eyecon/jquery_colorpicker",
-            "version": "master",
-            "dist": {
-                "type": "zip",
-                "url": "https://www.eyecon.ro/colorpicker/colorpicker.zip",
-                "reference": "master"
-            },
-            "type": "drupal-library",
-            "autoload": {
-                "classmap": [
-                    "."
-                ]
-            }
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -15701,29 +15686,11 @@
         {
             "name": "jaypan/jquery-colorpicker",
             "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jaypan/jquery_colorpicker.git",
-                "reference": "1c1c4cf081387f53470c591505cbba7928164066"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jaypan/jquery_colorpicker/zipball/1c1c4cf081387f53470c591505cbba7928164066",
-                "reference": "1c1c4cf081387f53470c591505cbba7928164066",
-                "shasum": ""
+                "url": "https://github.com/jaypan/jquery_colorpicker/archive/refs/tags/1.0.1.zip"
             },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "(MIT or GPL-1.0)"
-            ],
-            "description": "The jQuery Colorpicker JS/CSS library",
-            "homepage": "https://www.eyecon.ro/colorpicker/",
-            "support": {
-                "issues": "https://github.com/jaypan/jquery_colorpicker/issues",
-                "source": "https://github.com/jaypan/jquery_colorpicker/tree/1.0.1"
-            },
-            "time": "2018-09-27T02:07:08+00:00"
+            "type": "drupal-library"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -16686,7 +16653,7 @@
         },
         {
             "name": "mars/mars_seo",
-            "version": "dev-feature/251929-Update-Drupal-from-8-to-9--with-lighting",
+            "version": "dev-release-v21.09.2",
             "dist": {
                 "type": "path",
                 "url": "docroot/modules/custom/mars_seo",
@@ -18553,23 +18520,23 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.6",
+            "version": "9.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "f6293e1b30a2354e8428e004689671b83871edde"
+                "reference": "d4c798ed8d51506800b441f7a13ecb0f76f12218"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/f6293e1b30a2354e8428e004689671b83871edde",
-                "reference": "f6293e1b30a2354e8428e004689671b83871edde",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d4c798ed8d51506800b441f7a13ecb0f76f12218",
+                "reference": "d4c798ed8d51506800b441f7a13ecb0f76f12218",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-xmlwriter": "*",
-                "nikic/php-parser": "^4.10.2",
+                "nikic/php-parser": "^4.12.0",
                 "php": ">=7.3",
                 "phpunit/php-file-iterator": "^3.0.3",
                 "phpunit/php-text-template": "^2.0.2",
@@ -18618,7 +18585,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.6"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.7"
             },
             "funding": [
                 {
@@ -18626,7 +18593,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-28T07:26:59+00:00"
+            "time": "2021-09-17T05:39:03+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",

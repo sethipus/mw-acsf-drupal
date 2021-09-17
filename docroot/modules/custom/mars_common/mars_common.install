@@ -219,12 +219,7 @@ function mars_common_update_8016() {
     $config->delete();
   }
 
-  $modules = [
-    'colorapi',
-    'vendor_stream_wrapper',
-  ];
-
-  \Drupal::service('module_installer')->install($modules);
+  \Drupal::service('module_installer')->install(['colorapi']);
 }
 
 /**
