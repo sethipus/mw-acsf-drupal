@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c9b06d34ad8166ee8b620a33f3f9c74",
+    "content-hash": "bf0893f748d18bfe497199efed55bf71",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -16653,7 +16653,7 @@
         },
         {
             "name": "mars/mars_seo",
-            "version": "dev-release-v21.09.2",
+            "version": "dev-feature/251929-Update-Drupal-from-8-to-9--with-lightning",
             "dist": {
                 "type": "path",
                 "url": "docroot/modules/custom/mars_seo",

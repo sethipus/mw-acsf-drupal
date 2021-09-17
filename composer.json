@@ -194,7 +194,7 @@
                 "REMOVE: Allow installation profile to be changed from Lightning during config sync": "https://www.drupal.org/files/issues/2021-01-21/3143958-12-change-profile-config-sync-9.1.x.patch"
             },
             "drupal/jquery_colorpicker": {
-                "Pipelines builds fail with 'Command validate:all is not defined'": "patches/upgrade_instructions_incomplete_3058398_10.patch",
+                "Fixed jquery colorpicker security issue": "patches/Fixed-jquery-colorpicker-security-issue.patch",
                 "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch"
             },
             "drupal/poll": {
