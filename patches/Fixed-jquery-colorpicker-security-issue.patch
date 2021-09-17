@@ -1,5 +1,5 @@
 diff --git a/README.txt b/README.txt
-index 2947b08..c2b0e50 100644
+index 2947b08..b7a56f6 100644
 --- a/README.txt
 +++ b/README.txt
 @@ -27,17 +27,9 @@ REQUIREMENTS
@@ -21,7 +21,7 @@ index 2947b08..c2b0e50 100644
  
  INSTALLATION
  ------------
-@@ -46,6 +38,32 @@ Add the module to your project using:
+@@ -46,6 +38,31 @@ Add the module to your project using:
  
  composer require drupal/jquery_colorpicker
  
@@ -43,8 +43,7 @@ index 2947b08..c2b0e50 100644
 +                "type": "drupal-library",
 +                "dist": {
 +                    "type": "zip",
-+                    "url": "https://github.com/jaypan/jquery_colorpicker/archive/refs/tags/1.0.1.zip",
-+                    "reference": "master"
++                    "url": "https://github.com/jaypan/jquery_colorpicker/archive/refs/tags/1.0.1.zip"
 +                }
 +            }
 +        }
