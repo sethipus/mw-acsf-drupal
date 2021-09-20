@@ -206,22 +206,6 @@ function mars_common_update_8015() {
   $config->save();
 }
 
-/*
- * Enable dependency module.
- */
-function mars_common_update_8016() {
-  // Deleting the colorapi.settings.
-  \Drupal::configFactory()->getEditable('colorapi.settings')->delete();
-
-  $config = \Drupal::configFactory()->getEditable('colorapi.settings');
-
-  if ($config) {
-    $config->delete();
-  }
-
-  \Drupal::service('module_installer')->install(['colorapi']);
-}
-
 /**
  * Update jquery_colorpicker values for custom blocks. Add '#' to the values.
  */
