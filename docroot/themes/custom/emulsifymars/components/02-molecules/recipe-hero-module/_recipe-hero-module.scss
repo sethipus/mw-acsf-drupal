@@ -2,7 +2,6 @@ $xl-column-width: ((1360px - 330px) / 12);
 $xl-gap-width: 30px;
 $xl-left-margin: 11.583rem;
 
-
 .recipe-header {
   position: relative;
   padding: 4rem 0 11.7rem; // bg shift down according to https://app.zeplin.io/project/5f05cfbb6fcd637995593157/screen/5f05f277376fb57c78abcf68
@@ -69,7 +68,7 @@ $xl-left-margin: 11.583rem;
     line-height: 1;
     color: clr(primary);
     text-align: center;
-    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75, 0, 0.25, 0);
 
     @include medium {
       font-size: 1.6rem;
@@ -83,7 +82,7 @@ $xl-left-margin: 11.583rem;
     line-height: 1;
     color: clr(primary);
     text-align: center;
-    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75, 0, 0.25, 0);
     max-width: 1128px;
     margin: 3rem auto 3rem;
 
@@ -111,12 +110,12 @@ $xl-left-margin: 11.583rem;
   @include xl {
     max-width: 1360px;
 
-    .ambient-video__control[data-state="play"] {
+    .ambient-video__control[data-state='play'] {
       top: 20px;
       right: 20px;
     }
 
-    .ambient-video__control[data-state="pause"] {
+    .ambient-video__control[data-state='pause'] {
       top: 20px;
       right: 20px;
     }
@@ -170,7 +169,7 @@ $xl-left-margin: 11.583rem;
 
   &__border {
     position: absolute;
-    width:100%;
+    width: 100%;
     transform: translateY(-100%) translateY($brand-border-offset);
 
     svg {
@@ -328,10 +327,10 @@ $xl-left-margin: 11.583rem;
 }
 
 .recipe-info {
-  padding: 24px 20px 0;
+  padding: 24px 0 0;
 
   @include medium {
-    padding: 42px 40px 0;
+    padding: 42px 0 0;
   }
 
   @include xl {
@@ -342,7 +341,7 @@ $xl-left-margin: 11.583rem;
 
   &__text,
   &__social {
-    max-width: #{$xl-column-width*6 + $xl-gap-width*5};
+    max-width: #{$xl-column-width * 6 + $xl-gap-width * 5};
   }
 
   &__text {

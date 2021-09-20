@@ -59,7 +59,7 @@ pdp-body:
 
 product-content-pair-up:
   js:
-    dist/js/02-molecules/product-content-pair-up/product-content-pair-up.js: { }
+    dist/js/02-molecules/product-content-pair-up/product-content-pair-up.js: {}
   dependencies:
     - core/drupal
     - core/jquery
@@ -67,7 +67,7 @@ product-content-pair-up:
 
 product-card:
   js:
-    dist/js/02-molecules/card/product-card/product-card.js: { }
+    dist/js/02-molecules/card/product-card/product-card.js: {}
   dependencies:
     - core/drupal
     - core/jquery
@@ -76,7 +76,7 @@ product-card:
 
 recipe-card:
   js:
-    dist/js/02-molecules/card/recipe-card/recipe-card.js: { }
+    dist/js/02-molecules/card/recipe-card/recipe-card.js: {}
   dependencies:
     - core/drupal
     - core/jquery
@@ -84,7 +84,7 @@ recipe-card:
 
 recommendations-module:
   js:
-    dist/js/recommendations_module.js: { }
+    dist/js/recommendations_module.js: {}
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
@@ -96,7 +96,8 @@ recommendations-module:
 # See also components/01-atoms/images/icons/_icon.twig to remove attach_library.
 sprite:
   js:
-    components/01-atoms/images/icons/svgxuse.min.js: { attributes: { defer: true } }
+    components/01-atoms/images/icons/svgxuse.min.js:
+      { attributes: { defer: true } }
 
 tabs:
   js:
@@ -181,15 +182,6 @@ product-feature:
     - core/jquery.once
     - core/underscore
 
-recipe-body:
-  js:
-    dist/js/03-organisms/recipe-body/recipe-body.js: {}
-  dependencies:
-    - core/drupal
-    - core/jquery
-    - core/jquery.once
-    - core/underscore
-
 ajaxcardgrid:
   js:
     dist/js/03-organisms/grid/ajaxcardgrid.js: {}
@@ -205,7 +197,8 @@ search-overlay:
 
 vendor-chunk-2:
   js:
-    dist/js/vendors~media_carousel~pdp_body~product_used~recommendations_module~social_feed.js: {}
+    ? dist/js/vendors~media_carousel~pdp_body~product_used~recommendations_module~social_feed.js
+    : {}
 
 search-facet-type:
   js:
@@ -215,7 +208,8 @@ search-facet-type:
 
 card-grid-filter:
   js:
-    dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js: {}
+    dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js:
+      {}
   dependencies:
     - core/drupal
     - core/drupal.announce
@@ -228,7 +222,7 @@ social-menu:
 
 product-selector:
   js:
-    dist/js/02-molecules/product-selector/product-selector.js: {weight: -1}
+    dist/js/02-molecules/product-selector/product-selector.js: { weight: -1 }
   dependencies:
     - core/drupal
 
