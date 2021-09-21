@@ -197,8 +197,7 @@ search-overlay:
 
 vendor-chunk-2:
   js:
-    ? dist/js/vendors~media_carousel~pdp_body~product_used~recommendations_module~social_feed.js
-    : {}
+  dist/js/vendors~media_carousel~pdp_body~product_used~recommendations_module~social_feed.js: {}
 
 search-facet-type:
   js:
