@@ -197,7 +197,7 @@ search-overlay:
 
 vendor-chunk-2:
   js:
-  dist/js/vendors~media_carousel~pdp_body~product_used~recommendations_module~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_body~product_used~recommendations_module~social_feed.js: {}
 
 search-facet-type:
   js:
@@ -207,8 +207,7 @@ search-facet-type:
 
 card-grid-filter:
   js:
-    dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js:
-      {}
+    dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js: {}
   dependencies:
     - core/drupal
     - core/drupal.announce
