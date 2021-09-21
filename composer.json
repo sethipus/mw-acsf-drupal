@@ -122,9 +122,6 @@
         "phpspec/prophecy-phpunit": "^2",
         "symfony/phpunit-bridge": "^5.3"
     },
-    "replace": {
-        "drupal/vendor_stream_wrapper": "*"
-    },
     "config": {
         "platform": {
             "php": "7.4"
