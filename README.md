@@ -1,4 +1,4 @@
-# Mars ACSF Platform
+# Mars ACSF Platform.
 
 [![Build Status](https://marsdevteam.visualstudio.com/MarsExperiencePlatform/_apis/build/status/New%20Stack?branchName=master)](https://marsdevteam.visualstudio.com/MarsExperiencePlatform/_build/latest?definitionId=2092&branchName=master)
 
