@@ -255,7 +255,7 @@ AddEncoding gzip svgz
  RewriteCond %{HTTP_HOST} ^bensoriginal\.com.au$ [NC,OR]
  RewriteCond %{HTTP_HOST} ^bensoriginal\.co.nz$ [NC,OR]
  RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.com.au$ [NC,OR]
- RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.co.nz/$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.co.nz$ [NC,OR]
  RewriteCond %{HTTP_HOST} ^www\.unclebens\.co.nz$ [NC,OR]
  RewriteCond %{HTTP_HOST} ^www\.unclebens\.com.au$ [NC]
  RewriteRule ^(.*)$ https://au.bensoriginal.com/$1 [R=301,L]
