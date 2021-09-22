@@ -1,15 +1,15 @@
 # Color.
 # ----------------------------
-color_a: '490e00'
-color_b: 'e62b1e'
-color_c: 'eaaa00'
-color_d: 'f9f1db'
-color_e: 'ffffff'
-color_f: '4c4c4c'
-card_background: '4c4c4c'
-top_nav: 'eaaa00'
-top_nav_gradient: 'f9f1db'
-bottom_nav: 'e62b1e'
+color_a: '#490e00'
+color_b: '#e62b1e'
+color_c: '#eaaa00'
+color_d: '#f9f1db'
+color_e: '#ffffff'
+color_f: '#4c4c4c'
+card_background: '#4c4c4c'
+top_nav: '#eaaa00'
+top_nav_gradient: '#f9f1db'
+bottom_nav: '#e62b1e'
 
 # Font.
 # ----------------------------

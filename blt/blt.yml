@@ -3,7 +3,7 @@ project:
   prefix: MARS
   human_name: Mars
   profile:
-    name: lightning
+    name: minimal
   local:
     protocol: http
     hostname: 'mars.ddev.site:8080'

@@ -178,6 +178,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'text_color_override' => NULL,
         'hover_color' => NULL,
         'cta_button_label' => NULL,
+        'cta_button_target' => NULL,
       ],
       'template' => 'footer-block',
     ],
@@ -1611,6 +1612,20 @@ function mars_common_page_attachments(&$page) {
     if ($show_rating_and_reviews) {
       $page['#attached']['library'][] = 'mars_product/mars_product.bazaarvoice';
     }
+  }
+}
+
+/**
+ * Update jquery_colorpicker css. Fix colorpicker images.
+ *
+ * @param $libraries
+ * @param $extension
+ */
+function mars_common_library_info_alter(&$libraries, $extension) {
+  if ($extension == 'jquery_colorpicker') {
+    $libraries['library']['css']['theme'] = [
+      '/' . drupal_get_path('module', 'mars_common') . '/css/colorpicker.css' => []
+    ];
   }
 }
 
