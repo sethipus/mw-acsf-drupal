@@ -54,6 +54,18 @@ source:
       name: source_product_format
       label: 'RSU LTD Pack Type'
       selector: 'field_product_format/0'
+    -
+      name: field_product_segment
+      label: 'Segment'
+      selector: 'field_product_segment/0'
+    -
+      name: field_product_market
+      label: 'Market'
+      selector: 'field_product_market/0'
+    -
+      name: field_product_trade_description
+      label: 'Trade description'
+      selector: 'field_product_trade_description/0'
 
   ids:
     source_sku:
@@ -85,14 +97,28 @@ process:
       target_id:
         plugin: get
         source: target_id
+  field_product_trade_description/target_id:
+    plugin: migration_lookup
+    migration:
+     - multibrand_term_product_trade_description
+    source: field_product_trade_description
+    no_stub: true
   field_product_category/target_id:
     plugin: migration_lookup
     migration:
-     - multibrand_term_product_category
+      - multibrand_term_product_category
     source: source_category
     no_stub: true
   field_product_description/value: source_product_description
   field_product_name: source_product_name
+  field_product_segment:
+    plugin: default_value
+    default_value: ''
+    source: field_product_segment
+  field_product_market:
+    plugin: default_value
+    default_value: ''
+    source: field_product_market
   field_product_sku:
     plugin: skip_on_empty
     method: row
