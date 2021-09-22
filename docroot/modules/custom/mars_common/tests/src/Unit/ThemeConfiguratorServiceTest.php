@@ -101,7 +101,7 @@ class ThemeConfiguratorServiceTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
     \Drupal::setContainer($this->containerMock);
@@ -160,7 +160,7 @@ class ThemeConfiguratorServiceTest extends UnitTestCase {
     ]);
     $result = $this->themeConfiguratorService->themeSettingsAjaxAddSocial(static::FORM, $form_state);
 
-    $this->assertArrayEquals([
+    $this->assertEquals([
       '0' => [
         'icon' => 'icon.png',
         'link' => 'http://example.com',
@@ -217,7 +217,7 @@ class ThemeConfiguratorServiceTest extends UnitTestCase {
     ]);
     $result = $this->themeConfiguratorService->themeSettingsAjaxRemoveSocial(static::FORM, $form_state);
 
-    $this->assertArrayEquals([
+    $this->assertEquals([
       '0' => [
         'icon' => 'icon.png',
         'link' => 'http://example.com',

@@ -111,7 +111,7 @@ class FooterBlockTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
     \Drupal::setContainer($this->containerMock);
@@ -229,7 +229,7 @@ class FooterBlockTest extends UnitTestCase {
       [],
       $this->formStateMock
     );
-    $this->assertCount(13, $config_form);
+    $this->assertCount(14, $config_form);
     $this->assertArrayHasKey('top_footer_menu', $config_form);
     $this->assertArrayHasKey('override_text_color', $config_form);
     $this->assertArrayHasKey('legal_links', $config_form);
@@ -283,7 +283,7 @@ class FooterBlockTest extends UnitTestCase {
 
     $build = $this->footerBlock->build();
 
-    $this->assertCount(17, $build);
+    $this->assertCount(18, $build);
     $this->assertArrayHasKey('#cache', $build);
     $this->assertArrayHasKey('#top_footer_menu', $build);
     $this->assertArrayHasKey('#legal_links', $build);
