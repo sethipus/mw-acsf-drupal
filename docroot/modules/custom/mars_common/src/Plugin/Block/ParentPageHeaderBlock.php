@@ -360,7 +360,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       return $this->configuration['text_color_other'];
     }
 
-    return '#' . $this->themeConfiguratorParser
+    return $this->themeConfiguratorParser
       ->getSettingValue($color_option);
   }
 
