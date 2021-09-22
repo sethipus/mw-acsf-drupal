@@ -5,9 +5,6 @@
  * Install and uninstall process.
  */
 
-use Drupal\Core\Config\FileStorage;
-use Drupal\Core\Site\Settings;
-
 /**
  * Implements hook_uninstall().
  *
@@ -32,4 +29,3 @@ function brand_drupal_salsify_multibrand_uninstall() {
     \Drupal::configFactory()->getEditable($config_name)->delete();
   }
 }
-
