@@ -177,6 +177,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   const NUTRITION_SUBGROUP_VITAMINS = 'group_vitamins';
 
   /**
+   * Product serving size.
+   */
+  const PRODUCT_SERVING_SIZE = 'Serving Size';
+
+  /**
+   * Servings per container.
+   */
+  const SERVINGS_PER_CONTAINER = 'Servings Per Container';
+
+  /**
    * Fields with bold labels.
    */
   const FIELDS_WITH_BOLD_LABELS = [
@@ -1076,11 +1086,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ];
     if ($field_prefix == 'product') {
       $result_item['serving_size'] = [
-        'label' => $this->languageHelper->translate($node->get('field_product_serving_size')->getFieldDefinition()->getLabel()) . ':',
+        'label' => $this->getProductServingSizeLabel($node),
         'value' => $node->get('field_product_serving_size')->value,
       ];
       $result_item['serving_per_container'] = [
-        'label' => $this->languageHelper->translate($node->get('field_product_servings_per')->getFieldDefinition()->getLabel()) . ':',
+        'label' => $this->getServingsPerContainerLabel($node),
         'value' => $node->get('field_product_servings_per')->value,
       ];
     }
@@ -1419,6 +1429,30 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       return [];
     }
     return [];
+  }
+
+  /**
+   * Get Product serving size.
+   *
+   * @return string
+   *   Product serving size string.
+   */
+  private function getProductServingSizeLabel($node): string {
+    $serv_sz = $this->configFactory->get('mars_product.nutrition_table_settings')->get('product_serving_size');
+    $product_serving_size = !empty($serv_sz) ? $serv_sz : $this->languageHelper->translate($node->get('field_product_serving_size')->getFieldDefinition()->getLabel()) . ':';
+    return $product_serving_size;
+  }
+
+  /**
+   * Get Servings per container.
+   *
+   * @return string
+   *   Serving per container string.
+   */
+  private function getServingsPerContainerLabel($node): string {
+    $serv_per_cont = $this->configFactory->get('mars_product.nutrition_table_settings')->get('servings_per_container');
+    $servings_per_container = !empty($serv_per_cont) ? $serv_per_cont : $this->languageHelper->translate($node->get('field_product_servings_per')->getFieldDefinition()->getLabel()) . ':';
+    return $servings_per_container;
   }
 
 }

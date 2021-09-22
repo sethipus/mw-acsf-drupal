@@ -131,12 +131,48 @@ class NutritionConfigForm extends ConfigFormBase {
       '#button_type' => 'danger',
     ];
 
+    $this->getGroupTableHeader($form, $form_state);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_1);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_2);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_3);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_VITAMINS);
 
     return $form;
+  }
+
+  /**
+   * Get Group Table Header Configuration.
+   *
+   * @param array $form
+   *   Form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Form state object.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getGroupTableHeader(
+    array &$form,
+    FormStateInterface $form_state) {
+    $config = $this->config('mars_product.nutrition_table_settings');
+    $form['header'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Group Header configuration'),
+      '#collapsible' => FALSE,
+      '#collapsed' => FALSE,
+    ];
+    $form['header']['product_serving_size'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Product serving size label'),
+      '#default_value' => !empty($config->get('product_serving_size')) ? $config->get('product_serving_size') : PdpHeroBlock::PRODUCT_SERVING_SIZE,
+    ];
+
+    $form['header']['servings_per_container'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Servings per container label'),
+      '#default_value' => !empty($config->get('servings_per_container')) ? $config->get('servings_per_container') : PdpHeroBlock::SERVINGS_PER_CONTAINER,
+    ];
+
   }
 
   /**
@@ -412,6 +448,8 @@ class NutritionConfigForm extends ConfigFormBase {
       });
       $config->set($subgroup_key, $subgroup_value);
     }
+    $config->set('product_serving_size', $form_state->getValue('product_serving_size'));
+    $config->set('servings_per_container', $form_state->getValue('servings_per_container'));
     // Save the configuration.
     $config->save();
 
