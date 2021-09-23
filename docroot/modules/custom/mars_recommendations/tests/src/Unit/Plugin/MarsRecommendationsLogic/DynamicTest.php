@@ -57,7 +57,7 @@ class DynamicTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->createMocks();
     $container = new ContainerBuilder();
@@ -105,7 +105,7 @@ class DynamicTest extends UnitTestCase {
   public function testBuildConfigurationFormProperly() {
     $form = [];
     $config = $this->dynamic->buildConfigurationForm($form, $this->formStateMock);
-    $this->assertArrayEquals(self::TEST_CONFIG, $config);
+    $this->assertEquals(self::TEST_CONFIG, $config);
   }
 
   /**

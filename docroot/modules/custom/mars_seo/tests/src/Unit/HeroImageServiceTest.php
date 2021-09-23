@@ -60,7 +60,7 @@ class HeroImageServiceTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
     \Drupal::setContainer($this->containerMock);
@@ -136,7 +136,7 @@ class HeroImageServiceTest extends UnitTestCase {
       ->getMock();
     // Test already found image scenario.
     $this->mediaHelperMock->expects($this->any())->method('getMediaUrl')->with('1')->willReturn('test.png');
-    $this->mediaHelperMock->expects($this->any())->method('getEntityMainMediaId')->willReturn(1);
+    $this->mediaHelperMock->expects($this->any())->method('getEntityMainMediaId')->willReturn('1');
     $this->assertEquals('test.png', $this->service->getHeroImageUrl($node_mock));
     // Test not found image + default image scenario.
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
