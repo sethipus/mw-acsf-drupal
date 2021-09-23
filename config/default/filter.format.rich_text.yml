@@ -87,6 +87,8 @@ filters:
         img: img
         iframe: iframe
       media_switch: ''
+      box_style: ''
+      hybrid_style: ''
       use_data_uri: '0'
   media_embed:
     id: media_embed
@@ -95,5 +97,5 @@ filters:
     weight: -39
     settings:
       default_view_mode: default
-      allowed_media_types: {  }
       allowed_view_modes: {  }
+      allowed_media_types: {  }

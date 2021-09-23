@@ -124,7 +124,7 @@ class PollControllerTest extends UnitTestCase {
             $this->routeMatchMock,
           ],
           [
-            'entity.manager',
+            'entity_type.manager',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $entityManagerMock,
           ],

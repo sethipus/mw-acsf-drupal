@@ -561,8 +561,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#type' => 'select',
       '#title' => $this->t('Text color'),
       '#options' => [
-        'color_a' => 'Color A - #' . $color_a,
-        'color_e' => 'Color E - #' . $color_e,
+        'color_a' => 'Color A - ' . $color_a,
+        'color_e' => 'Color E - ' . $color_e,
         'color_w' => $this->t('White'),
       ],
       '#default_value' => $this->configuration['text_color'] ?? 'color_a',
@@ -705,9 +705,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       }
     }
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
-      '#' . $this->configuration['background_color'] : '';
+      $this->configuration['background_color'] : '';
     $brand_shape_color = !empty($this->configuration['brand_shape_color']) ?
-      '#' . $this->configuration['brand_shape_color'] : '';
+      $this->configuration['brand_shape_color'] : '';
     $more_information_id = Html::getUniqueId('section-more-information');
     $card_grid_bg_color_key = $this->configFactory->get(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_product');
     $pdp_common_data = [

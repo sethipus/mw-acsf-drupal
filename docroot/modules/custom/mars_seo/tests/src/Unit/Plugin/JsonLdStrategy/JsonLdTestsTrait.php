@@ -61,7 +61,7 @@ trait JsonLdTestsTrait {
    * Test.
    */
   public function testSupportedBundles() {
-    $this->assertArrayEquals($this->supportedBundles, $this->jsonLdPlugin->supportedBundles());
+    $this->assertEquals($this->supportedBundles, $this->jsonLdPlugin->supportedBundles());
   }
 
   /**

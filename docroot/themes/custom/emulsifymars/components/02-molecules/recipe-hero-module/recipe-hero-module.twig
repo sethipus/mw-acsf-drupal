@@ -9,7 +9,7 @@
       {% if select_background_color|length > 0 %}
         style="background-color: {{ 'var(' ~ select_background_color ~ ')' }}"
       {% elseif background_color_override %}
-        style="background-color: {{ '#' ~ background_color }}"
+        style="background-color: {{ background_color }}"
       {% endif %}
     >
       {% if brand_shape_enabled %}

@@ -83,7 +83,7 @@ class ManualTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->createMocks();
     \Drupal::setContainer($this->containerMock);
@@ -281,7 +281,7 @@ class ManualTest extends UnitTestCase {
   public function testAjaxCallbackProperly() {
     $form = self::TEST_FORM;
     $nodes = $this->manual->ajaxCallback($form, $this->formStateMock);
-    $this->assertArrayEquals([], $nodes);
+    $this->assertEquals([], $nodes);
   }
 
   /**
