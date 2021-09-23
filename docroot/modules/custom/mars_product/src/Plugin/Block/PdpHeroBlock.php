@@ -1439,7 +1439,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   private function getProductServingSizeLabel($node): string {
     $serv_sz = $this->configFactory->get('mars_product.nutrition_table_settings')->get('product_serving_size');
-    $product_serving_size = !empty($serv_sz) ? $serv_sz : $this->languageHelper->translate($node->get('field_product_serving_size')->getFieldDefinition()->getLabel()) . ':';
+    $product_serving_size = !empty($serv_sz) ? $this->languageHelper->translate($serv_sz) : $this->languageHelper->translate($node->get('field_product_serving_size')->getFieldDefinition()->getLabel()) . ':';
     return $product_serving_size;
   }
 
@@ -1451,7 +1451,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   private function getServingsPerContainerLabel($node): string {
     $serv_per_cont = $this->configFactory->get('mars_product.nutrition_table_settings')->get('servings_per_container');
-    $servings_per_container = !empty($serv_per_cont) ? $serv_per_cont : $this->languageHelper->translate($node->get('field_product_servings_per')->getFieldDefinition()->getLabel()) . ':';
+    $servings_per_container = !empty($serv_per_cont) ? $this->languageHelper->translate($serv_per_cont) : $this->languageHelper->translate($node->get('field_product_servings_per')->getFieldDefinition()->getLabel()) . ':';
     return $servings_per_container;
   }
 
