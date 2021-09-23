@@ -18,10 +18,11 @@ function brand_drupal_salsify_multibrand_uninstall() {
     'migrate_plus.migration.multibrand_term_product_category',
     'migrate_plus.migration.multibrand_term_product_flavor',
     'migrate_plus.migration.multibrand_term_product_format',
-    'migrate_plus.migration.common_product_image_1',
-    'migrate_plus.migration.common_product_image_2',
-    'migrate_plus.migration.common_product_image_3',
-    'migrate_plus.migration.common_product_image_4',
+    'migrate_plus.migration.multibrand_product_image_1',
+    'migrate_plus.migration.multibrand_product_image_2',
+    'migrate_plus.migration.multibrand_product_image_3',
+    'migrate_plus.migration.multibrand_product_image_4',
+    'migrate_plus.migration.multibrand_term_product_trade_description',
   ];
 
   // Delete each config using configFactory.
