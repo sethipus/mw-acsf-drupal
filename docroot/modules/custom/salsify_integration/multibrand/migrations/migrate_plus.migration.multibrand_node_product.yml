@@ -1,5 +1,5 @@
 id: multibrand_node_product
-label: Product nodes
+label: Product nodes (multibrand)
 migration_group: multibrand
 migration_tags:
   - Node
@@ -84,6 +84,9 @@ process:
       source_ids:
         multibrand_node_product_variant:
           source_sku: source_sku
+    -
+      plugin: skip_on_empty
+      method: row
     -
       plugin: ensure_is_array
     -

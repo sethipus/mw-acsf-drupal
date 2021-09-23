@@ -1,5 +1,5 @@
 id: multibrand_node_product_variant
-label: Product variants
+label: Product variants (multibrand)
 migration_group: multibrand
 migration_tags:
   - Node
