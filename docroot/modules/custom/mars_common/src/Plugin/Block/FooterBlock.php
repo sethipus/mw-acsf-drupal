@@ -193,7 +193,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     if (!empty($conf['override_text_color']['сhoose_override_hover']) &&
       !empty($conf['override_text_color']['hover_color'])
     ) {
-      $build['#hover_color'] = '#' . $conf['override_text_color']['hover_color'];
+      $build['#hover_color'] = $conf['override_text_color']['hover_color'];
     }
 
     $build['#cta_button_label'] = isset($conf['cta_button_label']) ? $this->languageHelper->translate($conf['cta_button_label']) : strtoupper($this->languageHelper->translate('See All'));
