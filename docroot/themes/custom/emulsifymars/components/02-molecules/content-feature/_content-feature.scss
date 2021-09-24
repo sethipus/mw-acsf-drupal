@@ -12,9 +12,9 @@
   }
 
   @include xl {
-      padding: 8rem 2rem 5.55vw;
+      padding:0;
   }
-
+  
   &__bg-image {
     position: absolute;
     top: 0;
@@ -50,7 +50,7 @@
     position: relative;
     margin: 0 auto;
     max-width: 1050px;
-    
+
     @include xl { 
       height: 100%; 
       display: flex; 
