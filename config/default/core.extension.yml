@@ -22,8 +22,10 @@ module:
   captcha: 0
   ckeditor: 0
   ckeditor_config: 0
+  ckeditor_font: 0
   color: 0
   colorapi: 0
+  colorbutton: 0
   components: 0
   computed_field: 0
   config: 0
@@ -149,6 +151,7 @@ module:
   options: 0
   page_cache: 0
   page_manager: 0
+  panelbutton: 0
   panels: 0
   path: 0
   path_alias: 0
@@ -207,7 +210,6 @@ module:
   ultimate_cron: 0
   update: 0
   user: 0
-  vendor_stream_wrapper: 0
   video_embed_field: 0
   video_embed_media: 0
   views_infinite_scroll: 0
