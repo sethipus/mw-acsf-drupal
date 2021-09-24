@@ -1,5 +1,5 @@
-id: multibrand_node_product
-label: Product nodes (multibrand)
+id: multibrand_node_product_multipack
+label: Product multipack nodes (multibrand)
 migration_group: multibrand
 migration_tags:
   - Node
@@ -8,14 +8,16 @@ migration_dependencies:
     - multibrand_term_product_category
     - multibrand_term_product_flavor
     - multibrand_term_product_format
+    - multibrand_term_product_occasions
     - multibrand_node_product_variant
+    - multibrand_node_product
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
   data_parser_plugin: json_filter
   filter:
     - Drupal\salsify_integration\Filter
-    - isProduct
+    - isProductMultipack
   item_selector: /
   track_changes: true
   constants:
@@ -58,21 +60,17 @@ source:
       label: 'RSU LTD Pack Type'
       selector: 'field_product_format/0'
     -
-      name: field_product_segment
-      label: 'Segment'
-      selector: 'field_product_segment/0'
+      name: source_product_occasions
+      label: 'Product Occasions'
+      selector: 'field_product_occasions/0'
     -
-      name: field_product_market
-      label: 'Market'
+      name: source_product_market
+      label: 'Product Market'
       selector: 'field_product_market/0'
     -
-      name: field_product_trade_description
-      label: 'Trade description'
-      selector: 'field_product_trade_description/0'
-    -
-      name: field_product_occasions
-      label: 'Occasions'
-      selector: 'field_product_occasions/0'
+      name: source_variety
+      label: 'Product Pack items'
+      selector: 'field_variety'
 
   ids:
     source_sku:
@@ -92,9 +90,6 @@ process:
         multibrand_node_product_variant:
           source_sku: source_sku
     -
-      plugin: skip_on_empty
-      method: row
-    -
       plugin: ensure_is_array
     -
       plugin: value_to_array
@@ -107,38 +102,46 @@ process:
       target_id:
         plugin: get
         source: target_id
-  field_product_trade_description/target_id:
-    plugin: migration_lookup
-    migration:
-     - multibrand_term_product_trade_description
-    source: field_product_trade_description
-    no_stub: true
-  field_product_occasions/target_id:
-    plugin: migration_lookup
-    migration:
-      - multibrand_term_product_occasions
-    source: field_product_occasions
-    no_stub: true
+
+  field_product_pack_items:
+    -
+      plugin: skip_on_empty
+      method: row
+      source: source_variety
+#    -
+#      plugin: explode
+#      delimiter: ', '
+    -
+      plugin: value_to_array
+      key: sku
+    -
+      plugin: sub_process
+      process:
+        target_id:
+          -
+            plugin: migration_lookup_ids
+            migration:
+              - multibrand_node_product
+            source_ids:
+              multibrand_node_product:
+                source_sku: sku
+    -
+      plugin: multipack_product_postprocess
+      hide_product: true
+      moderation_state: 'published'
   field_product_category/target_id:
     plugin: migration_lookup
     migration:
-      - multibrand_term_product_category
+     - multibrand_term_product_category
     source: source_category
     no_stub: true
   field_product_description/value: source_product_description
   field_product_name: source_product_name
-  field_product_segment:
-    plugin: default_value
-    default_value: ''
-    source: field_product_segment
-  field_product_market:
-    plugin: default_value
-    default_value: ''
-    source: field_product_market
   field_product_sku:
     plugin: skip_on_empty
     method: row
     source: source_sku
+  field_product_market/value: source_product_market
   field_product_flavor/target_id:
     plugin: migration_lookup
     migration:
@@ -159,9 +162,15 @@ process:
      - multibrand_term_product_format
     source: source_product_format
     no_stub: true
+  field_product_occasions/target_id:
+    plugin: migration_lookup
+    migration:
+     - multibrand_term_product_occasions
+    source: source_product_occasions
+    no_stub: true
   type:
     plugin: default_value
-    default_value: product
+    default_value: product_multipack
   uid:
     plugin: default_value
     default_value: 1
