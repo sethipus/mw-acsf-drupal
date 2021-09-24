@@ -1,5 +1,5 @@
-id: multibrand_term_product_trade_description
-label: Trade Description Computed
+id: multibrand_term_product_occasions
+label: Occasions Computed
 migration_group: multibrand
 migration_tags:
   - Term
@@ -10,20 +10,20 @@ source:
   item_selector: /
   fields:
     -
-      name: field_product_trade_description
-      label: 'Trade Description Computed'
-      selector: 'field_product_trade_description/0'
+      name: field_product_occasions
+      label: 'Occasions Computed'
+      selector: 'field_product_occasions/0'
   ids:
-    field_product_trade_description:
+    field_product_occasions:
       type: string
 process:
   name:
     plugin: skip_on_empty
     method: row
-    source: field_product_trade_description
+    source: field_product_occasions
   vid:
     plugin: default_value
-    default_value: 'mars_trade_item_description'
+    default_value: 'mars_occasions'
   langcode:
     plugin: salsify_i18n_process_language
     source: language

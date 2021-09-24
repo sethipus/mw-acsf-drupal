@@ -23,6 +23,7 @@ function brand_drupal_salsify_multibrand_uninstall() {
     'migrate_plus.migration.multibrand_product_image_3',
     'migrate_plus.migration.multibrand_product_image_4',
     'migrate_plus.migration.multibrand_term_product_trade_description',
+    'migrate_plus.migration.multibrand_term_product_occasions',
   ];
 
   // Delete each config using configFactory.

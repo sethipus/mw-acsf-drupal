@@ -66,6 +66,10 @@ source:
       name: field_product_trade_description
       label: 'Trade description'
       selector: 'field_product_trade_description/0'
+    -
+      name: field_product_occasions
+      label: 'Occasions'
+      selector: 'field_product_occasions/0'
 
   ids:
     source_sku:
@@ -105,6 +109,12 @@ process:
     migration:
      - multibrand_term_product_trade_description
     source: field_product_trade_description
+    no_stub: true
+  field_product_occasions/target_id:
+    plugin: migration_lookup
+    migration:
+      - multibrand_term_product_occasions
+    source: field_product_occasions
     no_stub: true
   field_product_category/target_id:
     plugin: migration_lookup
