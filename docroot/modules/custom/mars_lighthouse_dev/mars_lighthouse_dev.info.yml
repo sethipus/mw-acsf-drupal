@@ -1,7 +1,0 @@
-name: 'Mars Lighthouse Dev'
-type: module
-description: 'Collection of things to ease lighthouse development'
-package: 'Mars'
-core_version_requirement: '^8.8 || ^9'
-dependencies:
-  - mars_lighthouse:mars_lighthouse

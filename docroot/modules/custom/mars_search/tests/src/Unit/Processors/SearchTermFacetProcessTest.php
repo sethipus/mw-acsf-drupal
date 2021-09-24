@@ -133,7 +133,7 @@ class SearchTermFacetProcessTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
     $this->container = new ContainerBuilder();
@@ -296,7 +296,7 @@ class SearchTermFacetProcessTest extends UnitTestCase {
     $expected = [
       'result' => 'test',
     ];
-    $this->assertArrayEquals($expected, $has_query_key);
+    $this->assertEquals($expected, $has_query_key);
   }
 
 }

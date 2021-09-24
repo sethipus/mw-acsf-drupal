@@ -28,12 +28,11 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
  * Implements hook_preprocess_html().
  */
 function emulsifymars_preprocess_html(&$variables) {
-  if ($variables['node_type'] == 'faq_contact') {
+  if (isset($variables['node_type']) && $variables['node_type'] == 'faq_contact') {
     $variables['attributes']['data-theme'] = 'drupal';
   }
   $theme_settings = Drupal::config('emulsifymars.settings')->get();
-  $style_tag = '';
-  $style_tag .= sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype'); font-weight: 100; font-display: swap}", $theme_settings['headline_font_path']);
+  $style_tag = sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype'); font-weight: 100; font-display: swap}", $theme_settings['headline_font_path']);
   $style_tag .= sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype'); font-weight: 400; font-display: swap}", $theme_settings['headline_font_path']);
   $style_tag .= sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype'); font-weight: 900; font-display: swap}", $theme_settings['headline_font_path']);
   $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype'); font-weight: 100; font-display: swap}", $theme_settings['primary_font_path']);
@@ -84,22 +83,22 @@ function emulsifymars_preprocess_html(&$variables) {
  */
 function _emulsifymars_preprocess_css_properties(array $settings): string {
   $properties = '';
-  $properties .= sprintf(" --c-primary: #%s;", $settings['color_a']);
-  $properties .= sprintf(" --c-secondary: #%s;", $settings['color_b']);
-  $properties .= sprintf(" --c-subcolor-1: #%s;", $settings['color_c']);
-  $properties .= sprintf(" --c-subcolor-2: #%s;", $settings['color_d']);
-  $properties .= sprintf(" --c-subcolor-3: #%s;", $settings['color_e']);
-  $properties .= sprintf(" --c-subcolor-4: #%s;", $settings['color_f']);
+  $properties .= sprintf(" --c-primary: %s;", $settings['color_a']);
+  $properties .= sprintf(" --c-secondary: %s;", $settings['color_b']);
+  $properties .= sprintf(" --c-subcolor-1: %s;", $settings['color_c']);
+  $properties .= sprintf(" --c-subcolor-2: %s;", $settings['color_d']);
+  $properties .= sprintf(" --c-subcolor-3: %s;", $settings['color_e']);
+  $properties .= sprintf(" --c-subcolor-4: %s;", $settings['color_f']);
   $properties .= sprintf(" --c-primary-rgb: %s;", hex2_rgb($settings['color_a'], TRUE));
   $properties .= sprintf(" --c-secondary-rgb: %s;", hex2_rgb($settings['color_b'], TRUE));
   $properties .= sprintf(" --c-subcolor-1-rgb: %s;", hex2_rgb($settings['color_c'], TRUE));
   $properties .= sprintf(" --c-subcolor-2-rgb: %s;", hex2_rgb($settings['color_d'], TRUE));
   $properties .= sprintf(" --c-subcolor-3-rgb: %s;", hex2_rgb($settings['color_e'], TRUE));
   $properties .= sprintf(" --c-subcolor-4-rgb: %s;", hex2_rgb($settings['color_f'], TRUE));
-  $properties .= sprintf(" --c-top-nav: #%s;", $settings['top_nav']);
-  $properties .= sprintf(" --c-top-nav-gradient: #%s;", $settings['top_nav_gradient']);
-  $properties .= sprintf(" --c-bottom-nav: #%s;", $settings['bottom_nav']);
-  $properties .= sprintf(" --c-card-background: #%s;", $settings['card_background']);
+  $properties .= sprintf(" --c-top-nav: %s;", $settings['top_nav']);
+  $properties .= sprintf(" --c-top-nav-gradient: %s;", $settings['top_nav_gradient']);
+  $properties .= sprintf(" --c-bottom-nav: %s;", $settings['bottom_nav']);
+  $properties .= sprintf(" --c-card-background: %s;", $settings['card_background']);
 
   $properties .= sprintf(" --v-heading-font: %s;", "DrupalHeadlineCampaignFont, Arial, Helvetica Neue, Helvetica, sans-serif");
   $properties .= sprintf(" --v-primary-font: %s;", "DrupalPrimaryTypefaceFont, Arial, Helvetica Neue, Helvetica, sans-serif");

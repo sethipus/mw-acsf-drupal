@@ -4,54 +4,70 @@
     "description": "Project template for Mars Experience Platform",
     "license": "proprietary",
     "require": {
-        "php": ">=7.3",
+        "php": ">=7.4",
         "ext-dom": "*",
         "ext-json": "*",
         "acquia/acsf-tools": "dev-9.x-dev",
-        "acquia/blt": "^11.1.0",
-        "acquia/cohesion": "6.2.0",
-        "acquia/cohesion-theme": "6.2.0",
-        "acquia/drupal-spec-tool": "*",
-        "acquia/lightning": "dev-8.x-4.x",
-        "acquia/memcache-settings": "*",
-        "drupal/acquia_connector": "^1.22",
+        "acquia/blt": "12.7",
+        "acquia/blt-behat": "^1.1",
+        "acquia/blt-drupal-test": "^1.0",
+        "acquia/cohesion": "^6.6",
+        "acquia/cohesion-theme": "^6.6",
+        "acquia/drupal-spec-tool": "^4.1",
+        "acquia/lightning": "^5.2",
+        "acquia/memcache-settings": "^1.0",
+        "composer/installers": "^1.9",
+        "cweagans/composer-patches": "^1.7",
+        "drupal/acquia_connector": "^3",
         "drupal/acquia_contenthub": "^2",
         "drupal/acquia_lift": "^4.3",
         "drupal/acquia_purge": "^1.1",
+        "drupal/acquia_search": "^3.0",
         "drupal/acsf": "^2.47.0",
-        "drupal/admin_toolbar": "^2.0",
+        "drupal/admin_toolbar": "^3.0",
         "drupal/adminimal_admin_toolbar": "^1.10",
         "drupal/advagg": "^4.1",
-        "drupal/bootstrap_barrio": "^4.28",
+        "drupal/bootstrap_barrio": "^5.5",
         "drupal/ckeditor_config": "^3.0",
+        "drupal/ckeditor_font": "^1.2",
         "drupal/cloudflare": "^1.0@beta",
         "drupal/cog": "^1.0.0",
+        "drupal/colorbutton": "^1.3",
         "drupal/computed_field": "^2.0",
         "drupal/config_ignore": "^2.2",
         "drupal/config_split": "^1.0.0",
-        "drupal/core-composer-scaffold": "^8.9",
-        "drupal/core-recommended": "^8.9",
+        "drupal/core": "^9.2.4",
+        "drupal/core-composer-scaffold": "^9.2.5",
+        "drupal/core-project-message": "^9.2.5",
+        "drupal/core-recommended": "^9.2.5",
+        "drupal/core-vendor-hardening": "^9.2.5",
         "drupal/csp": "^1.13",
         "drupal/datalayer": "^1.0@beta",
-        "drupal/devel": "^2.0.0",
         "drupal/dimension": "^2.0",
-        "drupal/editor_advanced_link": "^1.8",
+        "drupal/editor_advanced_link": "^2.0",
+        "drupal/entity_embed": "^1.0",
         "drupal/entityqueue": "^1.1",
-        "drupal/environment_indicator": "^3.7",
+        "drupal/environment_indicator": "^4.0",
         "drupal/externalauth": "^1.3",
         "drupal/facets": "^1.5",
-        "drupal/fast_404": "^2.0@alpha",
+        "drupal/fast_404": "dev-2.x#5382a99335ee466f8261dc1774a3d56f1699da81",
         "drupal/field_group": "^3.1",
         "drupal/filelog": "^2.0",
-        "drupal/gdpr_onetrust": "^1.0",
         "drupal/google_analytics": "^3.1",
         "drupal/gtm": "^1.6",
         "drupal/http_cache_control": "^2.0",
         "drupal/inline_entity_form": "^1.0@RC",
-        "drupal/jquery_colorpicker": "^1.4",
+        "drupal/jquery_colorpicker": "^2.0",
         "drupal/layout_builder_at": "^2.12",
-        "drupal/layout_builder_lock": "^1.0@RC",
+        "drupal/layout_builder_lock": "^1.0",
         "drupal/layout_builder_modal": "^1.1",
+        "drupal/layout_builder_operation_link": "^1.0",
+        "drupal/libraries": "^3.0@beta",
+        "drupal/lightning_api": "^4.6",
+        "drupal/lightning_core": "^5.8",
+        "drupal/lightning_layout": "^2.10",
+        "drupal/lightning_media": "^4.6",
+        "drupal/lightning_workflow": "^3.16",
         "drupal/maxlength": "^1.0@RC",
         "drupal/media_entity_image": "^1.3",
         "drupal/menu_item_extras": "^2.11",
@@ -61,19 +77,24 @@
         "drupal/migrate_source_csv": "^3.4",
         "drupal/migrate_tools": "^5.0",
         "drupal/migration_tools": "^2.2",
+        "drupal/page_manager": "^4.0-beta6",
+        "drupal/panelizer": "^5.0-beta3",
+        "drupal/pendo": "^1@alpha",
         "drupal/poll": "^1.4",
         "drupal/printable": "^2.0",
+        "drupal/profile_split_enable": "^2.0",
+        "drupal/profile_switcher": "^1.0-alpha5",
         "drupal/publication_date": "^2.0@beta",
-        "drupal/qa_accounts": "^1.0.0-alpha1",
+        "drupal/qa_accounts": "^1.0@beta",
         "drupal/rabbit_hole": "^1.0@beta",
         "drupal/recaptcha": "^3.0",
         "drupal/redirect": "^1.6",
         "drupal/remote_stream_wrapper": "^1.3",
         "drupal/remote_stream_wrapper_widget": "^1.2",
         "drupal/robotstxt": "^1.4",
-        "drupal/samlauth": "3.0-alpha2",
+        "drupal/samlauth": "3.2",
         "drupal/search_api": "^1.17",
-        "drupal/search_api_solr": "1.x",
+        "drupal/search_api_solr": "^4.2",
         "drupal/seckit": "^2.0",
         "drupal/sendgrid_integration": "^1.7",
         "drupal/shield": "^1.2.0",
@@ -85,24 +106,26 @@
         "drupal/tmgmt_smartling": "^4.12",
         "drupal/translatable_menu_link_uri": "^2.0",
         "drupal/ultimate_cron": "^2.0@alpha",
-        "emulsify-ds/emulsify-drupal": "2.2.0",
-        "eyecon/jquery_colorpicker": "master",
+        "drupal/video_embed_field": "^2.0",
+        "drupal/views_infinite_scroll": "^1.6",
+        "emulsify-ds/emulsify-drupal": "^3.0",
+        "ckeditor/colorbutton": "master",
+        "ckeditor/panelbutton": "master",
         "mars/mars_lighthouse": "v0.0.2",
         "mars/mars_seo": "*",
-        "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
-        "nedsbeds/profile_split_enable": "^1.0",
         "symfony/string": "^5.1"
     },
     "require-dev": {
-        "acquia/blt-require-dev": "11.x-dev",
         "behat/mink-selenium2-driver": "^1.4",
+        "drupal/core-dev": "^9.2",
         "mikey179/vfsstream": "^1.6",
-        "symfony/phpunit-bridge": "^5.1"
+        "phpspec/prophecy-phpunit": "^2",
+        "symfony/phpunit-bridge": "^5.3"
     },
     "config": {
         "platform": {
-            "php": "7.3"
+            "php": "7.4"
         },
         "sort-packages": true
     },
@@ -164,18 +187,20 @@
         },
         "patches": {
             "drupal/config_ignore": {
-                "Correct drush filtering": "https://www.drupal.org/files/issues/2020-08-18/support-for-export-2857247-54.patch",
+                "Correct drush filtering": "https://www.drupal.org/files/issues/2021-01-04/config_ignore_2857247-61.patch",
                 "Config ignore collection": "https://www.drupal.org/files/issues/2020-11-04/config-ignore-collections-2973431-57.patch"
             },
             "drupal/core": {
                 "2321071 - Base field overrides fix": "https://www.drupal.org/files/issues/2019-12-24/2321071-39.patch",
-                "2925297 - Fatal error on config form with translation enabled when config is missing": "https://www.drupal.org/files/issues/2019-09-26/core-typed_config_handle_missing_config-2925297-18.patch"
+                "2925297 - Fatal error on config form with translation enabled when config is missing": "https://www.drupal.org/files/issues/2019-09-26/core-typed_config_handle_missing_config-2925297-18.patch",
+                "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2020-02-07/2869592-remove-update-warning-34.patch",
+                "[subprofile support] 1356276 - Allow profiles to define a base/parent profile and load them in the correct order / 2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2021-05-20/3143958-14-subprofile-support-9.2.x.patch",
+                "REMOVE: 2031261 - Fix SQLite variable limit": "https://www.drupal.org/files/issues/2021-02-07/2031261-137.patch",
+                "REMOVE: Allow installation profile to be changed from Lightning during config sync": "https://www.drupal.org/files/issues/2021-01-21/3143958-12-change-profile-config-sync-9.1.x.patch"
             },
             "drupal/jquery_colorpicker": {
+                "Fixed jquery colorpicker security issue": "patches/Fixed-jquery-colorpicker-security-issue.patch",
                 "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch"
-            },
-            "drupal/acquia_connector": {
-                "Enable multisite search support": "https://www.drupal.org/files/issues/2020-05-04/acquia_connector-2871721-29.patch"
             },
             "drupal/poll": {
                 "Make form actions unique": "https://www.drupal.org/files/issues/2019-04-16/poll-unique_id_actions-3048428-2.patch"
@@ -190,8 +215,8 @@
             "drupal/lightning_workflow": {
                 "Update scheduled status change": "https://www.drupal.org/files/issues/2020-11-12/take-workflow-transitions-into-account-3182093-1.patch"
             },
-            "drupal/pdf_api": {
-                "Set MPDF generation directory to drupals tmp directory": "https://www.drupal.org/files/issues/2020-10-21/tmp-directory-3016161-9.patch"
+            "drupal/remote_stream_wrapper": {
+                "Remote Stream Wrapper does not work after upgrade drupal 9": "https://www.drupal.org/files/issues/2021-05-10/3185015-29.patch"
             },
             "drupal/field_group": {
                 "Ensure visibility of invalid fields (JS) https://www.drupal.org/project/field_group/issues/2787179": "https://www.drupal.org/files/issues/2020-05-19/2787179-highlight-html5-validation-52.patch"
@@ -200,14 +225,19 @@
                 "Extra, unconnected max length counter with an id of undefined-counter": "https://www.drupal.org/files/issues/2020-07-27/3076581-9.patch",
                 "Max length in lines (in textarea field)": "https://www.drupal.org/files/issues/2021-04-13/maxlength-max-length-in-lines-in-textarea-field-2463193-4.patch"
             },
-            "drupal/samlauth": {
-                "Basic role assignment D8 https://www.drupal.org/project/samlauth/issues/3070028": "https://www.drupal.org/files/issues/2020-11-20/patch_role_d8_20201120.patch"
-            },
             "drupal/printable": {
-                "Fix printable stream wrapper.": "patches/fix-url-scheme-for-alter-3190197-4.patch"
+                "Fix printable stream wrapper.": "patches/fix-url-scheme-for-alter-3190197-4.patch",
+                "Printable_pdf submodule not compatible with Drupal 9": "https://www.drupal.org/files/issues/2021-05-26/drupal9-compatibiliy-3206982-4.patch"
             },
-            "drupal/translatable_menu_link_uri": {
-                "Invalid values given. Values must be represented as an associative array.": "https://www.drupal.org/files/issues/2021-05-07/3168466-values-must-be-represented-as-an-associative-array-11.patch"
+            "mikemadison13/blt-azure-pipelines": {
+                "Pipelines builds fail with 'Command validate:all is not defined'": "patches/blt-azure-pipelines.patch"
+            }
+        },
+        "patches-ignore": {
+            "drupal/lightning_core": {
+                "drupal/core": {
+                    "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2869592-remove-update-warning-7.patch"
+                }
             }
         }
     },
@@ -237,16 +267,44 @@
         "jquery_colorpicker": {
             "type": "package",
             "package": {
-                "name": "eyecon/jquery_colorpicker",
+                "name": "jaypan/jquery-colorpicker",
+                "version": "1.0.1",
+                "type": "drupal-library",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://github.com/jaypan/jquery_colorpicker/archive/refs/tags/1.0.1.zip"
+                }
+            }
+        },
+        "colorbutton": {
+            "type": "package",
+            "package": {
+                "name": "ckeditor/colorbutton",
                 "version": "master",
                 "type": "drupal-library",
                 "dist": {
-                   "type": "zip",
-                   "url": "https://www.eyecon.ro/colorpicker/colorpicker.zip",
-                   "reference": "master"
+                    "type": "zip",
+                    "url": "https://download.ckeditor.com/colorbutton/releases/colorbutton_4.16.2.zip",
+                    "reference": "master"
                 },
                 "autoload": {
-                   "classmap": ["."]
+                    "classmap": ["."]
+                }
+            }
+        },
+        "panelbutton": {
+            "type": "package",
+            "package": {
+                "name": "ckeditor/panelbutton",
+                "version": "master",
+                "type": "drupal-library",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://download.ckeditor.com/panelbutton/releases/panelbutton_4.16.2.zip",
+                    "reference": "master"
+                },
+                "autoload": {
+                    "classmap": ["."]
                 }
             }
         },
@@ -254,12 +312,12 @@
             "type": "path",
             "url": "docroot/modules/custom/mars_seo"
         },
-        "mars_lighthouse":  {
+        "mars_lighthouse": {
             "type": "package",
             "package": {
                 "name": "mars/mars_lighthouse",
                 "version": "v0.0.2",
-                "type":"drupal-module",
+                "type": "drupal-module",
                 "source": {
                     "url": "git@github.com:Mars-Incorporated/mars_lighthouse.git",
                     "type": "git",
