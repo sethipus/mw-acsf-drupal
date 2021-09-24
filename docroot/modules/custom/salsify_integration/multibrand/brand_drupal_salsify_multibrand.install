@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Install and uninstall process.
+ */
+
+/**
+ * Implements hook_uninstall().
+ *
+ * Removes stale migration configs during uninstall.
+ */
+function brand_drupal_salsify_multibrand_uninstall() {
+  $config_names = [
+    'migrate_plus.migration.multibrand_node_product',
+    'migrate_plus.migration.multibrand_node_product_variant',
+    'migrate_plus.migration.multibrand_product_key_image',
+    'migrate_plus.migration.multibrand_term_product_category',
+    'migrate_plus.migration.multibrand_term_product_flavor',
+    'migrate_plus.migration.multibrand_term_product_format',
+    'migrate_plus.migration.multibrand_product_image_1',
+    'migrate_plus.migration.multibrand_product_image_2',
+    'migrate_plus.migration.multibrand_product_image_3',
+    'migrate_plus.migration.multibrand_product_image_4',
+    'migrate_plus.migration.multibrand_term_product_trade_description',
+    'migrate_plus.migration.multibrand_term_product_occasions',
+  ];
+
+  // Delete each config using configFactory.
+  foreach ($config_names as $config_name) {
+    \Drupal::configFactory()->getEditable($config_name)->delete();
+  }
+}

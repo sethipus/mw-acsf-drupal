@@ -18,6 +18,7 @@ dependencies:
     - field.field.node.product_variant.field_dual_cholesterol_daily
     - field.field.node.product_variant.field_dual_dietary_daily
     - field.field.node.product_variant.field_dual_dietary_fiber
+    - field.field.node.product_variant.field_dual_dietary_fiber_daily
     - field.field.node.product_variant.field_dual_fibre
     - field.field.node.product_variant.field_dual_folate
     - field.field.node.product_variant.field_dual_folate_daily
@@ -37,6 +38,7 @@ dependencies:
     - field.field.node.product_variant.field_dual_riboflavin_daily
     - field.field.node.product_variant.field_dual_saturated_daily
     - field.field.node.product_variant.field_dual_saturated_fat
+    - field.field.node.product_variant.field_dual_saturated_fat_daily
     - field.field.node.product_variant.field_dual_sodium
     - field.field.node.product_variant.field_dual_sodium_daily
     - field.field.node.product_variant.field_dual_sugar_alcohol
@@ -77,6 +79,7 @@ dependencies:
     - field.field.node.product_variant.field_product_diet_allergens
     - field.field.node.product_variant.field_product_dietary_daily
     - field.field.node.product_variant.field_product_dietary_fiber
+    - field.field.node.product_variant.field_product_dietary_fiber_dail
     - field.field.node.product_variant.field_product_family_master
     - field.field.node.product_variant.field_product_fibre
     - field.field.node.product_variant.field_product_folate
@@ -123,6 +126,7 @@ dependencies:
     - field.field.node.product_variant.field_product_total_fat
     - field.field.node.product_variant.field_product_total_fat_daily
     - field.field.node.product_variant.field_product_total_sugars
+    - field.field.node.product_variant.field_product_total_sugars_daily
     - field.field.node.product_variant.field_product_trans_fat
     - field.field.node.product_variant.field_product_trans_fat_daily
     - field.field.node.product_variant.field_product_vitamin_a
@@ -352,9 +356,11 @@ third_party_settings:
         - field_product_fibre
         - field_product_dietary_fiber
         - field_product_dietary_daily
+        - field_product_dietary_fiber_dail
         - field_product_sugars
         - field_product_sugars_daily
         - field_product_total_sugars
+        - field_product_total_sugars_daily
         - field_product_added_sugars
         - field_product_added_sugars_daily
         - field_product_sugar_alcohol
@@ -393,6 +399,7 @@ third_party_settings:
         - field_dual_total_fat_daily
         - field_dual_saturated_fat
         - field_dual_saturated_daily
+        - field_dual_saturated_fat_daily
         - field_dual_trans_fat
         - field_dual_trans_fat_daily
         - field_dual_polyunsaturated_fa
@@ -436,6 +443,7 @@ third_party_settings:
         - field_dual_fibre
         - field_dual_dietary_fiber
         - field_dual_dietary_daily
+        - field_dual_dietary_fiber_daily
         - field_dual_sugars
         - field_dual_sugars_daily
         - field_dual_total_sugars
@@ -550,7 +558,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_dual_added_sugars:
-    weight: 83
+    weight: 84
     settings:
       size: 60
       placeholder: ''
@@ -558,7 +566,7 @@ content:
     type: string_textfield
     region: content
   field_dual_added_sugars_daily:
-    weight: 84
+    weight: 85
     settings:
       size: 60
       placeholder: ''
@@ -655,6 +663,14 @@ content:
     region: content
   field_dual_dietary_fiber:
     weight: 78
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_dietary_fiber_daily:
+    weight: 80
     settings:
       size: 60
       placeholder: ''
@@ -766,7 +782,7 @@ content:
     type: string_textfield
     region: content
   field_dual_protein:
-    weight: 86
+    weight: 87
     settings:
       size: 60
       placeholder: ''
@@ -774,7 +790,7 @@ content:
     type: string_textfield
     region: content
   field_dual_protein_daily:
-    weight: 87
+    weight: 88
     settings:
       size: 60
       placeholder: ''
@@ -798,7 +814,7 @@ content:
     type: string_textfield
     region: content
   field_dual_saturated_daily:
-    weight: 95
+    weight: 94
     settings:
       size: 60
       placeholder: ''
@@ -806,7 +822,15 @@ content:
     type: string_textfield
     region: content
   field_dual_saturated_fat:
-    weight: 94
+    weight: 93
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_saturated_fat_daily:
+    weight: 95
     settings:
       size: 60
       placeholder: ''
@@ -830,7 +854,7 @@ content:
     type: string_textfield
     region: content
   field_dual_sugar_alcohol:
-    weight: 85
+    weight: 86
     settings:
       size: 60
       placeholder: ''
@@ -838,7 +862,7 @@ content:
     type: string_textfield
     region: content
   field_dual_sugars:
-    weight: 80
+    weight: 81
     settings:
       size: 60
       placeholder: ''
@@ -846,7 +870,7 @@ content:
     type: string_textfield
     region: content
   field_dual_sugars_daily:
-    weight: 81
+    weight: 82
     settings:
       size: 60
       placeholder: ''
@@ -886,7 +910,7 @@ content:
     type: string_textfield
     region: content
   field_dual_total_sugars:
-    weight: 82
+    weight: 83
     settings:
       size: 60
       placeholder: ''
@@ -969,7 +993,7 @@ content:
     type: string_textfield
     region: content
   field_product_added_sugars:
-    weight: 40
+    weight: 43
     settings:
       size: 60
       placeholder: ''
@@ -977,7 +1001,7 @@ content:
     type: string_textfield
     region: content
   field_product_added_sugars_daily:
-    weight: 41
+    weight: 44
     settings:
       size: 60
       placeholder: ''
@@ -1128,7 +1152,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_product_dietary_daily:
-    weight: 36
+    weight: 37
     settings:
       size: 60
       placeholder: ''
@@ -1136,7 +1160,15 @@ content:
     type: string_textfield
     region: content
   field_product_dietary_fiber:
-    weight: 35
+    weight: 36
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_dietary_fiber_dail:
+    weight: 38
     settings:
       size: 60
       placeholder: ''
@@ -1415,7 +1447,7 @@ content:
     type: string_textfield
     region: content
   field_product_protein:
-    weight: 43
+    weight: 46
     settings:
       size: 60
       placeholder: ''
@@ -1423,7 +1455,7 @@ content:
     type: string_textfield
     region: content
   field_product_protein_daily:
-    weight: 44
+    weight: 47
     settings:
       size: 60
       placeholder: ''
@@ -1519,7 +1551,7 @@ content:
     type: string_textfield
     region: content
   field_product_sugar_alcohol:
-    weight: 42
+    weight: 45
     settings:
       size: 60
       placeholder: ''
@@ -1527,7 +1559,7 @@ content:
     type: string_textfield
     region: content
   field_product_sugars:
-    weight: 37
+    weight: 39
     settings:
       size: 60
       placeholder: ''
@@ -1535,7 +1567,7 @@ content:
     type: string_textfield
     region: content
   field_product_sugars_daily:
-    weight: 38
+    weight: 40
     settings:
       size: 60
       placeholder: ''
@@ -1575,7 +1607,15 @@ content:
     type: string_textfield
     region: content
   field_product_total_sugars:
-    weight: 39
+    weight: 41
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_total_sugars_daily:
+    weight: 42
     settings:
       size: 60
       placeholder: ''
