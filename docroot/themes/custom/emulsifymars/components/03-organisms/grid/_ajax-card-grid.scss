@@ -43,6 +43,10 @@
       max-width: 71rem;
     }
 
+    @include large {
+      max-width: calc(100% - 40px);
+    }
+    
     @include xl {
       max-width: 140.5rem;
     }
@@ -94,6 +98,10 @@
       width: 50%;
     }
 
+    @include large {
+      width: 33%;
+    }
+
     @include xl {
       width: 25%;
     }
@@ -103,6 +111,10 @@
       display: block;
       margin-left: auto;
       margin-right: auto;
+
+      @include large {
+        width: 304px;
+      }
     }
   }
 }
