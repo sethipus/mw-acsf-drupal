@@ -164,13 +164,13 @@ class NutritionConfigForm extends ConfigFormBase {
     $form['header']['product_serving_size'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Product serving size label'),
-      '#default_value' => !empty($config->get('product_serving_size')) ? $config->get('product_serving_size') : PdpHeroBlock::PRODUCT_SERVING_SIZE,
+      '#default_value' => !empty($config->get('product_serving_size')) ? $this->languageHelper->translate($config->get('product_serving_size')) : $this->languageHelper->translate(PdpHeroBlock::PRODUCT_SERVING_SIZE),
     ];
 
     $form['header']['servings_per_container'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Servings per container label'),
-      '#default_value' => !empty($config->get('servings_per_container')) ? $config->get('servings_per_container') : PdpHeroBlock::SERVINGS_PER_CONTAINER,
+      '#default_value' => !empty($config->get('servings_per_container')) ? $this->languageHelper->translate($config->get('servings_per_container')) : $this->languageHelper->translate(PdpHeroBlock::SERVINGS_PER_CONTAINER),
     ];
 
   }
