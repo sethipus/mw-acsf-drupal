@@ -29,8 +29,10 @@
         "drupal/advagg": "^4.1",
         "drupal/bootstrap_barrio": "^5.5",
         "drupal/ckeditor_config": "^3.0",
+        "drupal/ckeditor_font": "^1.2",
         "drupal/cloudflare": "^1.0@beta",
         "drupal/cog": "^1.0.0",
+        "drupal/colorbutton": "^1.3",
         "drupal/computed_field": "^2.0",
         "drupal/config_ignore": "^2.2",
         "drupal/config_split": "^1.0.0",
@@ -59,6 +61,7 @@
         "drupal/layout_builder_at": "^2.12",
         "drupal/layout_builder_lock": "^1.0",
         "drupal/layout_builder_modal": "^1.1",
+        "drupal/layout_builder_operation_link": "^1.0",
         "drupal/libraries": "^3.0@beta",
         "drupal/lightning_api": "^4.6",
         "drupal/lightning_core": "^5.8",
@@ -106,7 +109,8 @@
         "drupal/video_embed_field": "^2.0",
         "drupal/views_infinite_scroll": "^1.6",
         "emulsify-ds/emulsify-drupal": "^3.0",
-        "eyecon/jquery_colorpicker": "master",
+        "ckeditor/colorbutton": "master",
+        "ckeditor/panelbutton": "master",
         "mars/mars_lighthouse": "v0.0.2",
         "mars/mars_seo": "*",
         "mikemadison13/blt-azure-pipelines": "dev-master",
@@ -195,13 +199,11 @@
                 "REMOVE: Allow installation profile to be changed from Lightning during config sync": "https://www.drupal.org/files/issues/2021-01-21/3143958-12-change-profile-config-sync-9.1.x.patch"
             },
             "drupal/jquery_colorpicker": {
+                "Fixed jquery colorpicker security issue": "patches/Fixed-jquery-colorpicker-security-issue.patch",
                 "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch"
             },
             "drupal/poll": {
                 "Make form actions unique": "https://www.drupal.org/files/issues/2019-04-16/poll-unique_id_actions-3048428-2.patch"
-            },
-            "drupal/vendor_stream_wrapper": {
-                "Unable to load the vendor files": "https://www.drupal.org/files/issues/2020-06-28/vendor_stream_wrapper_3060176_16.patch"
             },
             "drupal/tmgmt": {
                 "The job has no provider assigned": "https://www.drupal.org/files/issues/2020-10-30/tmgmt-2690201-19.patch",
@@ -265,18 +267,44 @@
         "jquery_colorpicker": {
             "type": "package",
             "package": {
-                "name": "eyecon/jquery_colorpicker",
+                "name": "jaypan/jquery-colorpicker",
+                "version": "1.0.1",
+                "type": "drupal-library",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://github.com/jaypan/jquery_colorpicker/archive/refs/tags/1.0.1.zip"
+                }
+            }
+        },
+        "colorbutton": {
+            "type": "package",
+            "package": {
+                "name": "ckeditor/colorbutton",
                 "version": "master",
                 "type": "drupal-library",
                 "dist": {
                     "type": "zip",
-                    "url": "https://www.eyecon.ro/colorpicker/colorpicker.zip",
+                    "url": "https://download.ckeditor.com/colorbutton/releases/colorbutton_4.16.2.zip",
                     "reference": "master"
                 },
                 "autoload": {
-                    "classmap": [
-                        "."
-                    ]
+                    "classmap": ["."]
+                }
+            }
+        },
+        "panelbutton": {
+            "type": "package",
+            "package": {
+                "name": "ckeditor/panelbutton",
+                "version": "master",
+                "type": "drupal-library",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://download.ckeditor.com/panelbutton/releases/panelbutton_4.16.2.zip",
+                    "reference": "master"
+                },
+                "autoload": {
+                    "classmap": ["."]
                 }
             }
         },

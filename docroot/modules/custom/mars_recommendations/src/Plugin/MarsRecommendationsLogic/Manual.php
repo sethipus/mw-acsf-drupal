@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_recommendations\Plugin\MarsRecommendationsLogic;
 
+use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_recommendations\Event\AlterManualLogicBundlesEvent;
@@ -23,6 +24,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * )
  */
 class Manual extends RecommendationsLogicPluginBase {
+
+  use DependencySerializationTrait;
 
   const DEFAULT_RESULTS_LIMIT = 16;
 

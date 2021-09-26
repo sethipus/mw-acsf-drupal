@@ -387,7 +387,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     if (!empty($config['override_text_color']['сhoose_override_hover']) &&
       !empty($config['override_text_color']['hover_color'])
     ) {
-      $build['#hover_color'] = '#' . $config['override_text_color']['hover_color'];
+      $build['#hover_color'] = $config['override_text_color']['hover_color'];
     }
 
     $build['#override_mobile_menu_colors'] = FALSE;
@@ -397,10 +397,10 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#mobile_search_right_menu_section'] = FALSE;
     if (!empty($config['override_text_color']['override_mobile_color'])) {
       $build['#override_mobile_menu_colors'] = TRUE;
-      $build['#mobile_main_menu_items_color'] = !empty($config['override_text_color']['mobile_main_menu_items_color']) ? '#' . $config['override_text_color']['mobile_main_menu_items_color'] : FALSE;
-      $build['#mobile_cross_hamburger'] = !empty($config['override_text_color']['mobile_cross_hamburger']) ? '#' . $config['override_text_color']['mobile_cross_hamburger'] : FALSE;
-      $build['#mobile_sub_menu_items_color'] = !empty($config['override_text_color']['mobile_sub_menu_items_color']) ? '#' . $config['override_text_color']['mobile_sub_menu_items_color'] : FALSE;
-      $build['#mobile_search_right_menu_section'] = !empty($config['override_text_color']['mobile_search_right_menu_section']) ? '#' . $config['override_text_color']['mobile_search_right_menu_section'] : FALSE;
+      $build['#mobile_main_menu_items_color'] = !empty($config['override_text_color']['mobile_main_menu_items_color']) ? $config['override_text_color']['mobile_main_menu_items_color'] : FALSE;
+      $build['#mobile_cross_hamburger'] = !empty($config['override_text_color']['mobile_cross_hamburger']) ? $config['override_text_color']['mobile_cross_hamburger'] : FALSE;
+      $build['#mobile_sub_menu_items_color'] = !empty($config['override_text_color']['mobile_sub_menu_items_color']) ? $config['override_text_color']['mobile_sub_menu_items_color'] : FALSE;
+      $build['#mobile_search_right_menu_section'] = !empty($config['override_text_color']['mobile_search_right_menu_section']) ? $config['override_text_color']['mobile_search_right_menu_section'] : FALSE;
     }
 
     $build['#alert_banner_override_color'] = FALSE;
@@ -408,8 +408,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#alert_banner_text_color'] = FALSE;
     if (!empty($config['alert_banner']['override_color_scheme'])) {
       $build['#alert_banner_override_color'] = TRUE;
-      $build['#alert_banner_bg_color'] = !empty($config['alert_banner']['bg_color']) ? '#' . $config['alert_banner']['bg_color'] : FALSE;
-      $build['#alert_banner_text_color'] = !empty($config['alert_banner']['text_color']) ? '#' . $config['alert_banner']['text_color'] : FALSE;
+      $build['#alert_banner_bg_color'] = !empty($config['alert_banner']['bg_color']) ? $config['alert_banner']['bg_color'] : FALSE;
+      $build['#alert_banner_text_color'] = !empty($config['alert_banner']['text_color']) ? $config['alert_banner']['text_color'] : FALSE;
     }
 
     CacheableMetadata::createFromRenderArray($build)
