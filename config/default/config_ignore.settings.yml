@@ -23,6 +23,7 @@ ignored_config_entities:
   - mars_lighthouse.settings
   - block.block.footerblock
   - block.block.marsheaderblock
+  - block.block.marsfooterblock
   - acquia_contenthub.admin_settings
   - field.storage.node.field_product_allergen_statement
   - mars_seo.settings
