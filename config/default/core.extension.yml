@@ -18,12 +18,14 @@ module:
   block: 0
   block_content: 0
   brand_drupal_salsify_bens_uk: 0
+  brand_drupal_salsify_multibrand: 0
   breakpoint: 0
   captcha: 0
   ckeditor: 0
   ckeditor_config: 0
   ckeditor_font: 0
   color: 0
+  colorapi: 0
   colorbutton: 0
   components: 0
   computed_field: 0
@@ -54,7 +56,6 @@ module:
   entity_browser: 0
   entity_browser_block: 0
   entity_embed: 0
-  entity_reference: 0
   entityqueue: 0
   externalauth: 0
   facets: 0
@@ -89,7 +90,6 @@ module:
   lightning_banner_block: 0
   lightning_contact_form: 0
   lightning_core: 0
-  lightning_install: 0
   lightning_landing_page: 0
   lightning_layout: 0
   lightning_map_block: 0
@@ -219,12 +219,12 @@ module:
   content_translation: 10
   views: 10
   publication_date: 99
-  lightning: 1000
+  minimal: 1000
 theme:
   stable: 0
-  classy: 0
+  bartik: 0
   claro: 0
   emulsifymars: 0
-profile: lightning
+profile: minimal
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc

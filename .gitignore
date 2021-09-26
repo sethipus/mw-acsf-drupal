@@ -23,13 +23,13 @@ docroot/profiles/contrib
 docroot/libraries
 drush/Commands
 
-# Ignore custom theme build artifacts
+# Ignore custom theme build artifacts.
 docroot/themes/custom/*/node_modules
 docroot/themes/custom/*/css
 docroot/themes/custom/*/styleguide
 docroot/themes/custom/*/dist
 
-# Ignore build artifacts
+# Ignore build artifacts.
 deployment_identifier
 /deploy
 bin/*
@@ -37,19 +37,19 @@ tmp
 reports
 /travis_wait*
 
-# OS X
+# OS X.
 .DS_Store
 .AppleDouble
 .LSOverride
 
-# Thumbnails
+# Thumbnails.
 ._*
 
-# Files that might appear on external disk
+# Files that might appear on external disk.
 .Spotlight-V100
 .Trashes
 
-# Windows image file caches
+# Windows image file caches.
 Thumbs.db
 ehthumbs.db
 
@@ -162,3 +162,6 @@ docroot/sites/default/settings.ddev.php
 .ddev/docker-compose.override.yml
 .ddev/commands/web/npm
 .ddev/commands/web/npx
+
+# Ignore SimpleTest multi-site environment.
+docroot/sites/simpletest

@@ -1,9 +1,6 @@
-host: search.acquia.com
-path: ''
-derived_key_salt: 151d5669009b4a36c858644cbbb68bc6
-version: 8.x-1.22
-default_search_core: null
-disable_auto_read_only: false
-disable_auto_switch: false
+api_host: 'https://api.sr-prod02.acquia.com'
+extract_query_handler_option: update/extract
+read_only: false
+override_search_core: null
 _core:
-  default_config_hash: IpM0ZqDwJ_fmeUf7xDGKagvDHx4TSaxaq_Z4VSgJAkg
+  default_config_hash: kVdYL0s7HSheIGw8N1eNw6Wv1WVI_c2ZznSKINU_QqU
