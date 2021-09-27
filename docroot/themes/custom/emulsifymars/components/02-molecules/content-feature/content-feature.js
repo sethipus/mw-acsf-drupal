@@ -52,7 +52,7 @@
 
               const parallaxOverflow = containerHeight * parallaxCoef;
               const positionOffset = (parallaxOverflow / 2) * parallaxEffectPercentage;
-              parallaxImage.style.transform = `translateY(${positionOffset}px) scale(${parallaxImageScale})`;
+              parallaxImage.style.transform = `translateY(${positionOffset}px)`;
             }
             else {
               isParallaxActive = false;
