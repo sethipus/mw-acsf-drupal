@@ -1616,20 +1616,6 @@ function mars_common_page_attachments(&$page) {
 }
 
 /**
- * Update jquery_colorpicker css. Fix colorpicker images.
- *
- * @param $libraries
- * @param $extension
- */
-function mars_common_library_info_alter(&$libraries, $extension) {
-  if ($extension == 'jquery_colorpicker') {
-    $libraries['library']['css']['theme'] = [
-      '/' . drupal_get_path('module', 'mars_common') . '/css/colorpicker.css' => []
-    ];
-  }
-}
-
-/**
  * Implements hook_entity_delete().
  */
 function mars_common_entity_delete(EntityInterface $entity) {
