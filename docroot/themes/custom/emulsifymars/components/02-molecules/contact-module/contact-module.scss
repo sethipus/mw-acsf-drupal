@@ -27,17 +27,24 @@
     pointer-events: none;
 
     @include medium {
-      top: -5%;
-      right: -45%;
-      width: 110%;
-      height: 110%;
+      top: -10%;
+      right: -70%;
+      width: 150%;
+      height: 150%;
     }
 
     @include xl {
-      top: -45%;
+      top: -15%;
       right: -66.5%;
       width: 150%;
       height: 150%;
+    }
+
+    @include small {
+      top: -15%;
+      right: -90%;
+      width: 145%;
+      height: 145%;
     }
 
     svg {
