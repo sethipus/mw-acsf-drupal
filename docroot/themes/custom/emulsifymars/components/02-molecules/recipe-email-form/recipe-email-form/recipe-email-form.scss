@@ -126,10 +126,14 @@
   }
 
   &__submit {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    display: block;
     position: relative;
+ 
+    @include medium {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
 
     input {
       @include set-font($font-type: 'primary-font');

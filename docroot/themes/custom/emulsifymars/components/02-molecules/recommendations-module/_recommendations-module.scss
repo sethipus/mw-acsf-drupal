@@ -16,8 +16,8 @@
 
     @include xl {
       // side boxes that hide cards which overflow grid
-      &:before,
-      &:after {
+      &::before,
+      &::after {
         content: '';
         position: absolute;
         z-index: 2;
@@ -27,8 +27,8 @@
         background-color: clr(subcolor-2);
       }
     
-      &:before { right: 100%; }
-      &:after { left: 100%; }
+      &::before { right: 100%; }
+      &::after { left: 100%; }
     }
   }
 
