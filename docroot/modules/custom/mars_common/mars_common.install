@@ -5,6 +5,7 @@
  * Update scripts for the Mars Common module.
  */
 
+use Drupal\block\Entity\Block;
 use Drupal\Core\Config\Entity\ConfigEntityUpdater;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\mars_common\ThemeConfiguratorService;
@@ -294,5 +295,49 @@ function mars_common_update_8022() {
       }
     }
     $node->save();
+  }
+}
+
+/**
+ * Update jquery_colorpicker values for header and footer configurations. Add '#' to the values.
+ */
+function mars_common_update_8023() {
+  $blocks = [
+    'marsheaderblock' => [
+      'alert_banner' => ['bg_color', 'text_color'],
+      'override_text_color' => [
+        'hover_color',
+        'mobile_cross_hamburger',
+        'mobile_main_menu_items_color',
+        'mobile_search_right_menu_section',
+        'mobile_sub_menu_items_color',
+      ],
+    ],
+    'footerblock' => [
+      'override_text_color' => ['hover_color'],
+    ],
+  ];
+
+  foreach ($blocks as $block_name => $parent_fields) {
+    $block = Block::load($block_name);
+
+    if (empty($block)) {
+      continue;
+    }
+
+    $settings = $block->get('settings');
+
+    foreach ($parent_fields as $parent_field_name => $field_names) {
+      foreach ($field_names as $field_name) {
+        if (
+          isset($settings[$parent_field_name][$field_name][0]) &&
+          $settings[$parent_field_name][$field_name][0] != '#'
+        ) {
+          $settings[$parent_field_name][$field_name] = '#' . $settings[$parent_field_name][$field_name];
+        }
+      }
+    }
+    $block->set('settings', $settings);
+    $block->save();
   }
 }
