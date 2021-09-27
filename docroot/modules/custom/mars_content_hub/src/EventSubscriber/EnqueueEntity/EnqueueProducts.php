@@ -4,6 +4,7 @@ namespace Drupal\mars_content_hub\EventSubscriber\EnqueueEntity;
 
 use Drupal\acquia_contenthub_publisher\ContentHubPublisherEvents;
 use Acquia\ContentHubClient\Settings;
+use Drupal\acquia_contenthub_publisher\Event\ContentHubEntityEligibilityEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -39,12 +40,12 @@ class EnqueueProducts implements EventSubscriberInterface {
   /**
    * Skips entities of product content-type.
    *
-   * @param \Drupal\acquia_contenthub_publisher\Event\ContentHubEntityEligibilityEvent|\Drupal\mars_content_hub\Event\ContentHubEntityEligibilityEvent $event
+   * @param \Drupal\acquia_contenthub_publisher\Event\ContentHubEntityEligibilityEvent $event
    *   The event to determine entity eligibility.
    *
    * @throws \Exception
    */
-  public function onEnqueueCandidateEntity($event) {
+  public function onEnqueueCandidateEntity(ContentHubEntityEligibilityEvent $event) {
     $entity = $event->getEntity();
 
     $productContentTypes = [
