@@ -540,7 +540,7 @@ process:
     plugin: default_value
     default_value: ''
     source: field_dual_saturated_fat_daily
-  field_dual_dietary_fiber_daily:
+  field_dual_dietary_fiber_dail:
     plugin: default_value
     default_value: ''
     source: field_dual_dietary_fiber_daily
