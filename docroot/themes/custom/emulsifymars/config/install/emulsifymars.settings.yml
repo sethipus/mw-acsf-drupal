@@ -11,6 +11,8 @@ top_nav: '#eaaa00'
 top_nav_gradient: '#f9f1db'
 footer_top: '#eaaa00'
 footer_top_gradient: '#f9f1db'
+cookie_banner: '#eaaa00'
+cookie_banner_gradient: '#f9f1db'
 bottom_nav: '#e62b1e'
 
 # Font.
