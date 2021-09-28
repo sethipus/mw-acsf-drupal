@@ -100,6 +100,8 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
   $properties .= sprintf(" --c-footer-top: %s;", $settings['footer_top']);
   $properties .= sprintf(" --c-footer-top-gradient: %s;", $settings['footer_top_gradient']);
   $properties .= sprintf(" --c-bottom-nav: %s;", $settings['bottom_nav']);
+  $properties .= sprintf(" --c-cookie-banner: %s;", $settings['cookie_banner']);
+  $properties .= sprintf(" --c-cookie-banner-gradient: %s;", $settings['cookie_banner_gradient']);
   $properties .= sprintf(" --c-card-background: %s;", $settings['card_background']);
 
   $properties .= sprintf(" --v-heading-font: %s;", "DrupalHeadlineCampaignFont, Arial, Helvetica Neue, Helvetica, sans-serif");

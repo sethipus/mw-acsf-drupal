@@ -39,6 +39,8 @@ class ConfigFactoryOverride implements ConfigFactoryOverrideInterface {
     'footer_top',
     'footer_top_gradient',
     'bottom_nav',
+    'cookie_banner',
+    'cookie_banner_gradient',
     'card_background',
     'headline_font_path',
     'headline_font_mobile_letterspacing',

@@ -310,6 +310,22 @@ class ThemeConfiguratorService {
        throughout the site. Must be AA compliant.'),
     ];
 
+    $form['color_settings']['cookie_banner'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Outer gradient of the cookie banner'),
+      '#default_value' => $this->getColorData('cookie_banner', $config),
+      '#description'   => $this->t('Accent Color. Will be used for visual accents
+      throughout the site. Must be AA compliant.'),
+    ];
+
+    $form['color_settings']['cookie_banner_gradient'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Inner gradient of the cookie banner'),
+      '#default_value' => $this->getColorData('cookie_banner_gradient', $config),
+      '#description'   => $this->t('Accent Color. Will be used for visual accents
+      throughout the site. Must be AA compliant.'),
+    ];
+
     $form['color_settings']['card_background'] = [
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Card Background'),

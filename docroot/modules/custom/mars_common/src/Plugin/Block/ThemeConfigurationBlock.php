@@ -92,6 +92,8 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
         'top_nav_gradient' => NULL,
         'footer_top' => NULL,
         'footer_top_gradient' => NULL,
+        'cookie_banner' => NULL,
+        'cookie_banner_gradient' => NULL,
         'bottom_nav' => NULL,
         'card_background' => NULL,
       ],
