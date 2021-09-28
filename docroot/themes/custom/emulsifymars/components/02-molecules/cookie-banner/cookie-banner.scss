@@ -139,6 +139,7 @@
 
   // image border
   .cookie-banner__border svg {
+    fill: var(--c-cookie-banner);
     position: absolute;
     bottom: 2px;
     width: 100%;
