@@ -36,6 +36,8 @@ class ConfigFactoryOverride implements ConfigFactoryOverrideInterface {
     'color_f',
     'top_nav',
     'top_nav_gradient',
+    'footer_top',
+    'footer_top_gradient',
     'bottom_nav',
     'card_background',
     'headline_font_path',

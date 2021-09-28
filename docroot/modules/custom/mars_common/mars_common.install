@@ -220,6 +220,8 @@ function mars_common_update_8018() {
     'color_f',
     'top_nav',
     'top_nav_gradient',
+    'top_footer',
+    'top_footer_gradient',
     'bottom_nav',
     'card_background',
   ];
@@ -340,4 +342,15 @@ function mars_common_update_8023() {
     $block->set('settings', $settings);
     $block->save();
   }
+}
+
+/**
+ * Add top footer and top footer gradient fields to theme configurator.
+ */
+function mars_common_update_8024() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('emulsifymars.settings');
+  $config->set('footer_top', $config->get('top_nav'), '');
+  $config->set('footer_top_gradient', $config->get('top_nav_gradient'), '');
+  $config->save(TRUE);
 }
