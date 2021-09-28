@@ -242,6 +242,10 @@ function mars_product_update_8931() {
   /** @var \Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay $display */
   $display = LayoutBuilderEntityViewDisplay::load('node.campaign.default');
 
+  if (empty($display)) {
+    return;
+  }
+
   $contexts = [
     'display' => EntityContext::fromEntity($display),
   ];

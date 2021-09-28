@@ -34,6 +34,12 @@ top_nav:
 top_nav_gradient:
   type: text
   label: 'Footer top part gradient Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+footer_top:
+  type: text
+  label: 'Footer top color.'
+footer_top_gradient:
+  type: text
+  label: 'Footer top gradient color.'
 bottom_nav:
   type: text
   label: 'Footer bottom part Color. Will be used for visual accents throughout the site. Must be AA compliant.'

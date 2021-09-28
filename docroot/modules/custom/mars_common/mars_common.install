@@ -5,6 +5,7 @@
  * Update scripts for the Mars Common module.
  */
 
+use Drupal\block\Entity\Block;
 use Drupal\Core\Config\Entity\ConfigEntityUpdater;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\mars_common\ThemeConfiguratorService;
@@ -206,31 +207,54 @@ function mars_common_update_8015() {
   $config->save();
 }
 
-/*
- * Enable dependency module.
+/**
+ * Update jquery_colorpicker values for theme configurations. Add '#' to the values.
  */
-function mars_common_update_8016() {
-  // Deleting the colorapi.settings.
-  \Drupal::configFactory()->getEditable('colorapi.settings')->delete();
-
-  $config = \Drupal::configFactory()->getEditable('colorapi.settings');
-
-  if ($config) {
-    $config->delete();
-  }
-
-  $modules = [
-    'colorapi',
-    'vendor_stream_wrapper',
+function mars_common_update_8018() {
+  $color_fields_map = [
+    'color_a',
+    'color_b',
+    'color_c',
+    'color_d',
+    'color_e',
+    'color_f',
+    'top_nav',
+    'top_nav_gradient',
+    'top_footer',
+    'top_footer_gradient',
+    'bottom_nav',
+    'card_background',
   ];
 
-  \Drupal::service('module_installer')->install($modules);
+  $config = \Drupal::service('config.factory')->getEditable('emulsifymars.settings');
+  $data = $config->getRawData();
+  \Drupal::service('config.factory')->getEditable('emulsifymars.settings');
+  foreach ($color_fields_map as $color_field) {
+    if (!empty($data[$color_field]) && $data[$color_field][0] != '#') {
+      $data[$color_field] = '#' . $data[$color_field];
+    }
+  }
+
+  $config->setData($data)->save();
 }
 
 /**
+ * Import layout_selection field for Basic Page CT.
+ */
+function mars_common_update_8021(&$sandbox = []) {
+  $config_entity_updater = \Drupal::classResolver(ConfigEntityUpdater::class);
+  try {
+    $config_entity_updater->update($sandbox, 'entity_view_display');
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('my_module')->error($e->getMessage());
+  }
+}
+
+/*
  * Update jquery_colorpicker values for custom blocks. Add '#' to the values.
  */
-function mars_common_update_8017() {
+function mars_common_update_8022() {
   $color_fields_map = [
     'parent_page_header' => ['text_color_other'],
     'homepage_hero_block' => ['background_color'],
@@ -268,53 +292,65 @@ function mars_common_update_8017() {
           if (!empty($configs[$field]) && $configs[$field][0] != '#') {
             $configs[$field] = '#' . $configs[$field];
             $component->setConfiguration($configs);
-            $node->save();
           }
         }
       }
     }
+    $node->save();
   }
 }
 
 /**
- * Update jquery_colorpicker values for theme configurations. Add '#' to the values.
+ * Update jquery_colorpicker values for header and footer configurations. Add '#' to the values.
  */
-function mars_common_update_8018() {
-  $color_fields_map = [
-    'color_a',
-    'color_b',
-    'color_c',
-    'color_d',
-    'color_e',
-    'color_f',
-    'top_nav',
-    'top_nav_gradient',
-    'bottom_nav',
-    'card_background',
+function mars_common_update_8023() {
+  $blocks = [
+    'marsheaderblock' => [
+      'alert_banner' => ['bg_color', 'text_color'],
+      'override_text_color' => [
+        'hover_color',
+        'mobile_cross_hamburger',
+        'mobile_main_menu_items_color',
+        'mobile_search_right_menu_section',
+        'mobile_sub_menu_items_color',
+      ],
+    ],
+    'footerblock' => [
+      'override_text_color' => ['hover_color'],
+    ],
   ];
 
-  $config = \Drupal::service('config.factory')->getEditable('emulsifymars.settings');
-  $data = $config->getRawData();
-  \Drupal::service('config.factory')->getEditable('emulsifymars.settings');
-  foreach ($color_fields_map as $color_field) {
-    if (!empty($data[$color_field]) && $data[$color_field][0] != '#') {
-      $data[$color_field] = '#' . $data[$color_field];
-    }
-  }
+  foreach ($blocks as $block_name => $parent_fields) {
+    $block = Block::load($block_name);
 
-  $config->setData($data)->save();
+    if (empty($block)) {
+      continue;
+    }
+
+    $settings = $block->get('settings');
+
+    foreach ($parent_fields as $parent_field_name => $field_names) {
+      foreach ($field_names as $field_name) {
+        if (
+          isset($settings[$parent_field_name][$field_name][0]) &&
+          $settings[$parent_field_name][$field_name][0] != '#'
+        ) {
+          $settings[$parent_field_name][$field_name] = '#' . $settings[$parent_field_name][$field_name];
+        }
+      }
+    }
+    $block->set('settings', $settings);
+    $block->save();
+  }
 }
 
 /**
- * Import layout_selection field for Basic Page CT.
+ * Add top footer and top footer gradient fields to theme configurator.
  */
-function mars_common_update_8021(&$sandbox = []) {
-  $config_entity_updater = \Drupal::classResolver(ConfigEntityUpdater::class);
-  try {
-    $config_entity_updater->update($sandbox, 'entity_view_display');
-  }
-  catch (\Exception $e) {
-    \Drupal::logger('my_module')->error($e->getMessage());
-  }
+function mars_common_update_8024() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('emulsifymars.settings');
+  $config->set('footer_top', $config->get('top_nav'), '');
+  $config->set('footer_top_gradient', $config->get('top_nav_gradient'), '');
+  $config->save(TRUE);
 }
-

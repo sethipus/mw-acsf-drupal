@@ -20,6 +20,7 @@
   @include large {
     padding: 6rem 11.6rem 8rem 11.6rem;
     margin: 6rem auto;
+    max-width: calc(100vw - 80px);
   }
 
   &__png-asset {

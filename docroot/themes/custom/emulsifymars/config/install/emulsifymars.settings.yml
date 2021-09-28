@@ -9,6 +9,8 @@ color_f: '#4c4c4c'
 card_background: '#4c4c4c'
 top_nav: '#eaaa00'
 top_nav_gradient: '#f9f1db'
+footer_top: '#eaaa00'
+footer_top_gradient: '#f9f1db'
 bottom_nav: '#e62b1e'
 
 # Font.

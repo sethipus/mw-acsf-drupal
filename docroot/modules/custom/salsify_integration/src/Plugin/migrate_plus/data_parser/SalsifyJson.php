@@ -69,7 +69,7 @@ class SalsifyJson extends Json {
         $product_brand_name = isset($source_data[$key]['field_brand_name']) ? reset($source_data[$key]['field_brand_name']) : '';
         // Unset products without brand field or
         // not equals to brand from configuration.
-        if ($product_brand_name != $brand_name_trimmed) {
+        if (strtolower($product_brand_name) != strtolower($brand_name_trimmed)) {
           unset($source_data[$key]);
         }
       }
