@@ -278,18 +278,28 @@ class ThemeConfiguratorService {
 
     $form['color_settings']['top_nav'] = [
       '#type'          => 'jquery_colorpicker',
-      '#title'         => $this->t('Top part of the header/footer'),
+      '#title'         => $this->t('Header color'),
       '#default_value' => $this->getColorData('top_nav', $config),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents
-      throughout the site. Must be AA compliant.'),
     ];
 
     $form['color_settings']['top_nav_gradient'] = [
       '#type'          => 'jquery_colorpicker',
-      '#title'         => $this->t('Top part of the header/footer gradient color'),
+      '#title'         => $this->t('Header gradient color'),
       '#default_value' => $this->getColorData('top_nav_gradient', $config),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents
-      throughout the site. Must be AA compliant.'),
+    ];
+
+    $form['color_settings']['footer_top'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Top part of footer color'),
+      '#default_value' => $this->getColorData('footer_top', $config),
+      '#description'   => $this->t('If this field is left empty, it falls back to header color.'),
+    ];
+
+    $form['color_settings']['footer_top_gradient'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Top part of footer gradient.'),
+      '#default_value' => $this->getColorData('footer_top_gradient', $config),
+      '#description'   => $this->t('If this field is left empty, it falls back to the header gradient color.  If header gradient color is empty, it falls back to the header color.'),
     ];
 
     $form['color_settings']['bottom_nav'] = [
@@ -298,6 +308,22 @@ class ThemeConfiguratorService {
       '#default_value' => $this->getColorData('bottom_nav', $config),
       '#description'   => $this->t('Accent Color. Will be used for visual accents
        throughout the site. Must be AA compliant.'),
+    ];
+
+    $form['color_settings']['cookie_banner'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Outer gradient of the cookie banner'),
+      '#default_value' => $this->getColorData('cookie_banner', $config),
+      '#description'   => $this->t('Accent Color. Will be used for visual accents
+      throughout the site. Must be AA compliant.'),
+    ];
+
+    $form['color_settings']['cookie_banner_gradient'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Inner gradient of the cookie banner'),
+      '#default_value' => $this->getColorData('cookie_banner_gradient', $config),
+      '#description'   => $this->t('Accent Color. Will be used for visual accents
+      throughout the site. Must be AA compliant.'),
     ];
 
     $form['color_settings']['card_background'] = [

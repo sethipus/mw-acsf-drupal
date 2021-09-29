@@ -108,10 +108,12 @@ $xl-left-margin: 11.583rem;
     max-width: calc(100vw - 80px);
   }
 
-  @include xl {
+  @include large {
     max-width: 1360px;
+  }
 
-    .ambient-video__control[data-state='play'] {
+  @include xl {
+    .ambient-video__control[data-state="play"] {
       top: 20px;
       right: 20px;
     }
@@ -137,7 +139,7 @@ $xl-left-margin: 11.583rem;
   &__info {
     position: relative;
 
-    @include xl {
+    @include large {
       position: absolute;
       left: 0;
       bottom: 0;
@@ -316,7 +318,7 @@ $xl-left-margin: 11.583rem;
   }
 
   &:first-child {
-    @include xl {
+    @include large {
       padding-left: 0;
     }
   }
@@ -359,11 +361,15 @@ $xl-left-margin: 11.583rem;
       max-width: 100%;
     }
 
-    @include xl {
+    @include large {
       font-size: 20px;
       line-height: 1.8em;
-      margin-left: 116px;
+      margin-left: 36px;
       max-width: 665px;
+    }
+
+    @include xl {
+      margin-left: 116px;
     }
   }
 
@@ -382,11 +388,15 @@ $xl-left-margin: 11.583rem;
       max-width: 100%;
     }
 
-    @include xl {
+    @include large {
       margin-top: 52px;
       margin-bottom: 28px;
-      margin-left: 116px;
+      margin-left: 36px;
       max-width: 665px;
+    }
+
+    @include xl {
+      margin-left: 116px;
     }
 
     .social-menu {
