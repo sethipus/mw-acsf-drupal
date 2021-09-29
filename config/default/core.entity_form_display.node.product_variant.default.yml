@@ -18,7 +18,7 @@ dependencies:
     - field.field.node.product_variant.field_dual_cholesterol_daily
     - field.field.node.product_variant.field_dual_dietary_daily
     - field.field.node.product_variant.field_dual_dietary_fiber
-    - field.field.node.product_variant.field_dual_dietary_fiber_daily
+    - field.field.node.product_variant.field_dual_dietary_fiber_dail
     - field.field.node.product_variant.field_dual_fibre
     - field.field.node.product_variant.field_dual_folate
     - field.field.node.product_variant.field_dual_folate_daily
@@ -444,6 +444,7 @@ third_party_settings:
         - field_dual_dietary_fiber
         - field_dual_dietary_daily
         - field_dual_dietary_fiber_daily
+        - field_dual_dietary_fiber_dail
         - field_dual_sugars
         - field_dual_sugars_daily
         - field_dual_total_sugars
@@ -558,7 +559,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_dual_added_sugars:
-    weight: 84
+    weight: 85
     settings:
       size: 60
       placeholder: ''
@@ -566,7 +567,7 @@ content:
     type: string_textfield
     region: content
   field_dual_added_sugars_daily:
-    weight: 85
+    weight: 86
     settings:
       size: 60
       placeholder: ''
@@ -669,8 +670,8 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_dual_dietary_fiber_daily:
-    weight: 80
+  field_dual_dietary_fiber_dail:
+    weight: 81
     settings:
       size: 60
       placeholder: ''
@@ -782,7 +783,7 @@ content:
     type: string_textfield
     region: content
   field_dual_protein:
-    weight: 87
+    weight: 88
     settings:
       size: 60
       placeholder: ''
@@ -790,7 +791,7 @@ content:
     type: string_textfield
     region: content
   field_dual_protein_daily:
-    weight: 88
+    weight: 89
     settings:
       size: 60
       placeholder: ''
@@ -854,7 +855,7 @@ content:
     type: string_textfield
     region: content
   field_dual_sugar_alcohol:
-    weight: 86
+    weight: 87
     settings:
       size: 60
       placeholder: ''
@@ -862,7 +863,7 @@ content:
     type: string_textfield
     region: content
   field_dual_sugars:
-    weight: 81
+    weight: 82
     settings:
       size: 60
       placeholder: ''
@@ -870,7 +871,7 @@ content:
     type: string_textfield
     region: content
   field_dual_sugars_daily:
-    weight: 82
+    weight: 83
     settings:
       size: 60
       placeholder: ''
@@ -910,7 +911,7 @@ content:
     type: string_textfield
     region: content
   field_dual_total_sugars:
-    weight: 83
+    weight: 84
     settings:
       size: 60
       placeholder: ''

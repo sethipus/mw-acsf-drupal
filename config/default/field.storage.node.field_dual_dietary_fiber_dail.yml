@@ -1,11 +1,11 @@
-uuid: 8122d58c-c79f-456c-8b28-51ce31b02040
+uuid: 59c34c9b-3a7a-46f0-a4c3-4a1db304c84a
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_dual_dietary_fiber_daily
-field_name: field_dual_dietary_fiber_daily
+id: node.field_dual_dietary_fiber_dail
+field_name: field_dual_dietary_fiber_dail
 entity_type: node
 type: string
 settings:

@@ -44,9 +44,22 @@ window.onload = () => {
             closeCookieBanner();
         });
     }
+
+    // Style cookie banner
+    addImageBorder()
 };
 
 const closeCookieBanner = () => {
     document.cookie = "OptanonAlertBoxClosed="+new Date().toISOString();
     $('.cookie-parent-div').slideUp('slow');	
+}
+
+const addImageBorder = () => {
+    const $oneTrust = document.querySelector('#onetrust-consent-sdk');
+    const $banner = $oneTrust.querySelector('#onetrust-banner-sdk');
+    const $bannerImageBorder = document.querySelector('.cookie-banner__border');
+
+    $oneTrust.dataset.theme = "drupal";
+    $banner?.insertAdjacentElement('afterbegin', $bannerImageBorder);
+    $oneTrust.classList.add('--loaded');
 }
