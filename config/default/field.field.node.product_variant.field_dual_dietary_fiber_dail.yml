@@ -1,17 +1,17 @@
-uuid: 3214bb78-88c1-4fe1-8522-667bf56b7982
+uuid: 6848381d-a6b1-4e03-a50f-5399b6167305
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_dual_dietary_fiber_daily
+    - field.storage.node.field_dual_dietary_fiber_dail
     - node.type.product_variant
   module:
     - tmgmt_content
 third_party_settings:
   tmgmt_content:
     excluded: false
-id: node.product_variant.field_dual_dietary_fiber_daily
-field_name: field_dual_dietary_fiber_daily
+id: node.product_variant.field_dual_dietary_fiber_dail
+field_name: field_dual_dietary_fiber_dail
 entity_type: node
 bundle: product_variant
 label: 'Dual dietary fiber daily'
