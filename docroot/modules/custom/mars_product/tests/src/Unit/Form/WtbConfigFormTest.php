@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_product\Form\WtbConfigForm;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -68,6 +69,13 @@ class WtbConfigFormTest extends UnitTestCase {
   private $messengerMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -75,7 +83,8 @@ class WtbConfigFormTest extends UnitTestCase {
     $this->createMocks();
     \Drupal::setContainer($this->containerMock);
     $this->form = new WtbConfigForm(
-      $this->configFactoryMock
+      $this->configFactoryMock,
+      $this->languageHelperMock
     );
   }
 
@@ -182,6 +191,7 @@ class WtbConfigFormTest extends UnitTestCase {
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->configMock = $this->createMock(Config::class);
     $this->messengerMock = $this->createMock(MessengerInterface::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
   }
 
 }
