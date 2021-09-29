@@ -2,7 +2,7 @@
   background-color: clr(subcolor-3);
 
   @include xl {
-    background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
+    background-image: radial-gradient(circle at 50% 50%, clr(top-nav, top-nav-gradient), clr(top-nav));
   }
 
   &__inner {
@@ -12,7 +12,7 @@
   }
 
   &__primary {
-    background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
+    background-image: radial-gradient(circle at 50% 50%, clr(top-nav, top-nav-gradient), clr(top-nav));
 
     @include xl {
       background-image: unset;
