@@ -166,7 +166,7 @@
       }
 
       & .heading {
-        margin: 0;
+        margin: 0 0 1rem 0;
         height: 105px;
 
         @include medium {
@@ -265,6 +265,7 @@
 
     @include large {
       padding-left: 40px;
+      padding-right: 40px;
     }
   }
 }
