@@ -9,7 +9,7 @@ source:
   data_parser_plugin: multipack_json_filter
   filter:
     - Drupal\salsify_integration\Filter
-    - isProductMultipack
+    - isProductMultipackSuffixed
   multipack_suffix: 4
   item_selector: /
   track_changes: true
