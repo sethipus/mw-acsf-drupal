@@ -14,6 +14,8 @@ use Drupal\mars_common\MenuBuilder;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\file\Element\ManagedFile;
+use Drupal\mars_common\ThemeConfiguratorService;
 
 /**
  * Footer Block.
@@ -27,7 +29,19 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use OverrideThemeTextColorTrait;
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
 
+  protected $entityTypeManager;
+  /**
+   * Theme configuration service.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorService
+   */
+  protected $themeConfiguratorService;
   /**
    * Menu storage.
    *
@@ -100,6 +114,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    ThemeConfiguratorService $theme_configurator_service,
     EntityTypeManagerInterface $entity_type_manager,
     LanguageHelper $language_helper,
     ThemeConfiguratorParser $themeConfiguratorParser,
@@ -107,12 +122,28 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     ConfigFactoryInterface $config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->themeConfiguratorService = $theme_configurator_service;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->languageHelper = $language_helper;
     $this->termStorage = $entity_type_manager->getStorage('taxonomy_term');
     $this->config = $config;
     $this->menuBuilder = $menu_builder;
+    $this->entityTypeManager = $entity_type_manager;
+  }
+
+  /**
+   * Get footer logo settings data.
+   */
+  protected function getFooterLogoData(string $key, array $config = NULL) {
+    return $this->getData('footer_logo', $key, $config);
+  }
+
+  /**
+   * Get data from the passed config array or from current theme.
+   */
+  protected function getData(string $subject, string $key, array $config = NULL) {
+    return !empty($config[$subject][$key]) ? $config[$subject][$key] : "";
   }
 
   /**
@@ -123,6 +154,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('mars_common.theme_configurator_service'),
       $container->get('entity_type.manager'),
       $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser'),
@@ -136,6 +168,11 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
    */
   public function build() {
     $conf = $this->getConfiguration();
+    // Footer settings data.
+    $build['#footer_logo_toogle'] = $conf['footer_logo']['footer_logo_toogle'] ?? FALSE;
+    $build['#footer_logo_alt'] = !empty($this->getFooterLogoData('footer_logo_alt', $conf)) ? $this->getFooterLogoData('footer_logo_alt', $conf) : strtolower($this->languageHelper->translate('footer logo'));
+    $build['#footer_logo_id'] = $conf['footer_logo_id'] ?? "";
+    $build['#footer_logo_path'] = $conf['footer_logo_path'] ?? "";
     $build['#logo'] = $this->themeConfiguratorParser->getLogoFromTheme();
 
     $theme_logo_alt = $this->themeConfiguratorParser->getLogoAltFromTheme();
@@ -307,6 +344,40 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#title' => $this->t('Open CTA link in a new tab'),
       '#default_value' => $config['cta_button_target'],
     ];
+    // Footer logo settings.
+    $form['footer_logo'] = [
+      '#type'        => 'details',
+      '#title'       => $this->t('Footer logo settings'),
+      '#open'        => TRUE,
+    ];
+    $form['footer_logo']['footer_logo_toogle'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Display footer logo'),
+      '#default_value' => $config['footer_logo']['footer_logo_toogle'] ?? FALSE,
+    ];
+    $form['footer_logo']['upload_footer_logo'] = [
+      '#title'           => $this->t('Upload footer logo'),
+      '#type'            => 'managed_file',
+      '#description'     => $this->t('Will be designed by each brand team.
+      Size and format requirements detailed out in the Style Guide.'),
+      '#upload_location' => 'public://theme_config/',
+      '#required'        => FALSE,
+      '#process'         => [
+        [ManagedFile::class, 'processManagedFile'],
+        [$this->themeConfiguratorService, 'processImageWidget'],
+      ],
+      '#upload_validators' => [
+        'file_validate_extensions' => ['svg'],
+      ],
+      '#theme'               => 'image_widget',
+      '#preview_image_style' => 'thumbnail',
+      '#default_value'       => $this->getFooterLogoData('upload_footer_logo', $config),
+    ];
+    $form['footer_logo']['footer_logo_alt'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Alternative image text'),
+      '#default_value' => !empty($this->getFooterLogoData('footer_logo_alt', $config)) ? $this->getFooterLogoData('footer_logo_alt', $config) : strtolower($this->languageHelper->translate('footer logo')),
+    ];
 
     return $form;
   }
@@ -315,7 +386,21 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
+    $upload_footer_logo = [];
+    $footer_settings_data = $form_state->getValue('footer_logo', 'upload_footer_logo');
+    if (!empty($footer_settings_data['upload_footer_logo'][0])) {
+      $id = $footer_settings_data['upload_footer_logo'][0];
+      $file = $this->entityTypeManager->getStorage('file')->load($id);
+      $file_uri = $file->getFileUri();
+      $file_path = file_url_transform_relative(file_create_url($file_uri));
+      $file->setPermanent();
+      $file->save();
+      $upload_footer_logo['file_id'] = [$file->id()];
+      $upload_footer_logo['file_path'] = $file_path;
+    }
     $this->setConfiguration($form_state->getValues());
+    $this->configuration['footer_logo_id'] = !empty($upload_footer_logo['file_id'][0]) ? $upload_footer_logo['file_id'][0] : "";
+    $this->configuration['footer_logo_path'] = !empty($upload_footer_logo['file_path']) ? $upload_footer_logo['file_path'] : "";
   }
 
   /**
