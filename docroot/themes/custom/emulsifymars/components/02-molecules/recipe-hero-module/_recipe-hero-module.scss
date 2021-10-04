@@ -330,10 +330,10 @@ $xl-left-margin: 11.583rem;
 }
 
 .recipe-info {
-  padding: 24px 0 0;
+  padding: 24px 20px 0; //Text alignment is not proper on mobile.
 
   @include medium {
-    padding: 42px 0 0;
+    padding: 42px 40px 0;
   }
 
   @include xl {
@@ -364,7 +364,6 @@ $xl-left-margin: 11.583rem;
     @include large {
       font-size: 20px;
       line-height: 1.8em;
-      margin-left: 36px;
       max-width: 665px;
     }
 
@@ -391,7 +390,6 @@ $xl-left-margin: 11.583rem;
     @include large {
       margin-top: 52px;
       margin-bottom: 28px;
-      margin-left: 36px;
       max-width: 665px;
     }
 
