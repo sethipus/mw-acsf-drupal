@@ -11,13 +11,18 @@ migration_dependencies:
     - multibrand_term_product_occasions
     - multibrand_node_product_variant
     - multibrand_node_product
+    - multibrand_node_product_2
+    - multibrand_node_product_3
+    - multibrand_node_product_4
+    - multibrand_node_product_5
+    - multibrand_node_product_5
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
   data_parser_plugin: json_filter
   filter:
     - Drupal\salsify_integration\Filter
-    - isProductMultipack
+    - isProductMultipackSuffixed
   item_selector: /
   track_changes: true
   constants:
@@ -105,9 +110,14 @@ process:
 
   field_product_pack_items:
     -
-      plugin: skip_on_empty
-      method: row
-      source: source_variety
+      plugin: sku_to_suffixed_products_array
+      source: source_sku
+      multipack_suffixes:
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
 #    -
 #      plugin: explode
 #      delimiter: ', '
@@ -121,14 +131,26 @@ process:
           -
             plugin: migration_lookup_ids
             migration:
-              - multibrand_node_product
+              - multibrand_node_product_2
+              - multibrand_node_product_3
+              - multibrand_node_product_4
+              - multibrand_node_product_5
+              - multibrand_node_product_6
             source_ids:
-              multibrand_node_product:
+              multibrand_node_product_2:
                 source_sku: sku
-    -
-      plugin: multipack_product_postprocess
-      hide_product: true
-      moderation_state: 'published'
+              multibrand_node_product_3:
+                source_sku: sku
+              multibrand_node_product_4:
+                source_sku: sku
+              multibrand_node_product_5:
+                source_sku: sku
+              multibrand_node_product_6:
+                source_sku: sku
+#    -
+#      plugin: multipack_product_postprocess
+#      hide_product: true
+#      moderation_state: 'published'
   field_product_category/target_id:
     plugin: migration_lookup
     migration:
