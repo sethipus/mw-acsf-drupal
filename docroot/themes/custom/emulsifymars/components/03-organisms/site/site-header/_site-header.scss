@@ -2,7 +2,7 @@
   background-color: clr(subcolor-3);
 
   @include xl {
-    background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
+    background-image: radial-gradient(circle at 50% 50%, clr(top-nav, top-nav-gradient), clr(top-nav));
   }
 
   &__inner {
@@ -12,7 +12,7 @@
   }
 
   &__primary {
-    background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
+    background-image: radial-gradient(circle at 50% 50%, clr(top-nav, top-nav-gradient), clr(top-nav));
 
     @include xl {
       background-image: unset;
@@ -65,7 +65,8 @@
   &__branding {
     flex: 0 0 104px;
     margin: 1.6rem 0 1.3rem 0.9rem;
-
+    z-index: 1;
+    
     @include medium {
       flex-basis: 141px;
       margin: 2.75rem;
