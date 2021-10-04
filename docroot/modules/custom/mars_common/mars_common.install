@@ -220,6 +220,10 @@ function mars_common_update_8018() {
     'color_f',
     'top_nav',
     'top_nav_gradient',
+    'top_footer',
+    'top_footer_gradient',
+    'cookie_banner',
+    'cookie_banner_gradient',
     'bottom_nav',
     'card_background',
   ];
@@ -343,4 +347,26 @@ function mars_common_update_8024() {
       $translation->save();
     }
   }
+}
+
+/**
+ * Add top footer and top footer gradient fields to theme configurator.
+ */
+function mars_common_update_8025() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('emulsifymars.settings');
+  $config->set('footer_top', $config->get('top_nav'), '');
+  $config->set('footer_top_gradient', $config->get('top_nav_gradient'), '');
+  $config->save(TRUE);
+}
+
+/**
+ * Add cookie banner fields to theme configurator.
+ */
+function mars_common_update_8026() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('emulsifymars.settings');
+  $config->set('cookie_banner', $config->get('color_b'), '');
+  $config->set('cookie_banner_gradient', $config->get('color_b'), '');
+  $config->save(TRUE);
 }

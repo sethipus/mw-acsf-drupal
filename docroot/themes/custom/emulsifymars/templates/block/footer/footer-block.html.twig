@@ -31,6 +31,7 @@
   brand_border: brand_border,
   footer_logo_link: url('<front>'),
   cta_button_label: cta_button_label,
+  cta_button_target: cta_button_target,
 } %}
 
   {% block footer__logo %}
@@ -77,6 +78,7 @@
 
 {% endembed %}
 
+{# Hidden custom cookie banner #}
 {% include "@molecules/cookie-banner/cookie-banner.twig" %}
 
 {% if text_color_override is not empty %}
