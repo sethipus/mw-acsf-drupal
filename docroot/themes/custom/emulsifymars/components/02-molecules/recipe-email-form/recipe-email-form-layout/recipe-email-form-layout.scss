@@ -38,10 +38,15 @@
 .recipe-email-close-btn {
   position: absolute;
   top: 4rem;
-  right: 4rem;
+  right: 2rem;
   height: 2rem;
   width: 2rem;
   cursor: pointer;
+
+  @include xs {
+    top: 3rem;
+    right: 2rem;
+  }
 }
 
 .recipe-email-lightbox {
