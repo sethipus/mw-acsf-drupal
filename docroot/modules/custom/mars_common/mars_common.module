@@ -200,6 +200,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'variables' => [
         'label' => '',
         'items' => [],
+        'social_feed_date_toggle' => NULL,
         'graphic_divider' => '',
         'brand_border' => '',
         'select_background_color' => NULL,

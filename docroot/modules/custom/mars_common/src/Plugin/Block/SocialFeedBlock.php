@@ -150,6 +150,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#select_background_color' => $background_color,
       '#label' => $label,
       '#items' => $this->getFeedItems(),
+      '#social_feed_date_toggle' => ($this->configuration['social_feed_date_toggle']) ? $this->configuration['social_feed_date_toggle'] : NULL,
       '#graphic_divider' => $this->themeConfigurator->getGraphicDivider(),
       '#brand_border' => ($this->configuration['with_brand_borders']) ? $this->themeConfigurator->getBrandBorder2() : NULL,
       '#overlaps_previous' => $this->configuration['overlaps_previous'] ?? NULL,
@@ -187,6 +188,11 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     catch (\RuntimeException $e) {
       // Cannot set default value as feed config is missing.
     }
+    $form['social_feed_date_toggle'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Display social feed created days'),
+      '#default_value' => $this->configuration['social_feed_date_toggle'] ?? FALSE,
+    ];
 
     // Add select background color.
     $this->buildSelectBackground($form);
@@ -220,6 +226,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $this->configuration['with_brand_borders'] = $form_state->getValue('with_brand_borders');
     $this->configuration['overlaps_previous'] = $form_state->getValue('overlaps_previous');
     $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
+    $this->configuration['social_feed_date_toggle'] = $form_state->getValue('social_feed_date_toggle');
   }
 
   /**
