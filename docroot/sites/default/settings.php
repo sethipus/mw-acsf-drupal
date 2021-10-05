@@ -769,6 +769,12 @@ $settings['entity_update_backup'] = TRUE;
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
 require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
+
+/**
+ * Environment Specific Customizations for Configuration Split.
+ */
+require DRUPAL_ROOT . "/sites/default/settings.config_split.php";
+
 /**
  * IMPORTANT.
  *
