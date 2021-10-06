@@ -11,7 +11,6 @@ import secondaryMenuData from '../../02-molecules/menus/inline/header-inline-men
 import inlineSearchData from '../../02-molecules/search/inline-search/inline-search.yml';
 import mainMenuData from '../../02-molecules/menus/main-menu/main-menu.yml';
 
-
 import legalLinksData from '../../02-molecules/menus/legal-links/legal-links-menu.yml';
 
 import siteFooterData from './site-footer/site-footer.yml';
