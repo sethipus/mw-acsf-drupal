@@ -172,10 +172,10 @@ class WtbConfigForm extends ConfigFormBase {
         ];
         $fieldset['option'] = [
           '#type' => 'radios',
-          '#title' => $this->t('Option'),
+          '#title' => $this->t('Where to buy options'),
           '#options' => [
-            'default' => $this->t('Default'),
-            'cta_button' => $this->t('Cta button with get parameter'),
+            'default' => $this->t('Price spider modal window (default)'),
+            'cta_button' => $this->t('Cta button with product GTIN parameter'),
           ],
           '#default_value' => !empty($config['settings']['option']) ? $config['settings']['option'] : 'default',
           '#states' => [
