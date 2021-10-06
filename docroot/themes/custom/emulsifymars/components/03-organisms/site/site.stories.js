@@ -3,12 +3,14 @@ import { useEffect } from '@storybook/client-api';
 
 import footerTwig from './site-footer/site-footer.twig';
 import siteHeader from './site-header/site-header.twig';
+import footerlogoTwig from '../../01-atoms/images/image/_footer_logo.twig'
 
 import footerSocial from '../../02-molecules/menus/social/social-menu.yml';
 import footerMenu from '../../02-molecules/menus/footer/footer-menu.yml';
 import secondaryMenuData from '../../02-molecules/menus/inline/header-inline-menu/header-inline-menu.yml';
 import inlineSearchData from '../../02-molecules/search/inline-search/inline-search.yml';
 import mainMenuData from '../../02-molecules/menus/main-menu/main-menu.yml';
+
 
 import legalLinksData from '../../02-molecules/menus/legal-links/legal-links-menu.yml';
 

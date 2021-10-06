@@ -99,6 +99,16 @@
           default_link_base_class: 'default-link'
         } %}
       </div>
+      {% if footer_logo_toogle and footer_logo_src %}
+      <div class="footer-logo">
+        {% include "@atoms/images/image/_footer_logo.twig" with {
+          footer_logo_alt: footer_logo_alt,
+          footer_logo_src: footer_logo_src|resize(212, 98),
+          footer_logo_src_srcset: footer_logo_src_srcset,
+          responsive_image_blockname: 'footer_logo'
+        } %}
+      </div>
+      {% endif %}
     </div>
   </div>
 </footer>
