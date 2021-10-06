@@ -41,7 +41,8 @@
             target_container = $(this).parents('.search-autocomplete-wrapper').parent();
           }
           else if (cardsView) {
-            url = url + '&cards_view=0';
+            //url = url + '&cards_view=0';
+            // #AB291643
           }
 
           // Update url by component/page type.

@@ -87,6 +87,15 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
   /**
    * {@inheritdoc}
    */
+  public function defaultConfiguration() {
+    return [
+      'cta_button_target' => TRUE,
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function __construct(
     array $configuration,
     $plugin_id,
@@ -197,7 +206,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     }
 
     $build['#cta_button_label'] = isset($conf['cta_button_label']) ? $this->languageHelper->translate($conf['cta_button_label']) : strtoupper($this->languageHelper->translate('See All'));
-
+    $build['#cta_button_target'] = ($conf['cta_button_target'] == TRUE) ? '_blank' : '_self';
     CacheableMetadata::createFromRenderArray($build)
       ->merge(
         $this->themeConfiguratorParser->getCacheMetadataForThemeConfigurator()
@@ -291,6 +300,12 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#size' => 200,
       '#required' => TRUE,
       '#default_value' => $config['cta_button_label'] ?? strtoupper($this->languageHelper->translate('See All')),
+    ];
+
+    $form['cta_button_target'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Open CTA link in a new tab'),
+      '#default_value' => $config['cta_button_target'],
     ];
 
     return $form;
