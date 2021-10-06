@@ -170,6 +170,41 @@ class WtbConfigForm extends ConfigFormBase {
             ],
           ],
         ];
+        $fieldset['option'] = [
+          '#type' => 'radios',
+          '#title' => $this->t('Where to buy options'),
+          '#options' => [
+            'default' => $this->t('Price spider modal window (default)'),
+            'cta_button' => $this->t('Cta button with product GTIN parameter'),
+          ],
+          '#default_value' => !empty($config['settings']['option']) ? $config['settings']['option'] : 'default',
+          '#states' => [
+            'required' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
+            ],
+          ],
+        ];
+        $fieldset['price_spider_button_name'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Button name'),
+          '#default_value' => !empty($config['settings']['price_spider_button_name']) ? $this->languageHelper->translate($config['settings']['price_spider_button_name']) : '',
+          '#states' => [
+            'visible' => [
+              [':input[name="price_spider[option]"]' => ['value' => 'cta_button']],
+            ],
+          ],
+        ];
+        $fieldset['price_spider_button_url'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Button URL'),
+          '#default_value' => !empty($config['settings']['price_spider_button_url']) ? $this->languageHelper->translate($config['settings']['price_spider_button_url']) : '',
+          '#description' => $this->languageHelper->translate('Please use relative path like /where-to-buy.'),
+          '#states' => [
+            'visible' => [
+              [':input[name="price_spider[option]"]' => ['value' => 'cta_button']],
+            ],
+          ],
+        ];
 
         break;
 
