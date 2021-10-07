@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Base class for Mars JSON LD Strategy plugins.
  */
-abstract class JsonLdStrategyPluginBase extends PluginBase implements JsonLdStrategyInterface, ContainerFactoryPluginInterface, ContextAwarePluginInterface {
+abstract class JsonLdStrategyPluginBase extends PluginBase implements JsonLdStrategyInterface, ContainerFactoryPluginInterface {
 
   use ContextAwarePluginTrait;
 

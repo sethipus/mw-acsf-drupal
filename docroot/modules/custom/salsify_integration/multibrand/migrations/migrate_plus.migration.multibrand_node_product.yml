@@ -70,6 +70,10 @@ source:
       name: field_product_occasions
       label: 'Occasions'
       selector: 'field_product_occasions/0'
+    -
+      name: field_product_ranking
+      label: 'Ranking'
+      selector: 'field_product_ranking/0'
 
   ids:
     source_sku:
@@ -132,6 +136,10 @@ process:
     plugin: default_value
     default_value: ''
     source: field_product_market
+  field_product_ranking:
+    plugin: default_value
+    default_value: ''
+    source: field_product_ranking
   field_product_sku:
     plugin: skip_on_empty
     method: row
