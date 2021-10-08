@@ -109,6 +109,7 @@ class SearchQueryParserTest extends UnitTestCase {
         'bundle_weight' => 'ASC',
         'search_api_relevance' => 'DESC',
         'title' => 'ASC',
+        'field_product_ranking' => 'ASC'
       ],
     ];
     $this->assertEquals($expected, $filter);
