@@ -393,9 +393,9 @@ $fence-part-size: 1440px*2/101;
 
   @include medium {
     float: right;
-    right: 0;
+    right: 2%;
     height: auto;
-    bottom: 1rem;
+    bottom: 4%;
     width: 23%
   }
 
@@ -403,9 +403,9 @@ $fence-part-size: 1440px*2/101;
     float: right;
     height: auto;
     width: 3%;
-    min-width: 14%;
+    min-width: 16%;
     right: 3%;
-    bottom: 4rem;
+    bottom:4%;
   }
   
   @include larger{
@@ -419,5 +419,6 @@ $fence-part-size: 1440px*2/101;
   @include xl{
     right: 2%;
     height: auto;
+    bottom:7%;
   }
 }
