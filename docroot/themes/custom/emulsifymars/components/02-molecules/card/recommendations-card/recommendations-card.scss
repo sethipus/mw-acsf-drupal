@@ -69,7 +69,7 @@
   &-heading__link {
     @include set-font($font-type: 'primary-font');
 
-    color: clr(primary);
+    color: clr(primary, card-title, recommendations-card-title);
     text-decoration: none;
     font-size: 2.2rem;
     line-height: 2.42rem;
@@ -92,7 +92,7 @@
   &-time {
     @include set-font($font-type: 'secondary-font');
 
-    color: clr(primary);
+    color: clr(primary, card-title, recommendations-card-title);
     font-size: 1.6rem;
     line-height: 0.1rem;
     font-weight: bold;
