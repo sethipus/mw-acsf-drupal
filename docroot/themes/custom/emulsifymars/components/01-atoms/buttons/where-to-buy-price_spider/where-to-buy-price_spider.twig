@@ -11,11 +11,31 @@
  *
  */
 #}
-{% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
-{% set where_to_buy_type = ['price-spider'] %}
 
-{% if product_sku is not empty %}
-  <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname, where_to_buy_type) }}>
-    <div class="ps-widget" ps-config="{{ data_widget_id }}" ps-sku="{{ product_sku }}"></div>
-  </div>
+{% if price_spider_link_info.option == false or price_spider_link_info.option == "default" %}
+  {% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
+  {% set where_to_buy_type = ['price-spider'] %}
+  {% if product_sku is not empty %}
+    <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname, where_to_buy_type) }}>
+      <div class="ps-widget" ps-config="{{ data_widget_id }}" ps-sku="{{ product_sku }}"></div>
+    </div>
+  {% endif %}
+{% else %}
+  {% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
+  {% set where_to_buy_type = ['manual-link-selector'] %}
+  {% if price_spider_link_info is not empty %}
+    <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname, where_to_buy_type) }}>
+      {% include "@atoms/links/link/link.twig" with {
+        "link_content": price_spider_link_info.price_spider_button_name,
+        "link_url": price_spider_link_info.price_spider_button_url,
+        "link_attributes": {
+          target: '_self'
+        },
+        "link_extra_classes": ['where-to-buy-button']
+      } %}
+    </div>
+  {% endif %}
 {% endif %}
+
+
+
