@@ -208,6 +208,16 @@ function product_card_add_wtb_vars(array &$variables) {
         'button_style' => $variant->get('field_product_wtb_button_style')->value ?? $commerce_vendor_settings['button_style'],
       ];
     }
+    elseif (isset($variant) &&
+      $vendor == PdpHeroBlock::VENDOR_PRICE_SPIDER &&
+      !$variant->get('field_product_hide_wtb_link')->value) {
+      $sku = $product_helper->formatSku(trim($variant->get('field_product_sku')->value)) ?? '';
+      $variables['price_spider_link_info'] = [
+        'option' => isset($commerce_vendor_settings['option']) ? $commerce_vendor_settings['option'] : FALSE,
+        'price_spider_button_name' => isset($commerce_vendor_settings['price_spider_button_name']) ? $language_helper->translate($commerce_vendor_settings['price_spider_button_name']) : '',
+        'price_spider_button_url' => isset($commerce_vendor_settings['price_spider_button_url']) ? $language_helper->translate($commerce_vendor_settings['price_spider_button_url']) . '?ps-sku=' . $sku : '',
+      ];
+    }
   }
 }
 

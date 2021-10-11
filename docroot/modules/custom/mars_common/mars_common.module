@@ -179,6 +179,10 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'hover_color' => NULL,
         'cta_button_label' => NULL,
         'cta_button_target' => NULL,
+        'footer_logo_toogle' => NULL,
+        'footer_logo_alt' => NULL,
+        'footer_logo_id' => NULL,
+        'footer_logo_path' => NULL,
       ],
       'template' => 'footer-block',
     ],
@@ -200,6 +204,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'variables' => [
         'label' => '',
         'items' => [],
+        'social_feed_date_toggle' => NULL,
         'graphic_divider' => '',
         'brand_border' => '',
         'select_background_color' => NULL,
