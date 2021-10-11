@@ -48,7 +48,7 @@ class MultipackJsonFilter extends JsonFilter {
     $filtered_item = array_filter($item, function ($field_value, $field_key) {
       if (preg_match('/_' . $this->configuration['multipack_suffix'] . '$/', $field_key) &&
         !preg_match('/^field_product_image/', $field_key) &&
-        !empty($field_value)) {
+        !empty(reset($field_value))) {
 
         return TRUE;
       }

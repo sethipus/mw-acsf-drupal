@@ -64,6 +64,10 @@ source:
       label: 'Product Occasions'
       selector: 'field_product_occasions/0'
     -
+      name: field_product_ranking
+      label: 'Ranking'
+      selector: 'field_product_ranking/0'
+    -
       name: source_product_market
       label: 'Product Market'
       selector: 'field_product_market/0'
@@ -137,6 +141,10 @@ process:
     no_stub: true
   field_product_description/value: source_product_description
   field_product_name: source_product_name
+  field_product_ranking:
+    plugin: default_value
+    default_value: ''
+    source: field_product_ranking
   field_product_sku:
     plugin: skip_on_empty
     method: row

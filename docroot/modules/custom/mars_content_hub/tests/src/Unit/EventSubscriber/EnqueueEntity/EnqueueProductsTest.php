@@ -4,7 +4,7 @@ namespace Drupal\Tests\mars_content_hub\Unit\EventSubscriber\EnqueueEntity;
 
 use Acquia\ContentHubClient\Settings;
 use Drupal\acquia_contenthub_publisher\ContentHubPublisherEvents;
-use Drupal\mars_content_hub\Event\ContentHubEntityEligibilityEvent;
+use Drupal\acquia_contenthub_publisher\Event\ContentHubEntityEligibilityEvent;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\mars_content_hub\EventSubscriber\EnqueueEntity\EnqueueProducts;
 use Drupal\Tests\UnitTestCase;
@@ -108,7 +108,7 @@ class EnqueueProductsTest extends UnitTestCase {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->settingsMock = $this->createMock(Settings::class);
     $this->entityMock = $this->createMock(EntityInterface::class);
-    $this->contentHubEntityEligibilityEventMock = $this->createMock(\Drupal\acquia_contenthub_publisher\Event\ContentHubEntityEligibilityEvent::class);
+    $this->contentHubEntityEligibilityEventMock = $this->createMock(ContentHubEntityEligibilityEvent::class);
   }
 
 }
