@@ -113,7 +113,7 @@ class MarsCardColorSettingsForm extends ConfigFormBase {
       ];
       $form['select_background_color_' . $key] = [
         '#type' => 'select',
-        '#title' => $this->t('Select background color'),
+        '#title' => $this->t('Select background outer gradient color'),
         '#options' => [
           'default' => $this->t('Default'),
           'color_c' => 'Color C - ' . $color_c,
