@@ -3,6 +3,7 @@ import { useEffect } from '@storybook/client-api';
 
 import footerTwig from './site-footer/site-footer.twig';
 import siteHeader from './site-header/site-header.twig';
+import footerlogoTwig from '../../01-atoms/images/image/_footer_logo.twig'
 
 import footerSocial from '../../02-molecules/menus/social/social-menu.yml';
 import footerMenu from '../../02-molecules/menus/footer/footer-menu.yml';
