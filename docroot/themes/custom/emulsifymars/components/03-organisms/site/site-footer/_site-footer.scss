@@ -341,17 +341,21 @@ $fence-part-size: 1440px*2/101;
   @include medium {
     margin: 30px 0 10px;
     font-size: 2.6rem;
+    position: relative;
   }
 
   @include large {
     margin: 30px 0 10px;
     font-size: 2.8rem;
+    position: relative;
   }
 
   @include xl {
     flex-direction: row;
     justify-content: space-between;
     align-items: baseline;
+    display: inline-block;
+    position: relative;
   }
 
   .default-link {
@@ -365,11 +369,11 @@ $fence-part-size: 1440px*2/101;
   margin: 0 0 18px;
 }
 
-.footer-logo img {
+.footerLogo img {
   float: left;
   height: auto;
   width: 33%;
-  cursor: pointer;
+  cursor: default;
   position: absolute;
   bottom:0;
   z-index: 5;
@@ -380,6 +384,7 @@ $fence-part-size: 1440px*2/101;
     float: left;
     height: auto;
     width: 25%;
+    cursor: default;
   }
 
   @include small {
@@ -388,21 +393,40 @@ $fence-part-size: 1440px*2/101;
     float: left;
     height: auto;
     width: 19%;
+    cursor: default;
   }
 
   @include medium {
     float: right;
-    right: 0;
+    right: 2%;
     height: auto;
-    bottom: 1rem;
-    width: 23%
+    top : 54%;
+    width: 18%;
   }
 
   @include large {
     float: right;
     height: auto;
+    width: 3%;
+    min-width: 16%;
+    right: 0;
+    top:45%;
+    cursor: default;
+  }
+  
+  @include larger{
+    right : 0;
     width: 13%;
-    right: 2rem;
-    bottom: 2rem;
+    height: auto;
+    min-width:14%;
+    top:20%;
+    cursor: default;
+  }
+
+  @include xl{
+    right: 2%;
+    height: auto;
+    bottom:7%;
+    cursor: default;
   }
 }
