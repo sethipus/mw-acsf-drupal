@@ -1,5 +1,5 @@
-id: multibrand_node_product
-label: Product nodes (multibrand)
+id: multibrand_node_product_3
+label: Product nodes (multibrand _3)
 migration_group: multibrand
 migration_tags:
   - Node
@@ -8,14 +8,15 @@ migration_dependencies:
     - multibrand_term_product_category
     - multibrand_term_product_flavor
     - multibrand_term_product_format
-    - multibrand_node_product_variant
+    - multibrand_node_product_variant_3
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
-  data_parser_plugin: json_filter
+  data_parser_plugin: multipack_json_filter
   filter:
     - Drupal\salsify_integration\Filter
-    - isProduct
+    - isProductMultipackSuffixed
+  multipack_suffix: 3
   item_selector: /
   track_changes: true
   constants:
@@ -87,9 +88,9 @@ process:
     -
       plugin: migration_lookup_ids
       migration:
-        - multibrand_node_product_variant
+        - multibrand_node_product_variant_3
       source_ids:
-        multibrand_node_product_variant:
+        multibrand_node_product_variant_3:
           source_sku: source_sku
     -
       plugin: skip_on_empty
@@ -167,7 +168,7 @@ process:
     default_value: 1
   status:
     plugin: default_value
-    default_value: 1
+    default_value: 0
   langcode:
     plugin: salsify_i18n_process_language
     source: language
