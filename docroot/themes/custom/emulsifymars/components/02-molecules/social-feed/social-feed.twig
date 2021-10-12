@@ -47,7 +47,10 @@
       <div class="swiper-container social-feed-swiper-container">
         <div class="swiper-wrapper">
             {% for item in items %}
-              {% include "@molecules/slide/social-feed-slide/social-feed-slide.twig" with { item: item } %}
+              {% include "@molecules/slide/social-feed-slide/social-feed-slide.twig" with { 
+                item: item,
+                feed_date_toggle: social_feed_date_toggle,
+              } %}
             {% endfor %}
         </div>
       </div>

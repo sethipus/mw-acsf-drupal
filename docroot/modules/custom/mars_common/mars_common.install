@@ -208,7 +208,9 @@ function mars_common_update_8015() {
 }
 
 /**
- * Update jquery_colorpicker values for theme configurations. Add '#' to the values.
+ * Update jquery_colorpicker values for theme configurations.
+ *
+ * Add '#' to the values.
  */
 function mars_common_update_8018() {
   $color_fields_map = [
@@ -256,7 +258,9 @@ function mars_common_update_8021(&$sandbox = []) {
 }
 
 /**
- * Update jquery_colorpicker values for header and footer configurations. Add '#' to the values.
+ * Update jquery_colorpicker values for header and footer configurations.
+ *
+ * Add '#' to the values.
  */
 function mars_common_update_8023() {
   $blocks = [
