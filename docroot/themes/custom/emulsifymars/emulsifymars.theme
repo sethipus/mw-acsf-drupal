@@ -139,6 +139,13 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
   }
 
   $properties .= sprintf(" --c-card-background: %s;", $settings['card_background']);
+  // Card text overrides.
+  if (!empty($settings['card_title'])) {
+    $properties .= sprintf(" --c-card-title: %s;", '#FFFFFF');
+  }
+  if (!empty($settings['card_eyebrow'])) {
+    $properties .= sprintf(" --c-card-eyebrow: %s;", '#FFFFFF');
+  }
 
   $properties .= sprintf(" --v-heading-font: %s;", "DrupalHeadlineCampaignFont, Arial, Helvetica Neue, Helvetica, sans-serif");
   $properties .= sprintf(" --v-primary-font: %s;", "DrupalPrimaryTypefaceFont, Arial, Helvetica Neue, Helvetica, sans-serif");
