@@ -42,6 +42,8 @@ class ConfigFactoryOverride implements ConfigFactoryOverrideInterface {
     'cookie_banner',
     'cookie_banner_gradient',
     'card_background',
+    'card_title',
+    'card_eyebrow',
     'headline_font_path',
     'headline_font_mobile_letterspacing',
     'headline_font_tablet_letterspacing',
