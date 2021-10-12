@@ -7,6 +7,12 @@
     @include medium {
       height: 846px;
       background-color: clr(subcolor-3);
+      max-height: calc(100vh - 12rem); // medium site-header height
+    }
+
+    @include large {
+      max-height: calc(100vh - 16.2rem); // large site-header height
+      min-height: 300px;
     }
 
     @include xl {
