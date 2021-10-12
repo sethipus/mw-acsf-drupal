@@ -10,19 +10,17 @@ use Drupal\search_api\IndexInterface;
 
 /**
  * Implements hook_update_dependencies().
- *
- * @return array
  */
 function mars_search_update_dependencies() {
-  $dependencies['search_api_solr'][8200] = array(
+  $dependencies['search_api_solr'][8200] = [
     'mars_search' => 8003,
-  );
-  $dependencies['search_api_solr'][8331] = array(
+  ];
+  $dependencies['search_api_solr'][8331] = [
     'mars_search' => 8004,
-  );
-  $dependencies['search_api_solr'][8409] = array(
+  ];
+  $dependencies['search_api_solr'][8409] = [
     'mars_search' => 8005,
-  );
+  ];
   return $dependencies;
 }
 
@@ -173,4 +171,3 @@ function mars_search_entity_subqueue_presave(EntitySubqueueInterface $queue) {
     search_api_entity_update($node);
   }
 }
-
