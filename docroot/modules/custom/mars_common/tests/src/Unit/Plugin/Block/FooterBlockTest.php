@@ -14,6 +14,7 @@ use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\mars_common\ThemeConfiguratorService;
 
 /**
  * Class FooterBlockTest is responsible for footer component logic.
@@ -22,6 +23,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @covers \Drupal\mars_common\Plugin\Block\FooterBlock
  */
 class FooterBlockTest extends UnitTestCase {
+
+  /**
+   * Mock.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorService|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $themeConfiguratorServiceMock;
 
   /**
    * Mock.
@@ -149,6 +157,7 @@ class FooterBlockTest extends UnitTestCase {
       $this->configuration,
       'footer_block',
       $definitions,
+      $this->themeConfiguratorServiceMock,
       $this->entityTypeManagerMock,
       $this->languageHelperMock,
       $this->themeConfiguratorParserMock,
@@ -161,6 +170,7 @@ class FooterBlockTest extends UnitTestCase {
    * Create all mocks for tests.
    */
   private function createMocks(): void {
+    $this->themeConfiguratorServiceMock = $this->createMock(ThemeConfiguratorService::class);
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
@@ -180,9 +190,10 @@ class FooterBlockTest extends UnitTestCase {
    */
   public function testBlockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(5))
+      ->expects($this->exactly(6))
       ->method('get')
       ->withConsecutive(
+        [$this->equalTo('mars_common.theme_configurator_service')],
         [$this->equalTo('entity_type.manager')],
         [$this->equalTo('mars_common.language_helper')],
         [$this->equalTo('mars_common.theme_configurator_parser')],
@@ -190,6 +201,7 @@ class FooterBlockTest extends UnitTestCase {
         [$this->equalTo('config.factory')]
       )
       ->will($this->onConsecutiveCalls(
+        $this->themeConfiguratorServiceMock,
         $this->entityTypeManagerMock,
         $this->languageHelperMock,
         $this->themeConfiguratorParserMock,
@@ -229,7 +241,7 @@ class FooterBlockTest extends UnitTestCase {
       [],
       $this->formStateMock
     );
-    $this->assertCount(13, $config_form);
+    $this->assertCount(15, $config_form);
     $this->assertArrayHasKey('top_footer_menu', $config_form);
     $this->assertArrayHasKey('override_text_color', $config_form);
     $this->assertArrayHasKey('legal_links', $config_form);
@@ -283,7 +295,7 @@ class FooterBlockTest extends UnitTestCase {
 
     $build = $this->footerBlock->build();
 
-    $this->assertCount(17, $build);
+    $this->assertCount(22, $build);
     $this->assertArrayHasKey('#cache', $build);
     $this->assertArrayHasKey('#top_footer_menu', $build);
     $this->assertArrayHasKey('#legal_links', $build);

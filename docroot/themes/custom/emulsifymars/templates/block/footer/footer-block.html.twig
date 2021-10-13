@@ -14,6 +14,8 @@
 #}
 {% set logo_src = file_url(logo) %}
 {% set logo_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' | format(logo_src, logo_src, logo_src, logo_src) %}
+{% set footer_logo_src = footer_logo_path %}
+{% set footer_logo_src_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' | format(footer_logo_src, footer_logo_src, footer_logo_src, footer_logo_src) %}
 {% set corporate_tout_button = 'See all' | mt %}
 
 {% embed "@organisms/site/site-footer/site-footer.twig" with {
@@ -31,6 +33,11 @@
   brand_border: brand_border,
   footer_logo_link: url('<front>'),
   cta_button_label: cta_button_label,
+  cta_button_target: cta_button_target,
+  footer_logo_src: footer_logo_path,
+  footer_logo_src_srcset: footer_logo_src_srcset,
+  footer_logo_alt: footer_logo_alt,
+  footer_logo_toogle: footer_logo_toogle,
 } %}
 
   {% block footer__logo %}
@@ -77,6 +84,7 @@
 
 {% endembed %}
 
+{# Hidden custom cookie banner #}
 {% include "@molecules/cookie-banner/cookie-banner.twig" %}
 
 {% if text_color_override is not empty %}
@@ -94,3 +102,4 @@
     }
   </style>
 {% endif %}
+

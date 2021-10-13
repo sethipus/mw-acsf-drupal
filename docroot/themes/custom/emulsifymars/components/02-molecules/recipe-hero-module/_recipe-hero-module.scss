@@ -1,7 +1,7 @@
+
 $xl-column-width: ((1360px - 330px) / 12);
 $xl-gap-width: 30px;
 $xl-left-margin: 11.583rem;
-
 
 .recipe-header {
   position: relative;
@@ -69,7 +69,7 @@ $xl-left-margin: 11.583rem;
     line-height: 1;
     color: clr(primary);
     text-align: center;
-    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75, 0, 0.25, 0);
 
     @include medium {
       font-size: 1.6rem;
@@ -83,7 +83,7 @@ $xl-left-margin: 11.583rem;
     line-height: 1;
     color: clr(primary);
     text-align: center;
-    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75, 0, 0.25, 0);
     max-width: 1128px;
     margin: 3rem auto 3rem;
 
@@ -108,15 +108,17 @@ $xl-left-margin: 11.583rem;
     max-width: calc(100vw - 80px);
   }
 
-  @include xl {
+  @include large {
     max-width: 1360px;
+  }
 
+  @include xl {
     .ambient-video__control[data-state="play"] {
       top: 20px;
       right: 20px;
     }
 
-    .ambient-video__control[data-state="pause"] {
+    .ambient-video__control[data-state='pause'] {
       top: 20px;
       right: 20px;
     }
@@ -137,7 +139,7 @@ $xl-left-margin: 11.583rem;
   &__info {
     position: relative;
 
-    @include xl {
+    @include large {
       position: absolute;
       left: 0;
       bottom: 0;
@@ -170,7 +172,7 @@ $xl-left-margin: 11.583rem;
 
   &__border {
     position: absolute;
-    width:100%;
+    width: 100%;
     transform: translateY(-100%) translateY($brand-border-offset);
 
     svg {
@@ -316,7 +318,7 @@ $xl-left-margin: 11.583rem;
   }
 
   &:first-child {
-    @include xl {
+    @include large {
       padding-left: 0;
     }
   }
@@ -328,7 +330,7 @@ $xl-left-margin: 11.583rem;
 }
 
 .recipe-info {
-  padding: 24px 20px 0;
+  padding: 24px 20px 0; //Text alignment is not proper on mobile.
 
   @include medium {
     padding: 42px 40px 0;
@@ -342,7 +344,7 @@ $xl-left-margin: 11.583rem;
 
   &__text,
   &__social {
-    max-width: #{$xl-column-width*6 + $xl-gap-width*5};
+    max-width: #{$xl-column-width * 6 + $xl-gap-width * 5};
   }
 
   &__text {
@@ -359,11 +361,14 @@ $xl-left-margin: 11.583rem;
       max-width: 100%;
     }
 
-    @include xl {
+    @include large {
       font-size: 20px;
       line-height: 1.8em;
-      margin-left: 116px;
       max-width: 665px;
+    }
+
+    @include xl {
+      margin-left: 116px;
     }
   }
 
@@ -382,22 +387,29 @@ $xl-left-margin: 11.583rem;
       max-width: 100%;
     }
 
-    @include xl {
+    @include large {
       margin-top: 52px;
       margin-bottom: 28px;
-      margin-left: 116px;
       max-width: 665px;
     }
 
+    @include xl {
+      margin-left: 116px;
+    }
+
     .social-menu {
-      margin: 0;
+      margin: 0 0 1rem;
       display: flex;
       flex-flow: row nowrap;
       align-items: center;
+      
+      @include medium {
+        margin:0;
+      }
     }
     .social-info__text {
       font-size: 1.6rem;
-      line-height: 3em;
+      line-height: 2.4rem;
       flex-direction: column;
       color: var(--c-primary);
     }
@@ -409,11 +421,13 @@ $xl-left-margin: 11.583rem;
     font-size: 1.6rem;
     line-height: 1.1;
     color: clr(primary);
-    margin-right: 30px;
+    margin-right: 3rem;
+    margin-bottom:1rem;
 
     @include medium {
       font-size: 18px;
       line-height: 1;
+      margin-bottom:0;
     }
 
     @include xl {

@@ -24,7 +24,7 @@ const getCookieData = name => {
 window.onload = () => {
     if(getCookieData('OptanonAlertBoxClosed') == null && false)
     {
-        $('.cookie-parent-div').slideDown('slow');	
+        $('.cookie-parent-div').slideDown('slow');
         $('.cookie-parent-div').css('display','flex');
 
         $('#cookie-banner-settings').click(() => {
@@ -33,9 +33,9 @@ window.onload = () => {
         });
 
         $('#onetrust-close-btn-container').click(() => {
-            $('.cookie-parent-div').slideUp('slow');	
+            $('.cookie-parent-div').slideUp('slow');
         });
-        
+
         $('.cookie-banner-close-button').click(() => {
             closeCookieBanner();
         });
@@ -44,9 +44,29 @@ window.onload = () => {
             closeCookieBanner();
         });
     }
+
+    $('#onetrust-banner-sdk').on('load', addImageBorder());
 };
 
 const closeCookieBanner = () => {
     document.cookie = "OptanonAlertBoxClosed="+new Date().toISOString();
-    $('.cookie-parent-div').slideUp('slow');	
+    $('.cookie-parent-div').slideUp('slow');
+}
+
+const addImageBorder = () => {
+    const $oneTrust = document.querySelector('#onetrust-consent-sdk');
+    const $banner = document.querySelector('#onetrust-banner-sdk');
+    const $bannerImageBorder = document.querySelector('.cookie-banner__border');
+
+    if ($oneTrust === null || $banner === null || $bannerImageBorder === null) {
+      // If the banner hasn't loaded, call again in a second.
+      setTimeout(() => {
+        addImageBorder()
+      }, 1000);
+      return;
+    }
+
+    $banner.insertAdjacentElement('afterbegin', $bannerImageBorder);
+    $oneTrust.dataset.theme = "drupal";
+    $oneTrust.classList.add('--loaded');
 }

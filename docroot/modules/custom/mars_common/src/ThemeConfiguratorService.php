@@ -276,36 +276,104 @@ class ThemeConfiguratorService {
       throughout the site. Must be AA compliant.'),
     ];
 
-    $form['color_settings']['top_nav'] = [
+    $form['color_settings']['header'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Header Colors'),
+    ];
+
+    $form['color_settings']['header']['top_nav'] = [
       '#type'          => 'jquery_colorpicker',
-      '#title'         => $this->t('Top part of the header/footer'),
+      '#title'         => $this->t('Header color'),
       '#default_value' => $this->getColorData('top_nav', $config),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents
-      throughout the site. Must be AA compliant.'),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to color C.'),
     ];
 
-    $form['color_settings']['top_nav_gradient'] = [
+    $form['color_settings']['header']['top_nav_gradient'] = [
       '#type'          => 'jquery_colorpicker',
-      '#title'         => $this->t('Top part of the header/footer gradient color'),
+      '#title'         => $this->t('Header gradient color'),
       '#default_value' => $this->getColorData('top_nav_gradient', $config),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents
-      throughout the site. Must be AA compliant.'),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Header color.'),
     ];
 
-    $form['color_settings']['bottom_nav'] = [
+    $form['color_settings']['footer'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Footer Colors'),
+    ];
+
+    $form['color_settings']['footer']['footer_top'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Top part of footer color'),
+      '#default_value' => $this->getColorData('footer_top', $config),
+      '#description'   => $this->t('If this field is left empty, it falls back to header color.'),
+      '#attributes' => ['class' => ['show-clear']],
+    ];
+
+    $form['color_settings']['footer']['footer_top_gradient'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Top part of footer gradient.'),
+      '#default_value' => $this->getColorData('footer_top_gradient', $config),
+      '#description'   => $this->t('If this field is left empty, it falls back to the top part of the footer color.  If top part of the footer is empty, it falls back to the header gradient color.  If the header gradient color is empty, it falls back to the header color.'),
+      '#attributes' => ['class' => ['show-clear']],
+    ];
+
+    $form['color_settings']['footer']['bottom_nav'] = [
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Bottom part of the footer'),
       '#default_value' => $this->getColorData('bottom_nav', $config),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents
-       throughout the site. Must be AA compliant.'),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color A.'),
     ];
 
-    $form['color_settings']['card_background'] = [
+    $form['color_settings']['cookie_banner_settings'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Cookie Banner Colors'),
+    ];
+
+    $form['color_settings']['cookie_banner_settings']['cookie_banner'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Outer gradient of the cookie banner'),
+      '#default_value' => $this->getColorData('cookie_banner', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color B.'),
+    ];
+
+    $form['color_settings']['cookie_banner_settings']['cookie_banner_gradient'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Inner gradient of the cookie banner'),
+      '#default_value' => $this->getColorData('cookie_banner_gradient', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color B.'),
+    ];
+
+
+    $form['color_settings']['card'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Card Colors'),
+    ];
+
+    $form['color_settings']['card']['card_background'] = [
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Card Background'),
       '#default_value' => $this->getColorData('card_background', $config),
-      '#description'   => $this->t('If gradient check box is checked, use HEX
-      color with white to create radial gradient.'),
+      '#description'   => $this->t('To set the outer gradient, use this form: <a href="@url">here</a>.', ['@url' => $GLOBALS['base_url'] . '/admin/config/card-color-settings']),
+    ];
+
+    $form['color_settings']['card']['card_title'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Card Title'),
+      '#default_value' => $this->getColorData('card_title', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color A.'),
+    ];
+
+    $form['color_settings']['card']['card_eyebrow'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Card Eyebrow'),
+      '#default_value' => $this->getColorData('card_eyebrow', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color A.'),
     ];
 
     $form['font_settings'] = [

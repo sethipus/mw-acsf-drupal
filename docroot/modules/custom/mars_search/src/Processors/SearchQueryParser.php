@@ -170,6 +170,7 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
       'options_logic' => 'AND',
       'keys' => '',
       'sort' => [
+        'field_product_ranking' => QueryInterface::SORT_ASC,
         'bundle_weight' => QueryInterface::SORT_ASC,
         'search_api_relevance' => QueryInterface::SORT_DESC,
         'title' => QueryInterface::SORT_ASC,
