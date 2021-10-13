@@ -95,14 +95,57 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
   $properties .= sprintf(" --c-subcolor-2-rgb: %s;", hex2_rgb($settings['color_d'], TRUE));
   $properties .= sprintf(" --c-subcolor-3-rgb: %s;", hex2_rgb($settings['color_e'], TRUE));
   $properties .= sprintf(" --c-subcolor-4-rgb: %s;", hex2_rgb($settings['color_f'], TRUE));
-  $properties .= sprintf(" --c-top-nav: %s;", $settings['top_nav']);
-  $properties .= sprintf(" --c-top-nav-gradient: %s;", $settings['top_nav_gradient']);
-  $properties .= sprintf(" --c-footer-top: %s;", $settings['footer_top']);
-  $properties .= sprintf(" --c-footer-top-gradient: %s;", $settings['footer_top_gradient']);
-  $properties .= sprintf(" --c-bottom-nav: %s;", $settings['bottom_nav']);
-  $properties .= sprintf(" --c-cookie-banner: %s;", $settings['cookie_banner']);
-  $properties .= sprintf(" --c-cookie-banner-gradient: %s;", $settings['cookie_banner_gradient']);
+
+  // Top nav falls back to color C.
+  if (!empty($settings['top_nav'])) {
+    $properties .= sprintf(" --c-top-nav: %s;", $settings['top_nav']);
+  }
+  else {
+    $properties .= sprintf(" --c-top-nav: %s;", $settings['color_c']);
+  }
+
+  if (!empty($settings['top_nav_gradient'])) {
+    $properties .= sprintf(" --c-top-nav-gradient: %s;", $settings['top_nav_gradient']);
+  }
+
+  if (!empty($settings['footer_top'])) {
+    $properties .= sprintf(" --c-footer-top: %s;", $settings['footer_top']);
+  }
+
+  if (!empty($settings['footer_top_gradient'])) {
+    $properties .= sprintf(" --c-footer-top-gradient: %s;", $settings['footer_top_gradient']);
+  }
+
+  // Bottom nav falls back to color A.
+  if (!empty($settings['bottom_nav'])) {
+    $properties .= sprintf(" --c-bottom-nav: %s;", $settings['bottom_nav']);
+  }
+  else {
+    $properties .= sprintf(" --c-bottom-nav: %s;", $settings['color_a']);
+  }
+
+  if (!empty($settings['cookie_banner'])) {
+    $properties .= sprintf(" --c-cookie-banner: %s;", $settings['cookie_banner']);
+  }
+  else {
+    $properties .= sprintf(" --c-cookie-banner: %s;", $settings['color_b']);
+  }
+
+  if (!empty($settings['cookie_banner_gradient'])) {
+    $properties .= sprintf(" --c-cookie-banner-gradient: %s;", $settings['cookie_banner_gradient']);
+  }
+  else {
+    $properties .= sprintf(" --c-cookie-banner-gradient: %s;", $settings['color_b']);
+  }
+
   $properties .= sprintf(" --c-card-background: %s;", $settings['card_background']);
+  // Card text overrides.
+  if (!empty($settings['card_title'])) {
+    $properties .= sprintf(" --c-card-title: %s;", '#FFFFFF');
+  }
+  if (!empty($settings['card_eyebrow'])) {
+    $properties .= sprintf(" --c-card-eyebrow: %s;", '#FFFFFF');
+  }
 
   $properties .= sprintf(" --v-heading-font: %s;", "DrupalHeadlineCampaignFont, Arial, Helvetica Neue, Helvetica, sans-serif");
   $properties .= sprintf(" --v-primary-font: %s;", "DrupalPrimaryTypefaceFont, Arial, Helvetica Neue, Helvetica, sans-serif");

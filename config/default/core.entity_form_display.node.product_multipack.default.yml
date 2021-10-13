@@ -13,6 +13,7 @@ dependencies:
     - field.field.node.product_multipack.field_product_name
     - field.field.node.product_multipack.field_product_occasions
     - field.field.node.product_multipack.field_product_pack_items
+    - field.field.node.product_multipack.field_product_ranking
     - field.field.node.product_multipack.field_product_segment
     - field.field.node.product_multipack.field_product_trade_description
     - field.field.node.product_multipack.field_product_variants
@@ -202,6 +203,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: entity_reference_autocomplete
+    region: content
+  field_product_ranking:
+    weight: 28
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
     region: content
   field_product_segment:
     type: string_textfield

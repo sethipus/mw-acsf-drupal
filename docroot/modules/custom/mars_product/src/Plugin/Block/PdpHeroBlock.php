@@ -862,6 +862,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       if ($this->getCommerceVendor() == self::VENDOR_MANUAL_LINK_SELECTION && !$product_variant->get('field_product_hide_wtb_link')->value) {
         $item['wtb_manual_link_info'] = $this->getManualLinkInfo($product_variant);
       }
+      elseif ($this->getCommerceVendor() == self::VENDOR_PRICE_SPIDER && !$product_variant->get('field_product_hide_wtb_link')->value) {
+        $item['price_spider_link_info'] = $this->getManualPriceSpiderLinkInfo($product_variant);
+      }
       $items[] = $item;
     }
 
@@ -884,6 +887,24 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'button_url' => $product_variant->get('field_product_wtb_button_url')->value ?? $this->languageHelper->translate($global_config['button_url']),
       'button_new_tab' => $product_variant->get('field_product_wtb_new_tab')->value ?? $global_config['button_new_tab'],
       'button_style' => $product_variant->get('field_product_wtb_button_style')->value ?? $global_config['button_style'],
+    ];
+  }
+
+  /**
+   * Get PriceSpider WTB manual link attributes.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $product_variant
+   *   Product variant node.
+   *
+   * @return array
+   *   Manual link attributes.
+   */
+  private function getManualPriceSpiderLinkInfo(ContentEntityInterface $product_variant): array {
+    $global_config = $this->getCommerceVendorInfo(self::VENDOR_PRICE_SPIDER);
+    return [
+      'option' => isset($global_config['option']) ? $global_config['option'] : FALSE,
+      'price_spider_button_name' => isset($global_config['price_spider_button_name']) ? $this->languageHelper->translate($global_config['price_spider_button_name']) : '',
+      'price_spider_button_url' => isset($global_config['price_spider_button_url']) ? $this->languageHelper->translate($global_config['price_spider_button_url']) . '?ps-sku=' . $this->productHelper->formatSku($product_variant->get('field_product_sku')->value) : '',
     ];
   }
 
@@ -955,6 +976,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ];
       if ($this->getCommerceVendor() == self::VENDOR_MANUAL_LINK_SELECTION && !$product_variant->get('field_product_hide_wtb_link')->value) {
         $item['wtb_manual_link_info'] = $this->getManualLinkInfo($product_variant);
+      }
+      elseif ($this->getCommerceVendor() == self::VENDOR_PRICE_SPIDER && !$product_variant->get('field_product_hide_wtb_link')->value) {
+        $item['price_spider_link_info'] = $this->getManualPriceSpiderLinkInfo($product_variant);
       }
       $items[] = $item;
     }

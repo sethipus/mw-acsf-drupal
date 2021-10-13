@@ -6,7 +6,6 @@ use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginBase;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginTrait;
 use Drupal\Core\Routing\UrlGeneratorInterface;
@@ -16,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Base class for Mars JSON LD Strategy plugins.
  */
-abstract class JsonLdStrategyPluginBase extends PluginBase implements JsonLdStrategyInterface, ContainerFactoryPluginInterface, ContextAwarePluginInterface {
+abstract class JsonLdStrategyPluginBase extends PluginBase implements JsonLdStrategyInterface, ContainerFactoryPluginInterface {
 
   use ContextAwarePluginTrait;
 

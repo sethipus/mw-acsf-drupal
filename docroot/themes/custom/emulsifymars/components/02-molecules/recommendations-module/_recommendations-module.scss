@@ -125,7 +125,7 @@
 
   :not(.swiper-button-lock) ~ .swiper-container .swiper-slide.is-in-viewport { // skip img zoom if all items on the screen (no prev/next buttons)
     .product-card__image img {
-      transform: scale(1.1);
+      transition: transform cubic-bezier(0.75, 0, 0.25, 0) 0.8s, opacity .25s ease-in;
     }
 
     .product-card__img-hover img {

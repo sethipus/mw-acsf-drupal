@@ -179,6 +179,10 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'hover_color' => NULL,
         'cta_button_label' => NULL,
         'cta_button_target' => NULL,
+        'footer_logo_toogle' => NULL,
+        'footer_logo_alt' => NULL,
+        'footer_logo_id' => NULL,
+        'footer_logo_path' => NULL,
       ],
       'template' => 'footer-block',
     ],
@@ -200,6 +204,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'variables' => [
         'label' => '',
         'items' => [],
+        'social_feed_date_toggle' => NULL,
         'graphic_divider' => '',
         'brand_border' => '',
         'select_background_color' => NULL,
@@ -1871,5 +1876,14 @@ function mars_common_mail_alter(&$message) {
     $message["subject"] = $grocery_list_subject;
     $message["body"] = $render;
     $message['headers']['Content-Type'] = SWIFTMAILER_FORMAT_HTML;
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for jquery_colorpicker templates.
+ */
+function mars_common_preprocess_jquery_colorpicker(&$vars) {
+  if (!empty($vars['attributes']['class']) && in_array('show-clear', $vars['attributes']['class'])) {
+    $vars['show_clear'] = TRUE;
   }
 }

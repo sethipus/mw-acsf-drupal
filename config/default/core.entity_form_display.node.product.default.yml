@@ -15,6 +15,7 @@ dependencies:
     - field.field.node.product.field_product_name
     - field.field.node.product.field_product_new
     - field.field.node.product.field_product_occasions
+    - field.field.node.product.field_product_ranking
     - field.field.node.product.field_product_segment
     - field.field.node.product.field_product_trade_description
     - field.field.node.product.field_product_variants
@@ -213,6 +214,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: options_select
+    region: content
+  field_product_ranking:
+    weight: 26
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
     region: content
   field_product_segment:
     weight: 7
