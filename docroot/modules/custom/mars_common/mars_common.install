@@ -208,7 +208,9 @@ function mars_common_update_8015() {
 }
 
 /**
- * Update jquery_colorpicker values for theme configurations. Add '#' to the values.
+ * Update jquery_colorpicker values for theme configurations.
+ *
+ * Add '#' to the values.
  */
 function mars_common_update_8018() {
   $color_fields_map = [
@@ -226,6 +228,8 @@ function mars_common_update_8018() {
     'cookie_banner_gradient',
     'bottom_nav',
     'card_background',
+    'card_title',
+    'card_eyebrow',
   ];
 
   $config = \Drupal::service('config.factory')->getEditable('emulsifymars.settings');
@@ -254,7 +258,9 @@ function mars_common_update_8021(&$sandbox = []) {
 }
 
 /**
- * Update jquery_colorpicker values for header and footer configurations. Add '#' to the values.
+ * Update jquery_colorpicker values for header and footer configurations.
+ *
+ * Add '#' to the values.
  */
 function mars_common_update_8023() {
   $blocks = [
@@ -368,5 +374,16 @@ function mars_common_update_8026() {
   $config = $config_factory->getEditable('emulsifymars.settings');
   $config->set('cookie_banner', $config->get('color_b'), '');
   $config->set('cookie_banner_gradient', $config->get('color_b'), '');
+  $config->save(TRUE);
+}
+
+/**
+ * Add card color fields to theme configurator.
+ */
+function mars_common_update_8027() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('emulsifymars.settings');
+  $config->set('card_title', $config->get('color_a'), '');
+  $config->set('card_eyebrow', $config->get('color_a'), '');
   $config->save(TRUE);
 }

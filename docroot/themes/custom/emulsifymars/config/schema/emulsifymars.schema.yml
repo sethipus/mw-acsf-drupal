@@ -28,6 +28,12 @@ color_f:
 card_background:
   type: text
   label: 'Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+card_title:
+  type: text
+  label: 'Card Title'
+card_eyebrow:
+  type: text
+  label: 'Card Eyebrow'
 top_nav:
   type: text
   label: 'Footer top part Color. Will be used for visual accents throughout the site. Must be AA compliant.'

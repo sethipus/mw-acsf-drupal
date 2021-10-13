@@ -1,5 +1,5 @@
-id: multibrand_node_product
-label: Product nodes (multibrand)
+id: multibrand_node_product_5
+label: Product nodes (multibrand _5)
 migration_group: multibrand
 migration_tags:
   - Node
@@ -8,14 +8,15 @@ migration_dependencies:
     - multibrand_term_product_category
     - multibrand_term_product_flavor
     - multibrand_term_product_format
-    - multibrand_node_product_variant
+    - multibrand_node_product_variant_5
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
-  data_parser_plugin: json_filter
+  data_parser_plugin: multipack_json_filter
   filter:
     - Drupal\salsify_integration\Filter
-    - isProduct
+    - isProductMultipackSuffixed
+  multipack_suffix: 5
   item_selector: /
   track_changes: true
   constants:
@@ -73,10 +74,6 @@ source:
       name: field_product_occasions
       label: 'Occasions'
       selector: 'field_product_occasions/0'
-    -
-      name: field_product_ranking
-      label: 'Ranking'
-      selector: 'field_product_ranking/0'
 
   ids:
     source_sku:
@@ -91,9 +88,9 @@ process:
     -
       plugin: migration_lookup_ids
       migration:
-        - multibrand_node_product_variant
+        - multibrand_node_product_variant_5
       source_ids:
-        multibrand_node_product_variant:
+        multibrand_node_product_variant_5:
           source_sku: source_sku
     -
       plugin: skip_on_empty
@@ -139,10 +136,6 @@ process:
     plugin: default_value
     default_value: ''
     source: field_product_market
-  field_product_ranking:
-    plugin: default_value
-    default_value: ''
-    source: field_product_ranking
   field_product_sku:
     plugin: skip_on_empty
     method: row
@@ -175,7 +168,7 @@ process:
     default_value: 1
   status:
     plugin: default_value
-    default_value: 1
+    default_value: 0
   langcode:
     plugin: salsify_i18n_process_language
     source: language
