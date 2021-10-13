@@ -57,7 +57,7 @@
 
           isMonthValid = month > 0 && month < 13;
           isDayValid = ((year % 4) == 0 && (month == 2)) ? (day > 0 && day <= 29) // if year is leap
-            : ( isMonthValid ? (day > 0 && day <= monthLength[month]) : (day > 0 && day <= 31)); // if month is not valid then day should be > 0 and <= 31
+            : ( isMonthValid ? (day > 0 && day <= monthLength[month - 1]) : (day > 0 && day <= 31)); // if month is not valid then day should be > 0 and <= 31
           isYearValid = year >= 1900 && year <= new Date().getFullYear();
 
           if (!isDayValid) {
