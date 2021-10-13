@@ -172,9 +172,9 @@
           if (videoElements('control')) {
             videoElements('control').addEventListener('click', function (e) {
               if (videoElements('control').getAttribute('data-state') == 'play') {
-                handleFullscreen(videoContainer, videoElements);
-                videoElements('video').muted = false;
                 videoElements('video').play();
+                changeButtonState(videoElements, 'control');
+                videoElements('video').muted = false;
               }
               else if (videoElements('control').getAttribute('data-state') == 'pause') {
                 videoElements('video').pause();
