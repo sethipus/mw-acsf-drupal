@@ -7,13 +7,18 @@ dependencies:
     - node.type.product
     - node.type.product_multipack
     - node.type.recipe
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
 id: node.recipe.field_product_reference
 field_name: field_product_reference
 entity_type: node
 bundle: recipe
 label: Product
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -25,6 +30,7 @@ settings:
       product_multipack: product_multipack
     sort:
       field: _none
+      direction: ASC
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: product
 field_type: entity_reference
