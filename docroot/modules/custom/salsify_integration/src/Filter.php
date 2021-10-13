@@ -23,9 +23,9 @@ class Filter {
    * Check if row is product multipack.
    */
   public static function isProductMultipackSuffixed($item) {
-    return isset($item[static::FIELD_VARIETY_USED]) &&
-      !empty($item[static::FIELD_VARIETY_USED] &&
-        strtolower(reset($item[static::FIELD_VARIETY_USED]))) == 'yes';
+    return (isset($item[static::FIELD_VARIETY_USED]) &&
+      !empty($item[static::FIELD_VARIETY_USED]) &&
+      (strtolower(reset($item[static::FIELD_VARIETY_USED])) == 'yes'));
   }
 
   /**
