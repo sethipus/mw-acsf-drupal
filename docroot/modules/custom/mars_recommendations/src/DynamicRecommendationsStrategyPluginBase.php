@@ -2,7 +2,6 @@
 
 namespace Drupal\mars_recommendations;
 
-use Drupal;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
