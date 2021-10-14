@@ -61,7 +61,7 @@ class SalsifyJson extends Json {
     // Convert objects to associative arrays.
     $source_data = json_decode($response, TRUE);
     $brand_name = $this->config->get('salsify_multichannel_approach.' . ConfigForm::BRAND_NAME);
-    $brand_name_trimmed = trim($brand_name);
+    $brand_name_trimmed = $this->brandConfigToArray($brand_name);
     // Check is brand name established in
     // configuration.
     if (!empty($brand_name_trimmed)) {
@@ -69,7 +69,7 @@ class SalsifyJson extends Json {
         $product_brand_name = isset($source_data[$key]['field_brand_name']) ? reset($source_data[$key]['field_brand_name']) : '';
         // Unset products without brand field or
         // not equals to brand from configuration.
-        if (strtolower($product_brand_name) != strtolower($brand_name_trimmed)) {
+        if (!in_array(strtolower($product_brand_name), $brand_name_trimmed)) {
           unset($source_data[$key]);
         }
       }
@@ -94,6 +94,23 @@ class SalsifyJson extends Json {
       }
     }
     return $source_data;
+  }
+
+  /**
+   * Convert string brand name value to array.
+   *
+   * @param string $brand_name
+   *   Brand name config value.
+   *
+   * @return array
+   *   Array of brand names.
+   */
+  private function brandConfigToArray(string $brand_name): array {
+    $brand_name_trimmed = explode(', ', trim($brand_name));
+
+    return array_map(function ($value) {
+      return strtolower($value);
+    }, $brand_name_trimmed);
   }
 
 }

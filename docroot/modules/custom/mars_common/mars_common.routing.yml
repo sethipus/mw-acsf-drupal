@@ -35,7 +35,7 @@ mars_common.card_color_settings:
   path: '/admin/config/card-color-settings'
   defaults:
     _form: '\Drupal\mars_common\Form\MarsCardColorSettingsForm'
-    _title: 'Card Color Settings'
+    _title: 'Card Outer Gradient Settings'
   requirements:
     _permission: 'administer site configuration'
 
