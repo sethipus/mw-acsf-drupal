@@ -1,0 +1,28 @@
+uuid: dc8b83ba-e3c7-4c9b-b38f-2aee76684337
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_ranking
+    - node.type.product_multipack
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_multipack.field_product_ranking
+field_name: field_product_ranking
+entity_type: node
+bundle: product_multipack
+label: Ranking
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
