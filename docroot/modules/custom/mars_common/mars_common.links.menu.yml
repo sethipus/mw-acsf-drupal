@@ -13,8 +13,8 @@ mars_common.admin.emails_configuration:
   weight: 100
 
 mars_common.admin.card_color_settings:
-  title: 'MARS Card background color settings'
-  description: 'Background settings for cards'
+  title: 'MARS Card background gradient settings'
+  description: 'Background gradient settings for cards'
   parent: system.admin_config_system
   route_name: mars_common.card_color_settings
   weight: 100

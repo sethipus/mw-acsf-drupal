@@ -47,7 +47,7 @@
   &-heading__link {
     @include set-font($font-type: 'primary-font');
 
-    color: clr(primary);
+    color: clr(primary, card-title, article-card-title);
     text-decoration: none;
     font-size: 4rem;
     line-height: 4.4rem;
@@ -64,7 +64,7 @@
     @include set-font($font-type: 'secondary-font');
 
     word-break: break-word;
-    color: clr(primary);
+    color: clr(primary, card-title, article-card-title);
     font-size: 1.6rem;
     line-height: 2.24rem;
     flex-grow: 1;
@@ -94,7 +94,7 @@
   .eyebrow {
     @include set-font($font-type: 'primary-font');
 
-    color: clr(primary);
+    color: clr(primary, card-eyebrow, article-card-eyebrow);
     text-align: center;
     margin-top: 0;
     margin-bottom: 1rem;
@@ -109,7 +109,7 @@
     .eyebrow,
     .article-card-heading__link,
     .article-card-paragraph--xs {
-      color: clr(subcolor-3);
+      color: clr(subcolor-3, card-title, article-card-title);
     }
 
     .bg-image {
