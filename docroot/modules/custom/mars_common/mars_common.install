@@ -387,3 +387,15 @@ function mars_common_update_8027() {
   $config->set('card_eyebrow', $config->get('color_a'), '');
   $config->save(TRUE);
 }
+
+/**
+ * Add cookie_banner_text field to theme configurator.
+ */
+function mars_common_update_8028() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('emulsifymars.settings');
+  $config->set('cookie_banner_text', $config->get('color_a'), '');
+  $config->set('cookie_banner_text', $config->get('color_a'), '');
+  $config->set('cookie_banner_brand_border', FALSE);
+  $config->save(TRUE);
+}

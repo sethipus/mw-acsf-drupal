@@ -138,6 +138,14 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
     $properties .= sprintf(" --c-cookie-banner-gradient: %s;", $settings['color_b']);
   }
 
+  if (!empty($settings['cookie_banner_text'])) {
+    $properties .= sprintf(" --c-cookie-banner-text: %s;", $settings['cookie_banner_text']);
+  }
+
+  if (!empty($settings['cookie_banner_close'])) {
+    $properties .= sprintf(" --c-cookie-banner-close: %s;", $settings['cookie_banner_close']);
+  }
+
   $properties .= sprintf(" --c-card-background: %s;", $settings['card_background']);
   // Card text overrides.
   if (!empty($settings['card_title'])) {
