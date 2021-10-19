@@ -789,7 +789,9 @@ class ConfigForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Brand name'),
       '#description' => $this->t(
-        'Fill out the brand name in the case when you use one channel for many brands in other cases please leave it empty.',
+        'Fill out the brand name in the case when you use one channel for
+        many brands in other cases please leave it empty. For example: "brand_one"
+        or "brand_one, brand_two"',
       ),
       '#default_value' => $config->get(self::SALSIFY_MULTICHANNEL_APPROACH . '.' . static::BRAND_NAME),
     ];

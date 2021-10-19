@@ -2,14 +2,47 @@
 
 namespace Drupal\mars_product\Form;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
+use Drupal\mars_common\LanguageHelper;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Where to buy config form class.
  */
 class WtbConfigForm extends ConfigFormBase {
+
+  /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
+   * WtbConfigForm constructor.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The configuration factory.
+   * @param \Drupal\mars_common\LanguageHelper $language_helper
+   *   The language helper service.
+   */
+  public function __construct(ConfigFactoryInterface $config_factory, LanguageHelper $language_helper) {
+    parent::__construct($config_factory);
+    $this->languageHelper = $language_helper;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+      $container->get('mars_common.language_helper'),
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -134,6 +167,41 @@ class WtbConfigForm extends ConfigFormBase {
           '#states' => [
             'required' => [
               [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
+            ],
+          ],
+        ];
+        $fieldset['option'] = [
+          '#type' => 'radios',
+          '#title' => $this->t('Where to buy options'),
+          '#options' => [
+            'default' => $this->t('Price spider modal window (default)'),
+            'cta_button' => $this->t('Cta button with product GTIN parameter'),
+          ],
+          '#default_value' => !empty($config['settings']['option']) ? $config['settings']['option'] : 'default',
+          '#states' => [
+            'required' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
+            ],
+          ],
+        ];
+        $fieldset['price_spider_button_name'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Button name'),
+          '#default_value' => !empty($config['settings']['price_spider_button_name']) ? $this->languageHelper->translate($config['settings']['price_spider_button_name']) : '',
+          '#states' => [
+            'visible' => [
+              [':input[name="price_spider[option]"]' => ['value' => 'cta_button']],
+            ],
+          ],
+        ];
+        $fieldset['price_spider_button_url'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Button URL'),
+          '#default_value' => !empty($config['settings']['price_spider_button_url']) ? $this->languageHelper->translate($config['settings']['price_spider_button_url']) : '',
+          '#description' => $this->languageHelper->translate('Please use relative path like /where-to-buy.'),
+          '#states' => [
+            'visible' => [
+              [':input[name="price_spider[option]"]' => ['value' => 'cta_button']],
             ],
           ],
         ];
@@ -276,7 +344,7 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['button_name'] = [
           '#type' => 'textfield',
           '#title' => $this->t('Button name'),
-          '#default_value' => !empty($config['settings']['button_name']) ? $config['settings']['button_name'] : '',
+          '#default_value' => !empty($config['settings']['button_name']) ? $this->languageHelper->translate($config['settings']['button_name']) : '',
           '#states' => [
             'required' => [
               [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_MANUAL_LINK_SELECTION]],
@@ -286,7 +354,7 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['button_url'] = [
           '#type' => 'textfield',
           '#title' => $this->t('Button URL'),
-          '#default_value' => !empty($config['settings']['button_url']) ? $config['settings']['button_url'] : '',
+          '#default_value' => !empty($config['settings']['button_url']) ? $this->languageHelper->translate($config['settings']['button_url']) : '',
           '#states' => [
             'required' => [
               [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_MANUAL_LINK_SELECTION]],

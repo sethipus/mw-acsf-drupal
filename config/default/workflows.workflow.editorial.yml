@@ -88,6 +88,15 @@ type_settings:
         - draft
         - restored_to_draft
         - review
+    skip_review:
+      label: 'Skip Review'
+      from:
+        - draft
+        - published
+        - restored_to_draft
+        - review
+      to: published
+      weight: 7
   entity_types:
     node:
       - about_page

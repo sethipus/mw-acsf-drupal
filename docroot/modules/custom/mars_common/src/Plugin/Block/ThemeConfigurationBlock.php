@@ -90,8 +90,14 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
         'color_f' => NULL,
         'top_nav' => NULL,
         'top_nav_gradient' => NULL,
+        'footer_top' => NULL,
+        'footer_top_gradient' => NULL,
+        'cookie_banner' => NULL,
+        'cookie_banner_gradient' => NULL,
         'bottom_nav' => NULL,
         'card_background' => NULL,
+        'card_title' => NULL,
+        'card_eyebrow' => NULL,
       ],
       'social' => NULL,
       'icons_settings' => NULL,
@@ -143,7 +149,26 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
     $font_fields = $this->themeConfiguratorService->getFontFields();
     $form_state_values = $form_state->getValues();
 
-    // Collapse these values to match structure.
+    // Because UpdateBlockForm sets #tree to true for the whole config form,
+    // the values are nested and don't match the expected structure.  We need to flatten them.
+
+    // Collapse these values to match structure of theme configurator.
+    $fieldsets = [
+      'header',
+      'footer',
+      'card',
+      'cookie_banner_settings',
+    ];
+    foreach ($fieldsets as $fieldset) {
+      if (!empty($form_state_values['color_settings'][$fieldset])) {
+        foreach ($form_state_values['color_settings'][$fieldset] as $key => $value) {
+          $form_state_values['color_settings'][$key] = $value;
+        }
+        unset($form_state_values['color_settings'][$fieldset]);
+      }
+    }
+
+    // Collapse these values to match structure of theme configurator.
     if (!empty($form_state_values['logo']['settings'])) {
       foreach ($form_state_values['logo']['settings'] as $key => $value) {
         $form_state_values['logo'][$key] = $value;

@@ -26,6 +26,17 @@
 
     ol {
       padding: 0;
+
+      // Special breakpoint specifically made for the
+      // recipe card to fit side-by-side with the recipe
+      // list on smaller screens.
+      @media (min-width: 1130px){
+        min-height: 320px;
+      }
+
+      @include xl {
+        min-height: 250px;
+      }
     }
   }
 

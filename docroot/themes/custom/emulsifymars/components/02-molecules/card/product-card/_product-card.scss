@@ -99,7 +99,7 @@
   .eyebrow {
     @include set-font($font-type: 'primary-font');
 
-    color: clr(primary);
+    color: clr(primary, card-eyebrow, product-card-eyebrow);
     padding-top: 3rem;
     text-align: center;
     margin: 0 0 -1rem; /* marging-bottom = 2rem in total */
@@ -179,7 +179,7 @@
   &__title {
     @include set-font($font-type: 'primary-font');
 
-    color: clr(primary);
+    color: clr(primary, card-title, product-card-title);
     font-size: 2.2rem;
     line-height: 1.1;
     margin: 2rem 3rem 0.5rem;
@@ -214,7 +214,7 @@
     .score {
       @include set-font($font-type: 'secondary-font');
 
-      color: clr(primary);
+      color: clr(primary, card-title, product-card-title);
       font-size: 1.4rem;
     }
   }

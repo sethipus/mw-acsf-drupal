@@ -1,0 +1,11 @@
+name: 'MARS Salsify Multibrand integration'
+description: Salsify integration module for multibrand channel.
+package: 'Mars Salsify'
+type: module
+core_version_requirement: '^8.8 || ^9'
+dependencies:
+  - salsify_integration:salsify_integration
+  - drupal:migrate
+  - migrate_file:migrate_file
+  - migrate_plus:migrate_plus
+  - migrate_tools:migrate_tools
