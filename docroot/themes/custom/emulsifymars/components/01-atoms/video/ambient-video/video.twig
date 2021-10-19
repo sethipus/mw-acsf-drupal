@@ -8,7 +8,7 @@
 <figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }}
   data-fullscreen="false"
   data-video-flag="Background">
-  <video {{ bem('main', [], video__base_class) }} data-object-fit="cover">
+  <video {{ bem('main', [], video__base_class) }} data-object-fit="cover" playsinline>
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>
   {% if video__control == true %}
