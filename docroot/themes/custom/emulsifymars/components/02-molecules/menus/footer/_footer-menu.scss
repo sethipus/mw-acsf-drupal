@@ -5,9 +5,13 @@
   flex-wrap: wrap;
   margin-top: 10px;
 
-  @include desktop {
+  @include large {
     height: 100%;
     align-items: center;
+    margin-left: 2.9rem;
+  }
+
+  @include larger {
     margin-left: 12.5rem;
   }
 }
@@ -16,11 +20,11 @@
   flex: 0 1 50%;
   margin: 0 0 26px 0;
 
-  @include tablet {
+  @include medium {
     flex: 0 0 33%;
   }
 
-  @include desktop {
+  @include large {
     flex: 0 1 auto;
     margin: 0 60px 0 0;
   }
