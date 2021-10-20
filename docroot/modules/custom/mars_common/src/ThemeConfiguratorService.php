@@ -328,7 +328,7 @@ class ThemeConfiguratorService {
 
     $form['color_settings']['cookie_banner_settings'] = [
       '#type' => 'fieldset',
-      '#title' => $this->t('Cookie Banner Colors'),
+      '#title' => $this->t('Cookie Banner Settings'),
     ];
 
     $form['color_settings']['cookie_banner_settings']['cookie_banner'] = [
@@ -347,6 +347,27 @@ class ThemeConfiguratorService {
       '#description'   => $this->t('If this field is left empty, it falls back to Color B.'),
     ];
 
+    $form['color_settings']['cookie_banner_settings']['cookie_banner_text'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Cookie banner text color'),
+      '#default_value' => $this->getColorData('cookie_banner_text', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color A.'),
+    ];
+
+    $form['color_settings']['cookie_banner_settings']['cookie_banner_close'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Cookie banner close icon color'),
+      '#default_value' => $this->getColorData('cookie_banner_close', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to cookie banner text color.'),
+    ];
+
+    $form['color_settings']['cookie_banner_settings']['cookie_banner_brand_border'] = [
+      '#type' => 'checkbox',
+      '#title'         => $this->t('Show brand border on cookie banner'),
+      '#default_value' => $this->getData('cookie_banner_settings', 'cookie_banner_brand_border', $config),
+    ];
 
     $form['color_settings']['card'] = [
       '#type' => 'fieldset',

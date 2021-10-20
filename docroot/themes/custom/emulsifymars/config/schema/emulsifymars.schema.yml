@@ -48,13 +48,22 @@ footer_top_gradient:
   label: 'Footer top gradient color.'
 bottom_nav:
   type: text
-  label: 'Footer bottom part Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+  label: 'Footer bottom part Color.'
 cookie_banner:
   type: text
-  label: 'Cookie banner inner radial Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+  label: 'Cookie banner inner radial color.'
 cookie_banner_gradient:
   type: text
-  label: 'Cookie banner outer radial Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+  label: 'Cookie banner outer radial color.'
+cookie_banner_text:
+  type: text
+  label: 'Cookie banner text color.'
+cookie_banner_close:
+  type: text
+  label: 'Cookie banner close icon color.'
+cookie_banner_brand_border:
+  type: text
+  label: 'Cookie banner brand border.'
 
 # Font.
 # ----------------------------

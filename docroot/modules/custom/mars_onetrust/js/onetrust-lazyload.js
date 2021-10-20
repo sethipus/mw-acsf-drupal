@@ -56,9 +56,8 @@ const closeCookieBanner = () => {
 const addImageBorder = () => {
     const $oneTrust = document.querySelector('#onetrust-consent-sdk');
     const $banner = document.querySelector('#onetrust-banner-sdk');
-    const $bannerImageBorder = document.querySelector('.cookie-banner__border');
 
-    if ($oneTrust === null || $banner === null || $bannerImageBorder === null) {
+    if ($oneTrust === null || $banner === null) {
       // If the banner hasn't loaded, call again in a second.
       setTimeout(() => {
         addImageBorder()
@@ -66,7 +65,11 @@ const addImageBorder = () => {
       return;
     }
 
-    $banner.insertAdjacentElement('afterbegin', $bannerImageBorder);
+    const $bannerImageBorder = document.querySelector('.cookie-banner__border');
+
+    if ($bannerImageBorder) {
+      $banner.insertAdjacentElement('afterbegin', $bannerImageBorder);
+    }
     $oneTrust.dataset.theme = "drupal";
     $oneTrust.classList.add('--loaded');
 }
