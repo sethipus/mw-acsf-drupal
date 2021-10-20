@@ -4,7 +4,7 @@
 {% endif %}
 
 <div {{ bem(cookie_banner__base_class, cookie_banner__modifiers) }} data-theme="{{ theme_styles }}">
-  {% if brand_border is not empty %}
+  {% if brand_border is not empty and cookie_banner_brand_border %}
     {% block brand_border %}
       <div {{  bem('border', [], cookie_banner__base_class)  }}>
         {{ brand_border | raw }}

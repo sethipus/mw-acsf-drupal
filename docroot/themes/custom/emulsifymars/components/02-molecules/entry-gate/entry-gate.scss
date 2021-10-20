@@ -63,6 +63,7 @@
   &__inner-content-wrapper {
     position: relative;
     margin: 0;
+    padding: 1rem;
 
     @include xs {
       padding: 3rem;
@@ -73,7 +74,7 @@
     }
 
     @include large {
-      padding: 6rem 11rem 3rem;
+      padding: 2rem 4rem 1rem;
     }
   }
 
@@ -145,7 +146,7 @@
     margin: 0 0 2rem;
 
     @include xs {
-      font-size: 4rem;
+      font-size: 3rem;
       line-height: 4rem;
     }
 
@@ -156,8 +157,8 @@
     }
 
     @include large {
-      margin-bottom: 3rem;
-      font-size: 6.4rem;
+      margin-bottom: 1rem;
+      font-size: 5rem;
       line-height: 6.4rem;
       height: auto;
     }
@@ -168,7 +169,7 @@
 
     color: clr(primary);
     margin: 0 0 4rem 0;
-    padding-bottom: 4rem;
+    padding-bottom: 2rem;
     border-bottom: 1px solid #c4c4c4;
     line-height: 1.4;
 
@@ -189,7 +190,7 @@
     font-size: 1.8rem;
     line-height: 2.5rem;
     font-weight: 600;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
 
     @include medium {
       font-size: 1.6rem;
