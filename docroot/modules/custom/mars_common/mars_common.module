@@ -165,6 +165,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'logo' => NULL,
         'logo_alt' => NULL,
         'brand_border' => NULL,
+        'cookie_banner_brand_border' => NULL,
         'social_links' => NULL,
         'top_footer_menu' => NULL,
         'legal_links' => NULL,

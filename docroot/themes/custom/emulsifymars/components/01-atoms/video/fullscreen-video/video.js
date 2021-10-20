@@ -39,7 +39,6 @@
 
         if (!isPopupOpened) {
           videoElements('video').play();
-          videoElements('video').removeAttribute("playsinline");
         } else {
           videoElements('video').pause();
         };
