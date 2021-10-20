@@ -109,16 +109,5 @@
       width: 25%;
       margin-right: 0;
     }
-
-    & > section,
-    & > article {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-
-      @include large {
-        width: 304px;
-      }
-    }
   }
 }

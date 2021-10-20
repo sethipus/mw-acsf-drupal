@@ -283,13 +283,14 @@
       margin-top: 0;
     }
 
-    .where-to-buy.price-spider {
+    .where-to-buy {
 
       @include large {
         flex-grow: 0;
       }
 
-      .ps-widget {
+      .ps-widget,
+      .text_link {
         @include large {
           line-height: 3.6rem;
           min-width: 8.9px;
