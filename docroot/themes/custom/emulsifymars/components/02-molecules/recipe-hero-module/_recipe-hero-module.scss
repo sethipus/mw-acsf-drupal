@@ -100,16 +100,13 @@ $xl-left-margin: 11.583rem;
 }
 
 .recipe-media {
-  max-width: calc(100vw - 40px);
   margin: auto;
   position: relative;
+  max-width: 1360px;
+  width: calc(100% - 40px);
 
   @include medium {
-    max-width: calc(100vw - 80px);
-  }
-
-  @include large {
-    max-width: 1360px;
+    width: calc(100% - 80px);
   }
 
   @include xl {
