@@ -209,7 +209,7 @@
     &--sticky {
       margin: 0;
       padding-right: 3.2rem;
-      color: clr(primary);
+      color: clr(primary, card-title, product-card-title);
       line-height: 1;
     }
   }
@@ -229,14 +229,18 @@
     }
 
     @include large {
-      font-size: 4.8rem;
+      font-size: 3.6rem;
       margin-top: 2.7rem;
       margin-bottom: 3.6rem;
     }
 
+    @include larger {
+      font-size: 4.8rem;
+    }
+
     &--sticky {
       margin: 0;
-      color: clr(primary);
+      color: clr(primary, card-title, product-card-title);
       font-size: 1.6rem;
 
       @include medium {
