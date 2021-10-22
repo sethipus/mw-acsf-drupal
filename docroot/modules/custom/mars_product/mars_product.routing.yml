@@ -2,20 +2,20 @@ mars_product.where_to_buy.configuration:
   path: '/admin/config/services/where_to_buy'
   defaults:
     _form: 'Drupal\mars_product\Form\WtbConfigForm'
-    _title: 'Where to buy global settigns'
+    _title: 'Where to buy: global settings'
   requirements:
     _permission: 'administer site configuration'
 mars_product.nutrition_table.configuration:
   path: '/admin/config/user-interface/nutrition_table'
   defaults:
     _form: 'Drupal\mars_product\Form\NutritionConfigForm'
-    _title: 'Nutrition table global settigns'
+    _title: 'Nutrition table: global settings'
   requirements:
     _permission: 'administer site configuration'
 mars_product.bazaarvoice_info:
   path: '/admin/config/services/bazaarvoice'
   defaults:
     _form: 'Drupal\mars_product\Form\BazaarvoiceConfigForm'
-    _title: 'Bazaarvoice settigns'
+    _title: 'Bazaarvoice settings'
   requirements:
     _permission: 'administer site configuration'
