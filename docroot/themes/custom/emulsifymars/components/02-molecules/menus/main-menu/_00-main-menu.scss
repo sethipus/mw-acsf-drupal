@@ -54,6 +54,10 @@ $main-menu-medium: $medium;
   @include list-reset;
 
   @include large {
+    margin: 0 5.6rem 0 0;
+  }
+
+  @include larger {
     margin: 0 5.6rem;
   }
 }

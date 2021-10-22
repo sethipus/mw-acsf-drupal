@@ -30,7 +30,7 @@
 
   @include large {
     display: inline-block;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     line-height: 1;
     padding: $space-one-and-half $space-triple;
     text-transform: none;
@@ -50,6 +50,10 @@
         transform: scaleX(-1);
       }
     }
+  }
+
+  @include larger {
+    font-size: 1.8rem;
   }
 
   &--with-sub {
