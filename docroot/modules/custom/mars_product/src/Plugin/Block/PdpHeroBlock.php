@@ -486,6 +486,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#title' => $this->t('Daily value information text'),
       '#default_value' => $this->configuration['nutrition']['daily_text'],
     ];
+    $form['nutrition']['other_nutrients_text'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Source of other nutrients text'),
+      '#default_value' => $this->configuration['nutrition']['other_nutrients_text'],
+    ];
     $form['nutrition']['refer_text'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Refer part text'),
@@ -636,6 +641,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'The % Daily Value (DV) tells you how much a nutrient in a serving of food' .
         ' contributes to a daily diet. 2,000 calories a day is used for general advice.'
       );
+    $other_nutrients_text = $this->languageHelper->translate(
+      'Not a significant source of other nutrients.'
+    );
 
     return [
       'label_display' => FALSE,
@@ -653,6 +661,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
         'added_sugars_label' => $config['nutrition']['added_sugars_label'] ?? $this->languageHelper->translate('Includes'),
         'daily_text' => $config['nutrition']['daily_text'] ?? $daily_text,
+        'other_nutrients_text' => $config['nutrition']['other_nutrients_text'] ?? $other_nutrients_text,
         'refer_text' => $config['nutrition']['refer_text'] ?? $this->languageHelper->translate(
             'Please refer to the product label for the most accurate nutrition, ingredient, and allergen information.'),
         'benefits_title' => $config['nutrition']['benefits_title'] ?? '',
@@ -748,6 +757,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'nutritional_info_daily_label' => $this->languageHelper->translate($this->configuration['nutrition']['daily_label']) ?? '',
         'vitamins_info_label' => $this->languageHelper->translate($this->configuration['nutrition']['vitamins_label']) . ':' ?? '',
         'daily_text' => $this->languageHelper->translate($this->configuration['nutrition']['daily_text']) ?? '',
+        'other_nutrients_text' => $this->languageHelper->translate($this->configuration['nutrition']['other_nutrients_text']) ?? '',
         'refer_text' => $this->languageHelper->translate($this->configuration['nutrition']['refer_text']) ?? '',
         'benefits_title' => $this->languageHelper->translate($this->configuration['nutrition']['benefits_title']) ?? '',
         'benefits_disclaimer' => !empty($this->configuration['nutrition']['benefits_disclaimer']['value']) ? $this->languageHelper->translate($this->configuration['nutrition']['benefits_disclaimer']['value']) : '',
@@ -1106,7 +1116,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $result_item = [
       'ingredients_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value), '<strong>'),
       'warnings_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_allergen_warnings')->value)),
+      'legal_warnings_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_legal_warnings')->value)),
       'hide_dialy_value_column' => TRUE,
+      'show_other_nutrients_text' => $this->showOtherNutrientsText($node, $field_prefix),
     ];
     if ($field_prefix == 'product') {
       $result_item['serving_size'] = [
@@ -1477,6 +1489,27 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $serv_per_cont = $this->configFactory->get('mars_product.nutrition_table_settings')->get('servings_per_container');
     $servings_per_container = !empty($serv_per_cont) ? $this->languageHelper->translate($serv_per_cont) : $this->languageHelper->translate($node->get('field_product_servings_per')->getFieldDefinition()->getLabel()) . ':';
     return $servings_per_container;
+  }
+
+  /**
+   * Check for should be text rendered or not.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   Product entity.
+   * @param string $field_prefix
+   *   Field prefix.
+   *
+   * @return bool
+   *   Whether it should be rendered or not.
+   */
+  private function showOtherNutrientsText(NodeInterface $node, string $field_prefix): bool {
+    $show_other_nutrients_text = $this->configFactory
+      ->get('mars_product.nutrition_table_settings')
+      ->get('show_other_nutrients_text');
+
+    $sugar_alc = $node->get('field_' . $field_prefix . '_sugar_alcohol')->value;
+
+    return ($show_other_nutrients_text && isset($sugar_alc) && !empty($sugar_alc));
   }
 
 }

@@ -260,6 +260,30 @@
             </dd>
           </dl>
         </div>
+        <div {{ bem('section-column', [], pdp_nutrition_base_class) }}>
+          <dl {{ bem('section-column-list', ['additional-info', 'upper'], pdp_nutrition_base_class) }}>
+            <dd {{ bem('section-column-item', ['additional-info', 'upper'], pdp_nutrition_base_class, ['bold']) }}>
+              {% include "@atoms/text/text/07-span.twig" with {
+                span_content: pdp_nutrition_data.serving_item.legal_warnings_value,
+                span_base_class: pdp_nutrition_value_base_class,
+                span_blockname: pdp_nutrition_base_class,
+              } %}
+            </dd>
+          </dl>
+        </div>
+        {% if pdp_nutrition_data.serving_item.show_other_nutrients_text %}
+          <div {{ bem('section-column', [], pdp_nutrition_base_class) }}>
+            <dl {{ bem('section-column-list', ['additional-info'], pdp_nutrition_base_class) }}>
+              <dd {{ bem('section-column-item', ['additional-info'], pdp_nutrition_base_class, ['bold']) }}>
+                {% include "@atoms/text/text/07-span.twig" with {
+                  span_content: pdp_common_nutrition_data.other_nutrients_text,
+                  span_base_class: pdp_nutrition_value_base_class,
+                  span_blockname: pdp_nutrition_base_class,
+                } %}
+              </dd>
+            </dl>
+          </div>
+        {% endif %}
         <!-- Data of Column 2 Ends -->
       </div>
       <!-- Nutrition Column 2 Ends -->
