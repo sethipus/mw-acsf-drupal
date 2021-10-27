@@ -231,11 +231,11 @@
     font-size: 0; // reset to remove extra height
 
     @include large {
-      left: 2.1rem;
-      right: 2.1rem;
+      left: 0.5rem;
+      right: 0.5rem;
       bottom: 5.3rem;
-      flex-direction: column;
-      justify-content: left;
+      justify-content: space-between;
+      align-items: end;
     }
 
     @include xl {
@@ -276,13 +276,16 @@
     @include large {
       padding-left: 0;
       margin-top: 1rem;
+      flex-grow: 0;
     }
 
     @include xl {
       padding-left: 1rem;
       margin-top: 0;
+      flex-grow: 1;
     }
 
+    .where-to-buy.price-spider,
     .where-to-buy {
 
       @include large {
@@ -302,6 +305,7 @@
             height: auto;
             font-size: 1rem;
             line-height: 3.6rem;
+            min-width: 8.9px;
           }
         }
 
@@ -310,6 +314,13 @@
           min-width: 13.3px;
           font-size: 1.4rem;
           height: 5rem;
+
+          &:hover {
+            height: 5rem;
+            font-size: 1.4rem;
+            line-height: 5rem;
+            min-width: 13.3px;
+          }
         }
       }
     }
