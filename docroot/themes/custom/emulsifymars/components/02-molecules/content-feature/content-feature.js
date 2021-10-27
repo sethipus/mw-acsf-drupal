@@ -52,7 +52,15 @@
 
               const parallaxOverflow = containerHeight * parallaxCoef;
               const positionOffset = (parallaxOverflow / 2) * parallaxEffectPercentage;
-              parallaxImage.style.transform = `translateY(${positionOffset}px)`;
+              
+              // max of 20% shift on image
+              const getValue = function(input) {
+                const min = 0;
+                const max = 20;
+                return (input * (max - min) / 100) + min;
+              };
+
+              parallaxImage.style.transform = `translateY(${ getValue(parallaxEffectPercentage * 100) }%)`;
             }
             else {
               isParallaxActive = false;
