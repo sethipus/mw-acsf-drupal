@@ -25,6 +25,7 @@ dependencies:
     - field.field.node.product_variant.field_dual_ingredients
     - field.field.node.product_variant.field_dual_iron
     - field.field.node.product_variant.field_dual_iron_daily
+    - field.field.node.product_variant.field_dual_legal_warnings
     - field.field.node.product_variant.field_dual_ltd_calories
     - field.field.node.product_variant.field_dual_monounsaturated_fa
     - field.field.node.product_variant.field_dual_niacin
@@ -98,6 +99,7 @@ dependencies:
     - field.field.node.product_variant.field_product_iron_daily
     - field.field.node.product_variant.field_product_key_image
     - field.field.node.product_variant.field_product_key_image_override
+    - field.field.node.product_variant.field_product_legal_warnings
     - field.field.node.product_variant.field_product_ltd_calories
     - field.field.node.product_variant.field_product_monounsaturated_fa
     - field.field.node.product_variant.field_product_niacin
@@ -199,6 +201,7 @@ third_party_settings:
         - field_product_allergen_warnings
         - field_product_reference_intake
         - field_product_ingredients
+        - field_product_legal_warnings
       parent_name: group_product_variant
       weight: 33
       format_type: accordion_item
@@ -501,6 +504,7 @@ third_party_settings:
       children:
         - field_dual_allergen_warnings
         - field_dual_ingredients
+        - field_dual_legal_warnings
       parent_name: group_product_variant
       weight: 37
       format_type: accordion_item
@@ -725,6 +729,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_dual_legal_warnings:
+    weight: 104
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
     region: content
   field_dual_ltd_calories:
     weight: 62
@@ -1016,7 +1028,7 @@ content:
     type: options_select
     region: content
   field_product_allergen_warnings:
-    weight: 14
+    weight: 13
     settings:
       rows: 5
       placeholder: ''
@@ -1143,7 +1155,7 @@ content:
     type: text_textarea
     region: content
   field_product_diet_allergens:
-    weight: 13
+    weight: 12
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -1388,6 +1400,14 @@ content:
       field_widget_replace: false
     region: content
     third_party_settings: {  }
+  field_product_legal_warnings:
+    weight: 16
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
   field_product_ltd_calories:
     weight: 22
     settings:

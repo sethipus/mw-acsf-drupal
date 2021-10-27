@@ -43,6 +43,9 @@
       margin: auto;
       width: 100%;
       object-fit: cover;
+      will-change: transform;
+
+      img { transform: scale(1.2); }
     }
   }
 
