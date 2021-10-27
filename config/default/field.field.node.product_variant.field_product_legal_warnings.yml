@@ -1,0 +1,25 @@
+uuid: 4740d041-bf0f-4d01-9680-b8a5f78f3e77
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_legal_warnings
+    - node.type.product_variant
+  module:
+    - text
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_legal_warnings
+field_name: field_product_legal_warnings
+entity_type: node
+bundle: product_variant
+label: 'Legal warnings'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,25 @@
+uuid: 3648d656-98bf-48fe-ac6b-eed7ceca0ca5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dual_legal_warnings
+    - node.type.product_variant
+  module:
+    - text
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_dual_legal_warnings
+field_name: field_dual_legal_warnings
+entity_type: node
+bundle: product_variant
+label: 'Dual legal warnings'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
