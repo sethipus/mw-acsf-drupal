@@ -21,8 +21,12 @@ source:
   fields:
     -
       name: source_allergen_warnings
-      label: ' Allergen Statement'
+      label: 'Allergen Statement'
       selector: 'field_product_allergen_warnings/0'
+    -
+      name: source_leagal_warnings
+      label: 'Legal warnings'
+      selector: 'field_product_legal_warnings/0'
     -
       name: source_key_image
       label: 'CMS: Image 1'
@@ -428,6 +432,10 @@ source:
       label: 'Dual allergen warnings'
       selector: 'field_dual_allergen_warnings/0'
     -
+      name: field_dual_legal_warnings
+      label: 'Dual legal warnings'
+      selector: 'field_dual_legal_warnings/0'
+    -
       name: field_dual_added_sugars_daily
       label: 'Dual added sugars daily'
       selector: 'field_dual_added_sugars_daily/0'
@@ -764,6 +772,10 @@ process:
     plugin: default_value
     default_value: ''
     source: field_dual_allergen_warnings
+  field_dual_legal_warnings:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_legal_warnings
   field_dual_added_sugars_daily:
     plugin: default_value
     default_value: ''
@@ -820,6 +832,10 @@ process:
     no_stub: true
   'field_product_allergen_warnings/value': source_allergen_warnings
   'field_product_allergen_warnings/format':
+    plugin: default_value
+    default_value: rich_text
+  'field_product_legal_warnings/value': source_leagal_warnings
+  'field_product_legal_warnings/format':
     plugin: default_value
     default_value: rich_text
   'field_product_ingredients/value': source_ingredients
