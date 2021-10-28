@@ -82,7 +82,7 @@ class LHResizableImageUriTest extends UnitTestCase {
    */
   public function shouldAddResizeWidthToRelativeUrl() {
     $relativeUrl = '/relative/url/to/image.jpg';
-    $expectedUrl = '/cdn-cgi/image/width=315,f=auto,quality=95/relative/url/to/image.jpg';
+    $expectedUrl = '/cdn-cgi/image/width=315,f=auto,quality=90/relative/url/to/image.jpg';
     $url = CFResizableImageUri::createFromUriString($relativeUrl);
 
     $url = $url->resizeByWidth('315');
@@ -97,7 +97,7 @@ class LHResizableImageUriTest extends UnitTestCase {
    */
   public function shouldAddResizeHeightToRelativeUrl() {
     $relativeUrl = '/relative/url/to/image.jpg';
-    $expectedUrl = '/cdn-cgi/image/height=315,f=auto,quality=95/relative/url/to/image.jpg';
+    $expectedUrl = '/cdn-cgi/image/height=315,f=auto,quality=90/relative/url/to/image.jpg';
     $url = CFResizableImageUri::createFromUriString($relativeUrl);
 
     $url = $url->resizeByHeight('315');
@@ -112,7 +112,7 @@ class LHResizableImageUriTest extends UnitTestCase {
    */
   public function shouldAddResizeHeightAndWidthToRelativeUrl() {
     $relativeUrl = '/relative/url/to/image.jpg';
-    $expectedUrl = '/cdn-cgi/image/width=100,height=300,f=auto,quality=95/relative/url/to/image.jpg';
+    $expectedUrl = '/cdn-cgi/image/width=100,height=300,f=auto,quality=90/relative/url/to/image.jpg';
     $url = CFResizableImageUri::createFromUriString($relativeUrl);
 
     $url = $url->resize('100', '300');
@@ -127,7 +127,7 @@ class LHResizableImageUriTest extends UnitTestCase {
    */
   public function shouldAddResizeHeightAndWidthWithDprToRelativeUrl() {
     $relativeUrl = '/relative/url/to/image.jpg';
-    $expectedUrl = '/cdn-cgi/image/width=100,height=300,dpr=2,f=auto,quality=95/relative/url/to/image.jpg';
+    $expectedUrl = '/cdn-cgi/image/width=100,height=300,dpr=2,f=auto,quality=90/relative/url/to/image.jpg';
     $url = CFResizableImageUri::createFromUriString($relativeUrl);
 
     $url = $url->resizeWithHighDpr('100', '300', '2');
@@ -142,7 +142,7 @@ class LHResizableImageUriTest extends UnitTestCase {
    */
   public function shouldAddResizeHeightAndWidthWithGravityToRelativeUrl() {
     $relativeUrl = '/relative/url/to/image.jpg';
-    $expectedUrl = '/cdn-cgi/image/width=100,height=300,fit=cover,g=auto,f=auto,quality=95/relative/url/to/image.jpg';
+    $expectedUrl = '/cdn-cgi/image/width=100,height=300,fit=cover,g=auto,f=auto,quality=90/relative/url/to/image.jpg';
     $url = CFResizableImageUri::createFromUriString($relativeUrl);
 
     $url = $url->resizeWithGravity('100', '300');
@@ -157,7 +157,7 @@ class LHResizableImageUriTest extends UnitTestCase {
    */
   public function shouldAddResizeWidthToAbsoluteUrl() {
     $absolutePath = 'http://domain.hu/relative/url/to/image.jpg';
-    $expectedUrl = 'http://domain.hu/cdn-cgi/image/width=315,f=auto,quality=95/relative/url/to/image.jpg';
+    $expectedUrl = 'http://domain.hu/cdn-cgi/image/width=315,f=auto,quality=90/relative/url/to/image.jpg';
     $url = CFResizableImageUri::createFromUriString($absolutePath);
 
     $url = $url->resizeByWidth('315');
@@ -172,7 +172,7 @@ class LHResizableImageUriTest extends UnitTestCase {
    */
   public function shouldAddResizeHeightToAbsoluteUrl() {
     $absolutePath = 'http://domain.hu/relative/url/to/image.jpg';
-    $expectedUrl = 'http://domain.hu/cdn-cgi/image/height=315,f=auto,quality=95/relative/url/to/image.jpg';
+    $expectedUrl = 'http://domain.hu/cdn-cgi/image/height=315,f=auto,quality=90/relative/url/to/image.jpg';
     $url = CFResizableImageUri::createFromUriString($absolutePath);
 
     $url = $url->resizeByHeight('315');
@@ -187,7 +187,7 @@ class LHResizableImageUriTest extends UnitTestCase {
    */
   public function shouldAddResizeWidthAndHeightToAbsoluteUrl() {
     $absolutePath = 'http://domain.hu/relative/url/to/image.jpg';
-    $expectedUrl = 'http://domain.hu/cdn-cgi/image/width=100,height=300,f=auto,quality=95/relative/url/to/image.jpg';
+    $expectedUrl = 'http://domain.hu/cdn-cgi/image/width=100,height=300,f=auto,quality=90/relative/url/to/image.jpg';
     $url = CFResizableImageUri::createFromUriString($absolutePath);
 
     $url = $url->resize('100', '300');
@@ -202,7 +202,7 @@ class LHResizableImageUriTest extends UnitTestCase {
    */
   public function fromMultipleResizesOnlyTheLastShouldBeApplied() {
     $absolutePath = 'http://domain.hu/relative/url/to/image.jpg';
-    $expectedUrl = 'http://domain.hu/cdn-cgi/image/height=10,f=auto,quality=95/relative/url/to/image.jpg';
+    $expectedUrl = 'http://domain.hu/cdn-cgi/image/height=10,f=auto,quality=90/relative/url/to/image.jpg';
     $url = CFResizableImageUri::createFromUriString($absolutePath);
 
     $url = $url
