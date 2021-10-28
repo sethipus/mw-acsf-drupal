@@ -7,7 +7,7 @@
 <div {{ bem(search_container_base_class, [results_exist_modifier], '') }}>
   {% if search_results %}
     {% include "@atoms/text/text/01-paragraph.twig" with {
-      paragraph_content: 'Results'|mt ~ ':',
+      paragraph_content: 'Results'|mt ~ ' :',
       paragraph_base_class: 'results__text'
     } %}
     <div {{ bem('container', [filters_selected_modifier], search_results_base_class)}}>
