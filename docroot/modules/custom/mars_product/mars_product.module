@@ -465,6 +465,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
       $price_spider_url = '//cdn.pricespider.com/1/lib/ps-widget.js';
       $javascript[$key]['attributes'] = [
         'id' => 'ps-widget',
+        'defer' => TRUE,
       ];
       $javascript[$key]['data'] = $price_spider_url;
     }
