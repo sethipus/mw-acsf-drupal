@@ -81,11 +81,7 @@
           line-height: 0.9;
 
           @include medium {
-            font-size: 7.2rem;
-          }
-
-          @include large {
-            font-size: 8.4rem;
+            font-size: 6.4rem;
           }
         }
       }
