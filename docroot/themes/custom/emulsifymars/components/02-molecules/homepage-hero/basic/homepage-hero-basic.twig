@@ -10,7 +10,7 @@
       {% set images = {
         1440: hero_images.desktop.src|resize(1440, 580),
         768: hero_images.tablet.src|resize(768, 580),
-        428: hero_images.mobile.src|resize(428, 580),
+        560: hero_images.mobile.src|resize(560, 580),
       } %}
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: false,

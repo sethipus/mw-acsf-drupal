@@ -22,4 +22,4 @@ smart_commerce:
 price_spider:
   js:
     //[price_spider_url]: { type: external }
-    js/price-spider-lazyload.js: {}
+    js/price-spider-lazyload.js: { attributes: { defer: true } }
