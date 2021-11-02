@@ -59,12 +59,10 @@
     margin-bottom: 4rem;
 
     @include medium {
-      font-size: 5.6rem;
-      line-height: 5.6rem;
       margin-bottom: 4rem;
     }
 
-    @include large {
+    @include larger {
       font-size: 6.4rem;
       line-height: 6.4rem;
       margin-bottom: 6rem;
@@ -228,7 +226,7 @@
         text-align: center;
         color: clr(primary);
         font-size: 2rem;
-        line-height: 2.2rem;
+        line-height: 1.1;
 
         &-link {
           color: clr(primary);
@@ -239,9 +237,8 @@
           }
         }
 
-        @include large {
+        @include larger {
           font-size: 2.4rem;
-          line-height: 2.64rem;
         }
       }
 
@@ -259,7 +256,7 @@
         max-width: 549px;
         text-align: center;
 
-        @include large {
+        @include larger {
           font-size: 1.8rem;
         }
       }
