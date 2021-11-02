@@ -18,6 +18,7 @@ use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 
 /**
  * Provides a Product Content Pair Up block.
@@ -48,6 +49,13 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
    * Lighthouse entity browser id.
    */
   const LIGHTHOUSE_ENTITY_BROWSER_ID = 'lighthouse_browser';
+
+  /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
 
   /**
    * Config Factory.
@@ -106,6 +114,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('language_manager'),
       $container->get('config.factory'),
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
@@ -121,6 +130,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    LanguageManagerInterface $language_manager,
     ConfigFactoryInterface $config_factory,
     EntityTypeManager $entity_type_manager,
     ThemeConfiguratorParser $theme_configurator_parser,
@@ -129,6 +139,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
+    $this->languageManager = $language_manager;
     $this->configFactory = $config_factory;
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->fileStorage = $entity_type_manager->getStorage('file');
@@ -170,7 +181,8 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       $build['#lead_card_entity'] = $main_entity;
       $build['#lead_card_eyebrow'] = $this->languageHelper->translate($conf['lead_card_eyebrow'] ?? $main_entity->type->entity->label());
       $build['#lead_card_title'] = $this->languageHelper->translate($conf['lead_card_title'] ?? NULL) ?: $main_entity->getTitle();
-      $build['#cta_link_url'] = $main_entity->toUrl()->toString();
+      $language = $this->languageManager->getCurrentLanguage()->getId();
+      $build['#cta_link_url'] = $main_entity->getTranslation($language)->toUrl()->toString();
       $build['#cta_link_text'] = $this->languageHelper->translate($conf['cta_link_text'] ?? NULL) ?: $this->languageHelper->translate('Explore');
     }
     if ($supporting_entity) {
