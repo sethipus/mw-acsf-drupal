@@ -68,7 +68,7 @@
           text-decoration: none;
           font-weight: 300;
           word-wrap: break-spaces;
-          font-size: 4.8rem;
+          font-size: 3.3rem;
           line-height: 0.9;
 
           @include xs {
@@ -82,7 +82,7 @@
           @include medium {
             font-size: 7.2rem;
           }
-                 
+
           @include large {
             font-size: 8.4rem;
           }
