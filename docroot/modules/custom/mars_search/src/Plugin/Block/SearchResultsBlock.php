@@ -151,7 +151,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
     $build['#theme_styles'] = 'drupal';
     $build['#results_key_header'] = !empty($searchOptions['keys'] && $query_search_results['resultsCount'] > 0)
-                                    ? $this->languageHelper->translate('Results for : ') . $searchOptions['keys']
+                                    ? $this->languageHelper->translate('Results for: ') . $searchOptions['keys']
                                     : '';
     $build['#graphic_divider'] = $file_divider_content ?? '';
     $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
