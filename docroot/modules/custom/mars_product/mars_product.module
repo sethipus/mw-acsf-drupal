@@ -435,6 +435,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           'data-displaylanguage' => !empty($commerce_vendor_settings['data_displaylanguage']) ? $commerce_vendor_settings['data_displaylanguage'] : $locale,
           'data-widgetid' => !empty($commerce_vendor_settings['widget_id']) ? $commerce_vendor_settings['widget_id'] : NULL,
           'data-subid' => !empty($commerce_vendor_settings['data_subid']) ? $commerce_vendor_settings['data_subid'] : NULL,
+          'defer' => TRUE,
         ];
       }
     }
@@ -465,6 +466,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
       $price_spider_url = '//cdn.pricespider.com/1/lib/ps-widget.js';
       $javascript[$key]['attributes'] = [
         'id' => 'ps-widget',
+        'defer' => TRUE,
       ];
       $javascript[$key]['data'] = $price_spider_url;
     }
@@ -481,6 +483,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
         'type' => 'text/javascript',
         'id' => 'smart-commerce-widget',
         'data-ot-ignore' => TRUE,
+        'defer' => TRUE,
       ];
     }
   }

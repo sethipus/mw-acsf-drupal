@@ -1,8 +1,8 @@
 video__src__url: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/'
 video__base_class: 'ambient-video'
-video__control: true
+video__control: false
 video__blockname: 'homepage-hero'
-data_layer: 
+data_layer:
   video_id: 1234
   video_flag: 'Played'
 video__title: 'Mars Adv'

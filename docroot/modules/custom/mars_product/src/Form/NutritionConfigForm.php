@@ -130,6 +130,15 @@ class NutritionConfigForm extends ConfigFormBase {
       '#limit_validation_errors' => [],
       '#button_type' => 'danger',
     ];
+    $form['general']['other_general_configuration'] = [
+      '#type' => 'markup',
+      '#markup' => '<p>' . $this->t('Other:') . '</p>',
+    ];
+    $form['general']['show_other_nutrients_text'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Show "other nutrients" text'),
+      '#default_value' => $config->get('show_other_nutrients_text') ?? FALSE,
+    ];
 
     $this->getGroupTableHeader($form, $form_state);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_1);
@@ -450,6 +459,7 @@ class NutritionConfigForm extends ConfigFormBase {
     }
     $config->set('product_serving_size', $form_state->getValue('product_serving_size'));
     $config->set('servings_per_container', $form_state->getValue('servings_per_container'));
+    $config->set('show_other_nutrients_text', $form_state->getValue('show_other_nutrients_text'));
     // Save the configuration.
     $config->save();
 

@@ -16,6 +16,8 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\Core\Language\Language;
+use Drupal\Core\Language\LanguageManagerInterface;
 
 /**
  * @coversDefaultClass \Drupal\mars_product\Plugin\Block\ProductContentPairUpBlock
@@ -53,6 +55,13 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
    * @var \Drupal\mars_product\Plugin\Block\ProductContentPairUpBlock
    */
   private $block;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Language\LanguageManagerInterface
+   */
+  private $languageManagerMock;
 
   /**
    * Mock.
@@ -114,6 +123,7 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
       self::CONFIGURATION,
       self::PLUGIN_ID,
       self::DEFINITION,
+      $this->languageManagerMock,
       $this->configMock,
       $this->entityTypeManagerMock,
       $this->themeConfiguratorParserMock,
@@ -127,10 +137,15 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(5))
+      ->expects($this->exactly(6))
       ->method('get')
       ->willReturnMap(
         [
+          [
+            'language_manager',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->languageManagerMock,
+          ],
           [
             'config.factory',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
@@ -284,6 +299,16 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
             return $arg;
           })
       );
+    $languageMock = $this->createMock(Language::class);
+    $languageMock
+      ->expects($this->any())
+      ->method('getId')
+      ->willReturn('en');
+    $this->languageManagerMock = $this->createMock(LanguageManagerInterface::class);
+    $this->languageManagerMock
+      ->expects($this->any())
+      ->method('getCurrentLanguage')
+      ->willReturn($languageMock);
 
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->themeConfiguratorParserMock
@@ -332,6 +357,10 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
     $node->expects($this->any())
       ->method('bundle')
       ->willReturn('product');
+
+    $node->expects($this->any())
+      ->method('getTranslation')
+      ->willReturn($node);
 
     $node->expects($this->any())
       ->method('toUrl')
