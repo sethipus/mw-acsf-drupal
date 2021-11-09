@@ -17,7 +17,7 @@ smart_commerce:
     //[smart_commerce_url]: { type: external }
     # Do not remove the library below, as it fixes the SmartCommerce button appearance on Search grids!!!
     js/sc-refresh-buttons.js: {}
-    js/smart-commerce-lazyload.js: {}
+    js/smart-commerce-lazyload.js: { attributes: { defer: true } }
 
 price_spider:
   js:
