@@ -10,7 +10,7 @@
           {% set images = {
             1440: logo_src|resize(212, 98),
             768: logo_src|resize(141, 53),
-            375: logo_src|resize(104, 39),
+            275: logo_src|resize(104, 39),
           } %}
           <a href="{{ footer_logo_link }}" {{ bem('logoLink', [], footer__base_class) }} aria-label="{{ "Logo image" | mt }}">
             {% include "@atoms/images/image/responsive-image.twig" with {
