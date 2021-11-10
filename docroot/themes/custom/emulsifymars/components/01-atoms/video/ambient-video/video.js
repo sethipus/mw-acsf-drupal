@@ -20,13 +20,18 @@
         if (document.addEventListener) {
           // Obtain handles to buttons and other elements
           var playpause = videoContainer.querySelector('.ambient-video__control');
-
+          var muteunmute = videoContainer.querySelector('.ambient-video__controls');
+       
           // Add event listeners for video specific events
           video.addEventListener('play', function() {
             changeButtonState(video, playpause, 'playpause');
           }, false);
           video.addEventListener('pause', function() {
             changeButtonState(video, playpause, 'playpause');
+          }, false);
+
+          video.addEventListener('volumechange', function() {
+            changeVolume(video, muteunmute, 'muteunmute');
           }, false);
 
           // Add event listeners to provide info to Data layer
@@ -97,13 +102,24 @@
           playpause.addEventListener('click', function(e) {
             if (video.paused || video.ended) {
               video.play();
-              video.muted = false;
               manuallyPaused = false;
             } else {
               video.pause();
               manuallyPaused = true;
             }
           });
+
+          muteunmute.addEventListener('click', function(e) {
+            if(video.muted || video.ended) {      
+              video.muted = false;
+              manuallyPaused = false;
+            }
+            else {
+              video.muted = true;
+              manuallyPaused = true;
+            }
+          });
+
           video.addEventListener('click', function(e) {
             if (video.paused || video.ended) {
               video.play();
@@ -130,7 +146,18 @@
           }
         }
       };
-
+    // Changes the button state of mute and unmute button's to adjust the audio
+      var changeVolume= function( video, muteunmute, type ) {
+        if (type == 'muteunmute') {
+          if (video.muted || video.ended) {
+              muteunmute.setAttribute('data-state', 'mute');
+              muteunmute.setAttribute('aria-label', Drupal.t('Mute'));
+            } else {
+              muteunmute.setAttribute('data-state', 'unmute');
+              muteunmute.setAttribute('aria-label', Drupal.t('Unmute'));
+          }
+        }
+      }
       // Obtain handles to main elements
       var videos = document.querySelectorAll('.ambient-video');
       videos.forEach(function(video) {
