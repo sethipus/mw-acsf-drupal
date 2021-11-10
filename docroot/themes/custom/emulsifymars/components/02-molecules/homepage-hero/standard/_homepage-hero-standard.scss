@@ -11,6 +11,15 @@
 
     @include medium {
       flex-flow: row nowrap;
+      max-height: calc(100vh - #{$navigation_medium});
+    }
+
+    @include large {
+      max-height: calc(100vh - #{$navigation_large});
+    }
+
+    @include xl {
+      max-height: none;
     }
   }
 
@@ -140,10 +149,15 @@
       min-height: 325px;
 
       @include medium {
-        min-height: 600px;
+        // min-height: 600px;
+        min-height: calc(100vh - #{$navigation_medium});
       }
 
       @include large {
+        min-height: calc(100vh - #{$navigation_large});
+      }
+
+      @include xl {
         min-height: 580px;
       }
 

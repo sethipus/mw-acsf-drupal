@@ -6,6 +6,11 @@
 
     @include large {
       flex-flow: row nowrap;
+      max-height: calc(100vh - #{$navigation_large});
+    }
+
+    @include xl {
+      max-height: none;
     }
   }
 
@@ -27,6 +32,10 @@
       }
 
       @include large {
+        min-height: calc(100vh - #{$navigation_large});
+      }
+
+      @include xl {
         min-height: 580px;
       }
 
@@ -68,15 +77,19 @@
           text-decoration: none;
           font-weight: 300;
           word-wrap: break-spaces;
-          font-size: 4.8rem;
+          font-size: 3.3rem;
           line-height: 0.9;
 
-          @include medium {
-            font-size: 7.2rem;
+          @include xs {
+            font-size: 3.3rem;
           }
 
-          @include large {
-            font-size: 8.4rem;
+          @include small {
+            font-size: 3.8rem;
+          }
+
+          @include medium {
+            font-size: 6.4rem;
           }
         }
       }
