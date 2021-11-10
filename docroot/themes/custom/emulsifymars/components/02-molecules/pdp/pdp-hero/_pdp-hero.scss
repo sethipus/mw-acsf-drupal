@@ -112,12 +112,14 @@
     @include large {
       flex: 1 0 55.82627119%;
       padding-top: 4.1rem;
+      padding-bottom: 4.1rem;
       padding-right: 5.4rem;
     }
 
     @include larger {
       flex: 1 0 50%;
       padding-top: 4.1rem;
+      padding-bottom: 4rem;
       padding-right: 6rem;
     }
   }
