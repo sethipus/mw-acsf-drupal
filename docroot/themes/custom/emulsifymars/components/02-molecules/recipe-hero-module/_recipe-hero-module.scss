@@ -119,6 +119,16 @@ $xl-left-margin: 11.583rem;
       top: 20px;
       right: 20px;
     }
+
+    .ambient-video__controls[data-state="mute"] {
+      top: 100px;
+      right: 20px;
+    }
+
+    .ambient-video__controls[data-state='unmute'] {
+      top: 100px;
+      right: 20px;
+    }
   }
 
   &__video {
