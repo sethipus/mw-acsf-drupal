@@ -146,7 +146,16 @@
             }
             changeButtonState(videoElements, 'control');
           });
-
+          videoElements('volumechange').addEventListener('click', function (e) {
+              if(videoElements('video').muted || videoElements('video').ended) {      
+                videoElements('video').muted  = false;
+                changeMuteVolume(videoElements('video'), videoElements('volumechange'),'mute')
+              }
+              else {
+                videoElements('video').muted = true;
+                changeMuteVolume(videoElements('video'), videoElements('volumechange'),'mute')
+              }
+          });
           // The Media API has no 'stop()' function, so pause the video and reset its time and the progress bar
           videoElements('stop').addEventListener('click', function (e) {
             videoElements('video').pause();
@@ -173,7 +182,6 @@
               if (videoElements('control').getAttribute('data-state') == 'play') {
                 videoElements('video').play();
                 changeButtonState(videoElements, 'control');
-                videoElements('video').muted = false;
               }
               else if (videoElements('control').getAttribute('data-state') == 'pause') {
                 videoElements('video').pause();
@@ -318,6 +326,18 @@
           }
           else if (videoContainer.msRequestFullscreen) videoContainer.msRequestFullscreen();
           setFullscreenData(videoContainer, videoElements, true);
+        }
+      }
+      // mute and unmute the audio 
+      var changeMuteVolume= function( video, muteunmute, type ) {
+        if (type == 'mute') {
+          if (video.muted || video.ended) {
+              muteunmute.setAttribute('data-state', 'mute');
+              muteunmute.setAttribute('aria-label', Drupal.t('Mute'));
+            } else {
+              muteunmute.setAttribute('data-state', 'unmute');
+              muteunmute.setAttribute('aria-label', Drupal.t('Unmute'));
+          }
         }
       }
 

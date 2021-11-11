@@ -118,7 +118,7 @@
     text-align: center;
     border-radius: variable(card-border-radius);
     max-width: 89.6rem;
-    background-color: clr(subcolor-2);
+    background-color: clr(entrygate_background_color);
     position: relative;
     overflow-x: hidden;
     overflow-y: auto;
@@ -141,7 +141,7 @@
   &__heading {
     @include set-font($font-type: 'heading-font');
 
-    color: clr(primary);
+    color: clr(entrygate_title_color);
     font-weight: 500;
     margin: 0 0 2rem;
 
@@ -153,7 +153,6 @@
     @include medium {
       font-size: 4rem;
       line-height: 4rem;
-      height: 3rem;
     }
 
     @include large {
@@ -167,7 +166,7 @@
   &__paragraph {
     @include set-font($font-type: 'secondary-font');
 
-    color: clr(primary);
+    color: clr(entrygate_text_color);
     margin: 0 0 2rem 0;
     padding-bottom: 2rem;
     border-bottom: 1px solid #c4c4c4;
@@ -186,7 +185,7 @@
     @include set-font($font-type: 'primary-font');
 
     display: block;
-    color: clr(primary);
+    color: clr(entrygate_text_color);
     font-size: 1.8rem;
     line-height: 2.5rem;
     font-weight: 600;
@@ -207,7 +206,7 @@
   &__bottom-paragraph a {
     @include set-font($font-type: 'secondary-font');
 
-    color: clr(primary);
+    color: clr(entrygate_text_color);
     display: inline;
     position: relative;
     z-index: 2;

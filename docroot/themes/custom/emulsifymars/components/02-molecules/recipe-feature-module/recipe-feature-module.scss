@@ -127,6 +127,20 @@
         right: calc(5% + 40px);
       }
     }
+
+    .ambient-video__controls[data-state="mute"] {
+      @include medium {
+        top: 115px;
+        right: calc(5% + 40px);
+      }
+    }
+
+    .ambient-video__controls[data-state="unmute"] {
+      @include medium {
+        top: 115px;
+        right: calc(5% + 40px);
+      }
+    }
   }
 
   &__info {

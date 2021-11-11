@@ -326,6 +326,52 @@ class ThemeConfiguratorService {
       '#description'   => $this->t('If this field is left empty, it falls back to Color A.'),
     ];
 
+    // Entry gate color settings.
+    $form['color_settings']['entrygate_banner_settings'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Entry Gate Settings'),
+    ];
+
+    $form['color_settings']['entrygate_banner_settings']['entrygate_background_color'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Entry gate background color'),
+      '#default_value' => $this->getColorData('entrygate_background_color', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color D.'),
+    ];
+
+    $form['color_settings']['entrygate_banner_settings']['entrygate_title_color'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Entry gate title color'),
+      '#default_value' => $this->getColorData('entrygate_title_color', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color A.'),
+    ];
+
+    $form['color_settings']['entrygate_banner_settings']['entrygate_text_color'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Entry gate text color'),
+      '#default_value' => $this->getColorData('entrygate_text_color', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color A.'),
+    ];
+
+    $form['color_settings']['entrygate_banner_settings']['entrygate_date_color'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Entry gate date color'),
+      '#default_value' => $this->getColorData('entrygate_date_color', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color A.'),
+    ];
+
+    $form['color_settings']['entrygate_banner_settings']['entrygate_alert_color'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Entry gate alert message color'),
+      '#default_value' => $this->getColorData('entrygate_alert_color', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color B.'),
+    ];
+
     $form['color_settings']['cookie_banner_settings'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Cookie Banner Settings'),
