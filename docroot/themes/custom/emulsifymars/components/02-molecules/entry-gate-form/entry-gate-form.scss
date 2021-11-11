@@ -58,7 +58,7 @@
   &__input {
     @include set-font($font-type: 'secondary-font');
 
-    color: clr(primary);
+    color: clr(entrygate_date_color);
     font-size: 1.8rem;
     line-height: 2.5rem;
     padding: 1.5rem 0 1rem 0;
@@ -110,7 +110,7 @@
     font-size: 1.6rem;
     pointer-events: none;
     transition: all .3s ease;
-    color: clr(primary);
+    color: clr(entrygate_text_color);
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
@@ -190,7 +190,7 @@
     @include set-font($font-type: 'secondary-font');
 
     display: none;
-    color: clr(secondary);
+    color: clr(entrygate_alert_color);
     font-size: 1.6rem;
     text-align: left;
     margin-bottom: 2rem;

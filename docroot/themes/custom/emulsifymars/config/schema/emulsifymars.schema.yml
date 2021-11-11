@@ -49,6 +49,21 @@ footer_top_gradient:
 bottom_nav:
   type: text
   label: 'Footer bottom part Color.'
+entrygate_background_color:
+  type: text
+  label: 'Entrygate background color.'
+entrygate_title_color:
+  type: text
+  label: 'Entrygate heading color.'
+entrygate_text_color:
+  type: text
+  label: 'Entrygate other text color.'
+entrygate_date_color:
+  type: text
+  label: 'Entrygate input field inside date color.'
+entrygate_alert_color:
+  type: text
+  label: 'Entrygate alert message color.'
 cookie_banner:
   type: text
   label: 'Cookie banner inner radial color.'

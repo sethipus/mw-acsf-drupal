@@ -124,6 +124,43 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
     $properties .= sprintf(" --c-bottom-nav: %s;", $settings['color_a']);
   }
 
+  // Entry gate color.
+  if (!empty($settings['entrygate_background_color'])) {
+    $properties .= sprintf(" --c-entrygate_background_color: %s;", $settings['entrygate_background_color']);
+  }
+  else {
+    $properties .= sprintf(" --c-entrygate_background_color: %s;", $settings['color_d']);
+  }
+
+  if (!empty($settings['entrygate_title_color'])) {
+    $properties .= sprintf(" --c-entrygate_title_color: %s;", $settings['entrygate_title_color']);
+  }
+  else {
+    $properties .= sprintf(" --c-entrygate_title_color: %s;", $settings['color_a']);
+  }
+
+  if (!empty($settings['entrygate_text_color'])) {
+    $properties .= sprintf(" --c-entrygate_text_color: %s;", $settings['entrygate_text_color']);
+  }
+  else {
+    $properties .= sprintf(" --c-entrygate_text_color: %s;", $settings['color_a']);
+  }
+
+  if (!empty($settings['entrygate_date_color'])) {
+    $properties .= sprintf(" --c-entrygate_date_color: %s;", $settings['entrygate_date_color']);
+  }
+  else {
+    $properties .= sprintf(" --c-entrygate_date_color: %s;", $settings['color_a']);
+  }
+
+  if (!empty($settings['entrygate_alert_color'])) {
+    $properties .= sprintf(" --c-entrygate_alert_color: %s;", $settings['entrygate_alert_color']);
+  }
+  else {
+    $properties .= sprintf(" --c-entrygate_alert_color: %s;", $settings['color_b']);
+  }
+
+  // Cookie banner color.
   if (!empty($settings['cookie_banner'])) {
     $properties .= sprintf(" --c-cookie-banner: %s;", $settings['cookie_banner']);
   }
