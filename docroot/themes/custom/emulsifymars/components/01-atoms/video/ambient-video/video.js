@@ -14,7 +14,7 @@
         video.muted = true;
         video.loop = true;
         video.autoplay = true;
-        video.controls = true;
+        video.controls = false;
         video.play();
 
         if (document.addEventListener) {

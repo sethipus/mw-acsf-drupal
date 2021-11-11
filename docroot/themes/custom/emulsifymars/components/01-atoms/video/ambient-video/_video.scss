@@ -44,40 +44,8 @@
     display: none;
   }
 
-  .ambient-video__controls[data-state="mute"] {
-    @include mutebutton;
-
-    top: 75px;
-    right: 15px;
-    left: auto;
-    height: 50px;
-    width: 50px;
-    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
-    background-color: rgba(255, 255, 255, 0.2);
-    opacity: 0.5;
-
-    .mute-icon {
-      width: 24px;
-      height: 24px;
-      margin: auto 25%;
-      fill: #fff;
-    }
-
-    @include medium {
-      top: 100px;
-      right: 20px;
-      height: 60px;
-      width: 60px;
-    }
-
-    @include xl {
-      top: 120px;
-      right: calc(5% + 40px);
-    }
-  }
-
   .ambient-video__controls[data-state="unmute"] {
-    @include unmutebutton;
+    @include mutebutton;
 
     top: 75px;
     right: 15px;
@@ -106,6 +74,13 @@
       right: calc(5% + 40px);
     }
   }
+
+  .ambient-video__controls[data-state="mute"] {
+    @extend .ambient-video__controls[data-state="unmute"];
+
+    opacity: 0.5;
+  
+}
 
   .ambient-video__control[data-state="pause"] {
     @include pausebutton;

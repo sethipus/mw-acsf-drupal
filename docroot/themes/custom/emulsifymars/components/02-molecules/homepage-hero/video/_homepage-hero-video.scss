@@ -72,11 +72,6 @@
     .fullscreen-video__control[data-state="mute"] {
       @include mutebutton;
     }
-
-    .fullscreen-video__control[data-state="unmute"] {
-      @include unmutebutton;
-    }
-
     .fullscreen-video__control[data-state="play"] {
       @include playbutton;
     }
