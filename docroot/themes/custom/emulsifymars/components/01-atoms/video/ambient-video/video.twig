@@ -8,7 +8,7 @@
 <figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }}
   data-fullscreen="false"
   data-video-flag="Background">
-  <video {{ bem('main', [], video__base_class) }} data-object-fit="cover" playsinline controls>
+  <video {{ bem('main', [], video__base_class) }} data-object-fit="cover" playsinline>
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>
   {% if video__control == true %}
@@ -16,6 +16,9 @@
     <svg viewBox="0 0 320.001 320.001" style="enable-background:new 0 0 512 512" xml:space="preserve" class="play-icon"><path xmlns="http://www.w3.org/2000/svg" d="M295.84,146.049l-256-144c-4.96-2.784-11.008-2.72-15.904,0.128C19.008,5.057,16,10.305,16,16.001v288  c0,5.696,3.008,10.944,7.936,13.824c2.496,1.44,5.28,2.176,8.064,2.176c2.688,0,5.408-0.672,7.84-2.048l256-144  c5.024-2.848,8.16-8.16,8.16-13.952S300.864,148.897,295.84,146.049z"/></svg>
       <div {{ bem('control', ['inner'], video__base_class) }}>
       </div>
+    </button>
+      <button {{ bem('controls', ['inner'], video__base_class) }} type="button" title="{{ 'Mute' | mt }}" aria-label="{{ 'Mute' | mt }}" data-state="mute">
+      <svg class ="mute-icon" viewBox="0 0 30 30"><path xmlns="https://www.svgrepo.com/show/170684/mute-volume-control.svg" d="M3.75 11.25v7.5h5L15 25V5l-6.25 6.25h-5zM20.625 15c0-2.212-1.275-4.112-3.125-5.037v10.062c1.85-.912 3.125-2.812 3.125-5.025zM17.5 4.038v2.575c3.613 1.075 6.25 4.425 6.25 8.387 0 3.963-2.637 7.313-6.25 8.388v2.575c5.012-1.138 8.75-5.613 8.75-10.963 0-5.35-3.738-9.825-8.75-10.962z"/></svg>
     </button>
   {% endif %}
 </figure>
