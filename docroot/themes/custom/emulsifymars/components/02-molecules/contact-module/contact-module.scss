@@ -20,11 +20,21 @@
   &__brand-shape {
     position: absolute;
     z-index: 1;
-    top: -15%;
-    right: -60%;
+    top: -41%;
+    right: -100%;
     width: 145%;
     height: 145%;
     pointer-events: none;
+
+    @include xs {
+      top: -40%;
+      right: -96%;
+    }
+
+    @include small {
+      top: -30%;
+      right: -94%;
+    }
 
     @include medium {
       top: -10%;
@@ -33,18 +43,21 @@
       height: 150%;
     }
 
+    @include large {
+      top: -20% ;
+      right: -85%;
+    }
+
     @include xl {
       top: -15%;
       right: -66.5%;
       width: 150%;
       height: 150%;
     }
-
-    @include small {
+     
+   @include desktop {
       top: -15%;
-      right: -90%;
-      width: 145%;
-      height: 145%;
+      right: -59%;
     }
 
     svg {
@@ -57,6 +70,14 @@
   &__content {
     position: relative;
     z-index: 2;
+     
+    @media (max-width: 280px) {
+     width: 23rem;
+    }
+
+    @include desktop {
+      padding-left: 7.5rem;
+    }
   }
 
   &__heading {
