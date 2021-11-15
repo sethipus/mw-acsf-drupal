@@ -44,13 +44,11 @@
     }
 
     @include large {
-      width: calc(100% - 8rem);
-      max-width: 94.4rem;
+      max-width: calc(100% - 40px);
     }
-
+    
     @include xl {
       max-width: 140.5rem;
-      width: 100%;
     }
 
     & .product-card {
@@ -101,13 +99,22 @@
     }
 
     @include large {
-      width: auto;
-      margin-right: 1.5rem;
+      width: 33%;
     }
 
     @include xl {
       width: 25%;
-      margin-right: 0;
+    }
+
+    & > section,
+    & > article {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+
+      @include large {
+        width: 304px;
+      }
     }
   }
 }
