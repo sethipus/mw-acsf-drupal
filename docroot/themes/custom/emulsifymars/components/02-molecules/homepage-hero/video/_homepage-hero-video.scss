@@ -45,6 +45,16 @@
       top: 15px;
     }
 
+    .ambient-video__controls[data-state="mute"] {
+      left: calc(100% - 80px);
+      top: 100px;
+    }
+
+    .ambient-video__controls[data-state="unmute"] {
+      left: calc(100% - 80px);
+      top: 100px;
+    }
+
     .fullscreen-video {
       display: flex;
 
@@ -59,6 +69,9 @@
       }
     }
 
+    .fullscreen-video__control[data-state="mute"] {
+      @include mutebutton;
+    }
     .fullscreen-video__control[data-state="play"] {
       @include playbutton;
     }

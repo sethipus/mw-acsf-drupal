@@ -399,3 +399,17 @@ function mars_common_update_8028() {
   $config->set('cookie_banner_brand_border', FALSE);
   $config->save(TRUE);
 }
+
+/**
+ * Add entrygate field to theme configurator.
+ */
+function mars_common_update_8029() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('emulsifymars.settings');
+  $config->set('entrygate_background_color', $config->get('color_d'), '');
+  $config->set('entrygate_title_color', $config->get('color_a'), '');
+  $config->set('entrygate_text_color', $config->get('color_a'), '');
+  $config->set('entrygate_date_color', $config->get('color_a'), '');
+  $config->set('entrygate_alert_color', $config->get('color_b'), '');
+  $config->save(TRUE);
+}

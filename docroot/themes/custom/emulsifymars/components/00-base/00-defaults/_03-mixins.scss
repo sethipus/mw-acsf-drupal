@@ -123,6 +123,29 @@ $outer-container-break: $small;
   }
 }
 
+@mixin mutebutton {
+  display: block;
+  border-radius: 50%;
+  border: hidden;
+  background-color: clr(text-inverse);
+  position: absolute;
+  z-index: 1;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  >div {
+    width: 0;
+    height: 0;
+    margin: auto 35%
+  }
+
+  & .sronly--unmute {
+    display: none;
+  }
+}
+
 @mixin brand-border-overflow {
   &__border{
     position: absolute;
