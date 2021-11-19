@@ -58,15 +58,15 @@ steps:
     displayName: 'Install Node JS'
     inputs:
       versionSpec: '10.x'
-  - task: Cache@2
-    displayName: 'Cache Composer Packages'
-    inputs:
-      key: 'composer | "$(Agent.OS)" | composer.lock'
-      restoreKeys: |
-        composer | "$(Agent.OS)"
-        composer
-      path: $(COMPOSER_CACHE_DIR)
-    continueOnError: true
+  #- task: Cache@2
+  #  displayName: 'Cache Composer Packages'
+  #  inputs:
+  #    key: 'composer | "$(Agent.OS)" | composer.lock'
+  #    restoreKeys: |
+  #      composer | "$(Agent.OS)"
+  #      composer
+  #    path: $(COMPOSER_CACHE_DIR)
+  #  continueOnError: true
   - task: Bash@3
     displayName: 'Install Dependencies'
     inputs:
