@@ -57,7 +57,7 @@ steps:
   - task: NodeTool@0
     displayName: 'Install Node JS'
     inputs:
-      versionSpec: '10.x'
+      versionSpec: '16.x'
   - task: Cache@2
     displayName: 'Cache Composer Packages'
     inputs:
@@ -74,7 +74,7 @@ steps:
         sudo composer self-update --1 &&
         composer validate --no-check-all --ansi &&
         composer install &&
-        npm install npm@latest-6 -g
+        npm install npm@latest -g
   - task: Bash@3
     displayName: 'BLT Validation'
     inputs:
