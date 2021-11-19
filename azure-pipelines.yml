@@ -66,6 +66,7 @@ steps:
         composer | "$(Agent.OS)"
         composer
       path: $(COMPOSER_CACHE_DIR)
+    continueOnError: true
   - task: Bash@3
     displayName: 'Install Dependencies'
     inputs:
@@ -74,7 +75,7 @@ steps:
         sudo composer self-update --1 &&
         composer validate --no-check-all --ansi &&
         composer install &&
-        npm install npm@latest -g
+        npm install npm@latest-6 -g
   - task: Bash@3
     displayName: 'BLT Validation'
     inputs:
