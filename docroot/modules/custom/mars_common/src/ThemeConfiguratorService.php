@@ -326,6 +326,28 @@ class ThemeConfiguratorService {
       '#description'   => $this->t('If this field is left empty, it falls back to Color A.'),
     ];
 
+    // Product filter color settings.
+    $form['color_settings']['product_filter'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Product filter Settings'),
+    ];
+
+    $form['color_settings']['product_filter']['product_filter_arrow_color'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Product filter arrow color'),
+      '#default_value' => $this->getColorData('product_filter_arrow_color', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color B.'),
+    ];
+
+    $form['color_settings']['product_filter']['product_filter_clearall_color'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Product filter clearall text color'),
+      '#default_value' => $this->getColorData('product_filter_clearall_color', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color B.'),
+    ];
+
     // Entry gate color settings.
     $form['color_settings']['entrygate_banner_settings'] = [
       '#type' => 'fieldset',
