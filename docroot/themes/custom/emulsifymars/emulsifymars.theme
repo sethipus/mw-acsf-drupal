@@ -124,6 +124,21 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
     $properties .= sprintf(" --c-bottom-nav: %s;", $settings['color_a']);
   }
 
+  // Product filter color.
+  if (!empty($settings['product_filter_arrow_color'])) {
+    $properties .= sprintf(" --c-product_filter_arrow_color: %s;", $settings['product_filter_arrow_color']);
+  }
+  else {
+    $properties .= sprintf(" --c-product_filter_arrow_color: %s;", $settings['color_b']);
+  }
+
+  if (!empty($settings['product_filter_clearall_color'])) {
+    $properties .= sprintf(" --c-product_filter_clearall_color: %s;", $settings['product_filter_clearall_color']);
+  }
+  else {
+    $properties .= sprintf(" --c-product_filter_clearall_color: %s;", $settings['color_b']);
+  }
+
   // Entry gate color.
   if (!empty($settings['entrygate_background_color'])) {
     $properties .= sprintf(" --c-entrygate_background_color: %s;", $settings['entrygate_background_color']);
