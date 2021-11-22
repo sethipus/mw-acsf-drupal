@@ -12,7 +12,7 @@
 
     @include large {
       max-height: calc(100vh - 16.2rem); // large site-header height
-      min-height: 300px;
+      min-height: 580px;
     }
 
     @include xl {
