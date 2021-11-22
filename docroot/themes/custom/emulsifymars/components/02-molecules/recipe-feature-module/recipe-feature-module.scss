@@ -190,15 +190,17 @@
 
       @include xs {
         padding: 0 1.2rem;
+        font-size: 4rem;
       }
 
       @include medium {
         margin-bottom: 4rem;
         padding: 0 4rem;
+        font-size: 4.6rem;
       }
 
       @include large {
-        font-size: 6.4rem;
+        font-size: 4.6rem;
         min-height: 18rem;
         margin: 3rem auto 4rem;
         padding: 0;
