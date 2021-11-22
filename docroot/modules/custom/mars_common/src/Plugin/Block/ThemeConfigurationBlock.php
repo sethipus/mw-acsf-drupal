@@ -92,6 +92,8 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
         'top_nav_gradient' => NULL,
         'footer_top' => NULL,
         'footer_top_gradient' => NULL,
+        'product_filter_arrow_color' => NULL,
+        'product_filter_clearall_color' => NULL,
         'entrygate_background_color' => NULL,
         'entrygate_title_color' => NULL,
         'entrygate_text_color' => NULL,

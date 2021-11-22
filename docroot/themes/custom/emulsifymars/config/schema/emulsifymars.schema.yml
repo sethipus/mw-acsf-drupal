@@ -49,6 +49,12 @@ footer_top_gradient:
 bottom_nav:
   type: text
   label: 'Footer bottom part Color.'
+product_filter_arrow_color:
+  type: text
+  label: 'Product filter arrow color.'
+product_filter_clearall_color:
+  type: text
+  label: 'Product filter clearall text color.'
 entrygate_background_color:
   type: text
   label: 'Entrygate background color.'
