@@ -11,7 +11,7 @@
   position: relative;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   margin-bottom: 6rem;
-  @include card-width;
+  width: 25rem;
 
   &__media {
     overflow: hidden;
@@ -58,6 +58,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     min-height: 9rem;
+    width: 80%
   }
 
   .details-button {

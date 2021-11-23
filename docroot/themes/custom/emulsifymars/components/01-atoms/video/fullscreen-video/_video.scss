@@ -182,7 +182,7 @@
     @include mutebutton;
 
     top: 90px;
-    right: 16px;
+    right: 15px;
     left: auto;
     height: 60px;
     width: 60px;
@@ -198,7 +198,6 @@
 
     @include medium {
       top: 100px;
-      right: 20px;
       height: 60px;
       width: 60px;
     }
