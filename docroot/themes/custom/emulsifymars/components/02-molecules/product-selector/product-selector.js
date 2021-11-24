@@ -98,6 +98,21 @@
         initEvents();
 
       });
+      // Product default select in dropdown based on the gtin id query parameter.
+      $(document).ready(function() {
+        var url = window.location.search.substring(1);
+        var gtin_id_url = (url.split('=')[1]) ? url.split('=')[1] : "";
+        var gtin_name = (url.split('=')[0]) ? url.split('=')[0] : "";
+        $(".product-selector__item-selector option", context).each(function() {
+            var gtin_data = $(this).attr("data-variants");
+            var arr = ($.parseJSON(gtin_data)) ? $.parseJSON(gtin_data) : "";
+            var gtin_id_option = (arr[0]['gtin']) ? arr[0]['gtin'] : "";
+            if ((gtin_id_url == gtin_id_option) && (gtin_name == 'gtin') && (gtin_id_url != "") && (gtin_id_option != "")) {
+                var selectId = $(this).attr("data-id");
+                $(".product-selector__item-selector option[data-id='" + selectId + "']").prop("selected", true).trigger('change');
+            }
+        });
+      });
     }
   }
 })(jQuery, Drupal);
