@@ -22,6 +22,7 @@
           {% if item.image %}
             {% set images = {
               1440: item.src|resize(1128, 666),
+              1024: asset_2|resize(1024,550),
               768: item.src|resize(768, 434),
               375: item.src|resize(375, 250),
             } %}
@@ -82,4 +83,4 @@
       </div>
     </div>
   </div>
-</section>
+</section>  
