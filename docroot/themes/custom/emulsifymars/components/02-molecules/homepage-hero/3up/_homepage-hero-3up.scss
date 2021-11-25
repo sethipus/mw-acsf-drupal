@@ -83,6 +83,15 @@
             font-size: 7.2rem;
           }
 
+          @include large {
+            font-size: 6.4rem;
+          }
+          @include larger{
+            font-size: 6.4rem;
+          }
+          @include xl{
+            font-size: 8.4rem;
+          }
         }
       }
 
