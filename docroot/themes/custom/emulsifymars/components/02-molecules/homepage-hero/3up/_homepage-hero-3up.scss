@@ -6,6 +6,12 @@
 
     @include large {
       flex-flow: row nowrap;
+      max-height: calc(100vh - #{$navigation_large});
+      min-height: 42rem;
+    }
+
+    @include xl {
+      max-height: none;
     }
   }
 
