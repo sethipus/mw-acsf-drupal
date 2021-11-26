@@ -204,6 +204,10 @@ source:
       label: 'Dietary fiber'
       selector: 'field_product_dietary_fiber/0'
     -
+      name: field_dual_servings_per
+      label: 'Dual Servings Per Container'
+      selector: 'field_dual_servings_per/0'
+    -
       name: field_dual_saturated_fat_daily
       label: 'Dual saturated fat daily'
       selector: 'field_dual_saturated_fat_daily/0'
@@ -784,6 +788,10 @@ process:
     plugin: default_value
     default_value: ''
     source: field_dual_added_sugars
+  field_dual_servings_per:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_servings_per
   field_product_consumption_1:
     plugin: default_value
     default_value: ''
