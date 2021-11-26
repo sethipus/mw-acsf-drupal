@@ -79,20 +79,16 @@
             font-size: 3.8rem;
           }
           @include medium {
-            font-size: 6.5rem;
             font-size: 4.5rem;
           }
 
           @include large {
-            font-size: 7rem;
             font-size: 5rem;
           }
           @include larger{
-            font-size: 7.4rem;
             font-size: 6rem;
           }
           @include xl{
-            font-size: 8.4rem;
             font-size: 6rem;
           }
         }
