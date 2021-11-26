@@ -40,6 +40,7 @@ dependencies:
     - field.field.node.product_variant.field_dual_saturated_daily
     - field.field.node.product_variant.field_dual_saturated_fat
     - field.field.node.product_variant.field_dual_saturated_fat_daily
+    - field.field.node.product_variant.field_dual_servings_per
     - field.field.node.product_variant.field_dual_sodium
     - field.field.node.product_variant.field_dual_sodium_daily
     - field.field.node.product_variant.field_dual_sugar_alcohol
@@ -58,7 +59,6 @@ dependencies:
     - field.field.node.product_variant.field_dual_vitamin_c_daily
     - field.field.node.product_variant.field_dual_vitamin_d
     - field.field.node.product_variant.field_dual_vitamin_d_daily
-    - field.field.node.product_variant.field_dual_servings_per
     - field.field.node.product_variant.field_nutritional_claims_benefit
     - field.field.node.product_variant.field_product_added_sugars
     - field.field.node.product_variant.field_product_added_sugars_daily
@@ -142,6 +142,7 @@ dependencies:
     - field.field.node.product_variant.field_product_wtb_button_style
     - field.field.node.product_variant.field_product_wtb_button_url
     - field.field.node.product_variant.field_product_wtb_new_tab
+    - field.field.node.product_variant.layout_builder__layout
     - field.field.node.product_variant.salsify_id
     - field.field.node.product_variant.salsify_updated
     - node.type.product_variant
@@ -410,7 +411,7 @@ third_party_settings:
         - field_dual_polyunsaturated_fa
         - field_dual_monounsaturated_fa
       parent_name: group_dl_nutritional_information
-      weight: 21
+      weight: 119
       format_type: details
       region: content
       format_settings:
@@ -427,7 +428,7 @@ third_party_settings:
         - field_dual_calories_daily
         - field_dual_calories_fat
       parent_name: group_dl_nutritional_information
-      weight: 20
+      weight: 118
       format_type: details
       region: content
       format_settings:
@@ -448,7 +449,6 @@ third_party_settings:
         - field_dual_fibre
         - field_dual_dietary_fiber
         - field_dual_dietary_daily
-        - field_dual_dietary_fiber_daily
         - field_dual_dietary_fiber_dail
         - field_dual_sugars
         - field_dual_sugars_daily
@@ -459,7 +459,7 @@ third_party_settings:
         - field_dual_protein
         - field_dual_protein_daily
       parent_name: group_dl_nutritional_information
-      weight: 22
+      weight: 120
       format_type: details
       region: content
       format_settings:
@@ -605,7 +605,7 @@ content:
     type: string_textfield
     region: content
   field_dual_calories:
-    weight: 61
+    weight: 118
     settings:
       size: 60
       placeholder: ''
@@ -613,7 +613,7 @@ content:
     type: string_textfield
     region: content
   field_dual_calories_daily:
-    weight: 63
+    weight: 120
     settings:
       size: 60
       placeholder: ''
@@ -621,7 +621,7 @@ content:
     type: string_textfield
     region: content
   field_dual_calories_fat:
-    weight: 64
+    weight: 121
     settings:
       size: 60
       placeholder: ''
@@ -741,7 +741,7 @@ content:
     type: text_textarea
     region: content
   field_dual_ltd_calories:
-    weight: 62
+    weight: 119
     settings:
       size: 60
       placeholder: ''
@@ -846,6 +846,14 @@ content:
     region: content
   field_dual_saturated_fat_daily:
     weight: 95
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_dual_servings_per:
+    weight: 117
     settings:
       size: 60
       placeholder: ''
@@ -996,14 +1004,6 @@ content:
     third_party_settings: {  }
     region: content
     type: string_textfield
-  field_dual_servings_per:
-    weight: 104
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content  
   field_nutritional_claims_benefit:
     weight: 20
     settings:
@@ -1821,5 +1821,6 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  layout_builder__layout: true
   salsify_id: true
   salsify_updated: true
