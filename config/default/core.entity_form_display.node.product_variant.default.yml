@@ -58,6 +58,7 @@ dependencies:
     - field.field.node.product_variant.field_dual_vitamin_c_daily
     - field.field.node.product_variant.field_dual_vitamin_d
     - field.field.node.product_variant.field_dual_vitamin_d_daily
+    - field.field.node.product_variant.field_dual_servings_per
     - field.field.node.product_variant.field_nutritional_claims_benefit
     - field.field.node.product_variant.field_product_added_sugars
     - field.field.node.product_variant.field_product_added_sugars_daily
@@ -382,6 +383,7 @@ third_party_settings:
       label: 'Nutritional Subgroup 3'
     group_dl_nutritional_information:
       children:
+        - field_dual_servings_per
         - group_dl_nutritional_subgroup_1
         - group_dl_nutritional_subgroup_2
         - group_dl_nutritional_subgroup_3
@@ -994,6 +996,14 @@ content:
     third_party_settings: {  }
     region: content
     type: string_textfield
+  field_dual_servings_per:
+    weight: 104
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content  
   field_nutritional_claims_benefit:
     weight: 20
     settings:

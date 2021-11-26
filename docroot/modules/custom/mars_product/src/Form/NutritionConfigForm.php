@@ -141,6 +141,7 @@ class NutritionConfigForm extends ConfigFormBase {
     ];
 
     $this->getGroupTableHeader($form, $form_state);
+    $this->getDualGroupTableHeader($form, $form_state);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_1);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_2);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_3);
@@ -180,6 +181,35 @@ class NutritionConfigForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Servings per container label'),
       '#default_value' => !empty($config->get('servings_per_container')) ? $this->languageHelper->translate($config->get('servings_per_container')) : $this->languageHelper->translate(PdpHeroBlock::SERVINGS_PER_CONTAINER),
+    ];
+
+  }
+
+  /**
+   * Get Dual Group Table Header Configuration.
+   *
+   * @param array $form
+   *   Form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Form state object.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getDualGroupTableHeader(
+    array &$form,
+    FormStateInterface $form_state) {
+    $config = $this->config('mars_product.nutrition_table_settings');
+    $form['dual_header'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Dual Group Header configuration'),
+      '#collapsible' => FALSE,
+      '#collapsed' => FALSE,
+    ];
+    $form['dual_header']['dual_servings_per_container'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Dual Servings per container label'),
+      '#default_value' => !empty($config->get('dual_servings_per_container')) ? $this->languageHelper->translate($config->get('dual_servings_per_container')) : '',
     ];
 
   }
@@ -460,6 +490,7 @@ class NutritionConfigForm extends ConfigFormBase {
     $config->set('product_serving_size', $form_state->getValue('product_serving_size'));
     $config->set('servings_per_container', $form_state->getValue('servings_per_container'));
     $config->set('show_other_nutrients_text', $form_state->getValue('show_other_nutrients_text'));
+    $config->set('dual_servings_per_container', $form_state->getValue('dual_servings_per_container'));
     // Save the configuration.
     $config->save();
 
