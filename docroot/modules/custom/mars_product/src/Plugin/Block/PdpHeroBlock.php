@@ -641,30 +641,18 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $display = 'product_hero';
     $widget_id_field = $this->productHelper->getWidgetIdField($display);
 
-    //Product Node
-    $node = \Drupal::routeMatch()->getParameter('node');
-    //Default Table label
-    if (!empty($node) && in_array($node->bundle(), [
-      'product',
-      'product_multipack',
-    ])) {
-      foreach ($node->field_product_variants as $reference) {
-        $product_variant = $reference->entity;
-        if (!empty($product_variant)) {
-          $table_label = $product_variant->get('field_product_consumption_1')->value;
-          $dual_table_label = $product_variant->get('field_product_consumption_2')->value;
-        }
-      }
-    }
-
     $view_type = $this->nutritionHelper
       ->getNutritionConfig()
       ->get('view_type');
     $serving_label = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
       ? $this->languageHelper->translate('Amount per 100g')
       : $this->languageHelper->translate('Amount per serving');
+    $dual_servings_per_label = $this->nutritionHelper
+      ->getNutritionConfig()
+      ->get('dual_servings_per_container');
+    $dual_serv_label = $dual_servings_per_label ? $this->languageHelper->translate('Amount per portion (51g)') : $this->languageHelper->translate('Amount per 100g');
     $dual_serving_label = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
-      ? $this->languageHelper->translate('Amount per portion (51g)')
+      ? $dual_serv_label
       : $this->languageHelper->translate('Amount per serving');  
     $daily_label = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
       ? ''
@@ -692,8 +680,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'label' => $config['nutrition']['label'] ?? $this->t('Nutrition'),
         'serving_label' => $config['nutrition']['serving_label'] ?? $serving_label,
         'dual_serving_label' => $config['nutrition']['dual_serving_label'] ?? $dual_serving_label,
-        'table_label' => $config['nutrition']['table_label'] ?? $table_label,
-        'dual_table_label' => $config['nutrition']['dual_table_label'] ?? $dual_table_label,
+        'table_label' => $config['nutrition']['table_label'] ?? '',
+        'dual_table_label' => $config['nutrition']['dual_table_label'] ?? '',
         'daily_label' => $config['nutrition']['daily_label'] ?? $daily_label,
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
         'added_sugars_label' => $config['nutrition']['added_sugars_label'] ?? $this->languageHelper->translate('Includes'),
@@ -904,8 +892,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $item['dual_nutrition_data'] = [
           'serving_item' => $this->getServingItems($product_variant, 'dual'),
         ];
-        $item['nutrition_data']['serving_item']['table_label'] = !empty($this->configuration['nutrition']['table_label']) ? $this->languageHelper->translate($this->configuration['nutrition']['table_label']) : '';
-        $item['dual_nutrition_data']['serving_item']['table_label'] = !empty($this->configuration['nutrition']['dual_table_label']) ? $this->languageHelper->translate($this->configuration['nutrition']['dual_table_label']) : '';
+        if($this->getDualServingsPerContainerLabel()){
+          $item['nutrition_data']['serving_item']['table_label'] = !empty($this->configuration['nutrition']['table_label']) ? $this->languageHelper->translate($this->configuration['nutrition']['table_label']) : '';
+          $item['dual_nutrition_data']['serving_item']['table_label'] = !empty($this->configuration['nutrition']['dual_table_label']) ? $this->languageHelper->translate($this->configuration['nutrition']['dual_table_label']) : '';
+        }
+        else{
+          $item['nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_1')->value;
+          $item['dual_nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_2')->value;
+        }
       }
       if ($this->getCommerceVendor() == self::VENDOR_MANUAL_LINK_SELECTION && !$product_variant->get('field_product_hide_wtb_link')->value) {
         $item['wtb_manual_link_info'] = $this->getManualLinkInfo($product_variant);
