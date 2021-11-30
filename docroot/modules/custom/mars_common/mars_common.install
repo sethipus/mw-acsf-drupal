@@ -422,5 +422,6 @@ function mars_common_update_8030() {
   $config = $config_factory->getEditable('emulsifymars.settings');
   $config->set('product_filter_arrow_color', $config->get('color_b'), '');
   $config->set('product_filter_clearall_color', $config->get('color_b'), '');
+  $config->set('product_filter_tickmark_color', $config->get('color_d'), '');
   $config->save(TRUE);
 }
