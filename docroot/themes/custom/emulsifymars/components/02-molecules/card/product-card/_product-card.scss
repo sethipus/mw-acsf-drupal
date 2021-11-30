@@ -246,6 +246,14 @@
       align-items: end;
     }
 
+    @include larger {
+      left: 0.5rem;
+      right: 0.5rem;
+      bottom: 1.7rem;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+
     @include xl {
       left: 3rem;
       right: 3rem;
