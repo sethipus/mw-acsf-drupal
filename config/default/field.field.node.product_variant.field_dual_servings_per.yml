@@ -1,0 +1,24 @@
+uuid: a3db692e-8209-4c8f-bd74-f97d60c716dd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dual_servings_per
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_dual_servings_per
+field_name: field_dual_servings_per
+entity_type: node
+bundle: product_variant
+label: 'Dual Servings Per Container'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

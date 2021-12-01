@@ -47,6 +47,14 @@
       margin-bottom: 4rem;
       width: 33.5rem;
 
+      @include xs {
+        font-size: 3rem;
+      }
+
+      @include small {
+        font-size: 3rem;
+      }
+
       @include medium {
         font-size: 5.6rem;
         width: 47.8rem;
