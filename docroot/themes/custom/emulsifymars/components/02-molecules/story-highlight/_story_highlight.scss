@@ -166,10 +166,30 @@
       }
     }
 
-    .overlay-video__control[data-state="play"] {
-      top: calc(50% - 3.5rem);
-      left: calc(50% - 3.3rem);
-    }
+    // .overlay-video__control[data-state="play"] {
+    //   top: calc(50% - 3.5rem);
+    //   left: calc(50% - 3.3rem);
+    // }
+
+    // .overlay-video__control[data-state="play"] {
+    //   left: calc(100% - 80px);
+    //   top: 15px;
+    // }
+    
+    // .overlay-video__control[data-state="pause"] {
+    //   left: calc(100% - 80px);
+    //   top: 15px;
+    // }
+    
+    // .overlay-video__controls[data-state="mute"] {
+    //   left: calc(100% - 90px);
+    //   top: 100px;
+    // }
+    
+    // .overlay-video__controls[data-state="unmute"] {
+    //   left: calc(100% - 80px);
+    //   top: 100px;
+    // }
   }
 
   & .media_item_1 {
@@ -402,19 +422,19 @@
 
   }
 
-  .overlay-video__control[data-state="play"] {
-    top: calc(50% - 7rem);
-    left: calc(50% - 6.6rem / 2);
-    width: 6.6rem;
-    height: 7rem;
-    background-color: clr(subcolor-3);
+  // .overlay-video__control[data-state="play"] {
+  //   top: calc(50% - 7rem);
+  //   left: calc(50% - 6.6rem / 2);
+  //   width: 6.6rem;
+  //   height: 7rem;
+  //   background-color: clr(subcolor-3);
 
-    @include clearfix;
+  //   @include clearfix;
 
-    @include playbutton;
+  //   @include playbutton;
 
 
-  }
+  // }
 
   &__brand-shape_1 {
     position: absolute;
