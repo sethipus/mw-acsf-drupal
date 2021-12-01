@@ -6,6 +6,13 @@
 
     @include large {
       flex-flow: row nowrap;
+      // max-height: calc(100vh - #{$navigation_large});
+      max-height: none;
+      min-height: 42rem;
+    }
+
+    @include xl {
+      max-height: none;
     }
   }
 
@@ -80,11 +87,16 @@
           }
 
           @include medium {
-            font-size: 7.2rem;
+            font-size: 4.5rem;
           }
-
           @include large {
-            font-size: 8.4rem;
+            font-size: 5rem;
+          }
+          @include larger{
+            font-size: 6rem;
+          }
+          @include xl{
+            font-size: 6rem;
           }
         }
       }

@@ -7,11 +7,13 @@
     @include medium {
       height: 846px;
       background-color: clr(subcolor-3);
-      max-height: calc(100vh - 12rem); // medium site-header height
+      // max-height: calc(100vh - 12rem); 25-11-21
+      max-height: calc(100vh - #{$navigation_medium}); // medium site-header height
     }
 
     @include large {
-      max-height: calc(100vh - 16.2rem); // large site-header height
+      // max-height: calc(100vh - 16.2rem); 25-11-21
+      max-height: calc(100vh - #{$navigation_large}); // large site-header height
       min-height: 580px;
     }
 
