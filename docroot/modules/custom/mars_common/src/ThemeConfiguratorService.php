@@ -348,6 +348,14 @@ class ThemeConfiguratorService {
       '#description'   => $this->t('If this field is left empty, it falls back to Color B.'),
     ];
 
+    $form['color_settings']['product_filter']['product_filter_tickmark_color'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Product filter tickmark color'),
+      '#default_value' => $this->getColorData('product_filter_tickmark_color', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color D.'),
+    ];
+
     // Entry gate color settings.
     $form['color_settings']['entrygate_banner_settings'] = [
       '#type' => 'fieldset',
