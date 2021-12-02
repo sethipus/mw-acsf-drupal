@@ -39,6 +39,7 @@ class ConfigFactoryOverride implements ConfigFactoryOverrideInterface {
     'footer_top',
     'footer_top_gradient',
     'bottom_nav',
+    'language_region_selector_text_color',
     'product_filter_arrow_color',
     'product_filter_clearall_color',
     'product_filter_tickmark_color',
