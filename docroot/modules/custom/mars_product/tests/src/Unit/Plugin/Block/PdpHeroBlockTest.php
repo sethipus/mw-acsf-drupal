@@ -24,6 +24,11 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Path\CurrentPathStack;
+use Drupal\Core\Render\Element\Url;
+use Drupal\Core\Url as CoreUrl;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @coversDefaultClass \Drupal\mars_product\Plugin\Block\PdpHeroBlock
@@ -80,6 +85,20 @@ class PdpHeroBlockTest extends UnitTestCase {
    * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Entity\EntityStorageInterface
    */
   protected $nodeStorageMock;
+
+  /**
+   * Route Match.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatchMock;
+
+  /**
+   * Current Path.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Path\CurrentPathStack
+   */
+  protected $currentPathMock;
 
   /**
    * Mock.
@@ -198,7 +217,9 @@ class PdpHeroBlockTest extends UnitTestCase {
       $this->immutableConfigMock,
       FALSE,
       $this->configFactoryMock,
-      $this->nutritionHelperMock
+      $this->nutritionHelperMock,
+      $this->routeMatchMock,
+      $this->currentPathMock
     );
   }
 
@@ -246,6 +267,16 @@ class PdpHeroBlockTest extends UnitTestCase {
     $nodeContext
       ->method('getContextValue')
       ->willReturn($product_node);
+    
+    $this->routeMatchMock
+      ->expects($this->any())
+      ->method('getParameter')
+      ->willReturn($product_node);
+    
+    $this->currentPathMock
+      ->expects($this->any())
+      ->method('getPath')
+      ->willReturn('test/node.123/url');
 
     $this->configFactoryMock
       ->expects($this->any())
@@ -324,6 +355,16 @@ class PdpHeroBlockTest extends UnitTestCase {
       ->willReturn($product_node);
     $this->block->setContext('node', $nodeContext);
 
+    $this->routeMatchMock
+      ->expects($this->any())
+      ->method('getParameter')
+      ->willReturn($product_node);
+    
+    $this->currentPathMock
+      ->expects($this->any())
+      ->method('getPath')
+      ->willReturn('test/node.123/url');
+
     $this->configFactoryMock
       ->expects($this->any())
       ->method('get')
@@ -392,6 +433,8 @@ class PdpHeroBlockTest extends UnitTestCase {
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->nutritionHelperMock = $this->createMock(NutritionDataHelper::class);
     $this->translationMock = $this->createMock(TranslationInterface::class);
+    $this->routeMatchMock = $this->createMock(RouteMatchInterface::class);
+    $this->currentPathMock = $this->createMock(CurrentPathStack::class);
 
     $this->containerMock
       ->expects($this->any())
@@ -421,6 +464,16 @@ class PdpHeroBlockTest extends UnitTestCase {
       ->expects($this->any())
       ->method('getStorage')
       ->willReturn($this->nodeStorageMock);
+    
+    $this->routeMatchMock
+      ->expects($this->any())
+      ->method('getParameter')
+      ->willReturn($this->createMock(NodeInterface::class));
+      
+    $this->currentPathMock
+        ->expects($this->any())
+        ->method('getPath')
+        ->willReturn($this->createMock(Request::class));
   }
 
   /**
