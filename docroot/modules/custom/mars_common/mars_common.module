@@ -373,6 +373,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'data_displaylanguage' => NULL,
         'products' => NULL,
         'default_product' => NULL,
+        'hide_size_dropdown' => NULL,
         'product_sku' => NULL,
       ],
     ],
