@@ -3,6 +3,10 @@
     font-size: 1.4rem;
     min-width: 13.3rem;
 
+    @include small {
+      min-width: 11.3rem;
+    }
+
     @include xl {
       line-height: 5rem;
     }
@@ -53,7 +57,7 @@
   }
 
   @include small {
-    width: 26rem;
+    width: 30rem;
   }
 
   @include medium {
