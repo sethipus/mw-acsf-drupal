@@ -80,23 +80,23 @@
             video.addEventListener("timeupdate", videoEndedHandler);
           }
 
-          // Listen to scroll event to pause video when out of viewport
-          // let videoVisible = false;
-          // let manuallyPaused = false;
-          // document.addEventListener('scroll', function() {
-          //   let videoPosition = video.getBoundingClientRect().top;
-          //   let videoHeight = video.getBoundingClientRect().height;
-          //   let windowHeight = window.innerHeight;
+          //Listen to scroll event to pause video when out of viewport
+          let videoVisible = false;
+          let manuallyPaused = false;
+          document.addEventListener('scroll', function() {
+            let videoPosition = video.getBoundingClientRect().top;
+            let videoHeight = video.getBoundingClientRect().height;
+            let windowHeight = window.innerHeight;
 
-          //   if (videoPosition - windowHeight > 0 || videoPosition + videoHeight < 0) {
-          //     video.pause();
-          //     videoVisible = false;
-          //   }
-          //   else if (!manuallyPaused && !videoVisible) {
-          //     video.play();
-          //     videoVisible = true;
-          //   }
-          // });
+            if (videoPosition - windowHeight > 0 || videoPosition + videoHeight < 0) {
+              video.pause();
+              videoVisible = false;
+            }
+            // else if (!manuallyPaused && !videoVisible) {
+            //   video.play();
+            //   videoVisible = true;
+            // }
+          });
 
           // Add events for play/pause button and video container
           playpause.addEventListener('click', function(e) {
@@ -130,6 +130,10 @@
           //     manuallyPaused = true;
           //   }
           // });
+
+          $(".swiper-button-prev, .swiper-button-next").click(function() {
+            video.pause();
+          });
         }
         video.setAttribute('data-video-init', true);
       };

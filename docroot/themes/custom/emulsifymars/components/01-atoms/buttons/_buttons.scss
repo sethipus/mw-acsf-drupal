@@ -99,3 +99,27 @@ $button-colors: (
     @include button-large;
   }
 }
+
+div[data-sc-id] {
+  max-width: 327px !important;
+  margin-bottom: 0px !important;
+}
+
+button.sc-btn-ec {
+  font-size: 1rem !important; 
+  line-height: 1.25 !important;
+  padding: .5rem 2rem !important;
+  max-width: 200px !important;
+  min-height: 37px !important;
+  width: 100% !important;
+  height: 37px !important
+}
+
+.sc-btn-ec {
+  width: 120px !important;
+  min-width: initial !important;
+  font-size: 1rem !important;
+  height: 37px !important;
+}
+
+
