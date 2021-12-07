@@ -13,6 +13,7 @@ use Drupal\Core\Url;
 use Drupal\mars_media\MediaHelper;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\node\NodeInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -41,6 +42,13 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   protected $entityTypeManager;
 
   /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * The Media helper.
    *
    * @var \Drupal\mars_media\MediaHelper
@@ -64,6 +72,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     LanguageManagerInterface $language_manager,
     EntityTypeManagerInterface $entity_manager,
     MediaHelper $media_helper,
+    ConfigFactoryInterface $config_factory,
     ImmutableConfig $wtb_global_config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -71,6 +80,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $this->entityTypeManager = $entity_manager;
     $this->mediaHelper = $media_helper;
     $this->wtbGlobalConfig = $wtb_global_config;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -91,6 +101,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $container->get('language_manager'),
       $container->get('entity_type.manager'),
       $container->get('mars_media.media_helper'),
+      $container->get('config.factory'),
       $config
     );
   }
@@ -239,9 +250,12 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $commerce_vendor = $this->getCommerceVendor();
     $build['#widget_id'] = $this->configuration['widget_id'];
     $build['#commerce_vendor'] = $commerce_vendor;
+    
 
     switch ($commerce_vendor) {
       case PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR:
+        $commerce_connector_settings = $this->getCommerceVendorInfo($commerce_vendor);
+        $hide_size_dropdown = !empty($commerce_connector_settings) ? $commerce_connector_settings['hide_size_dropdown'] : '';
         $build['#data_subid'] = $this->configuration['data_subid'];
         $build['#data_token'] = $this->configuration['data_token'];
         $build['#data_locale'] = $this->configuration['data_locale'];
@@ -280,6 +294,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
           ];
         }
         $build['#products'] = $products_for_render;
+        $build['#hide_size_dropdown'] = $hide_size_dropdown ? true : false;
         break;
 
       case PdpHeroBlock::VENDOR_SMART_COMMERCE:
@@ -342,6 +357,24 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
    */
   private function getCommerceVendor(): string {
     return $this->wtbGlobalConfig->get('commerce_vendor') ?? PdpHeroBlock::VENDOR_NONE;
+  }
+
+  /**
+   * Provides current Commerce vendor configuration.
+   *
+   * @param string $commerce_vendor
+   *   The given commerce vendor ID.
+   *
+   * @return array
+   *   Returns current Commerce vendor configuration or empty response.
+   */
+  private function getCommerceVendorInfo(string $commerce_vendor) : array {
+    if ($commerce_vendor !== 'none') {
+      $commerce_vendor_settings = $this->configFactory->get('mars_product.wtb.' . $commerce_vendor . '.settings');
+      $commerce_vendor_settings = !empty($commerce_vendor_settings) && !$commerce_vendor_settings->isNew() ? $commerce_vendor_settings->getRawData() : [];
+      return !empty($commerce_vendor_settings['settings']) ? $commerce_vendor_settings['settings'] : [];
+    }
+    return [];
   }
 
   /**
