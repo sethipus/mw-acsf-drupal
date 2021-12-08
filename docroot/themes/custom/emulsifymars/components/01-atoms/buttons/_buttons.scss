@@ -123,19 +123,35 @@ button.sc-btn-ec {
 
   @include small {
     font-size: 1.3rem !important;
-    min-width: 11.4rem !important;
     padding: .5rem 1rem !important;
   }
 
   @include medium {
     font-size: 1 !important;
     min-height: 37px !important;
+    height: 37px !important;
     padding: .5rem 1rem !important;
   }
 
   @include large {
-    font-size: 1.3rem !important;
+    font-size: 1rem !important;
     min-width: 13.3rem !important;
+    min-height: 37px !important;
+    height: 37px !important;
+    padding: .5rem 1rem !important;
+  }
+
+  @include larger {
+    font-size: 1rem !important;
+    min-width: 0 !important;
+    min-height: 37px !important;
+    height: 37px !important;
+    padding: .5rem 1rem !important;
+  }
+
+  @include xl {
+    font-size: 1.3rem !important;
+    min-width: 13.3rem!important;
   }
 }
 
