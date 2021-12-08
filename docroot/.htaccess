@@ -271,7 +271,7 @@ AddEncoding gzip svgz
   # Suziwan FR- Country based redirect
   # Quick fix. Must be removed once redirect will be done externally.
   RewriteCond %{HTTP_HOST} ^suziwan\.fr$ [NC,OR]
-  RewriteCond %{HTTP_HOST} ^www\.suziwan\.fr$ [NC]
+  RewriteCond %{HTTP_HOST} ^www\.suziwan\.fr$ [NC,OR]
   RewriteRule ^(.*)$ https://fr.suziwan.com/$1 [R=301,L]
 
   RewriteCond "%{HTTP:CF-IPCountry}" "FR" [NC]
