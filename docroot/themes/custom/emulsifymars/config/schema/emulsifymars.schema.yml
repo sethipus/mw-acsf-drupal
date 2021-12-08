@@ -49,6 +49,9 @@ footer_top_gradient:
 bottom_nav:
   type: text
   label: 'Footer bottom part Color.'
+language_region_selector_text_color:
+  type: text
+  label: 'Language and region selector text color.'
 product_filter_arrow_color:
   type: text
   label: 'Product filter arrow color.'

@@ -124,6 +124,14 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
     $properties .= sprintf(" --c-bottom-nav: %s;", $settings['color_a']);
   }
 
+  // Language and region selector text color.
+  if (!empty($settings['language_region_selector_text_color'])) {
+    $properties .= sprintf(" --c-language-region-selector-text-color: %s;", $settings['language_region_selector_text_color']);
+  }
+  else {
+    $properties .= sprintf(" --c-language-region-selector-text-color: %s;", $settings['color_a']);
+  }
+
   // Product filter color.
   if (!empty($settings['product_filter_arrow_color'])) {
     $properties .= sprintf(" --c-product_filter_arrow_color: %s;", $settings['product_filter_arrow_color']);

@@ -13,7 +13,7 @@
     background: clr(subcolor-3);
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
     padding: 1.4rem 5rem 1.4rem $space-double;
-    color: clr(primary);
+    color: clr(language-region-selector-text-color);
     font-size: 1.6rem;
     line-height: 1.4;
     font-weight: normal;
@@ -78,7 +78,7 @@
     @include set-font($font-type: 'secondary-font');
 
     display: block;
-    color: clr(primary);
+    color: clr(language-region-selector-text-color);
     padding: $space-double $space-triple $space-double $space-double;
     font-size: 1.6rem;
     line-height: 1.4rem;
