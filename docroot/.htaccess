@@ -268,6 +268,39 @@ AddEncoding gzip svgz
  RewriteCond %{HTTP_HOST} ^www\.unclebens\.gr$ [NC]
  RewriteRule ^(.*)$ https://gr.bensoriginal.com/$1 [R=301,L]
 
+  # Suziwan FR- Country based redirect
+  # Quick fix. Must be removed once redirect will be done externally.
+  RewriteCond %{HTTP_HOST} ^suziwan\.fr$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^www\.suziwan\.fr$ [NC]
+  RewriteRule ^(.*)$ https://fr.suziwan.com/$1 [R=301,L]
+
+  RewriteCond "%{HTTP:CF-IPCountry}" "FR" [NC]
+  RewriteCond %{HTTP_HOST} ^suziwan\.com$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^www\.suziwan\.com$ [NC]
+  RewriteRule ^(.*)$ https://fr.suziwan.com/$1 [R=301,L]
+
+  # Suziwan IT- Country based redirect
+  # Quick fix. Must be removed once redirect will be done externally
+  RewriteCond %{HTTP_HOST} ^suziwan\.it$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^www\.suziwan\.it$ [NC]
+  RewriteRule ^(.*)$ https://it.suziwan.com/$1 [R=301,L]
+
+  RewriteCond "%{HTTP:CF-IPCountry}" "IT" [NC]
+  RewriteCond %{HTTP_HOST} ^suziwan\.com$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^www\.suziwan\.com$ [NC]
+  RewriteRule ^(.*)$ https://it.suziwan.com/$1 [R=301,L]
+
+  # Suziwan BE- Country based redirect
+  # Quick fix. Must be removed once redirect will be done externally.
+  RewriteCond %{HTTP_HOST} ^suziwan\.be$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^www\.suziwan\.be$ [NC]
+  RewriteRule ^(.*)$ https://be.suziwan.com/$1 [R=301,L]
+
+  RewriteCond "%{HTTP:CF-IPCountry}" "BE" [NC]
+  RewriteCond %{HTTP_HOST} ^suziwan\.com$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^www\.suziwan\.com$ [NC]
+  RewriteRule ^(.*)$ https://be.suziwan.com/$1 [R=301,L]
+
   # Redirect common PHP files to their new locations.
   RewriteCond %{REQUEST_URI} ^(.*)?/(install.php) [OR]
   RewriteCond %{REQUEST_URI} ^(.*)?/(rebuild.php)
