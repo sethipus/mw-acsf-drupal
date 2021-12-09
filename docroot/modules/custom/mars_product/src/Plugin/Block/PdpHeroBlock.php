@@ -22,6 +22,8 @@ use Drupal\mars_product\NutritionDataHelper;
 use Drupal\mars_product\ProductHelper;
 use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Path\CurrentPathStack;
 
 /**
  * Provides a Header block.
@@ -85,6 +87,20 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
+
+  /**
+   * Route match service for getting node 
+   * 
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatch;
+
+  /**
+   * The current path stack.
+   *
+   * @var \Drupal\Core\Path\CurrentPathStack
+   */
+  protected $currentPathStack;
 
   /**
    * Helper service to deal with media.
@@ -243,7 +259,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ImmutableConfig $wtb_global_config,
     bool $default_review_state,
     ConfigFactoryInterface $config_factory,
-    NutritionDataHelper $nutrition_helper
+    NutritionDataHelper $nutrition_helper,
+    RouteMatchInterface $route_match,
+    CurrentPathStack $current_path
   ) {
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->entityRepository = $entity_repository;
@@ -256,6 +274,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $this->defaultReviewState = $default_review_state;
     $this->configFactory = $config_factory;
     $this->nutritionHelper = $nutrition_helper;
+    $this->routeMatch = $route_match;
+    $this->currentPathStack = $current_path;
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
@@ -282,7 +302,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $global_wtb_config,
       (bool) $default_review_state,
       $container->get('config.factory'),
-      $container->get('mars_product.nutrition_data_helper')
+      $container->get('mars_product.nutrition_data_helper'),
+      $container->get('current_route_match'),
+      $container->get('path.current')
     );
   }
 
@@ -292,6 +314,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $commerce_vendor = $this->getCommerceVendor();
+    $current_path = $this->currentPathStack->getPath();
+    $path_arr = explode('/',$current_path);
+    $node_str = preg_grep('/node./',$path_arr);
+    $nid = str_replace('node.','',implode('',$node_str));
+    if($nid){
+      $node = $this->nodeStorage->load($nid);
+    }
 
     $form['eyebrow'] = [
       '#type' => 'textfield',
@@ -465,21 +494,28 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['nutrition']['serving_label'],
       '#required' => TRUE,
     ];
-    $form['nutrition']['dual_serving_label'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Dual Amount per serving label'),
-      '#default_value' => $this->configuration['nutrition']['dual_serving_label'],
-    ];
-    $form['nutrition']['table_label'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Table Label'),
-      '#default_value' => $this->configuration['nutrition']['table_label'],
-    ];
-    $form['nutrition']['dual_table_label'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Dual Table Label'),
-      '#default_value' => $this->configuration['nutrition']['dual_table_label'],
-    ];
+    if(!empty($node) && $node->bundle() == 'product'){
+      $form['nutrition']['dual_serving_label'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Dual Amount per serving label'),
+        '#default_value' => $this->configuration['nutrition']['dual_serving_label'],
+      ];
+      $form['nutrition']['table_label'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Table Label'),
+        '#default_value' => $this->configuration['nutrition']['table_label'],
+      ];
+      $form['nutrition']['dual_table_label'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Dual Table Label'),
+        '#default_value' => $this->configuration['nutrition']['dual_table_label'],
+      ];
+      $form['nutrition']['reference_intake_value_visibility'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Reference Intake Value Visibility'),
+        '#default_value' => $this->configuration['nutrition']['reference_intake_value_visibility'],
+      ];
+    }
     $form['nutrition']['daily_label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Daily value label'),
@@ -637,10 +673,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function defaultConfiguration(): array {
     $config = $this->getConfiguration();
-
+    
     $display = 'product_hero';
     $widget_id_field = $this->productHelper->getWidgetIdField($display);
-
+    $node = $this->routeMatch->getParameter('node');
+    
     $view_type = $this->nutritionHelper
       ->getNutritionConfig()
       ->get('view_type');
@@ -682,6 +719,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'dual_serving_label' => $config['nutrition']['dual_serving_label'] ?? $dual_serving_label,
         'table_label' => $config['nutrition']['table_label'] ?? '',
         'dual_table_label' => $config['nutrition']['dual_table_label'] ?? '',
+        'reference_intake_value_visibility' => $config['nutrition']['reference_intake_value_visibility'] ?? '',
         'daily_label' => $config['nutrition']['daily_label'] ?? $daily_label,
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
         'added_sugars_label' => $config['nutrition']['added_sugars_label'] ?? $this->languageHelper->translate('Includes'),
@@ -900,6 +938,17 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           $item['nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_1')->value;
           $item['dual_nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_2')->value;
         }
+      }
+      $config_reference_intake = $this->configuration['nutrition']['reference_intake_value_visibility'];
+      if($config_reference_intake == '1'){
+        $item['dual_nutrition_data']['serving_item']['reference_intake_value'] = '';
+      }
+      elseif($config_reference_intake == '2'){
+        $item['nutrition_data']['serving_item']['reference_intake_value'] = '';
+      }
+      elseif($config_reference_intake == '0'){
+        $item['nutrition_data']['serving_item']['reference_intake_value'] = '';
+        $item['dual_nutrition_data']['serving_item']['reference_intake_value'] = '';
       }
       if ($this->getCommerceVendor() == self::VENDOR_MANUAL_LINK_SELECTION && !$product_variant->get('field_product_hide_wtb_link')->value) {
         $item['wtb_manual_link_info'] = $this->getManualLinkInfo($product_variant);

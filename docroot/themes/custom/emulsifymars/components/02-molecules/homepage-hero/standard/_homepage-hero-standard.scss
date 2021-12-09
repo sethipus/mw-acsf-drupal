@@ -11,12 +11,11 @@
 
     @include medium {
       flex-flow: row nowrap;
-      max-height: calc(100vh - #{$navigation_medium});
       min-height: 51rem;
     }
 
     @include large {
-      max-height: calc(100vh - #{$navigation_large});
+      max-height: none;
     }
 
     @include xl {

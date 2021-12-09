@@ -292,6 +292,12 @@ class WtbConfigForm extends ConfigFormBase {
           '#description' => $this->t('Please use this field to specify widget display language once it is different from the site common language. Field value format sample for German sites: <b>de</b>'),
           '#default_value' => !empty($config['settings']['data_displaylanguage']) ? $config['settings']['data_displaylanguage'] : '',
         ];
+
+        $fieldset['hide_size_dropdown'] = [
+          '#type' => 'checkbox',
+          '#title' => $this->t('Hide size dropdown'),
+          '#default_value' => !empty($config['settings']['hide_size_dropdown']) ? $config['settings']['hide_size_dropdown'] : FALSE,
+        ];
         break;
 
       case PdpHeroBlock::VENDOR_SMART_COMMERCE:

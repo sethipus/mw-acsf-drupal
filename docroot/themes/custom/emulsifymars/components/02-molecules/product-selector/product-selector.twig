@@ -28,13 +28,13 @@
   <div {{bem('form-container', [], product_selector_class)}}>
     <form {{bem('form', [], product_selector_class)}}>
       <div {{bem('select-wrapper', [], product_selector_class)}}>
-        <select {{bem('item-selector', [], product_selector_class)}}>
+        <select {{bem('item-selector', [], product_selector_class)}} {{ hide_size_dropdown ? 'style="width: unset;"'}}>
           {% for product in products %}
             <option data-id="{{ product.id }}" data-variants="{{ product.variants_json }}">{{ product.title }}</option>
           {% endfor %}
         </select>
       </div>
-      <div {{bem('select-wrapper', [], product_selector_class)}}>
+      <div {{bem('select-wrapper', [], product_selector_class)}} {{ hide_size_dropdown ? 'style="display: none;"'}}>
         <select {{bem('product-variant-selector', [], product_selector_class)}}>
           {% for variant in products[0].variants %}
             <option data-id="{{ variant.gtin }}" value="{{ variant.size }}">{{ variant.size }}</option>

@@ -326,6 +326,20 @@ class ThemeConfiguratorService {
       '#description'   => $this->t('If this field is left empty, it falls back to Color A.'),
     ];
 
+     // Language and region selector color settings.
+     $form['color_settings']['language_region_selector'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Language and region selector Settings'),
+    ];
+
+    $form['color_settings']['language_region_selector']['language_region_selector_text_color'] = [
+      '#type'          => 'jquery_colorpicker',
+      '#title'         => $this->t('Language and region selector text color'),
+      '#default_value' => $this->getColorData('language_region_selector_text_color', $config),
+      '#attributes' => ['class' => ['show-clear']],
+      '#description'   => $this->t('If this field is left empty, it falls back to Color A.'),
+    ];
+
     // Product filter color settings.
     $form['color_settings']['product_filter'] = [
       '#type' => 'fieldset',

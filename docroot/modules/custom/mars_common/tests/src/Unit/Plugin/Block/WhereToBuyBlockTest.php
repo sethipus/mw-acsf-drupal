@@ -149,7 +149,8 @@ class WhereToBuyBlockTest extends UnitTestCase {
       $this->languageManagerMock,
       $this->entityTypeManagerMock,
       $this->mediaHelperMock,
-      $this->wtbGlobalConfig,
+      $this->configFactoryMock,
+      $this->wtbGlobalConfig
     );
   }
 
@@ -158,7 +159,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(4))
+      ->expects($this->exactly(5))
       ->method('get')
       ->willReturnMap(
         [

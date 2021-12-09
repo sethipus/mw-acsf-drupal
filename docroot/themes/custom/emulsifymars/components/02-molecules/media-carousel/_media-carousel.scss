@@ -61,7 +61,19 @@
     padding-top: 1px;
     background-color: clr(subcolor-2);
 
+    @include xs {
+      height: auto;
+    }
+
+    @include small {
+      height: auto;
+    }
+
     @include medium {
+      height: auto;
+    }
+
+    @include large {
       height: auto;
     }
 
@@ -79,9 +91,24 @@
     line-height: 1.3em;
     padding: 6rem 3rem 0.5rem 3rem;
 
+    @include xs {
+      font-size: 1.2rem;
+      padding: 3rem 4rem 1rem;
+    }
+
+    @include small {
+      font-size: 1.2rem;
+      padding: 3rem 4rem 1rem;
+    }
+
     @include medium {
       font-size: 1.4rem;
       padding: 3rem 4rem 1rem;
+    }
+
+    @include large {
+      font-size: 1.6rem;
+      padding: 2rem 5.6rem 1rem 10.6rem;
     }
 
     @include xl {
@@ -94,8 +121,20 @@
     background: clr(subcolor-2);
     height: 25rem;
 
+    @include xs {
+      height: 31.3rem;
+    }
+
+    @include small {
+      height: 31.3rem;
+    }
+
     @include medium {
-      height: 43.3rem;
+      height: 53.3rem;
+    }
+
+    @include large {
+      height: 60.3rem;
     }
 
     @include xl {
@@ -126,8 +165,20 @@
       height: 25rem;
       object-fit: cover;
 
+      @include xs {
+        height:30.3rem;
+      }
+
+      @include small {
+        height: 30.3rem;
+      }
+      
       @include medium {
-        height: 43.3rem;
+        height: 53.3rem;
+      }
+
+      @include large {
+        height: 60.3rem;
       }
 
       @include xl {
@@ -172,10 +223,28 @@
       height: 1rem;
       transform: scale(0.45);
 
+      @include xs {
+        bottom: -1.5rem;
+        height: 1.5rem;
+        transform: scale(0.33);
+      }
+
+      @include small {
+        bottom: -1.5rem;
+        height: 1.5rem;
+        transform: scale(0.33);
+      }
+
       @include medium {
         bottom: -1rem;
         height: 1.8rem;
         transform: scale(0.35);
+      }
+
+      @include large {
+        bottom: 0.5rem;
+        height: 2rem;
+        transform: scale(0.38);
       }
 
       @include xl {
@@ -204,6 +273,12 @@
     }
 
     @include medium {
+      width: 6rem;
+      height: 6rem;
+      top: 88%;
+    }
+
+    @include large {
       width: 6rem;
       height: 6rem;
       top: 88%;
@@ -239,6 +314,11 @@
       left: 30px;
     }
 
+    @include large {
+      top: 90%;
+      left: 35px;
+    }
+
     @include xl {
       top: 90%;
       left: 40px;
@@ -255,6 +335,11 @@
       right: 30px;
     }
 
+    @include large {
+      top: 90%;
+      right: 35px;
+    }
+
     @include xl {
       top: 90%;
       right: 40px;
@@ -262,19 +347,39 @@
   }
 }
 
-.overlay-video__control[data-state="play"] .play-icon {
-  position: absolute;
-  margin: 0;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-33%) translateY(-50%);
-}
+// .overlay-video__control[data-state="play"] .play-icon {
+//   position: absolute;
+//   margin: 0;
+//   left: 50%;
+//   top: 50%;
+//   transform: translateX(-33%) translateY(-50%);
+// }
 
-.overlay-video__playpause[data-state="pause"] .play-icon{
-  display: none;
-}
+// .overlay-video__playpause[data-state="pause"] .play-icon{
+//   display: none;
+// }
 
-.overlay-video__playpause[data-state="play"] .play-icon{
-  width: 10px;
-  height: 12px;
-}
+// .overlay-video__playpause[data-state="play"] .play-icon{
+//   width: 10px;
+//   height: 12px;
+// }
+
+// .overlay-video__control[data-state="play"] {
+//   left: calc(100% - 80px);
+//   top: 15px;
+// }
+
+// .overlay-video__control[data-state="pause"] {
+//   left: calc(100% - 80px);
+//   top: 15px;
+// }
+
+// .overlay-video__controls[data-state="mute"] {
+//   left: calc(100% - 90px);
+//   top: 100px;
+// }
+
+// .overlay-video__controls[data-state="unmute"] {
+//   left: calc(100% - 90px);
+//   top: 100px;
+// }

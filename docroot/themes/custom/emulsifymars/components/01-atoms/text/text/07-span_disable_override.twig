@@ -1,0 +1,21 @@
+{#
+/**
+ * Available variables:
+ * - span_base_class - the base classname
+ * - span_modifiers - array of modifiers to add to the base classname
+ * - span_blockname - blockname prepended to the base classname
+ * - span_content - the content of the span (typically text)
+ * - span_extra_classes - additional classes for span
+ *
+ * Available blocks:
+ * - span_content - used to replace the content of the span with something other than plain text
+ *   for example: A formatted text field in Drupal
+ */
+#}
+{% set span_base_class = span_base_class|default('span') %}
+
+<span {{ bem(span_base_class, span_modifiers, span_blockname, span_extra_classes) }}>
+  {% block span_content %}
+    {{ span_content }}
+  {% endblock %}
+</span>
