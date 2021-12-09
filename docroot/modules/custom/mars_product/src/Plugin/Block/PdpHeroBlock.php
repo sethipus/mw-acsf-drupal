@@ -1195,7 +1195,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function getServingItems($node, string $field_prefix = 'product') {
     $result_item = [
-      'ingredients_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value), '<strong>'),
+      'ingredients_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value), '<strong><b>'),
       'warnings_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_allergen_warnings')->value)),
       'legal_warnings_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_legal_warnings')->value)),
       'hide_dialy_value_column' => TRUE,
@@ -1219,7 +1219,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     if ($node->hasField('field_product_reference_intake')) {
-      $result_item['reference_intake_value'] = strip_tags(html_entity_decode($node->get('field_product_reference_intake')->value), '<strong>');
+      $result_item['reference_intake_value'] = strip_tags(html_entity_decode($node->get('field_product_reference_intake')->value), '<strong><b>');
     }
 
     $mapping = $this->nutritionHelper
