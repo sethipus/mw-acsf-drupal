@@ -100,7 +100,7 @@
     color: clr(primary, card-title, recipe-card-title);
     text-decoration: none;
     font-size: 2.2rem;
-    line-height: 2.42rem;
+    line-height: 3rem;
     min-height: 6rem;
     display: block;
     font-weight: bold;
@@ -108,13 +108,13 @@
 
     @include large {
       font-size: 1.6rem;
-      line-height: 1.575rem;
+      line-height: 3rem;
       min-height: auto;
     }
 
     @include xl {
       font-size: 2.2rem;
-      line-height: 2.42rem;
+      line-height: 3.2rem;
       min-height: 6rem;
     }
   }
