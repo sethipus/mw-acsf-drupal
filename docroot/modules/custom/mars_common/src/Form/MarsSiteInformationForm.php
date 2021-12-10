@@ -44,6 +44,13 @@ class MarsSiteInformationForm extends SiteInformationForm {
       '#description' => $this->t("For example: US."),
     ];
 
+    // Sec-GPC http response header field.
+    $form['mars_site_information']['response_header'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Remove Sec-GPC value from HTTP response header.'),
+      '#default_value' => $site_config->get('response_header') ?? FALSE,
+    ];
+
     return $form;
   }
 
@@ -55,6 +62,7 @@ class MarsSiteInformationForm extends SiteInformationForm {
       ->set('brand', $form_state->getValue('brand'))
       ->set('segment', $form_state->getValue('segment'))
       ->set('market', $form_state->getValue('market'))
+      ->set('response_header', $form_state->getValue('response_header'))
       ->save();
 
     parent::submitForm($form, $form_state);
