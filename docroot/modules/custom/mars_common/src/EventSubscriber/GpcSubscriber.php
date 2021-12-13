@@ -17,7 +17,7 @@ class GpcSubscriber implements EventSubscriberInterface {
    */
   protected $configFactory;
 
-   /**
+  /**
    * Constructs Gpc Subscriber.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration factory.
