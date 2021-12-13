@@ -37,7 +37,7 @@
     border-bottom-right-radius: variable(card-border-radius);
 
     @include large {
-      height: 16.6rem;
+      height: 204px;
     }
 
     @include xl {
@@ -46,7 +46,11 @@
     img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: unset;
+    }
+
+    @include large{
+      height:204px;
     }
 
     a {
@@ -120,5 +124,4 @@
       margin-bottom: 2.5rem;
     }
   }
-
 }

@@ -93,23 +93,25 @@
 
   &__container--title {
     width: 100%;
-    padding: 0 2rem;
     position: absolute;
     z-index: 2;
     bottom: 0;
+    padding: 30rem 2rem 24rem 2rem;
 
     @include medium {
       width: 75%;
-      padding: 0 4rem;
+      padding: 30rem 2rem 24rem 2rem;
     }
 
     @include large {
       width: 62%;
+      padding: 29rem 3rem 18rem 2rem;
     }
 
     @include xl {
       max-width: 893px;
       left: calc((100% - 1440px) / 2);
+      padding: 30rem 2rem 24rem 2rem;
     }
   }
 
