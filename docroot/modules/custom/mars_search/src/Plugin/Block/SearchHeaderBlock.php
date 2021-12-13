@@ -87,6 +87,11 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
   public function build() {
     $config = $this->getConfiguration();
     $build = $this->searchBuilder->buildSearchHeader($config);
+    if(!empty($config['exclude_products'])){
+      $exclude_products_arr = explode(',',$config['exclude_products']);
+      $exclude_count = count($exclude_products_arr);
+      $build['#search_filters'][0]['count'] -= $exclude_count;
+    }
     $build['#search_header_heading'] = $config['search_header_heading'] ?? $this->languageHelper->translate('What are you looking for?');
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
     $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
@@ -124,6 +129,13 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
       '#title' => $this->languageHelper->translate('Search input hint'),
       '#required' => TRUE,
       '#default_value' => $config['search_header_placeholder'] ?? $this->languageHelper->translate('Search products, recipes, articles...'),
+    ];
+
+    $form['exclude_products'] = [
+      '#title' => $this->languageHelper->translate('Exclude products'),
+      '#type' => 'textfield',
+      '#size' => 200,
+      '#default_value' => $config['exclude_products'] ?? '',
     ];
 
     return $form;

@@ -104,6 +104,13 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       '#default_value' => $config['cta_button_label'] ?? strtoupper($this->languageHelper->translate('See more')),
     ];
 
+    $form['exclude_products'] = [
+      '#title' => $this->languageHelper->translate('Exclude products'),
+      '#type' => 'textfield',
+      '#size' => 200,
+      '#default_value' => $config['exclude_products'] ?? '',
+    ];
+
     $this->buildOverrideColorElement($form, $config, TRUE);
 
     return $form;

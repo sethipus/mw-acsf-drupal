@@ -1,6 +1,7 @@
 {{ attach_library('emulsifymars/product-selector') }}
 
 {% set product_selector_class = product_selector_class|default('product-selector') %}
+{% set hide_size_dropdown_class = hide_size_dropdown ? 'hide-size-dropdown'%}
 
 <section {{bem(product_selector_class)}} data-theme={{theme_styles}}>
   {% for key, product in products %}
@@ -28,13 +29,13 @@
   <div {{bem('form-container', [], product_selector_class)}}>
     <form {{bem('form', [], product_selector_class)}}>
       <div {{bem('select-wrapper', [], product_selector_class)}}>
-        <select {{bem('item-selector', [], product_selector_class)}}>
+        <select {{ hide_size_dropdown ? bem('item-selector', [hide_size_dropdown_class], product_selector_class)}} : {{bem('item-selector', [], product_selector_class) }}>
           {% for product in products %}
             <option data-id="{{ product.id }}" data-variants="{{ product.variants_json }}">{{ product.title }}</option>
           {% endfor %}
         </select>
       </div>
-      <div {{bem('select-wrapper', [], product_selector_class)}}>
+      <div {{bem('select-wrapper', [], product_selector_class)}} {{ hide_size_dropdown ? 'style="display: none;"'}}>
         <select {{bem('product-variant-selector', [], product_selector_class)}}>
           {% for variant in products[0].variants %}
             <option data-id="{{ variant.gtin }}" value="{{ variant.size }}">{{ variant.size }}</option>

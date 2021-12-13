@@ -22,12 +22,12 @@
   } %}
     {% block button_content %}
       {% if dropdown_selected_title %}
-        {% include "@atoms/text/text/07-span.twig" with {
+        {% include "@atoms/text/text/07-span_disable_override.twig" with {
           span_base_class: dropdown_base_class ~ '__title-selected',
           span_content: dropdown_selected_title,
         } %}
       {% endif %}
-      {% include "@atoms/text/text/07-span.twig" with {
+      {% include "@atoms/text/text/07-span_disable_override.twig" with {
         span_base_class: dropdown_base_class ~ '__title-default',
         span_content: dropdown_title,
       } %}
@@ -46,7 +46,7 @@
               li_modifiers: ['label'],
             } %}
               {% block list_item_content %}
-                {% include "@atoms/text/text/07-span.twig" with {
+                {% include "@atoms/text/text/07-span_disable_override.twig" with {
                   span_base_class: dropdown_base_class ~ '__span',
                   span_content: dropdown_label,
                 } %}
@@ -78,19 +78,19 @@
                 li_modifiers: dropdown_item_modifiers,
               } %}
                 {% block list_item_content %}
-                  {% embed "@atoms/links/link/link.twig" with {
+                  {% embed "@atoms/links/link/link_disable_override.twig" with {
                     link_content: dropdown_item.title,
                     link_url: dropdown_item.url,
                     link_base_class: dropdown_base_class ~ '__link',
                   } %}
                     {% block link_content %}
                       {% if dropdown_item.abbr %}
-                        {% include "@atoms/text/text/07-span.twig" with {
+                        {% include "@atoms/text/text/07-span_disable_override.twig" with {
                           span_base_class: dropdown_base_class ~ '__abbr',
                           span_content: dropdown_item.abbr,
                         } %}
                       {% endif %}
-                      {% include "@atoms/text/text/07-span.twig" with {
+                      {% include "@atoms/text/text/07-span_disable_override.twig" with {
                         span_content: dropdown_item.title,
                       } %}
                     {% endblock %}
