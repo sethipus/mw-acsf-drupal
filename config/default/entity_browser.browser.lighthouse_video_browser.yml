@@ -23,20 +23,20 @@ widget_selector: tabs
 widget_selector_configuration: {  }
 widgets:
   a632bb3e-7fc0-4544-aee2-1c84379e19a2:
+    id: lighthouse_video_view
+    uuid: a632bb3e-7fc0-4544-aee2-1c84379e19a2
+    label: 'Search Lighthouse Video'
+    weight: 1
     settings:
       submit_text: 'Select entities'
       auto_select: false
-    uuid: a632bb3e-7fc0-4544-aee2-1c84379e19a2
-    weight: 1
-    label: 'Search Lighthouse Video'
-    id: lighthouse_video_view
   270110c1-e3f7-4121-9e8d-376442245d78:
+    id: view
+    uuid: 270110c1-e3f7-4121-9e8d-376442245d78
+    label: 'Media used'
+    weight: 2
     settings:
+      submit_text: 'Select entities'
+      auto_select: false
       view: lighthouse_media
       view_display: lightbox_video_browser
-      submit_text: 'Select entities'
-      auto_select: false
-    uuid: 270110c1-e3f7-4121-9e8d-376442245d78
-    weight: 2
-    label: 'Media used'
-    id: view

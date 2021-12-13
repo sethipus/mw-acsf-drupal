@@ -11,12 +11,12 @@ pattern: 'recipes/[node:title]'
 selection_criteria:
   7b2eb210-16be-4eb6-b16d-5d09f7bf1155:
     id: node_type
-    bundles:
-      recipe: recipe
     negate: false
+    uuid: 7b2eb210-16be-4eb6-b16d-5d09f7bf1155
     context_mapping:
       node: node
-    uuid: 7b2eb210-16be-4eb6-b16d-5d09f7bf1155
+    bundles:
+      recipe: recipe
 selection_logic: and
 weight: -5
 relationships: {  }

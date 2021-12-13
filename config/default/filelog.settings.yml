@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: uVSFqX1MwFixVjXjlh72ukQ8LKPgMKNi2raycY9vt3w
 enabled: false
 location: 'public://logs'
 rotation:
@@ -9,5 +11,3 @@ format: '[[log:created]] [[log:level]] [[log:channel]] [client: [log:ip], [log:u
 level: 7
 channels_type: exclude
 channels: {  }
-_core:
-  default_config_hash: uVSFqX1MwFixVjXjlh72ukQ8LKPgMKNi2raycY9vt3w

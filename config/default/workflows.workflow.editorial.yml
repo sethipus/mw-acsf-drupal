@@ -30,25 +30,25 @@ type: content_moderation
 type_settings:
   states:
     approved:
-      published: false
-      default_revision: false
       label: Approved
       weight: 6
+      published: false
+      default_revision: false
     draft:
       label: Draft
+      weight: -5
       published: false
       default_revision: false
-      weight: -5
     published:
       label: Published
+      weight: 0
       published: true
       default_revision: true
-      weight: 0
     restored_to_draft:
-      published: false
-      default_revision: false
       label: 'Restored to Draft'
       weight: 7
+      published: false
+      default_revision: false
     review:
       label: 'In review'
       weight: -1
@@ -63,17 +63,17 @@ type_settings:
       weight: 5
     create_new_draft:
       label: 'Create New Draft'
-      to: draft
-      weight: 0
       from:
         - draft
         - published
+      to: draft
+      weight: 0
     publish:
       label: Publish
-      to: published
-      weight: 1
       from:
         - approved
+      to: published
+      weight: 1
     reject:
       label: Reject
       from:
@@ -82,12 +82,12 @@ type_settings:
       weight: 6
     review:
       label: 'Send to review'
-      to: review
-      weight: 0
       from:
         - draft
         - restored_to_draft
         - review
+      to: review
+      weight: 0
     skip_review:
       label: 'Skip Review'
       from:

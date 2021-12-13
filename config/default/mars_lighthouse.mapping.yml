@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: xuNwZ7AfKAVRNiwkv-MFtsGbWaL9U5kHp7I-eO_jEmI
 media:
   field_external_id: assetId
   field_segment: segment
@@ -17,5 +19,3 @@ file:
   filename: assetName
   uri: urls.001orig
   filemime: fileType
-_core:
-  default_config_hash: xuNwZ7AfKAVRNiwkv-MFtsGbWaL9U5kHp7I-eO_jEmI

@@ -37,37 +37,37 @@ mode: default
 content:
   field_asset_type:
     type: computed_string
-    weight: 3
-    region: content
     label: above
     settings:
       sanitized: true
       cache_unit: -1
       cache_duration: 1
     third_party_settings: {  }
+    weight: 3
+    region: content
   field_dimension:
     type: area_components_field_formatter
-    weight: 2
-    region: content
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    weight: 2
+    region: content
   field_is_transparent:
     type: list_default
-    weight: 1
-    region: content
     label: above
     settings: {  }
     third_party_settings: {  }
+    weight: 1
+    region: content
   field_media_image:
-    label: visually_hidden
-    weight: 0
-    settings:
-      image_style: large
-      image_link: ''
-    third_party_settings: {  }
     type: image
+    label: visually_hidden
+    settings:
+      image_link: ''
+      image_style: large
+    third_party_settings: {  }
+    weight: 0
     region: content
 hidden:
   created: true

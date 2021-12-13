@@ -2,12 +2,6 @@ uuid: 0f5e7408-f672-4206-be26-83b21c33c855
 langcode: en
 status: true
 dependencies:
-  module:
-    - search_api_solr
-    - node
-    - taxonomy
-    - search_api
-    - mars_search
   config:
     - field.storage.node.field_qa_item_answer
     - field.storage.node.field_brand_initiatives
@@ -31,20 +25,26 @@ dependencies:
     - field.storage.node.field_recipe_collection
     - field.storage.node.field_product_trade_description
     - search_api.server.acquia_search_server
+  module:
+    - search_api_solr
+    - node
+    - taxonomy
+    - search_api
+    - mars_search
 third_party_settings:
   search_api_solr:
     highlighter:
       highlight:
         snippets: 3
         fragsize: 0
+    term_modifiers:
+      slop: 10000000
+      fuzzy: 2
     advanced:
       index_prefix: ''
     multilingual:
       limit_to_content_language: false
       include_language_independent: true
-    term_modifiers:
-      slop: 10000000
-      fuzzy: 2
 _core:
   default_config_hash: 5kXLh0sYJ2Yc_THnDbYg_pPAc1UJ0gabzabQYjrYyAc
 id: acquia_search_index
@@ -444,6 +444,9 @@ processor_settings:
   entity_status: {  }
   faq_item_queue_weight: {  }
   ignore_character:
+    weights:
+      preprocess_index: -10
+      preprocess_query: -10
     all_fields: false
     fields:
       - mars_brand_initiatives_name
@@ -473,11 +476,10 @@ processor_settings:
       - Pi
       - Po
       - Ps
-    weights:
-      preprocess_index: -10
-      preprocess_query: -10
   language_with_fallback: {  }
   mars_highlight:
+    weights:
+      postprocess_query: 0
     highlight: always
     highlight_partial: 0
     excerpt: 0
@@ -485,12 +487,12 @@ processor_settings:
     exclude_fields: {  }
     prefix: '<strong class="search-highlight">'
     suffix: '</strong>'
-    weights:
-      postprocess_query: 0
   product_multipack_reference: {  }
   rendered_item: {  }
   solr_date_range: {  }
   type_boost:
+    weights:
+      preprocess_index: 0
     boosts:
       'entity:node':
         datasource_boost: !!float 1
@@ -501,12 +503,11 @@ processor_settings:
           product: !!float 8
           product_multipack: !!float 8
           recipe: !!float 5
-    weights:
-      preprocess_index: 0
 tracker_settings:
   default:
     indexing_order: fifo
 options:
-  index_directly: true
   cron_limit: 50
+  index_directly: true
+  track_changes_in_references: true
 server: acquia_search_server

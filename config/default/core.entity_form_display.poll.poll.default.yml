@@ -23,32 +23,32 @@ third_party_settings:
         - field_negative_feedback
         - field_contact_us_label
         - field_contact_us_link
+      label: 'Feedback Options'
+      region: content
       parent_name: ''
       weight: 7
       format_type: details
-      region: content
       format_settings:
-        description: ''
-        id: ''
         classes: ''
-        required_fields: false
+        id: ''
         open: false
-      label: 'Feedback Options'
+        description: ''
+        required_fields: false
     group_poll_options:
       children:
         - field_submit_cta
         - field_thank_you_message
+      label: 'Poll options'
+      region: content
       parent_name: ''
       weight: 5
       format_type: details
-      region: content
       format_settings:
-        description: ''
-        id: ''
         classes: ''
-        required_fields: false
+        id: ''
         open: false
-      label: 'Poll options'
+        description: ''
+        required_fields: false
 id: poll.poll.default
 targetEntityType: poll
 bundle: poll
@@ -63,28 +63,30 @@ content:
     third_party_settings: {  }
   choice:
     type: poll_choice_default
-    settings: {  }
     weight: 3
     region: content
+    settings: {  }
     third_party_settings: {  }
   field_contact_us_label:
+    type: string_textfield
     weight: 13
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_contact_us_link:
+    type: string_textfield
     weight: 14
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_description:
+    type: string_textfield
     weight: 2
+    region: content
     settings:
       size: 90
       placeholder: ''
@@ -92,46 +94,44 @@ content:
       maxlength:
         maxlength_js: 255
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
-    type: string_textfield
-    region: content
   field_negative_feedback:
+    type: string_textfield
     weight: 12
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_positive_feedback:
+    type: string_textfield
     weight: 11
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_submit_cta:
+    type: string_textfield
     weight: 4
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_thank_you_message:
+    type: string_textfield
     weight: 5
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_type:
+    type: options_buttons
     weight: 0
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_buttons
-    region: content
   question:
     type: string_textfield
     weight: 1
@@ -151,12 +151,12 @@ content:
   uid:
     type: entity_reference_autocomplete
     weight: 9
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
-    region: content
     third_party_settings: {  }
 hidden:
   cancel_vote_allow: true

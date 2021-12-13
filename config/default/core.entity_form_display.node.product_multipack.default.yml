@@ -38,15 +38,15 @@ third_party_settings:
         - group_variants
         - group_products
         - group_system
+      label: 'Product Multipack'
+      region: content
       parent_name: ''
       weight: 0
       format_type: accordion
-      region: content
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         effect: bounceslide
-      label: 'Product Multipack'
     group_product_description:
       children:
         - title
@@ -60,45 +60,45 @@ third_party_settings:
         - field_product_format
         - field_product_occasions
         - field_product_trade_description
+      label: 'Product Description'
+      region: content
       parent_name: group_product_multipack
       weight: 20
       format_type: accordion_item
-      region: content
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: open
-        required_fields: true
         description: ''
-      label: 'Product Description'
+        required_fields: true
     group_variants:
       children:
         - field_product_variants
+      label: Variants
+      region: content
       parent_name: group_product_multipack
       weight: 21
       format_type: accordion_item
-      region: content
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
-        required_fields: true
         description: ''
-      label: Variants
+        required_fields: true
     group_products:
       children:
         - field_product_pack_items
+      label: Products
+      region: content
       parent_name: group_product_multipack
       weight: 22
       format_type: accordion_item
-      region: content
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
-        required_fields: true
         description: ''
-      label: Products
+        required_fields: true
     group_system:
       children:
         - uid
@@ -109,17 +109,17 @@ third_party_settings:
         - url_redirects
         - moderation_state
         - status
+      label: System
+      region: content
       parent_name: group_product_multipack
       weight: 23
       format_type: accordion_item
-      region: content
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         formatter: closed
-        required_fields: true
         description: ''
-      label: System
+        required_fields: true
 _core:
   default_config_hash: OOPlixFypvv5HGiMh7Fwa72RJywvtF88MKLTzXKUa6g
 id: node.product_multipack.default
@@ -134,24 +134,24 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_brand_initiatives:
+    type: options_select
     weight: 2
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
   field_meta_tags:
+    type: metatag_firehose
     weight: 4
+    region: content
     settings:
       sidebar: true
     third_party_settings: {  }
-    type: metatag_firehose
-    region: content
   field_product_category:
+    type: options_select
     weight: 8
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
   field_product_description:
     type: text_textarea
     weight: 4
@@ -161,17 +161,17 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_product_flavor:
+    type: options_select
     weight: 3
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
   field_product_format:
+    type: options_select
     weight: 9
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
   field_product_market:
     type: string_textfield
     weight: 5
@@ -189,28 +189,28 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_product_occasions:
+    type: options_select
     weight: 10
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
   field_product_pack_items:
+    type: entity_reference_autocomplete
     weight: 27
+    region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   field_product_ranking:
+    type: number
     weight: 28
+    region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
-    type: number
-    region: content
   field_product_segment:
     type: string_textfield
     weight: 7
@@ -220,21 +220,21 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_product_trade_description:
+    type: options_select
     weight: 11
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
   field_product_variants:
+    type: entity_reference_autocomplete
     weight: 26
+    region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   langcode:
     type: language_select
     weight: 1
@@ -252,8 +252,8 @@ content:
   moderation_state:
     type: moderation_state_default
     weight: 7
-    settings: {  }
     region: content
+    settings: {  }
     third_party_settings: {  }
   path:
     type: path
@@ -263,10 +263,10 @@ content:
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
-    settings:
-      display_label: true
     weight: 3
     region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   published_at:
     type: publication_date_timestamp
@@ -276,17 +276,17 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    settings:
-      display_label: true
     weight: 8
     region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
-    settings:
-      display_label: true
     weight: 4
     region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   title:
     type: string_textfield
@@ -304,12 +304,12 @@ content:
   uid:
     type: entity_reference_autocomplete
     weight: 1
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
-    region: content
     third_party_settings: {  }
   url_redirects:
     weight: 6
