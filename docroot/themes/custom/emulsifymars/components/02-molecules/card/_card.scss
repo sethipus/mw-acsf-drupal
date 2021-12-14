@@ -48,6 +48,10 @@
 @mixin card-width {
   width: 31.5rem;
 
+  @include xs {
+    width: 25rem;
+  }
+
   @include small {
     width: 26rem;
   }

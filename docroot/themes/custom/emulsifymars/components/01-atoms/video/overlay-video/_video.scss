@@ -150,12 +150,12 @@
 
     @include large {
       top: 100px;
-      right: calc(5% - 39px);
+      right: calc(5% - 30px);
     }
 
     @include xl {
       top: 100px;
-      right: calc(5% - 39px);
+      right: calc(5% - 30px);
     }
   }
 
