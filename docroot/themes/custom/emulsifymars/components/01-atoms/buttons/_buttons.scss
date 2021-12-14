@@ -98,7 +98,6 @@ $button-colors: (
     @include button-color-secondary;
     @include button-large;
   }
-}
 
 div[data-sc-id] {
   max-width: 327px !important;
@@ -166,5 +165,3 @@ button.sc-btn-ec {
     height: 50px !important;
   }
 }
-
-
