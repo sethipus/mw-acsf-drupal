@@ -122,7 +122,7 @@
     height: 25rem;
 
     @include xs {
-      height: 21rem;
+      height: 24rem;
     }
 
     @include small {
@@ -166,7 +166,7 @@
       object-fit: cover;
 
       @include xs {
-        height: 19rem;
+        height: 22.5rem;
       }
 
       @include small {

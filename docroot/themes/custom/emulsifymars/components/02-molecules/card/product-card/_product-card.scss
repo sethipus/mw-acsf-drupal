@@ -13,9 +13,7 @@
   cursor: pointer;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  @include xs{
-    width: 24rem;
-  }
+
   @include card-width;
 
   @include large {
@@ -138,10 +136,6 @@
     width: 25.5rem;
     box-sizing: content-box;
     justify-content: center;
-
-    @include xs{
-      max-width: 75%;
-    }
 
     @include large {
       max-width: 75%;
@@ -274,11 +268,6 @@
 
     .default-link {
 
-      @include xs{
-        font-size: 1rem;
-        min-width: 9.5rem;
-      }
-
       @include large {
         line-height: 3.6rem;
         min-width: 8.9px;
@@ -323,9 +312,6 @@
       .where-to-buy-link,
       .ps-widget,
       .text_link {
-        @include xs{
-          font-size: 1rem;
-        }
         @include large {
           padding: 0 1rem;
           line-height: 3.6rem;
