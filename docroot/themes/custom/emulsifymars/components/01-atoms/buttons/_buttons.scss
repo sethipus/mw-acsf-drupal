@@ -103,6 +103,10 @@ $button-colors: (
 div[data-sc-id] {
   max-width: 327px !important;
   margin-bottom: 0 !important;
+
+  @include medium{
+    max-width: 8rem !important;
+  }
 }
 
 button.sc-btn-ec {
@@ -117,18 +121,21 @@ button.sc-btn-ec {
 
   @include xs {
     font-size: 1.3rem !important;
-    min-width: 13.3rem !important;
+    min-width: 11.4rem !important;
+    min-width: 11.3rem !important;
     padding: .5rem 1rem !important;
   }
 
   @include small {
     font-size: 1.3rem !important;
     padding: .5rem 1rem !important;
-    min-width: 11.3rem !important;
+    min-width: 13.3rem !important;
   }
 
   @include medium {
     font-size: 1 !important;
+    min-height: 37px !important;
+    height: 37px !important;
     min-height: 50px !important;
     height: 50px !important;
     padding: .5rem 1rem !important;
@@ -137,6 +144,7 @@ button.sc-btn-ec {
 
   @include large {
     font-size: 1rem !important;
+    min-width: 13.3rem !important;
     min-width: 9.3rem !important;
     min-height: 37px !important;
     height: 37px !important;
@@ -145,25 +153,18 @@ button.sc-btn-ec {
 
   @include larger {
     font-size: 1rem !important;
+    min-width: 0 !important;
     min-width: 9.3rem !important;
     min-height: 37px !important;
     height: 37px !important;
     padding: .5rem 1rem !important;
   }
-
   @include xl {
     font-size: 1.3rem !important;
-    min-width: 13.3rem !important;
+    min-width: 13.3rem!important;
     min-height: 50px !important;
     height: 50px !important;
   }
-}
-
-.sc-btn-ec {
-  width: 120px !important;
-  min-width: initial !important;
-  font-size: 1rem !important;
-  height: 37px !important;
 }
 
 
