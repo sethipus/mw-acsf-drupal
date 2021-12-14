@@ -275,24 +275,14 @@
     .default-link {
 
       @include xs{
-        font-size: 1.5rem;
-        min-width: 10.5rem;
-      }
-
-      @include small{
-        font-size: 1.5rem;
-        min-width: 12rem;
-      }
-
-      @include medium{
-        font-size: 1.4rem;
-        min-width: 14.3rem;
+        font-size: 1rem;
+        min-width: 9.5rem;
       }
 
       @include large {
-        line-height: 3.7rem;
+        line-height: 3.6rem;
         min-width: 8.9px;
-        font-size: 1.3rem;
+        font-size: 1rem;
         padding-left: 0.9rem;
         padding-right: 0.9rem;
       }
@@ -373,38 +363,3 @@
     display: none !important;
   }
 }
-  @include large{
-
-    body ,body button{
-       letter-spacing: 0.07rem;
-    }
-  }
-  button .sc-btn-ec{
-     
-    @include xs{
-      font-size: 1.3rem !important;
-      min-width: 10.5rem !important;
-      padding: 0.5rem 1rem !important;
-    }
-
-    @include small{
-      font-size: 1.5rem !important;
-      min-width: 12rem !important;
-      padding: 0.5rem 1rem !important;
-    }
-
-    @include medium{
-      font-size: 1.4rem !important;
-      min-width: 14.3rem !important;
-      min-height: 50px !important;
-      height: 50px !important;
-      padding: 0.5rem 1rem !important;
-    }
-
-    @include large{
-      font-size: 1.3rem !important;
-      min-width: 9.3rem !important;
-      min-height: 37px !important;
-      padding: 0.5rem 1rem !important;
-    }
-  }
