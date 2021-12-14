@@ -127,6 +127,11 @@
 
     @include small {
       height: 24rem;
+      height: 43.3rem;
+    }
+
+    @include small {
+      height: 43.3rem;
     }
 
     @include medium {
@@ -171,6 +176,11 @@
 
       @include small {
         height: 22.5rem;
+        height: 43.3rem;
+      }
+
+      @include small {
+        height: 43.3rem;
       }
       
       @include medium {
