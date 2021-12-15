@@ -196,6 +196,7 @@
     animation: hero-3up-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
     @include xs {
+
       padding: 30px 20px 74px 24px;
     }
 
@@ -205,6 +206,15 @@
 
     @include medium {
       padding: 30px 20px 107px 37px;
+    }
+
+    @include small {
+      padding: 30px 20px 100px 37px;
+    }
+
+    @include medium {
+      padding: 30px 20px 142px 37px;
+
     }
 
     @include large {
