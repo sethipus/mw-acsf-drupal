@@ -209,11 +209,12 @@
 
     @include large {
       padding: 30px 20px 78px 37px;
-    }  
+    }    
     
     @include xl{
       padding: 30px 20px 40px 50px;
     }
+
   }
 
   .dark-overlay {
