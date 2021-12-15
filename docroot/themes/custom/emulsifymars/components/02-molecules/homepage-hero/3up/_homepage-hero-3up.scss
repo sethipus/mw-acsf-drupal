@@ -196,7 +196,6 @@
     animation: hero-3up-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
     @include xs {
-
       padding: 30px 20px 43px 20px;
     }
 
@@ -210,11 +209,12 @@
 
     @include large {
       padding: 30px 20px 78px 37px;
-    }  
+    }    
     
     @include xl{
       padding: 30px 20px 40px 50px;
     }
+
   }
 
   .dark-overlay {
