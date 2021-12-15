@@ -197,30 +197,20 @@
 
     @include xs {
 
-      padding: 30px 20px 74px 24px;
+      padding: 30px 20px 98px 22px;
     }
 
     @include small {
-      padding: 29px 20px 90px 25px;
-    }
-
-    @include medium {
-      padding: 30px 20px 107px 37px;
-    }
-
-    @include small {
-      padding: 30px 20px 100px 37px;
+      padding: 29px 20px 100px 25px;
     }
 
     @include medium {
       padding: 30px 20px 142px 37px;
-
     }
 
     @include large {
       padding: 30px 20px 150px 37px;
-    }
-    
+    }    
   }
 
   .dark-overlay {
