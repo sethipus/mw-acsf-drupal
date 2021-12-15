@@ -13,6 +13,10 @@
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   margin-bottom: 6rem;
   @include card-width;
+  
+  @include xs{
+  width: 25rem;
+  }
 
   @include large {
     min-height: 39.7rem;
@@ -65,6 +69,11 @@
     top: -3.5rem;
     right: -1.5rem;
     z-index: 2;
+
+    @include xs{
+      top: -6.6rem;
+      right: -2rem;
+    }
   }
 
   .recommendations-card-heading {
