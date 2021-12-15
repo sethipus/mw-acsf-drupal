@@ -3,48 +3,57 @@
   height: 100%;
   position: relative;
 
-  button {
-    font-size: 0;
-  }
-
   video {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
-  &__control[data-state="hidden"] {
-    display: none;
-  }
-
-  &__control[data-state="play"] {
+  .overlay-video__control[data-state="play"] {
     @include playbutton;
 
-    width: 100px;
-    height: 100px;
-    left: 10px;
-    bottom: 25px;
+    top: 15px;
+    right: 15px;
+    left: auto;
+    height: 60px;
+    width: 60px;
+    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.5);
 
     .play-icon {
-      width: 30.2px;
-      height: 36px;
-      fill: clr(secondary);
-      margin: auto 35%;
+      width: 20px;
+      height: 24px;
+      fill: var(--c-secondary);
+      margin: auto 25%;
     }
-  }
 
-  &__control[data-state="pause"] {
-    @include pausebutton;
+    @include xs {
+      height: 50px;
+      width: 50px;
+      top: 0;
+      right: calc(5% - 30px);
+    }
 
-    width: 100px;
-    height: 100px;
-    left: 10px;
-    bottom: 30px;
+    @include small {
+      height: 50px;
+      width: 50px;
+      top: 0;
+      right: calc(5% - 30px);
+    }
 
-    >div {
-      width: 30.2px;
-      height: 36px;
-      border-right: 8px solid clr(text-inverse);
-      border-left: 8px solid clr(text-inverse);
-      margin: auto;
+    @include medium {
+      top: 10px;
+      right: calc(5% - 50px);
+    }
+
+    @include large {
+      top: 10px;
+      right: calc(5% - 55px);
+    }
+
+    @include xl {
+      top: 10px;
+      right: calc(5% - 55px);
     }
   }
 
@@ -52,306 +61,114 @@
     display: none;
   }
 
-  &__controls {
-    overflow: hidden;
-    background: transparent;
-    width: 100%;
-    min-height: 30px;
-    padding: 0 20px;
-
-    @include medium {
-      width: 100%;
-      padding: 0 30px;
-    }
-
-    @include xl {
-      width: 100%;
-    }
-
-    &[data-state="hidden"] {
-      display: none;
-    }
-
-    &[data-state="visible"] {
-      display: flex;
-      align-items: center;
-    }
-
-    button {
-      text-align: center;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      border: none;
-      outline: none;
-      cursor: pointer;
-    }
-
-    button:hover,
-    button:focus {
-      opacity: 0.5;
-    }
-
-    progress {
-      display: block;
-      width: 100%;
-      height: 10px;
-      border: none;
-      overflow: hidden;
-      -moz-border-radius: 2px;
-      -webkit-border-radius: 2px;
-      border-radius: 2px;
-      color: clr(player);
-
-      span {
-        width: 0%;
-        height: 10px;
-        display: inline-block;
-        background-color: clr(player);
-      }
-
-      &::-moz-progress-bar {
-        background-color: clr(player);
-      }
-
-      &::-webkit-progress-value {
-        background-color: clr(player);
-      }
-    }
-  }
-
-  &__playpause[data-state="play"] {
-    @include playbutton;
-
-    width: 30px;
-    height: 30px;
-    position: static;
-    margin-right: 10px;
-
-    @include medium {
-      margin-right: 20px;
-    }
-
-    @include xl {
-      margin-right: 30px;
-    }
-
-    .play-icon {
-      width: 26.7px;
-      height: 31.9px;
-      fill: clr(secondary);
-      margin: auto 30%;
-    }
-  }
-
-  &__playpause[data-state="pause"] {
+  .overlay-video__control[data-state="pause"] {
     @include pausebutton;
 
-    width: 30px;
-    height: 30px;
-    position: static;
-    margin-right: 10px;
-
-    @include medium {
-      margin-right: 20px;
-    }
-
-    @include xl {
-      margin-right: 30px;
-    }
+    width: 60px;
+    height: 60px;
+    top: 15px;
+    right: 15px;
+    left: auto;
+    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.5);
 
     >div {
-      width: 7px;
-      height: 9px;
+      width: 6px;
+      height: 17px;
       border-right: 4px solid clr(text-inverse);
       border-left: 4px solid clr(text-inverse);
       margin: auto;
-    }
-  }
-
-  button.overlay-video__mute {
-    margin-right: 10px;
-
-    @include medium {
-      margin-right: 20px;
-    }
-
-    @include xl {
-      margin-right: 30px;
-    }
-  }
-
-  button.overlay-video__subtitles {
-    width: 32px;
-    height: 20px;
-  }
-
-  button.overlay-video__close {
-    position: absolute;
-    background: transparent;
-    top: 20px;
-    right: 32px;
-    z-index: $menu-overlay-zindex;
-    text-align: center;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 0;
-    width: 24px;
-    height: 24px;
-
-    @include medium {
-      top: 40px;
-      right: 52px;
-    }
-
-    @include xl {
-      right: 72px;
-      top: 60px;
-    }
-  }
-
-  &__progress-time {
-    cursor: pointer;
-    flex-grow: 1;
-    margin-right: 10px;
-  }
-
-  &__progress-time--duration {
-    width: auto;
-    flex-grow: 0;
-    flex-basis: 80px;
-    font-size: 14px;
-    color: clr(text-inverse);
-    margin-right: 10px;
-    min-width: 11rem;
-
-    @include medium {
-      margin-right: 20px;
-    }
-
-    @include xl {
-      margin-right: 30px;
-    }
-  }
-
-  &__controls > button {
-    display: block;
-    background: transparent;
-    padding: 0;
-  }
-}
-
-
-/* hide full control */
-
-figure[data-fullcontrol="true"] {
-  max-width: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  max-height: 100%;
-}
-
-figure[data-fullcontrol="true"] figcaption {
-  display: none;
-}
-
-figure[data-fullcontrol="true"] .overlay-video__controls {
-  margin-top: -45px;
-  z-index: 10;
-}
-
-figure[data-fullcontrol="false"] .overlay-video__close {
-  display: none;
-}
-
-figure[data-fullcontrol="true"] .overlay-video__controls li {
-  width: 5%;
-}
-
-figure[data-fullcontrol="true"] .overlay-video__controls .progress {
-  width: 68%;
-}
-
-/* overlay */
-.overlay-video-modal {
-  position: fixed;
-  z-index: $menu-overlay-zindex;
-  padding-top: 100px;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background-color: rgb(0,0,0);
-
-  @include medium {
-    background-color: rgba(0,0,0,0.6);
-  }
-
-  .inner-wrapper {
-    position: absolute;
-    top: 50vh;
-    left: 50vw;
-    padding-bottom: 3rem;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-    width: 375px;
-    height: 210px;
-
-    @include medium {
-      width: 688px;
-      height: 388.8px;
-    }
-
-    @include xl {
-      width: 896px;
-      height: 504px;
-    }
-
-    video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-}
-
-.overlay-video[data-overlay="true"] {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  .overlay-video {
-
-    &__overlay {
-      position: fixed;
-      left: 0;
-      top: 0;
-      height: 100vh;
-      width: 100vw;
-      background-color: rgba(0, 0, 0, 1);
-
-      @include medium {
-        background-color: rgba(0, 0, 0, 0.6);
-      }
-    }
-
-    &__container {
-      background-color: #000;
-    }
-
-    &__box {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      margin-right: -50%;
-      transform: translate(-50%, -50%);
+    }
+
+    @include xs {
+      height: 50px;
+      width: 50px;
+      top: 0;
+      right: calc(5% - 30px);
+    }
+
+    @include small {
+      height: 50px;
+      width: 50px;
+      top: 0;
+      right: calc(5% - 30px);
+    }
+
+    @include medium {
+      top: 10px;
+      right: calc(5% - 50px);
+    }
+
+    @include large {
+      top: 10px;
+      right: calc(5% - 55px);
+    }
+
+    @include xl {
+      top: 10px;
+      right: calc(5% - 55px);
+    }
+  }
+
+  .overlay-video__controls[data-state="unmute"] {
+    @include mutebutton;
+
+    top: 15px;
+    right: 15px;
+    left: auto;
+    height: 60px;
+    width: 50px;
+    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: rgba(241, 241, 241, 0.5);
+
+    .mute-icon {
+      width: 20px;
+      height: 24px;
+      fill: #fff ;
+      margin: auto 25%;
+    }
+
+    @include xs {
+      top: 80px;
+      height: 50px;
+      width: 40px;
+      right: calc(5% - 5px);
+    }
+
+    @include small {
+      top: 80px;
+      height: 50px;
+      width: 40px;
+      right: calc(5% - 5px);
+    }
+
+    @include medium {
+      top: 100px;
+      right: calc(5% - 25px);
+    }
+
+    @include large {
+      top: 100px;
+      right: calc(5% - 30px);
+    }
+
+    @include xl {
+      top: 100px;
+      right: calc(5% - 30px);
+    }
+  }
+
+  .overlay-video__controls[data-state="mute"] {
+    @extend .overlay-video__controls[data-state="unmute"];
+
+    .mute-icon {
+      width: 20px;
+      height: 24px;
+      fill: #fff ;
+      margin: auto 25%;
+      opacity: 0.5;
     }
   }
 }
+

@@ -11,6 +11,15 @@
 
     @include medium {
       flex-flow: row nowrap;
+      min-height: 51rem;
+    }
+
+    @include large {
+      max-height: none;
+    }
+
+    @include xl {
+      max-height: none;
     }
   }
 
