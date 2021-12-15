@@ -94,22 +94,27 @@
     position: absolute;
     z-index: 2;
     bottom: 0;
-    padding: 30rem 2rem 24rem 2rem;
+    top:15%;
+    
+    @include xs{
+      padding: 0 1 rem;
+    }
 
     @include medium {
       width: 75%;
-      padding: 30rem 2rem 24rem 2rem;
+      padding: 0 2rem;
+      
     }
 
     @include large {
       width: 62%;
-      padding: 29rem 3rem 18rem 2rem;
+     padding: 0 4rem;
     }
 
     @include xl {
       max-width: 893px;
       left: calc((100% - 1440px) / 2);
-      padding: 30rem 2rem 24rem 2rem;
+      padding: 0 4rem;
     }
   }
 
