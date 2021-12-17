@@ -42,37 +42,39 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_agency:
+    type: string_textfield
     weight: 34
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_asset_type:
+    type: computed_string_widget
     weight: 40
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: computed_string_widget
-    region: content
   field_brand:
+    type: string_textfield
     weight: 27
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_category:
+    type: string_textfield
     weight: 29
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_dimension:
+    type: area_field_widget
     weight: 39
+    region: content
     settings:
       width:
         placeholder: ''
@@ -83,115 +85,113 @@ content:
         label: Height
         description: ''
     third_party_settings: {  }
-    type: area_field_widget
-    region: content
   field_external_id:
+    type: string_textfield
     weight: 1
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_is_transparent:
+    type: options_select
     weight: 38
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
   field_language:
+    type: string_textfield
     weight: 33
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_last_mod_date:
+    type: string_textfield
     weight: 35
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_marketing_country:
+    type: string_textfield
     weight: 32
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_media_image:
     type: entity_browser_file
     weight: 2
+    region: content
     settings:
       entity_browser: image_browser
       field_widget_edit: true
       field_widget_remove: true
+      field_widget_replace: false
+      open: true
+      selection_mode: selection_append
       view_mode: default
       preview_image_style: thumbnail
-      open: true
-      field_widget_replace: false
-      selection_mode: selection_append
-    region: content
     third_party_settings: {  }
   field_media_in_library:
     type: boolean_checkbox
+    weight: 7
+    region: content
     settings:
       display_label: true
-    weight: 7
     third_party_settings: {  }
-    region: content
   field_original_external_id:
+    type: string_textfield
     weight: 37
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_region:
+    type: string_textfield
     weight: 31
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_segment:
+    type: string_textfield
     weight: 26
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_sub_brand:
+    type: string_textfield
     weight: 28
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_sub_type:
+    type: string_textfield
     weight: 30
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_version_id:
+    type: string_textfield
     weight: 36
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   langcode:
     type: language_select
     weight: 2
@@ -216,26 +216,26 @@ content:
   revision_log_message:
     type: string_textarea
     weight: 25
+    region: content
     settings:
       rows: 4
       placeholder: ''
-    region: content
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    settings:
-      display_label: true
     weight: 6
     region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
     weight: 3
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-      match_limit: 10
-    region: content
     third_party_settings: {  }
 hidden: {  }

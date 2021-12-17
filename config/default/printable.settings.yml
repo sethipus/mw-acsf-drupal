@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: '--64pTFtZ_ATDgWZMzTVtdhWcYJcq7fvQT9fZn3UCOU'
 printable_entities:
   node: node
   block: '0'
@@ -28,8 +30,8 @@ extract_links: '0'
 save_pdf: false
 pdf_tool: mPDF
 paper_size: A4
-page_orientation: portrait
 path_to_binary: ''
+page_orientation: portrait
 pdf_location: sites/default/files/printable.pdf
 send_to_printer: false
 close_window: false
@@ -42,6 +44,4 @@ printable_pdf_link_locations:
   - ''
 print_pdf_use_xvfb_run: false
 path_to_xvfb_run: ''
-_core:
-  default_config_hash: '--64pTFtZ_ATDgWZMzTVtdhWcYJcq7fvQT9fZn3UCOU'
 ignore_warnings: 0

@@ -22,44 +22,12 @@ base_table: node_field_data
 base_field: nid
 display:
   default:
-    display_plugin: default
     id: default
     display_title: Master
+    display_plugin: default
     position: 0
     display_options:
-      access:
-        type: perm
-        options:
-          perm: 'access salsify config page'
-      cache:
-        type: tag
-        options: {  }
-      query:
-        type: views_query
-        options:
-          disable_sql_rewrite: false
-          distinct: false
-          replica: false
-          query_comment: ''
-          query_tags: {  }
-      exposed_form:
-        type: basic
-        options:
-          submit_button: Apply
-          reset_button: false
-          reset_button_label: Reset
-          exposed_sorts_label: 'Sort by'
-          expose_sort_order: true
-          sort_asc_label: Asc
-          sort_desc_label: Desc
-      pager:
-        type: none
-        options:
-          offset: 0
-      style:
-        type: table
-      row:
-        type: fields
+      title: 'Products mapping'
       fields:
         langcode_1:
           id: langcode_1
@@ -68,6 +36,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: langcode
+          plugin_id: field
           label: 'Translation language'
           exclude: true
           alter:
@@ -124,9 +95,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: node
-          entity_field: langcode
-          plugin_id: field
         nid:
           id: nid
           table: node_field_data
@@ -134,6 +102,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: nid
+          plugin_id: field
           label: ID
           exclude: true
           alter:
@@ -190,9 +161,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: node
-          entity_field: nid
-          plugin_id: field
         nid_1:
           id: nid_1
           table: node_field_data
@@ -200,6 +168,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: nid
+          plugin_id: field
           label: ID
           exclude: false
           alter:
@@ -256,9 +227,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: node
-          entity_field: nid
-          plugin_id: field
         title:
           id: title
           table: node_field_data
@@ -266,6 +234,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: field
           label: Title
           exclude: false
           alter:
@@ -321,9 +292,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: node
-          entity_field: title
-          plugin_id: field
         field_product_category:
           id: field_product_category
           table: node__field_product_category
@@ -331,6 +299,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: Category
           exclude: false
           alter:
@@ -386,7 +355,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_flavor:
           id: field_product_flavor
           table: node__field_product_flavor
@@ -394,6 +362,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: Flavor
           exclude: false
           alter:
@@ -449,7 +418,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_format:
           id: field_product_format
           table: node__field_product_format
@@ -457,6 +425,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: Format
           exclude: false
           alter:
@@ -512,7 +481,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_description:
           id: field_product_description
           table: node__field_product_description
@@ -520,6 +488,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Product Description'
           exclude: false
           alter:
@@ -574,7 +543,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_variants:
           id: field_product_variants
           table: node__field_product_variants
@@ -582,6 +550,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Product Variants'
           exclude: false
           alter:
@@ -636,7 +605,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         langcode:
           id: langcode
           table: node_field_data
@@ -644,6 +612,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: langcode
+          plugin_id: field
           label: 'Translation language'
           exclude: false
           alter:
@@ -700,9 +671,30 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: node
-          entity_field: langcode
-          plugin_id: field
+      pager:
+        type: none
+        options:
+          offset: 0
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Apply
+          reset_button: false
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      access:
+        type: perm
+        options:
+          perm: 'access salsify config page'
+      cache:
+        type: tag
+        options: {  }
+      empty: {  }
+      sorts: {  }
+      arguments: {  }
       filters:
         title:
           id: title
@@ -711,6 +703,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: string
           operator: contains
           value: ''
           group: 1
@@ -750,9 +745,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          entity_type: node
-          entity_field: title
-          plugin_id: string
         langcode:
           id: langcode
           table: node_field_data
@@ -760,6 +752,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: langcode
+          plugin_id: language
           operator: in
           value:
             en: en
@@ -838,24 +833,37 @@ display:
                   de: '0'
                   und: '0'
                   zxx: '0'
-          entity_type: node
-          entity_field: langcode
-          plugin_id: language
         type:
           id: type
           table: node_field_data
           field: type
-          value:
-            product: product
           entity_type: node
           entity_field: type
           plugin_id: bundle
+          value:
+            product: product
+          group: 1
           expose:
             operator_limit_selection: false
             operator_list: {  }
-          group: 1
-      sorts: {  }
-      title: 'Products mapping'
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: table
+      row:
+        type: fields
+      query:
+        type: views_query
+        options:
+          query_comment: ''
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_tags: {  }
+      relationships: {  }
+      use_ajax: true
       header:
         area:
           id: area
@@ -864,12 +872,12 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: text
           empty: true
-          tokenize: false
           content:
             value: "<strong>By default, the view displays all translation of the entities and their total amount. To review concrete node translation please select the Language in the filter below. Search by Title field is also available.</strong>\r\n<p></p>"
             format: rich_text
-          plugin_id: text
+          tokenize: false
         result:
           id: result
           table: views
@@ -877,19 +885,11 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: result
           empty: true
           content: 'Displaying <strong>@start</strong> - <strong>@end</strong> of <strong>@total</strong>'
-          plugin_id: result
       footer: {  }
-      empty: {  }
-      relationships: {  }
-      arguments: {  }
       display_extenders: {  }
-      filter_groups:
-        operator: AND
-        groups:
-          1: AND
-      use_ajax: true
     cache_metadata:
       max-age: -1
       contexts:
@@ -905,9 +905,9 @@ display:
         - 'config:field.storage.node.field_product_format'
         - 'config:field.storage.node.field_product_variants'
   page_1:
-    display_plugin: page
     id: page_1
     display_title: Page
+    display_plugin: page
     position: 1
     display_options:
       display_extenders: {  }
