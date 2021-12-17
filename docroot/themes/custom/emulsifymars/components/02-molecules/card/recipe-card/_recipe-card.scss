@@ -74,11 +74,23 @@
     color: clr(primary, card-title, recipe-card-title);
     text-decoration: none;
     font-size: 2.2rem;
-    line-height: 2.42rem;
+    line-height: 3rem;
     min-height: 6rem;
     display: block;
     font-weight: bold;
     overflow: hidden;
+
+    @include large {
+      font-size: 1.6rem;
+      line-height: 3rem;
+      min-height: auto;
+    }
+
+    @include xl {
+      font-size: 2.2rem;
+      line-height: 3.2rem;
+      min-height: 6rem;
+    }
   }
 
   &__labels_section {
@@ -120,6 +132,24 @@
     .default-link {
       margin-left: 3rem;
       margin-bottom: 2.5rem;
+
+      @include large {
+        line-height: 3.6rem;
+        min-width: 8.9px;
+        font-size: 1rem;
+        padding-left: 0.9rem;
+        padding-right: 0.9rem;
+        margin-left: 2.1rem;
+      }
+
+      @include xl {
+        line-height: 5rem;
+        min-width: 13.3rem;
+        font-size: 1.4rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-left: 3rem;
+      }
     }
 
     .default-link--visited {
