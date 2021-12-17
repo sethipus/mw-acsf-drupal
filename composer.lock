@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d0b2fbcbb63241c7ed160644d78aa47",
+    "content-hash": "107bad324c96caa5ca895ebfaa6da6b7",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -17127,7 +17127,7 @@
         },
         {
             "name": "mars/mars_seo",
-            "version": "dev-feature/307176-Brightcove-module",
+            "version": "dev-feature/332931-Drupal-core-upgrade",
             "dist": {
                 "type": "path",
                 "url": "docroot/modules/custom/mars_seo",
