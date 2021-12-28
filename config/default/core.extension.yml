@@ -186,7 +186,6 @@ module:
   seckit: 0
   sendgrid_integration: 0
   serialization: 0
-  shield: 0
   shortcut: 0
   simple_gmap: 0
   simple_oauth: 0
