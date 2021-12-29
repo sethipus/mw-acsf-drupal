@@ -242,3 +242,10 @@ recipe-email-form:
   dependencies:
     - core/drupal
     - core/jquery
+
+entry-gate-form:
+  js:
+    dist/js/02-molecules/entry-gate-form/entry-gate-form.js: { }
+  dependencies:
+    - code/drupal
+    - core/jquery
