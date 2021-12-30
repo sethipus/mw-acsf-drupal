@@ -1,0 +1,154 @@
+.signup-form-wrp {
+  background-color: clr(subcolor-2);
+}
+
+.newsletter-label {
+  padding-top: 4rem;
+  text-align: center;
+  color: clr(primary, newsletter-text-color-override);
+  font-size: 20px;
+  font-family: var(--v-heading-font);
+  font-weight: 900;
+  letter-spacing: var(--v-heading-font-m-letter-spacing);
+}
+
+.globalNameClass {
+  margin-top: 2rem;
+  @include medium {
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 2rem;
+  }
+  @include large {
+    width: 60%;
+  }
+  @include larger {
+    width: 50%;
+  }
+  @include xl {
+    width: 42.5%;
+  }
+  .js-form-item {
+    margin: 0 auto;
+    @include xs {
+      width: 80%;
+      margin-left: 1rem;
+    }
+    @include small {
+      width: 85%;
+      margin-left: 3rem;
+    }
+    @include medium {
+      margin-left: 2rem;
+    }
+    label {
+      font-family: var(--v-primary-font);
+      font-size: 16px;
+      color: clr(subcolor-1, newsletter-text-color-override);
+    }
+    input {
+      font-family: var(--v-primary-font);
+      border-radius: var(--v-button-border-radius);
+      font-size: 16px;
+      // border-width: 0 0 1px;
+      color: var(--c-primary);
+      &:focus-visible {
+        outline: none;
+      }
+    }
+  }
+}
+
+.globalClass {
+  margin: 0 auto;
+  margin-top: 2rem;
+  @include xs {
+    width: 90%;
+  }
+  @include small {
+    width: 80%;
+  }
+  @include large {
+    width: 60%;
+  }
+  @include larger {
+    width: 49%;
+  }
+  @include xl {
+    width: 42.5%;
+  }
+  label {
+    font-family: var(--v-primary-font);
+    color: clr(subcolor-1, newsletter-text-color-override);
+    font-size: 16px;
+  }
+  .globalElement {
+    // border-width: 0 0 1px;
+    border-radius: var(--v-button-border-radius);
+    font-family: var(--v-primary-font);
+    font-size: 16px;
+    color: var(--c-primary);
+    &:focus-visible {
+      outline: none;
+    }
+    @include medium {
+      max-width: 104%;
+      width: 104%;
+    }
+    @include large {
+      max-width: 105%;
+      width: 105%;
+    }
+    @include larger {
+      max-width: 103%;
+    }
+    @include xl {
+      max-width: 104%;
+    }
+  }
+}
+
+.globalPrivacy {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  @include xs {
+    margin-left: 3rem;
+  }
+  @include small {
+    margin-left: 0;
+  }
+  .globalCheckBox {
+    width: 20px;
+    height: 20px;
+  }
+  .webform-element-description {
+    margin-top: -8px;
+    font-size: 16px;
+    font-family: var(--v-primary-font);
+    color: clr(primary, newsletter-text-color-override);
+    padding-left: 10px;
+  }
+}
+
+.globalFormSubmit {
+  padding-top: 20px;
+  padding-bottom: 40px;
+  .webform-button--submit {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    width: 120px;
+    color:clr(subcolor-3);
+    border-radius: var(--v-button-border-radius);
+    background-color: clr(secondary);
+    cursor: pointer;
+    font-size: 16px;
+    @include large {
+      width: 202px;
+      height: 60px;
+      font-size: 20px;
+    }
+  }
+}
