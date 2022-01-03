@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7919847f8e7d6d833031e049d4c2d3c",
+    "content-hash": "90ec93bbb07394cdde126b557b3a3eb9",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -1457,7 +1457,7 @@
             "version": "v2.3.4",
             "source": {
                 "type": "git",
-                "url": "git@github.com:fengyuanchen/cropper.git",
+                "url": "https://github.com/fengyuanchen/cropper.git",
                 "reference": "30c58b29ee21010e17e58ebab165fbd84285c685"
             },
             "dist": {
@@ -10960,8 +10960,8 @@
                     "dev-5.x": "5.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-5.0+20-dev",
-                    "datestamp": "1637259316",
+                    "version": "8.x-5.0+27-dev",
+                    "datestamp": "1640377675",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -13521,10 +13521,6 @@
                 {
                     "name": "e0ipso",
                     "homepage": "https://www.drupal.org/user/550110"
-                },
-                {
-                    "name": "mglaman",
-                    "homepage": "https://www.drupal.org/user/2416470"
                 },
                 {
                     "name": "pcambra",
@@ -22828,6 +22824,7 @@
                 "issues": "https://github.com/tvdijen/simplesamlphp-module-riak/issues",
                 "source": "https://github.com/tvdijen/simplesamlphp-module-riak"
             },
+            "abandoned": true,
             "time": "2019-12-03T08:28:45+00:00"
         },
         {
