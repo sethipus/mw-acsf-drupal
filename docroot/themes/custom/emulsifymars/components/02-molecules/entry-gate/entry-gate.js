@@ -2,7 +2,6 @@
   Drupal.behaviors.entryGate = {
     attach(context) {
       var dateSelect;
-      var last_day;
       $(context).find('.entry-gate').once('entryGate').each(function(){
         const entryGate = $(this);
         const ageLimit = entryGate.data('age');
@@ -53,8 +52,7 @@
           // assume dateStr = 'yyyy-mm-dd'
           if (dateFormat == 'mm_yyyy') {
             var [year, month, dd] = dateStr.split('-').map((p) => parseInt(p, 10));
-            var last_day = new Date(year, month, 0).getDate();
-            var day = last_day;
+            var day = 15;
             dateSelect = year + '-' + month + '-' + day;
           }
           else{
@@ -193,7 +191,7 @@
           //lazyLoadThirdpartyScripts();
           var givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+dayInput.val()).slice(-2)}`;
           if(dateFormat == 'mm_yyyy') {
-            var givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+last_day).slice(-2)}`;
+            var givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+15).slice(-2)}`;
           }
 
           if (!isValidDate(givenDateStr)) {
