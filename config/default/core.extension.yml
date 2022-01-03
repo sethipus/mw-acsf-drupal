@@ -8,6 +8,11 @@ module:
   acquia_lift_publisher: 0
   acquia_purge: 0
   acquia_search: 0
+  acsf: 0
+  acsf_duplication: 0
+  acsf_sso: 0
+  acsf_theme: 0
+  acsf_variables: 0
   admin_toolbar: 0
   admin_toolbar_tools: 0
   adminimal_admin_toolbar: 0
