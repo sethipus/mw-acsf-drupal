@@ -1,0 +1,53 @@
+newsletter_toggle:
+  submit: Save
+  newsletter_toggle: 0
+  field_required: test
+  email_validation: test
+  success_message: test
+  form_build_id: form-no-t-1gvrxOg9wEaMWOmxixrOyzDT8v4uGWRvF_BM24
+  form_token: dGVriMcCRhJh-vUBZ5ViQGctMcWqSGHGs5hkuToH59o
+  form_id: newsletter_form
+  op: Save
+field_required:
+  submit: Save
+  newsletter_toggle: 0
+  field_required: test
+  email_validation: test
+  success_message: test
+  form_build_id: form-no-t-1gvrxOg9wEaMWOmxixrOyzDT8v4uGWRvF_BM24
+  form_token: dGVriMcCRhJh-vUBZ5ViQGctMcWqSGHGs5hkuToH59o
+  form_id: newsletter_form
+  op: Save
+email_validation:
+  submit: Save
+  newsletter_toggle: 0
+  field_required: test
+  email_validation: test
+  success_message: test
+  form_build_id: form-no-t-1gvrxOg9wEaMWOmxixrOyzDT8v4uGWRvF_BM24
+  form_token: dGVriMcCRhJh-vUBZ5ViQGctMcWqSGHGs5hkuToH59o
+  form_id: newsletter_form
+  op: Save
+success_message:
+  submit: Save
+  newsletter_toggle: 0
+  field_required: test
+  email_validation: test
+  success_message: test
+  form_build_id: form-no-t-1gvrxOg9wEaMWOmxixrOyzDT8v4uGWRvF_BM24
+  form_token: dGVriMcCRhJh-vUBZ5ViQGctMcWqSGHGs5hkuToH59o
+  form_id: newsletter_form
+  op: Save
+newsletter:
+  config_form:
+    submit: Save
+    newsletter_toggle: 0
+    override_white_color: 0
+    alert_banner_newsletter_name: 'Sign up for newsletter'
+    field_required_message: 'This field is required.'
+    email_validation_message: 'Enter valid Email ID'
+    success_message: 'Your subscription is successful'
+    form_build_id: form-kZSRpItfFgLtDGiR8zl_HTB_IiA-o-f_9X75wsDntbM
+    form_token: YRM-OrSXL46wyYzRP-xgKnLrRViu_UAAYEScp3BTGdc
+    form_id: newsletter_form
+    op: Save
