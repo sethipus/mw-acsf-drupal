@@ -52,7 +52,7 @@
           // assume dateStr = 'yyyy-mm-dd'
           if (dateFormat == 'mm_yyyy') {
             var [year, month, dd] = dateStr.split('-').map((p) => parseInt(p, 10));
-            var day = 15;
+            var day = new Date(year, month, 0).getDate();
             dateSelect = year + '-' + month + '-' + day;
           }
           else{
@@ -67,15 +67,15 @@
             : ( isMonthValid ? (day > 0 && day <= monthLength[month - 1]) : (day > 0 && day <= 31)); // if month is not valid then day should be > 0 and <= 31
           isYearValid = year >= 1900 && year <= new Date().getFullYear();
           if (!isDayValid) {
-          $('#day.entry-gate-form__input').addClass('entry-gate-form__input--invalid');
+            $('#day.entry-gate-form__input').addClass('entry-gate-form__input--invalid');
           }
 
           if (!isMonthValid) {
-          $('#month.entry-gate-form__input').addClass('entry-gate-form__input--invalid');
+            $('#month.entry-gate-form__input').addClass('entry-gate-form__input--invalid');
           }
 
           if (!isYearValid) {
-          $('#year.entry-gate-form__input').addClass('entry-gate-form__input--invalid');
+            $('#year.entry-gate-form__input').addClass('entry-gate-form__input--invalid');
           }
 
           return isDayValid && isMonthValid && isYearValid;
@@ -191,7 +191,10 @@
           //lazyLoadThirdpartyScripts();
           var givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+dayInput.val()).slice(-2)}`;
           if(dateFormat == 'mm_yyyy') {
-            var givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+15).slice(-2)}`;
+            var yy = `${yearInput.val()}`;
+            var mm = `${('0'+monthInput.val()).slice(-2)}`;
+            var lastDay = new Date(yy, mm, 0).getDate();
+            var givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+lastDay).slice(-2)}`;
           }
 
           if (!isValidDate(givenDateStr)) {

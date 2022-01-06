@@ -242,7 +242,14 @@ recipe-email-form:
   dependencies:
     - core/drupal
     - core/jquery
-
+    
+faq-filters:
+  js:
+    dist/js/02-molecules/faq-filters/faq-filters.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery
+    
 entry-gate-form:
   js:
     dist/js/02-molecules/entry-gate-form/entry-gate-form.js: { }
