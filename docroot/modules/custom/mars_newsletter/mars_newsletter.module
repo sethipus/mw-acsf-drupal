@@ -1,7 +1,6 @@
 <?php
 
 use Drupal\Component\Serialization\Json;
-use Drupal\Core\Database\Database;
 
 /**
  * Implements hook_page_attachments().
@@ -58,28 +57,4 @@ function mars_newsletter_form_alter(&$form, \Drupal\Core\Form\FormStateInterface
     $form['#attached']['drupalSettings']['mars_newsletter']['email_validation_message'] = !empty($config['email_validation_message']) ? $config['email_validation_message'] : t('Enter valid email ID');
     $form['#attached']['drupalSettings']['mars_newsletter']['success_message'] = !empty($config['success_message']) ? $config['success_message'] : t('Your subcription is successfull');
   return $form;
-}
-
-/**
- * Implements hook__update_9001().
- */
-function mars_newsletter_update_9001() {
-  $schema = [
-    'description' => 'Stores all webform submission data.',
-    'fields' => [
-      'webform_id' => [
-        'description' => 'The webform id.',
-        'type' => 'varchar',
-        'length' => 32,
-        'not null' => TRUE,
-      ],
-      'sid' => [
-        'description' => 'The webform submission id.',
-        'type' => 'varchar',
-        'length' => 32,
-        'not null' => TRUE,
-      ],
-    ],
-  ];
-  Database::getConnection()->schema()->createTable('webform_submission', $schema);
 }
