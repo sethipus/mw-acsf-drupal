@@ -39,6 +39,7 @@ content_moderation: 8.8.1
 content_translation: 8.9.6
 contextual: 8.8.1
 crop: 2.0.0
+csp: 1.15.0
 ctools: 3.2.0
 datalayer: 1.0.0-beta2
 datetime: 8.8.1
@@ -120,6 +121,7 @@ mars_entry_gate: 0.0.0
 mars_google_analytics: 0.0.0
 mars_lighthouse: 0.0.0
 mars_media: 0.0.0
+mars_newsletter: 0.0.0
 mars_onetrust: 0.0.0
 mars_product: 0.0.0
 mars_recipes: 0.0.0
@@ -202,4 +204,6 @@ video_embed_media: 2.2.0
 views: 8.8.1
 views_infinite_scroll: 1.6.0
 views_ui: 8.8.1
+webform: 6.1.2
+webform_ui: 6.1.2
 workflows: 8.8.1
