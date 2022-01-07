@@ -1,3 +1,15 @@
+diff --git a/modules/printable_pdf/printable_pdf.info.yml b/modules/printable_pdf/printable_pdf.info.yml
+index 9abc6e8..c093e53 100644
+--- a/modules/printable_pdf/printable_pdf.info.yml
++++ b/modules/printable_pdf/printable_pdf.info.yml
+@@ -3,6 +3,7 @@ type: module
+ description: 'Provides a printable format for generating PDFs.'
+ package: Printable
+ core: 8.x
++core_version_requirement: ^8 || ^9
+ dependencies:
+   - printable:printable
+   - pdf_api:pdf_api
 diff --git a/printable.module b/printable.module
 index e4b3da2..4f4b7e1 100755
 --- a/printable.module
