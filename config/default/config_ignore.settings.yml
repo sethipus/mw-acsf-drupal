@@ -58,7 +58,6 @@ ignored_config_entities:
   - search_api.server.acquia_search_server
   - 'search_api_solr.*'
   - block.block.marsnewsletteremailsignupformblock
-  - webform.webform.mars_newsletter_email_form
   - webform.webform.mars_newsletter_signup_form
   - mars_newsletter_form.settings
   - 'webform.webform.*'
