@@ -5,17 +5,20 @@ use Drupal\Component\Serialization\Json;
 /**
  * Implements hook_page_attachments().
  */
-function mars_newsletter_page_attachments(array &$page) {
+function mars_newsletter_page_attachments(array &$attachments) {
   $data_layer_service = \Drupal::service('mars_newsletter.data_layer_service');
   $data = $data_layer_service->getData();
   if (!empty($data)) {
-    $page['#attached']['html_head'][] = [[
+    $attachments['#attached']['html_head'][] = [[
       '#type' => 'html_tag',
       '#tag' => 'script',
-      '#value' => "window.dataLayer = window.dataLayer || []; dataLayer.push({'event': 'newsletterSignupForm', 'formValues': " . Json::encode($data) . "});",
+      '#value' => "window.dataLayer = window.dataLayer || []; window.dataLayer.push({'event': 'newsletterSignupForm', 'formValues': " . Json::encode($data) . "});",
+      '#attributes' => ['type' => 'text/javascript'],
+      '#weight' => -100,
     ],
       'mars_newsletter_data_layer',
     ];
+    \Drupal::service('page_cache_kill_switch')->trigger();
   }
 }
 
