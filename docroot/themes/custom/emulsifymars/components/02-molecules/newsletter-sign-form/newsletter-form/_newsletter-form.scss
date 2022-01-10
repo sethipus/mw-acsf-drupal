@@ -16,31 +16,23 @@
   margin-top: 2rem;
   @include medium {
     display: flex;
-    width: 80%;
+    justify-content: center;
     margin: 0 auto;
     margin-top: 2rem;
   }
-  @include large {
-    width: 60%;
-  }
-  @include larger {
-    width: 50%;
-  }
-  @include xl {
-    width: 42.5%;
-  }
   .js-form-item {
-    margin: 0 auto;
     @include xs {
-      width: 80%;
-      margin-left: 1rem;
+     max-width: 25rem;
+     margin: 0 auto;
     }
     @include small {
-      width: 85%;
-      margin-left: 3rem;
+      max-width: 31rem;
+      width: 100%;
+      margin: 0 auto;
     }
     @include medium {
-      margin-left: 2rem;
+      margin: unset;
+      margin-left: 1rem !important;
     }
     label {
       font-family: var(--v-primary-font);
@@ -64,19 +56,13 @@
   margin: 0 auto;
   margin-top: 2rem;
   @include xs {
-    width: 90%;
+    max-width: 25rem;
   }
   @include small {
-    width: 80%;
+    max-width: 31rem;
   }
-  @include large {
-    width: 60%;
-  }
-  @include larger {
-    width: 49%;
-  }
-  @include xl {
-    width: 42.5%;
+  @include medium {
+    max-width: 62rem;
   }
   label {
     font-family: var(--v-primary-font);
@@ -84,7 +70,6 @@
     font-size: 16px;
   }
   .globalElement {
-    // border-width: 0 0 1px;
     border-radius: var(--v-button-border-radius);
     font-family: var(--v-primary-font);
     font-size: 16px;
@@ -93,18 +78,8 @@
       outline: none;
     }
     @include medium {
-      max-width: 104%;
-      width: 104%;
-    }
-    @include large {
-      max-width: 105%;
-      width: 105%;
-    }
-    @include larger {
-      max-width: 103%;
-    }
-    @include xl {
-      max-width: 104%;
+      max-width: 65rem;
+      width: 63rem;
     }
   }
 }
@@ -139,16 +114,15 @@
     display: flex;
     justify-content: center;
     margin: 0 auto;
-    width: 120px;
+    min-width: 13.3rem;
+    line-height: 3.7rem;
     color:clr(subcolor-3);
     border-radius: var(--v-button-border-radius);
     background-color: clr(secondary);
     cursor: pointer;
-    font-size: 16px;
-    @include large {
-      width: 202px;
-      height: 60px;
-      font-size: 20px;
+    font-size: 1.4rem;
+    @include medium {
+      min-width: 15.7rem;
     }
   }
 }
