@@ -198,6 +198,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'border_radius' => NULL,
         'graphic_divider' => NULL,
         'dark_overlay' => NULL,
+        'remove_space' => NULL,
       ],
       'template' => 'content-feature-module-block',
     ],
@@ -381,6 +382,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'variables' => [
         'header' => NULL,
         'content' => NULL,
+        'iframe_width_full' => NULL,
       ],
       'template' => 'text-block',
     ],
