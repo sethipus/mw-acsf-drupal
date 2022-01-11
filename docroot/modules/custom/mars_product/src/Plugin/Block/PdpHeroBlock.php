@@ -673,11 +673,21 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function defaultConfiguration(): array {
     $config = $this->getConfiguration();
-    
+
     $display = 'product_hero';
     $widget_id_field = $this->productHelper->getWidgetIdField($display);
     $node = $this->routeMatch->getParameter('node');
-    
+    $consumption_2 = '';
+
+    if (!empty($node) || $node->bundle() == 'product') {
+      foreach ($node->field_product_variants as $reference) {
+        $product_variant = $reference->entity;
+        if (!empty($product_variant)) {
+          $consumption_2 = $this->languageHelper->translate($product_variant->get('field_product_consumption_2')->value);
+        }
+      }
+    }
+
     $view_type = $this->nutritionHelper
       ->getNutritionConfig()
       ->get('view_type');
@@ -687,10 +697,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $dual_servings_per_label = $this->nutritionHelper
       ->getNutritionConfig()
       ->get('dual_servings_per_container');
-    $dual_serv_label = $dual_servings_per_label ? $this->languageHelper->translate('Amount per portion (51g)') : $this->languageHelper->translate('Amount per 100g');
+    $dual_serv_label = $dual_servings_per_label ? ($this->overrideDualTableHeading() ? $this->languageHelper->translate('Amount ') . $consumption_2 : $this->languageHelper->translate('Amount Per Portion (51g)')) : $this->languageHelper->translate('Amount per 100g');
     $dual_serving_label = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
       ? $dual_serv_label
-      : $this->languageHelper->translate('Amount per serving');  
+      : $this->languageHelper->translate('Amount per serving');
     $daily_label = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
       ? ''
       : $this->languageHelper->translate('% Daily value');
@@ -926,7 +936,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'show_rating_and_reviews' => $this->isRatingEnable($node),
         'is_main_variant' => $i === 1,
       ];
-      if (!empty($product_variant->get('field_product_consumption_1')->value)) {
+      if (!empty($product_variant->get('field_product_consumption_1')->value) || $this->showDualTable()) {
         $item['dual_nutrition_data'] = [
           'serving_item' => $this->getServingItems($product_variant, 'dual'),
         ];
@@ -1609,6 +1619,34 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $sugar_alc = $node->get('field_' . $field_prefix . '_sugar_alcohol')->value;
 
     return ($show_other_nutrients_text && isset($sugar_alc) && !empty($sugar_alc));
+  }
+
+  /**
+   * Check for dual nutrition table to be shown or not.
+   *
+   * @return bool
+   *   Whether it should be rendered or not.
+   */
+  private function showDualTable(): bool {
+    $show_dual_table = $this->configFactory
+      ->get('mars_product.nutrition_table_settings')
+      ->get('show_dual_table');
+
+    return is_null($show_dual_table) ? TRUE : (isset($show_dual_table) && !empty($show_dual_table));
+  }
+
+  /**
+   * Check for dual nutrition table heading to be overridden or not.
+   *
+   * @return bool
+   *   Whether it should be rendered or not.
+   */
+  private function overrideDualTableHeading(): bool {
+    $override_dual_table_heading = $this->configFactory
+      ->get('mars_product.nutrition_table_settings')
+      ->get('override_dual_table_heading');
+
+    return (isset($override_dual_table_heading) && !empty($override_dual_table_heading));
   }
 
 }
