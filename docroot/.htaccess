@@ -268,6 +268,38 @@ AddEncoding gzip svgz
  RewriteCond %{HTTP_HOST} ^www\.unclebens\.gr$ [NC]
  RewriteRule ^(.*)$ https://gr.bensoriginal.com/$1 [R=301,L]
 
+ # Adding redirect for unclebens.hu to hu.bensoriginal.com
+ # Quick fix. Must be removed once redirect will be done externally.
+ RewriteCond %{HTTP_HOST} ^unclebens\.hu$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.hu$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.hu$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.hu$ [NC]
+ RewriteRule ^(.*)$ https://hu.bensoriginal.com/$1 [R=301,L]
+
+ # Adding redirect for unclebens.cz to cz.bensoriginal.com
+ # Quick fix. Must be removed once redirect will be done externally.
+ RewriteCond %{HTTP_HOST} ^unclebens\.cz$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.cz$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.cz$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.cz$ [NC]
+ RewriteRule ^(.*)$ https://cz.bensoriginal.com/$1 [R=301,L]
+
+ # Adding redirect for unclebens.sk to sk.bensoriginal.com
+ # Quick fix. Must be removed once redirect will be done externally.
+ RewriteCond %{HTTP_HOST} ^unclebens\.sk$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.sk$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.sk$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.sk$ [NC]
+ RewriteRule ^(.*)$ https://sk.bensoriginal.com/$1 [R=301,L]
+
+ # Adding redirect for unclebens.ro to ro.bensoriginal.com
+ # Quick fix. Must be removed once redirect will be done externally.
+ RewriteCond %{HTTP_HOST} ^unclebens\.ro$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^bensoriginal\.ro$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.bensoriginal\.ro$ [NC,OR]
+ RewriteCond %{HTTP_HOST} ^www\.unclebens\.ro$ [NC]
+ RewriteRule ^(.*)$ https://ro.bensoriginal.com/$1 [R=301,L]
+
   # Suziwan FR- Country based redirect
   # Quick fix. Must be removed once redirect will be done externally.
   RewriteCond %{HTTP_HOST} ^suziwan\.fr$ [NC,OR]
