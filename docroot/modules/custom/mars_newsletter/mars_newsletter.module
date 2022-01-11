@@ -6,9 +6,10 @@ use Drupal\Component\Serialization\Json;
  * Implements hook_page_attachments().
  */
 function mars_newsletter_page_attachments(array &$attachments) {
-  $data_layer_service = \Drupal::service('mars_newsletter.data_layer_service');
-  $data = $data_layer_service->getData();
-  if (!empty($data)) {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('emulsifymars.settings');
+  $data = $config->get('data');
+  if (!empty($data) && $data) {
     $attachments['#attached']['html_head'][] = [[
       '#type' => 'html_tag',
       '#tag' => 'script',
@@ -18,6 +19,8 @@ function mars_newsletter_page_attachments(array &$attachments) {
     ],
       'mars_newsletter_data_layer',
     ];
+    $config->set('data', []);
+    $config->save(TRUE);
     \Drupal::service('page_cache_kill_switch')->trigger();
   }
 }

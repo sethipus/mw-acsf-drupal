@@ -2,25 +2,25 @@
 
 namespace Drupal\mars_newsletter;
 
-use Drupal\Core\TempStore\PrivateTempStoreFactory;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
+/**
+ * Class CustomService.
+ */
 class DataLayerService {
 
-  /**
-   * The private temp store.
+   /**
+   * Contains the configuration object factory.
    *
-   * @var \Drupal\Core\TempStore\PrivateTempStoreFactory
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
-  protected $privateTempStore;
+  protected $configFactory;
 
   /**
-   * DataLayerService constructor.
-   *
-   * @param \Drupal\Core\TempStore\PrivateTempStoreFactory $private_temp_store
-   *   The private temp store.
+   * {@inheritdoc}
    */
-  public function __construct(PrivateTempStoreFactory $private_temp_store) {
-    $this->privateTempStore = $private_temp_store->get('mars_newsletter');
+  public function __construct(ConfigFactoryInterface $configFactory) {
+    $this->configFactory = $configFactory;
   }
 
   /**
@@ -30,15 +30,17 @@ class DataLayerService {
    *   The event data.
    */
   public function addData(array $data) {
-    $this->privateTempStore->set('data', $data);
+    $config = $this->configFactory->getEditable('emulsifymars.settings');
+    $config->set('data', $data);
+    $config->save(TRUE);
   }
 
   /**
    * Gets data about event.
    */
   public function getData() {
-    $data = $this->privateTempStore->get('data');
-    $this->privateTempStore->delete('data');
+    $config = $this->configFactory->getEditable('emulsifymars.settings');
+    $data = $config->get('data');
     return $data;
   }
 }
