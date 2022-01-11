@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b055613e9157d1991bfa4f33779d62f",
+    "content-hash": "5aa7c27f57332170957536ec89d42e7e",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -17233,7 +17233,7 @@
         },
         {
             "name": "mars/mars_seo",
-            "version": "dev-feature/printable",
+            "version": "dev-release-v22.01.02",
             "dist": {
                 "type": "path",
                 "url": "docroot/modules/custom/mars_seo",
