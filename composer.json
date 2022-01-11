@@ -83,7 +83,7 @@
         "drupal/panelizer": "^5.0-beta3",
         "drupal/pendo": "^1@alpha",
         "drupal/poll": "^1.4",
-        "drupal/printable": "^2.0",
+        "drupal/printable": "2.0.1",
         "drupal/profile_split_enable": "^2.0",
         "drupal/profile_switcher": "^1.0-alpha5",
         "drupal/publication_date": "^2.0@beta",
@@ -110,6 +110,7 @@
         "drupal/ultimate_cron": "^2.0@alpha",
         "drupal/video_embed_field": "^2.0",
         "drupal/views_infinite_scroll": "^1.6",
+        "drupal/webform": "6.0.4",
         "emulsify-ds/emulsify-drupal": "^3.0",
         "mars/mars_lighthouse": "v0.0.2",
         "mars/mars_seo": "*",
@@ -225,6 +226,9 @@
             },
             "mikemadison13/blt-azure-pipelines": {
                 "Pipelines builds fail with 'Command validate:all is not defined'": "patches/blt-azure-pipelines.patch"
+            },
+            "drupal/printable": {
+                "Printable_pdf submodule not compatible with Drupal 9": "patches/fix-url-scheme-for-printable-pdf.patch"
             }
         },
         "patches-ignore": {

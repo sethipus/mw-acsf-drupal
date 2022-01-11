@@ -1,0 +1,4 @@
+services:
+  mars_newsletter.data_layer_service:
+    class: Drupal\mars_newsletter\DataLayerService
+    arguments: ['@config.factory']
