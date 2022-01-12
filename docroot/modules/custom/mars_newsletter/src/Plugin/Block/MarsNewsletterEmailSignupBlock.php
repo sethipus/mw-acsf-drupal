@@ -84,7 +84,7 @@ class MarsNewsletterEmailSignupBlock extends BlockBase implements ContainerFacto
     $view_builder = $this->entityTypeManager->getViewBuilder('webform');
     $webform = $view_builder->view($webform);
     $config = $this->getConfiguration();
-    $block_label = $config_newsletter_form_value['alert_banner_newsletter_name'] ?? $this->t('Sign up for newsletter');
+    $block_label = !empty($config_newsletter_form_value['alert_banner_newsletter_name']) ? $config_newsletter_form_value['alert_banner_newsletter_name'] : $this->t('Sign up for newsletter');
     $override_white_color = !empty($config_newsletter_form_value['override_white_color']) ? $config_newsletter_form_value['override_white_color'] : '';
     if($override_white_color) {
       $build['#override_white_color'] = '#FFFFFF';
