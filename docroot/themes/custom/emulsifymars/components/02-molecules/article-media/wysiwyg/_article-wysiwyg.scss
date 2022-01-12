@@ -20,6 +20,16 @@
   &__container {
     max-width: 1440px;
     margin: 0 auto;
+
+    &--skittles-container{
+      margin: 0 !important;
+      padding: 0 !important;
+
+      p {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+    }
   }
 
   &__heading {
@@ -55,6 +65,11 @@
       max-width: 1128px;
       padding: 0 30px;
     }
+
+    &--skittles-content{
+      margin: 0 !important;
+      padding: 0 !important;
+    }
   }
 }
 
@@ -63,4 +78,9 @@
     font-size: 1.8rem;
     line-height: 1.6;
   }
+}
+
+.nospace{
+  margin: 0 !important;
+  padding: 0 !important;
 }

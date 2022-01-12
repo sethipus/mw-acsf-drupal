@@ -1,0 +1,10 @@
+{{ attach_library('emulsifymars/newsletter-form') }}
+<div class="signup-form-wrp" 
+    {% if background_color %}
+        style="background-color: {{ background_color }};"
+    {% endif %}>
+    <div class="signup-form">
+        <div class="newsletter-label">{{ webform_block_label }}</div>
+        <div class="newsletter-webform">{{ webform_newsletter }}</div>
+    </div>
+</div>
