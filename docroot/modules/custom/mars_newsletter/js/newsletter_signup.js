@@ -38,7 +38,7 @@
             'status': '1',
           });
           $(this).parents('.webform-submission-mars-newsletter-email-form-form').find('.form-item__textfield').val('');
-          $('.success-message').fadeIn('slow');
+          $('.success-message').css({"margin-top":"-20px"}).fadeIn('slow');
           $('.success-message').delay(5000).fadeOut('slow');
         });
       });

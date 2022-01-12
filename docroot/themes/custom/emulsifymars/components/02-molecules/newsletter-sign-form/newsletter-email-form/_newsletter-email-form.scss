@@ -78,10 +78,8 @@
         font-size: 14px;
         color: clr(message);
         display: block;
-        margin-top: -20px;
         @include medium {
             font-size: 20px;
-            margin-top: -25px;
         }
     }
       .privacy-newsletter-email-form {
