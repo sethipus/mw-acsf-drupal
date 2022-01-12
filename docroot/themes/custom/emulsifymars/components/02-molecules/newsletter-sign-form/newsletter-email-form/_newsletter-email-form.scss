@@ -13,7 +13,7 @@
       line-height: 1.1;
       float: left;
       position: relative;
-      padding: 0.5rem 0 0;
+      padding: 0.5rem 0 0 1rem;
     }
     
     .newsletter-webform-block-label {
@@ -35,7 +35,6 @@
         margin: 0 auto;
         .js-form-item {
           margin-top: 10px;
-          margin-bottom: 20px;
           .newsletter-email-value {
             font-size: 14px;
             border-radius: var(--v-button-border-radius);
@@ -46,6 +45,7 @@
             }
           }
           @include medium {
+              margin-bottom: 5px;
               margin-top: 20px;
               width: 35rem;
           }
@@ -78,10 +78,10 @@
         font-size: 14px;
         color: clr(message);
         display: block;
-        padding-bottom: 20px;
+        margin-top: -20px;
         @include medium {
             font-size: 20px;
-            display: unset;
+            margin-top: -25px;
         }
     }
       .privacy-newsletter-email-form {
