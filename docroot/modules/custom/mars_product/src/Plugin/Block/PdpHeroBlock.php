@@ -679,7 +679,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $node = $this->routeMatch->getParameter('node');
     $consumption_2 = '';
 
-    if (!empty($node) || $node->bundle() == 'product') {
+    if (!empty($node) && $node->bundle() == 'product') {
       foreach ($node->field_product_variants as $reference) {
         $product_variant = $reference->entity;
         if (!empty($product_variant)) {
