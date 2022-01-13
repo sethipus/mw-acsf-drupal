@@ -5,10 +5,10 @@
 {% set video__base_class = video__base_class|default('inline-video') %}
 
 <figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }}
-  data-fullcontrol="false"
+  data-fullcontrol="true"
   data-video-flag="Inline"
   data-theme={{ theme_styles }}>
-  <video {{ bem('video', [], video__base_class) }} data-object-fit="cover" preload="metadata">
+  <video {{ bem('video', [], video__base_class) }} data-object-fit="cover" preload="metadata" playsinline>
     {% if '#t' in video__src__url %}
       <source loop src="{{ video__src__url }}" type="video/mp4" />
     {% else %}

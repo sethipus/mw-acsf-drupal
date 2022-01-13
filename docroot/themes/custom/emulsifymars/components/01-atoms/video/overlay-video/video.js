@@ -134,6 +134,13 @@
           $(".swiper-button-prev, .swiper-button-next").click(function() {
             video.pause();
           });
+          var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutationRecord) {
+              video.pause();
+            });
+            });
+            var target = document.querySelectorAll('.swiper-wrapper')[1];
+            observer.observe(target, { attributes : true });
         }
         video.setAttribute('data-video-init', true);
       };

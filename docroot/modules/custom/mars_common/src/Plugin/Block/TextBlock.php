@@ -72,6 +72,12 @@ class TextBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#format' => $config['body']['format'] ?? 'rich_text',
     ];
 
+    $form['iframe_width_full'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('iFrame full width'),
+      '#default_value' => !empty($config['iframe_width_full']) ? $config['iframe_width_full'] : FALSE,
+    ];
+
     return $form;
   }
 
@@ -95,6 +101,7 @@ class TextBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#content'] = $this->languageHelper->translate($config['body']['value']);
     $build['#header'] = $config['header'];
+    $build['#iframe_width_full'] = !empty($config['iframe_width_full']) ? TRUE : FALSE;
 
     $build['#theme'] = 'text_block';
 
