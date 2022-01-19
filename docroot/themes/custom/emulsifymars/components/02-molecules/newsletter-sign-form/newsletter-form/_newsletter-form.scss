@@ -64,12 +64,44 @@
   @include medium {
     max-width: 62rem;
   }
+  legend {
+    font-family: var(--v-primary-font);
+    font-size: 16px;
+    color: clr(--c-accent);
+  }
   label {
     font-family: var(--v-primary-font);
     color: clr(subcolor-1, newsletter-text-color-override);
     font-size: 16px;
   }
-  .globalElement {
+  select {
+    border: 1px solid black;
+  }
+  .js-webform-radios {
+    @include medium {
+      display: flex;
+      width: 63rem;
+    }
+    .js-form-item {
+      display: flex;
+      .form-radio {
+        margin-top: 17px;
+        width: 5rem;
+        position: relative !important;
+      }
+      .error {
+        position: absolute;
+        padding-left: 20px;
+        @include xs {
+          padding-top: 90px;
+        }
+        @include medium {
+          padding-top: 35px;
+        }
+      }
+    }
+  }
+  .globalElement, .js-form-item {
     border-radius: var(--v-button-border-radius);
     font-family: var(--v-primary-font);
     font-size: 16px;
@@ -77,10 +109,33 @@
     &:focus-visible {
       outline: none;
     }
+    @include xs {
+      margin: 0 auto;
+      max-width: 25rem;
+      width: 25rem;
+    }
+    @include small {
+      max-width: 31rem;
+      width: 31rem;
+    }
     @include medium {
       max-width: 65rem;
       width: 63rem;
     }
+    input {
+      @include xs {
+        width: 25rem;
+      }
+      @include small {
+        width: 31rem;
+      }
+      @include medium {
+        width: 63rem;
+      }
+    }
+  }
+  .iti__flag-container {
+    height: 40px;
   }
 }
 
@@ -97,6 +152,11 @@
   .globalCheckBox {
     width: 20px;
     height: 20px;
+    position: relative !important;
+  }
+  .error {
+    padding-top: 30px;
+    position: absolute;
   }
   .webform-element-description {
     margin-top: -8px;
@@ -111,12 +171,11 @@
   padding-top: 20px;
   padding-bottom: 40px;
   .webform-button--submit {
-    height: 50px;
     display: flex;
     justify-content: center;
     margin: 0 auto;
     min-width: 13.3rem;
-    line-height: 4rem;
+    line-height: 3.7rem;
     color:clr(subcolor-3);
     border-radius: var(--v-button-border-radius);
     background-color: clr(secondary);
