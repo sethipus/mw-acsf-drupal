@@ -96,6 +96,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $build['#border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
     $build['#dark_overlay'] = $this->configuration['use_dark_overlay'] ?? TRUE;
+    $build['#remove_space'] = $this->configuration['remove_space'] ?? FALSE;
     $build['#background_images'] = [];
 
     foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
@@ -133,6 +134,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     return [
       'label_display' => FALSE,
       'use_dark_overlay' => TRUE,
+      'remove_space' => FALSE,
       'explore_cta' => $conf['explore_cta'] ?? $this->t('Explore'),
     ];
   }
@@ -215,6 +217,12 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       '#default_value' => $this->configuration['use_dark_overlay'] ?? TRUE,
     ];
 
+    $form['remove_space'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Remove whitespace'),
+      '#default_value' => $this->configuration['remove_space'] ?? FALSE,
+    ];
+
     return $form;
   }
 
@@ -230,6 +238,9 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['explore_cta'] = $form_state->getValue('explore_group')['explore_cta'];
     $this->configuration['explore_cta_link'] = $form_state->getValue('explore_group')['explore_cta_link'];
     $this->configuration['use_dark_overlay'] = ($form_state->getValue('use_dark_overlay'))
+      ? TRUE
+      : FALSE;
+    $this->configuration['remove_space'] = ($form_state->getValue('remove_space'))
       ? TRUE
       : FALSE;
 

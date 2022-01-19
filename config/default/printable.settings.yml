@@ -28,8 +28,8 @@ extract_links: '0'
 save_pdf: false
 pdf_tool: mPDF
 paper_size: A4
-page_orientation: portrait
 path_to_binary: ''
+page_orientation: portrait
 pdf_location: sites/default/files/printable.pdf
 send_to_printer: false
 close_window: false

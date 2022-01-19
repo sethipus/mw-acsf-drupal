@@ -11,12 +11,12 @@ bundle: list
 mode: default
 content:
   field_list_items_reference:
-    weight: 1
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 1
     region: content
 hidden:
   langcode: true

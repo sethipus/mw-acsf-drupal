@@ -74,7 +74,7 @@ function mars_entry_gate_preprocess_html(&$variables) {
 
   /** @var \Drupal\mars_common\ThemeConfiguratorParser $theme_configurator */
   $theme_configurator = Drupal::service('mars_common.theme_configurator_parser');
-  $entry_gate_render_array['#brand_shape'] = $theme_configurator->getBrandShapeWithoutFill();
+  $entry_gate_render_array['#brand_shape'] = $config->get('hide_brand_shape') ? '' : $theme_configurator->getBrandShapeWithoutFill();
 
   $visibility = $config->get('visibility');
   if (BlockVisibilityConditionsTrait::ensureShouldBlockRender($visibility)) {

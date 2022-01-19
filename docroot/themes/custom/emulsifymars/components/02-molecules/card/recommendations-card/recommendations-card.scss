@@ -13,6 +13,10 @@
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   margin-bottom: 6rem;
   @include card-width;
+  
+  @include xs{
+  width: 25rem;
+  }
 
   @include large {
     min-height: 39.7rem;
@@ -37,7 +41,7 @@
     border-bottom-right-radius: variable(card-border-radius);
 
     @include large {
-      height: 16.6rem;
+      height: 204px;
     }
 
     @include xl {
@@ -46,7 +50,11 @@
     img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: unset;
+    }
+
+    @include large{
+      height:204px;
     }
 
     a {
@@ -61,6 +69,11 @@
     top: -3.5rem;
     right: -1.5rem;
     z-index: 2;
+
+    @include xs{
+      top: -6.6rem;
+      right: -2rem;
+    }
   }
 
   .recommendations-card-heading {
@@ -74,7 +87,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     min-height: 9rem;
-    width: 25rem;
+    width: 100%
   }
 
   .details-button {
@@ -90,10 +103,10 @@
     font-size: 2.2rem;
     line-height: 2.42rem;
     min-height: 5rem;
-    min-width: 24rem;
     display: block;
     padding: 0 3rem 0 2rem;
     font-weight: bold;
+    width: 27rem;
   }
 
   &__labels_section {
@@ -120,5 +133,4 @@
       margin-bottom: 2.5rem;
     }
   }
-
 }

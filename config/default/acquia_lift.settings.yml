@@ -1,3 +1,6 @@
+_core:
+  default_config_hash: OcyTTY7wxlNbj1_F7hE-5DXIIjHALO9LxuSNOVeAHqs
+langcode: en
 credential:
   account_id: ''
   site_id: ''
@@ -28,6 +31,3 @@ advanced:
   bootstrap_mode: auto
   content_replacement_mode: trusted
   cdf_version: 1
-langcode: en
-_core:
-  default_config_hash: OcyTTY7wxlNbj1_F7hE-5DXIIjHALO9LxuSNOVeAHqs

@@ -16,24 +16,24 @@ settings:
   project_id: ''
   user_id: ''
   token_secret: ''
-  contextUsername: ''
-  context_silent_user_switching: false
-  context_skip_host_verifying: false
-  retrieval_type: published
   auto_authorize_locales: true
   callback_url_use: false
   callback_url_host: ''
+  retrieval_type: published
   scheme: public
+  contextUsername: ''
+  context_silent_user_switching: false
+  context_skip_host_verifying: false
   custom_regexp_placeholder: '(@|%|!)[\w-]+'
   translatable_attributes: 'title, alt'
+  exclude_translatable_attributes: ''
+  force_block_for_tags: ''
   enable_smartling_logging: true
   enable_notifications: true
   async_mode: false
   enable_basic_auth: false
+  download_by_job_items: false
   basic_auth:
     login: ''
     password: ''
-  download_by_job_items: false
-  exclude_translatable_attributes: ''
-  force_block_for_tags: ''
 remote_languages_mappings: {  }

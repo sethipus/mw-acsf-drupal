@@ -14,14 +14,6 @@
   margin-bottom: 6rem;
   @include card-width;
 
-  @include large {
-    min-height: 360px;
-  }
-
-  @include xl {
-    min-height: 520px;
-  }
-
   .eyebrow {
     @include set-font($font-type: 'primary-font');
 
@@ -41,14 +33,6 @@
     border-top-left-radius: variable(card-border-radius);
     border-top-right-radius: variable(card-border-radius);
     position: relative;
-
-    @include large {
-      height: 16.6rem;
-    }
-
-    @include xl {
-      height: 239px;
-    }
 
     img {
       min-width: 100%;
@@ -82,16 +66,6 @@
     margin-top: 0;
     margin-bottom: 0;
     padding: 3rem 3rem 1rem 3rem;
-
-    @include large {
-      padding: 2.1rem 2.1rem 1rem 2.1rem;
-      min-height: 8rem;
-    }
-
-    @include xl {
-      padding: 3rem 3rem 1rem 3rem;
-      min-height: 9rem;
-    }
   }
 
   &-heading__link {
@@ -126,14 +100,6 @@
     padding: 0 3rem 10rem 3rem;
     flex-grow: 1;
 
-    @include large {
-      padding: 0 2.1rem 10rem 2.1rem;
-    }
-
-    @include xl {
-      padding: 0 3rem 10rem 3rem;
-    }
-
     .ingredients-block {
       margin-right: 4rem;
     }
@@ -145,16 +111,6 @@
       color: clr(primary, card-title, recipe-card-title);
       font-size: 1.4rem;
       line-height: 2.2rem;
-
-      @include large {
-        font-size: 1rem;
-        line-height: 1rem;
-      }
-
-      @include xl {
-        font-size: 1.4rem;
-        line-height: 2.2rem;
-      }
     }
   }
 
@@ -166,18 +122,6 @@
     font-size: 1.6rem;
     line-height: 0.1rem;
     font-weight: bold;
-
-    @include large {
-      font-size: 1.2rem;
-      line-height: 1.2rem;
-      margin-top: 0.5rem;
-    }
-
-    @include xl {
-      font-size: 1.6rem;
-      line-height: 0.1rem;
-      margin-top: 1.2rem;
-    }
   }
 
   &__details-button {
@@ -200,7 +144,7 @@
 
       @include xl {
         line-height: 5rem;
-        min-width: 13.3px;
+        min-width: 13.3rem;
         font-size: 1.4rem;
         padding-left: 1rem;
         padding-right: 1rem;

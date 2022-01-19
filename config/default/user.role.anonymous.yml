@@ -1,7 +1,13 @@
 uuid: 565c0b78-a55d-4387-baa0-811292da6aa8
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - contact
+    - media
+    - poll
+    - printable
+    - system
 _core:
   default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
 id: anonymous

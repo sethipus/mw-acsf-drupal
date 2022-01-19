@@ -7,13 +7,11 @@
     @include medium {
       height: 846px;
       background-color: clr(subcolor-3);
-      // max-height: calc(100vh - 12rem); 25-11-21
-      max-height: calc(100vh - #{$navigation_medium}); // medium site-header height
+      max-height: calc(100vh - 12rem); // medium site-header height
     }
 
     @include large {
-      // max-height: calc(100vh - 16.2rem); 25-11-21
-      max-height: calc(100vh - #{$navigation_large}); // large site-header height
+      max-height: calc(100vh - 16.2rem); // large site-header height
       min-height: 580px;
     }
 
@@ -50,11 +48,27 @@
     .ambient-video__controls[data-state="mute"] {
       left: calc(100% - 80px);
       top: 100px;
+
+      @include xs {
+        top: 72px;
+      }
+
+      @include small {
+        top: 100px;
+      }
     }
 
     .ambient-video__controls[data-state="unmute"] {
       left: calc(100% - 80px);
       top: 100px;
+
+      @include xs {
+        top: 72px;
+      }
+      
+      @include small {
+        top: 100px;
+      }
     }
 
     .fullscreen-video {
@@ -93,23 +107,32 @@
 
   &__container--title {
     width: 100%;
-    padding: 0 2rem;
     position: absolute;
     z-index: 2;
     bottom: 0;
+    top:15%;
+    
+    @include xs {
+      padding: 0 1rem;
+      margin-top: 20%;
+    }
 
     @include medium {
       width: 75%;
-      padding: 0 4rem;
+      padding: 0 2rem;
+      
     }
 
     @include large {
       width: 62%;
+     padding: 0 4rem;
+     margin-top: 5%
     }
 
     @include xl {
       max-width: 893px;
       left: calc((100% - 1440px) / 2);
+      padding: 0 4rem;
     }
   }
 
@@ -178,20 +201,7 @@
         height: inherit;
         top: 0;
         left: 0;
-        background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.15) 75%, rgba(0, 0, 0, 0.3));
-      }
-    }
-
-    @include xl {
-      &::after {
-        content: '';
-        position: absolute;
-        display: block;
-        width: 100%;
-        height: inherit;
-        top: 0;
-        left: 0;
-        background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.15) 75%, rgba(0, 0, 0, 0.3));
+        background-color: rgba(0,0,0,0.3)
       }
     }
   }

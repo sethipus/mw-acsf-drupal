@@ -25,28 +25,18 @@
       height: 24px;
       fill: var(--c-secondary);
       margin: auto 25%;
-
-      @include xs {
-        width: 16px;
-        height: 20px;
-      }
-
-      @include small {
-        width: 16px;
-        height: 20px;
-      }
     }
 
     @include xs {
-      height: 40px;
-      width: 40px;
+      height: 50px;
+      width: 50px;
       top: 0;
       right: calc(5% - 30px);
     }
 
     @include small {
-      height: 40px;
-      width: 40px;
+      height: 50px;
+      width: 50px;
       top: 0;
       right: calc(5% - 30px);
     }
@@ -89,28 +79,18 @@
       border-left: 4px solid clr(text-inverse);
       margin: auto;
       position: absolute;
-      
-      @include xs {
-        width: 4px;
-        height: 14px;
-      }
-
-      @include small {
-        width: 4px;
-        height: 14px;
-      }
     }
 
     @include xs {
-      height: 40px;
-      width: 40px;
+      height: 50px;
+      width: 50px;
       top: 0;
       right: calc(5% - 30px);
     }
 
     @include small {
-      height: 40px;
-      width: 40px;
+      height: 50px;
+      width: 50px;
       top: 0;
       right: calc(5% - 30px);
     }
@@ -147,45 +127,40 @@
       height: 24px;
       fill: #fff ;
       margin: auto 25%;
-
-      @include xs{
-      width: 19px;
-      height: 21px;
-      }
-
-      @include small{
-      width: 19px;
-      height: 21px;
-      }
     }
 
     @include xs {
       top: 80px;
-      height: 39px;
-      width: 32px;
-      right: calc(5% - 13px);
+      height: 50px;
+      width: 50px;
+      right: calc(5% - 5px);
+      padding: 0;
     }
 
     @include small {
       top: 80px;
-      height: 39px;
-      width: 32px;
-      right: calc(5% - 13px);
+      height: 50px;
+      width: 50px;
+      right: calc(5% - 5px);
     }
 
     @include medium {
+      height: 50px;
+      width: 50px;
       top: 100px;
       right: calc(5% - 25px);
     }
 
     @include large {
+      height: 50px;
+      width: 50px;
       top: 100px;
-      right: calc(5% - 39px);
+      right: calc(5% - 30px);
     }
 
     @include xl {
       top: 100px;
-      right: calc(5% - 39px);
+      right: calc(5% - 30px);
     }
   }
 
@@ -198,16 +173,6 @@
       fill: #fff ;
       margin: auto 25%;
       opacity: 0.5;
-
-      @include xs {
-        width: 19px;
-        height: 21px;
-      }
-  
-      @include small{
-        width: 19px;
-        height: 21px;
-      }
     }
   }
 }

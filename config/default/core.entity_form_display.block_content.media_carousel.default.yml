@@ -14,20 +14,20 @@ bundle: media_carousel
 mode: default
 content:
   field_carousel_items:
+    type: carousel_item_default_widget
     weight: 1
+    region: content
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
-    type: carousel_item_default_widget
-    region: content
   field_carousel_title:
+    type: string_textfield
     weight: 0
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   langcode:
     type: language_select
     weight: 2

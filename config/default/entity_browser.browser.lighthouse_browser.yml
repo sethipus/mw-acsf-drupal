@@ -24,31 +24,31 @@ widget_selector: tabs
 widget_selector_configuration: {  }
 widgets:
   e1c849dd-3906-42b7-b061-397ebf372775:
+    id: lighthouse_view
+    uuid: e1c849dd-3906-42b7-b061-397ebf372775
+    label: 'Search Lighthouse'
+    weight: 1
     settings:
       submit_text: 'Select entities'
       auto_select: false
-    uuid: e1c849dd-3906-42b7-b061-397ebf372775
-    weight: 1
-    label: 'Search Lighthouse'
-    id: lighthouse_view
   bde1bcbe-9e78-40ea-a5da-d94e3a344d97:
+    id: view
+    uuid: bde1bcbe-9e78-40ea-a5da-d94e3a344d97
+    label: 'Media used'
+    weight: 2
     settings:
-      view: lighthouse_media
-      view_display: lighthouse_image_browser
       submit_text: Select
       auto_select: false
-    uuid: bde1bcbe-9e78-40ea-a5da-d94e3a344d97
-    weight: 2
-    label: 'Media used'
-    id: view
+      view: lighthouse_media
+      view_display: lighthouse_image_browser
   3b1eaca1-3d00-46c9-9fff-4a051d12aed3:
+    id: file_upload
+    uuid: 3b1eaca1-3d00-46c9-9fff-4a051d12aed3
+    label: Upload
+    weight: 3
     settings:
-      submit_text: Select
       target_bundles: {  }
+      upload_validators: {  }
+      submit_text: Select
       form_mode: media_browser
       return_file: false
-      upload_validators: {  }
-    uuid: 3b1eaca1-3d00-46c9-9fff-4a051d12aed3
-    weight: 3
-    label: Upload
-    id: file_upload

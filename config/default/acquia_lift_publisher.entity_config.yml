@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: U-n8DDkN7Flu1ctVqMkJ2EBgvCA8EEaPLCvXnC4RjGI
 view_modes:
   block_content:
     banner:
@@ -434,5 +436,3 @@ view_modes:
       token: '1'
 render_role: administrator
 personalized_content_only: false
-_core:
-  default_config_hash: U-n8DDkN7Flu1ctVqMkJ2EBgvCA8EEaPLCvXnC4RjGI

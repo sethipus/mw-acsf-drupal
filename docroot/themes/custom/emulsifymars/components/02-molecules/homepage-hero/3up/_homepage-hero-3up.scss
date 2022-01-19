@@ -6,13 +6,6 @@
 
     @include large {
       flex-flow: row nowrap;
-      // max-height: calc(100vh - #{$navigation_large});
-      max-height: none;
-      min-height: 42rem;
-    }
-
-    @include xl {
-      max-height: none;
     }
   }
 
@@ -196,15 +189,32 @@
   }
 
   &__container--hero-text {
-    padding: 30px 20px 0 20px;
+    padding: 37px 20px 36px 37px;
     position: absolute;
     z-index: 1;
     bottom: 0;
     animation: hero-3up-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
-    @include large {
-      padding: 30px 20px 100px 20px;
+    @include xs {
+      padding: 30px 20px 5px 20px;
     }
+
+    @include small {
+      padding: 29px 20px 10px 20px;
+    }
+
+    @include medium {
+      padding: 30px 20px 100px 37px;
+    }
+
+    @include large {
+      padding: 30px 20px 78px 37px;
+    }    
+    
+    @include xl{
+      padding: 30px 20px 40px 50px;
+    }
+
   }
 
   .dark-overlay {
