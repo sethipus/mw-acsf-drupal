@@ -1,6 +1,7 @@
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
+  webform_clientside_validation: -1
   acquia_connector: 0
   acquia_contenthub: 0
   acquia_contenthub_curation: 0
@@ -26,6 +27,8 @@ module:
   ckeditor: 0
   ckeditor_config: 0
   ckeditor_font: 0
+  clientside_validation: 0
+  clientside_validation_jquery: 0
   color: 0
   colorapi: 0
   colorbutton: 0
