@@ -11,6 +11,7 @@
   flex-direction: column;
   position: relative;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+  margin-top: 3rem;
   margin-bottom: 6rem;
   @include card-width;
   
@@ -33,7 +34,7 @@
     position: absolute;
     bottom: 0;
     max-height: 31.8rem;
-    height: 210px;
+    height: 300px;
     width: 100%;
     box-sizing: border-box;
     justify-content: center;
@@ -45,7 +46,7 @@
     }
 
     @include xl {
-      height: 239px;
+      height: 300px;
     }
     img {
       width: 100%;
