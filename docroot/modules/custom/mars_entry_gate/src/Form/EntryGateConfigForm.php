@@ -179,6 +179,12 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
+    $form['hide_brand_shape'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Hide Brand Shape'),
+      '#default_value' => $config->get('hide_brand_shape') ?? FALSE,
+    ];
+
     $text_color_config = $config->get('override_text_color') ? ['override_text_color' => $config->get('override_text_color')] : [];
     $this->buildOverrideColorElement($form, $text_color_config);
 
@@ -208,6 +214,7 @@ class EntryGateConfigForm extends ConfigFormBase {
     $config->set('error_message', $form_state->getValue('error_message'));
     $config->set('error_link_1', $form_state->getValue('error_link_1'));
     $config->set('error_link_2', $form_state->getValue('error_link_2'));
+    $config->set('hide_brand_shape', $form_state->getValue('hide_brand_shape'));
     $config->set('override_text_color', ['override_color' => $form_state->getValue('override_color')]);
     $this->setVisibilityFieldsConfiguration($form_state, $config);
     $config->save();

@@ -26,8 +26,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Path\CurrentPathStack;
-use Drupal\Core\Render\Element\Url;
-use Drupal\Core\Url as CoreUrl;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -267,12 +265,12 @@ class PdpHeroBlockTest extends UnitTestCase {
     $nodeContext
       ->method('getContextValue')
       ->willReturn($product_node);
-    
+
     $this->routeMatchMock
       ->expects($this->any())
       ->method('getParameter')
       ->willReturn($product_node);
-    
+ 
     $this->currentPathMock
       ->expects($this->any())
       ->method('getPath')
@@ -468,12 +466,12 @@ class PdpHeroBlockTest extends UnitTestCase {
     $this->routeMatchMock
       ->expects($this->any())
       ->method('getParameter')
-      ->willReturn($this->createMock(NodeInterface::class));
+      ->willReturn($this->createProductMock('product'));
       
     $this->currentPathMock
-        ->expects($this->any())
-        ->method('getPath')
-        ->willReturn($this->createMock(Request::class));
+      ->expects($this->any())
+      ->method('getPath')
+      ->willReturn($this->createMock(Request::class));
   }
 
   /**
