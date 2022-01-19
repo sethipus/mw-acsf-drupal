@@ -2,6 +2,9 @@
 {% if text_color_override is not empty %}
     --c-newsletter-text-color-override: {{ text_color_override }};
 {% endif %}
+{% if button_background_color is not empty %}
+    --c-button-background-color: {{ button_background_color }};
+{% endif %}
 ">
     {% include "@molecules/newsletter-sign-form/newsletter-form/newsletter-form.twig" with {
         theme_styles: 'drupal',
