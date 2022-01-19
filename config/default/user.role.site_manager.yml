@@ -2,8 +2,69 @@ uuid: 2f0fa514-bd6e-4868-b0ad-af87defbd714
 langcode: en
 status: true
 dependencies:
+  config:
+    - core.entity_view_display.node.about_page.default
+    - core.entity_view_display.node.content_hub_page.default
+    - core.entity_view_display.node.faq_contact.default
+    - core.entity_view_display.node.homepage.default
+    - core.entity_view_display.node.product.default
+    - core.entity_view_display.node.product_multipack.default
+    - core.entity_view_display.node.recipe.full
+    - core.entity_view_display.node.search.default
+    - core.entity_view_display.node.where_to_buy.default
+    - filter.format.rich_text
+    - media.type.audio_file
+    - media.type.document
+    - media.type.image
+    - media.type.instagram
+    - media.type.lighthouse_image
+    - media.type.lighthouse_video
+    - media.type.tweet
+    - media.type.video
+    - media.type.video_file
+    - node.type.about_page
+    - node.type.article
+    - node.type.campaign
+    - node.type.content_hub_page
+    - node.type.error_page
+    - node.type.faq
+    - node.type.faq_contact
+    - node.type.homepage
+    - node.type.landing_page
+    - node.type.newsletter_sign_up
+    - node.type.page
+    - node.type.product
+    - node.type.product_multipack
+    - node.type.product_variant
+    - node.type.recipe
+    - node.type.search
+    - node.type.where_to_buy
+    - taxonomy.vocabulary.faq_filter_topic
+    - taxonomy.vocabulary.mars_brand_initiatives
+    - taxonomy.vocabulary.mars_diet_allergens
+    - taxonomy.vocabulary.mars_flavor
+    - taxonomy.vocabulary.mars_format
+    - taxonomy.vocabulary.mars_occasions
+    - taxonomy.vocabulary.mars_regions
+    - taxonomy.vocabulary.mars_trade_item_description
+    - workflows.workflow.editorial
   module:
+    - acquia_contenthub
+    - content_moderation
+    - contextual
+    - entity_browser
+    - entityqueue
+    - field_ui
+    - filter
+    - layout_builder
     - lightning_core
+    - lightning_scheduler
+    - media
+    - node
+    - path
+    - system
+    - taxonomy
+    - toolbar
 third_party_settings:
   lightning_core:
     description: ''
@@ -30,14 +91,9 @@ permissions:
   - 'administer users'
   - 'configure any layout'
   - 'configure editable about_page node layout overrides'
-  - 'configure editable article node layout overrides'
-  - 'configure editable campaign node layout overrides'
   - 'configure editable content_hub_page node layout overrides'
   - 'configure editable faq_contact node layout overrides'
   - 'configure editable homepage node layout overrides'
-  - 'configure editable landing_page node layout overrides'
-  - 'configure editable newsletter_sign_up node layout overrides'
-  - 'configure editable page node layout overrides'
   - 'configure editable product node layout overrides'
   - 'configure editable product_multipack node layout overrides'
   - 'configure editable recipe node layout overrides'

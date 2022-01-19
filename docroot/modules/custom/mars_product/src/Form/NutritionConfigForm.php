@@ -211,6 +211,19 @@ class NutritionConfigForm extends ConfigFormBase {
       '#title' => $this->t('Dual Servings per container label'),
       '#default_value' => !empty($config->get('dual_servings_per_container')) ? $this->languageHelper->translate($config->get('dual_servings_per_container')) : '',
     ];
+    $form['dual_header']['show_dual_table'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Show Dual Nutritional Table'),
+      '#default_value' => is_null($config->get('show_dual_table')) ? TRUE : $config->get('show_dual_table'),
+    ];
+    $form['dual_header']['override_dual_table_heading'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Override Dual Table Heading'),
+      '#default_value' => !empty($config->get('override_dual_table_heading')) ? $config->get('override_dual_table_heading') : FALSE,
+      '#attributes' => [
+        'title' => $this->t("This field will override the Per portion value in the Nutrition Table 2 with that of Salsify value."),
+      ]
+    ];
 
   }
 
@@ -491,6 +504,8 @@ class NutritionConfigForm extends ConfigFormBase {
     $config->set('servings_per_container', $form_state->getValue('servings_per_container'));
     $config->set('show_other_nutrients_text', $form_state->getValue('show_other_nutrients_text'));
     $config->set('dual_servings_per_container', $form_state->getValue('dual_servings_per_container'));
+    $config->set('show_dual_table', $form_state->getValue('show_dual_table'));
+    $config->set('override_dual_table_heading', $form_state->getValue('override_dual_table_heading'));
     // Save the configuration.
     $config->save();
 

@@ -13,22 +13,22 @@ bundle: list
 mode: default
 content:
   field_list_items_reference:
+    type: inline_entity_form_complex
     weight: 27
+    region: content
     settings:
-      match_operator: CONTAINS
       form_mode: default
-      revision: false
       override_labels: false
       label_singular: ''
       label_plural: ''
-      collapsible: false
-      collapsed: false
       allow_new: true
       allow_existing: false
+      match_operator: CONTAINS
       allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
     third_party_settings: {  }
-    type: inline_entity_form_complex
-    region: content
   info:
     type: string_textfield
     weight: -5

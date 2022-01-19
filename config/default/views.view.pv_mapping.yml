@@ -45,44 +45,12 @@ base_table: node_field_data
 base_field: nid
 display:
   default:
-    display_plugin: default
     id: default
     display_title: Master
+    display_plugin: default
     position: 0
     display_options:
-      access:
-        type: perm
-        options:
-          perm: 'access salsify config page'
-      cache:
-        type: tag
-        options: {  }
-      query:
-        type: views_query
-        options:
-          disable_sql_rewrite: false
-          distinct: false
-          replica: false
-          query_comment: ''
-          query_tags: {  }
-      exposed_form:
-        type: basic
-        options:
-          submit_button: Apply
-          reset_button: false
-          reset_button_label: Reset
-          exposed_sorts_label: 'Sort by'
-          expose_sort_order: true
-          sort_asc_label: Asc
-          sort_desc_label: Desc
-      pager:
-        type: none
-        options:
-          offset: 0
-      style:
-        type: table
-      row:
-        type: fields
+      title: 'Product Variant mapping'
       fields:
         langcode_1:
           id: langcode_1
@@ -91,6 +59,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: langcode
+          plugin_id: field
           label: 'Translation language'
           exclude: true
           alter:
@@ -147,9 +118,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: node
-          entity_field: langcode
-          plugin_id: field
         nid_1:
           id: nid_1
           table: node_field_data
@@ -157,6 +125,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: nid
+          plugin_id: field
           label: ID
           exclude: false
           alter:
@@ -213,9 +184,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: node
-          entity_field: nid
-          plugin_id: field
         nid:
           id: nid
           table: node_field_data
@@ -223,6 +191,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: nid
+          plugin_id: field
           label: ID
           exclude: true
           alter:
@@ -279,9 +250,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: node
-          entity_field: nid
-          plugin_id: field
         title:
           id: title
           table: node_field_data
@@ -289,6 +257,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: field
           label: Title
           exclude: false
           alter:
@@ -344,9 +315,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: node
-          entity_field: title
-          plugin_id: field
         field_product_sku:
           id: field_product_sku
           table: node__field_product_sku
@@ -354,6 +322,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: SKU
           exclude: false
           alter:
@@ -409,7 +378,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_description:
           id: field_product_description
           table: node__field_product_description
@@ -417,6 +385,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Product Description'
           exclude: false
           alter:
@@ -471,7 +440,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_size:
           id: field_product_size
           table: node__field_product_size
@@ -479,6 +447,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: Size
           exclude: false
           alter:
@@ -534,7 +503,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_serving_size:
           id: field_product_serving_size
           table: node__field_product_serving_size
@@ -542,6 +510,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Serving Size'
           exclude: false
           alter:
@@ -597,7 +566,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_consumption_1:
           id: field_product_consumption_1
           table: node__field_product_consumption_1
@@ -605,6 +573,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Consumption context 1'
           exclude: false
           alter:
@@ -660,7 +629,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_consumption_2:
           id: field_product_consumption_2
           table: node__field_product_consumption_2
@@ -668,6 +636,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Consumption context 2'
           exclude: false
           alter:
@@ -723,7 +692,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         moderation_state:
           id: moderation_state
           table: node_field_data
@@ -731,6 +699,8 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          plugin_id: moderation_state_field
           label: 'Moderation state'
           exclude: false
           alter:
@@ -785,8 +755,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: node
-          plugin_id: moderation_state_field
         langcode:
           id: langcode
           table: node_field_data
@@ -794,6 +762,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: langcode
+          plugin_id: field
           label: 'Translation language'
           exclude: false
           alter:
@@ -850,9 +821,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: node
-          entity_field: langcode
-          plugin_id: field
         field_product_allergen_warnings:
           id: field_product_allergen_warnings
           table: node__field_product_allergen_warnings
@@ -860,6 +828,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: Warnings
           exclude: false
           alter:
@@ -914,7 +883,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_calories:
           id: field_product_calories
           table: node__field_product_calories
@@ -922,6 +890,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: Calories
           exclude: false
           alter:
@@ -977,7 +946,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_dual_calories:
           id: field_dual_calories
           table: node__field_dual_calories
@@ -985,6 +953,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Dual Calories'
           exclude: false
           alter:
@@ -1040,7 +1009,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_cooking_instruct:
           id: field_product_cooking_instruct
           table: node__field_product_cooking_instruct
@@ -1048,6 +1016,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Cooking instructions'
           exclude: false
           alter:
@@ -1102,7 +1071,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_protein:
           id: field_product_protein
           table: node__field_product_protein
@@ -1110,6 +1078,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: Protein
           exclude: false
           alter:
@@ -1165,7 +1134,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_dual_protein:
           id: field_dual_protein
           table: node__field_dual_protein
@@ -1173,6 +1141,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Dual Protein'
           exclude: false
           alter:
@@ -1228,7 +1197,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_total_fat:
           id: field_product_total_fat
           table: node__field_product_total_fat
@@ -1236,6 +1204,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Total Fat'
           exclude: false
           alter:
@@ -1291,7 +1260,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_dual_total_fat:
           id: field_dual_total_fat
           table: node__field_dual_total_fat
@@ -1299,6 +1267,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Dual Total Fat'
           exclude: false
           alter:
@@ -1354,7 +1323,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_saturated_fat:
           id: field_product_saturated_fat
           table: node__field_product_saturated_fat
@@ -1362,6 +1330,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Saturated Fat'
           exclude: false
           alter:
@@ -1417,7 +1386,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_dual_saturated_fat:
           id: field_dual_saturated_fat
           table: node__field_dual_saturated_fat
@@ -1425,6 +1393,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Dual Saturated Fat'
           exclude: false
           alter:
@@ -1480,7 +1449,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_total_sugars:
           id: field_product_total_sugars
           table: node__field_product_total_sugars
@@ -1488,6 +1456,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Total Sugars'
           exclude: false
           alter:
@@ -1543,7 +1512,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_dual_total_sugars:
           id: field_dual_total_sugars
           table: node__field_dual_total_sugars
@@ -1551,6 +1519,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Dual Total Sugars'
           exclude: false
           alter:
@@ -1606,7 +1575,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_fibre:
           id: field_product_fibre
           table: node__field_product_fibre
@@ -1614,6 +1582,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: Fibre
           exclude: false
           alter:
@@ -1669,7 +1638,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_dual_fibre:
           id: field_dual_fibre
           table: node__field_dual_fibre
@@ -1677,6 +1645,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Dual Fibre'
           exclude: false
           alter:
@@ -1732,7 +1701,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_sodium:
           id: field_product_sodium
           table: node__field_product_sodium
@@ -1740,6 +1708,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: Sodium
           exclude: false
           alter:
@@ -1795,7 +1764,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_dual_sodium:
           id: field_dual_sodium
           table: node__field_dual_sodium
@@ -1803,6 +1771,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Dual Sodium'
           exclude: false
           alter:
@@ -1858,7 +1827,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_ingredients:
           id: field_product_ingredients
           table: node__field_product_ingredients
@@ -1866,6 +1834,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: Ingredients
           exclude: false
           alter:
@@ -1920,7 +1889,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_key_image:
           id: field_product_key_image
           table: node__field_product_key_image
@@ -1928,6 +1896,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Key Product Pack Image'
           exclude: false
           alter:
@@ -1983,7 +1952,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_image_1:
           id: field_product_image_1
           table: node__field_product_image_1
@@ -1991,6 +1959,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Supporting Image 1'
           exclude: false
           alter:
@@ -2046,7 +2015,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_nutritional_claims_benefit:
           id: field_nutritional_claims_benefit
           table: node__field_nutritional_claims_benefit
@@ -2054,6 +2022,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Nutritional claims and benefits'
           exclude: false
           alter:
@@ -2109,7 +2078,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
         field_product_reference_intake:
           id: field_product_reference_intake
           table: node__field_product_reference_intake
@@ -2117,6 +2085,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: field
           label: 'Reference intake'
           exclude: false
           alter:
@@ -2172,7 +2141,30 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          plugin_id: field
+      pager:
+        type: none
+        options:
+          offset: 0
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Apply
+          reset_button: false
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      access:
+        type: perm
+        options:
+          perm: 'access salsify config page'
+      cache:
+        type: tag
+        options: {  }
+      empty: {  }
+      sorts: {  }
+      arguments: {  }
       filters:
         title:
           id: title
@@ -2181,6 +2173,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: string
           operator: contains
           value: ''
           group: 1
@@ -2220,9 +2215,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          entity_type: node
-          entity_field: title
-          plugin_id: string
         field_product_sku_value:
           id: field_product_sku_value
           table: node__field_product_sku
@@ -2230,6 +2222,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: string
           operator: '='
           value: ''
           group: 1
@@ -2269,7 +2262,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          plugin_id: string
         langcode:
           id: langcode
           table: node_field_data
@@ -2277,6 +2269,9 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: node
+          entity_field: langcode
+          plugin_id: language
           operator: in
           value:
             en: en
@@ -2319,24 +2314,37 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          entity_type: node
-          entity_field: langcode
-          plugin_id: language
         type:
           id: type
           table: node_field_data
           field: type
-          value:
-            product_variant: product_variant
           entity_type: node
           entity_field: type
           plugin_id: bundle
+          value:
+            product_variant: product_variant
+          group: 1
           expose:
             operator_limit_selection: false
             operator_list: {  }
-          group: 1
-      sorts: {  }
-      title: 'Product Variant mapping'
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: table
+      row:
+        type: fields
+      query:
+        type: views_query
+        options:
+          query_comment: ''
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_tags: {  }
+      relationships: {  }
+      use_ajax: true
       header:
         area:
           id: area
@@ -2345,12 +2353,12 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: text
           empty: true
-          tokenize: false
           content:
             value: "<strong>By default, the view displays all translation of the entities and their total amount. To review concrete node translation please select the Language in the filter below. Search by SKU and Title fields are also available.</strong>\r\n<p></p>"
             format: rich_text
-          plugin_id: text
+          tokenize: false
         result:
           id: result
           table: views
@@ -2358,19 +2366,11 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
+          plugin_id: result
           empty: true
           content: 'Displaying <strong>@start</strong> - <strong>@end</strong> of <strong>@total</strong>'
-          plugin_id: result
       footer: {  }
-      empty: {  }
-      relationships: {  }
-      arguments: {  }
       display_extenders: {  }
-      use_ajax: true
-      filter_groups:
-        operator: AND
-        groups:
-          1: AND
     cache_metadata:
       max-age: -1
       contexts:
@@ -2408,9 +2408,9 @@ display:
         - 'config:field.storage.node.field_product_total_fat'
         - 'config:field.storage.node.field_product_total_sugars'
   page_1:
-    display_plugin: page
     id: page_1
     display_title: Page
+    display_plugin: page
     position: 1
     display_options:
       display_extenders: {  }

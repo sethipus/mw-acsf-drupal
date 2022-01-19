@@ -141,6 +141,16 @@
       }
     }
   }
+  .search-input {
+    .form-item {
+      .clear-icon {
+        &::after {
+          right: 30px !important;
+          color: red !important;
+        }
+      }
+    }
+  }
 }
 
 .faq-heading {

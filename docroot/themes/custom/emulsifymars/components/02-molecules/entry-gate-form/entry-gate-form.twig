@@ -1,3 +1,4 @@
+{{ attach_library('emulsifymars/entry-gate-form') }}
 {% set entry_gate_form_base_class = 'entry-gate-form' %}
 
 <form {{ bem(entry_gate_form_base_class, entry_gate_form_modifiers) }} data-theme={{ theme_styles }}>
@@ -29,7 +30,7 @@
           {% endif %}>
           {{entry_gate_form_day_placeholder}}</label>
       </div>
-    {% else %}
+    {% elseif entry_gate_date_format == 'dd_mm' %}
       <!-- dd -->
       <div class="entry-gate-form__input-container">
         <input id="day" name="day-of-birth" class="entry-gate-form__input entry-gate--day" aria-label="{{ 'DD field, input two digits for your day of birth' | mt }}" type="number" pattern="\d*" maxlength="2" required
@@ -56,8 +57,21 @@
           {% endif %}>
           {{entry_gate_form_month_placeholder}}</label>
       </div>
+    {% else %}
+      <!-- mm -->
+      <div class="entry-gate-form__input-container">
+        <input id="month" name="month-of-birth" class="entry-gate-form__input entry-gate--month" aria-label="{{ 'MM field, input two digits for your month of birth' | mt }}" type="number" pattern="\d*" maxlength="2" required
+          {% if text_color_override is not empty %}
+            style="color: {{ text_color_override }};"
+          {% endif %}
+        />
+        <label for="month" class="entry-gate-form__input-label"
+          {% if text_color_override is not empty %}
+          style="color: {{ text_color_override }};"
+          {% endif %}>
+          {{entry_gate_form_month_placeholder}}</label>
+      </div>
     {% endif %}
-
     <!-- yyyy -->
     <div class="entry-gate-form__input-container">
       <input id="year" name="year-of-birth" class="entry-gate-form__input entry-gate--year" aria-label="{{ 'YYYY field, input four digits for your year of birth' | mt }}" placeholder=" "  type="number" pattern="\d*" minlength="4" maxlength="4" required

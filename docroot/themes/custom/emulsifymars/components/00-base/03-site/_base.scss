@@ -15,6 +15,10 @@ body {
 
   &, & button {
     letter-spacing: 0.048rem;
+    #clear {
+      border: none;
+      background: transparent;
+    }
 
     @include medium {
       letter-spacing: 0.07rem;

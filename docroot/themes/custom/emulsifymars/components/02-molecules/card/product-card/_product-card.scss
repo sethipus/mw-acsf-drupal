@@ -16,14 +16,6 @@
 
   @include card-width;
 
-  @include large {
-    min-height: 39.7rem;
-  }
-
-  @include xl {
-    min-height: 520px;
-  }
-
   a {
     text-decoration: none;
   }
@@ -79,14 +71,6 @@
     box-sizing: border-box;
     min-height: 520px;
     transition: inherit;
-
-    @include large {
-      min-height: 39.7rem;
-    }
-
-    @include xl {
-      min-height: 52.0rem;
-    }
   }
 
   .badge {
@@ -103,14 +87,6 @@
     padding-top: 3rem;
     text-align: center;
     margin: 0 0 -1rem; /* marging-bottom = 2rem in total */
-
-    @include large {
-      margin-bottom: -4.6rem;
-    }
-
-    @include xl {
-      margin-bottom: -1rem;
-    }
   }
 
   &__brand-shape {
@@ -136,16 +112,6 @@
     width: 25.5rem;
     box-sizing: content-box;
     justify-content: center;
-
-    @include large {
-      max-width: 75%;
-      height: auto;
-    }
-
-    @include xl {
-      height: 25.5rem;
-      max-width: none;
-    }
 
     img {
       max-width: 100%;
@@ -196,16 +162,6 @@
     -webkit-line-clamp: 5;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-
-    @include large {
-      font-size: 1.6rem;
-      line-height: 2.2rem;
-    }
-
-    @include xl {
-      font-size: 2.2rem;
-      line-height: 3rem;
-    }
   }
 
   &--with-rating &__title {
@@ -237,50 +193,9 @@
     left: 3rem;
     height: 5rem;
     font-size: 0; // reset to remove extra height
-
-    @include large {
-      left: 0.5rem;
-      right: 0.5rem;
-      bottom: 1.7rem;
-      justify-content:space-around;
-      align-items: end;
-    }
-
-    @include larger {
-      left: 0.5rem;
-      right: 0.5rem;
-      bottom: 1.7rem;
-      flex-direction: row;
-      justify-content: space-around;
-    }
-
-    @include xl {
-      left: 3rem;
-      right: 3rem;
-      bottom: 3rem;
-      flex-direction: row;
-      justify-content: center;
-    }
-
+    
     &--no-commerce-vendor {
       justify-content: space-between;
-    }
-
-    .default-link {
-
-      @include large {
-        line-height: 3.6rem;
-        min-width: 8.9px;
-        font-size: 1rem;
-        padding-left: 0.9rem;
-        padding-right: 0.9rem;
-      }
-
-      @include xl {
-        line-height: 5rem;
-        font-size: 1.4rem;
-        min-width: 13.3rem;
-      }
     }
   }
 
@@ -288,61 +203,6 @@
     display: flex;
     flex-grow: 1;
     padding-left: 1rem;
-
-    @include large {
-      padding-left: 0;
-      margin-top: 1rem;
-      flex-grow: 0;
-    }
-
-    @include xl {
-      padding-left: 1rem;
-      margin-top: 0;
-      flex-grow: 1;
-    }
-
-    .where-to-buy.commerce-connector,
-    .where-to-buy.price-spider,
-    .where-to-buy {
-
-      @include large {
-        flex-grow: 0;
-      }
-
-      .where-to-buy-link,
-      .ps-widget,
-      .text_link {
-        @include large {
-          padding: 0 1rem;
-          line-height: 3.6rem;
-          min-width: 8.9px;
-          font-size: 1rem;
-          flex-grow: 0;
-          height: auto;
-
-          &:hover {
-            height: auto;
-            font-size: 1rem;
-            line-height: 3.6rem;
-            min-width: 8.9px;
-          }
-        }
-
-        @include xl {
-          line-height: 5rem;
-          min-width: 13.3px;
-          font-size: 1.4rem;
-          height: 5rem;
-
-          &:hover {
-            height: 5rem;
-            font-size: 1.4rem;
-            line-height: 5rem;
-            min-width: 13.3px;
-          }
-        }
-      }
-    }
   }
 
   .ps-disabled {

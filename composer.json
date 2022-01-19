@@ -83,7 +83,7 @@
         "drupal/panelizer": "^5.0-beta3",
         "drupal/pendo": "^1@alpha",
         "drupal/poll": "^1.4",
-        "drupal/printable": "^2.0",
+        "drupal/printable": "2.0.1",
         "drupal/profile_split_enable": "^2.0",
         "drupal/profile_switcher": "^1.0-alpha5",
         "drupal/publication_date": "^2.0@beta",
@@ -95,8 +95,8 @@
         "drupal/remote_stream_wrapper_widget": "^1.2",
         "drupal/robotstxt": "^1.4",
         "drupal/samlauth": "3.2",
-        "drupal/search_api": "^1.17",
-        "drupal/search_api_solr": "^4.2",
+        "drupal/search_api": "1.17",
+        "drupal/search_api_solr": "4.2",
         "drupal/seckit": "^2.0",
         "drupal/sendgrid_integration": "^1.7",
         "drupal/shield": "^1.2.0",
@@ -110,6 +110,7 @@
         "drupal/ultimate_cron": "^2.0@alpha",
         "drupal/video_embed_field": "^2.0",
         "drupal/views_infinite_scroll": "^1.6",
+        "drupal/webform": "^6.1",
         "emulsify-ds/emulsify-drupal": "^3.0",
         "mars/mars_lighthouse": "v0.0.2",
         "mars/mars_seo": "*",
@@ -194,9 +195,7 @@
                 "2321071 - Base field overrides fix": "https://www.drupal.org/files/issues/2019-12-24/2321071-39.patch",
                 "2925297 - Fatal error on config form with translation enabled when config is missing": "https://www.drupal.org/files/issues/2019-09-26/core-typed_config_handle_missing_config-2925297-18.patch",
                 "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2020-02-07/2869592-remove-update-warning-34.patch",
-                "[subprofile support] 1356276 - Allow profiles to define a base/parent profile and load them in the correct order / 2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2021-05-20/3143958-14-subprofile-support-9.2.x.patch",
-                "REMOVE: 2031261 - Fix SQLite variable limit": "https://www.drupal.org/files/issues/2021-02-07/2031261-137.patch",
-                "REMOVE: Allow installation profile to be changed from Lightning during config sync": "https://www.drupal.org/files/issues/2021-01-21/3143958-12-change-profile-config-sync-9.1.x.patch"
+                "[subprofile support] 1356276 - Allow profiles to define a base/parent profile and load them in the correct order / 2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2021-11-18/1356276-675.patch"
             },
             "drupal/jquery_colorpicker": {
                 "Fixed jquery colorpicker security issue": "patches/Fixed-jquery-colorpicker-security-issue.patch",
@@ -225,12 +224,11 @@
                 "Extra, unconnected max length counter with an id of undefined-counter": "https://www.drupal.org/files/issues/2020-07-27/3076581-9.patch",
                 "Max length in lines (in textarea field)": "https://www.drupal.org/files/issues/2021-04-13/maxlength-max-length-in-lines-in-textarea-field-2463193-4.patch"
             },
-            "drupal/printable": {
-                "Fix printable stream wrapper.": "patches/fix-url-scheme-for-alter-3190197-4.patch",
-                "Printable_pdf submodule not compatible with Drupal 9": "https://www.drupal.org/files/issues/2021-05-26/drupal9-compatibiliy-3206982-4.patch"
-            },
             "mikemadison13/blt-azure-pipelines": {
                 "Pipelines builds fail with 'Command validate:all is not defined'": "patches/blt-azure-pipelines.patch"
+            },
+            "drupal/printable": {
+                "Printable_pdf submodule not compatible with Drupal 9": "patches/fix-url-scheme-for-printable-pdf.patch"
             }
         },
         "patches-ignore": {

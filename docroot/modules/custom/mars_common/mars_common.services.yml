@@ -57,6 +57,12 @@ services:
     arguments: ['@current_user', '@language_manager', '@request_stack', '@config.factory']
     tags:
       - {name: event_subscriber}
+  
+  mars_common_event_subscriber_gpc:
+    class: Drupal\mars_common\EventSubscriber\GpcSubscriber
+    arguments: ['@config.factory']
+    tags:
+      - {name: event_subscriber}
 
   mars_common.screen_reader_twig_filters:
     class: Drupal\mars_common\Twig\SrOnlyTwigFilter

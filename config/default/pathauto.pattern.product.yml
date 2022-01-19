@@ -11,13 +11,13 @@ pattern: 'products/[node:field_product_category]/[node:title]-[node:field_produc
 selection_criteria:
   378aa16d-8f31-4fbb-9e47-aa830088303a:
     id: node_type
+    negate: false
+    uuid: 378aa16d-8f31-4fbb-9e47-aa830088303a
+    context_mapping:
+      node: node
     bundles:
       product: product
       product_multipack: product_multipack
-    negate: false
-    context_mapping:
-      node: node
-    uuid: 378aa16d-8f31-4fbb-9e47-aa830088303a
 selection_logic: and
 weight: -5
 relationships: {  }

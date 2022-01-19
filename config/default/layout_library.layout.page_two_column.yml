@@ -20,8 +20,9 @@ layout:
         configuration:
           id: homepage_hero_block
           label: 'Homepage Hero block'
-          provider: mars_banners
           label_display: ''
+          provider: mars_banners
+          context_mapping: {  }
           eyebrow: 'Left or Right'
           title:
             url: 'https://mars.com'
@@ -34,7 +35,6 @@ layout:
             - '19'
           background_video: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/'
           card: {  }
-          context_mapping: {  }
-        additional: {  }
         weight: 0
+        additional: {  }
     third_party_settings: {  }

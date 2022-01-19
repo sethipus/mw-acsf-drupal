@@ -11,12 +11,12 @@ pattern: '[node:title]'
 selection_criteria:
   b1937e58-474e-426a-aebe-214d0bdeb69c:
     id: node_type
-    bundles:
-      faq_contact: faq_contact
     negate: false
+    uuid: b1937e58-474e-426a-aebe-214d0bdeb69c
     context_mapping:
       node: node
-    uuid: b1937e58-474e-426a-aebe-214d0bdeb69c
+    bundles:
+      faq_contact: faq_contact
 selection_logic: and
 weight: -5
 relationships: {  }

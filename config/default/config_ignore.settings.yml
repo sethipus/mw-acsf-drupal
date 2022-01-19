@@ -1,3 +1,5 @@
+_core:
+  default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 ignored_config_entities:
   - 'system.site:name'
   - 'system.site:mail'
@@ -54,9 +56,7 @@ ignored_config_entities:
   - 'simple_sitemap.settings:excluded_languages'
   - acquia_search.settings
   - search_api.server.acquia_search_server
-  - search_api_solr.*
-_core:
-  default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
-enable_export_filtering: true
+  - 'search_api_solr.*'
 ignored_config_collections:
   - 'language.*'
+enable_export_filtering: true

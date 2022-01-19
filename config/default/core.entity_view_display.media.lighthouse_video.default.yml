@@ -29,34 +29,34 @@ bundle: lighthouse_video
 mode: default
 content:
   field_external_id:
-    weight: 1
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 1
     region: content
   field_media_video_file_1:
     type: file_video
     label: visually_hidden
-    weight: 0
     settings:
-      muted: false
-      width: 640
-      height: 480
       controls: true
       autoplay: false
       loop: false
       multiple_file_display_type: tags
+      muted: false
+      width: 640
+      height: 480
     third_party_settings: {  }
+    weight: 0
     region: content
   field_original_external_id:
-    weight: 2
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 2
     region: content
 hidden:
   created: true
