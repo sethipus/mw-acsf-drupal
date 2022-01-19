@@ -1225,8 +1225,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'label' => $this->getServingsPerContainerLabel($node),
         'value' => $node->get('field_product_servings_per')->value,
       ];
-      $result_item['serving_size'] = $this->hideTableHeading() ? [] : $serving_size;
-      $result_item['serving_per_container'] = $this->hideTableHeading() ? [] : $serving_per_container;
+      $result_item['serving_size'] = $this->hideServingSizeHeading() ? [] : $serving_size;
+      $result_item['serving_per_container'] = $this->hideServingsPerHeading() ? [] : $serving_per_container;
     }
     elseif ($field_prefix == 'dual') {
       $result_item['dual_servings_per_container'] = [
@@ -1657,17 +1657,31 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   /**
-   * Check for nutrition table 1 heading to be shown or not.
+   * Check for serving size heading to be shown or not in the nutrition table 1.
    *
    * @return bool
    *   Whether it should be rendered or not.
    */
-  private function hideTableHeading(): bool {
-    $hide_table_heading = $this->configFactory
+  private function hideServingSizeHeading(): bool {
+    $hide_serving_size_heading = $this->configFactory
       ->get('mars_product.nutrition_table_settings')
-      ->get('hide_table_heading');
+      ->get('hide_serving_size_heading');
 
-    return (isset($hide_table_heading) && !empty($hide_table_heading));
+    return (isset($hide_serving_size_heading) && !empty($hide_serving_size_heading));
+  }
+
+    /**
+   * Check for servings per heading to be shown or not in the nutrition table 1.
+   *
+   * @return bool
+   *   Whether it should be rendered or not.
+   */
+  private function hideServingsPerHeading(): bool {
+    $hide_servings_per_heading = $this->configFactory
+      ->get('mars_product.nutrition_table_settings')
+      ->get('hide_servings_per_heading');
+
+    return (isset($hide_servings_per_heading) && !empty($hide_servings_per_heading));
   }
 
 }
