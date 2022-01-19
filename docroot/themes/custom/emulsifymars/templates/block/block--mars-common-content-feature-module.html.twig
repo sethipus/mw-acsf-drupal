@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Content feature module block.
+ *   'eyebrow' => NULL,
+ *   'title' => NULL,
+ *   'background_images' => NULL,
+ *   'description' => NULL,
+ *   'explore_cta' => NULL,
+ *   'explore_cta_link' => NULL,
+ *   'border_radius' => NULL,
+ *   'graphic_divider' => NULL,
+ *   'dark_overlay' => NULL,
+ *   'remove_space' => NULL,
+ */
+#}
+{% set nospace_class = configuration.remove_space ? 'content-feature-module-nospace' %}
+
+<div {{ configuration.remove_space ? bem('block', '', '', [nospace_class]) : bem('block') }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+  {% block content %}
+    {{ content }}
+  {% endblock %}
+</div>
