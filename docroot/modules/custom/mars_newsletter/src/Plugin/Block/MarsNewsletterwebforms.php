@@ -60,8 +60,6 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
    */
   protected $tokenManager;
 
- 
-
   /**
    * {@inheritdoc}
    */
@@ -128,6 +126,28 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
         ],
       ],
     ];
+    $form['use_button_background_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use Submit Button Background Color Override'),
+      '#default_value' => $config['use_button_background_color'] ?? FALSE,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+        ],
+      ],
+    ];
+    $form['button_background_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Submit Button Background Color Override'),
+      '#default_value' => $config['button_background_color'] ?? '',
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'and',
+          [':input[name="settings[use_button_background_color]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
     
     $this->tokenManager->elementValidate($form);
 
@@ -143,6 +163,8 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
     $this->configuration['title'] = $values['title'];
     $this->configuration['use_background_color'] = $values['use_background_color'];
     $this->configuration['background_color'] = $values['background_color'];
+    $this->configuration['use_button_background_color'] = $values['use_button_background_color'];
+    $this->configuration['button_background_color'] = $values['button_background_color'];
     $this->configuration['override_text_color']['override_color'] = $values['override_text_color']['override_color'];
   }
 
@@ -171,6 +193,8 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
       $text_color_override = static::$overrideColor;
     }
     $background_color = !empty($config['use_background_color']) && !empty($config['background_color']) ? $config['background_color'] : '';
+    $button_background_color = !empty($config['use_button_background_color']) && !empty($config['button_background_color']) ? $config['button_background_color'] : '';
+    $build['#button_background_color'] = $button_background_color;
     $build['#background_color'] = $background_color;
     $build['#text_color_override'] = $text_color_override;
     $build['#webform_newsletter'] = $webform_data;

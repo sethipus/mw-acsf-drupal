@@ -67,8 +67,8 @@ class MarsNewsletterConfigForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Success message'),
       '#required' => FALSE,
-      '#default_value' => $config['success_message'] ?? $this->t('Your subcription is successfull'),
-      '#description' => $this->t("For translation, clear this field and use this 'Your subcription is successfull' in User interface translation."),
+      '#default_value' => $config['success_message'] ?? $this->t('Your subcription is successful'),
+      '#description' => $this->t("For translation, clear this field and use this 'Your subcription is successful' in User interface translation."),
     ];
 
     $form['actions']['submit'] = [
