@@ -42,29 +42,33 @@ class MarsNewsletterConfigForm extends ConfigFormBase {
     $form['alert_banner_newsletter_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Alert banner newsletter form title'),
-      '#required' => TRUE,
+      '#required' => FALSE,
       '#default_value' => $config['alert_banner_newsletter_name'] ?? $this->t('Sign up for newsletter'),
+      '#description' => $this->t("For translation, clear this field and use this 'Sign up for newsletter' in User interface translation."),
     ];
 
     $form['field_required_message'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Required field message'),
-      '#required' => TRUE,
+      '#required' => FALSE,
       '#default_value' => $config['field_required_message'] ?? $this->t('The field is required'),
+      '#description' => $this->t("For translation, clear this field and use this 'This field is required' in User interface translation."),
     ];
 
     $form['email_validation_message'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Email validation message'),
-      '#required' => TRUE,
-      '#default_value' => $config['email_validation_message'] ?? $this->t('Enter a valid email ID'),
+      '#required' => FALSE,
+      '#default_value' => $config['email_validation_message'] ?? $this->t('Enter valid email ID'),
+      '#description' => $this->t("For translation, clear this field and use this 'Enter valid email ID' in User interface translation."),
     ];
 
     $form['success_message'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Success message'),
-      '#required' => TRUE,
-      '#default_value' => $config['success_message'] ?? $this->t('Your subcription is successfull'),
+      '#required' => FALSE,
+      '#default_value' => $config['success_message'] ?? $this->t('Your subcription is successful'),
+      '#description' => $this->t("For translation, clear this field and use this 'Your subcription is successful' in User interface translation."),
     ];
 
     $form['actions']['submit'] = [

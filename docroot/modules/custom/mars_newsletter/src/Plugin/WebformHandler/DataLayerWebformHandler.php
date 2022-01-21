@@ -7,6 +7,7 @@ use Drupal\webform\Plugin\WebformHandlerBase;
 use Drupal\webform\WebformSubmissionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use \Drupal\file\Entity\File;
+use Drupal\Core\File\FileSystemInterface;
 
 /**
  * Inserts data layer on a webform submission.
@@ -51,6 +52,7 @@ class DataLayerWebformHandler extends WebformHandlerBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state, WebformSubmissionInterface $webform_submission) {
     $submitted_values = $webform_submission->getData();
+    $submitted_values['datalayer_event'] = !empty($submitted_values['datalayer_event']) ? $submitted_values['datalayer_event'] : $this->t('marsFormsubmission');
     $image_id = !empty($submitted_values['image']) ? $submitted_values['image'] : "";
     if($image_id){
       $base_path = \Drupal::request()->getSchemeAndHttpHost();
@@ -59,7 +61,8 @@ class DataLayerWebformHandler extends WebformHandlerBase {
       $file->save();
       $file_name = $file->getFilename();
       $file_uri = $target_directory . '/' . $file_name;
-      $file = file_move($file, $file_uri, 'FILE_EXISTS_REPLACE');
+      $fileRepository = \Drupal::service('file.repository');
+      $file = $fileRepository->move($file, $file_uri, FileSystemInterface::EXISTS_RENAME);
       $file_uri = $file->getFileUri();
       $file_path = file_url_transform_relative(file_create_url($file_uri));
       $file->setPermanent();

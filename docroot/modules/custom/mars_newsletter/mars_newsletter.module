@@ -9,11 +9,14 @@ function mars_newsletter_page_attachments(array &$attachments) {
   $config_factory = \Drupal::configFactory();
   $config = $config_factory->getEditable('emulsifymars.settings');
   $data = $config->get('data');
+  $datalayer_event = !empty($data['datalayer_event']) ? $data['datalayer_event'] : t('marsFormsubmission');
+  $datalayer_event = trim($datalayer_event);
+  unset($data['datalayer_event']);
   if (!empty($data) && $data) {
     $attachments['#attached']['html_head'][] = [[
       '#type' => 'html_tag',
       '#tag' => 'script',
-      '#value' => "window.dataLayer = window.dataLayer || []; window.dataLayer.push({'event': 'newsletterSignupForm', 'formValues': " . Json::encode($data) . "});",
+      '#value' => "window.dataLayer = window.dataLayer || []; window.dataLayer.push({'event': " . Json::encode($datalayer_event) . ", 'formValues': " . Json::encode($data) . "});",
       '#attributes' => ['type' => 'text/javascript'],
       '#weight' => -100,
     ],
@@ -36,6 +39,7 @@ function mars_newsletter_theme($existing, $type, $theme, $path) {
             'webform_block_label' => NULL,
             'text_color_override' => NULL,
             'background_color' => NULL,
+            'button_background_color' => NULL,
          ],
          'template' => 'mars-newsletter-signup-form',
       ],
@@ -61,6 +65,6 @@ function mars_newsletter_form_alter(&$form, \Drupal\Core\Form\FormStateInterface
     $config = $config_factory->getEditable('mars_newsletter_form.settings')->get('newsletter.config_form');
     $form['#attached']['drupalSettings']['mars_newsletter']['required_field_message'] = !empty($config['field_required_message']) ? $config['field_required_message'] : t('This field is required');
     $form['#attached']['drupalSettings']['mars_newsletter']['email_validation_message'] = !empty($config['email_validation_message']) ? $config['email_validation_message'] : t('Enter valid email ID');
-    $form['#attached']['drupalSettings']['mars_newsletter']['success_message'] = !empty($config['success_message']) ? $config['success_message'] : t('Your subcription is successfull');
+    $form['#attached']['drupalSettings']['mars_newsletter']['success_message'] = !empty($config['success_message']) ? $config['success_message'] : t('Your subcription is successful');
   return $form;
 }
