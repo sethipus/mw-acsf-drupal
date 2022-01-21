@@ -32,7 +32,6 @@
         "drupal/brightcove": "^3.0",
         "drupal/ckeditor_config": "^3.0",
         "drupal/ckeditor_font": "^1.2",
-        "drupal/clientside_validation": "^3.0@RC",
         "drupal/cloudflare": "^1.0@beta",
         "drupal/cog": "^1.0.0",
         "drupal/colorbutton": "^1.3",

@@ -9,11 +9,14 @@ function mars_newsletter_page_attachments(array &$attachments) {
   $config_factory = \Drupal::configFactory();
   $config = $config_factory->getEditable('emulsifymars.settings');
   $data = $config->get('data');
+  $datalayer_event = !empty($data['datalayer_event']) ? $data['datalayer_event'] : t('marsFormsubmission');
+  $datalayer_event = trim($datalayer_event);
+  unset($data['datalayer_event']);
   if (!empty($data) && $data) {
     $attachments['#attached']['html_head'][] = [[
       '#type' => 'html_tag',
       '#tag' => 'script',
-      '#value' => "window.dataLayer = window.dataLayer || []; window.dataLayer.push({'event': 'newsletterSignupForm', 'formValues': " . Json::encode($data) . "});",
+      '#value' => "window.dataLayer = window.dataLayer || []; window.dataLayer.push({'event': " . Json::encode($datalayer_event) . ", 'formValues': " . Json::encode($data) . "});",
       '#attributes' => ['type' => 'text/javascript'],
       '#weight' => -100,
     ],

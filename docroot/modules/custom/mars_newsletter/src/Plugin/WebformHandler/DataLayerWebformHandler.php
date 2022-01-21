@@ -52,6 +52,7 @@ class DataLayerWebformHandler extends WebformHandlerBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state, WebformSubmissionInterface $webform_submission) {
     $submitted_values = $webform_submission->getData();
+    $submitted_values['datalayer_event'] = !empty($submitted_values['datalayer_event']) ? $submitted_values['datalayer_event'] : $this->t('marsFormsubmission');
     $image_id = !empty($submitted_values['image']) ? $submitted_values['image'] : "";
     if($image_id){
       $base_path = \Drupal::request()->getSchemeAndHttpHost();
