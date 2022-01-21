@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3a21f5b2a0adde69c126d3b25373b1c",
+    "content-hash": "2cf5bc8d8cd47dcd2082532f5ed5d006",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -5307,64 +5307,6 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/ckeditor_font",
                 "issues": "http://drupal.org/project/issues/ckeditor_font"
-            }
-        },
-        {
-            "name": "drupal/clientside_validation",
-            "version": "3.0.0-rc4",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/clientside_validation.git",
-                "reference": "3.0.0-rc4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/clientside_validation-3.0.0-rc4.zip",
-                "reference": "3.0.0-rc4",
-                "shasum": "646ea754f3331bd2f6d7d29f798d033176b0474a"
-            },
-            "require": {
-                "drupal/core": "^8.7.7 || ^9",
-                "php": ">=7.2.0"
-            },
-            "require-dev": {
-                "drupal/clientside_validation_demo": "*",
-                "drupal/clientside_validation_jquery": "*"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "3.0.0-rc4",
-                    "datestamp": "1592755000",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "RC releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Jelle_S",
-                    "homepage": "https://www.drupal.org/user/829198"
-                },
-                {
-                    "name": "attiks",
-                    "homepage": "https://www.drupal.org/user/105002"
-                },
-                {
-                    "name": "nikunjkotecha",
-                    "homepage": "https://www.drupal.org/user/694082"
-                }
-            ],
-            "description": "This module adds clientside validation",
-            "homepage": "https://www.drupal.org/project/clientside_validation",
-            "support": {
-                "source": "https://git.drupalcode.org/project/clientside_validation",
-                "issues": "https://drupal.org/project/issues/clientside_validation"
             }
         },
         {
@@ -10926,10 +10868,6 @@
                     "name": "Lucas Hedding",
                     "homepage": "https://www.drupal.org/u/heddn",
                     "role": "Maintainer"
-                },
-                {
-                    "name": "mikeryan",
-                    "homepage": "https://www.drupal.org/user/4420"
                 }
             ],
             "description": "Enhancements to core migration support.",
@@ -28329,7 +28267,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "acquia/acsf-tools": 20,
-        "drupal/clientside_validation": 5,
         "drupal/cloudflare": 10,
         "drupal/datalayer": 10,
         "drupal/fast_404": 20,
