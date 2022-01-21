@@ -104,6 +104,20 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
       '#default_value' => $this->getWebform(),
     ];
     $this->buildOverrideColorElement($form, $config);
+    // Override title font.
+    $form['title_font'] = [
+      '#title' => t('Select override title font'),
+      '#type' => 'select',
+      '#options' => ['title_heading_font' => $this->t('Heading font'), 'title_primary_font' => $this->t('Primary font'), 'title_secondary_font' => $this->t('Secondary font')],
+      '#default_value' => !empty($config['title_font']) ? $config['title_font'] : 'title_heading_font',
+    ];
+    // Override field title font.
+    $form['field_title_font'] = [
+      '#title' => t('Select override field title font'),
+      '#type' => 'select',
+      '#options' => ['field_title_heading_font' => $this->t('Heading font'), 'field_title_primary_font' => $this->t('Primary font'), 'field_title_secondary_font' => $this->t('Secondary font')],
+      '#default_value' => !empty($config['field_title_font']) ? $config['field_title_font'] : 'field_title_primary_font',
+    ];
     $form['use_background_color'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Use Background Color Override'),
@@ -166,6 +180,8 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
     $this->configuration['use_button_background_color'] = $values['use_button_background_color'];
     $this->configuration['button_background_color'] = $values['button_background_color'];
     $this->configuration['override_text_color']['override_color'] = $values['override_text_color']['override_color'];
+    $this->configuration['title_font'] = $values['title_font'];
+    $this->configuration['field_title_font'] = $values['field_title_font'];
   }
 
   /**
@@ -199,6 +215,8 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
     $build['#text_color_override'] = $text_color_override;
     $build['#webform_newsletter'] = $webform_data;
     $build['#webform_block_label'] = $config['title'] ?? $this->t('SIGN UP');
+    $build['#title_font'] = !empty($config['title_font']) ? $config['title_font'] : 'title_heading_font';
+    $build['#field_title_font'] = !empty($config['field_title_font']) ? $config['field_title_font'] : 'field_title_primary_font';
     $build['#theme'] = 'mars_newsletter_signup_form';
 
     return $build;

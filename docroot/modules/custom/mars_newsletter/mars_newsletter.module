@@ -40,6 +40,8 @@ function mars_newsletter_theme($existing, $type, $theme, $path) {
             'text_color_override' => NULL,
             'background_color' => NULL,
             'button_background_color' => NULL,
+            'title_font' => NULL,
+            'field_title_font' => NULL,
          ],
          'template' => 'mars-newsletter-signup-form',
       ],
