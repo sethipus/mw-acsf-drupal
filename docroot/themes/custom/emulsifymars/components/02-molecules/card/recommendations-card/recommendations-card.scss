@@ -45,9 +45,10 @@
       height: 204px;
     }
 
-    @include xl {
+    @include larger {
       height: 300px;
     }
+    
     img {
       width: 100%;
       height: 100%;
