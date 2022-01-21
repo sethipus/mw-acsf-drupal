@@ -47,7 +47,7 @@ class SalsifyJson extends Json {
   /**
    * {@inheritdoc}
    */
-  public function currentUrl() {
+  public function currentUrl(): ?string {
     $keys = array_keys($this->urls);
     $index = $this->activeUrl ?: array_shift($keys);
     return isset($this->urls[$index]) ? $this->urls[$index] : NULL;
