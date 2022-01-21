@@ -130,6 +130,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#background_color'] = $background_color;
     $build['#brand_shape'] = $this->themeConfigParser->getBrandShapeWithoutFill();
     $build['#dark_overlay'] = $this->configuration['use_dark_overlay'] ?? TRUE;
+    $build['#hide_volume'] = $this->configuration['hide_volume'] ?? FALSE;
 
     if (!empty($config['card'])) {
       foreach ($config['card'] as $key => $card) {
@@ -589,6 +590,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ],
     ];
 
+    $form['hide_volume'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Hide Volume'),
+      '#default_value' => $this->configuration['hide_volume'] ?? FALSE,
+    ];
     return $form;
   }
 
@@ -670,6 +676,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     unset($values['card']['add_card']);
     $this->setConfiguration($values);
     $this->configuration['use_dark_overlay'] = ($values['use_dark_overlay'])
+      ? TRUE
+      : FALSE;
+    $this->configuration['hide_volume'] = ($values['hide_volume'])
       ? TRUE
       : FALSE;
 
