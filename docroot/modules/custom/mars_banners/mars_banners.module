@@ -26,6 +26,7 @@ function mars_banners_theme($existing, $type, $theme, $path) {
         'background_color' => NULL,
         'brand_shape' => NULL,
         'dark_overlay' => NULL,
+        'hide_volume' => NULL,
       ],
       'template' => 'homepage-hero-block',
     ],
