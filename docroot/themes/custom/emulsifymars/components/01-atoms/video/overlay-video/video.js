@@ -89,7 +89,6 @@
             let windowHeight = window.innerHeight;
 
             if (videoPosition - windowHeight > 0 || videoPosition + videoHeight < 0) {
-              // video.pause();
               video.muted = true;
               videoVisible = false;
             }
@@ -122,27 +121,12 @@
             }
           });
 
-          // video.addEventListener('click', function(e) {
-          //   if (video.paused || video.ended) {
-          //     video.play();
-          //     video.muted = true;
-          //     manuallyPaused = false;
-          //   } else {
-          //     video.pause();
-          //     manuallyPaused = true;
-          //     video.muted = true;
-          //   }
-          // });
-
           $(".swiper-button-prev, .swiper-button-next").click(function() {
             video.muted = true;
-            // video.pause();
-           
           });
           var observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutationRecord) {
               video.muted = true;
-              // video.pause();
             });
             });
             var target = document.querySelectorAll('.swiper-wrapper')[1];
