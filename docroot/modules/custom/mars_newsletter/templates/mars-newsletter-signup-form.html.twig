@@ -2,6 +2,24 @@
 {% if text_color_override is not empty %}
     --c-newsletter-text-color-override: {{ text_color_override }};
 {% endif %}
+{% if button_background_color is not empty %}
+    --c-button-background-color: {{ button_background_color }};
+{% endif %}
+{% if title_font == 'title_heading_font' %}
+--v-form-title-font: DrupalHeadlineCampaignFont, Arial, Helvetica Neue, Helvetica, sans-serif;
+{% elseif  title_font == 'title_primary_font' %}
+--v-form-title-font: DrupalPrimaryTypefaceFont, Arial, Helvetica Neue, Helvetica, sans-serif;
+{% elseif  title_font == 'title_secondary_font' %}
+--v-form-title-font: DrupalSecondaryTypefaceFont, Arial, Helvetica Neue, Helvetica, sans-serif;
+{% endif %}
+
+{% if field_title_font == 'field_title_heading_font' %}
+--v-form-field-title-font: DrupalHeadlineCampaignFont, Arial, Helvetica Neue, Helvetica, sans-serif;
+{% elseif  field_title_font == 'field_title_primary_font' %}
+--v-form-field-title-font: DrupalPrimaryTypefaceFont, Arial, Helvetica Neue, Helvetica, sans-serif;
+{% elseif  field_title_font == 'field_title_secondary_font' %}
+--v-form-field-title-font: DrupalSecondaryTypefaceFont, Arial, Helvetica Neue, Helvetica, sans-serif;
+{% endif %}
 ">
     {% include "@molecules/newsletter-sign-form/newsletter-form/newsletter-form.twig" with {
         theme_styles: 'drupal',
