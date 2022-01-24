@@ -45,7 +45,7 @@
       height: 204px;
     }
 
-    @include larger {
+    @include xl {
       height: 300px;
     }
     
@@ -53,10 +53,6 @@
       width: 100%;
       height: 100%;
       object-fit: unset;
-    }
-
-    @include large{
-      height:204px;
     }
 
     a {
