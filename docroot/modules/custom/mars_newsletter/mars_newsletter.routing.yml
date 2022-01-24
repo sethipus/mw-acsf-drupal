@@ -1,7 +1,0 @@
-mars_newsletter.configuration_form:
-  path: '/admin/config/services/mars-newsletter-signup'
-  defaults:
-    _form: '\Drupal\mars_newsletter\Form\MarsNewsletterConfigForm'
-    _title: 'Alert Banner Newsletter Signup Form Settings'
-  requirements:
-    _permission: 'administer site configuration'

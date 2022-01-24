@@ -11,9 +11,9 @@
         if (video === null || video.getAttribute('data-video-init')) {
           return;
         }
-        video.muted = false;
+        video.muted = true;
         video.loop = true;
-        video.autoplay = false;
+        video.autoplay = true;
         video.controls = false;
         // video.play();
 
@@ -21,7 +21,7 @@
           // Obtain handles to buttons and other elements
           var playpause = videoContainer.querySelector('.overlay-video__control');
           var muteunmute = videoContainer.querySelector('.overlay-video__controls');
-       
+      
           // Add event listeners for video specific events
           video.addEventListener('play', function() {
             changeButtonState(video, playpause, 'playpause');
@@ -89,13 +89,13 @@
             let windowHeight = window.innerHeight;
 
             if (videoPosition - windowHeight > 0 || videoPosition + videoHeight < 0) {
-              video.pause();
+              video.muted = true;
               videoVisible = false;
             }
-            // else if (!manuallyPaused && !videoVisible) {
-            //   video.play();
-            //   videoVisible = true;
-            // }
+            else if (!manuallyPaused && !videoVisible) {
+              video.play();
+              videoVisible = true;
+            }
           });
 
           // Add events for play/pause button and video container
@@ -121,22 +121,12 @@
             }
           });
 
-          // video.addEventListener('click', function(e) {
-          //   if (video.paused || video.ended) {
-          //     video.play();
-          //     manuallyPaused = false;
-          //   } else {
-          //     video.pause();
-          //     manuallyPaused = true;
-          //   }
-          // });
-
           $(".swiper-button-prev, .swiper-button-next").click(function() {
-            video.pause();
+            video.muted = true;
           });
           var observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutationRecord) {
-              video.pause();
+              video.muted = true;
             });
             });
             var target = document.querySelectorAll('.swiper-wrapper')[1];
