@@ -257,9 +257,3 @@ entry-gate-form:
     - code/drupal
     - core/jquery
 
-newsletter-form:
-  js:
-    dist/js/02-molecules/newsletter-sign-form/newsletter-form/newsletter-form.js: {}
-  dependencies:
-    - core/drupal
-    - core/jquery
