@@ -3,9 +3,10 @@
         attach(context) {
             $(document).ready(function() {
                 if($('#successMsg').hasClass('successMessage')) {
-                    $('.successMessage').parents('.status__container').delay(5000).fadeOut('slow');
+                    $('html,body').animate({
+                        scrollTop: $('#successMsg').offset().top - 100
+                    }, 1000);
                 }
-                
             })
         }
     }
