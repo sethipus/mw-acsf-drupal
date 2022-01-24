@@ -340,39 +340,3 @@ input.mars-autocomplete-field:-webkit-autofill:active {
   }
 }
 
-
-.search-input-wrapper {
-  .js-form-item {
-    input:placeholder-shown + .clear-icon {
-      display: none;
-    }
-    .clear-icon {
-      position: absolute;
-      border: 1px solid transparent;
-      background-color: transparent;
-      display: inline-block;
-      vertical-align: middle;
-      outline: 0;
-      &::after {
-        content: 'X';
-        display: block;
-        position: absolute;
-        z-index: 1;
-        right: 10px;
-        margin: auto;
-        padding: 2px;
-        text-align: center;
-        color: white;
-        font-weight: normal;
-        font-size: 18px;
-        cursor: pointer;
-        top: calc(50% + 1rem);
-        @include large {
-          right: 30px;
-          font-size: 23px;
-          color: red;
-        }
-      }
-    }
-  }
-}
