@@ -16,11 +16,7 @@
     position: absolute;
     width: 100%;
     max-height: 16.2rem;
-    background-image: radial-gradient(
-      circle at 50% 50%,
-      clr(top-nav-gradient),
-      clr(top-nav)
-    );
+    background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
     top: 0;
     margin-bottom: 0;
   }
@@ -61,7 +57,7 @@
         display: block;
       }
 
-      @include xl {
+      @include xl{
         width: 100%;
       }
     }
@@ -89,6 +85,7 @@
   }
 
   & .search-input-wrapper {
+
     @include large {
       display: flex;
       flex-flow: column nowrap;
@@ -113,8 +110,7 @@
           background-color: clr(subcolor-3);
         }
 
-        .empty-text,
-        .empty-text-description {
+        .empty-text, .empty-text-description {
           margin: 10px 0;
         }
 
@@ -219,7 +215,7 @@
         margin-top: 10px;
         color: clr(subcolor-3);
         line-height: 150%;
-        .empty-text {
+        .empty-text{
           font-weight: bold;
         }
       }
@@ -293,6 +289,34 @@
             left: 2rem;
           }
         }
+        & .clear-icon {
+            border:1px solid transparent;
+            background-color: transparent;
+            display: inline-block;
+            vertical-align: middle;
+            outline: 0;
+            cursor: pointer;
+          &::after {
+            content: "X";
+            display: block;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            z-index:1;
+            right: 45px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            padding: 2px;
+            border-radius: 50%;
+            text-align: center;
+            color: red;
+            font-weight: normal;
+            font-size: 15px;
+            cursor: pointer;
+          }
+
+        }
       }
     }
   }
@@ -310,7 +334,7 @@
       right: 2%;
       top: 0;
     }
-
+    
     @include xl {
       display: block;
       margin-left: auto;
@@ -320,7 +344,7 @@
       position: absolute;
       z-index: 10;
       right: 2%;
-      top: 0;
+      top: 0
     }
   }
 }
