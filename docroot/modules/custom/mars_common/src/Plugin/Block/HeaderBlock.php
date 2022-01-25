@@ -22,6 +22,7 @@ use Drupal\mars_common\MenuBuilder;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\Config;
 
 /**
  * Provides a Header block.
@@ -34,6 +35,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use OverrideThemeTextColorTrait;
+
+  /**
+   * The 'emulsifymars.settings' config.
+   *
+   * @var \Drupal\Core\Config\Config
+   */
+  protected $config_color;
 
   /**
    * Drupal\Core\Routing\CurrentRouteMatch definition.
@@ -110,6 +118,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    Config $config_color,
     CurrentRouteMatch $current_route_match,
     PathMatcherInterface $path_matcher,
     MenuBuilder $menu_builder,
@@ -121,6 +130,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     ImmutableConfig $label_config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->configColor = $config_color;
     $this->currentRouteMatch = $current_route_match;
     $this->pathMatcher = $path_matcher;
     $this->menuBuilder = $menu_builder;
@@ -143,6 +153,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('config.factory')->getEditable('emulsifymars.settings'),
       $container->get('current_route_match'),
       $container->get('path.matcher'),
       $container->get('mars_common.menu_builder'),
@@ -406,6 +417,10 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#alert_banner_override_color'] = FALSE;
     $build['#alert_banner_bg_color'] = FALSE;
     $build['#alert_banner_text_color'] = FALSE;
+    // Newsletter bg color set from alert banner bg color.
+    $this->configColor->set('newsletter_bg_color', !empty($config['alert_banner']['bg_color']) ? $config['alert_banner']['bg_color'] : $this->configColor->get('color_b'));
+    $this->configColor->save(TRUE);
+    
     if (!empty($config['alert_banner']['override_color_scheme'])) {
       $build['#alert_banner_override_color'] = TRUE;
       $build['#alert_banner_bg_color'] = !empty($config['alert_banner']['bg_color']) ? $config['alert_banner']['bg_color'] : FALSE;
