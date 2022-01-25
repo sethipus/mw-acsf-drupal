@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - mars_common
+  theme:
+    - emulsifymars
+id: marsalertbannerblock
+theme: emulsifymars
+region: header
+weight: 0
+provider: null
+plugin: alertbanner_block
+settings:
+  id: alertbanner_block
+  label: 'MARS: Alert banner block'
+  label_display: ''
+  provider: mars_common
+  alert_banner:
+    alert_banner_text:
+      value: ''
+      format: plain_text
+    alert_banner_url: ''
+    override_color_scheme: 0
+    bg_color: ''
+    text_color: ''
+visibility: {  }
