@@ -8,6 +8,7 @@ use Drupal\mars_common\Plugin\Block\InlineImageVideoBlock;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_media\SVG\SVG;
 
@@ -183,6 +184,7 @@ class InlineImageVideoBlockTest extends UnitTestCase {
       'description' => 'description',
       'svg_asset' => 1,
       'block_content_type' => 'video',
+      'hide_volume' => FALSE,
     ]);
 
     $this->mediaHelperMock
@@ -232,6 +234,29 @@ class InlineImageVideoBlockTest extends UnitTestCase {
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
+  }
+
+}
+
+/**
+ * InlineImageVideoBlock uses file_create_url().
+ */
+namespace Drupal\mars_common\Plugin\Block;
+
+if (!function_exists('Drupal\mars_common\file_create_url')) {
+
+  /**
+   * Stub for drupal file_create_url function.
+   *
+   * @param string $uri
+   *   The URI to a file for which we need an external URL, or the path to a
+   *   shipped file.
+   *
+   * @return string
+   *   Result.
+   */
+  function file_create_url($uri) {
+    return NULL;
   }
 
 }

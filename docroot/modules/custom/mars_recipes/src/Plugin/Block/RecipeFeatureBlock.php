@@ -201,6 +201,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       '#cta' => $config['cta'],
       '#theme' => 'recipe_feature_block',
       '#text_color_override' => FALSE,
+      '#hide_volume' => !empty($config['hide_volume']) ? TRUE : FALSE,
     ];
 
     // Set white color attribute for the block text.
@@ -349,6 +350,14 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
         ':input[name="settings[recipe_options]"]' => ['value' => self::KEY_OPTION_VIDEO],
       ],
     ];
+
+    if ($config['recipe_options'] === self::KEY_OPTION_VIDEO) {
+        $form['hide_volume'] = [
+          '#type' => 'checkbox',
+          '#title' => $this->t('Hide Volume'),
+          '#default_value' => $config['hide_volume'] ?? false,
+        ];
+    }
 
     $form['cta'] = [
       '#type' => 'fieldset',

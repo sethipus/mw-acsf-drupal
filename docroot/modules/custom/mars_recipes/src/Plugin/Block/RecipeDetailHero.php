@@ -215,6 +215,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       $vide_params = $this->mediaHelper->getMediaParametersById($video_id);
       if (!($vide_params['error'] ?? FALSE) && ($vide_params['src'] ?? FALSE)) {
         $build['#video'] = $vide_params['src'];
+        $build['#hide_volume'] = !empty($this->configuration['hide_volume']) ? TRUE : FALSE;
       }
     }
 
@@ -434,6 +435,12 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#type' => 'checkbox',
       '#title' => $this->t('Brand shape enabled'),
       '#default_value' => $this->configuration['brand_shape_enabled'] ?? FALSE,
+    ];
+
+    $form['hide_volume'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Hide Volume'),
+      '#default_value' => $this->configuration['hide_volume'] ?? FALSE,
     ];
 
     $this->buildEmailRecipeForm($form);
