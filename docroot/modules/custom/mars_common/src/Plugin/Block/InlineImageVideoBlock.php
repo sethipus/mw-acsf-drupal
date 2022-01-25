@@ -53,6 +53,7 @@ class InlineImageVideoBlock extends ImageVideoBlockBase {
         }
       }
       $build['#video_src'] = $video_url;
+      $build['#hide_volume'] = !empty($config['hide_volume']) ? TRUE : FALSE ;
     }
 
     // Add media aspect ratio.
