@@ -195,6 +195,12 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
       '#default_value' => $config['aspect_ratio'] ?? '16-9',
     ];
 
+    $form['hide_volume'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Hide Volume'),
+      '#default_value' => $config['hide_volume'] ?? FALSE,
+    ];
+
     return $form;
   }
 
