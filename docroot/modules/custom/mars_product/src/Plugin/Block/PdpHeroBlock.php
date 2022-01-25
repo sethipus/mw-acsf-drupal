@@ -687,7 +687,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $dual_servings_per_label = $this->nutritionHelper
       ->getNutritionConfig()
       ->get('dual_servings_per_container');
-    $dual_serv_label = $dual_servings_per_label ? $this->languageHelper->translate('Amount Per Portion (51g)') : $this->languageHelper->translate('Amount per 100g');
+    $dual_serv_label = !empty($dual_servings_per_label) ? $this->languageHelper->translate('Amount Per Portion (51g)') : $this->languageHelper->translate('Amount per 100g');
     $dual_serving_label = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
       ? $dual_serv_label
       : $this->languageHelper->translate('Amount per serving');
@@ -794,12 +794,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $dual_servings_per_label = $this->nutritionHelper
       ->getNutritionConfig()
       ->get('dual_servings_per_container');
-    $dual_serv_label = $dual_servings_per_label ? $this->languageHelper->translate('Amount Per Portion (51g)') : $this->languageHelper->translate('Amount per 100g');
+    $dual_consumption_label = $this->nutritionHelper
+      ->getNutritionConfig()
+      ->get('dual_consumption_label');
+    $dual_serv_label = !empty($dual_servings_per_label) ? $this->languageHelper->translate('Amount Per Portion (51g)') : $this->languageHelper->translate('Amount per 100g');
     $dual_serving_label = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
       ? $dual_serv_label
       : $this->languageHelper->translate('Amount per serving');
     if ($this->overrideDualTableHeading()) {
-      $dual_serving_label = $this->languageHelper->translate('Amount ') . $consumption_2;
+      $dual_serving_label = $dual_consumption_label ? $this->languageHelper->translate($dual_consumption_label . ' ' . $consumption_2) : $this->languageHelper->translate($consumption_2);
     }
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
       $this->configuration['background_color'] : '';
@@ -1227,6 +1230,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ];
       $result_item['serving_size'] = $this->hideServingSizeHeading() ? [] : $serving_size;
       $result_item['serving_per_container'] = $this->hideServingsPerHeading() ? [] : $serving_per_container;
+      $result_item['disclaimers_value'] = strip_tags(html_entity_decode($node->get('field_product_disclaimers')->value), '<strong><b>');     
     }
     elseif ($field_prefix == 'dual') {
       $result_item['dual_servings_per_container'] = [
