@@ -992,10 +992,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   private function getManualLinkInfo(ContentEntityInterface $product_variant): array {
     $global_config = $this->getCommerceVendorInfo(self::VENDOR_MANUAL_LINK_SELECTION);
     return [
-      'button_name' => $product_variant->get('field_product_wtb_button_name')->value ?? $this->languageHelper->translate($global_config['button_name']),
-      'button_url' => $product_variant->get('field_product_wtb_button_url')->value ?? $this->languageHelper->translate($global_config['button_url']),
-      'button_new_tab' => $product_variant->get('field_product_wtb_new_tab')->value ?? $global_config['button_new_tab'],
-      'button_style' => $product_variant->get('field_product_wtb_button_style')->value ?? $global_config['button_style'],
+      'button_name' => $product_variant->get('field_product_wtb_override')->value ? $product_variant->get('field_product_wtb_button_name')->value : $this->languageHelper->translate($global_config['button_name']),
+      'button_url' => $product_variant->get('field_product_wtb_override')->value ? $product_variant->get('field_product_wtb_button_url')->value : $this->languageHelper->translate($global_config['button_url']),
+      'button_new_tab' => $product_variant->get('field_product_wtb_override')->value ? $product_variant->get('field_product_wtb_new_tab')->value : $global_config['button_new_tab'],
+      'button_style' => $product_variant->get('field_product_wtb_override')->value ? $product_variant->get('field_product_wtb_button_style')->value : $global_config['button_style'],
     ];
   }
 
