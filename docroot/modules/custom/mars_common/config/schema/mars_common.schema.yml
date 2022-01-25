@@ -21,6 +21,28 @@ mars_common.card_color_settings:
       type: string
       label: 'Article card background color'
 
+block.settings.alertbanner_block:
+  type: block_settings
+  label: 'Mars Alert Banner Block'
+  mapping:
+    alert_banner:
+      type: mapping
+      label: 'Alert banner'
+      mapping:
+        alert_banner_text:
+          type: mapping
+          label: 'Alert banner text'
+          mapping:
+            value:
+              type: string
+              label: 'Field value'
+            format:
+              type: string
+              label: 'Field format'
+        alert_banner_url:
+          type: label
+          label: 'Alert banner URL'
+
 block.settings.header_block:
   type: block_settings
   label: 'Mars Header Block'

@@ -26,6 +26,7 @@ ignored_config_entities:
   - block.block.footerblock
   - block.block.marsheaderblock
   - block.block.marsfooterblock
+  - block.block.marsalertbannerblock
   - acquia_contenthub.admin_settings
   - field.storage.node.field_product_allergen_statement
   - mars_seo.settings
