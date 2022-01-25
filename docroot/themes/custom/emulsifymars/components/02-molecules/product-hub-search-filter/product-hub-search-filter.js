@@ -1,11 +1,6 @@
 (function (Drupal, drupalSettings) {
   Drupal.behaviors.searchFilterBehaviour = {
     attach(context) {
-      $(document).ready(function(){
-        $('.clear-icon').click(function(){
-            $(this).siblings('input').val('');
-        })
-    })
       const searchFilterContainer = context.querySelectorAll('.search-filter-container');
       const selectorSearchFilterContainer = '.search-filter-container';
       const searchFilterOpenButton = context.querySelectorAll('.search-filter-open-button'); /* mobile view ONLY */

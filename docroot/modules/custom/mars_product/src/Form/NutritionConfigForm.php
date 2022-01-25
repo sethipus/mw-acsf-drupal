@@ -176,11 +176,26 @@ class NutritionConfigForm extends ConfigFormBase {
       '#title' => $this->t('Product serving size label'),
       '#default_value' => !empty($config->get('product_serving_size')) ? $this->languageHelper->translate($config->get('product_serving_size')) : $this->languageHelper->translate(PdpHeroBlock::PRODUCT_SERVING_SIZE),
     ];
-
     $form['header']['servings_per_container'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Servings per container label'),
       '#default_value' => !empty($config->get('servings_per_container')) ? $this->languageHelper->translate($config->get('servings_per_container')) : $this->languageHelper->translate(PdpHeroBlock::SERVINGS_PER_CONTAINER),
+    ];
+    $form['header']['hide_serving_size_heading'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Hide Serving Size Heading'),
+      '#default_value' => $config->get('hide_serving_size_heading') ?? FALSE,
+      '#attributes' => [
+        'title' => $this->t("This field will hide serving size heading in the Nutrition Table 1."),
+      ],
+    ];
+    $form['header']['hide_servings_per_heading'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Hide Servings Per Heading'),
+      '#default_value' => $config->get('hide_servings_per_heading') ?? FALSE,
+      '#attributes' => [
+        'title' => $this->t("This field will hide servings per heading in the Nutrition Table 1."),
+      ],
     ];
 
   }
@@ -503,6 +518,8 @@ class NutritionConfigForm extends ConfigFormBase {
     $config->set('product_serving_size', $form_state->getValue('product_serving_size'));
     $config->set('servings_per_container', $form_state->getValue('servings_per_container'));
     $config->set('show_other_nutrients_text', $form_state->getValue('show_other_nutrients_text'));
+    $config->set('hide_serving_size_heading', $form_state->getValue('hide_serving_size_heading'));
+    $config->set('hide_servings_per_heading', $form_state->getValue('hide_servings_per_heading'));
     $config->set('dual_servings_per_container', $form_state->getValue('dual_servings_per_container'));
     $config->set('show_dual_table', $form_state->getValue('show_dual_table'));
     $config->set('override_dual_table_heading', $form_state->getValue('override_dual_table_heading'));

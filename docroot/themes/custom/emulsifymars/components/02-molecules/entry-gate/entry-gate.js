@@ -1,7 +1,6 @@
 (function($, Drupal){
   Drupal.behaviors.entryGate = {
     attach(context) {
-      var dateSelect;
       $(context).find('.entry-gate').once('entryGate').each(function(){
         const entryGate = $(this);
         const ageLimit = entryGate.data('age');
@@ -16,6 +15,7 @@
         const a11yDateFakeLinkId = 'a11y-entry-gate-first-link';
         const firstInputElement = $('.entry-gate-form__input', this).first();
         const dateFormat = fieldset.data('date-format');
+
         firstInputElement.on('keydown', function (e) {
           if ((e.code === 'Tab' && e.shiftKey) || (e.code === 'ArrowLeft' && e.ctrlKey)) {
             e.preventDefault();
@@ -50,14 +50,7 @@
 
         const isValidDate = (dateStr) => {
           // assume dateStr = 'yyyy-mm-dd'
-          if (dateFormat == 'mm_yyyy') {
-            var [year, month, dd] = dateStr.split('-').map((p) => parseInt(p, 10));
-            var day = new Date(year, month, 0).getDate();
-            dateSelect = year + '-' + month + '-' + day;
-          }
-          else{
-            var [year, month, day] = dateStr.split('-').map((p) => parseInt(p, 10));
-          }
+          const [year, month, day] = dateStr.split('-').map((p) => parseInt(p, 10));
           const d = new Date(dateStr);
           const monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
           let isDayValid, isMonthValid, isYearValid;
@@ -66,6 +59,7 @@
           isDayValid = ((year % 4) == 0 && (month == 2)) ? (day > 0 && day <= 29) // if year is leap
             : ( isMonthValid ? (day > 0 && day <= monthLength[month - 1]) : (day > 0 && day <= 31)); // if month is not valid then day should be > 0 and <= 31
           isYearValid = year >= 1900 && year <= new Date().getFullYear();
+
           if (!isDayValid) {
             $('#day.entry-gate-form__input').addClass('entry-gate-form__input--invalid');
           }
@@ -84,9 +78,6 @@
         // compare cookie value against age limit
         const isOldEnough = (dateStr) => {
           if (dateStr && isValidDate(dateStr)) {
-            if(dateFormat == 'mm_yyyy') {
-              dateStr = dateSelect;
-            }
             const dob = new Date(dateStr);
             const today = new Date();
             let age = today.getFullYear() - dob.getUTCFullYear();
@@ -97,6 +88,7 @@
           }
           return false;
         };
+
         // allow only numbers and non-printable keys (Ctrl, Alt, Tab etc.)
         const checkValueLength = (event, field, limit) => {
           fieldset.removeClass('entry-gate-form__fieldset--error');
@@ -189,13 +181,7 @@
           event.preventDefault();
           // Lazy load scripts
           //lazyLoadThirdpartyScripts();
-          var givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+dayInput.val()).slice(-2)}`;
-          if(dateFormat == 'mm_yyyy') {
-            var yy = `${yearInput.val()}`;
-            var mm = `${('0'+monthInput.val()).slice(-2)}`;
-            var lastDay = new Date(yy, mm, 0).getDate();
-            var givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+lastDay).slice(-2)}`;
-          }
+          const givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+dayInput.val()).slice(-2)}`;
 
           if (!isValidDate(givenDateStr)) {
             // invalid date is entered

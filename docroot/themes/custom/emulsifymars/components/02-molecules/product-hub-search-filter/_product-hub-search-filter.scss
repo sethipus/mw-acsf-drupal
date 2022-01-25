@@ -22,14 +22,6 @@
       flex-grow: 1;
       width: 100%;
       background-color: clr(subcolor-3);
-      .form-item {
-        .clear-icon {
-          &::after {
-            right: 30px !important;
-            color: red !important;
-          }
-        }
-      }
     }
   }
 
