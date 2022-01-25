@@ -237,26 +237,3 @@ class InlineImageVideoBlockTest extends UnitTestCase {
   }
 
 }
-
-/**
- * InlineImageVideoBlock uses file_create_url().
- */
-namespace Drupal\mars_common\Plugin\Block;
-
-if (!function_exists('Drupal\mars_common\file_create_url')) {
-
-  /**
-   * Stub for drupal file_create_url function.
-   *
-   * @param string $uri
-   *   The URI to a file for which we need an external URL, or the path to a
-   *   shipped file.
-   *
-   * @return string
-   *   Result.
-   */
-  function file_create_url($uri) {
-    return NULL;
-  }
-
-}
