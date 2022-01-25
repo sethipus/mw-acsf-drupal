@@ -1,6 +1,7 @@
 {% set faq_filters_base_class = faq_base_class|default('faq-filters') %}
 {% set filter_results_state = search_result_text is not empty ? 'active' : '' %}
 {% set faq_filters_state = search_result_counter > 0 ? 'active' : '' %}
+{{ attach_library('emulsifymars/faq-filters') }}
 
 <div {{bem(faq_filters_base_class)}} data-theme={{theme_styles}}>
 
