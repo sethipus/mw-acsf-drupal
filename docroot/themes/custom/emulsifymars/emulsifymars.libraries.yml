@@ -243,9 +243,15 @@ recipe-email-form:
     - core/drupal
     - core/jquery
 
+<<<<<<< HEAD
 faq-filters:
   js:
     dist/js/02-molecules/faq-filters/faq-filters.js: { }
+=======
+newsletter-form:
+  js:
+    dist/js/02-molecules/newsletter-sign-form/newsletter-form/newsletter-form.js: {}
+>>>>>>> features/newsletter-02-02
   dependencies:
     - core/drupal
     - core/jquery

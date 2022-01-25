@@ -1,0 +1,7 @@
+newsletter_signup:
+  js:
+    js/newsletter_signup.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery

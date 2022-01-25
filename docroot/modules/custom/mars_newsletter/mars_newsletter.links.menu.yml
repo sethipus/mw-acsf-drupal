@@ -1,0 +1,5 @@
+mars_newsletter.configuration_form:
+  title: 'Newsletter Signup configuration'
+  description: 'Settings related for the newsletter signup functionality.'
+  route_name: mars_newsletter.configuration_form
+  parent: 'system.admin_config_services'
