@@ -187,6 +187,10 @@ source:
       name: source_reference_intake
       label: 'LTD Reference Intake'
       selector: 'field_product_reference_intake/0'
+    -
+      name: source_product_disclaimers
+      label: 'Product Disclaimers'
+      selector: 'field_product_disclaimers/0'
 
   ids:
     source_sku:
@@ -324,6 +328,10 @@ process:
     default_value: rich_text
   'field_product_ingredients/value': source_ingredients
   'field_product_ingredients/format':
+    plugin: default_value
+    default_value: rich_text
+  'field_product_disclaimers/value': source_product_disclaimers
+  'field_product_disclaimers/format':
     plugin: default_value
     default_value: rich_text
   field_nutritional_claims_benefit:
