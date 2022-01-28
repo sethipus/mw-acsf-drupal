@@ -13,18 +13,6 @@
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   margin-bottom: 6rem;
   @include card-width;
-  
-  @include xs{
-  width: 25rem;
-  }
-
-  @include large {
-    min-height: 39.7rem;
-  }
-
-  @include xl {
-    min-height: 520px;
-  }
 
   &__media {
     overflow: hidden;
@@ -40,14 +28,6 @@
     border-bottom-left-radius: variable(card-border-radius);
     border-bottom-right-radius: variable(card-border-radius);
 
-    @include large {
-      height: 204px;
-    }
-
-    @include xl {
-      height: 300px;
-    }
-    
     img {
       width: 100%;
       height: 100%;
@@ -68,7 +48,7 @@
     z-index: 2;
 
     @include xs{
-      top: -6.6rem;
+      top: -4.6rem;
       right: -2rem;
     }
   }
@@ -103,7 +83,7 @@
     display: block;
     padding: 0 3rem 0 2rem;
     font-weight: bold;
-    width: 27rem;
+    width: 24rem;
   }
 
   &__labels_section {
