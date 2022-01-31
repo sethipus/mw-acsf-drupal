@@ -161,7 +161,7 @@ class ParentPageHeaderBlockTest extends UnitTestCase {
     $form_data = [];
 
     $this->formStateMock
-      ->expects($this->exactly(11))
+      ->expects($this->exactly(12))
       ->method('getValue')
       ->willReturn('');
 
@@ -204,10 +204,11 @@ class ParentPageHeaderBlockTest extends UnitTestCase {
     $conf = $this->block->getConfiguration();
     $conf['background_options'] = ParentPageHeaderBlock::KEY_OPTION_VIDEO;
     $conf['background_video'] = self::VIDEO_MEDIA_ID;
+    $conf['hide_volume'] = FALSE;
     $this->block->setConfiguration($conf);
     $build = $this->block->build();
 
-    $this->assertCount(11, $build);
+    $this->assertCount(12, $build);
     $this->assertArrayHasKey('#eyebrow', $build);
     $this->assertArrayHasKey('#description', $build);
     $this->assertArrayHasKey('#brand_shape', $build);

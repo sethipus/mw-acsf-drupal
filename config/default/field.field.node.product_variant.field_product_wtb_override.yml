@@ -1,0 +1,28 @@
+uuid: c98619e1-2992-44a3-86fe-d7c0eaf77eed
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_wtb_override
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_wtb_override
+field_name: field_product_wtb_override
+entity_type: node
+bundle: product_variant
+label: 'Override Global WTB'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -362,3 +362,7 @@ figure[data-fullscreen="true"] .fullscreen-video__controls .progress {
 figure[data-fullscreen="false"] .fullscreen-video__close {
   display: none;
 }
+
+.hide-volume {
+  display: none !important;
+}
