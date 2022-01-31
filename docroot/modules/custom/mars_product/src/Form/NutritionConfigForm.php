@@ -226,6 +226,11 @@ class NutritionConfigForm extends ConfigFormBase {
       '#title' => $this->t('Dual Servings per container label'),
       '#default_value' => !empty($config->get('dual_servings_per_container')) ? $this->languageHelper->translate($config->get('dual_servings_per_container')) : '',
     ];
+    $form['dual_header']['dual_consumption_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Dual Consumption Label'),
+      '#default_value' => !empty($config->get('dual_consumption_label')) ? $this->languageHelper->translate($config->get('dual_consumption_label')) : '',
+    ];
     $form['dual_header']['show_dual_table'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Show Dual Nutritional Table'),
@@ -521,6 +526,7 @@ class NutritionConfigForm extends ConfigFormBase {
     $config->set('hide_serving_size_heading', $form_state->getValue('hide_serving_size_heading'));
     $config->set('hide_servings_per_heading', $form_state->getValue('hide_servings_per_heading'));
     $config->set('dual_servings_per_container', $form_state->getValue('dual_servings_per_container'));
+    $config->set('dual_consumption_label', $form_state->getValue('dual_consumption_label'));
     $config->set('show_dual_table', $form_state->getValue('show_dual_table'));
     $config->set('override_dual_table_heading', $form_state->getValue('override_dual_table_heading'));
     // Save the configuration.

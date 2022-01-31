@@ -163,6 +163,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       }
 
       $item['content'] = $this->languageHelper->translate($value['title']);
+      $item['hide_volume'] = !empty($value['hide_volume']) ? TRUE : FALSE;
 
       return $item;
     }, $conf['items']);
@@ -303,6 +304,13 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
           [':input[name="settings[items][' . $i . '][item_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
         ],
       ];
+      if ($this->configuration['items'][$i]['item_type'] === self::KEY_OPTION_VIDEO) {
+          $form['items'][$i]['hide_volume'] = [
+            '#type' => 'checkbox',
+            '#title' => $this->t('Hide Volume'),
+            '#default_value' => $this->configuration['items'][$i]['hide_volume'] ?? FALSE,
+          ];
+      }
     }
 
     $form['svg_assets'] = [
