@@ -289,34 +289,6 @@
             left: 2rem;
           }
         }
-        & .clear-icon {
-            border:1px solid transparent;
-            background-color: transparent;
-            display: inline-block;
-            vertical-align: middle;
-            outline: 0;
-            cursor: pointer;
-          &::after {
-            content: "X";
-            display: block;
-            width: 20px;
-            height: 20px;
-            position: absolute;
-            z-index:1;
-            right: 45px;
-            top: 0;
-            bottom: 0;
-            margin: auto;
-            padding: 2px;
-            border-radius: 50%;
-            text-align: center;
-            color: red;
-            font-weight: normal;
-            font-size: 15px;
-            cursor: pointer;
-          }
-
-        }
       }
     }
   }

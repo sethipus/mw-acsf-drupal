@@ -8,7 +8,7 @@
   data-fullcontrol="false"
   data-video-flag="Inline"
   data-theme={{ theme_styles }}>
-  <video {{ bem('video', [], video__base_class) }} data-object-fit="cover" preload="metadata" playsinline>
+  <video {{ bem('video', [], video__base_class) }} data-object-fit="cover" preload="metadata">
     {% if '#t' in video__src__url %}
       <source loop src="{{ video__src__url }}" type="video/mp4" />
     {% else %}
