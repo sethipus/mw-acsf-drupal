@@ -89,8 +89,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $configFactory;
 
   /**
-   * Route match service for getting node 
-   * 
+   * Route match service for getting node
+   *
    * @var \Drupal\Core\Routing\RouteMatchInterface
    */
   protected $routeMatch;
@@ -1230,7 +1230,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ];
       $result_item['serving_size'] = $this->hideServingSizeHeading() ? [] : $serving_size;
       $result_item['serving_per_container'] = $this->hideServingsPerHeading() ? [] : $serving_per_container;
-      $result_item['disclaimers_value'] = strip_tags(html_entity_decode($node->get('field_product_disclaimers')->value), '<strong><b>');     
+      $result_item['disclaimers_value'] = strip_tags(html_entity_decode($node->get('field_product_disclaimers')->value), '<strong><b>');
     }
     elseif ($field_prefix == 'dual') {
       $result_item['dual_servings_per_container'] = [
