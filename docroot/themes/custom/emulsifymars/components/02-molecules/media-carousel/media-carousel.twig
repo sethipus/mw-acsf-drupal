@@ -41,6 +41,7 @@
             {% include "@atoms/video/overlay-video/video.twig" with {
               video__src__url: item.src,
               video__control: true,
+              hide_volume: item.hide_volume,
             } %}
           {% endif %}
         </div>

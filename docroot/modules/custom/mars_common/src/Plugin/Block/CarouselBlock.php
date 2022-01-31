@@ -122,6 +122,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
           'image' => ($item_value['item_type'] == self::KEY_OPTION_IMAGE),
           'alt' => $media_params['alt'] ?? '',
           'title' => $media_params['title'] ?? '',
+          'hide_volume' => !empty($item_value['hide_volume']) ? TRUE : FALSE,
         ];
         $items[] = $item;
       }
@@ -266,7 +267,13 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
           [':input[name="settings[carousel][' . $key . '][item_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
         ],
       ];
-
+      if ($config['carousel'][$key]['item_type'] === self::KEY_OPTION_VIDEO) {
+        $form['carousel'][$key]['hide_volume'] = [
+          '#type' => 'checkbox',
+          '#title' => $this->t('Hide Volume'),
+          '#default_value' => $config['carousel'][$key]['hide_volume'] ?? false,
+        ];
+      }
       $form['carousel'][$key]['remove_item'] = [
         '#type' => 'submit',
         '#name' => 'carousel_' . $key,

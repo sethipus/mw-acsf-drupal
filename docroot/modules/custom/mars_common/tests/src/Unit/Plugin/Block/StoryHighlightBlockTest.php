@@ -200,6 +200,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'src' => self::STORY_ITEM_1_MEDIA_URI,
           'alt' => 'Alt',
           'title' => 'Title',
+          'hide_volume' => FALSE,
         ],
         [
           'video' => FALSE,
@@ -208,6 +209,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'src' => self::STORY_ITEM_2_MEDIA_URI,
           'alt' => 'Alt',
           'title' => 'Title',
+          'hide_volume' => FALSE,
         ],
         [
           'video' => FALSE,
@@ -216,6 +218,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'src' => self::STORY_ITEM_3_MEDIA_URI,
           'alt' => 'Alt',
           'title' => 'Title',
+          'hide_volume' => FALSE,
         ],
       ],
       '#svg_asset_src_1' => self::SVG_ASSET_1_MEDIA_URI,
@@ -263,6 +266,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'src' => self::STORY_ITEM_1_MEDIA_URI,
           'alt' => 'Alt',
           'title' => 'Title',
+          'hide_volume' => FALSE,
         ],
         [
           'video' => FALSE,
@@ -271,6 +275,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'src' => self::STORY_ITEM_2_MEDIA_URI,
           'alt' => 'Alt',
           'title' => 'Title',
+          'hide_volume' => FALSE,
         ],
         [
           'video' => FALSE,
@@ -279,6 +284,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'src' => self::STORY_ITEM_3_MEDIA_URI,
           'alt' => 'Alt',
           'title' => 'Title',
+          'hide_volume' => FALSE,
         ],
       ],
       '#svg_asset_src_1' => self::SVG_ASSET_1_MEDIA_URI,
@@ -326,6 +332,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'src' => self::STORY_ITEM_1_MEDIA_URI,
           'alt' => 'Alt',
           'title' => 'Title',
+          'hide_volume' => FALSE,
         ],
         [
           'video' => FALSE,
@@ -334,6 +341,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'src' => self::STORY_ITEM_2_MEDIA_URI,
           'alt' => 'Alt',
           'title' => 'Title',
+          'hide_volume' => FALSE,
         ],
         [
           'video' => FALSE,
@@ -342,6 +350,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'src' => self::STORY_ITEM_3_MEDIA_URI,
           'alt' => 'Alt',
           'title' => 'Title',
+          'hide_volume' => FALSE,
         ],
       ],
       '#svg_asset_src_1' => self::SVG_ASSET_1_MEDIA_URI,
