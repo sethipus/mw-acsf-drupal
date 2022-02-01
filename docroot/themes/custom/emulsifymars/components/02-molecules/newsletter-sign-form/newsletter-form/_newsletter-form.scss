@@ -7,7 +7,7 @@
   text-align: center;
   color: clr(primary, newsletter-text-color-override);
   font-size: 20px;
-  font-family: var(--v-heading-font);
+  font-family: var(--v-heading-font, --v-form-title-font);
   font-weight: 900;
   letter-spacing: var(--v-heading-font-m-letter-spacing);
 }
@@ -54,11 +54,11 @@
       color: clr(subcolor-1, newsletter-text-color-override);
     }
     input {
-      font-family: var(--v-primary-font);
+      font-family: var(--v-primary-font, --v-form-field-title-font);
       border-radius: var(--v-button-border-radius);
       font-size: 16px !important;
       // border-width: 0 0 1px;
-      color: clr(primary, newsletter-text-color-override);
+      color: clr(primary);
       &:focus-visible {
         outline: none;
       }
@@ -79,7 +79,7 @@
     max-width: 62rem;
   }
   legend {
-    font-family: var(--v-primary-font);
+    font-family: var(--v-primary-font, --v-form-field-title-font);
     font-size: 16px;
     color: clr(accent, newsletter-text-color-override);
   }
@@ -87,7 +87,7 @@
     font-size: 1.3rem;
   }
   label {
-    font-family: var(--v-primary-font);
+    font-family: var(--v-primary-font, --v-form-field-title-font);
     color: clr(subcolor-1, newsletter-text-color-override);
     font-size: 16px;
   }
@@ -117,7 +117,7 @@
   .globalElement,
   .js-form-item {
     border-radius: var(--v-button-border-radius);
-    font-family: var(--v-primary-font);
+    font-family: var(--v-primary-font, --v-form-field-title-font);
     font-size: 16px;
     color: clr(primary);
     &:focus-visible {
@@ -197,21 +197,21 @@
   .error {
     padding-top: 40px;
     position: absolute;
-    font-family: var(--v-primary-font);
+    font-family: var(--v-primary-font, --v-form-field-title-font);
     color: clr(subcolor-1, newsletter-text-color-override);
     font-size: 1.3rem;
   }
   .webform-element-description {
     margin-top: -8px;
     font-size: 16px;
-    font-family: var(--v-primary-font);
+    font-family: var(--v-primary-font, --v-form-field-title-font);
     color: clr(primary, newsletter-text-color-override);
   }
   .option {
     font-weight: normal;
     margin-top: -12px;
     font-size: 16px;
-    font-family: var(--v-primary-font);
+    font-family: var(--v-primary-font, --v-form-field-title-font);
     color: clr(primary, newsletter-text-color-override);
   }
 }
@@ -225,7 +225,7 @@
     justify-content: center;
     margin: 0 auto;
     min-width: 13.3rem;
-    line-height: 3.7rem;
+    line-height: 4rem;
     color: clr(subcolor-3);
     border-radius: var(--v-button-border-radius);
     background-color: clr(secondary, button-background-color);
@@ -238,17 +238,61 @@
 }
 
 .globalConfirmationMessage {
-  font-family: var(--v-primary-font);
+  font-family: var(--v-primary-font, --v-form-field-title-font);
   letter-spacing: var(--v-primary-font-t-letter-spacing);
   text-align: center;
   .webform-confirmation__message {
     display: flex;
     justify-content: center;
-    margin-top: 1rem;
-    font-size: 20px;
+    align-items: center;
+    @include xs {
+      font-size: 16px;
+      width: 65%;
+      margin: 0 auto;
+    }
+    @include small {
+      width: 100%;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      font-size: 18px;
+    }
+    @include medium {
+      font-size: 28px;
+    }
+    .tick-mark {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 30px;
+      background-color: clr(message);
+      padding-left: 6px;
+      @include xs {
+        width: 35px;
+        height: 35px;
+      }
+      @include medium {
+        width: 60px;
+        height: 60px;
+      }
+      &::before {
+        content: '';
+        -webkit-mask-image: url(../images/submit.svg);
+        mask-image: url(../images/submit.svg);
+        background-repeat: no-repeat;
+        background-color: clr(primary, newsletter-text-color-override);
+        @include xs {
+          width: 21px;
+          height: 21px;
+        }
+        @include medium {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
     .successMessage {
       padding-left: 10px;
-      color: #54a164;
+      color: clr(primary, newsletter-text-color-override);
     }
   }
   .webform-confirmation__back {
