@@ -42,7 +42,7 @@
       <div {{ bem('control', ['inner'], video__base_class) }}>
       </div>
     </button>
-       <button {{ bem('volumechange', ['inner'], video__base_class) }} type="button" title="{{ 'Mute' | mt }}" aria-label="{{ 'Mute' | mt }}" data-state="mute">
+       <button {{ hide_volume ? bem('volumechange', ['inner'], video__base_class, ['hide-volume']) : bem('volumechange', ['inner'], video__base_class) }} type="button" title="{{ 'Mute' | mt }}" aria-label="{{ 'Mute' | mt }}" data-state="mute">
       <svg class ="mute-icon" viewBox="0 0 30 30"><path xmlns="https://www.svgrepo.com/show/170684/mute-volume-control.svg" d="M3.75 11.25v7.5h5L15 25V5l-6.25 6.25h-5zM20.625 15c0-2.212-1.275-4.112-3.125-5.037v10.062c1.85-.912 3.125-2.812 3.125-5.025zM17.5 4.038v2.575c3.613 1.075 6.25 4.425 6.25 8.387 0 3.963-2.637 7.313-6.25 8.388v2.575c5.012-1.138 8.75-5.613 8.75-10.963 0-5.35-3.738-9.825-8.75-10.962z"/></svg>
     </button>
   {% endif %}

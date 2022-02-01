@@ -96,14 +96,14 @@
     bottom: 0;
     top:15%;
     
-    @include xs{
+    @include xs {
       padding: 0 1rem;
     }
 
     @include medium {
       width: 75%;
       padding: 0 2rem;
-      
+
     }
 
     @include large {

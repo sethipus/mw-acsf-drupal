@@ -416,16 +416,15 @@ $fence-part-size: 1440px*2/101;
     width: 3%;
     min-width: 16%;
     right: 0;
-    top:60%;
+    top: 60%;
     cursor: default;
   }
   
   @include larger{
     right : 0;
-    width: 13%;
     height: auto;
-    min-width:14%;
-    top:50%;
+    min-width: 14%;
+    top: 50%;
     cursor: default;
   }
 
@@ -433,7 +432,7 @@ $fence-part-size: 1440px*2/101;
     right: 2%;
     height: auto;
     // bottom:7%;
-    top:40%;
+    top: 40%;
     cursor: default;
   }
 }

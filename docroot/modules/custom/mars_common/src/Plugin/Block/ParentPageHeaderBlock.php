@@ -175,6 +175,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
           $build['#background']['video'] = $media_params;
           $build['#media_format'] = $media_params['format'];
           $build['#media_type'] = 'video';
+          $build['#hide_volume'] = $this->configuration['hide_volume'] ? TRUE : FALSE;
         }
       }
     }
@@ -332,6 +333,14 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       ],
     ];
 
+    if ($config['background_options'] === self::KEY_OPTION_VIDEO) {
+      $form['hide_volume'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Hide Volume'),
+        '#default_value' => $this->configuration['hide_volume'] ?? FALSE,
+      ];
+    }
+
     $form['use_dark_overlay'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Use dark overlay'),
@@ -395,6 +404,9 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $this->configuration['background_options'] = $form_state->getValue('background_options');
     $this->configuration['background_video'] = $this->getEntityBrowserValue($form_state, 'background_video');
     $this->configuration['use_dark_overlay'] = ($form_state->getValue('use_dark_overlay'))
+      ? TRUE
+      : FALSE;
+    $this->configuration['hide_volume'] = ($form_state->getValue('hide_volume'))
       ? TRUE
       : FALSE;
 

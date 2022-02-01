@@ -223,7 +223,6 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       '#default_value' => $this->configuration['remove_space'] ?? FALSE,
     ];
 
-
     return $form;
   }
 

@@ -132,23 +132,28 @@
     @include xs {
       top: 80px;
       height: 50px;
-      width: 40px;
+      width: 50px;
       right: calc(5% - 5px);
+      padding: 0;
     }
 
     @include small {
       top: 80px;
       height: 50px;
-      width: 40px;
+      width: 50px;
       right: calc(5% - 5px);
     }
 
     @include medium {
+      height: 50px;
+      width: 50px;
       top: 100px;
       right: calc(5% - 25px);
     }
 
     @include large {
+      height: 50px;
+      width: 50px;
       top: 100px;
       right: calc(5% - 30px);
     }
@@ -172,3 +177,6 @@
   }
 }
 
+.hide-volume {
+  display: none !important;
+}

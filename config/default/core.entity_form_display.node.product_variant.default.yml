@@ -143,6 +143,7 @@ dependencies:
     - field.field.node.product_variant.field_product_wtb_button_style
     - field.field.node.product_variant.field_product_wtb_button_url
     - field.field.node.product_variant.field_product_wtb_new_tab
+    - field.field.node.product_variant.field_product_wtb_override
     - field.field.node.product_variant.salsify_id
     - field.field.node.product_variant.salsify_updated
     - node.type.product_variant
@@ -1752,6 +1753,13 @@ content:
   field_product_wtb_new_tab:
     type: boolean_checkbox
     weight: 125
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_product_wtb_override:
+    type: boolean_checkbox
+    weight: 127
     region: content
     settings:
       display_label: true

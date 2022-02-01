@@ -2,7 +2,8 @@
 
 <section {{ iframe_width_full ? bem(full_width__base_class, '', '', ['nospace']) : bem(full_width__base_class) }} data-theme="{{ theme_styles }}">
   <div {{ iframe_width_full ? bem('container', ['skittles-container'], full_width__base_class) : bem('container', [], full_width__base_class) }}>
-    <div {{ iframe_width_full ? bem('content', ['skittles-content'], full_width__base_class) : bem('content', [], full_width__base_class) }}>      {% if heading is not empty %}
+    <div {{ iframe_width_full ? bem('content', ['skittles-content'], full_width__base_class) : bem('content', [], full_width__base_class) }}>
+      {% if heading is not empty %}
         {% include "@atoms/text/headings/_heading.twig" with {
           heading_level: 2,
           heading: heading,

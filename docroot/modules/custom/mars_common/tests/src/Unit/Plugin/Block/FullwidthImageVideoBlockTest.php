@@ -146,6 +146,7 @@ class FullwidthImageVideoBlockTest extends UnitTestCase {
       'title' => 'title',
       'description' => 'description',
       'block_content_type' => 'image',
+      'hide_volume' => FALSE,
     ]);
 
     $this->mediaHelperMock
@@ -175,6 +176,7 @@ class FullwidthImageVideoBlockTest extends UnitTestCase {
       'title' => 'title',
       'description' => 'description',
       'block_content_type' => 'video',
+      'hide_volume' => FALSE,
     ]);
 
     $this->mediaHelperMock
