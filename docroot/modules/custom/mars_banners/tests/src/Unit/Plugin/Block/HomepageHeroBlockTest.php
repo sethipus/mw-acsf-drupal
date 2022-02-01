@@ -39,6 +39,9 @@ class HomepageHeroBlockTest extends UnitTestCase {
     'title' => [
       'url' => '',
       'label' => 'Homepage Hero block',
+      'next_line_label' => [
+        'value' => 'Homepage Hero block title override',
+      ],
     ],
     'block_type' => 'video',
     'label_display' => '0',

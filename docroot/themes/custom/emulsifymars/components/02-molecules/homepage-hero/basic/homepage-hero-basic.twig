@@ -27,9 +27,17 @@
 
   {% if homepage_hero_basic_content %}
     <div {{ bem('content', [], homepage_hero_basic_base_class) }} >
-      {% include "@atoms/text/headings/_heading.twig" with {
+      {% include "@atoms/text/headings/_heading_next_line.twig" with {
         heading_level: 1,
         heading: homepage_hero_basic_content,
+        heading_base_class:'homepage-hero-basic__heading'
+      }%}
+    </div>
+  {% else %}
+    <div {{ bem('content', [], homepage_hero_basic_base_class) }} >
+      {% include "@atoms/text/headings/_heading_next_line.twig" with {
+        heading_level: 1,
+        heading_override: title_label_override,
         heading_base_class:'homepage-hero-basic__heading'
       }%}
     </div>

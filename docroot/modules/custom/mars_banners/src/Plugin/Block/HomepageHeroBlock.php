@@ -121,6 +121,8 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#eyebrow'] = $this->languageHelper->translate($config['eyebrow']);
     $build['#title_url'] = $config['title']['url'];
     $build['#title_label'] = $this->languageHelper->translate($config['title']['label']);
+    $title_override = !empty($config['title']['next_line_label']['value']) ? $config['title']['next_line_label']['value'] : '';
+    $build['#title_label_override'] = $this->languageHelper->translate($title_override);
     $build['#cta_url'] = ['href' => $config['cta']['url']];
     $build['#cta_title'] = $this->languageHelper->translate($config['cta']['title']);
     $build['#block_type'] = $config['block_type'];
@@ -267,17 +269,34 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#type' => 'textfield',
       '#title' => $this->t('Title label'),
       '#maxlength' => 55,
+      '#description' => $this->t('Default lable for title, if choose override title label option make this field empty.'),
       '#default_value' => $config['title']['label'] ?? '',
-      '#required' => in_array($type_for_validation, [
-        self::KEY_OPTION_DEFAULT,
-        self::KEY_OPTION_IMAGE,
-        self::KEY_OPTION_VIDEO,
-      ]),
       '#states' => [
-        'required' => [
+        'visible' => [
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
           'or',
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+        ],
+      ],
+    ];
+    // Title override.
+    $form['title']['next_line_label'] = [
+      '#type' => 'text_format',
+      '#format' => 'rich_text',
+      '#title' => $this->t('Override Title label'),
+      '#description' => $this->t('Override the default title label by using the html tags.'),
+      '#default_value' => $config['title']['next_line_label']['value'] ?? '',
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
           'or',
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
         ],
@@ -791,9 +810,39 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   public function blockValidate($form, FormStateInterface $form_state) {
     $title_url = $form_state->getValue('title')['url'];
     $cta_url = $form_state->getValue('cta')['url'];
-
+    $title_label = $form_state->getValue('title')['label'];
+    $title_label_override = $form_state->getValue('title')['next_line_label']['value'];
+    $block_type = $form_state->getValue('block_type');
     $product_cards = $form_state->get('card_storage');
-
+    // Validation for title label and title label override.
+    if ($title_label && $title_label_override) {
+      if($block_type == 'default') {
+        $form_state->setErrorByName('title][label', $this->t('Title label or Override Title label field must be given.'));
+        $form_state->setErrorByName('title][next_line_label', '');
+      }
+      elseif ($block_type == 'image') {
+        $form_state->setErrorByName('title][label', $this->t('Title label or Override Title label field must be given.'));
+        $form_state->setErrorByName('title][next_line_label', '');
+      }
+      elseif ($block_type == 'video') {
+        $form_state->setErrorByName('title][label', $this->t('Title label or Override Title label field must be given.'));
+        $form_state->setErrorByName('title][next_line_label', '');
+      }
+    }
+    if (!$title_label && !$title_label_override) {
+      if($block_type == 'default') {
+        $form_state->setErrorByName('title][label', $this->t('Title label or Override Title label field must be given.'));
+        $form_state->setErrorByName('title][next_line_label', '');
+      }
+      elseif ($block_type == 'image') {
+        $form_state->setErrorByName('title][label', $this->t('Title label or Override Title label field must be given.'));
+        $form_state->setErrorByName('title][next_line_label', '');
+      }
+      elseif ($block_type == 'video') {
+        $form_state->setErrorByName('title][label', $this->t('Title label or Override Title label field must be given.'));
+        $form_state->setErrorByName('title][next_line_label', '');
+      }
+    }
     if (!empty($product_cards)) {
       foreach ($product_cards as $key => $product_card) {
         $cards_title_url = $product_card['title']['url'];

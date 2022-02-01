@@ -1,0 +1,48 @@
+{#
+/**
+ * Available variables:
+ * - link_content - the content of the link (typically text)
+ * - link_url - the url this link should poing to
+ * - link_attributes - array of attribute,value pairs
+ * - link_base_class - the base class name, default for links, text_link for text links
+ * - link_modifiers - array of modifiers to add to the base classname
+ * - link_blockname - blockname prepended to the base classname
+ * - link_extra_classes - additional classes for link
+ *
+ * Available blocks:
+ * - link_content - used to replace the content of the link
+ *     Example: to insert the image component
+ */
+#}
+{% set link_base_class = link_base_class|default('link') %}
+
+<a
+  {{ bem(link_base_class, link_modifiers, link_blockname, link_extra_classes) }}
+  {% for attribute, value in link_attributes %}
+    {{ attribute }}="{{ value }}"
+  {% endfor %}
+  href="{{ link_url }}"
+  {% if text_color_override is not empty%}
+    style="color: {{ text_color_override }};"
+  {% endif %}
+>
+  {% if link_content is not empty %}
+    {% block link_content %}
+      {{ link_content | raw }}
+      {% if link_attributes.target == '_blank' or item.item_attributes.target == '_blank' %}
+        {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
+          sronly_content: ' (opens in new window)' | mt,
+        } %}
+      {% endif %}
+    {% endblock %}
+  {% else %}
+    {% block link_content_override %}
+    {{ link_content_override | raw }}
+      {% if link_attributes.target == '_blank' or item.item_attributes.target == '_blank' %}
+        {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
+          sronly_content: ' (opens in new window)' | mt,
+        } %}
+      {% endif %}
+    {% endblock %}
+  {% endif %}
+</a>
