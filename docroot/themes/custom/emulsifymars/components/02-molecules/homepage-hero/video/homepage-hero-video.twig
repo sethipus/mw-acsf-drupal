@@ -2,6 +2,7 @@
 {% if dark_overlay %}
   {% set homepage_hero__modifiers = ['dark-overlay'] %}
 {% endif %}
+{{ attach_library('emulsifymars/homepage-herobanner-text') }}
 
 <section {{ bem(homepage_hero__base_class) }} data-theme="{{ theme_styles }}"
   {% if title_label %}

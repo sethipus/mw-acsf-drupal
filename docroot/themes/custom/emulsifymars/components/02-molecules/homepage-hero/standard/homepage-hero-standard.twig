@@ -1,4 +1,5 @@
 {% set homepage_hero__base_class = 'homepage-hero-standard' %}
+{{ attach_library('emulsifymars/homepage-herobanner-text') }}
 
 <section {{ bem(homepage_hero__base_class) }} id="homepage-hero-standard" data-theme="{{ theme_styles }}"
   {% if background_color %}
