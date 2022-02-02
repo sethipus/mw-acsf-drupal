@@ -40,7 +40,7 @@
     {% if heading is not empty %}
       {{ heading }}
     {% else %}
-      {{ heading_override | raw }}
+      {{ heading_override|striptags('<br><span>')|raw }}
     {% endif %}
   {% endif %}
 </h{{ heading_level }}>
