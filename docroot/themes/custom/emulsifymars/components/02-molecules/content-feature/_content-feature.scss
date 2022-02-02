@@ -84,7 +84,9 @@
     @include large {
       margin-bottom: 3rem !important;
     }
-
+    @include xl {
+      margin-bottom: 6rem !important; 
+    }
   }
 
   &__heading {
