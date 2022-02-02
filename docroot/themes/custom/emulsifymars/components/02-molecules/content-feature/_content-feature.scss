@@ -77,6 +77,10 @@
       font-size: 1.6rem;
       line-height: 1.6rem;
     }
+    
+    @include xl {
+      margin-bottom: 4rem;
+    }
   }
 
   &__graphic-divider {
@@ -111,6 +115,10 @@
       font-size: 6.4rem;
       line-height: 6.4rem;
       margin: 4rem 0 6rem;
+    }
+
+    @include xl {
+      margin: 0rem 0 6rem;
     }
 
     a {
