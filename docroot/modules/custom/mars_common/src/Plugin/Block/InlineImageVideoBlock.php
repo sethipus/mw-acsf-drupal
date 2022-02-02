@@ -41,7 +41,8 @@ class InlineImageVideoBlock extends ImageVideoBlockBase {
       $build['#image_title'] = $media_params['title'] ?? NULL;
     }
     elseif ($config['block_content_type'] == static::CONTENT_TYPE_VIDEO && !empty($config['video'])) {
-
+      // Thumbnail video time.
+      $build['#thumbnail_video_time'] = !empty($config['thumbnail_video_time']) ? $config['thumbnail_video_time'] : '';
       $video_url = NULL;
       $media_id = $this->mediaHelper
         ->getIdFromEntityBrowserSelectValue($config['video']);
