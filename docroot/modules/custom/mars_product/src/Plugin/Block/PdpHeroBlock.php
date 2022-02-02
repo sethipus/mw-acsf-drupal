@@ -510,11 +510,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         '#title' => $this->t('Dual Table Label'),
         '#default_value' => $this->configuration['nutrition']['dual_table_label'],
       ];
-      $form['nutrition']['reference_intake_value_visibility'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Reference Intake Value Visibility'),
-        '#default_value' => $this->configuration['nutrition']['reference_intake_value_visibility'],
-      ];
     }
     $form['nutrition']['daily_label'] = [
       '#type' => 'textfield',
@@ -719,7 +714,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'dual_serving_label' => $config['nutrition']['dual_serving_label'] ?? $dual_serving_label,
         'table_label' => $config['nutrition']['table_label'] ?? '',
         'dual_table_label' => $config['nutrition']['dual_table_label'] ?? '',
-        'reference_intake_value_visibility' => $config['nutrition']['reference_intake_value_visibility'] ?? '',
         'daily_label' => $config['nutrition']['daily_label'] ?? $daily_label,
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
         'added_sugars_label' => $config['nutrition']['added_sugars_label'] ?? $this->languageHelper->translate('Includes'),
@@ -957,7 +951,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           $item['dual_nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_2')->value;
         }
       }
-      $config_reference_intake = $this->configuration['nutrition']['reference_intake_value_visibility'];
+      $config_reference_intake = $this->configFactory->get('mars_product.nutrition_table_settings')->get('reference_intake_visibility');
       if ($config_reference_intake == '1' && !empty($item['dual_nutrition_data']['serving_item'])) {
         $item['dual_nutrition_data']['serving_item']['reference_intake_value'] = '';
       }
