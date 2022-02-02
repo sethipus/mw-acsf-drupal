@@ -958,15 +958,17 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         }
       }
       $config_reference_intake = $this->configuration['nutrition']['reference_intake_value_visibility'];
-      if($config_reference_intake == '1'){
+      if ($config_reference_intake == '1' && !empty($item['dual_nutrition_data']['serving_item'])) {
         $item['dual_nutrition_data']['serving_item']['reference_intake_value'] = '';
       }
-      elseif($config_reference_intake == '2'){
+      elseif ($config_reference_intake == '2') {
         $item['nutrition_data']['serving_item']['reference_intake_value'] = '';
       }
-      elseif($config_reference_intake == '0'){
+      elseif ($config_reference_intake == '0') {
         $item['nutrition_data']['serving_item']['reference_intake_value'] = '';
-        $item['dual_nutrition_data']['serving_item']['reference_intake_value'] = '';
+        if (!empty($item['dual_nutrition_data']['serving_item'])) {
+          $item['dual_nutrition_data']['serving_item']['reference_intake_value'] = '';
+        }
       }
       if ($this->getCommerceVendor() == self::VENDOR_MANUAL_LINK_SELECTION && !$product_variant->get('field_product_hide_wtb_link')->value) {
         $item['wtb_manual_link_info'] = $this->getManualLinkInfo($product_variant);
