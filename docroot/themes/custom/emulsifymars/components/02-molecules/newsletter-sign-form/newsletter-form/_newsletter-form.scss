@@ -7,7 +7,7 @@
   text-align: center;
   color: clr(primary, newsletter-text-color-override);
   font-size: 20px;
-  font-family: var(--v-heading-font, --v-form-title-font);
+  font-family: var(--v-form-title-font);
   font-weight: 900;
   letter-spacing: var(--v-heading-font-m-letter-spacing);
 }
@@ -49,12 +49,12 @@
       font-size: 1.3rem;
     }
     label {
-      font-family: var(--v-primary-font);
+      font-family: var(--v-form-field-title-font);
       font-size: 16px;
       color: clr(subcolor-1, newsletter-text-color-override);
     }
     input {
-      font-family: var(--v-primary-font, --v-form-field-title-font);
+      font-family: var(--v-form-field-title-font);
       border-radius: var(--v-button-border-radius);
       font-size: 16px !important;
       // border-width: 0 0 1px;
@@ -79,7 +79,7 @@
     max-width: 62rem;
   }
   legend {
-    font-family: var(--v-primary-font, --v-form-field-title-font);
+    font-family: var(--v-form-field-title-font);
     font-size: 16px;
     color: clr(accent, newsletter-text-color-override);
   }
@@ -87,7 +87,7 @@
     font-size: 1.3rem;
   }
   label {
-    font-family: var(--v-primary-font, --v-form-field-title-font);
+    font-family: var(--v-form-field-title-font);
     color: clr(subcolor-1, newsletter-text-color-override);
     font-size: 16px;
   }
@@ -117,7 +117,7 @@
   .globalElement,
   .js-form-item {
     border-radius: var(--v-button-border-radius);
-    font-family: var(--v-primary-font, --v-form-field-title-font);
+    font-family: var(--v-form-field-title-font);
     font-size: 16px;
     color: clr(primary);
     &:focus-visible {
@@ -197,21 +197,21 @@
   .error {
     padding-top: 40px;
     position: absolute;
-    font-family: var(--v-primary-font, --v-form-field-title-font);
+    font-family: var(--v-form-field-title-font);
     color: clr(subcolor-1, newsletter-text-color-override);
     font-size: 1.3rem;
   }
   .webform-element-description {
     margin-top: -8px;
     font-size: 16px;
-    font-family: var(--v-primary-font, --v-form-field-title-font);
+    font-family: var(--v-form-field-title-font);
     color: clr(primary, newsletter-text-color-override);
   }
   .option {
     font-weight: normal;
     margin-top: -12px;
     font-size: 16px;
-    font-family: var(--v-primary-font, --v-form-field-title-font);
+    font-family: var(--v-form-field-title-font);
     color: clr(primary, newsletter-text-color-override);
   }
 }
@@ -238,7 +238,7 @@
 }
 
 .globalConfirmationMessage {
-  font-family: var(--v-primary-font, --v-form-field-title-font);
+  font-family: var(--v-form-field-title-font);
   letter-spacing: var(--v-primary-font-t-letter-spacing);
   text-align: center;
   .webform-confirmation__message {
