@@ -461,7 +461,7 @@ class ThemeConfiguratorService {
 
     $form['color_settings']['cookie_banner_settings']['cookie_banner_override'] = [
       '#type' => 'checkbox',
-      '#title'         => $this->t('Enable default cookie banner'),
+      '#title'         => $this->t('Show Mars standard cookie banner'),
       '#default_value' => $this->getData('cookie_banner_settings', 'cookie_banner_override', $config),
     ];
 
