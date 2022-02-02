@@ -137,6 +137,9 @@
         margin: 0 auto 3rem;
         max-width: 1050px;
     }
+    @include xl {
+        margin: 0 auto 6rem;
+    }
   }
 
   &::before {
