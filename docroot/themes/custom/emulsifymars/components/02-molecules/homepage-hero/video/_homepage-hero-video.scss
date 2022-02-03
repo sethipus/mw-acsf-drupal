@@ -48,11 +48,27 @@
     .ambient-video__controls[data-state="mute"] {
       left: calc(100% - 80px);
       top: 100px;
+
+      @include xs {
+        top: 72px;
+      }
+
+      @include small {
+        top: 100px;
+      }
     }
 
     .ambient-video__controls[data-state="unmute"] {
       left: calc(100% - 80px);
       top: 100px;
+
+      @include xs {
+        top: 72px;
+      }
+
+      @include small {
+        top: 100px;
+      }
     }
 
     .fullscreen-video {
@@ -98,11 +114,13 @@
     
     @include xs {
       padding: 0 1rem;
+      margin-top: 20%;
     }
 
     @include medium {
       width: 75%;
       padding: 0 2rem;
+      margin-top: 5%
 
     }
 
@@ -174,30 +192,15 @@
   }
 
   .dark-overlay {
-    @include medium {
-      &::after {
-        content: '';
-        position: absolute;
-        display: block;
-        width: 100%;
-        height: inherit;
-        top: 0;
-        left: 0;
-        background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.15) 75%, rgba(0, 0, 0, 0.3));
-      }
-    }
-
-    @include xl {
-      &::after {
-        content: '';
-        position: absolute;
-        display: block;
-        width: 100%;
-        height: inherit;
-        top: 0;
-        left: 0;
-        background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.15) 75%, rgba(0, 0, 0, 0.3));
-      }
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: inherit;
+      top: 0;
+      left: 0;
+      background-color: rgba(0,0,0,0.3);
     }
   }
 }
