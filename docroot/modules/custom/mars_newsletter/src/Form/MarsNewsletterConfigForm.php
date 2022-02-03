@@ -51,7 +51,7 @@ class MarsNewsletterConfigForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Required field message'),
       '#required' => FALSE,
-      '#default_value' => $config['field_required_message'] ?? $this->t('The field is required'),
+      '#default_value' => $config['field_required_message'] ?? $this->t('This field is required'),
       '#description' => $this->t("For translation, clear this field and use this 'This field is required' in User interface translation."),
     ];
 
