@@ -65,6 +65,10 @@
     text-align: center;
     font-weight: 500;
 
+    @include xs {
+      font-size: 2.5rem;
+    }
+
     @include small {
       font-size: 4rem;
       line-height: 4.4rem;
