@@ -5,7 +5,7 @@
   overflow: hidden;
   margin: 5rem 2rem;
   padding: 1rem 0;
-  min-height: 336px;
+  min-height: 337px;
 
   @include medium {
     margin: 6rem 4rem;
@@ -25,7 +25,7 @@
     z-index: 2;
   }
 
-  &__bg-image {
+ &__bg-image {
     position: absolute;
     z-index: 1;
     display: flex;
@@ -58,12 +58,34 @@
       height: 11.4rem;
       right: -4.6rem; // 114 - 68 = 46
       top: 2.1rem;
-
+      
+      @include xs
+      {
+        width: 7.4rem;
+        height: 7.4rem;
+        right: -2rem;
+        top: 2.1rem;
+      }
+      @include small
+      {
+        width: 11.4rem;
+        height: 10rem;
+        right: -2rem;
+        top: 2rem;
+      }
       @include medium {
-        width: 18.9rem;
-        height: 18.9rem;
-        right: -7.7rem; // 189 - 112 = 77
-        top: 4rem;
+        width: 18.4rem;
+        height: 15.4rem;
+        right: -5.5rem;
+        top: 2.1rem;
+      }
+
+      @include large
+      {       
+          width: 26.3rem;
+          height: 23.3rem;
+          right: -7.7rem;
+          top: 4rem;
       }
 
       @include xl {
@@ -101,6 +123,19 @@
     padding-top: 5rem;
     text-align: center;
 
+    @include xs
+    {
+      font-size: 2rem;
+      margin: 0 4rem;
+      line-height: 3.2rem;
+    }
+
+    @include small
+    {
+      font-size: 2rem;
+      margin: 0 6.5rem;
+      line-height: 3.2rem;
+    }
     @include medium {
       font-size: 4rem;
       margin: 0 4rem;
@@ -122,6 +157,14 @@
     margin: 0;
     padding: 3rem 0 4rem 0;
     text-align: center;
+
+    @include small{
+      padding: 3rem 0 4rem 2rem;
+    }
+
+    @include medium{
+      padding: 3rem 0 4rem 2rem;
+    }
 
     @include large {
       max-width: 40%;
