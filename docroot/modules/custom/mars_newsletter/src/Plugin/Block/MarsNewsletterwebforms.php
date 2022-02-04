@@ -93,6 +93,7 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
+      '#required' => TRUE,
       '#default_value' => $config['title'] ?? '',
     ];
     $form['webform_id'] = [
