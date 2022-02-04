@@ -65,7 +65,7 @@
       @include xs {
         top: 72px;
       }
-      
+
       @include small {
         top: 100px;
       }
@@ -120,13 +120,13 @@
     @include medium {
       width: 75%;
       padding: 0 2rem;
-      
+      margin-top: 5%
+
     }
 
     @include large {
       width: 62%;
      padding: 0 4rem;
-     margin-top: 5%
     }
 
     @include xl {
@@ -195,17 +195,15 @@
   }
 
   .dark-overlay {
-    @include medium {
-      &::after {
-        content: '';
-        position: absolute;
-        display: block;
-        width: 100%;
-        height: inherit;
-        top: 0;
-        left: 0;
-        background-color: rgba(0,0,0,0.3)
-      }
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: inherit;
+      top: 0;
+      left: 0;
+      background-color: rgba(0,0,0,0.3);
     }
   }
 }
