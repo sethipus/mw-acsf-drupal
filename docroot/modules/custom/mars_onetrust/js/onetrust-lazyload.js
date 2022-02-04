@@ -72,4 +72,9 @@ const addImageBorder = () => {
     }
     $oneTrust.dataset.theme = "drupal";
     $oneTrust.classList.add('--loaded');
+    // Global Cookie Banner
+    const $oneTrust_override = document.querySelector('.global-cookie-banner');
+    if($oneTrust_override) {
+        $oneTrust.classList.add('global-cookie');
+    } 
 }

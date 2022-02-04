@@ -231,3 +231,88 @@
     }
   }
 }
+
+#onetrust-consent-sdk.global-cookie #onetrust-banner-sdk.bottom {
+  background-image: none;
+
+  .ot-sdk-container {
+    padding: 20px;
+
+    @include large {
+      padding: 10px 80px 10px 40px;
+    }
+
+    @include xl {
+      padding: 40px 350px 60px 40px;
+    }
+  }
+
+  #onetrust-group-container {
+    width: 100%;
+
+    @include large {
+      width: 55%;
+    }
+
+    #onetrust-policy-text { 
+      color: clr(text); 
+      margin: 3.5rem 0 2rem;
+
+      @include large {
+        margin: 1rem 0;
+      }
+
+      @include medium {
+        margin: 2rem 0;
+      }
+
+      a[href] {
+        color: #0000a0;
+      }
+    }
+  }
+
+  #onetrust-button-group-parent {
+    position: relative;
+    width: 100%;
+    padding: 0;   
+
+    @include large {
+      position: absolute;
+      left: auto;
+      width: 44%;
+      padding: 0 2%;
+    }
+
+    #onetrust-button-group {
+      display: block;
+      margin-right: auto;
+
+      @include large {
+        display: flex;
+        justify-content: center;
+        margin: 1rem 0;
+      }
+    }
+
+    #onetrust-pc-btn-handler {
+      margin: 0;
+      min-width: 125px;
+      text-align: center;
+      text-transform: capitalize;
+      background-color: #FFF;
+      color: #0000a0;
+
+      @include medium {
+        margin: 1rem;
+      }
+    }
+
+    #onetrust-accept-btn-handler {
+
+      @include medium {
+        margin: 1rem;
+      }
+    }
+  }
+}
