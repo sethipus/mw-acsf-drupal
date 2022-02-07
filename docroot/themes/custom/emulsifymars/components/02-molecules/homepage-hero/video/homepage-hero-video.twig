@@ -2,6 +2,7 @@
 {% if dark_overlay %}
   {% set homepage_hero__modifiers = ['dark-overlay'] %}
 {% endif %}
+{{ attach_library('emulsifymars/homepage-herobanner-text') }}
 
 <section {{ bem(homepage_hero__base_class) }} data-theme="{{ theme_styles }}"
   {% if title_label %}
@@ -15,9 +16,10 @@
         eyebrow_text: eyebrow
       } %}
 
-      {% include "@atoms/text/headings/_heading.twig" with {
+      {% include "@atoms/text/headings/_heading_next_line.twig" with {
         heading_level: 2,
         heading: title_label,
+        heading_override: title_label_override,
         heading_base_class:'heading',
         heading_url: title_href
       } %}

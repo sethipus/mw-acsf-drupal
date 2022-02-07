@@ -264,3 +264,10 @@ entry-gate-form:
     - code/drupal
     - core/jquery
 
+homepage-herobanner-text:
+  js:
+    dist/js/02-molecules/homepage-hero/homepage-hero.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+

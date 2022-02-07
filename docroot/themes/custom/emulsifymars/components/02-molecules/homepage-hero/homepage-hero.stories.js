@@ -14,6 +14,7 @@ import homepageHero3UPData from './3up/homepage-hero-3up.yml';
 
 import homepageHeroBasic from './basic/homepage-hero-basic.twig';
 import homepageHeroBasicData from './basic/homepage-hero-basic.yml';
+import './homepage-hero';
 
 /**
  * Storybook Definition.
