@@ -397,6 +397,7 @@ function mars_common_update_8028() {
   $config->set('cookie_banner_text', $config->get('color_a'), '');
   $config->set('cookie_banner_text', $config->get('color_a'), '');
   $config->set('cookie_banner_brand_border', FALSE);
+  $config->set('cookie_banner_override', FALSE);
   $config->save(TRUE);
 }
 
