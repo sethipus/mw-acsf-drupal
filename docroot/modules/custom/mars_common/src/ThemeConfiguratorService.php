@@ -463,6 +463,7 @@ class ThemeConfiguratorService {
       '#type' => 'checkbox',
       '#title'         => $this->t('Show Mars standard cookie banner'),
       '#default_value' => $this->getData('cookie_banner_settings', 'cookie_banner_override', $config),
+      '#description'   => $this->t("Please uncheck 'Show brand border on cookie banner'."),
     ];
 
     $form['color_settings']['card'] = [
