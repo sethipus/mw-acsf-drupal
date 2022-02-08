@@ -67,6 +67,6 @@ function mars_newsletter_form_alter(&$form, \Drupal\Core\Form\FormStateInterface
     $config = $config_factory->getEditable('mars_newsletter_form.settings')->get('newsletter.config_form');
     $form['#attached']['drupalSettings']['mars_newsletter']['required_field_message'] = !empty($config['field_required_message']) ? $config['field_required_message'] : t('This field is required');
     $form['#attached']['drupalSettings']['mars_newsletter']['email_validation_message'] = !empty($config['email_validation_message']) ? $config['email_validation_message'] : t('Enter valid email ID');
-    $form['#attached']['drupalSettings']['mars_newsletter']['success_message'] = !empty($config['success_message']) ? $config['success_message'] : t('Your subcription is successful');
+    $form['#attached']['drupalSettings']['mars_newsletter']['success_message'] = !empty($config['success_message']) ? $config['success_message'] : t('Your subscription is successful');
   return $form;
 }
