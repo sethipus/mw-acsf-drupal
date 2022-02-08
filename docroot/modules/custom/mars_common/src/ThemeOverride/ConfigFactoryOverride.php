@@ -53,6 +53,7 @@ class ConfigFactoryOverride implements ConfigFactoryOverrideInterface {
     'cookie_banner_text',
     'cookie_banner_close',
     'cookie_banner_brand_border',
+    'cookie_banner_override',
     'card_background',
     'card_title',
     'card_eyebrow',

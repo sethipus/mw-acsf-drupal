@@ -91,6 +91,9 @@ cookie_banner_close:
 cookie_banner_brand_border:
   type: text
   label: 'Cookie banner brand border.'
+cookie_banner_override:
+  type: text
+  label: 'Enable default cookie banner.'
 
 # Font.
 # ----------------------------
