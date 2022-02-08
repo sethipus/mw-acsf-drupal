@@ -183,7 +183,8 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     // Get brand border path.
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
     $build['#cookie_banner_brand_border'] = $this->themeConfiguratorParser->getSettingValue('cookie_banner_brand_border');
-
+    // Get cookie banner override toggle value.
+    $build['#cookie_banner_override'] = $this->themeConfiguratorParser->getSettingValue('cookie_banner_override');
     $build['#top_footer_menu'] = $this->menuBuilder->getMenuItemsArray($conf['top_footer_menu']);
     $build['#legal_links'] = $this->menuBuilder->getMenuItemsArray($conf['legal_links']);
     $build['#marketing'] = $this->languageHelper->translate($conf['marketing']['value']);
