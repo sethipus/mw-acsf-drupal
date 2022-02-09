@@ -1,6 +1,11 @@
 (function ($, Drupal) {
   Drupal.behaviors.inlineVideoPlayer = {
     attach(context) {
+      const video = document.querySelector('video');
+      video.onplay = function() {
+        video.currentTime = 0;
+        video.onplay = document.querySelector('.inline-video__control').style.display = 'none';
+      }
       // Does the browser actually support the video element?
       var supportsVideo = !!document.createElement('video').canPlayType;
       if (supportsVideo === false) {
