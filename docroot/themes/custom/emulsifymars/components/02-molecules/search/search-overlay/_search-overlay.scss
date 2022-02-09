@@ -226,6 +226,7 @@
     }
 
     & .search-field {
+      height: 50px;
       @include set-font($font-type: 'secondary-font');
 
       margin-right: auto;

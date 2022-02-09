@@ -60,8 +60,6 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
    */
   protected $tokenManager;
 
- 
-
   /**
    * {@inheritdoc}
    */
@@ -95,6 +93,7 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
+      '#required' => TRUE,
       '#default_value' => $config['title'] ?? '',
     ];
     $form['webform_id'] = [
@@ -106,6 +105,20 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
       '#default_value' => $this->getWebform(),
     ];
     $this->buildOverrideColorElement($form, $config);
+    // Override title font.
+    $form['title_font'] = [
+      '#title' => t('Select override title font'),
+      '#type' => 'select',
+      '#options' => ['title_heading_font' => $this->t('Heading font'), 'title_primary_font' => $this->t('Primary font'), 'title_secondary_font' => $this->t('Secondary font')],
+      '#default_value' => !empty($config['title_font']) ? $config['title_font'] : 'title_heading_font',
+    ];
+    // Override field title font.
+    $form['field_title_font'] = [
+      '#title' => t('Select override field title font'),
+      '#type' => 'select',
+      '#options' => ['field_title_heading_font' => $this->t('Heading font'), 'field_title_primary_font' => $this->t('Primary font'), 'field_title_secondary_font' => $this->t('Secondary font')],
+      '#default_value' => !empty($config['field_title_font']) ? $config['field_title_font'] : 'field_title_primary_font',
+    ];
     $form['use_background_color'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Use Background Color Override'),
@@ -128,6 +141,28 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
         ],
       ],
     ];
+    $form['use_button_background_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use Submit Button Background Color Override'),
+      '#default_value' => $config['use_button_background_color'] ?? FALSE,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+        ],
+      ],
+    ];
+    $form['button_background_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Submit Button Background Color Override'),
+      '#default_value' => $config['button_background_color'] ?? '',
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'and',
+          [':input[name="settings[use_button_background_color]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
     
     $this->tokenManager->elementValidate($form);
 
@@ -143,7 +178,11 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
     $this->configuration['title'] = $values['title'];
     $this->configuration['use_background_color'] = $values['use_background_color'];
     $this->configuration['background_color'] = $values['background_color'];
+    $this->configuration['use_button_background_color'] = $values['use_button_background_color'];
+    $this->configuration['button_background_color'] = $values['button_background_color'];
     $this->configuration['override_text_color']['override_color'] = $values['override_text_color']['override_color'];
+    $this->configuration['title_font'] = $values['title_font'];
+    $this->configuration['field_title_font'] = $values['field_title_font'];
   }
 
   /**
@@ -171,10 +210,14 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
       $text_color_override = static::$overrideColor;
     }
     $background_color = !empty($config['use_background_color']) && !empty($config['background_color']) ? $config['background_color'] : '';
+    $button_background_color = !empty($config['use_button_background_color']) && !empty($config['button_background_color']) ? $config['button_background_color'] : '';
+    $build['#button_background_color'] = $button_background_color;
     $build['#background_color'] = $background_color;
     $build['#text_color_override'] = $text_color_override;
     $build['#webform_newsletter'] = $webform_data;
     $build['#webform_block_label'] = $config['title'] ?? $this->t('SIGN UP');
+    $build['#title_font'] = !empty($config['title_font']) ? $config['title_font'] : 'title_heading_font';
+    $build['#field_title_font'] = !empty($config['field_title_font']) ? $config['field_title_font'] : 'field_title_primary_font';
     $build['#theme'] = 'mars_newsletter_signup_form';
 
     return $build;

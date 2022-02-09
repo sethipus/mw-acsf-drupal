@@ -10,6 +10,7 @@
  * 'shape_motif' => NULL,
  * 'content' => NULL,
  * 'title' => NULL,
+ * 'hide_volume' => NULL,
  */
 #}
 <div {{ bem('block') }}>
@@ -35,7 +36,9 @@
             video__control: true,
             shape_motif: shape_motif,
             content: content,
-            title: title
+            title: title,
+            thumbnail_video_time: thumbnail_video_time,
+            hide_volume: hide_volume,
         } %}
         {% endif %}
     {% endblock %}

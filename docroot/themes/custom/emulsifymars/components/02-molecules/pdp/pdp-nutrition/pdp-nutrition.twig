@@ -299,6 +299,17 @@
             </dl>
           </div>
         {% endif %}
+        <div {{ bem('section-column', [], pdp_nutrition_base_class) }}>
+          <dl {{ bem('section-column-list', ['info-block', 'upper'], pdp_nutrition_base_class) }}>
+            <dd {{ bem('section-column-item', ['info-block', 'upper'], pdp_nutrition_base_class) }}>
+              {% include "@atoms/text/text/07-raw-span.twig" with {
+                span_content: pdp_nutrition_data.serving_item.disclaimers_value,
+                span_base_class: pdp_nutrition_value_base_class,
+                span_blockname: pdp_nutrition_base_class,
+              } %}
+            </dd>
+          </dl>
+        </div>
         <!-- Data of Column 2 Ends -->
       </div>
       <!-- Nutrition Column 2 Ends -->

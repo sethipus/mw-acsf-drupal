@@ -1,0 +1,18 @@
+uuid: 874f2697-16d2-4e5e-afe1-1f5b93a905fe
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_product_wtb_override
+field_name: field_product_wtb_override
+entity_type: node
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

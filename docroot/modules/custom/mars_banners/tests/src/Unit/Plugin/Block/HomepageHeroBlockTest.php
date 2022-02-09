@@ -39,6 +39,9 @@ class HomepageHeroBlockTest extends UnitTestCase {
     'title' => [
       'url' => '',
       'label' => 'Homepage Hero block',
+      'next_line_label' => [
+        'value' => 'Homepage Hero block title override',
+      ],
     ],
     'block_type' => 'video',
     'label_display' => '0',
@@ -52,6 +55,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
     'background_image' => [0 => 'background_default'],
     'card' => [self::TEST_CARD],
     'use_dark_overlay' => TRUE,
+    'hide_volume' => FALSE,
   ];
 
   private const TEST_DEFINITION = [

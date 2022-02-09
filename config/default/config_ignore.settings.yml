@@ -26,6 +26,7 @@ ignored_config_entities:
   - block.block.footerblock
   - block.block.marsheaderblock
   - block.block.marsfooterblock
+  - block.block.marsalertbannerblock
   - acquia_contenthub.admin_settings
   - field.storage.node.field_product_allergen_statement
   - mars_seo.settings
@@ -57,6 +58,11 @@ ignored_config_entities:
   - acquia_search.settings
   - search_api.server.acquia_search_server
   - 'search_api_solr.*'
+  - block.block.marsnewsletteremailsignupformblock
+  - webform.webform.mars_newsletter_email_form
+  - webform.webform.mars_newsletter_signup_form
+  - mars_newsletter_form.settings
+  - 'webform.webform.*'
 ignored_config_collections:
   - 'language.*'
 enable_export_filtering: true

@@ -5,14 +5,14 @@
 {% set video__base_class = video__base_class|default('inline-video') %}
 
 <figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }}
-  data-fullcontrol="true"
+  data-fullcontrol="false"
   data-video-flag="Inline"
   data-theme={{ theme_styles }}>
-  <video {{ bem('video', [], video__base_class) }} data-object-fit="cover" preload="metadata" playsinline>
-    {% if '#t' in video__src__url %}
-      <source loop src="{{ video__src__url }}" type="video/mp4" />
+<video {{ bem('video', [], video__base_class) }} data-object-fit="cover" preload="metadata" playsinline>
+    {% if thumbnail_video_time is not empty %}
+      <source loop src="{{ video__src__url }}#t={{thumbnail_video_time}}" type="video/mp4" />
     {% else %}
-      <source loop src="{{ video__src__url }}#t=0.001" type="video/mp4" />
+      <source loop src="{{ video__src__url }}" type="video/mp4" />
     {% endif %}
   </video>
   <div {{ bem('controls', [], video__base_class) }} data-state="hidden">
@@ -21,7 +21,7 @@
       <div {{ bem('playpause', ['inner'], video__base_class) }}>
       </div>
     </button>
-    <button {{ bem('mute', ['inner'], video__base_class) }} type="button" title="{{ 'Mute' | mt }}" aria-label="{{ 'Mute' | mt }}" data-state="mute">
+    <button {{ hide_volume ? bem('mute', ['inner'], video__base_class, ['hide-volume']) : bem('mute', ['inner'], video__base_class) }} type="button" title="{{ 'Mute' | mt }}" aria-label="{{ 'Mute' | mt }}" data-state="mute">
       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 30 30"><path fill="#fff" d="M3.75 11.25v7.5h5L15 25V5l-6.25 6.25h-5zM20.625 15c0-2.212-1.275-4.112-3.125-5.037v10.062c1.85-.912 3.125-2.812 3.125-5.025zM17.5 4.038v2.575c3.613 1.075 6.25 4.425 6.25 8.387 0 3.963-2.637 7.313-6.25 8.388v2.575c5.012-1.138 8.75-5.613 8.75-10.963 0-5.35-3.738-9.825-8.75-10.962z"/></svg>
     </button>
     <div {{ bem('progress-time', [], video__base_class) }}>

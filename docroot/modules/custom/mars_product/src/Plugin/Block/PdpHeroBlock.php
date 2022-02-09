@@ -89,8 +89,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $configFactory;
 
   /**
-   * Route match service for getting node 
-   * 
+   * Route match service for getting node
+   *
    * @var \Drupal\Core\Routing\RouteMatchInterface
    */
   protected $routeMatch;
@@ -510,11 +510,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         '#title' => $this->t('Dual Table Label'),
         '#default_value' => $this->configuration['nutrition']['dual_table_label'],
       ];
-      $form['nutrition']['reference_intake_value_visibility'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Reference Intake Value Visibility'),
-        '#default_value' => $this->configuration['nutrition']['reference_intake_value_visibility'],
-      ];
     }
     $form['nutrition']['daily_label'] = [
       '#type' => 'textfield',
@@ -677,16 +672,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $display = 'product_hero';
     $widget_id_field = $this->productHelper->getWidgetIdField($display);
     $node = $this->routeMatch->getParameter('node');
-    $consumption_2 = '';
-
-    if (!empty($node) && $node->bundle() == 'product') {
-      foreach ($node->field_product_variants as $reference) {
-        $product_variant = $reference->entity;
-        if (!empty($product_variant)) {
-          $consumption_2 = $this->languageHelper->translate($product_variant->get('field_product_consumption_2')->value);
-        }
-      }
-    }
 
     $view_type = $this->nutritionHelper
       ->getNutritionConfig()
@@ -697,7 +682,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $dual_servings_per_label = $this->nutritionHelper
       ->getNutritionConfig()
       ->get('dual_servings_per_container');
-    $dual_serv_label = $dual_servings_per_label ? ($this->overrideDualTableHeading() ? $this->languageHelper->translate('Amount ') . $consumption_2 : $this->languageHelper->translate('Amount Per Portion (51g)')) : $this->languageHelper->translate('Amount per 100g');
+    $dual_serv_label = !empty($dual_servings_per_label) ? $this->languageHelper->translate('Amount Per Portion (51g)') : $this->languageHelper->translate('Amount per 100g');
     $dual_serving_label = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
       ? $dual_serv_label
       : $this->languageHelper->translate('Amount per serving');
@@ -729,7 +714,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'dual_serving_label' => $config['nutrition']['dual_serving_label'] ?? $dual_serving_label,
         'table_label' => $config['nutrition']['table_label'] ?? '',
         'dual_table_label' => $config['nutrition']['dual_table_label'] ?? '',
-        'reference_intake_value_visibility' => $config['nutrition']['reference_intake_value_visibility'] ?? '',
         'daily_label' => $config['nutrition']['daily_label'] ?? $daily_label,
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
         'added_sugars_label' => $config['nutrition']['added_sugars_label'] ?? $this->languageHelper->translate('Includes'),
@@ -790,11 +774,29 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $widget_id_field = $this->productHelper->getWidgetIdField('pdp_page');
     // Get values from first Product Variant.
     $product_sku = '';
+    $consumption_2 = '';
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
       if (!empty($product_variant)) {
         $product_sku = $this->productHelper->formatSku($product_variant->get('field_product_sku')->value);
+        $consumption_2 = $this->languageHelper->translate($product_variant->get('field_product_consumption_2')->value);
       }
+    }
+    $view_type = $this->nutritionHelper
+      ->getNutritionConfig()
+      ->get('view_type');
+    $dual_servings_per_label = $this->nutritionHelper
+      ->getNutritionConfig()
+      ->get('dual_servings_per_container');
+    $dual_consumption_label = $this->nutritionHelper
+      ->getNutritionConfig()
+      ->get('dual_consumption_label');
+    $dual_serv_label = !empty($dual_servings_per_label) ? $this->languageHelper->translate('Amount Per Portion (51g)') : $this->languageHelper->translate('Amount per 100g');
+    $dual_serving_label = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
+      ? $dual_serv_label
+      : $this->languageHelper->translate('Amount per serving');
+    if ($this->overrideDualTableHeading()) {
+      $dual_serving_label = $dual_consumption_label ? $this->languageHelper->translate($dual_consumption_label . ' ' . $consumption_2) : $this->languageHelper->translate($consumption_2);
     }
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
       $this->configuration['background_color'] : '';
@@ -827,7 +829,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'show_nutrition_data' => $this->isNutritionDataVisible(),
         'nutritional_label' => $this->languageHelper->translate($this->configuration['nutrition']['label']) ?? '',
         'nutritional_info_serving_label' => $this->languageHelper->translate($this->configuration['nutrition']['serving_label']) ?? '',
-        'nutritional_info_dual_serving_label' => $this->languageHelper->translate($this->configuration['nutrition']['dual_serving_label']) ?? '',
+        'nutritional_info_dual_serving_label' => $this->overrideDualTableHeading() ? $dual_serving_label : $this->languageHelper->translate($this->configuration['nutrition']['dual_serving_label']),
         'nutritional_info_daily_label' => $this->languageHelper->translate($this->configuration['nutrition']['daily_label']) ?? '',
         'vitamins_info_label' => $this->languageHelper->translate($this->configuration['nutrition']['vitamins_label']) . ':' ?? '',
         'daily_text' => $this->languageHelper->translate($this->configuration['nutrition']['daily_text']) ?? '',
@@ -949,16 +951,18 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           $item['dual_nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_2')->value;
         }
       }
-      $config_reference_intake = $this->configuration['nutrition']['reference_intake_value_visibility'];
-      if($config_reference_intake == '1'){
+      $config_reference_intake = $this->configFactory->get('mars_product.nutrition_table_settings')->get('reference_intake_visibility');
+      if ($config_reference_intake == '1' && !empty($item['dual_nutrition_data']['serving_item'])) {
         $item['dual_nutrition_data']['serving_item']['reference_intake_value'] = '';
       }
-      elseif($config_reference_intake == '2'){
+      elseif ($config_reference_intake == '2') {
         $item['nutrition_data']['serving_item']['reference_intake_value'] = '';
       }
-      elseif($config_reference_intake == '0'){
+      elseif ($config_reference_intake == '0') {
         $item['nutrition_data']['serving_item']['reference_intake_value'] = '';
-        $item['dual_nutrition_data']['serving_item']['reference_intake_value'] = '';
+        if (!empty($item['dual_nutrition_data']['serving_item'])) {
+          $item['dual_nutrition_data']['serving_item']['reference_intake_value'] = '';
+        }
       }
       if ($this->getCommerceVendor() == self::VENDOR_MANUAL_LINK_SELECTION && !$product_variant->get('field_product_hide_wtb_link')->value) {
         $item['wtb_manual_link_info'] = $this->getManualLinkInfo($product_variant);
@@ -984,10 +988,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   private function getManualLinkInfo(ContentEntityInterface $product_variant): array {
     $global_config = $this->getCommerceVendorInfo(self::VENDOR_MANUAL_LINK_SELECTION);
     return [
-      'button_name' => $product_variant->get('field_product_wtb_button_name')->value ?? $this->languageHelper->translate($global_config['button_name']),
-      'button_url' => $product_variant->get('field_product_wtb_button_url')->value ?? $this->languageHelper->translate($global_config['button_url']),
-      'button_new_tab' => $product_variant->get('field_product_wtb_new_tab')->value ?? $global_config['button_new_tab'],
-      'button_style' => $product_variant->get('field_product_wtb_button_style')->value ?? $global_config['button_style'],
+      'button_name' => $product_variant->get('field_product_wtb_override')->value ? $product_variant->get('field_product_wtb_button_name')->value : $this->languageHelper->translate($global_config['button_name']),
+      'button_url' => $product_variant->get('field_product_wtb_override')->value ? $product_variant->get('field_product_wtb_button_url')->value : $this->languageHelper->translate($global_config['button_url']),
+      'button_new_tab' => $product_variant->get('field_product_wtb_override')->value ? $product_variant->get('field_product_wtb_new_tab')->value : $global_config['button_new_tab'],
+      'button_style' => $product_variant->get('field_product_wtb_override')->value ? $product_variant->get('field_product_wtb_button_style')->value : $global_config['button_style'],
     ];
   }
 
@@ -1212,14 +1216,17 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'show_other_nutrients_text' => $this->showOtherNutrientsText($node, $field_prefix),
     ];
     if ($field_prefix == 'product') {
-      $result_item['serving_size'] = [
+      $serving_size = [
         'label' => $this->getProductServingSizeLabel($node),
         'value' => $node->get('field_product_serving_size')->value,
       ];
-      $result_item['serving_per_container'] = [
+      $serving_per_container = [
         'label' => $this->getServingsPerContainerLabel($node),
         'value' => $node->get('field_product_servings_per')->value,
       ];
+      $result_item['serving_size'] = $this->hideServingSizeHeading() ? [] : $serving_size;
+      $result_item['serving_per_container'] = $this->hideServingsPerHeading() ? [] : $serving_per_container;
+      $result_item['disclaimers_value'] = strip_tags(html_entity_decode($node->get('field_product_disclaimers')->value), '<strong><b>');
     }
     elseif ($field_prefix == 'dual') {
       $result_item['dual_servings_per_container'] = [
@@ -1647,6 +1654,34 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ->get('override_dual_table_heading');
 
     return (isset($override_dual_table_heading) && !empty($override_dual_table_heading));
+  }
+
+  /**
+   * Check for serving size heading to be shown or not in the nutrition table 1.
+   *
+   * @return bool
+   *   Whether it should be rendered or not.
+   */
+  private function hideServingSizeHeading(): bool {
+    $hide_serving_size_heading = $this->configFactory
+      ->get('mars_product.nutrition_table_settings')
+      ->get('hide_serving_size_heading');
+
+    return (isset($hide_serving_size_heading) && !empty($hide_serving_size_heading));
+  }
+
+    /**
+   * Check for servings per heading to be shown or not in the nutrition table 1.
+   *
+   * @return bool
+   *   Whether it should be rendered or not.
+   */
+  private function hideServingsPerHeading(): bool {
+    $hide_servings_per_heading = $this->configFactory
+      ->get('mars_product.nutrition_table_settings')
+      ->get('hide_servings_per_heading');
+
+    return (isset($hide_servings_per_heading) && !empty($hide_servings_per_heading));
   }
 
 }

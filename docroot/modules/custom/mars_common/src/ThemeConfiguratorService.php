@@ -459,6 +459,13 @@ class ThemeConfiguratorService {
       '#default_value' => $this->getData('cookie_banner_settings', 'cookie_banner_brand_border', $config),
     ];
 
+    $form['color_settings']['cookie_banner_settings']['cookie_banner_override'] = [
+      '#type' => 'checkbox',
+      '#title'         => $this->t('Show Mars standard cookie banner'),
+      '#default_value' => $this->getData('cookie_banner_settings', 'cookie_banner_override', $config),
+      '#description'   => $this->t("Please uncheck 'Show brand border on cookie banner'."),
+    ];
+
     $form['color_settings']['card'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Card Colors'),

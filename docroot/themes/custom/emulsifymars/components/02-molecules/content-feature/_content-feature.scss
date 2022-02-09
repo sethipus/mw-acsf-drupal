@@ -14,7 +14,7 @@
   @include xl {
       padding:0;
   }
-  
+
   &__bg-image {
     position: absolute;
     top: 0;
@@ -54,13 +54,13 @@
     margin: 0 auto;
     max-width: 1050px;
 
-    @include xl { 
-      height: 100%; 
-      display: flex; 
-      flex-direction: column;  
-      align-items: center;  
-      justify-content: center; 
-    } 
+    @include xl {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   & .eyebrow {
@@ -77,6 +77,10 @@
       font-size: 1.6rem;
       line-height: 1.6rem;
     }
+    
+    @include xl {
+      margin-bottom: 4rem;
+    }
   }
 
   &__graphic-divider {
@@ -84,7 +88,9 @@
     @include large {
       margin-bottom: 3rem !important;
     }
-
+    @include xl {
+      margin-bottom: 6rem !important; 
+    }
   }
 
   &__heading {
@@ -111,6 +117,10 @@
       margin: 4rem 0 6rem;
     }
 
+    @include xl {
+      margin: 0rem 0 6rem;
+    }
+
     a {
       color: inherit;
       text-decoration: none;
@@ -134,6 +144,9 @@
         line-height: 3.52rem;
         margin: 0 auto 3rem;
         max-width: 1050px;
+    }
+    @include xl {
+        margin: 0 auto 6rem;
     }
   }
 

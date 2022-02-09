@@ -202,10 +202,10 @@ function product_card_add_wtb_vars(array &$variables) {
       !$variant->get('field_product_hide_wtb_link')->value) {
 
       $variables['wtb_manual_link_info'] = [
-        'button_name' => $variant->get('field_product_wtb_button_name')->value ?? $language_helper->translate($commerce_vendor_settings['button_name']),
-        'button_url' => $variant->get('field_product_wtb_button_url')->value ?? $language_helper->translate($commerce_vendor_settings['button_url']),
-        'button_new_tab' => $variant->get('field_product_wtb_new_tab')->value ?? $commerce_vendor_settings['button_new_tab'],
-        'button_style' => $variant->get('field_product_wtb_button_style')->value ?? $commerce_vendor_settings['button_style'],
+        'button_name' => $variant->get('field_product_wtb_override')->value ? $variant->get('field_product_wtb_button_name')->value : $language_helper->translate($commerce_vendor_settings['button_name']),
+        'button_url' => $variant->get('field_product_wtb_override')->value ? $variant->get('field_product_wtb_button_url')->value : $language_helper->translate($commerce_vendor_settings['button_url']),
+        'button_new_tab' => $variant->get('field_product_wtb_override')->value ? $variant->get('field_product_wtb_new_tab')->value : $commerce_vendor_settings['button_new_tab'],
+        'button_style' => $variant->get('field_product_wtb_override')->value ? $variant->get('field_product_wtb_button_style')->value : $commerce_vendor_settings['button_style'],
       ];
     }
     elseif (isset($variant) &&
@@ -389,6 +389,7 @@ function mars_product_form_alter(array &$form, FormStateInterface $form_state, $
       $form['field_product_wtb_button_style']['#access'] = FALSE;
       $form['field_product_hide_wtb_link']['#access'] = FALSE;
       $form['field_product_wtb_new_tab']['#access'] = FALSE;
+      $form['field_product_wtb_override']['#access'] = FALSE;
     }
   }
 }

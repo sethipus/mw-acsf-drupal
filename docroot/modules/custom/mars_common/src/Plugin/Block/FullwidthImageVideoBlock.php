@@ -69,7 +69,8 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
       $build['#media']['image'] = TRUE;
     }
     elseif ($config['block_content_type'] == static::CONTENT_TYPE_VIDEO && !empty($config['video'])) {
-
+      // Thumbnail video time.
+      $build['#thumbnail_video_time'] = !empty($config['thumbnail_video_time']) ? $config['thumbnail_video_time'] : '';
       $media_id = $this->mediaHelper
         ->getIdFromEntityBrowserSelectValue($config['video']);
 
@@ -78,6 +79,7 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
         'video' => TRUE,
         'src' => $media_params['src'] ?? NULL,
       ];
+      $build['#hide_volume'] = $config['hide_volume'];
     }
     elseif ($config['block_content_type'] == static::CONTENT_TYPE_PARALLAX_IMAGE && !empty($config['parallax_image'])) {
       $build['#media']['medias'] = [];

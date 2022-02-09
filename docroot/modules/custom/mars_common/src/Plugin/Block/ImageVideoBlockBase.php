@@ -179,7 +179,19 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
         [':input[name="settings[block_content_type]"]' => ['value' => self::CONTENT_TYPE_VIDEO]],
       ],
     ];
-
+    // Thumbnail #t value field.
+    $form['thumbnail_video_time'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Thumbnail video time'),
+      '#default_value' => $config['thumbnail_video_time'] ?? '',
+      '#step' => 0.00001,
+      '#description' => $this->t('Format either integer or decimal. Value should in between the start and endtime of the video.'),
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_content_type]"]' => ['value' => self::CONTENT_TYPE_VIDEO]],
+        ],
+      ],
+    ];
     // Specify media asset aspect ratio.
     $form['aspect_ratio'] = [
       '#type' => 'select',
@@ -193,6 +205,12 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
         '21-9' => $this->t('21:9 (Landscape)'),
       ],
       '#default_value' => $config['aspect_ratio'] ?? '16-9',
+    ];
+
+    $form['hide_volume'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Hide Volume'),
+      '#default_value' => $config['hide_volume'] ?? FALSE,
     ];
 
     return $form;

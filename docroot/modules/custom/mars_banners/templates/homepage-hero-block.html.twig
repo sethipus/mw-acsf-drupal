@@ -14,6 +14,7 @@
  * 'background_color' => [],
  * 'brand_shape' => NULL,
  * 'dark_overlay' => NULL,
+ * 'hide_volume' => NULL,
  */
 #}
 
@@ -34,12 +35,14 @@
     theme_styles: 'drupal',
     eyebrow: eyebrow,
     title_label: title_label,
+    title_label_override: title_label_override,
     title_href: title_url,
     cta_title: cta_title,
     cta_link_attributes: cta_url,
     cta_base_class: 'cta-link',
     video__src__url: background_assets.video.src,
     dark_overlay: dark_overlay,
+    hide_volume: hide_volume,
   } %}
 
 {% elseif (block_type == 'default') %}
@@ -47,6 +50,7 @@
     theme_styles: 'drupal',
     eyebrow: eyebrow,
     title_label: title_label,
+    title_label_override: title_label_override,
     title_href: title_url,
     cta_title: cta_title,
     cta_link_attributes: cta_url,
@@ -62,6 +66,7 @@
     theme_styles: 'drupal',
     eyebrow: eyebrow,
     title_label: title_label,
+    title_label_override: title_label_override,
     title_href: title_url,
     cta_title: cta_title,
     cta_link_attributes: cta_url,
@@ -77,6 +82,7 @@
   {% include "@molecules/homepage-hero/basic/homepage-hero-basic.twig" with {
     theme_styles: 'drupal',
     homepage_hero_basic_content: title_label,
+    title_label_override: title_label_override,
     hero_images: background_assets,
     dark_overlay: dark_overlay,
   } %}
