@@ -139,6 +139,18 @@ class NutritionConfigForm extends ConfigFormBase {
       '#title' => $this->t('Show "other nutrients" text'),
       '#default_value' => $config->get('show_other_nutrients_text') ?? FALSE,
     ];
+    $form['general']['reference_intake_visibility'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Reference Intake Value Visibility'),
+      '#default_value' => $config->get('reference_intake_visibility') ?? '',
+      '#options' => [
+        '' => $this->t('None'),
+        '0' => $this->t('0 - Hide value in both tables'),
+        '1' => $this->t('1 - Show value in first table only'),
+        '2' => $this->t('2 - Show value in second table only'),
+      ],
+    ];
+
 
     $this->getGroupTableHeader($form, $form_state);
     $this->getDualGroupTableHeader($form, $form_state);
@@ -523,6 +535,7 @@ class NutritionConfigForm extends ConfigFormBase {
     $config->set('product_serving_size', $form_state->getValue('product_serving_size'));
     $config->set('servings_per_container', $form_state->getValue('servings_per_container'));
     $config->set('show_other_nutrients_text', $form_state->getValue('show_other_nutrients_text'));
+    $config->set('reference_intake_visibility', $form_state->getValue('reference_intake_visibility'));
     $config->set('hide_serving_size_heading', $form_state->getValue('hide_serving_size_heading'));
     $config->set('hide_servings_per_heading', $form_state->getValue('hide_servings_per_heading'));
     $config->set('dual_servings_per_container', $form_state->getValue('dual_servings_per_container'));

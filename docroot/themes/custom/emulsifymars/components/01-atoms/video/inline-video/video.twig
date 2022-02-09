@@ -8,11 +8,11 @@
   data-fullcontrol="false"
   data-video-flag="Inline"
   data-theme={{ theme_styles }}>
-  <video {{ bem('video', [], video__base_class) }} data-object-fit="cover" preload="metadata">
-    {% if '#t' in video__src__url %}
-      <source loop src="{{ video__src__url }}" type="video/mp4" />
+<video {{ bem('video', [], video__base_class) }} data-object-fit="cover" preload="metadata" playsinline>
+    {% if thumbnail_video_time is not empty %}
+      <source loop src="{{ video__src__url }}#t={{thumbnail_video_time}}" type="video/mp4" />
     {% else %}
-      <source loop src="{{ video__src__url }}#t=0.001" type="video/mp4" />
+      <source loop src="{{ video__src__url }}" type="video/mp4" />
     {% endif %}
   </video>
   <div {{ bem('controls', [], video__base_class) }} data-state="hidden">
