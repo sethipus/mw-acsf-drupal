@@ -241,10 +241,6 @@
     @include large {
       padding: 10px 80px 10px 40px;
     }
-
-    @include xl {
-      padding: 40px 350px 60px 40px;
-    }
   }
 
   #onetrust-group-container {
@@ -282,6 +278,7 @@
       left: auto;
       width: 44%;
       padding: 0 2%;
+      transform: translateY(-50%);
     }
 
     #onetrust-button-group {
