@@ -27,6 +27,7 @@ cookie_banner_gradient: '#f9f1db'
 cookie_banner_text: '#490e00'
 cookie_banner_close: '#490e00'
 cookie_banner_brand_border: FALSE
+cookie_banner_override: FALSE
 bottom_nav: '#e62b1e'
 
 # Font.

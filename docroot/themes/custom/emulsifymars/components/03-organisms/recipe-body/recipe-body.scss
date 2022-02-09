@@ -23,6 +23,7 @@ $product-used-breakpoint: 1130px;
     font-size: 2rem;
     line-height: 1.1;
     color: clr(primary);
+    inline-size: 33.4rem;
 
     @include medium {
       font-size: 2.6rem;

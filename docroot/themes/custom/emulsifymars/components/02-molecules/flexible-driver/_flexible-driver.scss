@@ -38,6 +38,13 @@
       left: 0;
       bottom: -1.3rem; // 163 - 150 = 13
 
+      @include xs {
+        width: 9.3rem;
+        height: 11.2rem;
+        left: 0rem;
+        bottom: -0.3rem;
+      }
+
       @include medium {
         width: 22.2rem;
         height: 22.2rem;
