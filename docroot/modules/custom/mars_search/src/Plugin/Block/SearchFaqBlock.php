@@ -123,6 +123,12 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#default_value' => $config['cta_button_label'] ?? strtoupper($this->languageHelper->translate('See all')),
     ];
 
+    $form['faq_filter_toggle'] = [
+      '#type' => 'checkbox',
+      '#title'         => $this->t('Turn off FAQ filter'),
+      '#default_value' => $config['faq_filter_toggle'] ?? FALSE,
+    ];
+
     return $form;
   }
 
@@ -150,6 +156,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
 
     $render_default = [
       '#theme' => 'mars_search_faq_block',
+      '#faq_filter_toggle' => !empty($config['faq_filter_toggle']) ? $config['faq_filter_toggle'] : '',
       '#faq_title' => $config['faq_title'],
       '#cta_button_label' => $cta_button_label,
       '#cta_button_link' => $cta_button_link,
