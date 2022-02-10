@@ -182,4 +182,43 @@ class MarsPollViewForm extends PollViewForm {
       && $poll->isOpen();
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function showResults(PollInterface $poll, FormStateInterface $form_state) {
+    $account = $this->currentUser();
+    switch (TRUE) {
+      // The "View results" button, when available, has been clicked.
+      case $form_state->get('show_results'):
+        return TRUE;
+
+      // The poll is closed.
+      case ($poll->isClosed()):
+        return TRUE;
+
+      // Anonymous user is trying to view a poll in same ip.
+      case ($account->isAnonymous() && $this->isSameHost($poll)):
+        return TRUE;
+
+      // The user has already voted.
+      case ($account->isAuthenticated() && $poll->hasUserVoted()):
+        return TRUE;
+
+      default:
+        return FALSE;
+    }
+  }
+
+  /**
+   * Check whether anonymous user is votting from same ip or not.
+   */
+  protected function isSameHost(PollInterface $poll): bool {
+    $hostname = $this->getRequest()
+      ->getClientIp();
+
+    return $poll->hasUserVoted()
+      && ($poll->hasUserVoted()['hostname'] == $hostname);
+
+  }
+
 }
