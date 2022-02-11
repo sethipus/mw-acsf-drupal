@@ -404,9 +404,9 @@ $fence-part-size: 1440px*2/101;
 
   @include medium {
     float: right;
-    right: 2%;
+    right: 0;
     height: auto;
-    top : 50%;
+    top : 65%;
     width: 15%;
   }
 
@@ -416,7 +416,7 @@ $fence-part-size: 1440px*2/101;
     width: 3%;
     min-width: 12%;
     right: 0;
-    top: 35%;
+    top: 55%;
     cursor: default;
   }
   
@@ -424,15 +424,14 @@ $fence-part-size: 1440px*2/101;
     right : 0;
     height: auto;
     min-width: 12%;
-    top: 33%;
+    top: 53%;
     cursor: default;
   }
 
   @include xl{
-    right: 2%;
+    right: 0;
     height: auto;
-    // bottom:7%;
-    top: 33%;
+    top: 44%;
     cursor: default;
   }
 }
