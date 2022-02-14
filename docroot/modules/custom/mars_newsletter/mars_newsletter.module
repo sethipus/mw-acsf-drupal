@@ -62,6 +62,7 @@ function mars_newsletter_theme($existing, $type, $theme, $path) {
  * Implements hook_form_alter().
  */
 function mars_newsletter_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+    // Configure js for Alert banner newsletter form.
     $config_factory = \Drupal::configFactory();
     $config = $config_factory->getEditable('mars_newsletter_form.settings')->get('newsletter.config_form');
     $form['#attached']['drupalSettings']['mars_newsletter']['required_field_message'] = !empty($config['field_required_message']) ? $config['field_required_message'] : t('This field is required');
