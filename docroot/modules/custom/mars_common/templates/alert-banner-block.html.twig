@@ -1,0 +1,13 @@
+{% if alert_banner_text is not empty %}
+    <div data-theme="drupal" style="
+        {% if alert_banner_override_color is not empty %}
+            --c-alert-banner-bg-color: {{ alert_banner_bg_color }};
+            --c-alert-banner-text-color: {{ alert_banner_text_color }};
+        {% endif %}
+    ">
+    {% include "@molecules/status/status.twig" with {
+        message_list: { alert: { message: alert_banner_text} },
+        message_url: alert_banner_url,
+    }%}
+    </div>
+{% endif %}

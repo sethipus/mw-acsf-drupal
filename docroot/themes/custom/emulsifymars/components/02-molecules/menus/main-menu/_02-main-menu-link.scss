@@ -1,7 +1,5 @@
-/* A */
 .main-menu__link {
   @include set-font($font-type: 'primary-font');
-
   color: clr(primary, mobile-main-menu-items-color, text-color-override);
   display: block;
   font-size: 3.2rem;
@@ -12,32 +10,27 @@
   border: none;
   background: none;
   text-align: left;
-
   @include xs {
     &:focus {
       outline: none;
     }
   }
-
   @include medium {
     font-size: 3.6rem;
     padding: 2.5rem 3rem;
-
     &:focus {
       outline: none;
     }
   }
-
   @include large {
     display: inline-block;
     font-size: 1.6rem;
     line-height: 1;
-    padding: $space-one-and-half $space-triple;
+    padding: $space-one-and-half $space;
     text-transform: none;
     position: relative;
     width: auto;
     color: clr(primary, text-color-override);
-
     &:focus {
       outline: royalblue auto 1px;
     }
@@ -45,17 +38,15 @@
     &:active,
     &:hover {
       color: clr(secondary, hover-color);
-
       & .menu_chevron__icon {
         transform: scaleX(-1);
       }
     }
   }
-
   @include larger {
     font-size: 1.8rem;
+    padding: $space-one-and-half $space-one-and-half;
   }
-
   &--with-sub {
     @include large {
       width: auto;
@@ -63,7 +54,6 @@
     }
   }
 }
-
 .menu_chevron__icon {
   display: inline-block;
   position: relative;
@@ -71,61 +61,49 @@
   width: 12px;
   height: 7px;
   fill: clr(secondary, mobile-sub-menu-items-color);
-
   @include xs {
     pointer-events: none;
     top: 5px;
     right: 20px;
-
     &.main-menu--sub-open {
       transform: translateY(-50%) rotate(180deg);
     }
   }
-
   @include large {
     right: 45px;
     top: 4px;
-
     &.main-menu--sub-open {
       transform: translateY(-50%);
     }
   }
 }
-
 /*
  * Sub Navigation Links
  */
-
 /* A (Nested) */
 .main-menu__link--sub {
   @include set-font($font-type: 'primary-font');
-
   color: clr(secondary, mobile-sub-menu-items-color);
   font-weight: 500;
   font-size: 1.6rem;
   padding: 1.8rem 1rem 1.8rem 0;
-
   @include medium {
     font-size: 1.8rem;
     padding: 1.9rem 1rem 1.9rem 0;
   }
-
   @include large {
     @include set-font($font-type: 'secondary-font');
-
     color: clr(primary);
     display: block;
     padding: 1.2rem $space-double;
     font-size: 1.4rem;
     font-weight: normal;
     width: 100%;
-
     &.active,
     &:active,
     &:hover {
       color: clr(secondary);
       text-shadow: .2px 0 0 currentColor;
-
       & .menu_chevron__icon {
         transform: scaleX(-1);
       }

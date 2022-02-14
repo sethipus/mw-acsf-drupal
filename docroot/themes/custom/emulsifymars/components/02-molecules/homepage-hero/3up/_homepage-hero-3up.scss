@@ -90,6 +90,9 @@
           @include xl{
             font-size: 6rem;
           }
+          span {
+            display: block;
+          }
         }
       }
 

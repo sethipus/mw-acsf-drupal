@@ -10,8 +10,12 @@
         {{ brand_border | raw }}
       </div>
     {% endblock %}
+    {% else %}
+      {% if cookie_banner_override == 1%}
+      <div class="global-cookie-banner">
+      </div>
+      {% endif %}
   {% endif %}
-
   <div {{ bem('wrapper', [], cookie_banner__base_class) }}>
     <div {{ bem('content', [], cookie_banner__base_class) }}>
       <p>

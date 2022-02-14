@@ -4,6 +4,13 @@
   justify-content: space-between;
   margin-bottom: 2rem;
 
+  &.newEntryFormat{
+    @include large {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+
   @include xl {
     flex-direction: row;
   }
@@ -16,6 +23,12 @@
     font-size: 0;
     border: none;
     overflow: hidden;
+
+    &.newSubmitBtn{
+      @include large {
+        margin-bottom: 0;
+      }
+    }
 
     @include xl {
       margin-bottom: 0;

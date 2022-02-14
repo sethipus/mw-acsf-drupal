@@ -106,6 +106,7 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
         'cookie_banner_text' => NULL,
         'cookie_banner_close' => NULL,
         'cookie_banner_brand_border' => NULL,
+        'cookie_banner_override' => NULL,
         'bottom_nav' => NULL,
         'card_background' => NULL,
         'card_title' => NULL,

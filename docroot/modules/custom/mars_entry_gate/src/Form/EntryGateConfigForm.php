@@ -25,6 +25,11 @@ class EntryGateConfigForm extends ConfigFormBase {
   const KEY_OPTION_DATE_D_M = 'dd_mm';
 
   /**
+   * Date format DD MM YYYY.
+   */
+  const KEY_OPTION_DATE_M_Y = 'mm_yyyy';
+
+  /**
    * The condition plugin manager service.
    *
    * @var \Drupal\Core\Condition\ConditionManager
@@ -140,6 +145,7 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#options' => [
         self::KEY_OPTION_DATE_D_M => $this->t('DD MM YYYY'),
         self::KEY_OPTION_DATE_M_D => $this->t('MM DD YYYY'),
+        self::KEY_OPTION_DATE_M_Y => $this->t('MM YYYY'),
       ],
     ];
 

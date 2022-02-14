@@ -160,12 +160,23 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'block--mars-common--header',
     ],
+    'alert_banner_block' => [
+      'variables' => [
+        'alert_banner_override_color' => NULL,
+        'alert_banner_bg_color' => NULL,
+        'alert_banner_text_color' => NULL,
+        'alert_banner_text' => NULL,
+        'alert_banner_url' => NULL,
+      ],
+      'template' => 'alert-banner-block',
+    ],
     'footer_block' => [
       'variables' => [
         'logo' => NULL,
         'logo_alt' => NULL,
         'brand_border' => NULL,
         'cookie_banner_brand_border' => NULL,
+        'cookie_banner_override' => NULL,
         'social_links' => NULL,
         'top_footer_menu' => NULL,
         'legal_links' => NULL,

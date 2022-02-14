@@ -1,0 +1,21 @@
+{#
+/**
+ * @file
+ * Alert banner newsletter form.
+ */
+#}
+{{ attach_library('mars_newsletter/newsletter_signup') }}
+<div data-theme="drupal" style="
+--c-newsletter-bg-color: {{ newsletter_bg_color }};
+{% if override_white_color is not empty %}
+    --c-newsletter-override-white-color: {{ override_white_color }};
+{% endif %}
+">
+    {% include "@molecules/newsletter-sign-form/newsletter-email-form/newsletter-email-form.twig" with {
+        theme_styles: 'drupal',
+        webform_newsletter: webform_newsletter,
+        newsletter_toggle: newsletter_toggle,
+        webform_block_label: webform_block_label,
+        override_white_color: override_white_color,
+    } %}
+</div>
