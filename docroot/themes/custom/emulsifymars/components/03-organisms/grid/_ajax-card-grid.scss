@@ -115,6 +115,10 @@
       @include large {
         width: 304px;
       }
+
+      @include xl {
+        width: 318px;
+      }
     }
   }
 }
