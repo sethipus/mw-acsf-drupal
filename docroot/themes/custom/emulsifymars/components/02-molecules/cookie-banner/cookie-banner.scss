@@ -239,31 +239,31 @@
     padding: 20px;
 
     @include large {
-      padding: 10px 80px 10px 40px;
-    }
-
-    @include xl {
-      padding: 40px 350px 60px 40px;
+      padding: 10px 50px 10px 40px;
     }
   }
 
   #onetrust-group-container {
     width: 100%;
 
+    @include medium {
+      width: 95%;
+    }
+
     @include large {
-      width: 55%;
+      width: 60%;
+    }
+
+    #onetrust-policy {
+      font-size: unset;
     }
 
     #onetrust-policy-text { 
       color: clr(text); 
       margin: 3.5rem 0 2rem;
 
-      @include large {
-        margin: 1rem 0;
-      }
-
       @include medium {
-        margin: 2rem 0;
+        margin: 1rem 0;
       }
 
       a[href] {
@@ -278,9 +278,8 @@
     padding: 0;   
 
     @include large {
-      position: absolute;
       left: auto;
-      width: 44%;
+      width: 40%;
       padding: 0 2%;
     }
 
@@ -304,14 +303,14 @@
       color: #0000a0;
 
       @include medium {
-        margin: 1rem;
+        margin: 0 1rem;
       }
     }
 
     #onetrust-accept-btn-handler {
 
       @include medium {
-        margin: 1rem;
+        margin: 0 1rem;
       }
     }
   }
