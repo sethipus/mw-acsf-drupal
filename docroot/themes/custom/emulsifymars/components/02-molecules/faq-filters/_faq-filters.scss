@@ -59,6 +59,10 @@
       display: flex;
     }
 
+    &.toggleOff {
+      display: none;
+    }
+
     @include medium {
       margin-top: 4rem;
       max-width: none;

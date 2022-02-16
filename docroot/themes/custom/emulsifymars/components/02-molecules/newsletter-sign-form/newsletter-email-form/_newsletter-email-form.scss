@@ -1,6 +1,9 @@
 .signup-email-form-wrp {
   background-color: clr(newsletter-bg-color);
   font-family: var(--v-primary-font);
+  .clear-icon {
+    display: none;
+  }
   .signup-form-email {
     @include medium {
       display: flex;
@@ -45,7 +48,7 @@
             }
           }
           @include medium {
-              margin-bottom: 5px;
+              margin-bottom: 20px;
               margin-top: 20px;
               width: 35rem;
           }
@@ -70,6 +73,9 @@
             &:hover {
               background-color: transparent;
             }
+            &:focus-visible {
+              outline: none;
+            }
           }
         }
       }
@@ -80,6 +86,7 @@
         display: block;
         @include medium {
             font-size: 20px;
+            padding-left: 17px;
         }
     }
       .privacy-newsletter-email-form {
