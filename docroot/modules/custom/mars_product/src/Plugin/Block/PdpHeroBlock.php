@@ -687,7 +687,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ? $dual_serv_label
       : $this->languageHelper->translate('Amount per serving');
     $daily_label = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
-      ? ''
+      ? '(%*)'
       : $this->languageHelper->translate('% Daily value');
     $daily_text = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
       ? ''
@@ -827,6 +827,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ],
       'nutrition_data' => [
         'show_nutrition_data' => $this->isNutritionDataVisible(),
+        'nutritional_view_type' => $view_type,
         'nutritional_label' => $this->languageHelper->translate($this->configuration['nutrition']['label']) ?? '',
         'nutritional_info_serving_label' => $this->languageHelper->translate($this->configuration['nutrition']['serving_label']) ?? '',
         'nutritional_info_dual_serving_label' => $this->overrideDualTableHeading() ? $dual_serving_label : $this->languageHelper->translate($this->configuration['nutrition']['dual_serving_label']),

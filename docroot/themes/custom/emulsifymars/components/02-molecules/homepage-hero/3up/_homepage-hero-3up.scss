@@ -90,6 +90,9 @@
           @include xl{
             font-size: 6rem;
           }
+          span {
+            display: block;
+          }
         }
       }
 
@@ -103,9 +106,6 @@
         @include large {
           height: 6rem;
           line-height: 6rem;
-        }
-        span {
-          display: block;
         }
       }
     }
