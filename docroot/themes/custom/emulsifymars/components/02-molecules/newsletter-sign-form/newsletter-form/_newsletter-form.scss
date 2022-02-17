@@ -1,5 +1,8 @@
 .signup-form-wrp {
   background-color: clr(subcolor-2);
+  .clear-icon {
+    display: none;
+  }
 }
 
 .newsletter-label {
@@ -181,7 +184,7 @@
   margin-top: 2rem;
   @include xs {
     max-width: 25rem;
-    margin: 1rem auto
+    margin: 2rem auto
   }
   @include small {
     max-width: 31rem;
@@ -190,6 +193,7 @@
     max-width: 62rem;
   }
   .globalCheckBox {
+    margin-top: 6px;
     width: 20px;
     height: 20px;
     position: relative !important;
@@ -202,7 +206,7 @@
     font-size: 1.3rem;
   }
   .webform-element-description {
-    margin-top: -8px;
+    padding-left: 10px;
     font-size: 16px;
     font-family: var(--v-form-field-title-font);
     color: clr(primary, newsletter-text-color-override);
