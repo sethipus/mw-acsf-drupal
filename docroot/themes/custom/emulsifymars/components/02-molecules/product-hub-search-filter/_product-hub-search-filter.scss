@@ -3,13 +3,17 @@
   background-color: clr(subcolor-2);
   position: relative;
 
-  @include tablet {
-    padding-top: 2rem;
+  @include xs {
+    padding-top: 5rem;
   }
 
-  @include desktop {
-    padding-top: 3rem;
+  @include medium {
+    padding-top: 6rem;
     padding-bottom: 2rem;
+  }
+
+  @include xl{
+    padding-top: 8rem;
   }
 
   &__search {
