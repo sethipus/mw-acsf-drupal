@@ -1611,7 +1611,7 @@ function mars_common_taxonomy_term_presave(TermInterface $term) {
 function mars_common_node_presave(NodeInterface $node) {
   // Filter tags in field_product_ingredients field.
   if ($node->bundle() == 'product_variant' && !empty($node->get('field_product_ingredients')->value)) {
-    $value = strip_tags(html_entity_decode($node->get('field_product_ingredients')->value), '<strong><b>');
+    $value = strip_tags(html_entity_decode($node->get('field_product_ingredients')->value), '<strong><b><br>');
     $node->get('field_product_ingredients')
       ->setValue($value);
   }
