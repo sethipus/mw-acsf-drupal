@@ -97,7 +97,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0 3rem 10rem 3rem;
+    padding: 0 1rem 10rem 3rem;
     flex-grow: 1;
 
     .ingredients-block {
@@ -136,7 +136,7 @@
       @include large {
         line-height: 3.6rem;
         min-width: 8.9px;
-        font-size: 1rem;
+        font-size: 1.4rem;
         padding-left: 0.9rem;
         padding-right: 0.9rem;
         margin-left: 2.1rem;
