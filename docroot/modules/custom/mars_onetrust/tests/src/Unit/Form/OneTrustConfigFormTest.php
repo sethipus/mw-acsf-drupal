@@ -135,7 +135,7 @@ class OneTrustConfigFormTest extends UnitTestCase {
       );
 
     $this->configMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('get')
       ->willReturn('default_value');
 
@@ -143,7 +143,7 @@ class OneTrustConfigFormTest extends UnitTestCase {
       $form_data,
       $this->formStateMock
     );
-    $this->assertCount(3, $form);
+    $this->assertCount(4, $form);
   }
 
   /**
@@ -160,7 +160,7 @@ class OneTrustConfigFormTest extends UnitTestCase {
       );
 
     $this->configMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('set')
       ->willReturn($this->configMock);
 
