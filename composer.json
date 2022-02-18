@@ -224,9 +224,6 @@
                 "Extra, unconnected max length counter with an id of undefined-counter": "https://www.drupal.org/files/issues/2020-07-27/3076581-9.patch",
                 "Max length in lines (in textarea field)": "https://www.drupal.org/files/issues/2021-04-13/maxlength-max-length-in-lines-in-textarea-field-2463193-4.patch"
             },
-            "mikemadison13/blt-azure-pipelines": {
-                "Pipelines builds fail with 'Command validate:all is not defined'": "patches/blt-azure-pipelines.patch"
-            },
             "drupal/printable": {
                 "Printable_pdf submodule not compatible with Drupal 9": "patches/fix-url-scheme-for-printable-pdf.patch"
             }
