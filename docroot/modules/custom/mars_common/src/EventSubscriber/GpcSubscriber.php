@@ -7,6 +7,7 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class GpcSubscriber implements EventSubscriberInterface {
 
@@ -40,12 +41,16 @@ class GpcSubscriber implements EventSubscriberInterface {
   /**
    * Adding data to http response header.
    */
-  public function addGpc(FilterResponseEvent $event) {
-    $response = $event->getResponse();
+  public function addGpc(RequestEvent $event) {
+    $request = $event->getRequest();
+    if ($request->headers->has('Accept')) {
+      $request->headers->remove('Accept');
+    }
     $secgpc_value = $this->configFactory->get('mars_common.system.site');
-    if (!$secgpc_value->get('response_header')) {
-      $response->headers->set('Sec-GPC', '1');
-    } 
+    if (!$secgpc_value->get('request_header')) {
+      $request->headers->set('Sec-GPC', '1');
+    }
+    return;
   }
 
   /**
@@ -55,7 +60,7 @@ class GpcSubscriber implements EventSubscriberInterface {
    *   Event names to listen to (key) and methods to call (value).
    */
   public static function getSubscribedEvents() {
-    $events[KernelEvents::RESPONSE][] = ['addGpc'];
+    $events[KernelEvents::REQUEST][] = ['addGpc'];
     return $events;
   }
 }
