@@ -43,9 +43,6 @@ class GpcSubscriber implements EventSubscriberInterface {
    */
   public function addGpc(RequestEvent $event) {
     $request = $event->getRequest();
-    if ($request->headers->has('Accept')) {
-      $request->headers->remove('Accept');
-    }
     $secgpc_value = $this->configFactory->get('mars_common.system.site');
     if (!$secgpc_value->get('request_header')) {
       $request->headers->set('Sec-GPC', '1');
