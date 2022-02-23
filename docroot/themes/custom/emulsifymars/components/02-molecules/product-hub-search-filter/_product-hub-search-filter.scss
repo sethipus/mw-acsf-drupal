@@ -289,17 +289,10 @@
 .search-filter-info {
   margin: 3rem auto 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   max-width: 688px;
   border-bottom: 1px solid clr(subcolor-4);
-
-  @include xs {
-    justify-content: space-around;
-  }
-  @include small {
-    justify-content: space-around;
-  }
-
+  
   &__applied-label {
     @include set-font($font-type: 'primary-font');
 
@@ -312,7 +305,7 @@
       font-size: 1.3rem;
     }
     @include small {
-      font-size: 1.3rem;
+      font-size: 1.6rem;
     }
   }
 
