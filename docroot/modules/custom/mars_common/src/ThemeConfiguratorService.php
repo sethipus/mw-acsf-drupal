@@ -889,6 +889,18 @@ class ThemeConfiguratorService {
         ],
         '#default_value' => $this->getData('card_grid', 'facets_text_transform', $config) ?? 'uppercase',
       ];
+
+      $form['campaign_card'] = [
+        '#type' => 'details',
+        '#open' => TRUE,
+        '#title' => $this->t('Campaign Card settings'),
+        '#description' => $this->t("MARS theme settings for campaign card"),
+      ];
+      $form['campaign_card']['open_new_tab'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Open in new tab'),
+        '#default_value' => $this->getData('campaign_card', 'open_new_tab', $config),
+      ];
     }
 
     if (!$this->isPluginBlock($form)) {
