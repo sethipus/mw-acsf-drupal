@@ -287,8 +287,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $form['title']['next_line_label'] = [
       '#type' => 'text_format',
       '#format' => 'rich_text',
+      '#maxlength' => 200,
       '#title' => $this->t('Override Title label'),
-      '#description' => $this->t('Override the default title label by using the html tags.'),
+      '#description' => $this->t('The Site admin will be able to add up to 200 characters including the HTML tags and 55 characters excluding the HTML tags in CK editor for Title override functionality. Please preview the changes made in the layout page before saving the changes to align to the format.'),
       '#default_value' => $config['title']['next_line_label']['value'] ?? '',
       '#states' => [
         'visible' => [
