@@ -293,6 +293,13 @@
   max-width: 688px;
   border-bottom: 1px solid clr(subcolor-4);
 
+  @include xs {
+    justify-content: space-around;
+  }
+  @include small {
+    justify-content: space-around;
+  }
+
   &__applied-label {
     @include set-font($font-type: 'primary-font');
 
@@ -300,6 +307,13 @@
     line-height: 1.4;
     color: clr(primary);
     text-transform: uppercase;
+
+    @include xs {
+      font-size: 1.3rem;
+    }
+    @include small {
+      font-size: 1.3rem;
+    }
   }
 
   &__applied-text {
