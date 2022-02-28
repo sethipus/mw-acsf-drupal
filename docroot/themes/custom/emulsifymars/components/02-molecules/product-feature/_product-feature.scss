@@ -92,6 +92,12 @@
     flex-direction: column;
     align-items: center;
 
+    @include medium{
+      flex-direction: row;
+      height: 100%;
+      align-items: center;
+    }
+
     @include large {
       flex-direction: row;
     }
@@ -153,7 +159,7 @@
     z-index: 2;
 
     @include medium {
-      padding: 0 4rem 6rem 4rem;
+      padding: 4rem;
     }
 
     @include large {

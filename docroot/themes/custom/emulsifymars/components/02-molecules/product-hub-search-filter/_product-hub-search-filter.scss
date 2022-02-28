@@ -3,13 +3,17 @@
   background-color: clr(subcolor-2);
   position: relative;
 
-  @include tablet {
-    padding-top: 2rem;
+  @include xs {
+    padding-top: 5rem;
   }
 
-  @include desktop {
-    padding-top: 3rem;
+  @include medium {
+    padding-top: 6rem;
     padding-bottom: 2rem;
+  }
+
+  @include xl{
+    padding-top: 8rem;
   }
 
   &__search {
@@ -285,10 +289,10 @@
 .search-filter-info {
   margin: 3rem auto 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   max-width: 688px;
   border-bottom: 1px solid clr(subcolor-4);
-
+  
   &__applied-label {
     @include set-font($font-type: 'primary-font');
 
@@ -296,6 +300,13 @@
     line-height: 1.4;
     color: clr(primary);
     text-transform: uppercase;
+
+    @include xs {
+      font-size: 1.3rem;
+    }
+    @include small {
+      font-size: 1.6rem;
+    }
   }
 
   &__applied-text {

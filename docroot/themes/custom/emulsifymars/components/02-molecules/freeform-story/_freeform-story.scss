@@ -79,8 +79,12 @@
     margin: 0;
 
     @include xs {
-      font-size: 4rem;
+      font-size: 3.5rem;
       line-height: 4rem;
+    }
+
+    @include small {
+      font-size: 4rem;
     }
 
     @include medium {
