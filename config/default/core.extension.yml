@@ -182,6 +182,7 @@ module:
   schemata: 0
   schemata_json_schema: 0
   search_api: 0
+  search_api_exclude_entity: 0
   search_api_solr: 0
   seckit: 0
   sendgrid_integration: 0
