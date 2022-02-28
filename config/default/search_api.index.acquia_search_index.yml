@@ -31,6 +31,7 @@ dependencies:
     - taxonomy
     - search_api
     - mars_search
+    - search_api_exclude_entity
 third_party_settings:
   search_api_solr:
     highlighter:
@@ -490,6 +491,10 @@ processor_settings:
   product_multipack_reference: {  }
   rendered_item: {  }
   solr_date_range: {  }
+  search_api_exclude_entity_processor:
+  fields:
+    node:
+      - field_exclude_product
   type_boost:
     weights:
       preprocess_index: 0
