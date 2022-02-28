@@ -163,10 +163,14 @@
     .h1 {
       @include set-font($font-type: 'primary-font');
 
-      font-size: 4rem;
+      font-size: 3rem;
       line-height: 1;
       font-weight: 500;
       margin-bottom: 3rem;
+
+      @include small {
+        font-size: 4rem;
+      }
 
       @include medium {
         font-size: 5.6rem;
