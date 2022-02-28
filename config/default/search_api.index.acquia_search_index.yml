@@ -3,11 +3,15 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.node.field_faq_filter_topic
+    - field.storage.node.field_product_ranking
     - field.storage.node.field_qa_item_answer
+    - field.storage.node.field_qa_item_question
     - field.storage.node.field_brand_initiatives
     - field.storage.node.field_product_category
     - field.storage.node.field_recipe_culture
-    - field.storage.node.field_faq_filter_topic
+    - field.storage.node.field_product_diet_allergens
+    - field.storage.node.field_product_variants
     - field.storage.node.field_product_flavor
     - field.storage.node.field_recipe_food_type
     - field.storage.node.field_product_format
@@ -16,14 +20,10 @@ dependencies:
     - field.storage.node.field_recipe_method
     - field.storage.node.field_product_occasions
     - field.storage.node.field_recipe_prep_time
-    - field.storage.node.field_product_name
     - field.storage.node.field_product_used
-    - field.storage.node.field_product_diet_allergens
-    - field.storage.node.field_product_variants
-    - field.storage.node.field_qa_item_question
-    - field.storage.node.field_product_ranking
     - field.storage.node.field_recipe_collection
     - field.storage.node.field_product_trade_description
+    - field.storage.node.field_product_name
     - search_api.server.acquia_search_server
   module:
     - search_api_solr
@@ -490,11 +490,13 @@ processor_settings:
     suffix: '</strong>'
   product_multipack_reference: {  }
   rendered_item: {  }
-  solr_date_range: {  }
   search_api_exclude_entity_processor:
-  fields:
-    node:
-      - field_exclude_product
+    fields:
+      node:
+        - field_exclude_product
+  solr_date_range:
+    weights:
+      preprocess_index: 0
   type_boost:
     weights:
       preprocess_index: 0
