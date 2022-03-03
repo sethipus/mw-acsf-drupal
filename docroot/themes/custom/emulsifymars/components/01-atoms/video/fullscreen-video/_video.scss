@@ -12,8 +12,8 @@
     @include playbutton;
     width: 60px;
     height: 60px;
-    top: 15px;
-    right: 15px;
+    top: 20px;
+    right: 20px;
     left: auto;
     .play-icon {
       width: 20px;
@@ -21,16 +21,17 @@
       fill: clr(secondary);
       margin: auto 35%;
     }
-    @include xl {
-      right: calc((100% - 1440px) / 2 + 15px);
+    @include medium {
+      top: 40px;
+      right: 40px;
     }
   }
   &__control[data-state="pause"] {
     @include pausebutton;
     width: 60px;
     height: 60px;
-    top: 15px;
-    right: 15px;
+    top: 20px;
+    right: 20px;
     left: auto;
     >div {
       width: 14px;
@@ -39,8 +40,9 @@
       border-left: 4px solid clr(text-inverse);
       margin: auto;
     }
-    @include xl {
-      right: calc((100% - 1440px) / 2 + 15px);
+    @include medium {
+      top: 40px;
+      right: 40px;
     }
   }
   &__control[data-state="pause"] .play-icon{
@@ -147,8 +149,8 @@
   }
   &__volumechange[data-state="unmute"] {
     @include mutebutton;
-    top: 90px;
-    right: 15px;
+    top: 110px;
+    right: 20px;
     left: auto;
     height: 60px;
     width: 60px;
@@ -162,13 +164,10 @@
       margin: auto 25%;
     }
     @include medium {
-      top: 100px;
+      top: 130px;
       height: 60px;
       width: 60px;
-      right: 15px;
-    }
-    @include xl {
-      right: calc((100% - 1440px) / 2 + 15px);
+      right: 40px;
     }
   }
   &__volumechange[data-state="mute"] {
