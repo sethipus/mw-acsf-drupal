@@ -82,7 +82,7 @@
 
           $(document).on( "popupClosed.entryGate", function() {
             videoElements('video').play();
-            videoElements('video').removeAttribute("playsinline");
+            // videoElements('video').removeAttribute("playsinline");
           });
 
           // Add event listeners to provide info to Data layer
