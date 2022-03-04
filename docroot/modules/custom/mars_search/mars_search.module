@@ -61,6 +61,7 @@ function mars_search_theme($existing, $type, $theme, $path) {
     ],
     'mars_search_faq_block' => [
       'variables' => [
+        'faq_filter_toggle' => NULL,
         'faq_title' => NULL,
         'input_form' => NULL,
         'facets' => NULL,

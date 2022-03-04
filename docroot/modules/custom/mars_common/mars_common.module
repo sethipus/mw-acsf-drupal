@@ -120,6 +120,18 @@ function mars_common_preprocess(&$variables, $hook) {
       ->get('button_style');
     $variables['default_link_border_radius'] = $border_radius ?? 0;
   }
+
+  $is_campaign_card =
+    $hook === 'node' &&
+    $view_mode_is_card &&
+    isset($variables['node']) &&
+    $variables['node'] instanceof Node &&
+    $variables['node']->bundle() === 'campaign';
+
+  if ($is_campaign_card) {
+    $variables['open_new_tab'] = Drupal::config('emulsifymars.settings')
+      ->get('open_new_tab');
+  }
 }
 
 /**
@@ -1611,7 +1623,7 @@ function mars_common_taxonomy_term_presave(TermInterface $term) {
 function mars_common_node_presave(NodeInterface $node) {
   // Filter tags in field_product_ingredients field.
   if ($node->bundle() == 'product_variant' && !empty($node->get('field_product_ingredients')->value)) {
-    $value = strip_tags(html_entity_decode($node->get('field_product_ingredients')->value), '<strong><b>');
+    $value = strip_tags(html_entity_decode($node->get('field_product_ingredients')->value), '<strong><b><br>');
     $node->get('field_product_ingredients')
       ->setValue($value);
   }

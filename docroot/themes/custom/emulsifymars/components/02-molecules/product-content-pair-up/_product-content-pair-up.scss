@@ -1,8 +1,12 @@
 .product-content-pair-up {
   position: relative;
   background-color: clr(subcolor-2);
-
-  @include desktop {
+  
+  @include medium {
+    height: 942px;
+  }
+  
+  @include large {
     height: 750px;
   }
 

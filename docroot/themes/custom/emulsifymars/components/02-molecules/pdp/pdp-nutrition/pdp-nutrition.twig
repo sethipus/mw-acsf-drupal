@@ -57,7 +57,8 @@
                 } %}
               {% endif %}
             </dt>
-            {% if not pdp_nutrition_data.serving_item.hide_dialy_value_column %}
+            {% if (pdp_common_nutrition_data.nutritional_view_type == 'US' and not pdp_nutrition_data.serving_item.hide_dialy_value_column) 
+            or (pdp_common_nutrition_data.nutritional_view_type == 'EU' and is_dual_table) %}
             <dd {{ bem('section-column-item', ['heading'], pdp_nutrition_base_class) }}>
               {% include "@atoms/text/text/07-span.twig" with {
                 span_content: pdp_common_nutrition_data.nutritional_info_daily_label,
@@ -301,7 +302,7 @@
         {% endif %}
         <div {{ bem('section-column', [], pdp_nutrition_base_class) }}>
           <dl {{ bem('section-column-list', ['info-block', 'upper'], pdp_nutrition_base_class) }}>
-            <dd {{ bem('section-column-item', ['info-block', 'upper'], pdp_nutrition_base_class) }}>
+            <dd {{ bem('section-column-item', ['info-block', 'upper'], pdp_nutrition_base_class, ['bold']) }}>
               {% include "@atoms/text/text/07-raw-span.twig" with {
                 span_content: pdp_nutrition_data.serving_item.disclaimers_value,
                 span_base_class: pdp_nutrition_value_base_class,

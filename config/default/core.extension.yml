@@ -153,7 +153,6 @@ module:
   openapi_ui_redoc: 0
   openapi_ui_swagger: 0
   options: 0
-  page_cache: 0
   page_manager: 0
   panelbutton: 0
   panels: 0
@@ -183,6 +182,7 @@ module:
   schemata: 0
   schemata_json_schema: 0
   search_api: 0
+  search_api_exclude_entity: 0
   search_api_solr: 0
   seckit: 0
   sendgrid_integration: 0
