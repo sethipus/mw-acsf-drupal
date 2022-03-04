@@ -33,6 +33,11 @@ class OneTrustConfigForm extends ConfigFormBase {
       '#title' => $this->t('Data domain'),
       '#default_value' => $config->get('mars_onetrust.data_domain'),
     ];
+    $form['google_analytics_tag_attr'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Disable Google Analytics Custom Attributes.'),
+      '#default_value' => $config->get('mars_onetrust.google_analytics_tag_attr'),
+    ];
 
     return $form;
   }
@@ -43,6 +48,7 @@ class OneTrustConfigForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('mars_onetrust.settings')
       ->set('mars_onetrust.data_domain', $form_state->getValue('data_domain'))
+      ->set('mars_onetrust.google_analytics_tag_attr', $form_state->getValue('google_analytics_tag_attr'))
       ->save();
 
     return parent::submitForm($form, $form_state);
