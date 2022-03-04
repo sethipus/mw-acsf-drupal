@@ -264,4 +264,20 @@
       font-size: 1.4rem;
     }
   }
+
+  .nutrition-title-normalcase {
+    text-transform: unset !important;
+  }
+
+  .nutrition-table-indent {
+    text-indent: 5.45rem;
+
+    @include large {
+      text-indent: 7.25rem !important;
+    }
+
+    @include medium {
+      text-indent: 5.65rem;
+    }
+  }
 }
