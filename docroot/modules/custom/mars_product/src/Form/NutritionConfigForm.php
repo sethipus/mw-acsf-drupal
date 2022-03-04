@@ -150,6 +150,16 @@ class NutritionConfigForm extends ConfigFormBase {
         '2' => $this->t('2 - Show value in second table only'),
       ],
     ];
+    $form['general']['change_uppercase'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Change Uppercase in heading label'),
+      '#default_value' => $config->get('change_uppercase') ?? FALSE,
+    ];
+    $form['general']['indent_polyols'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Indent Polyols'),
+      '#default_value' => $config->get('indent_polyols') ?? FALSE,
+    ];
 
 
     $this->getGroupTableHeader($form, $form_state);
@@ -536,6 +546,8 @@ class NutritionConfigForm extends ConfigFormBase {
     $config->set('servings_per_container', $form_state->getValue('servings_per_container'));
     $config->set('show_other_nutrients_text', $form_state->getValue('show_other_nutrients_text'));
     $config->set('reference_intake_visibility', $form_state->getValue('reference_intake_visibility'));
+    $config->set('change_uppercase', $form_state->getValue('change_uppercase'));
+    $config->set('indent_polyols', $form_state->getValue('indent_polyols'));
     $config->set('hide_serving_size_heading', $form_state->getValue('hide_serving_size_heading'));
     $config->set('hide_servings_per_heading', $form_state->getValue('hide_servings_per_heading'));
     $config->set('dual_servings_per_container', $form_state->getValue('dual_servings_per_container'));
