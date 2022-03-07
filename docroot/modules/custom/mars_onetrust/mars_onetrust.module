@@ -52,3 +52,20 @@ function mars_onetrust_page_attachments(&$page) {
     }
   }
 }
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function mars_onetrust_page_attachments_alter(array &$attachments) {
+  $config = \Drupal::config('mars_onetrust.settings');
+  $google_analytics_tag_attr = $config->get('mars_onetrust.google_analytics_tag_attr');
+  if (!$google_analytics_tag_attr) {
+    $html_head_script = ['google_analytics_tracking_file', 'google_analytics_tracking_script', 'gtm'];
+    foreach($attachments['#attached']['html_head'] as $skey => $html_head_val) {
+      if (in_array($html_head_val[1], $html_head_script)) {
+        $attachments['#attached']['html_head'][$skey][0]['#attributes']['type'] = 'text/plain';
+        $attachments['#attached']['html_head'][$skey][0]['#attributes']['class'] = 'optanon-category-2';
+      }
+    }
+  }
+}
