@@ -1251,8 +1251,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $unsorted_result = [];
     foreach ($mapping as $section => $fields) {
       foreach ($fields as $field => $field_data) {
-        if($this->indentPolyols() && $field == 'field_product_sugar_alcohol') {
+        if ($this->indentPolyols() && $field === 'field_product_sugar_alcohol') {
           $result_item['polyols_label'] = $this->languageHelper->translate($field_data['label']);
+        }
+        if ($this->indentPolyols() && $field === 'field_product_total_sugars') {
+          $sugars_label = $this->languageHelper->translate($field_data['label']);
+          $pre_sugars_label = explode('-', $sugars_label);
+          $result_item['pre_sugars_label'] = reset($pre_sugars_label);
         }
         $bold_modifier = (bool) $field_data['bold'];
         $item = [

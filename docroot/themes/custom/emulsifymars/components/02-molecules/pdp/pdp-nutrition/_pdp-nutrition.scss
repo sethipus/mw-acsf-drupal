@@ -266,18 +266,14 @@
   }
 
   .nutrition-title-normalcase {
-    text-transform: unset !important;
+    text-transform: lowercase !important;
   }
 
-  .nutrition-table-indent {
-    text-indent: 5.45rem;
+  .nutrition-title-normalcase::first-letter {
+    text-transform: uppercase !important;
+  }
 
-    @include large {
-      text-indent: 7.25rem !important;
-    }
-
-    @include medium {
-      text-indent: 5.65rem;
-    }
+  .indent-hide {
+    visibility: hidden !important;
   }
 }
