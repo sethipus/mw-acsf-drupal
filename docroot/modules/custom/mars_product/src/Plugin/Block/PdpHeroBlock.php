@@ -1215,6 +1215,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'legal_warnings_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_legal_warnings')->value)),
       'hide_dialy_value_column' => TRUE,
       'show_other_nutrients_text' => $this->showOtherNutrientsText($node, $field_prefix),
+      'change_uppercase' => $this->changeUppercase(),
     ];
     if ($field_prefix == 'product') {
       $serving_size = [
@@ -1246,6 +1247,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $unsorted_result = [];
     foreach ($mapping as $section => $fields) {
       foreach ($fields as $field => $field_data) {
+        if ($this->indentPolyols() && $field === 'field_product_sugar_alcohol') {
+          $result_item['polyols_label'] = $this->languageHelper->translate($field_data['label']);
+        }
+        if ($this->indentPolyols() && $field === 'field_product_total_sugars') {
+          $sugars_label = $this->languageHelper->translate($field_data['label']);
+          $pre_sugars_label = explode('-', $sugars_label);
+          $result_item['pre_sugars_label'] = reset($pre_sugars_label);
+        }
         $bold_modifier = (bool) $field_data['bold'];
         $item = [
           'label' => $this->languageHelper->translate($field_data['label']),
@@ -1683,6 +1692,34 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ->get('hide_servings_per_heading');
 
     return (isset($hide_servings_per_heading) && !empty($hide_servings_per_heading));
+  }
+
+  /**
+   * Check for uppercase to be changed or not in the nutrition table title label.
+   *
+   * @return bool
+   *   Whether it should be rendered or not.
+   */
+  private function changeUppercase(): bool {
+    $change_uppercase = $this->configFactory
+      ->get('mars_product.nutrition_table_settings')
+      ->get('change_uppercase');
+
+    return (isset($change_uppercase) && !empty($change_uppercase));
+  }
+
+  /**
+   * Check for polyols to be indented in the nutrition table 1.
+   *
+   * @return bool
+   *   Whether it should be rendered or not.
+   */
+  private function indentPolyols(): bool {
+    $indent_polyols = $this->configFactory
+      ->get('mars_product.nutrition_table_settings')
+      ->get('indent_polyols');
+
+    return (isset($indent_polyols) && !empty($indent_polyols));
   }
 
 }
