@@ -266,11 +266,7 @@
   }
 
   .nutrition-title-normalcase {
-    text-transform: lowercase !important;
-  }
-
-  .nutrition-title-normalcase::first-letter {
-    text-transform: uppercase !important;
+    text-transform: none;
   }
 
   .indent-hide {
