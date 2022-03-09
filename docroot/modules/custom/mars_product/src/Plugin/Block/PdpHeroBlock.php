@@ -710,8 +710,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'product' => !empty($config['product']) ? $this->nodeStorage->load($config['product']) : NULL,
       'nutrition' => [
         'label' => $config['nutrition']['label'] ?? $this->t('Nutrition'),
-        'serving_label' => ucfirst(strtolower($config['nutrition']['serving_label'])) ?? $serving_label,
-        'dual_serving_label' => ucfirst(strtolower($config['nutrition']['dual_serving_label'])) ?? $dual_serving_label,
+        'serving_label' => $config['nutrition']['serving_label'] ?? $serving_label,
+        'dual_serving_label' => $config['nutrition']['dual_serving_label'] ?? $dual_serving_label,
         'table_label' => $config['nutrition']['table_label'] ?? '',
         'dual_table_label' => $config['nutrition']['dual_table_label'] ?? '',
         'daily_label' => $config['nutrition']['daily_label'] ?? $daily_label,
