@@ -829,8 +829,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'show_nutrition_data' => $this->isNutritionDataVisible(),
         'nutritional_view_type' => $view_type,
         'nutritional_label' => $this->languageHelper->translate($this->configuration['nutrition']['label']) ?? '',
-        'nutritional_info_serving_label' => $this->languageHelper->translate($this->configuration['nutrition']['serving_label']) ?? '',
-        'nutritional_info_dual_serving_label' => $this->overrideDualTableHeading() ? $dual_serving_label : $this->languageHelper->translate($this->configuration['nutrition']['dual_serving_label']),
+        'nutritional_info_serving_label' => ucfirst(strtolower($this->languageHelper->translate($this->configuration['nutrition']['serving_label']))) ?? '',
+        'nutritional_info_dual_serving_label' => $this->overrideDualTableHeading() ? ucfirst(strtolower($dual_serving_label)) : ucfirst(strtolower($this->languageHelper->translate($this->configuration['nutrition']['dual_serving_label']))),
         'nutritional_info_daily_label' => $this->languageHelper->translate($this->configuration['nutrition']['daily_label']) ?? '',
         'vitamins_info_label' => $this->languageHelper->translate($this->configuration['nutrition']['vitamins_label']) . ':' ?? '',
         'daily_text' => $this->languageHelper->translate($this->configuration['nutrition']['daily_text']) ?? '',
@@ -1239,6 +1239,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     if ($node->hasField('field_product_reference_intake')) {
       $result_item['reference_intake_value'] = strip_tags(html_entity_decode($node->get('field_product_reference_intake')->value), '<strong><b>');
+    }
+
+    if ($node->hasField('field_product_sugar_alcohol') && $node->get('field_product_sugar_alcohol')->value) {
+      $result_item['indent_polyols'] = $this->indentPolyols();
     }
 
     $mapping = $this->nutritionHelper
@@ -1680,7 +1684,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     return (isset($hide_serving_size_heading) && !empty($hide_serving_size_heading));
   }
 
-    /**
+  /**
    * Check for servings per heading to be shown or not in the nutrition table 1.
    *
    * @return bool
