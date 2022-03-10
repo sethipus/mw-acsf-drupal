@@ -9,11 +9,11 @@
   padding: 4rem 0 2rem;
   text-align: center;
   color: clr(primary, newsletter-text-color-override);
-  font-size: 25px;
   font-family: var(--v-form-title-font);
   font-weight: 900;
   letter-spacing: var(--v-heading-font-m-letter-spacing);
-  @include small {
+  h2 {
+    margin: 0;
     font-size: 30px;
   }
 }
@@ -182,6 +182,9 @@
 }
 
 .globalPrivacy {
+  a {
+    color: clr(primary, newsletter-text-color-override);
+  }
   display: flex;
   justify-content: flex-start;
   margin-top: 2rem;
@@ -314,16 +317,24 @@
     padding-bottom: 40px;
     font-size: 14px;
     color: clr(primary, newsletter-text-color-override);
+    a {
+      color: clr(primary, newsletter-text-color-override);
+    }
   }
 }
 
 .captcha {
-  margin: 0 auto;
   @include xs {
-    max-width: 25rem;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
   }
   @include small {
     max-width: 31rem;
+    margin: 0 auto;
+    display: block;
   }
   @include medium {
     max-width: 62rem;
