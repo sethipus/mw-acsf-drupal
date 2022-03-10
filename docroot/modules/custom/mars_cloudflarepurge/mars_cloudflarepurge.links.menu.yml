@@ -1,0 +1,5 @@
+mars_cloudflarepurge.form:
+  title: 'Cloudflare purge'
+  description: 'Settings used to clear Cloudflare cache.'
+  route_name: mars_cloudflarepurge.form
+  parent: 'system.admin_config_services'
