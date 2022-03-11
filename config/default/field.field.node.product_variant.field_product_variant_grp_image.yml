@@ -1,0 +1,36 @@
+uuid: 2cf14028-4d97-4770-8a7f-41804f110651
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_variant_grp_image
+    - media.type.image
+    - media.type.lighthouse_image
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_variant_grp_image
+field_name: field_product_variant_grp_image
+entity_type: node
+bundle: product_variant
+label: 'Grouping Display Image'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      lighthouse_image: lighthouse_image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: image
+field_type: entity_reference
