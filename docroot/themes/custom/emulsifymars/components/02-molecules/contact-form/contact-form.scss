@@ -319,7 +319,6 @@
       background-color: white;
       text-align: left;
       width: 100%;
-      padding: 1.15rem;
       margin: 0;
       display: inline-block;
       border-color: #c4c4c4;
@@ -327,7 +326,7 @@
 
       .ff-fileupload-select {
         display: block;
-        width: 100%;
+        width: 85%;
         color: clr(primary);
         font-size: 1.6rem;
         position: relative;
@@ -343,10 +342,21 @@
           width: 18px;
           height: 18px;
           top: calc(50% - 9px);
-          right: 20px;
+          left: calc(100% + 15px);
           cursor: pointer;
+
+          @include small{
+            left: calc(100% + 25px);
+          }
+
+          @include medium{
+            left: calc(100% - 9px);
+          }
         }
 
+        @include medium{
+          width: 100%;
+        }
         @include large {
           font-size: 1.8rem;
         }

@@ -264,4 +264,12 @@
       font-size: 1.4rem;
     }
   }
+
+  .nutrition-title-normalcase {
+    text-transform: none;
+  }
+
+  .indent-hide {
+    visibility: hidden !important;
+  }
 }
