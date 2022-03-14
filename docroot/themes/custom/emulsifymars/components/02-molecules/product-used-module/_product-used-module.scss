@@ -1,12 +1,14 @@
 .product-used-items {
 
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
-
   .product-used-swiper-container {
-    width: 33.4rem;
+    width: 100%;
+    overflow: visible;
+  }
 
-    @include xl{
-      width : 31rem;
+  .swiper-wrapper {
+    @include xl { // to avoid layout jump for desktop view
+      flex-direction: column;
     }
   }
 
@@ -22,6 +24,10 @@
       @include medium {
         margin-bottom: 4rem;
       }
+
+      @include xl {
+        margin-bottom: 0;
+      }
     }
   }
 
@@ -36,6 +42,10 @@
       height: 0.5rem;
       width: 25.7rem;
       margin-bottom: 4rem;
+    }
+
+    @include xl {
+      display: none;
     }
 
     & .swiper-scrollbar-drag {
@@ -56,6 +66,10 @@
       margin-top: -(6rem - 3rem + 4rem)/2;
       width: 6rem;
       height: 6rem;
+    }
+
+    @include xl {
+      display: none;
     }
 
     &.swiper-button-disabled {
