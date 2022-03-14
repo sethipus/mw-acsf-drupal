@@ -1,7 +1,0 @@
-mars_cloudflarepurge.form:
-  path: '/admin/config/cloudflare-cache-clear'
-  defaults:
-    _title: 'Cloudflare Cache Clear'
-    _form: '\Drupal\mars_cloudflarepurge\Form\CloudflarePurgeForm'
-  requirements:
-    _permission: 'Mars Cloudflare Purge'
