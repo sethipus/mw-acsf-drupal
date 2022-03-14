@@ -14,9 +14,12 @@
 #}
 {% set span_base_class = span_base_class|default('span') %}
 
-<span {{ bem(span_base_class, span_modifiers, span_blockname, span_extra_classes) }}
+<span {{ span_indent_polyols_class ? bem(span_base_class, span_modifiers, span_blockname, [span_indent_polyols_class]) : bem(span_base_class, span_modifiers, span_blockname, span_extra_classes) }}
   {% if text_color_override is not empty %}
     style="color: {{ text_color_override }};"
+  {% endif %}
+  {% if span_indent_polyols_class %}
+    aria-hidden: "false"
   {% endif %}>
   {% block span_content %}
     {{ span_content }}

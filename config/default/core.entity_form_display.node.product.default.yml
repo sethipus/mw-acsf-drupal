@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.product.field_brand_initiatives
+    - field.field.node.product.field_exclude_product
     - field.field.node.product.field_meta_tags
     - field.field.node.product.field_override_global_rating
     - field.field.node.product.field_product_category
@@ -32,6 +33,7 @@ dependencies:
     - metatag
     - path
     - publication_date
+    - search_api_exclude_entity
     - text
 third_party_settings:
   field_group:
@@ -138,6 +140,13 @@ content:
     weight: 3
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_exclude_product:
+    type: search_api_exclude_entity_widget
+    weight: 27
+    region: content
+    settings:
+      field_label: 'Yes, exclude this entity from the search indexes.'
     third_party_settings: {  }
   field_meta_tags:
     type: metatag_firehose
