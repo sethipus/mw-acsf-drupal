@@ -22,15 +22,21 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
           const scrollbar = (typeof $scrollbar[0]) !== "undefined" ? $scrollbar[0] : null;
 
           const swiper = new Swiper(this, {
-            slidesPerView: 1,
-            spaceBetween: 10,
-             navigation: {
-               nextEl: nextEl,
-               prevEl: prevEl,
+            slidesPerView: 'auto',
+            spaceBetween: 20,
+            navigation: {
+              nextEl: nextEl,
+              prevEl: prevEl,
             },
-             scrollbar: {
-               el: scrollbar
-             }
+            scrollbar: {
+              el: scrollbar
+            },
+            breakpoints: {
+              1440: {
+                direction: 'vertical',
+                spaceBetween: 0
+              }
+            }
           });
         });
       });
