@@ -6,6 +6,7 @@
 {% set override_title_uppercase = pdp_nutrition_data.serving_item.change_uppercase %}
 {% set polyols_indent = pdp_nutrition_data.serving_item.indent_polyols %}
 {% set polyols_label = pdp_nutrition_data.serving_item.polyols_label %}
+{% set pre_sugars_label = pdp_nutrition_data.serving_item.pre_sugars_label %}
 
 <section {{ bem(pdp_nutrition_base_class) }} data-theme="{{ theme_styles }}">
   {% if pdp_nutrition_data.serving_item.table_label is not empty %}
@@ -143,10 +144,18 @@
             {% for item in pdp_nutrition_data.serving_item.group_nutritional_subgroup_3 %}
               {% set additional_class = item.bold_modifier ? 'bold' : '' %}
               <dl {{ bem('section-column-list', [], pdp_nutrition_base_class) }}>
-                <dt {{ polyols_indent and (polyols_label == item.label) ? bem('section-column-item', ['label'], pdp_nutrition_base_class, [additional_class, 'nutrition-table-indent']) : bem('section-column-item', ['label'], pdp_nutrition_base_class, [additional_class])  }}>
+                <dt {{ bem('section-column-item', ['label'], pdp_nutrition_base_class, [additional_class]) }}>
                   {% set item_label = item.label %}
                   {% if item.pre_label %}
                     {% set item_label = item.pre_label ~ ' ' ~ item.label %}
+                  {% endif %}
+                  {% if polyols_indent and (polyols_label == item.label) %}
+                    {% include "@atoms/text/text/07-span.twig" with {
+                      span_content: pre_sugars_label,
+                      span_base_class: pdp_nutrition_label_base_class,
+                      span_indent_polyols_class: 'indent-hide',
+                      span_blockname: pdp_nutrition_base_class,
+                    } %}
                   {% endif %}
                   {% include "@atoms/text/text/07-span.twig" with {
                     span_content: item_label,
