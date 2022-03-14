@@ -5,14 +5,11 @@
  * The Salsify integration module.
  */
 
-use Drupal\Core\Database\Database;
-use Drupal\Core\Database\DatabaseException;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\Core\Render\BubbleableMetadata;
-use Drupal\Core\Utility\UpdateException;
 use Drupal\salsify_integration\Form\ConfigForm;
 
 /**
@@ -333,29 +330,5 @@ function salsify_integration_cron_salsify_import() {
     /** @var \Drupal\salsify_integration\MigrationRunner $service */
     $service = \Drupal::service('salsify_integration.migrations.products');
     $service->runProductMigration();
-  }
-}
-
-/**
- * Implements hook_update().
- */
-function salsify_integration_update_9331() {
-  $spec = [
-    'type' => 'varchar',
-    'description' => 'sourceid2',
-    'length' => 255,
-    'not null' => TRUE,
-    'default' => '',
-  ];
-  $table = 'migrate_map_multibrand_node_product_variant';
-  try {
-    $column = 'sourceid2';
-    $schema = Database::getConnection()->schema();
-    if ($schema->tableExists($table) && !$schema->fieldExists($table, $column)) {
-      $schema->addField($table, $column, $spec);
-    }
-  }
-  catch (DatabaseException $e) {
-    throw new UpdateException('Database table migrate_map_multibrand_node_product_variant could not be updated');
   }
 }
