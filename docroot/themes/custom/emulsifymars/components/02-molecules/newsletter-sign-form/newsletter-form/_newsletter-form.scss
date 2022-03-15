@@ -6,13 +6,16 @@
 }
 
 .newsletter-label {
-  padding-top: 4rem;
+  padding: 4rem 0 2rem;
   text-align: center;
   color: clr(primary, newsletter-text-color-override);
-  font-size: 20px;
   font-family: var(--v-form-title-font);
   font-weight: 900;
   letter-spacing: var(--v-heading-font-m-letter-spacing);
+  h2 {
+    margin: 0;
+    font-size: 30px;
+  }
 }
 
 .globalNameClass {
@@ -71,7 +74,6 @@
 
 .globalClass {
   margin: 0 auto;
-  margin-top: 2rem;
   @include xs {
     max-width: 25rem;
   }
@@ -79,7 +81,7 @@
     max-width: 31rem;
   }
   @include medium {
-    max-width: 62rem;
+    max-width: 63rem;
   }
   legend {
     font-family: var(--v-form-field-title-font);
@@ -127,7 +129,7 @@
       outline: none;
     }
     @include xs {
-      margin: 0 auto;
+      margin: 0 auto 2rem;
       max-width: 25rem;
       width: 25rem;
     }
@@ -140,6 +142,7 @@
       width: 63rem;
     }
     input {
+      border-radius: var(--v-button-border-radius);
       font-size: 16px;
       @include xs {
         width: 25rem;
@@ -179,8 +182,11 @@
 }
 
 .globalPrivacy {
+  a {
+    color: clr(primary, newsletter-text-color-override);
+  }
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 2rem;
   @include xs {
     max-width: 25rem;
@@ -209,6 +215,9 @@
     color: clr(subcolor-1, newsletter-text-color-override);
     font-size: 1.3rem;
   }
+  .form-item__description {
+    margin: 3px;
+  }
   .webform-element-description {
     padding-left: 10px;
     font-size: 16px;
@@ -217,7 +226,7 @@
   }
   .option {
     font-weight: normal;
-    margin-top: -12px;
+    margin-top: -6px;
     font-size: 16px;
     font-family: var(--v-form-field-title-font);
     color: clr(primary, newsletter-text-color-override);
@@ -304,7 +313,30 @@
     }
   }
   .webform-confirmation__back {
+    margin: 0;
+    padding-bottom: 40px;
     font-size: 14px;
     color: clr(primary, newsletter-text-color-override);
+    a {
+      color: clr(primary, newsletter-text-color-override);
+    }
+  }
+}
+
+.captcha {
+  @include xs {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+  }
+  @include small {
+    max-width: 31rem;
+    margin: 0 auto;
+    display: block;
+  }
+  @include medium {
+    max-width: 62rem;
   }
 }

@@ -1,0 +1,27 @@
+uuid: 070f9488-401e-43d8-92ea-a950d667c430
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_exclude_product
+    - node.type.product
+  module:
+    - search_api_exclude_entity
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product.field_exclude_product
+field_name: field_exclude_product
+entity_type: node
+bundle: product
+label: 'Exclude Product'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: false
+default_value_callback: ''
+settings: {  }
+field_type: search_api_exclude_entity

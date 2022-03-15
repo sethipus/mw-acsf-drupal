@@ -168,7 +168,7 @@
         }
         // @TODO Find better to parse id Url not supported for IE.
         let id = decodeURIComponent(key).split('[')[1];
-        id = id.replace(']', '');
+        id = id ? id.replace(']', '') : '';
         key = decodeURIComponent(key).split('[')[0];
         params[key] = {[id]: decodeURIComponent(val)};
         return params;
@@ -289,15 +289,17 @@
           const inputLabels = element.querySelectorAll('.checkbox-item__input:checked + label');
           let counter = inputLabels.length;
           counterElement.innerHTML = counter ? counter : '';
-          inputLabels.forEach(function (label) {
-            appliedFilters += '\
-            <li class="search-filter-info__applied-name">\
-              <span>' + label.innerText + '</span>\
-              <button data-id="' + label.getAttribute('for') + '" class="search-filter-info__applied-clear" aria-label="' + Drupal.t('remove ' + label.innerText) + ' "></button>\
-            </li>\
-            ';
-            appliedFiltersAnnounce.push(label.innerText);
-          });
+          if (counter) {
+            inputLabels.forEach(function (label) {
+              appliedFilters += '\
+              <li class="search-filter-info__applied-name">\
+                <span>' + label.innerText + '</span>\
+                <button data-id="' + label.getAttribute('for') + '" class="search-filter-info__applied-clear" aria-label="' + Drupal.t('remove ' + label.innerText) + ' "></button>\
+              </li>\
+              ';
+              appliedFiltersAnnounce.push(label.innerText);
+            });
+          }
         });
 
         if (appliedFilters.length) {
@@ -360,7 +362,7 @@
             }
             dataLayerPush(xhr.response.results_count, xhr.response.search_key, grid, gridType);
             // Update Smart Commerce buttons on changing grid filters.
-            if (SmartCart !== undefined) {
+            if (typeof SmartCart !== 'undefined') {
               SmartCart.updateUsaWidget();
             }
           }
@@ -402,21 +404,23 @@
         else {
           eventName = eventPrefix + 'Search_ResultShown';
         }
-        if (gridType == 'grid') {
-          dataLayer.push({
-            'event': eventName,
-            [eventPrefix + 'ID']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridId,
-            [eventPrefix + 'Name']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridName,
-            [eventPrefix + 'SearchTerm']: search_key,
-            [eventPrefix + 'SearchResultsNum']: results_count
-          });
-        }
-        else {
-          dataLayer.push({
-            'event': eventName,
-            [eventPrefix + 'Term']: search_key,
-            [eventPrefix + 'ResultsNum']: results_count
-          });
+        if (typeof dataLayer !== 'undefined') {
+          if (gridType == 'grid') {
+            dataLayer.push({
+              'event': eventName,
+              [eventPrefix + 'ID']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridId,
+              [eventPrefix + 'Name']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridName,
+              [eventPrefix + 'SearchTerm']: search_key,
+              [eventPrefix + 'SearchResultsNum']: results_count
+            });
+          }
+          else {
+            dataLayer.push({
+              'event': eventName,
+              [eventPrefix + 'Term']: search_key,
+              [eventPrefix + 'ResultsNum']: results_count
+            });
+          }
         }
       }
 

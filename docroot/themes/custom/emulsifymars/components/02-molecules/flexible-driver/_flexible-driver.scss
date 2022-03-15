@@ -41,7 +41,7 @@
       @include xs {
         width: 9.3rem;
         height: 11.2rem;
-        left: 0rem;
+        left: 0;
         bottom: -0.3rem;
       }
 
@@ -144,12 +144,13 @@
     @include medium {
       font-size: 4rem;
       margin: 0 10rem;
-      padding-top: 8.5rem;
+      padding-top: 3.4rem;
     }
 
     @include large {
       font-size: 4.8rem;
       margin: 0 11.5rem;
+      padding-top: 8.5rem;
     }
   }
 
@@ -168,12 +169,13 @@
     }
 
     @include medium{
-      padding: 3rem 0 4rem 2rem;
+     padding: 2.1rem 2rem 3.5rem 2rem;
     }
 
     @include large {
       max-width: 40%;
       margin: 0 auto;
+      padding: 3rem 0 4rem 0;
     }
 
   }
@@ -183,7 +185,11 @@
     text-align: center;
 
     @include medium {
-      padding: 3.3rem 0 0 0;
+      padding: 0 0 0;
+    }
+    
+    @include large {
+      padding: 3.3rem 0 0;
     }
   }
 
