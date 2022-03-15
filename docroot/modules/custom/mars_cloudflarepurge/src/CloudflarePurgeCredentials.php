@@ -13,7 +13,7 @@ class CloudflarePurgeCredentials {
   public static function cfPurgeCache(string $zoneId, string $authorization, string $specific_urls, string $purge_specific_url_toggle) {   
     
     if ($purge_specific_url_toggle == FALSE) {
-      // Purge everything.
+      // Purge everything for specific Zone ID.
       $ch_purge = curl_init();
       curl_setopt($ch_purge, CURLOPT_URL, "https://api.cloudflare.com/client/v4/zones/".$zoneId."/purge_cache");
       curl_setopt($ch_purge, CURLOPT_CUSTOMREQUEST, "POST");
