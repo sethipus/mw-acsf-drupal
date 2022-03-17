@@ -9,7 +9,9 @@
     display: none;
   }
   &__control[data-state="play"] {
+
     @include playbutton;
+
     width: 60px;
     height: 60px;
     top: 20px;
@@ -27,7 +29,9 @@
     }
   }
   &__control[data-state="pause"] {
+
     @include pausebutton;
+
     width: 60px;
     height: 60px;
     top: 20px;
@@ -105,9 +109,11 @@
         background-color: clr(player);
       }
     }
+
   }
   &__playpause[data-state="play"] {
     @include playbutton;
+
     width: 26px;
     height: 26px;
     position: static;
@@ -127,8 +133,10 @@
       margin: auto 35%
     }
   }
+
   &__playpause[data-state="pause"] {
     @include pausebutton;
+
     width: 26px;
     height: 26px;
     position: static;
@@ -146,9 +154,11 @@
       border-left: 4px solid clr(text-inverse);
       margin: auto;
     }
+
   }
   &__volumechange[data-state="unmute"] {
     @include mutebutton;
+
     top: 110px;
     right: 20px;
     left: auto;
@@ -171,7 +181,9 @@
     }
   }
   &__volumechange[data-state="mute"] {
+
     @extend .fullscreen-video__volumechange[data-state="unmute"];
+
     opacity: 0.5;
   }
   button.fullscreen-video__mute {
@@ -258,8 +270,10 @@ html:-ms-fullscreen {
 }
 video:-webkit-full-screen+.fullscreen-video__controls {
   background: #ccc;
+
   /* required for Chrome which doesn't heed the transparent value set above */
 }
+
 video:-webkit-full-screen+.fullscreen-video__controls progress {
   margin-top: 0.5rem;
 }
