@@ -1005,6 +1005,23 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
 }
 
 /**
+ * Implements hook_webform_element_alter().
+ *
+ * @param array              $element
+ * @param FormStateInterface $form_state
+ * @param array              $context
+ */
+function mars_common_webform_element_alter(array &$element, FormStateInterface $form_state, array $context) {
+  // Check for desired element.
+  if (isset($element['#webform_id'])) {
+    $element['#element_validate'][] = [
+        'Drupal\mars_common\Validate\MarsValidateConstraint',
+        'validate',
+    ];
+  }
+}
+
+/**
  * Callback function to delete status messages in the poll submit function.
  */
 function poll_form_submit_action_callback() {

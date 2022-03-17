@@ -53,6 +53,8 @@
     }
     .error {
       font-size: 1.3rem;
+      border: 2px solid #d12e26;
+      transition: border .1s
     }
     label {
       font-family: var(--v-form-field-title-font);
@@ -90,6 +92,8 @@
   }
   .error {
     font-size: 1.3rem;
+    border: 2px solid #d12e26;
+    transition: border .1s
   }
   label {
     font-family: var(--v-form-field-title-font);
@@ -207,6 +211,9 @@
       transform: scale(1);
       transition: transform .3s;
     }
+    .error {
+      outline: 2px solid #d12e26;
+    }
   }
   .error {
     padding-top: 40px;
@@ -214,6 +221,7 @@
     font-family: var(--v-form-field-title-font);
     color: clr(subcolor-1, newsletter-text-color-override);
     font-size: 1.3rem;
+    outline: 2px solid #d12e26;
   }
   .form-item__description {
     margin: 3px;
@@ -339,4 +347,35 @@
   @include medium {
     max-width: 62rem;
   }
+}
+
+.form-item.error {
+  border: unset !important;
+}
+
+.form-composite.webform-type-webform-name .form-item.error::after {
+  content: 'required';
+  color: #d12e26;
+  font-size: 16px;
+}
+
+.validation-error {
+  font-size: 16px;
+  color: #d12e26;
+  display: block;
+  margin: 0 auto;
+
+  @include xs {
+    max-width: 100%;
+  }
+  @include small {
+    max-width: 31rem;
+  }
+  @include medium { 
+    max-width: 62rem;
+  }
+}
+
+.webform-submission-form .status__container {
+  display: none !important;
 }
