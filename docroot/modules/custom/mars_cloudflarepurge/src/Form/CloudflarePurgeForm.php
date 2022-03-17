@@ -92,18 +92,18 @@ class CloudflarePurgeForm extends ConfigFormBase {
 
     $form['cloudflarepurge_form']['purge_everything_toggle'] = [
       '#type' => 'checkbox',
-      '#title' => t('Enable Cloudflare purge everything'),
+      '#title' => t('Purge everything'),
       '#default_value' => $config->get('purge_everything_toggle') ?? FALSE,
     ];
     $form['cloudflarepurge_form']['purge_specific_url_toggle'] = [
       '#type' => 'checkbox',
-      '#title' => t('Enable Cloudflare purge for specific URLs'),
+      '#title' => t('Purge specific URL'),
       '#default_value' => $config->get('purge_specific_url_toggle') ?? FALSE,
     ];
     $form['cloudflarepurge_form']['purge_specific_url'] = [
       '#type' => 'textarea',
       '#default_value' => !empty($config->get('purge_specific_url')) ? $config->get('purge_specific_url') : '',
-      '#description' => $this->t('<ul><li> Enter one URL per line.</li><li>Do not add https:// or http:// on URLs</li><li>www.example.com/sample OR example.com/sample</li></ul>'),
+      '#description' => $this->t('<ul><li> Enter one URL per line</li><li>Do not add https:// or http:// on URLs</li><li>www.example.com/sample OR example.com/sample</li><li>While entering multiple URLs in Purge specific URL, base domain URL is not required if full path URL of same domain is present</li></ul>'),
       '#title' => t('Specific URLs for cloudflare purge'),
       '#states' => [
         'visible' => [
@@ -117,7 +117,7 @@ class CloudflarePurgeForm extends ConfigFormBase {
     $form['submit'] = [
       '#type' => 'submit',
       '#name' => 'submit',
-      '#value' => $this->t('Cloudflare purge'),
+      '#value' => $this->t('Clear Cache'),
       '#submit' => ['::cloudflareClearCache'],
     ];
   
