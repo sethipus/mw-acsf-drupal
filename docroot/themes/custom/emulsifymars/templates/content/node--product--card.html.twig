@@ -8,7 +8,7 @@
 {% set main_media = main_variant | entityMainMediaId | mediaParamsById %}
 {% set product_card_media = main_variant | productCardMedia | mediaParamsById %}
 {% set grp_title = main_variant.field_product_variant_grp_title.value %}
-{% set grp_media = main_variant.field_product_variant_grp_image.entity %}
+{% set grp_media = main_variant | entityGroupMediaId | mediaParamsById %}
 {% set has_grp_media = grp_media.error is not defined or not grp_media %}
 
 {% set has_card_media = product_card_media.error is not defined or not product_card_media.error %}
@@ -22,12 +22,8 @@
 {% endif %}
 
 {% if grp_title and has_grp_media %}
-  {% set file = grp_media.image.entity %}
-  {% set grp_image_uri = file.uri.value ? file_url(file.uri.value) : ''%}
-  {% set background_image =  grp_image_uri %}
-  {% set hover_image_file = grp_media.image.entity %}
-  {% set grp_image_hover_uri = hover_image_file.uri.value ? file_url(hover_image_file.uri.value) : '' %}
-  {% set hover_image =  grp_image_hover_uri %}
+  {% set background_image =  grp_media.src is empty ? background_image : grp_media.src %}
+  {% set hover_image = null %}
 {% endif %}
 
 {% set default_link_content_text = 'SEE DETAILS' | mt %}
@@ -57,7 +53,7 @@
     card_url: url,
     card__image__src: background_image,
     card__image__hover__src: hover_image,
-    paragraph_content: grp_title ?? node.title.value,
+    paragraph_content: (grp_title is empty) ? node.title.value : grp_title,
     default_link_attributes: default_link_attributes,
     link_url: ''
   },
