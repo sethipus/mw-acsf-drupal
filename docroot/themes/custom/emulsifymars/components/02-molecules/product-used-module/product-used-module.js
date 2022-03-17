@@ -22,20 +22,14 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
           const scrollbar = (typeof $scrollbar[0]) !== "undefined" ? $scrollbar[0] : null;
 
           const swiper = new Swiper(this, {
-            slidesPerView: 'auto',
-            spaceBetween: 20,
+            slidesPerView: 1,
+            spaceBetween: 10,
             navigation: {
               nextEl: nextEl,
               prevEl: prevEl,
             },
             scrollbar: {
               el: scrollbar
-            },
-            breakpoints: {
-              1440: {
-                direction: 'vertical',
-                spaceBetween: 0
-              }
             }
           });
         });
