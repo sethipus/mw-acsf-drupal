@@ -47,7 +47,7 @@ class ProductFilter extends JsonFilter
             }
         }
 
-        return array_values($this->aggregatedProducts);
+        return !empty($this->aggregatedProducts) ? array_values($this->aggregatedProducts) : [];
     }
 
     /**

@@ -33,6 +33,7 @@ validate:
       - add_attributes
     filters:
       - entityMainMediaId
+      - entityGroupMediaId
       - mt
       - resize
       - resizeWithHighDpr
