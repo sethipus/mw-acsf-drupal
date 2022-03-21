@@ -142,11 +142,12 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
     $form['carousel_label'] = [
       '#title'         => $this->t('Carousel title'),
       '#type'          => 'textfield',
       '#default_value' => $config['carousel_label'],
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('carousel_component_title')) ? $character_limit_config->get('carousel_component_title') : 55,
     ];
 
     $form['carousel'] = [
@@ -194,7 +195,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
         '#title' => $this->t('Carousel item description'),
         '#type' => 'textarea',
         '#default_value' => $config['carousel'][$key]['description'] ?? NULL,
-        '#maxlength' => 255,
+        '#maxlength' => !empty($character_limit_config->get('carousel_item_description')) ? $character_limit_config->get('carousel_item_description') : 255,
       ];
 
       /*

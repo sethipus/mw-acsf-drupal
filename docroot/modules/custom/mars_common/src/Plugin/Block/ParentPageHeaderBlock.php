@@ -210,11 +210,12 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $block_type_value = $config['background_options'] ?? self::KEY_OPTION_DEFAULT;
     $submitted_input = $form_state->getUserInput()['settings'] ?? [];
     $type_for_validation = $submitted_input['background_options'] ?? $block_type_value;
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
-      '#maxlength' => 30,
+      '#maxlength' => !empty($character_limit_config->get('parent_page_header_eyebrow')) ? $character_limit_config->get('parent_page_header_eyebrow') : 30,
       '#default_value' => $this->configuration['eyebrow'] ?? '',
       '#required' => in_array($type_for_validation, [
         self::KEY_OPTION_DEFAULT,
@@ -230,7 +231,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('parent_page_header_title')) ? $character_limit_config->get('parent_page_header_title') : 55,
       '#default_value' => $this->configuration['title'] ?? '',
       '#required' => in_array($type_for_validation, [
         self::KEY_OPTION_DEFAULT,
@@ -311,7 +312,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 255,
+      '#maxlength' => !empty($character_limit_config->get('parent_page_header_description')) ? $character_limit_config->get('parent_page_header_description') : 255,
       '#default_value' => $this->configuration['description'] ?? '',
     ];
 

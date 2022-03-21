@@ -114,12 +114,13 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
     $config = $this->getConfiguration();
 
     $form['search_header_heading'] = [
       '#type' => 'textfield',
       '#title' => $this->languageHelper->translate('Search heading title'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('search_page_header_title')) ? $character_limit_config->get('search_page_header_title') : 55,
       '#required' => TRUE,
       '#default_value' => $config['search_header_heading'] ?? $this->languageHelper->translate('What are you looking for?'),
     ];

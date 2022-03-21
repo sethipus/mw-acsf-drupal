@@ -106,6 +106,7 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
   public function buildConfigurationForm(array $form, FormStateInterface $form_state): array {
     $conf = $this->getConfiguration();
     $form = parent::buildConfigurationForm($form, $form_state);
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $form['view'] = [
       '#title' => $this->t('View'),
@@ -144,7 +145,7 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('grid_card_title')) ? $character_limit_config->get('grid_card_title') : 55,
       '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];

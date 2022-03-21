@@ -113,11 +113,12 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
     $form['list_label'] = [
       '#title'         => $this->t('List title'),
       '#type'          => 'textfield',
       '#default_value' => $config['list_label'],
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('list_component_title')) ? $character_limit_config->get('list_component_title') : 55,
     ];
 
     $form['list'] = [
@@ -159,7 +160,7 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
         '#type'          => 'textfield',
         '#required'      => TRUE,
         '#default_value' => $config['list'][$key]['number'],
-        '#maxlength'     => 5,
+        '#maxlength'     => !empty($character_limit_config->get('list_component_element_number')) ? $character_limit_config->get('list_component_element_number') : 5,
       ];
       $form['list'][$key]['description'] = [
         '#title'         => $this->t('List item description'),

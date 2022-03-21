@@ -263,6 +263,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $form['top_footer_menu'] = [
       '#type' => 'entity_autocomplete',
@@ -292,14 +293,14 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $form['corporate_tout']['url'] = [
       '#type' => 'url',
       '#title' => $this->t('Link URL'),
-      '#maxlength' => 2048,
+      '#maxlength' => !empty($character_limit_config->get('footer_block_link_url')) ? $character_limit_config->get('footer_block_link_url') : 2048,
       '#required' => TRUE,
       '#default_value' => $config['corporate_tout']['url'] ?? '',
     ];
     $form['corporate_tout']['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Link Title'),
-      '#maxlength' => 2048,
+      '#maxlength' => !empty($character_limit_config->get('footer_block_link_title')) ? $character_limit_config->get('footer_block_link_title') : 2048,
       '#required' => TRUE,
       '#default_value' => $config['corporate_tout']['title'] ?? '',
     ];

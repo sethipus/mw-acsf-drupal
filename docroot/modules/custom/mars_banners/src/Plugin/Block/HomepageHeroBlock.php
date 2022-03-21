@@ -179,6 +179,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $block_type_value = $config['block_type'] ?? self::KEY_OPTION_DEFAULT;
     $submitted_input = $form_state->getUserInput()['settings'] ?? [];
     $type_for_validation = $submitted_input['block_type'] ?? $block_type_value;
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $form['block_type'] = [
       '#title' => $this->t('Choose block type'),
@@ -195,7 +196,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
-      '#maxlength' => 15,
+      '#maxlength' => !empty($character_limit_config->get('hero_block_eyebrow')) ? $character_limit_config->get('hero_block_eyebrow') : 15,
       '#default_value' => $config['eyebrow'] ?? '',
       '#required' => in_array($type_for_validation, [
         self::KEY_OPTION_DEFAULT,
@@ -245,7 +246,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#type' => 'textfield',
       '#title' => $this->t('Title Link URL'),
       '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
-      '#maxlength' => 2048,
+      '#maxlength' => !empty($character_limit_config->get('hero_block_title_link_url')) ? $character_limit_config->get('hero_block_title_link_url') : 2048,
       '#default_value' => $config['title']['url'] ?? '',
       '#required' => in_array($type_for_validation, [
         self::KEY_OPTION_DEFAULT,
@@ -268,7 +269,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $form['title']['label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title label'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('hero_block_title_label')) ? $character_limit_config->get('hero_block_title_label') : 55,
       '#description' => $this->t('Default lable for title, if choose override title label option make this field empty.'),
       '#default_value' => $config['title']['label'] ?? '',
       '#states' => [
@@ -287,7 +288,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $form['title']['next_line_label'] = [
       '#type' => 'text_format',
       '#format' => 'rich_text',
-      '#maxlength' => 200,
+      '#maxlength' => !empty($character_limit_config->get('hero_block_override_title_label')) ? $character_limit_config->get('hero_block_override_title_label') : 200,
       '#title' => $this->t('Override Title label'),
       '#description' => $this->t('The Site admin will be able to add up to 200 characters including the HTML tags and 55 characters excluding the HTML tags in CK editor for Title override functionality. Please preview the changes made in the layout page before saving the changes to align to the format.'),
       '#default_value' => $config['title']['next_line_label']['value'] ?? '',
@@ -320,7 +321,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#type' => 'textfield',
       '#title' => $this->t('CTA Link URL'),
       '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
-      '#maxlength' => 2048,
+      '#maxlength' => !empty($character_limit_config->get('hero_block_cta_link_url')) ? $character_limit_config->get('hero_block_cta_link_url') : 2048,
       '#default_value' => $config['cta']['url'] ?? '',
       '#required' => in_array($type_for_validation, [
         self::KEY_OPTION_DEFAULT,
@@ -340,7 +341,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $form['cta']['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('CTA Link Title'),
-      '#maxlength' => 15,
+      '#maxlength' => !empty($character_limit_config->get('hero_block_cta_link_title')) ? $character_limit_config->get('hero_block_cta_link_title') : 15,
       '#default_value' => $config['cta']['title'] ?? 'Explore',
       '#required' => in_array($type_for_validation, [
         self::KEY_OPTION_DEFAULT,
@@ -491,7 +492,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $form['card'][$key]['eyebrow'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Card Eyebrow'),
-        '#maxlength' => 15,
+        '#maxlength' => !empty($character_limit_config->get('hero_block_card_eyebrow')) ? $character_limit_config->get('hero_block_card_eyebrow') : 15,
         '#default_value' => $config['card'][$key]['eyebrow'] ?? '',
         '#required' => in_array($type_for_validation, [
           self::KEY_OPTION_IMAGE,
@@ -505,7 +506,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $form['card'][$key]['title']['label'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Card Title label'),
-        '#maxlength' => 55,
+        '#maxlength' => !empty($character_limit_config->get('hero_block_card_title_label')) ? $character_limit_config->get('hero_block_card_title_label') : 55,
         '#default_value' => $config['card'][$key]['title']['label'] ?? '',
         '#required' => in_array($type_for_validation, [
           self::KEY_OPTION_IMAGE,
@@ -520,7 +521,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         '#type' => 'textfield',
         '#title' => $this->t('Card Title Link URL'),
         '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
-        '#maxlength' => 2048,
+        '#maxlength' => !empty($character_limit_config->get('hero_block_card_title_link_url')) ? $character_limit_config->get('hero_block_card_title_link_url'): 2048,
         '#default_value' => $config['card'][$key]['title']['url'] ?? '',
         '#required' => in_array($type_for_validation, [
           self::KEY_OPTION_IMAGE,
@@ -534,7 +535,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $form['card'][$key]['cta']['title'] = [
         '#type' => 'textfield',
         '#title' => $this->t('CTA Link Title'),
-        '#maxlength' => 15,
+        '#maxlength' => !empty($character_limit_config->get('hero_block_card_cta_link_title')) ? $character_limit_config->get('hero_block_card_cta_link_title') : 15,
         '#default_value' => $config['card'][$key]['cta']['title'] ?? 'Explore',
         '#required' => in_array($type_for_validation, [
           self::KEY_OPTION_IMAGE,
@@ -549,7 +550,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         '#type' => 'textfield',
         '#title' => $this->t('CTA Link URL'),
         '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
-        '#maxlength' => 2048,
+        '#maxlength' => !empty($character_limit_config->get('hero_block_card_cta_link_url')) ? $character_limit_config->get('hero_block_card_cta_link_url') : 2048,
         '#default_value' => $config['card'][$key]['cta']['url'] ?? '',
         '#required' => in_array($type_for_validation, [
           self::KEY_OPTION_IMAGE,

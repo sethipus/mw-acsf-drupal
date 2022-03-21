@@ -144,20 +144,21 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $config = $this->getConfiguration();
 
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
-      '#maxlength' => 15,
+      '#maxlength' => !empty($character_limit_config->get('content_feature_module_eyebrow')) ? $character_limit_config->get('content_feature_module_eyebrow') : 15,
       '#default_value' => $this->configuration['eyebrow'] ?? '',
       '#required' => TRUE,
     ];
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('content_feature_module_title')) ? $character_limit_config->get('content_feature_module_title') : 55,
       '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
@@ -189,7 +190,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 300,
+      '#maxlength' => !empty($character_limit_config->get('content_feature_module_description')) ? $character_limit_config->get('content_feature_module_description') : 300,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => TRUE,
     ];
@@ -199,7 +200,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       'explore_cta' => [
         '#type' => 'textfield',
         '#title' => $this->t('Button Label'),
-        '#maxlength' => 15,
+        '#maxlength' => !empty($character_limit_config->get('content_feature_module_button_label')) ? $character_limit_config->get('content_feature_module_button_label') : 15,
         '#default_value' => $this->configuration['explore_cta'],
         '#required' => TRUE,
       ],

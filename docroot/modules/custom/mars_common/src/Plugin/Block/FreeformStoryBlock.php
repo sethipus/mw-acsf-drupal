@@ -119,6 +119,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $form['block_aligned'] = [
       '#type' => 'select',
@@ -134,13 +135,13 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#type' => 'textfield',
       '#title' => $this->t('Header 1'),
       '#default_value' => $this->configuration['header_1'],
-      '#maxlength' => 60,
+      '#maxlength' => !empty($character_limit_config->get('freeform_story_block_header_1')) ? $character_limit_config->get('freeform_story_block_header_1') : 60,
     ];
     $form['header_2'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Header 2'),
       '#default_value' => $this->configuration['header_2'],
-      '#maxlength' => 60,
+      '#maxlength' => !empty($character_limit_config->get('freeform_story_block_header_2')) ? $character_limit_config->get('freeform_story_block_header_2') : 60,
     ];
     // Entity Browser element for background image.
     $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
@@ -154,7 +155,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#title' => $this->t('Description'),
       '#default_value' => $this->configuration['body']['value'] ?? '',
       '#format' => $this->configuration['body']['format'] ?? 'rich_text',
-      '#maxlength' => 1000,
+      '#maxlength' => !empty($character_limit_config->get('freeform_story_block_description')) ? $character_limit_config->get('freeform_story_block_description') : 1000,
     ];
     $form['background_shape'] = [
       '#type' => 'checkbox',

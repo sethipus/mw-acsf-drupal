@@ -219,11 +219,12 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('product_content_pair_title')) ? $character_limit_config->get('product_content_pair_title') : 55,
       '#default_value' => $this->configuration['title'] ?? NULL,
     ];
 
@@ -262,7 +263,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#type' => 'textfield',
       '#title' => $this->t('Master Card Eyebrow'),
       '#description' => $this->t('Defaults to master entity type label, e.g. <em>Recipe</em>, <em>Article</em>, <em>Product</em>.'),
-      '#maxlength' => 15,
+      '#maxlength' => !empty($character_limit_config->get('product_content_pair_master_card_eyebrow')) ? $character_limit_config->get('product_content_pair_master_card_eyebrow') : 15,
       '#default_value' => $this->configuration['lead_card_eyebrow'] ?? NULL,
     ];
 
@@ -270,14 +271,14 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#type' => 'textfield',
       '#title' => $this->t('Master Card Title'),
       '#description' => $this->t('Set this field to override default Master Card title which defaults to node title'),
-      '#maxlength' => 33,
+      '#maxlength' => !empty($character_limit_config->get('product_content_pair_master_card_title')) ? $character_limit_config->get('product_content_pair_master_card_title') : 33,
       '#default_value' => $this->configuration['lead_card_title'] ?? NULL,
     ];
 
     $form['cta_link_text'] = [
       '#type' => 'textfield',
       '#title' => $this->t('CTA Link text'),
-      '#maxlength' => 15,
+      '#maxlength' => !empty($character_limit_config->get('product_content_pair_cta_link_text')) ? $character_limit_config->get('product_content_pair_cta_link_text') : 15,
       '#required' => TRUE,
       '#placeholder' => $this->t('Explore'),
       '#default_value' => $this->configuration['cta_link_text'] ?? NULL,
@@ -288,7 +289,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#title' => $this->t('Supporting Card Eyebrow'),
       '#description' => $this->t('Defaults to Made With or Seen In'),
       '#placeholder' => $this->t('Made With / Seen In'),
-      '#maxlength' => 15,
+      '#maxlength' => !empty($character_limit_config->get('product_content_pair_card_eyebrow')) ? $character_limit_config->get('product_content_pair_card_eyebrow') : 15,
       '#default_value' => $this->configuration['supporting_card_eyebrow'] ?? NULL,
     ];
 

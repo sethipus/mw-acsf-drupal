@@ -57,11 +57,12 @@ class TextBlock extends BlockBase implements ContainerFactoryPluginInterface {
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $form['header'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Header'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('text_block_header')) ? $character_limit_config->get('text_block_header') : 55,
       '#default_value' => $config['header'] ?? '',
     ];
 

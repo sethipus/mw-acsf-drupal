@@ -104,13 +104,14 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $config = $this->getConfiguration();
 
     $form['faq_title'] = [
       '#type' => 'textfield',
       '#title' => $this->languageHelper->translate('FAQ block title'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('search_faqs_block_title')) ? $character_limit_config->get('search_faqs_block_title') : 55,
       '#required' => TRUE,
       '#default_value' => $config['faq_title'] ?? 'FAQs',
     ];

@@ -33,3 +33,10 @@ mars_common.theme_configuration:
   route_name: system.theme_settings_theme
   route_parameters: { theme: 'emulsifymars'}
   weight: -10
+
+mars_common.character_limits_page:
+  title: 'MARS Character Limit Page'
+  description: 'Configuration of Mars Character Limit Page'
+  parent: system.admin_config_system
+  route_name: mars_common.character_limit_page
+  weight: 100

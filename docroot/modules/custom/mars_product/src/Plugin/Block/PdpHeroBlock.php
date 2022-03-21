@@ -313,6 +313,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
     $commerce_vendor = $this->getCommerceVendor();
     $current_path = $this->currentPathStack->getPath();
     $path_arr = explode('/',$current_path);
@@ -325,14 +326,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
-      '#maxlength' => 15,
+      '#maxlength' => !empty($character_limit_config->get('pdp_hero_eyebrow')) ? $character_limit_config->get('pdp_hero_eyebrow') : 15,
       '#default_value' => $this->configuration['eyebrow'] ?? '',
       '#required' => TRUE,
     ];
     $form['available_sizes'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Available sizes'),
-      '#maxlength' => 50,
+      '#maxlength' => !empty($character_limit_config->get('pdp_hero_available_sizes')) ? $character_limit_config->get('pdp_hero_available_sizes') : 50,
       '#default_value' => $this->configuration['available_sizes'] ?? '',
       '#required' => TRUE,
     ];
@@ -486,7 +487,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#type' => 'textfield',
       '#title' => $this->t('Nutrition section label'),
       '#default_value' => $this->configuration['nutrition']['label'],
-      '#maxlength' => 18,
+      '#maxlength' => !empty($character_limit_config->get('pdp_hero_nutrition_section_label')) ? $character_limit_config->get('pdp_hero_nutrition_section_label') : 18,
     ];
     $form['nutrition']['serving_label'] = [
       '#type' => 'textfield',
@@ -548,7 +549,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#type' => 'textfield',
       '#title' => $this->t('Nutritional claims and benefits label'),
       '#default_value' => $this->configuration['nutrition']['benefits_title'],
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('pdp_hero_nutrition_benefits_label')) ? $character_limit_config->get('pdp_hero_nutrition_benefits_label') : 55,
       '#access' => $benefits_enabled,
     ];
     $form['nutrition']['benefits_disclaimer'] = [
@@ -567,13 +568,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#type' => 'textfield',
       '#title' => $this->t('Diet & Allergens part label'),
       '#default_value' => $this->configuration['labels']['allergen_label'],
-      '#maxlength' => 18,
+      '#maxlength' => !empty($character_limit_config->get('pdp_hero_diet_allergens_part_label')) ? $character_limit_config->get('pdp_hero_diet_allergens_part_label') : 18,
     ];
     $form['labels']['cooking_instructions_label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Cooking instructions label'),
       '#default_value' => $this->configuration['labels']['cooking_instructions_label'],
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('pdp_hero_cooking_instruction_label')) ? $character_limit_config->get('pdp_hero_cooking_instruction_label') : 55,
     ];
     $form['more_information'] = [
       '#type' => 'fieldset',
@@ -584,7 +585,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#type' => 'textfield',
       '#title' => $this->t('More information label'),
       '#default_value' => $this->configuration['more_information']['more_information_label'] ?? '',
-      '#maxlength' => 18,
+      '#maxlength' => !empty($character_limit_config->get('pdp_hero_more_information_label')) ? $character_limit_config->get('pdp_hero_more_information_label') : 18,
       '#required' => TRUE,
     ];
     $form['more_information']['show_more_information_label'] = [
