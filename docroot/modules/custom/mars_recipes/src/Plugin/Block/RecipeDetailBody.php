@@ -131,7 +131,8 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
         return strcmp($a->title->value, $b->title->value);
       });
       // Limit amount of cards.
-      $products = array_slice($products, 0, 2);
+      //As per the discussion, there will be a chance for multiple products for a recipes 
+     // $products = array_slice($products, 0, 2);
       foreach ($products as $product) {
         if (!empty($text_color_override)) {
           $product_used_items[] = array_merge($this->viewBuilder->view($product, 'card'), ['#text_color_override' => $text_color_override]);
@@ -198,5 +199,4 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
   protected function blockAccess(AccountInterface $account) {
     return AccessResult::allowedIf($this->getContextValue('node')->bundle() == 'recipe');
   }
-
 }

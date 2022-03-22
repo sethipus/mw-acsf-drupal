@@ -3,23 +3,31 @@
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
   .product-used-swiper-container {
     width: 100%;
-    overflow: visible;
+
+   @include small{
+    width: 33.4rem;
   }
 
-  .swiper-wrapper {
-    @include xl { // to avoid layout jump for desktop view
-      flex-direction: column;
-    }
+   @include xl{
+     width: 31rem;
+   }
   }
-
   .swiper-slide {
     @include card-width;
+
+    @include xs{
+      width: 100%;
+    }
 
     .product-card {
       box-sizing: border-box;
       height: 5.2rem;
       margin-top: 3rem;
       margin-bottom: 3rem;
+
+      @include xs{
+        width: 100%;
+      }
 
       @include medium {
         margin-bottom: 4rem;
@@ -86,5 +94,13 @@
       height: 100%;
       fill: clr(secondary);
     }
+  }
+
+  .swiper-button-prev{
+    left: 5px;
+  }
+
+  .swiper-button-next {
+    right: 5px;
   }
 }
