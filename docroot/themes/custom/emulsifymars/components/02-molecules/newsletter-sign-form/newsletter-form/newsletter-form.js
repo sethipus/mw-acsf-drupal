@@ -7,6 +7,9 @@
                         scrollTop: $('#successMsg').offset().top - 100
                     }, 1000);
                 }
+                if ($('input[name="name[first]"]') || $('input[name="name[first]"]')) {
+                    $(".form-item:has(.error)").addClass('error');
+                }
             })
         }
     }

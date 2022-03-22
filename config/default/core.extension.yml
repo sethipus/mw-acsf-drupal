@@ -115,6 +115,7 @@ module:
   mailsystem: 0
   mars_articles: 0
   mars_banners: 0
+  mars_cloudflarepurge: 0
   mars_common: 0
   mars_content_hub: 0
   mars_entry_gate: 0

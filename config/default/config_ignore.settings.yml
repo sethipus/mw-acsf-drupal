@@ -63,6 +63,7 @@ ignored_config_entities:
   - webform.webform.mars_newsletter_signup_form
   - mars_newsletter_form.settings
   - 'webform.webform.*'
+  - cloudflarepurge.settings
 ignored_config_collections:
   - 'language.*'
 enable_export_filtering: true
