@@ -1,5 +1,6 @@
 .signup-form-wrp {
   background-color: clr(subcolor-2);
+  font-family: var(--v-primary-font);
   .clear-icon {
     display: none;
   }
@@ -376,6 +377,25 @@
   }
 }
 
-.webform-submission-form .status__container {
-  display: none !important;
+.status__container .status--error {
+  display: none;
+}
+
+span {
+  &.validation-error {
+    margin: -20px auto 0;
+    @include xs {
+      max-width: 25rem;
+    }
+    @include small {
+      max-width: 31rem;
+    }
+    @include medium {
+      max-width: 62rem;
+    }
+  }
+}
+
+.globalPrivacy + span.validation-error {
+  margin: -30px auto 0;
 }
