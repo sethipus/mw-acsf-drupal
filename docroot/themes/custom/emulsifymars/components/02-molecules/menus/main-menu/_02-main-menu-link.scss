@@ -1,5 +1,6 @@
 .main-menu__link {
   @include set-font($font-type: 'primary-font');
+
   color: clr(primary, mobile-main-menu-items-color, text-color-override);
   display: block;
   font-size: 3.2rem;
@@ -77,12 +78,16 @@
     }
   }
 }
+
 /*
  * Sub Navigation Links
  */
+
 /* A (Nested) */
 .main-menu__link--sub {
+
   @include set-font($font-type: 'primary-font');
+
   color: clr(secondary, mobile-sub-menu-items-color);
   font-weight: 500;
   font-size: 1.6rem;
@@ -91,8 +96,10 @@
     font-size: 1.8rem;
     padding: 1.9rem 1rem 1.9rem 0;
   }
+
   @include large {
     @include set-font($font-type: 'secondary-font');
+    
     color: clr(primary);
     display: block;
     padding: 1.2rem $space-double;
