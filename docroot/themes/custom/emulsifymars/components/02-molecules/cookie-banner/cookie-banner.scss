@@ -209,18 +209,6 @@
       margin-right: 6rem;
     }
 
-    #onetrust-reject-all-handler{	
-      @include xs{
-        margin-top: 10px;
-      }
-      @include medium{
-        margin: 0 0 0 15px;
-      }
-      @include large{
-       margin: 0 13px 0 13px;
-      }
-  }
-
     #onetrust-pc-btn-handler {
       margin: 0;
       min-width: initial;
