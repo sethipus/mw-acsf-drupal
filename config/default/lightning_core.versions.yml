@@ -75,6 +75,7 @@ image_widget_crop: 2.2.0
 inline_entity_form: 1.0.0-rc2
 jquery_colorpicker: 1.4.0
 jsonapi: 0.0.0
+jsonapi_extras: 3.20.0
 juicer_io: 0.0.0
 language: 8.9.6
 layout_builder: 8.8.1
