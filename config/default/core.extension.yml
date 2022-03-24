@@ -76,6 +76,7 @@ module:
   inline_entity_form: 0
   jquery_colorpicker: 0
   jsonapi: 0
+  jsonapi_extras: 0
   juicer_io: 0
   language: 0
   layout_builder: 0
