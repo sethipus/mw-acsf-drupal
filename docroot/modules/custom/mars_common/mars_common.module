@@ -132,6 +132,18 @@ function mars_common_preprocess(&$variables, $hook) {
     $variables['open_new_tab'] = Drupal::config('emulsifymars.settings')
       ->get('open_new_tab');
   }
+
+  $is_landing_page_card =
+    $hook === 'node' &&
+    $view_mode_is_card &&
+    isset($variables['node']) &&
+    $variables['node'] instanceof Node &&
+    $variables['node']->bundle() === 'landing_page';
+
+  if ($is_landing_page_card) {
+    $variables['new_tab'] = Drupal::config('emulsifymars.settings')
+      ->get('new_tab');
+  }
 }
 
 /**
