@@ -90,6 +90,8 @@ class SearchPrettyFacetProcess implements SearchProcessManagerInterface, SearchP
    * {@inheritdoc}
    */
   public static function getPrettyFacetKeys() {
+    $label_config = \Drupal::configFactory()->get('mars_common.site_labels');
+    $category_label = strtolower($label_config->get('mars_category'));
     return [
       'faq_filter_topic' => 'faq_filter_topic',
       'mars_flavor' => 'flavor',
@@ -97,7 +99,7 @@ class SearchPrettyFacetProcess implements SearchProcessManagerInterface, SearchP
       'mars_diet_allergens' => 'diet_allergens',
       'mars_occasions' => 'occasions',
       'mars_brand_initiatives' => 'brand_initiatives',
-      'mars_category' => 'category',
+      'mars_category' => $category_label ?? 'category',
       'mars_culture' => 'culture',
       'mars_food_type' => 'food_type',
       'mars_main_ingredient' => 'main_ingredient',
