@@ -263,7 +263,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->config->getEditable('mars_common.character_limit_page');
 
     $form['top_footer_menu'] = [
       '#type' => 'entity_autocomplete',

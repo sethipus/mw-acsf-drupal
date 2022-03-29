@@ -219,7 +219,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
 
     $form['title'] = [
       '#type' => 'textfield',

@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -39,6 +40,13 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
   protected $mediaHelper;
 
   /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * Language helper service.
    *
    * @var \Drupal\mars_common\LanguageHelper
@@ -52,10 +60,12 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    ConfigFactoryInterface $config_factory,
     LanguageHelper $language_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->configFactory = $config_factory;
     $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
   }
@@ -68,6 +78,7 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('config.factory'),
       $container->get('mars_common.language_helper'),
       $container->get('mars_media.media_helper')
     );
@@ -113,7 +124,7 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
     $form['list_label'] = [
       '#title'         => $this->t('List title'),
       '#type'          => 'textfield',

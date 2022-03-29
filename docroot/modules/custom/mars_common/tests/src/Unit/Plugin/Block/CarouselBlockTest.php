@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\Plugin\Block\CarouselBlock;
@@ -17,6 +19,20 @@ use Drupal\mars_common\ThemeConfiguratorParser;
  * @group mars_common
  */
 class CarouselBlockTest extends UnitTestCase {
+
+   /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
+   * Immutable config mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $immutableConfigMock;
 
   /**
    * System under test.
@@ -73,6 +89,12 @@ class CarouselBlockTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
+
+    $this->configFactoryMock
+    ->method('getEditable')
+    ->with('mars_common.character_limit_page')
+    ->willReturn($this->immutableConfigMock);
+
     \Drupal::setContainer($this->containerMock);
     $this->configuration = [
       'carousel_label' => 'Carousel',
@@ -86,6 +108,7 @@ class CarouselBlockTest extends UnitTestCase {
       $this->configuration,
       'list_block',
       $definitions,
+      $this->configFactoryMock,
       $this->languageHelperMock,
       $this->mediaHelperMock,
       $this->themeConfiguratorParserMock
@@ -97,10 +120,15 @@ class CarouselBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(3))
+      ->expects($this->exactly(4))
       ->method('get')
       ->willReturnMap(
         [
+          [
+            'config.factory',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->configFactoryMock,
+          ],
           [
             'mars_common.language_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
@@ -197,6 +225,8 @@ class CarouselBlockTest extends UnitTestCase {
    * Create all mocks for tests.
    */
   private function createMocks(): void {
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);

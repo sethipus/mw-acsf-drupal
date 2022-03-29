@@ -313,7 +313,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
     $commerce_vendor = $this->getCommerceVendor();
     $current_path = $this->currentPathStack->getPath();
     $path_arr = explode('/',$current_path);

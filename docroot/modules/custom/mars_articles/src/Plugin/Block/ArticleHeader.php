@@ -192,12 +192,12 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
-    $character_limit_config = $this->configFactory->get('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
 
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
-      '#maxlength' => !empty($character_limit_config->get('eyebrow')) ? $character_limit_config->get('eyebrow') : 15,
+      '#maxlength' => !empty($character_limit_config->get('article_eyebrow')) ? $character_limit_config->get('article_eyebrow'): 15,
       '#required' => TRUE,
       '#default_value' => $config['eyebrow'] ?? '',
     ];

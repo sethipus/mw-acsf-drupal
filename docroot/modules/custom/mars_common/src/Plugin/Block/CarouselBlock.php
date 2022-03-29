@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -48,6 +49,13 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
   const KEY_OPTION_IMAGE = 'image';
 
   /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_media\MediaHelper
@@ -75,11 +83,13 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    ConfigFactoryInterface $config_factory,
     LanguageHelper $language_helper,
     MediaHelper $media_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->configFactory = $config_factory;
     $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
@@ -93,6 +103,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('config.factory'),
       $container->get('mars_common.language_helper'),
       $container->get('mars_media.media_helper'),
       $container->get('mars_common.theme_configurator_parser')
@@ -142,7 +153,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
     $form['carousel_label'] = [
       '#title'         => $this->t('Carousel title'),
       '#type'          => 'textfield',

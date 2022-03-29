@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -30,6 +31,13 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $mediaStorage;
+
+  /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
 
   /**
    * Language helper service.
@@ -111,6 +119,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('config.factory'),
       $container->get('mars_common.language_helper'),
       $container->get('mars_media.media_helper'),
       $container->get('mars_common.theme_configurator_parser')
@@ -124,11 +133,13 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    ConfigFactoryInterface $config_factory,
     LanguageHelper $language_helper,
     MediaHelper $media_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->configFactory = $config_factory;
     $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
@@ -210,7 +221,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $block_type_value = $config['background_options'] ?? self::KEY_OPTION_DEFAULT;
     $submitted_input = $form_state->getUserInput()['settings'] ?? [];
     $type_for_validation = $submitted_input['background_options'] ?? $block_type_value;
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
 
     $form['eyebrow'] = [
       '#type' => 'textfield',

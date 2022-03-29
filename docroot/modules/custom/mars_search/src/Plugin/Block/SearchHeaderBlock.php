@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_search\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\Core\Form\FormStateInterface;
@@ -20,6 +21,13 @@ use Drupal\mars_search\SearchProcessFactoryInterface;
  * )
  */
 class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
 
   /**
    * ThemeConfiguratorParser.
@@ -57,6 +65,7 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('config.factory'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('mars_search.search_factory'),
       $container->get('mars_common.language_helper')
@@ -70,11 +79,13 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    ConfigFactoryInterface $config_factory,
     ThemeConfiguratorParser $themeConfiguratorParser,
     SearchProcessFactoryInterface $searchProcessor,
     LanguageHelper $language_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->configFactory = $config_factory;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->searchProcessor = $searchProcessor;
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
@@ -114,7 +125,7 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
     $config = $this->getConfiguration();
 
     $form['search_header_heading'] = [

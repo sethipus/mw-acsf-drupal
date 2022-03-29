@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_banners\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -60,6 +61,13 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   const KEY_OPTION_IMAGE_AND_TEXT = 'image_and_text';
 
   /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_media\MediaHelper
@@ -87,11 +95,13 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    ConfigFactoryInterface $config_factory,
     MediaHelper $media_helper,
     LanguageHelper $language_helper,
     ThemeConfiguratorParser $theme_config_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->configFactory = $config_factory;
     $this->mediaHelper = $media_helper;
     $this->languageHelper = $language_helper;
     $this->themeConfigParser = $theme_config_parser;
@@ -105,6 +115,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('config.factory'),
       $container->get('mars_media.media_helper'),
       $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser')
@@ -179,7 +190,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $block_type_value = $config['block_type'] ?? self::KEY_OPTION_DEFAULT;
     $submitted_input = $form_state->getUserInput()['settings'] ?? [];
     $type_for_validation = $submitted_input['block_type'] ?? $block_type_value;
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
 
     $form['block_type'] = [
       '#title' => $this->t('Choose block type'),

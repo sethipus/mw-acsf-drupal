@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -27,6 +28,13 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
   use EntityBrowserFormTrait;
   use SelectBackgroundColorTrait;
   use OverrideThemeTextColorTrait;
+
+  /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
 
   /**
    * Mars Media Helper service.
@@ -64,11 +72,13 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    ConfigFactoryInterface $config_factory,
     MediaHelper $media_helper,
     LanguageHelper $language_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->configFactory = $config_factory;
     $this->mediaHelper = $media_helper;
     $this->languageHelper = $language_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
@@ -82,6 +92,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('config.factory'),
       $container->get('mars_media.media_helper'),
       $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser')
@@ -94,7 +105,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
 
     $form['title'] = [
       '#type' => 'textfield',
