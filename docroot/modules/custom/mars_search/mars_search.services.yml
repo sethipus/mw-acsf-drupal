@@ -11,7 +11,7 @@ services:
       - { name: mars_search.search_processor}
   mars_search.facet_process:
     class: Drupal\mars_search\Processors\SearchTermFacetProcess
-    arguments: ['@entity_type.manager', '@request_stack', '@mars_search.search_categories', '@mars_common.language_helper']
+    arguments: ['@entity_type.manager', '@request_stack', '@mars_search.search_categories', '@mars_common.language_helper', '@config.factory']
     tags:
       - { name: mars_search.search_processor}
   mars_search.search_builder:
@@ -30,6 +30,6 @@ services:
       - { name: service_collector, tag: 'mars_search.search_processor', call: addProcessManager }
   mars_search.pretty_facet_process:
     class: Drupal\mars_search\Processors\SearchPrettyFacetProcess
-    arguments: ['@entity_type.manager', '@mars_common.language_helper']
+    arguments: ['@entity_type.manager', '@mars_common.language_helper', '@config.factory']
     tags:
       - { name: mars_search.search_processor}
