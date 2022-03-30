@@ -1018,6 +1018,10 @@ function mars_common_webform_element_alter(array &$element, FormStateInterface $
         'Drupal\mars_common\Validate\MarsValidateConstraint',
         'validate',
     ];
+    $grecaptcha = $form_state->getUserInput()['g-recaptcha-response'];
+    if ($element['#webform_key'] === 'captcha' && isset($grecaptcha) && empty($grecaptcha)) {
+      $element['#suffix'] = '<span class="validation-error">required</span>';
+    }
   }
 }
 
