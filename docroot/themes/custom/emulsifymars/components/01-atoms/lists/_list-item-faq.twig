@@ -18,14 +18,14 @@
 <li {{ bem(li_base_class, li_modifiers, li_blockname) }}>
   {% block list_item_content_question %}
     <div {{bem('question', [], li_base_class)}}>
-      <div {{bem('faq-mark', [], li_base_class)}}>Q:</div>
+      <div {{bem('faq-mark', [], li_base_class)}}>{{ faq_ques_label ?: 'Q:' }}</div>
       {{ list_item_content.question | raw }}
     </div>
   {% endblock %}
   <div>
   {% block list_item_content_answer %}
       <div {{bem('answer', [], li_base_class)}}>
-        <div {{bem('faq-mark', [], li_base_class)}}>A:</div>
+        <div {{bem('faq-mark', [], li_base_class)}}>{{ faq_ans_label ?: 'A:'}}</div>
         {{ list_item_content.answer | raw }}
       </div>
     {% endblock %}
