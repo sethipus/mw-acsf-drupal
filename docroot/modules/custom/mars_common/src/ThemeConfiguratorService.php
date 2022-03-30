@@ -901,6 +901,23 @@ class ThemeConfiguratorService {
         '#title' => $this->t('Open in new tab'),
         '#default_value' => $this->getData('campaign_card', 'open_new_tab', $config),
       ];
+
+      $form['faq'] = [
+        '#type' => 'details',
+        '#open' => TRUE,
+        '#title' => $this->t('FAQ settings'),
+        '#description' => $this->t("MARS theme settings for FAQ"),
+      ];
+      $form['faq']['faq_ques_label'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Faq Question label'),
+        '#default_value' => $this->getData('faq', 'faq_ques_label', $config),
+      ];
+      $form['faq']['faq_ans_label'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Faq Answer label'),
+        '#default_value' => $this->getData('faq', 'faq_ans_label', $config),
+      ];
     }
 
     if (!$this->isPluginBlock($form)) {

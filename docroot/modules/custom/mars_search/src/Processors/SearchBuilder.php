@@ -502,6 +502,8 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
    */
   protected function prepareFaqRenderArray(array $search_results) {
     $build = [];
+    $faq_ques_label = $this->themeConfiguratorParser->getSettingValue('faq_ques_label');
+    $faq_ans_label = $this->themeConfiguratorParser->getSettingValue('faq_ans_label');
     /** @var \Drupal\node\NodeInterface $search_result */
     foreach ($search_results['results'] as $row_key => $search_result) {
       if (!$search_result->hasField('field_qa_item_question')) {
@@ -523,6 +525,8 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
           'question' => $question_value,
           'answer' => $answer_value,
         ],
+        '#faq_ques_label' => $faq_ques_label,
+        '#faq_ans_label' => $faq_ans_label,
       ];
     }
     return $build;
