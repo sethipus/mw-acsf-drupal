@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_search\Processors;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\mars_common\LanguageHelper;
@@ -36,6 +37,13 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
   protected $searchCategories;
 
   /**
+   * Config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * Language helper service.
    *
    * @var \Drupal\mars_common\LanguageHelper
@@ -45,11 +53,12 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
   /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request, SearchCategoriesInterface $searchCategories, LanguageHelper $language_helper) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request, SearchCategoriesInterface $searchCategories, LanguageHelper $language_helper, ConfigFactoryInterface $configFactory) {
     $this->entityTypeManager = $entity_type_manager;
     $this->request = $request->getMasterRequest();
     $this->searchCategories = $searchCategories;
     $this->languageHelper = $language_helper;
+    $this->configFactory = $configFactory;
   }
 
   /**
@@ -73,6 +82,8 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
     $filters = [];
     $terms = $this->getTaxonomies($facets, $vocabularies);
     $taxonomy_vocs = $this->getTaxonomiesVocabularies($vocabularies);
+    $label_config = $this->configFactory->get('mars_common.site_labels');
+    $category_label = $label_config->get('mars_category') ? strtolower($label_config->get('mars_category')) : '';
     $appliedFilters = [];
 
     foreach ($vocabularies as $vocabulary => $vocabulary_data) {
@@ -85,7 +96,7 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
             continue;
           }
           $key_taxonomy_term = $terms[$facet['filter']]->label();
-          $pretty_path_for_vocabulary = SearchPrettyFacetProcess::getPrettyFacetKeys()[$vocabulary];
+          $pretty_path_for_vocabulary = SearchPrettyFacetProcess::getPrettyFacetKeys($category_label)[$vocabulary];
           $facetValues[] = [
             'title' => $terms[$facet['filter']]->label(),
             'key' => $grid_id . $pretty_path_for_vocabulary . urlencode($key_taxonomy_term),
