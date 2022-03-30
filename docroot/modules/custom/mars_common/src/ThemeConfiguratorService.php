@@ -902,6 +902,18 @@ class ThemeConfiguratorService {
         '#default_value' => $this->getData('campaign_card', 'open_new_tab', $config),
       ];
 
+      $form['landing_page_card'] = [
+        '#type' => 'details',
+        '#open' => TRUE,
+        '#title' => $this->t('Landing page Card settings'),
+        '#description' => $this->t("MARS theme settings for landing page card"),
+      ];
+      $form['landing_page_card']['new_tab'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Open in new tab'),
+        '#default_value' => $this->getData('landing_page_card', 'new_tab', $config),
+      ];
+
       $form['faq'] = [
         '#type' => 'details',
         '#open' => TRUE,
