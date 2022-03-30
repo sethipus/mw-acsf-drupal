@@ -125,7 +125,7 @@ class MarsCharacterLimitPageForm extends ConfigFormBase {
 
     $form['ui_disclaimer'] = array(
       '#type' => 'label',
-      '#title' => $this->t('<span style="color:red">IMPORTANT!</span> Once the character count limitation is changed, the onus lies with the Site admin/ Content creator to verify how the modification in the Character Limit page is reflecting in the front end before publishing.'),
+      '#title' => $this->t('<span class="ui-disclaimer">IMPORTANT!</span> Once the character count limitation is changed, the onus lies with the Site admin/ Content creator to verify how the modification in the Character Limit page is reflecting in the front end before publishing.'),
     );
 
     // MARS: Article header Block Fields
@@ -852,6 +852,7 @@ class MarsCharacterLimitPageForm extends ConfigFormBase {
       '#limit_validation_errors' => array()
     ];
 
+    $form['#attached']['library'][] = 'mars_common/mars_common.character_page';
     return $form;
   }
 
