@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_search\Processors;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\mars_common\LanguageHelper;
@@ -27,11 +28,19 @@ class SearchPrettyFacetProcess implements SearchProcessManagerInterface, SearchP
   private $languageHelper;
 
   /**
+   * Config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactory
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, LanguageHelper $language_helper) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, LanguageHelper $language_helper, ConfigFactoryInterface $configFactory) {
     $this->entityTypeManager = $entity_type_manager;
     $this->languageHelper = $language_helper;
+    $this->configFactory = $configFactory;
   }
 
   /**
@@ -47,8 +56,8 @@ class SearchPrettyFacetProcess implements SearchProcessManagerInterface, SearchP
   public function checkPrettyFacets(&$query_parameters) {
     foreach ($query_parameters as $key => $query_parameter) {
       $term_object = NULL;
-      if (is_array($query_parameter) && in_array($key, static::getPrettyFacetKeys())) {
-        $facet_key = array_search($key, static::getPrettyFacetKeys());
+      if (is_array($query_parameter) && in_array($key, static::getPrettyFacetKeys($this->getCategoryTermLabel()))) {
+        $facet_key = array_search($key, static::getPrettyFacetKeys($this->getCategoryTermLabel()));
         unset($query_parameters[$key]);
         if (is_array($query_parameter)) {
           $derivative_id = LanguageInterface::TYPE_URL;
@@ -89,7 +98,7 @@ class SearchPrettyFacetProcess implements SearchProcessManagerInterface, SearchP
   /**
    * {@inheritdoc}
    */
-  public static function getPrettyFacetKeys() {
+  public static function getPrettyFacetKeys($category_label = '') {
     return [
       'faq_filter_topic' => 'faq_filter_topic',
       'mars_flavor' => 'flavor',
@@ -97,7 +106,7 @@ class SearchPrettyFacetProcess implements SearchProcessManagerInterface, SearchP
       'mars_diet_allergens' => 'diet_allergens',
       'mars_occasions' => 'occasions',
       'mars_brand_initiatives' => 'brand_initiatives',
-      'mars_category' => 'category',
+      'mars_category' => $category_label ?? 'category',
       'mars_culture' => 'culture',
       'mars_food_type' => 'food_type',
       'mars_main_ingredient' => 'main_ingredient',
@@ -115,11 +124,21 @@ class SearchPrettyFacetProcess implements SearchProcessManagerInterface, SearchP
   public function rewriteFilterKeys(array &$build) {
     if (isset($build['#filters']) && !empty($build['#filters'])) {
       foreach ($build['#filters'] as $key => $filter) {
-        if (array_key_exists($filter['filter_id'], static::getPrettyFacetKeys())) {
-          $build['#filters'][$key]['filter_id'] = static::getPrettyFacetKeys()[$filter['filter_id']];
+        if (array_key_exists($filter['filter_id'], static::getPrettyFacetKeys($this->getCategoryTermLabel()))) {
+          $build['#filters'][$key]['filter_id'] = static::getPrettyFacetKeys($this->getCategoryTermLabel())[$filter['filter_id']];
         }
       }
     }
+  }
+
+  /**
+   * Get Category term label from config object.
+   */
+  public function getCategoryTermLabel() {
+    $label_config = $this->configFactory->get('mars_common.site_labels');
+    $category_label = $label_config->get('mars_category') ? strtolower($label_config->get('mars_category')) : '';
+
+    return $category_label;
   }
 
 }
