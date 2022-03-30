@@ -400,3 +400,11 @@ span {
 .globalPrivacy + span.validation-error {
   margin: -30px auto 0;
 }
+
+.captcha + span.validation-error {
+  margin-top: -5px;
+}
+
+.captcha #g-recaptcha {
+  border: 1px solid #d12e26;
+}
