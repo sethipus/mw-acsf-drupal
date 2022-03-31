@@ -224,6 +224,10 @@ AddEncoding gzip svgz
  RewriteCond %{HTTP_HOST} ^www\.unclebens\.fi$ [NC]
  RewriteRule ^(.*)$ https://fi.bensoriginal.com/$1 [R=301,L]
 
+ # Adding redirect for skittles.com to www.skittles.com
+ RewriteCond %{HTTP_HOST} ^skittles\.com$ [NC]
+ RewriteRule ^(.*)$ https://www.skittles.com/$1 [R=301,L]
+
  # Adding redirect for twix.de to www.twix.de
  RewriteCond %{HTTP_HOST} ^twix\.de$ [NC]
  RewriteRule ^(.*)$ https://www.twix.de/$1 [L,R=301]
