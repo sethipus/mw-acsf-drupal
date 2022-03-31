@@ -1,3 +1,7 @@
 .ui-disclaimer {
     color: #ff0000;
 }
+
+.ui-disclaimer-bg {
+    background-color: yellow;
+}

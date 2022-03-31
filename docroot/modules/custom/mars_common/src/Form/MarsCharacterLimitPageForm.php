@@ -125,7 +125,7 @@ class MarsCharacterLimitPageForm extends ConfigFormBase {
 
     $form['ui_disclaimer'] = array(
       '#type' => 'label',
-      '#title' => $this->t('<span class="ui-disclaimer">IMPORTANT!</span> Once the character count limitation is changed, the onus lies with the Site admin/ Content creator to verify how the modification in the Character Limit page is reflecting in the front end before publishing.'),
+      '#title' => $this->t('<span class="ui-disclaimer">IMPORTANT! </span> <span class="ui-disclaimer-bg">Once the character count limitation is changed, the onus lies with the Site admin/ Content creator to verify how the modification in the Character Limit page is reflecting in the front end before publishing.</span>'),
     );
 
     // MARS: Article header Block Fields
