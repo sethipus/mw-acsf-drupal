@@ -342,15 +342,15 @@
           width: 18px;
           height: 18px;
           top: calc(50% - 9px);
-          left: calc(100% + 15px);
+          left: calc(100% + 9px);
           cursor: pointer;
 
           @include small{
-            left: calc(100% + 25px);
+            left: calc(100% + 22px);
           }
 
           @include medium{
-            left: calc(100% - 9px);
+            left: calc(100% - 22px);
           }
         }
 
