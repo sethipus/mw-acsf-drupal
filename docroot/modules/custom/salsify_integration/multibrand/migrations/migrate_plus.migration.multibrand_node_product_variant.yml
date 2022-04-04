@@ -368,6 +368,14 @@ source:
       label: 'Added sugars'
       selector: 'field_product_added_sugars/0'
     -
+      name: field_dual_vitamin_a_daily
+      label: 'Dual vitamin a daily'
+      selector: 'field_dual_vitamin_a_daily/0'
+    -
+      name: field_dual_vitamin_a
+      label: 'Dual vitamin a'
+      selector: 'field_dual_vitamin_a/0'
+    -
       name: field_dual_vitamin_d_daily
       label: 'Dual vitamin d daily'
       selector: 'field_dual_vitamin_d_daily/0'
@@ -712,6 +720,14 @@ process:
     plugin: default_value
     default_value: ''
     source: field_product_added_sugars
+  field_dual_vitamin_a_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_vitamin_a_daily
+  field_dual_vitamin_a:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_vitamin_a
   field_dual_vitamin_d_daily:
     plugin: default_value
     default_value: ''

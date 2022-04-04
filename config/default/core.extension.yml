@@ -76,6 +76,7 @@ module:
   inline_entity_form: 0
   jquery_colorpicker: 0
   jsonapi: 0
+  jsonapi_extras: 0
   juicer_io: 0
   language: 0
   layout_builder: 0
@@ -115,6 +116,7 @@ module:
   mailsystem: 0
   mars_articles: 0
   mars_banners: 0
+  mars_cloudflarepurge: 0
   mars_common: 0
   mars_content_hub: 0
   mars_entry_gate: 0

@@ -2,9 +2,11 @@
 
 namespace Drupal\Tests\mars_search\Unit\Processors;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\mars_common\Form\MarsSiteLabelsForm;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_search\Processors\SearchHelper;
 use Drupal\mars_search\Processors\SearchQueryParser;
@@ -96,6 +98,13 @@ class SearchTermFacetProcessTest extends UnitTestCase {
   protected $searchTermFacetProcess;
 
   /**
+   * Config factory mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactoryMock;
+
+  /**
    * Search categories mock.
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchCategoriesInterface
@@ -141,7 +150,8 @@ class SearchTermFacetProcessTest extends UnitTestCase {
       $this->entityTypeManagerMock,
       $this->requestStackMock,
       $this->searchCategoriesMock,
-      $this->languageHelperMock
+      $this->languageHelperMock,
+      $this->configFactoryMock
     );
   }
 
@@ -159,6 +169,7 @@ class SearchTermFacetProcessTest extends UnitTestCase {
       ->willReturn($this->requestMock);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManager::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
   }
 
   /**
@@ -261,6 +272,22 @@ class SearchTermFacetProcessTest extends UnitTestCase {
       ->expects($this->once())
       ->method('get')
       ->willReturn($field);
+
+    $siteLabelMock = $this
+      ->getMockBuilder(MarsSiteLabelsForm::class)
+      ->addMethods(['get'])
+      ->disableOriginalConstructor()
+      ->getMock();
+
+    $this->configFactoryMock
+      ->method('get')
+      ->with('mars_common.site_labels')
+      ->willReturn($siteLabelMock);
+
+    $siteLabelMock
+      ->method('get')
+      ->with('mars_category')
+      ->willReturn('range');
 
     $process_filter = $this->searchTermFacetProcess->processFilter($facets_query['facets'], static::TAXONOMY_VOCABULARIES, $grid_id);
     $this->assertCount(2, $process_filter);
