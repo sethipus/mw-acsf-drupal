@@ -35,6 +35,7 @@ class MediaHelperFilters extends AbstractExtension {
   public function getFilters() {
     return [
       new TwigFilter('entityMainMediaId', [$this, 'mainMediaId']),
+      new TwigFilter('entityGroupMediaId', [$this, 'groupMediaId']),
       new TwigFilter('mediaParamsById', [$this, 'mediaParams']),
     ];
   }
@@ -66,6 +67,22 @@ class MediaHelperFilters extends AbstractExtension {
    */
   public function mediaParams(?string $mediaId): array {
     return $this->mediaHelper->getMediaParametersById($mediaId);
+  }
+
+  /**
+   * Filter to return group media id.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface|null $contentEntity
+   *   The entity that we are processing for group media.
+   *
+   * @return string|null
+   *   The media ID or NULL if it has none or the entity was NULL.
+   */
+  public function groupMediaId(?ContentEntityInterface $contentEntity): ?string {
+    if ($contentEntity === NULL) {
+      return NULL;
+    }
+    return $this->mediaHelper->getEntityGroupMediaId($contentEntity);
   }
 
 }
