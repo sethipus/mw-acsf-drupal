@@ -7,6 +7,7 @@ dependencies:
     - editor
     - entity_embed
     - media
+    - slick
 _core:
   default_config_hash: LQ7Z_f1qIeAP7aiyHGBwlgjdsAHzwISN1_6-Dvv_fVY
 name: 'Rich text'
@@ -46,10 +47,10 @@ filters:
   filter_html:
     id: filter_html
     provider: filter
-    status: false
+    status: true
     weight: -50
     settings:
-      allowed_html: '<a href hreflang id class target rel title> <em> <strong> <u> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h1 id class> <h2 id class> <h3 id class> <h4 id class> <h5 id class> <h6 id class> <s> <sup> <sub> <img src alt data-entity-type data-entity-uuid data-align data-caption> <table> <caption> <tbody> <thead> <tfoot> <th> <td> <tr> <hr> <p> <br> <pre> <drupal-entity data-entity-type data-entity-uuid data-entity-embed-display data-entity-embed-display-settings data-align data-caption data-embed-button title alt>'
+      allowed_html: '<a href hreflang id target rel title class=""> <em> <strong> <u> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h1 id class=""> <h2 id class=""> <h3 id class=""> <h4 id class=""> <h5 id class=""> <h6 id class=""> <s> <sup> <sub> <img src alt data-entity-type data-entity-uuid data-align data-caption> <table> <caption> <tbody> <thead> <tfoot> <th> <td> <tr> <hr> <p> <br> <pre> <drupal-entity data-entity-type data-entity-uuid data-entity-embed-display data-entity-embed-display-settings data-align data-caption data-embed-button title alt data-langcode> <span>'
       filter_html_help: true
       filter_html_nofollow: false
   filter_autop:
@@ -86,6 +87,7 @@ filters:
       media_switch: ''
       hybrid_style: ''
       box_style: ''
+      box_caption: ''
       filter_tags:
         img: img
         iframe: iframe
@@ -106,4 +108,27 @@ filters:
     weight: 4
     settings:
       optionset: default
+      layout: ''
+      skin: ''
+      loading: ''
+      preload: false
+      background: false
+      image_style: ''
       media_switch: ''
+      ratio: ''
+      thumbnail_style: ''
+      overridables:
+        arrows: '0'
+        autoplay: '0'
+        dots: '0'
+        draggable: '0'
+        infinite: '0'
+        mouseWheel: '0'
+        randomize: '0'
+        variableWidth: '0'
+      optionset_thumbnail: ''
+      skin_thumbnail: ''
+      thumbnail_caption: ''
+      thumbnail_effect: ''
+      thumbnail_position: ''
+      override: false

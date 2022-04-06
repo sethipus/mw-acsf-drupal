@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73b1181ec1386d07466d018cc3fcac15",
+    "content-hash": "bf845510e235d638b184405315c016b6",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -5498,75 +5498,6 @@
             "time": "2022-01-28T09:33:01+00:00"
         },
         {
-            "name": "drupal/cog",
-            "version": "1.15.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/cog.git",
-                "reference": "8.x-1.15"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/cog-8.x-1.15.zip",
-                "reference": "8.x-1.15",
-                "shasum": "4b416ce2957438cbe42e8597fccaf7d208a90534"
-            },
-            "require": {
-                "drupal/core": "^8 || ^9"
-            },
-            "type": "drupal-theme",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.15",
-                    "datestamp": "1584454088",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "acquia",
-                    "homepage": "https://www.drupal.org/user/1231722"
-                },
-                {
-                    "name": "aellison",
-                    "homepage": "https://www.drupal.org/user/277818"
-                },
-                {
-                    "name": "elm45",
-                    "homepage": "https://www.drupal.org/user/805178"
-                },
-                {
-                    "name": "grasmash",
-                    "homepage": "https://www.drupal.org/user/455714"
-                },
-                {
-                    "name": "jenter",
-                    "homepage": "https://www.drupal.org/user/186584"
-                },
-                {
-                    "name": "littlekope0903",
-                    "homepage": "https://www.drupal.org/user/2867321"
-                },
-                {
-                    "name": "sarahjean",
-                    "homepage": "https://www.drupal.org/user/553728"
-                }
-            ],
-            "description": "An Acquia-maintained base theme.",
-            "homepage": "https://github.com/acquia-pso/cog",
-            "support": {
-                "source": "https://github.com/acquia-pso/cog",
-                "issues": "https://github.com/acquia-pso/cog/issues"
-            }
-        },
-        {
             "name": "drupal/colorapi",
             "version": "1.1.0",
             "source": {
@@ -8188,39 +8119,42 @@
         },
         {
             "name": "drupal/facets",
-            "version": "1.8.0",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/facets.git",
-                "reference": "8.x-1.8"
+                "reference": "2.0.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/facets-8.x-1.8.zip",
-                "reference": "8.x-1.8",
-                "shasum": "f621b84b59c5315db14a0529df5dfc74ca5bc9de"
+                "url": "https://ftp.drupal.org/files/projects/facets-2.0.2.zip",
+                "reference": "2.0.2",
+                "shasum": "17afc46d3f4e4300e8e69f23b3b01a4935b57104"
             },
             "require": {
-                "drupal/core": "^8.8 || ^9"
+                "drupal/core": "^9.2 || ^10.0"
             },
             "conflict": {
                 "drupal/search_api": "<1.14"
             },
             "require-dev": {
-                "drupal/search_api": "~1.14"
+                "drupal/jquery_ui_slider": "~1.1",
+                "drupal/jquery_ui_touch_punch": "~1.0",
+                "drupal/search_api": "~1.21"
+            },
+            "suggest": {
+                "drupal/jquery_ui_slider": "Required for the 'Facets Range Widget' module to work",
+                "drupal/jquery_ui_touch_punch": "Required for the 'Facets Range Widget' module to work"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.8",
-                    "datestamp": "1620838256",
+                    "version": "2.0.2",
+                    "datestamp": "1649070269",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
-                },
-                "branch-alias": {
-                    "dev-8.x-1.x": "1.x-dev"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -17380,7 +17314,7 @@
         },
         {
             "name": "mars/mars_seo",
-            "version": "dev-feature/376949-Drupal-core-9.3.8",
+            "version": "dev-feature/385775-recomm",
             "dist": {
                 "type": "path",
                 "url": "docroot/modules/custom/mars_seo",
