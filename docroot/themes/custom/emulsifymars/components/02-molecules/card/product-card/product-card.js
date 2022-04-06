@@ -26,7 +26,6 @@
             $cardCta.removeClass('default-link--light')
           });
           $productCard.on('click', (e) => {
-            $cardCta.removeClass('default-link--light');
             if (!$(e.target).closest('.where-to-buy').length) {
               window.location.href = $cardCta.attr('href');
             }
