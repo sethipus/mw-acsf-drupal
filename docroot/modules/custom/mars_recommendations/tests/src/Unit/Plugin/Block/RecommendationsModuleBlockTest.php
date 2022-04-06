@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\mars_recommendations\Unit\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormState;
@@ -93,6 +95,20 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
   private $formStateMock;
 
   /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
+   * Immutable config mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $immutableConfigMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -100,6 +116,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
 
     $container = new ContainerBuilder();
     $container->set('string_translation', $this->getStringTranslationStub());
+    $container->set('config.factory', $this->createConfigFactoryMock());
     $container->set('mars_recommendations.recommendations_service', $this->createRecommendationsServiceMock());
     $container->set('mars_common.theme_configurator_parser', $this->createThemeConfigurationParserMock());
     $container->set('mars_common.language_helper', $this->createLanguageHelperMock());
@@ -585,6 +602,17 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
 
     return $mock;
   }
+  private function createConfigFactoryMock() {
+    $configMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
+    $configMock
+    ->method('getEditable')
+    ->with('mars_common.character_limit_page')
+    ->willReturn($this->immutableConfigMock);
+
+    return $configMock;
+  }
+  
 
   /**
    * Returns Language helper mock.

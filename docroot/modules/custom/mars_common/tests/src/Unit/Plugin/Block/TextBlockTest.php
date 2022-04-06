@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\Plugin\Block\TextBlock;
 use Drupal\Tests\UnitTestCase;
@@ -38,6 +40,20 @@ class TextBlockTest extends UnitTestCase {
   private $formStateMock;
 
   /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
+   * Immutable config mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $immutableConfigMock;
+
+  /**
    * Mock.
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
@@ -57,6 +73,12 @@ class TextBlockTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
+
+    $this->configFactoryMock
+    ->method('getEditable')
+    ->with('mars_common.character_limit_page')
+    ->willReturn($this->immutableConfigMock);
+
     \Drupal::setContainer($this->containerMock);
     $this->configuration = [
       'form_url' => 'http',
@@ -70,6 +92,7 @@ class TextBlockTest extends UnitTestCase {
       $this->configuration,
       'text_block',
       $definitions,
+      $this->configFactoryMock,
       $this->languageHelperMock,
     );
   }
@@ -117,6 +140,8 @@ class TextBlockTest extends UnitTestCase {
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
   }
 

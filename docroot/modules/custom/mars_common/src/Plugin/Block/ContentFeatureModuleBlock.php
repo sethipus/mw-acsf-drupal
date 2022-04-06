@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -29,6 +30,13 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
    * Lighthouse entity browser image id.
    */
   const LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID = 'lighthouse_browser';
+
+  /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
 
   /**
    * ThemeConfiguratorParser.
@@ -59,6 +67,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('config.factory'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('mars_common.language_helper'),
       $container->get('mars_media.media_helper')
@@ -72,11 +81,13 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    ConfigFactoryInterface $config_factory,
     ThemeConfiguratorParser $themeConfiguratorParser,
     LanguageHelper $language_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->configFactory = $config_factory;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
@@ -144,20 +155,21 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
 
     $config = $this->getConfiguration();
 
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
-      '#maxlength' => 15,
+      '#maxlength' => !empty($character_limit_config->get('content_feature_module_eyebrow')) ? $character_limit_config->get('content_feature_module_eyebrow') : 15,
       '#default_value' => $this->configuration['eyebrow'] ?? '',
       '#required' => TRUE,
     ];
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('content_feature_module_title')) ? $character_limit_config->get('content_feature_module_title') : 55,
       '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
@@ -189,7 +201,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 300,
+      '#maxlength' => !empty($character_limit_config->get('content_feature_module_description')) ? $character_limit_config->get('content_feature_module_description') : 300,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => TRUE,
     ];
@@ -199,7 +211,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       'explore_cta' => [
         '#type' => 'textfield',
         '#title' => $this->t('Button Label'),
-        '#maxlength' => 15,
+        '#maxlength' => !empty($character_limit_config->get('content_feature_module_button_label')) ? $character_limit_config->get('content_feature_module_button_label') : 15,
         '#default_value' => $this->configuration['explore_cta'],
         '#required' => TRUE,
       ],

@@ -9,3 +9,8 @@ poll_ajax:
     js/poll_ajax.js: {}
   dependencies:
     - core/drupal
+
+mars_common.character_page:
+  css:
+    theme:
+      css/character.page.css: {}

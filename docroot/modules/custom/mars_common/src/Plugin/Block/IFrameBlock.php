@@ -45,11 +45,11 @@ class IFrameBlock extends BlockBase {
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state): array {
     $form = parent::buildConfigurationForm($form, $form_state);
-
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
     $form['accessibility_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Accessibility Title'),
-      '#maxlength' => 150,
+      '#maxlength' => !empty($character_limit_config->get('iframe_accessibility_title')) ? $character_limit_config->get('iframe_accessibility_title') : 150,
       '#default_value' => $this->configuration['accessibility_title'] ?? '',
       '#required' => TRUE,
     ];

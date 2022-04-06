@@ -172,6 +172,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $options = $this->getMenus();
     $form['primary_menu'] = [
@@ -216,7 +217,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#description' => $this->t('This text will appear in Alert Banner.'),
       '#default_value' => $config['alert_banner']['alert_banner_text']['value'] ?? '',
       '#format' => $config['alert_banner']['alert_banner_text']['format'] ?? 'plain_text',
-      '#maxlength' => 100,
+      '#maxlength' => !empty($character_limit_config->get('header_block_alert_banner_text')) ? $character_limit_config->get('header_block_alert_banner_text') : 100,
     ];
     $form['alert_banner']['alert_banner_url'] = [
       '#type' => 'textfield',
