@@ -162,6 +162,12 @@
     -webkit-line-clamp: 5;
     display: -webkit-box;
     -webkit-box-orient: vertical;
+    @include large {
+      margin: 2.9rem 3rem 0.5rem;
+    }
+    @include larger {
+      margin: 3rem 3rem 0.5rem;
+    }
     
   }
 
