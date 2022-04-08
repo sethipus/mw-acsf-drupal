@@ -77,7 +77,9 @@ class MarsNewsletterEmailSignupBlock extends BlockBase implements ContainerFacto
    * {@inheritdoc}
    */
   public function build() {
-    
+    // Recaptcha site key.
+    $recaptcha_values = $this->configFactory->getEditable('recaptcha.settings');
+    $recaptcha_site_key = $recaptcha_values->get('site_key');
     $config_newsletter_bg_color = $this->configFactory->getEditable('emulsifymars.settings');
     $config_newsletter_form_value = $this->configFactory->getEditable('mars_newsletter_form.settings')->get('newsletter.config_form');
     $webform = Webform::load('mars_newsletter_email_form');
@@ -95,6 +97,7 @@ class MarsNewsletterEmailSignupBlock extends BlockBase implements ContainerFacto
     $webform_data = [
       'form' => $webform,
     ];
+    $build['#recaptcha_site_key'] = !empty($recaptcha_site_key) ? $recaptcha_site_key : "";
     $build['#webform_newsletter'] = $webform_data;
     $build['#newsletter_toggle'] = $config_newsletter_form_value['newsletter_toggle'] ?? FALSE;
     $build['#webform_block_label'] = $block_label;

@@ -48,6 +48,7 @@ function mars_newsletter_theme($existing, $type, $theme, $path) {
       'mars_newsletter_email_signup_form' => [
          'variables' => [
             'webform_newsletter' => [],
+            'recaptcha_site_key' => NULL,
             'webform_block_label' => NULL,
             'newsletter_toggle' => NULL,
             'newsletter_bg_color' => NULL,
