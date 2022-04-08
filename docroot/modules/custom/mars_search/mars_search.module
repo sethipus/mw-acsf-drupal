@@ -63,6 +63,8 @@ function mars_search_theme($existing, $type, $theme, $path) {
       'variables' => [
         'faq_filter_toggle' => NULL,
         'faq_title' => NULL,
+        'faq_ques_label' => NULL,
+        'faq_ans_label' => NULL,
         'input_form' => NULL,
         'facets' => NULL,
         'items' => [],
@@ -79,6 +81,8 @@ function mars_search_theme($existing, $type, $theme, $path) {
     'mars_search_faq_item' => [
       'variables' => [
         'content' => NULL,
+        'faq_ques_label' => NULL,
+        'faq_ans_label' => NULL,
         'li_base_class' => NULL,
         'li_modifiers' => NULL,
         'li_blockname' => NULL,

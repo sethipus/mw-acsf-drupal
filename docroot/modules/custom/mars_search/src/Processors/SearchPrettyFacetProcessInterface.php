@@ -18,10 +18,14 @@ interface SearchPrettyFacetProcessInterface {
   /**
    * Get pretty facets keys by taxonomies vocabularies ids.
    *
+   * @param string $category_label
+   *
+   *   Category label.
+   *
    * @return array
    *   Return pretty assets key.
    */
-  public static function getPrettyFacetKeys();
+  public static function getPrettyFacetKeys($category_label);
 
   /**
    * Rewrite filters keys.
@@ -30,5 +34,10 @@ interface SearchPrettyFacetProcessInterface {
    *   The build of facets.
    */
   public function rewriteFilterKeys(array &$build);
+
+  /**
+   * Get Category term label.
+   */
+  public function getCategoryTermLabel();
 
 }

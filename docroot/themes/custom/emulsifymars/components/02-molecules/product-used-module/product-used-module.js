@@ -28,9 +28,11 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
               nextEl: nextEl,
               prevEl: prevEl,
             },
-            scrollbar: {
-              el: scrollbar
-            }
+             scrollbar: {
+               el: scrollbar,
+               draggable: true,
+               dragSize: 88,
+             }
           });
         });
       });
