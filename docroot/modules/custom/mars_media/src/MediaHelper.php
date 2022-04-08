@@ -409,4 +409,39 @@ class MediaHelper {
     return new NonResizableImageUri($fileUrl);
   }
 
+  /**
+   * Returns the group media id for a given content.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $contentEntity
+   *   The content entity.
+   *
+   * @return string|null
+   *   The group image media id or NULL.
+   */
+  public function getEntityGroupMediaId(
+    ContentEntityInterface $contentEntity
+  ): ?string {
+    // @todo Use event dispatch to handle this.
+    $media_id = NULL;
+    switch ($contentEntity->bundle()) {
+      case 'product':
+      case 'product_multipack':
+        $main_variant = $this->productHelper->mainVariant($contentEntity);
+
+        if ($main_variant) {
+          $media_id = $this->getEntityGroupMediaId($main_variant);
+        }
+        break;
+
+      case 'product_variant':
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_product_variant_grp_image');
+        break;
+ 
+      default:
+        $media_id = NULL;
+    }
+    return $media_id;
+  }
+
 }

@@ -13,7 +13,9 @@ migration_dependencies:
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
-  data_parser_plugin: salsify_json
+  data_parser_plugin: family_variant_json
+  family_field_check_empty: true
+  column: field_product_variant_grp_title
   item_selector: /
   track_changes: true
   constants:
@@ -368,6 +370,14 @@ source:
       label: 'Added sugars'
       selector: 'field_product_added_sugars/0'
     -
+      name: field_dual_vitamin_a_daily
+      label: 'Dual vitamin a daily'
+      selector: 'field_dual_vitamin_a_daily/0'
+    -
+      name: field_dual_vitamin_a
+      label: 'Dual vitamin a'
+      selector: 'field_dual_vitamin_a/0'
+    -
       name: field_dual_vitamin_d_daily
       label: 'Dual vitamin d daily'
       selector: 'field_dual_vitamin_d_daily/0'
@@ -451,8 +461,22 @@ source:
       name: source_product_disclaimers
       label: 'Product Disclaimers'
       selector: 'field_product_disclaimers/0'
+    -
+      name: source_product_variant_grp_title
+      label: 'CMS: Grouping Display Title'
+      selector: 'field_product_variant_grp_title/0'
+    -
+      name: source_product_variant_grp_image
+      label: 'CMS: Grouping Display Image'
+      selector: 'field_product_variant_grp_image/0'
+    -
+      name: source_pdt_var_grp_primary
+      label: 'CMS: Grouping Display First'
+      selector: 'field_pdt_var_grp_primary/0'
 
   ids:
+    source_product_variant_grp_title:
+      type: string
     source_sku:
       type: string
 process:
@@ -712,6 +736,14 @@ process:
     plugin: default_value
     default_value: ''
     source: field_product_added_sugars
+  field_dual_vitamin_a_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_vitamin_a_daily
+  field_dual_vitamin_a:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_vitamin_a
   field_dual_vitamin_d_daily:
     plugin: default_value
     default_value: ''
@@ -812,6 +844,20 @@ process:
     plugin: default_value
     default_value: ''
     source: source_reference_intake
+  field_product_variant_grp_title:
+    plugin: default_value
+    default_value: ''
+    source: source_product_variant_grp_title
+  field_pdt_var_grp_primary:
+    plugin: yes_to_true
+    default_value: 0
+    source: source_pdt_var_grp_primary
+  field_product_variant_grp_image/target_id:
+    plugin: migration_lookup
+    migration:
+      - multibrand_product_variant_grp_image
+    source: source_product_variant_grp_image
+    no_stub: true
   field_product_key_image/target_id:
     plugin: migration_lookup
     migration:

@@ -161,6 +161,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#faq_title' => $config['faq_title'],
       '#cta_button_label' => $cta_button_label,
       '#cta_button_link' => $cta_button_link,
+      '#faq_ques_label' => $this->themeConfiguratorParser->getSettingValue('faq_ques_label'),
+      '#faq_ans_label' => $this->themeConfiguratorParser->getSettingValue('faq_ans_label'),
       '#search_result_counter' => $query_search_results['resultsCount'],
       '#no_results_heading' => str_replace('@keys', $searchOptions['keys'], $this->languageHelper->translate($config_no_results->get('no_results_heading'))),
       '#no_results_text' => $this->languageHelper->translate($config_no_results->get('no_results_text')),
