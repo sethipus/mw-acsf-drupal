@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a7d7c265bfa57223b82cbf2dbe85bb85",
+    "content-hash": "04d822fc2a8d531cc0067e5db2332c0d",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -17422,7 +17422,7 @@
         },
         {
             "name": "mars/mars_seo",
-            "version": "dev-feature/382223-Drupal-core-9.3.9",
+            "version": "dev-release-v22.04.2",
             "dist": {
                 "type": "path",
                 "url": "docroot/modules/custom/mars_seo",
