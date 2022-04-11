@@ -2,6 +2,8 @@
 
 namespace Drupal\mars_recommendations\Plugin\Block;
 
+
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Form\SubformState;
@@ -29,6 +31,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use OverrideThemeTextColorTrait;
+
+  /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
 
   /**
    * Mars Recommendations Service.
@@ -59,6 +68,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('config.factory'),
       $container->get('mars_recommendations.recommendations_service'),
       $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser')
@@ -72,12 +82,13 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    ConfigFactoryInterface $config_factory,
     RecommendationsService $recommendations_service,
     LanguageHelper $language_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-
+    $this->configFactory = $config_factory;
     $this->recommendationsService = $recommendations_service;
     $this->languageHelper = $language_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
@@ -150,6 +161,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     $conf = $this->getConfiguration();
     $form = parent::buildConfigurationForm($form, $form_state);
     $form_object = $form_state->getFormObject();
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
 
     if ($form_object instanceof ConfigureBlockFormBase) {
       /** @var \Drupal\layout_builder\SectionStorageInterface $section_storage */
@@ -168,7 +180,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       '#title' => $this->t('Title'),
       '#description' => $this->t('Defaults to <em>More <strong>&lt;Content Type&gt;</strong>s Like This</em>'),
       '#placeholder' => $this->t('More &lt;Content Type&gt;s Like This'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('recommendations_module_title')) ? $character_limit_config->get('recommendations_module_title') : 55,
       '#default_value' => $conf['title'] ?? NULL,
     ];
 

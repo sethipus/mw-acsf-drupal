@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\Plugin\Block\FlexibleFramerBlock;
@@ -19,6 +21,20 @@ use Drupal\Core\Form\FormStateInterface;
  * @group mars_common
  */
 class FlexibleFramerBlockTest extends UnitTestCase {
+
+  /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
+   * Immutable config mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $immutableConfigMock;
 
   /**
    * System under test.
@@ -75,6 +91,12 @@ class FlexibleFramerBlockTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
+
+    $this->configFactoryMock
+    ->method('getEditable')
+    ->with('mars_common.character_limit_page')
+    ->willReturn($this->immutableConfigMock);
+
     \Drupal::setContainer($this->containerMock);
     $this->configuration = [
       'form_url' => 'http',
@@ -101,6 +123,7 @@ class FlexibleFramerBlockTest extends UnitTestCase {
       $this->configuration,
       'flexible_framer_block',
       $definitions,
+      $this->configFactoryMock,
       $this->mediaHelperMock,
       $this->languageHelperMock,
       $this->themeConfiguratorParserMock
@@ -112,10 +135,15 @@ class FlexibleFramerBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(3))
+      ->expects($this->exactly(4))
       ->method('get')
       ->willReturnMap(
         [
+          [
+            'config.factory',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->configFactoryMock,
+          ],
           [
             'mars_media.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
@@ -286,6 +314,8 @@ class FlexibleFramerBlockTest extends UnitTestCase {
    * Create all mocks for tests.
    */
   private function createMocks(): void {
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);

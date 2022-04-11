@@ -62,3 +62,13 @@ mars_common.theme_api:
     _controller: '\Drupal\mars_common\Controller\ThemeSettingsApiController::main'
   requirements:
     _permission: 'access content'
+
+mars_common.character_limit_page:
+  path: '/admin/config/character-limit-page'
+  defaults:
+    _form: '\Drupal\mars_common\Form\MarsCharacterLimitPageForm'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE,
+    no_cache: 'TRUE'

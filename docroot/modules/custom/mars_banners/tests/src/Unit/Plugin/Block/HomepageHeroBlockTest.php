@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\mars_banners\Unit\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Url;
@@ -77,6 +79,20 @@ class HomepageHeroBlockTest extends UnitTestCase {
   ];
 
   /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
+   * Immutable config mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $immutableConfigMock;
+
+  /**
    * System under test.
    *
    * @var \Drupal\mars_banners\Plugin\Block\HomepageHeroBlock
@@ -131,12 +147,19 @@ class HomepageHeroBlockTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
+
+    $this->configFactoryMock
+    ->method('getEditable')
+    ->with('mars_common.character_limit_page')
+    ->willReturn($this->immutableConfigMock);
+
     \Drupal::setContainer($this->containerMock);
 
     $this->homepageBlock = new HomepageHeroBlock(
       self::TEST_CONFIGURATION,
       self::TEST_PLUGIN_ID,
       self::TEST_DEFINITION,
+      $this->configFactoryMock,
       $this->mediaHelperMock,
       $this->languageHelperMock,
       $this->themeConfiguratorParserMock
@@ -148,10 +171,15 @@ class HomepageHeroBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(3))
+      ->expects($this->exactly(4))
       ->method('get')
       ->willReturnMap(
         [
+          [
+            'config.factory',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->configFactoryMock,
+          ],
           [
             'mars_media.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
@@ -325,6 +353,8 @@ class HomepageHeroBlockTest extends UnitTestCase {
    * Create all mocks for tests in this file.
    */
   private function createMocks(): void {
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->translationMock = $this->createMock(TranslationInterface::class);

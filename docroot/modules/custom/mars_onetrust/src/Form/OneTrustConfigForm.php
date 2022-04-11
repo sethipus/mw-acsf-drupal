@@ -36,7 +36,7 @@ class OneTrustConfigForm extends ConfigFormBase {
     $form['google_analytics_tag_attr'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Disable Google Analytics Custom Attributes.'),
-      '#default_value' => $config->get('mars_onetrust.google_analytics_tag_attr'),
+      '#default_value' => $config->get('mars_onetrust.google_analytics_tag_attr') ?? TRUE,
     ];
 
     return $form;

@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -27,6 +28,13 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
   use EntityBrowserFormTrait;
   use SelectBackgroundColorTrait;
   use OverrideThemeTextColorTrait;
+
+  /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
 
   /**
    * Mars Media Helper service.
@@ -64,11 +72,13 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    ConfigFactoryInterface $config_factory,
     MediaHelper $media_helper,
     LanguageHelper $language_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->configFactory = $config_factory;
     $this->mediaHelper = $media_helper;
     $this->languageHelper = $language_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
@@ -82,6 +92,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('config.factory'),
       $container->get('mars_media.media_helper'),
       $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser')
@@ -94,11 +105,12 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
 
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Header'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('flexible_frame_header')) ? $character_limit_config->get('flexible_frame_header') : 55,
       '#default_value' => $config['title'] ?? '',
     ];
 
@@ -158,21 +170,21 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       $form['items'][$key]['title'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Item title'),
-        '#maxlength' => 60,
+        '#maxlength' => !empty($character_limit_config->get('flexible_frame_item_title')) ? $character_limit_config->get('flexible_frame_item_title') : 60,
         '#default_value' => $config['items'][$key]['title'] ?? '',
         '#required' => TRUE,
       ];
       $form['items'][$key]['cta']['title'] = [
         '#type' => 'textfield',
         '#title' => $this->t('CTA Link Title'),
-        '#maxlength' => 15,
+        '#maxlength' => !empty($character_limit_config->get('flexible_frame_cta_link_title')) ? $character_limit_config->get('flexible_frame_cta_link_title') : 15,
         '#default_value' => $config['items'][$key]['cta']['title'] ?? $this->t('Explore'),
       ];
       $form['items'][$key]['cta']['url'] = [
         '#type' => 'textfield',
         '#title' => $this->t('CTA Link URL'),
         '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
-        '#maxlength' => 2048,
+        '#maxlength' => !empty($character_limit_config->get('flexible_frame_cta_link_url')) ? $character_limit_config->get('flexible_frame_cta_link_url') : 2048,
         '#default_value' => $config['items'][$key]['cta']['url'] ?? '',
       ];
       $form['items'][$key]['cta']['new_window'] = [
@@ -184,7 +196,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#type' => 'textarea',
         '#title' => $this->t('Item description'),
         '#default_value' => $config['items'][$key]['description'] ?? '',
-        '#maxlength' => 255,
+        '#maxlength' => !empty($character_limit_config->get('flexible_frame_item_description')) ? $character_limit_config->get('flexible_frame_item_description') : 255,
       ];
 
       $item_image = isset($config['items'][$key]['item_image']) ? $config['items'][$key]['item_image'] : NULL;

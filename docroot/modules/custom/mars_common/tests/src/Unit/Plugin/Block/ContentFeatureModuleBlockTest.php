@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Form\FormState;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\MediaHelper;
@@ -14,6 +16,20 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Class ContentFeatureModuleBlockTest - unit tests for component.
  */
 class ContentFeatureModuleBlockTest extends UnitTestCase {
+
+   /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
+   * Immutable config mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $immutableConfigMock;
 
   /**
    * Mock.
@@ -63,6 +79,12 @@ class ContentFeatureModuleBlockTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
+
+    $this->configFactoryMock
+    ->method('getEditable')
+    ->with('mars_common.character_limit_page')
+    ->willReturn($this->immutableConfigMock);
+
     \Drupal::setContainer($this->containerMock);
     $this->configuration = [
       'label_display' => FALSE,
@@ -79,6 +101,7 @@ class ContentFeatureModuleBlockTest extends UnitTestCase {
       $this->configuration,
       'mars_common_content_feature_module',
       $definitions,
+      $this->configFactoryMock,
       $this->themeConfigurationParserMock,
       $this->languageHelperMock,
       $this->mediaHelperMock
@@ -89,6 +112,8 @@ class ContentFeatureModuleBlockTest extends UnitTestCase {
    * Create all mocks for tests.
    */
   private function createMocks(): void {
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->themeConfigurationParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);

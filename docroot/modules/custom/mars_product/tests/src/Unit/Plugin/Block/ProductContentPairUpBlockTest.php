@@ -3,6 +3,7 @@
 namespace Drupal\Tests\mars_product\Unit\Plugin\Block;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
@@ -113,11 +114,24 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
   private $configMock;
 
   /**
+   * Immutable config mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ImmutableConfig
+   */
+  private $immutableConfig;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
+
+    $this->configMock
+    ->method('getEditable')
+    ->with('mars_common.character_limit_page')
+    ->willReturn($this->immutableConfig);
+
     \Drupal::setContainer($this->containerMock);
     $this->block = new ProductContentPairUpBlock(
       self::CONFIGURATION,
@@ -289,6 +303,7 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
       ->willReturn($viewbuilderMock);
 
     $this->configMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->immutableConfig = $this->createMock(ImmutableConfig::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
 
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);

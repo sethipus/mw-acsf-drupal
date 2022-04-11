@@ -137,18 +137,19 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('contact_help_banner_title')) ? $character_limit_config->get('contact_help_banner_title') : 55,
       '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 255,
+      '#maxlength' => !empty($character_limit_config->get('contact_help_banner_description')) ? $character_limit_config->get('contact_help_banner_description') : 255,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => FALSE,
     ];
@@ -209,7 +210,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     $form['social_links_label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Social Links label'),
-      '#maxlength' => 35,
+      '#maxlength' => !empty($character_limit_config->get('contact_help_banner_social_link_label')) ? $character_limit_config->get('contact_help_banner_social_link_label') : 35,
       '#default_value' => $this->configuration['social_links_label'] ?? '',
       '#required' => TRUE,
     ];
