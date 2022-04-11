@@ -1,7 +1,6 @@
 newsletter_signup:
   js:
     js/newsletter_signup.js: {}
-    https://www.google.com/recaptcha/api.js: { type: external, attributes: {async: true, defer: true } }
   dependencies:
     - core/drupal
     - core/drupalSettings

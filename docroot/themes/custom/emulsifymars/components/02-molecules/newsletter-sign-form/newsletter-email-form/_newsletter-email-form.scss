@@ -30,12 +30,6 @@
       }
     }
     .webform-submission-mars-newsletter-email-form-form {
-      @include xs {
-        padding-bottom: 20px;
-      }
-      @include medium {
-        padding-bottom: 5px;
-      }
       .email-submit {
         width: 90%;
         display: flex;
@@ -90,11 +84,9 @@
         font-size: 14px;
         color: clr(message);
         display: block;
-        margin-top: -7px;
         @include medium {
             font-size: 20px;
             padding-left: 17px;
-            margin-top: -20px;
         }
     }
       .privacy-newsletter-email-form {
@@ -114,8 +106,5 @@
         }
       }
     }
-  }
-  div #grecaptcha {
-    z-index: 9999;
   }
 }
