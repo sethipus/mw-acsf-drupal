@@ -2,6 +2,7 @@
   Drupal.behaviors.newsletter_signup = {
     attach(context, settings) {
       $(document).ready(function() { 
+        // Alert banner newsletter signup form.
         $('.newsletter-signup-email-submit .webform-button--submit', context).click(function(e) {  
           e.preventDefault();
           var required_message = drupalSettings.mars_newsletter.required_field_message;
@@ -24,11 +25,8 @@
             if ($(field).val() == '' && $(field).prop('required') && !$(field).is(':checkbox')) {
               $(field).after('<span class="error">' +required_message+ '</span>');
               hasError = true;
-            }   
-            else {
-                grecaptcha.execute();
-              }
             }
+          }
           if(hasError == true) { 
             return false;
           }
@@ -40,7 +38,7 @@
             'status': '1',
           });
           $(this).parents('.webform-submission-mars-newsletter-email-form-form').find('.form-item__textfield').val('');
-          $('.success-message').fadeIn('slow');
+          $('.success-message').css({"margin-top":"-20px"}).fadeIn('slow');
           $('.success-message').delay(5000).fadeOut('slow');
         });
       });
