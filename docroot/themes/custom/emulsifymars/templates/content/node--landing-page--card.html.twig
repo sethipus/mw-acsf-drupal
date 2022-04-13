@@ -6,8 +6,8 @@
 #}
 
 {% set background_asset = node | entityMainMediaId | mediaParamsById %}
-{% set heading_link_attributes = { href: url, target: '_blank', 'data-click-name': node.label } %}
-{% set button_link_attributes = { href: url, target: '_blank', 'data-click-name': button_text } %}
+{% set heading_link_attributes = new_tab ? { href: url, target: '_blank', 'data-click-name': node.label } : { href: url, 'data-click-name': node.label } %}
+{% set button_link_attributes = new_tab ? { href: url, target: '_blank', 'data-click-name': button_text } : { href: url, 'data-click-name': button_text } %}
 
 {% include "@molecules/card/recommendations-card/landing-card.twig" with {
   theme_styles: 'drupal',

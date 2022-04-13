@@ -64,8 +64,11 @@
     @include xs {
       font-size: 4rem;
       line-height: 4rem;
+      margin-top: 1.5rem;
     }
-
+    @include medium{
+     margin-top: 0;
+    }
     @include large {
       font-size: 4.8rem;
       line-height: 4.8rem;

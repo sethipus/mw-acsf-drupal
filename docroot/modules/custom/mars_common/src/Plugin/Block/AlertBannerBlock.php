@@ -73,6 +73,8 @@ class AlertBannerBlock extends BlockBase implements ContainerFactoryPluginInterf
 
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
+    $character_limit_config = $this->configFactory->get('mars_common.character_limit_page');
+
     
     $form['alert_banner'] = [
       '#type' => 'details',
@@ -85,7 +87,7 @@ class AlertBannerBlock extends BlockBase implements ContainerFactoryPluginInterf
       '#description' => $this->t('This text will appear in Alert Banner.'),
       '#default_value' => $config['alert_banner']['alert_banner_text']['value'] ?? '',
       '#format' => $config['alert_banner']['alert_banner_text']['format'] ?? 'plain_text',
-      '#maxlength' => 100,
+      '#maxlength' => !empty($character_limit_config->get('alert_banner_text')) ? $character_limit_config->get('alert_banner_text') : 100,
     ];
     $form['alert_banner']['alert_banner_url'] = [
       '#type' => 'textfield',

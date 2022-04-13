@@ -81,12 +81,16 @@ class ProductHelper {
       /** @var \Drupal\Core\Entity\ContentEntityInterface $main_variant */
       $main_variant = NULL;
       $main_variant_size = NULL;
-
+      $grp_images = [];
       foreach ($variants as $variant) {
         $is_master = $variant->get('field_product_family_master')->value;
         $size = $variant->get('field_product_size')->value;
         $size = (is_numeric($size)) ? (float) $size : (is_string($size) ?
           explode(' ', $size)[0] : NULL);
+        $grp_title = $variant->get('field_product_variant_grp_title')->value;
+        $isGrouping = (isset($grp_title) && !empty($grp_title)) ? TRUE : FALSE;
+        $is_display_first = $variant->get('field_pdt_var_grp_primary')->value;
+        $grp_images[] = $is_display_first ? $variant->get('field_product_variant_grp_image')->first()->target_id : '';
 
         if ($is_master) {
           $main_variant = $variant;
@@ -113,6 +117,10 @@ class ProductHelper {
 
       if ($main_variant instanceof ContentEntityInterface) {
         $main_variant = $this->languageHelper->getTranslation($main_variant);
+      }
+      if ($isGrouping && count($grp_images) > 1) {
+        $grp_image = reset(array_filter($grp_images));
+        $main_variant->set('field_product_variant_grp_image', $grp_image);
       }
     }
     catch (MissingDataException $e) {

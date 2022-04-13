@@ -64,6 +64,7 @@ ignored_config_entities:
   - mars_newsletter_form.settings
   - 'webform.webform.*'
   - cloudflarepurge.settings
+  - captcha.settings
 ignored_config_collections:
   - 'language.*'
 enable_export_filtering: true

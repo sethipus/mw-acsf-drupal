@@ -106,6 +106,12 @@ class SearchFaqBlockTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
+
+    $this->configFactoryMock
+    ->method('getEditable')
+    ->with('mars_common.character_limit_page')
+    ->willReturn($this->immutableConfig);
+
     \Drupal::setContainer($this->containerMock);
     $this->configuration = [
       'faq_title' => 'FAQ block title',
@@ -229,6 +235,8 @@ class SearchFaqBlockTest extends UnitTestCase {
 
     $this->block->setConfiguration([
       'faq_title' => 'Test FAQ title',
+      'faq_ques_label' => 'Test FAQ ques label',
+      'faq_ans_label' => 'Test FAQ ans label',
     ]);
 
     $this->configFactoryMock
@@ -276,6 +284,8 @@ class SearchFaqBlockTest extends UnitTestCase {
     $build = $this->block->build();
     $this->assertEquals('mars_search_faq_block', $build['#theme']);
     $this->assertEquals('Test FAQ title', $build['#faq_title']);
+    $this->assertEquals('Test FAQ ques label', 'Test FAQ ques label');
+    $this->assertEquals('Test FAQ ans label', 'Test FAQ ans label');
     $this->assertEquals(1, $build['#search_result_counter']);
     $this->assertArrayHasKey('#no_results_heading', $build);
     $this->assertArrayHasKey('#no_results_text', $build);

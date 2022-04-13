@@ -166,10 +166,11 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
     $form['label_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('social_feed_block_title')) ? $character_limit_config->get('social_feed_block_title') : 55,
       '#default_value' => $this->configuration['label'] ?? '',
       '#required' => TRUE,
     ];

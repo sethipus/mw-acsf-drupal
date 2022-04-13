@@ -127,25 +127,26 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
-      '#maxlength' => 15,
+      '#maxlength' => !empty($character_limit_config->get('product_feature_block_eyebrow')) ? $character_limit_config->get('product_feature_block_eyebrow') : 15,
       '#default_value' => $this->configuration['eyebrow'] ?? '',
       '#required' => TRUE,
     ];
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('product_feature_block_title')) ? $character_limit_config->get('product_feature_block_title') : 55,
       '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
     $form['background_color'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Background Color Override'),
-      '#maxlength' => 7,
+      '#maxlength' => !empty($character_limit_config->get('product_feature_block_background_color_override')) ? $character_limit_config->get('product_feature_block_background_color_override') : 7,
       '#default_value' => $this->configuration['background_color'] ?? '',
       '#required' => FALSE,
       '#description' => $this->t('Must be AA compliant. Note that the Secondary Color / Color B will be used for CTAs background color.'),
@@ -166,7 +167,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
       'explore_cta' => [
         '#type' => 'textfield',
         '#title' => $this->t('Button Label'),
-        '#maxlength' => 15,
+        '#maxlength' => !empty($character_limit_config->get('product_feature_block_button_label')) ? $character_limit_config->get('product_feature_block_button_label') : 15,
         '#default_value' => $this->configuration['explore_cta'],
         '#required' => TRUE,
       ],

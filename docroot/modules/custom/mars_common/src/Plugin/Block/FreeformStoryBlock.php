@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -48,6 +49,13 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
   const CENTER_ALIGNED = 'center';
 
   /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * The entity type manager service.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -82,12 +90,14 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
     ThemeConfiguratorParser $theme_configurator_parser,
     LanguageHelper $language_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->configFactory = $config_factory;
     $this->entityTypeManager = $entity_type_manager;
     $this->themeConfiguratorParser = $theme_configurator_parser;
     $this->languageHelper = $language_helper;
@@ -107,6 +117,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('config.factory'),
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('mars_common.language_helper'),
@@ -119,6 +130,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
 
     $form['block_aligned'] = [
       '#type' => 'select',
@@ -134,13 +146,13 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#type' => 'textfield',
       '#title' => $this->t('Header 1'),
       '#default_value' => $this->configuration['header_1'],
-      '#maxlength' => 60,
+      '#maxlength' => !empty($character_limit_config->get('freeform_story_block_header_1')) ? $character_limit_config->get('freeform_story_block_header_1') : 60,
     ];
     $form['header_2'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Header 2'),
       '#default_value' => $this->configuration['header_2'],
-      '#maxlength' => 60,
+      '#maxlength' => !empty($character_limit_config->get('freeform_story_block_header_2')) ? $character_limit_config->get('freeform_story_block_header_2') : 60,
     ];
     // Entity Browser element for background image.
     $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
@@ -154,7 +166,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#title' => $this->t('Description'),
       '#default_value' => $this->configuration['body']['value'] ?? '',
       '#format' => $this->configuration['body']['format'] ?? 'rich_text',
-      '#maxlength' => 1000,
+      '#maxlength' => !empty($character_limit_config->get('freeform_story_block_description')) ? $character_limit_config->get('freeform_story_block_description') : 1000,
     ];
     $form['background_shape'] = [
       '#type' => 'checkbox',

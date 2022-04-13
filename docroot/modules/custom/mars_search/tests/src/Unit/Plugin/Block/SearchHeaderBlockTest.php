@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\mars_search\Unit\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
@@ -59,6 +61,20 @@ class SearchHeaderBlockTest extends UnitTestCase {
   private $configuration;
 
   /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
+   * Immutable config mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $immutableConfigMock;
+
+  /**
    * Search process factory mock.
    *
    * @var \Drupal\mars_search\SearchProcessFactoryInterface
@@ -85,6 +101,12 @@ class SearchHeaderBlockTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
+
+    $this->configFactoryMock
+    ->method('getEditable')
+    ->with('mars_common.character_limit_page')
+    ->willReturn($this->immutableConfigMock);
+
     \Drupal::setContainer($this->containerMock);
     $this->configuration = self::BLOCK_CONFIGURATION;
     $definitions = [
@@ -106,6 +128,7 @@ class SearchHeaderBlockTest extends UnitTestCase {
       $this->configuration,
       'search_header_block',
       $definitions,
+      $this->configFactoryMock,
       $this->themeConfiguratorMock,
       $this->searchProcessFactoryMock,
       $this->languageHelperMock
@@ -117,10 +140,15 @@ class SearchHeaderBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(3))
+      ->expects($this->exactly(4))
       ->method('get')
       ->willReturnMap(
         [
+          [
+            'config.factory',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->configFactoryMock,
+          ],
           [
             'mars_common.theme_configurator_parser',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
@@ -207,6 +235,8 @@ class SearchHeaderBlockTest extends UnitTestCase {
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
     $this->searchProcessFactoryMock = $this->createMock(SearchProcessFactoryInterface::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->searchBuilderMock = $this->createMock(SearchBuilder::class);

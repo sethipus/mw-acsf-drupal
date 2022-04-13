@@ -455,6 +455,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    *   Form array.
    */
   public function buildEmailRecipeForm(array &$form) {
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $form['email_recipe'] = [
       '#type' => 'checkbox',
@@ -476,7 +477,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $form['email_recipe_container']['email_hint'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Hint'),
-      '#maxlength' => 160,
+      '#maxlength' => !empty($character_limit_config->get('recipe_detail_hero_hint')) ? $character_limit_config->get('recipe_detail_hero_hint') : 160,
       '#default_value' => $this->configuration['email_recipe_container']['email_hint'] ?? $this->getRecipeEmailDefault()['email_hint'],
       '#states' => [
         'visible' => [
@@ -488,7 +489,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $form['email_recipe_container']['email_overlay_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Overlay title'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('recipe_detail_hero_overlay_title')) ? $character_limit_config->get('recipe_detail_hero_overlay_title') : 55,
       '#default_value' => $this->configuration['email_recipe_container']['email_overlay_title'] ?? $this->getRecipeEmailDefault()['email_overlay_title'],
       '#states' => [
         'visible' => [
@@ -500,7 +501,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $form['email_recipe_container']['email_overlay_description'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Overlay description'),
-      '#maxlength' => 150,
+      '#maxlength' => !empty($character_limit_config->get('recipe_detail_hero_overlay_description')) ? $character_limit_config->get('recipe_detail_hero_overlay_description') : 150,
       '#default_value' => $this->configuration['email_recipe_container']['email_overlay_description'] ?? $this->getRecipeEmailDefault()['email_overlay_description'],
       '#states' => [
         'visible' => [
@@ -523,7 +524,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $form['email_recipe_container']['checkboxes_container']['grocery_list'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Grocery list label'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('recipe_detail_hero_grocery_list_label')) ? $character_limit_config->get('recipe_detail_hero_grocery_list_label') : 55,
       '#default_value' => $this->configuration['email_recipe_container']['checkboxes_container']['grocery_list'] ?? $this->getRecipeEmailDefault()['checkboxes_container']['grocery_list'],
       '#states' => [
         'visible' => [
@@ -535,7 +536,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $form['email_recipe_container']['checkboxes_container']['email_recipe'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Email a recipe label'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('recipe_detail_hero_email_recipe_label')) ? $character_limit_config->get('recipe_detail_hero_email_recipe_label') : 55,
       '#default_value' => $this->configuration['email_recipe_container']['checkboxes_container']['email_recipe'] ?? $this->getRecipeEmailDefault()['checkboxes_container']['email_recipe'],
       '#states' => [
         'visible' => [
@@ -547,7 +548,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $form['email_recipe_container']['email_address_hint'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Email address hint'),
-      '#maxlength' => 35,
+      '#maxlength' => !empty($character_limit_config->get('recipe_detail_hero_email_address_hint')) ? $character_limit_config->get('recipe_detail_hero_email_address_hint') : 35,
       '#required' => TRUE,
       '#default_value' => $this->configuration['email_recipe_container']['email_address_hint'] ?? $this->getRecipeEmailDefault()['email_address_hint'],
       '#states' => [
@@ -563,7 +564,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $form['email_recipe_container']['error_message'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Error message'),
-      '#maxlength' => 100,
+      '#maxlength' => !empty($character_limit_config->get('recipe_detail_hero_error_message')) ? $character_limit_config->get('recipe_detail_hero_error_message') : 100,
       '#required' => TRUE,
       '#default_value' => $this->configuration['email_recipe_container']['error_message'] ?? $this->getRecipeEmailDefault()['error_message'],
       '#states' => [
@@ -579,7 +580,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $form['email_recipe_container']['cta_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('CTA title'),
-      '#maxlength' => 35,
+      '#maxlength' => !empty($character_limit_config->get('recipe_detail_hero_cta_title')) ? $character_limit_config->get('recipe_detail_hero_cta_title') : 35,
       '#required' => TRUE,
       '#default_value' => $this->configuration['email_recipe_container']['cta_title'] ?? $this->getRecipeEmailDefault()['cta_title'],
       '#states' => [
@@ -595,7 +596,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $form['email_recipe_container']['confirmation_message'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Confirmation message'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('recipe_detail_hero_confirmation_message')) ? $character_limit_config->get('recipe_detail_hero_confirmation_message') : 55,
       '#required' => TRUE,
       '#default_value' => $this->configuration['email_recipe_container']['confirmation_message'] ?? $this->getRecipeEmailDefault()['confirmation_message'],
       '#states' => [
