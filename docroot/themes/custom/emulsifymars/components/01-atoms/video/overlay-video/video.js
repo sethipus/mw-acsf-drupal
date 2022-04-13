@@ -102,7 +102,6 @@
           playpause.addEventListener('click', function(e) {
             if (video.paused || video.ended) {
               video.play();
-              video.muted = false;
               manuallyPaused = true;
             } else {
               video.pause();

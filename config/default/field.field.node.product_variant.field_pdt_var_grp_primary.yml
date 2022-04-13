@@ -1,0 +1,28 @@
+uuid: 959a3144-9051-442e-96fe-e555d73a0d58
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pdt_var_grp_primary
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_pdt_var_grp_primary
+field_name: field_pdt_var_grp_primary
+entity_type: node
+bundle: product_variant
+label: 'Grouping Display First'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'yes'
+  off_label: 'no'
+field_type: boolean

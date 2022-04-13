@@ -201,19 +201,20 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $form['story_block_title'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Title'),
       '#required' => TRUE,
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('story_highlight_title')) ? $character_limit_config->get('story_highlight_title') : 55,
       '#default_value' => $this->configuration['story_block_title'] ?? NULL,
     ];
 
     $form['story_block_description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Story description'),
-      '#maxlength' => 255,
+      '#maxlength' => !empty($character_limit_config->get('story_highlight_description')) ? $character_limit_config->get('story_highlight_description') : 255,
       '#default_value' => $this->configuration['story_block_description'] ?? NULL,
     ];
 
@@ -230,7 +231,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       $form['items'][$i]['title'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Title'),
-        '#maxlength' => 300,
+        '#maxlength' => !empty($character_limit_config->get('story_highlight_item_title')) ? $character_limit_config->get('story_highlight_item_title') : 300,
         '#required' => TRUE,
         '#required_error' => $this->t('<em>Title</em> from <em>Story Item @index</em> is required.', ['@index' => $i + 1]),
         '#default_value' => $this->configuration['items'][$i]['title'] ?? NULL,

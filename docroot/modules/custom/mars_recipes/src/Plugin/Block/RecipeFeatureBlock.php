@@ -275,18 +275,19 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
     $form['block_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Featured Recipe'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('recipe_feature_block_featured_recipe')) ? $character_limit_config->get('recipe_feature_block_featured_recipe') : 55,
       '#default_value' => $config['block_title'] ?? $this->t('Featured Recipe'),
     ];
 
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
-      '#maxlength' => 15,
+      '#maxlength' => !empty($character_limit_config->get('recipe_feature_block_eyebrow')) ? $character_limit_config->get('recipe_feature_block_eyebrow') : 15,
       '#required' => TRUE,
       '#default_value' => $config['eyebrow'] ?? $this->t('Recipe'),
     ];
@@ -295,7 +296,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       '#type' => 'textfield',
       '#title' => $this->t('Recipe title'),
       '#description' => $this->t('Recipe title is by default pulled from the selected recipe. In case you need to change the title, please add Recipe title in the field above to override it.'),
-      '#maxlength' => 60,
+      '#maxlength' => !empty($character_limit_config->get('recipe_feature_block_recipe_title')) ? $character_limit_config->get('recipe_feature_block_recipe_title') : 60,
       '#default_value' => $config['recipe_title'] ?? '',
     ];
 
@@ -367,7 +368,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
     $form['cta']['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('CTA Link Title'),
-      '#maxlength' => 15,
+      '#maxlength' => !empty($character_limit_config->get('recipe_feature_block_cta_link_title')) ? $character_limit_config->get('recipe_feature_block_cta_link_title') : 15,
       '#required' => TRUE,
       '#default_value' => $config['cta']['title'] ?? $this->t('Get started'),
     ];

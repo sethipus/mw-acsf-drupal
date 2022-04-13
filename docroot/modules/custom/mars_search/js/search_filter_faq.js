@@ -10,6 +10,8 @@
       var selectorFaqFilterContainer = '.faq-filters__filters';
       var selectorFaqFilter = '.faq-filters__filters a';
       var selectorFaqNoResults = '.faq .no-results-container'
+      // Click functionality for faq filters
+      $(".node--faq_contact a.active").addClass("default-link");
 
       // Prepare query object from browser search.
       var currentQuery = function() {

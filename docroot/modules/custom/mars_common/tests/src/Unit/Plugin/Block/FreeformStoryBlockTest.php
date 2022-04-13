@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\MediaHelper;
@@ -18,6 +20,20 @@ use Drupal\mars_common\ThemeConfiguratorParser;
  * @covers \Drupal\mars_common\Plugin\Block\FreeformStoryBlock
  */
 class FreeformStoryBlockTest extends UnitTestCase {
+
+  /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
+   * Immutable config mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $immutableConfigMock;
 
   /**
    * Mock.
@@ -81,6 +97,12 @@ class FreeformStoryBlockTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
+
+    $this->configFactoryMock
+    ->method('getEditable')
+    ->with('mars_common.character_limit_page')
+    ->willReturn($this->immutableConfigMock);
+
     \Drupal::setContainer($this->containerMock);
     $this->configuration = [
       'provider' => 'mars_common',
@@ -108,6 +130,7 @@ class FreeformStoryBlockTest extends UnitTestCase {
       $this->configuration,
       'freeform_story_block',
       $definitions,
+      $this->configFactoryMock,
       $this->entityTypeManagerMock,
       $this->themeConfiguratorParserMock,
       $this->languageHelperMock,
@@ -119,6 +142,8 @@ class FreeformStoryBlockTest extends UnitTestCase {
    * Create all mocks for tests.
    */
   private function createMocks(): void {
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);

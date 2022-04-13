@@ -104,13 +104,14 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
 
     $config = $this->getConfiguration();
 
     $form['faq_title'] = [
       '#type' => 'textfield',
       '#title' => $this->languageHelper->translate('FAQ block title'),
-      '#maxlength' => 55,
+      '#maxlength' => !empty($character_limit_config->get('search_faqs_block_title')) ? $character_limit_config->get('search_faqs_block_title') : 55,
       '#required' => TRUE,
       '#default_value' => $config['faq_title'] ?? 'FAQs',
     ];
@@ -160,6 +161,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#faq_title' => $config['faq_title'],
       '#cta_button_label' => $cta_button_label,
       '#cta_button_link' => $cta_button_link,
+      '#faq_ques_label' => $this->themeConfiguratorParser->getSettingValue('faq_ques_label'),
+      '#faq_ans_label' => $this->themeConfiguratorParser->getSettingValue('faq_ans_label'),
       '#search_result_counter' => $query_search_results['resultsCount'],
       '#no_results_heading' => str_replace('@keys', $searchOptions['keys'], $this->languageHelper->translate($config_no_results->get('no_results_heading'))),
       '#no_results_text' => $this->languageHelper->translate($config_no_results->get('no_results_text')),

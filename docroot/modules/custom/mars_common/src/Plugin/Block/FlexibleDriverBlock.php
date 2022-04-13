@@ -119,10 +119,11 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
+    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 65,
+      '#maxlength' => !empty($character_limit_config->get('flexible_driver_title')) ? $character_limit_config->get('flexible_driver_title') : 65,
       '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
@@ -130,7 +131,7 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 160,
+      '#maxlength' => !empty($character_limit_config->get('flexible_driver_description')) ? $character_limit_config->get('flexible_driver_description') : 160,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => FALSE,
     ];
@@ -138,7 +139,7 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $form['cta_label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('CTA Label'),
-      '#maxlength' => 15,
+      '#maxlength' => !empty($character_limit_config->get('flexible_driver_cta_label')) ? $character_limit_config->get('flexible_driver_cta_label') : 15,
       '#default_value' => $this->configuration['cta_label'] ?? '',
       '#required' => TRUE,
     ];

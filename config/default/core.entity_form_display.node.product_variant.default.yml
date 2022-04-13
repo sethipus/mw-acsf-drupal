@@ -60,6 +60,7 @@ dependencies:
     - field.field.node.product_variant.field_dual_vitamin_d
     - field.field.node.product_variant.field_dual_vitamin_d_daily
     - field.field.node.product_variant.field_nutritional_claims_benefit
+    - field.field.node.product_variant.field_pdt_var_grp_primary
     - field.field.node.product_variant.field_product_added_sugars
     - field.field.node.product_variant.field_product_added_sugars_daily
     - field.field.node.product_variant.field_product_allergen_statement
@@ -133,6 +134,8 @@ dependencies:
     - field.field.node.product_variant.field_product_total_sugars_daily
     - field.field.node.product_variant.field_product_trans_fat
     - field.field.node.product_variant.field_product_trans_fat_daily
+    - field.field.node.product_variant.field_product_variant_grp_image
+    - field.field.node.product_variant.field_product_variant_grp_title
     - field.field.node.product_variant.field_product_vitamin_a
     - field.field.node.product_variant.field_product_vitamin_a_daily
     - field.field.node.product_variant.field_product_vitamin_c
@@ -152,6 +155,7 @@ dependencies:
     - content_moderation
     - entity_browser
     - field_group
+    - media_library
     - path
     - publication_date
     - text
@@ -1018,6 +1022,13 @@ content:
       maxlength:
         maxlength_js: null
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+  field_pdt_var_grp_primary:
+    type: boolean_checkbox
+    weight: 130
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_product_added_sugars:
     type: string_textfield
     weight: 44
@@ -1675,6 +1686,21 @@ content:
   field_product_trans_fat_daily:
     type: string_textfield
     weight: 30
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_product_variant_grp_image:
+    type: media_library_widget
+    weight: 129
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_product_variant_grp_title:
+    type: string_textfield
+    weight: 128
     region: content
     settings:
       size: 60
