@@ -1503,8 +1503,11 @@ function mars_common_field_widget_form_alter(
     $element['value']['#maxlength'] = 160;
   }
 
+  // Character Limit config
+  $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+
   if ($field_name == 'field_product_description') {
-    $element['#maxlength'] = 300;
+    $element['#maxlength'] = !empty($character_limit_config->get('content_type_component_product_description')) ? $character_limit_config->get('content_type_component_product_description') : 300;
   }
   if ($field_name == 'field_recipe_description') {
     $element['#maxlength'] = 255;
