@@ -67,6 +67,7 @@ dependencies:
     - field.field.node.product_variant.field_product_allergen_warnings
     - field.field.node.product_variant.field_product_calcium
     - field.field.node.product_variant.field_product_calcium_daily
+    - field.field.node.product_variant.field_product_calorie_stmt
     - field.field.node.product_variant.field_product_calories
     - field.field.node.product_variant.field_product_calories_daily
     - field.field.node.product_variant.field_product_calories_fat
@@ -142,6 +143,7 @@ dependencies:
     - field.field.node.product_variant.field_product_vitamin_c_daily
     - field.field.node.product_variant.field_product_vitamin_d
     - field.field.node.product_variant.field_product_vitamin_d_daily
+    - field.field.node.product_variant.field_product_whitening_stmt
     - field.field.node.product_variant.field_product_wtb_button_name
     - field.field.node.product_variant.field_product_wtb_button_style
     - field.field.node.product_variant.field_product_wtb_button_url
@@ -210,6 +212,8 @@ third_party_settings:
         - field_product_ingredients
         - field_product_legal_warnings
         - field_product_disclaimers
+        - field_product_calorie_stmt
+        - field_product_whitening_stmt
       label: 'Allergen Information'
       region: content
       parent_name: group_product_variant
@@ -310,7 +314,7 @@ third_party_settings:
       label: System
       region: content
       parent_name: group_product_variant
-      weight: 41
+      weight: 42
       format_type: accordion_item
       format_settings:
         classes: ''
@@ -397,7 +401,7 @@ third_party_settings:
       label: 'Dual Nutritional Information'
       region: content
       parent_name: group_product_variant
-      weight: 38
+      weight: 39
       format_type: accordion_item
       format_settings:
         classes: ''
@@ -500,7 +504,7 @@ third_party_settings:
       label: 'Dual Vitamins'
       region: content
       parent_name: group_product_variant
-      weight: 39
+      weight: 40
       format_type: accordion_item
       format_settings:
         classes: ''
@@ -516,7 +520,7 @@ third_party_settings:
       label: 'Dual Allergen Information'
       region: content
       parent_name: group_product_variant
-      weight: 37
+      weight: 38
       format_type: accordion_item
       format_settings:
         classes: ''
@@ -531,7 +535,7 @@ third_party_settings:
       label: 'Dual options'
       region: content
       parent_name: group_product_variant
-      weight: 36
+      weight: 37
       format_type: accordion_item
       format_settings:
         classes: ''
@@ -550,7 +554,7 @@ third_party_settings:
       label: 'WTB manual link'
       region: content
       parent_name: group_product_variant
-      weight: 40
+      weight: 41
       format_type: accordion_item
       format_settings:
         classes: ''
@@ -1024,7 +1028,7 @@ content:
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
   field_pdt_var_grp_primary:
     type: boolean_checkbox
-    weight: 130
+    weight: 8
     region: content
     settings:
       display_label: true
@@ -1061,7 +1065,7 @@ content:
     third_party_settings: {  }
   field_product_calcium:
     type: string_textfield
-    weight: 52
+    weight: 51
     region: content
     settings:
       size: 60
@@ -1069,7 +1073,15 @@ content:
     third_party_settings: {  }
   field_product_calcium_daily:
     type: string_textfield
-    weight: 53
+    weight: 52
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_product_calorie_stmt:
+    type: string_textfield
+    weight: 18
     region: content
     settings:
       size: 60
@@ -1222,7 +1234,7 @@ content:
     third_party_settings: {  }
   field_product_family_master:
     type: boolean_checkbox
-    weight: 5
+    weight: 4
     region: content
     settings:
       display_label: true
@@ -1237,7 +1249,7 @@ content:
     third_party_settings: {  }
   field_product_folate:
     type: string_textfield
-    weight: 64
+    weight: 63
     region: content
     settings:
       size: 60
@@ -1245,7 +1257,7 @@ content:
     third_party_settings: {  }
   field_product_folate_daily:
     type: string_textfield
-    weight: 65
+    weight: 64
     region: content
     settings:
       size: 60
@@ -1388,7 +1400,7 @@ content:
     third_party_settings: {  }
   field_product_iron:
     type: string_textfield
-    weight: 58
+    weight: 57
     region: content
     settings:
       size: 60
@@ -1396,7 +1408,7 @@ content:
     third_party_settings: {  }
   field_product_iron_daily:
     type: string_textfield
-    weight: 59
+    weight: 58
     region: content
     settings:
       size: 60
@@ -1461,7 +1473,7 @@ content:
     third_party_settings: {  }
   field_product_niacin:
     type: string_textfield
-    weight: 56
+    weight: 55
     region: content
     settings:
       size: 60
@@ -1469,7 +1481,7 @@ content:
     third_party_settings: {  }
   field_product_niacin_daily:
     type: string_textfield
-    weight: 57
+    weight: 56
     region: content
     settings:
       size: 60
@@ -1485,7 +1497,7 @@ content:
     third_party_settings: {  }
   field_product_potassium:
     type: string_textfield
-    weight: 60
+    weight: 59
     region: content
     settings:
       size: 60
@@ -1493,7 +1505,7 @@ content:
     third_party_settings: {  }
   field_product_potassium_daily:
     type: string_textfield
-    weight: 61
+    weight: 60
     region: content
     settings:
       size: 60
@@ -1525,7 +1537,7 @@ content:
     third_party_settings: {  }
   field_product_riboflavin:
     type: string_textfield
-    weight: 62
+    weight: 61
     region: content
     settings:
       size: 60
@@ -1533,7 +1545,7 @@ content:
     third_party_settings: {  }
   field_product_riboflavin_daily:
     type: string_textfield
-    weight: 63
+    weight: 62
     region: content
     settings:
       size: 60
@@ -1629,7 +1641,7 @@ content:
     third_party_settings: {  }
   field_product_thiamin:
     type: string_textfield
-    weight: 54
+    weight: 53
     region: content
     settings:
       size: 60
@@ -1637,7 +1649,7 @@ content:
     third_party_settings: {  }
   field_product_thiamin_daily:
     type: string_textfield
-    weight: 55
+    weight: 54
     region: content
     settings:
       size: 60
@@ -1693,14 +1705,14 @@ content:
     third_party_settings: {  }
   field_product_variant_grp_image:
     type: media_library_widget
-    weight: 129
+    weight: 7
     region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
   field_product_variant_grp_title:
     type: string_textfield
-    weight: 128
+    weight: 6
     region: content
     settings:
       size: 60
@@ -1732,7 +1744,7 @@ content:
     third_party_settings: {  }
   field_product_vitamin_c_daily:
     type: string_textfield
-    weight: 49
+    weight: 48
     region: content
     settings:
       size: 60
@@ -1740,7 +1752,7 @@ content:
     third_party_settings: {  }
   field_product_vitamin_d:
     type: string_textfield
-    weight: 50
+    weight: 49
     region: content
     settings:
       size: 60
@@ -1748,7 +1760,15 @@ content:
     third_party_settings: {  }
   field_product_vitamin_d_daily:
     type: string_textfield
-    weight: 51
+    weight: 50
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_product_whitening_stmt:
+    type: string_textfield
+    weight: 19
     region: content
     settings:
       size: 60
@@ -1792,7 +1812,7 @@ content:
     third_party_settings: {  }
   langcode:
     type: language_select
-    weight: 3
+    weight: 2
     region: content
     settings:
       include_locked: true
@@ -1845,7 +1865,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 4
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
