@@ -1,0 +1,24 @@
+uuid: 4fac7126-545f-4d3d-a7be-672b6f4ce0cd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_calorie_stmt
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_calorie_stmt
+field_name: field_product_calorie_stmt
+entity_type: node
+bundle: product_variant
+label: 'Calorie Reduction Statement'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
