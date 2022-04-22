@@ -1230,6 +1230,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $result_item['serving_size'] = $this->hideServingSizeHeading() ? [] : $serving_size;
       $result_item['serving_per_container'] = $this->hideServingsPerHeading() ? [] : $serving_per_container;
       $result_item['disclaimers_value'] = strip_tags(html_entity_decode($node->get('field_product_disclaimers')->value), '<strong><b>');
+      $result_item['calorie_statement'] = $node->get('field_product_calorie_stmt')->value;
+      $result_item['whitening_statement'] = $node->get('field_product_whitening_stmt')->value;
     }
     elseif ($field_prefix == 'dual') {
       $result_item['dual_servings_per_container'] = [
