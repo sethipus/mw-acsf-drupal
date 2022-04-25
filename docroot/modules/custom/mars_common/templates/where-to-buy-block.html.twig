@@ -1,32 +1,43 @@
 {#
-/**
- * @file
- * Template for the Where To Buy component.
- *
- * Available variables:
- * - commerce_vendor -
- * - widget_id -
- * - data_token -
- * - data_subid -
- * - data_locale -
- * - data_displaylanguage -
- * - products -
- * - default_product -
- * - product_sku -
- */
-#}
-{% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
-{% set where_to_buy_modifiers = ['wtb-page'] %}
-<div id="wtb-container"{{ bem(where_to_buy_base_class, where_to_buy_modifiers) }}>
-  {% if commerce_vendor == 'commerce_connector' %}
-    {% include "@molecules/product-selector/product-selector.twig" with {
-        theme_styles: 'drupal',
-        products: products,
-        default_product: default_product,
-        commerce_vendor: commerce_vendor,
-        hide_size_dropdown: hide_size_dropdown
-    } %}
-  {% elseif commerce_vendor == 'price_spider' %}
-    <div class="ps-widget" ps-config="{{widget_id}}" ps-sku="{{ product_sku }}"></div>
+  /**
+   * @file
+   * Template for the Where To Buy component.
+   *
+   * Available variables:
+   * - commerce_vendor -
+   * - widget_id -
+   * - data_token -
+   * - data_subid -
+   * - data_locale -
+   * - data_displaylanguage -
+   * - products -
+   * - default_product -
+   * - product_sku -
+   */
+  #}
+  {% if commerce_vendor == 'mik_mak' %}
+    {{ attach_library('mars_product/mik-mak') }}
   {% endif %}
-</div>
+  {% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
+  {% set where_to_buy_modifiers = ['wtb-page'] %}
+  {% set mikmak_upc =  (data_mikmak_upc is not empty) ? data_mikmak_upc : mikmak_product_sku %}
+  <div id="wtb-container"{{ bem(where_to_buy_base_class, where_to_buy_modifiers) }}>
+    {% if commerce_vendor == 'commerce_connector' %}
+      {% include "@molecules/product-selector/product-selector.twig" with {
+          theme_styles: 'drupal',
+          products: products,
+          default_product: default_product,
+          commerce_vendor: commerce_vendor,
+          hide_size_dropdown: hide_size_dropdown
+      } %}
+    {% elseif commerce_vendor == 'price_spider' %}
+      <div class="ps-widget" ps-config="{{widget_id}}" ps-sku="{{ product_sku }}"></div>
+    {% elseif commerce_vendor == 'mik_mak' %}
+      {% if mikmak_upc is not empty %}
+        <div id="mikmak-container" class="mik-mak-inline-container" data-mikmak-upcs="{{ mikmak_upc }}" data-mikmak-location="where-to-buy-landing"></div>
+      {% else %}
+        <div id="mikmak-container" class="mik-mak-inline-container" data-mikmak-location="where-to-buy-landing"></div>
+      {% endif %}
+    {% endif %}
+  </div>
+  

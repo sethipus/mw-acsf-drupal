@@ -30,6 +30,9 @@
 {% elseif (commerce_vendor == 'manual_link_selection') %}
   <!-- Manual Link -->
   {% include "@atoms/buttons/where-to-buy-manual_link_selection/where-to-buy-manual_link_selection.twig" %}
+{% elseif (commerce_vendor == 'mik_mak') %}
+  <!-- MIk Mak -->
+  {% include "@atoms/buttons/where-to-buy-mik_mak/where-to-buy-mik_mak.twig" %}
 {% else %}
   <!-- Default Variant -->
   {% include "@atoms/buttons/where-to-buy-commerce_connector/where-to-buy-commerce_connector.twig" %}
