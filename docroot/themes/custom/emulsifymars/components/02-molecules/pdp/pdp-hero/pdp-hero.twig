@@ -175,6 +175,9 @@
             {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
               where_to_buy_modifiers: ['pdp-hero'],
               product_sku: gtin,
+              product_buttom_url_override: pdp_common_hero_data.mikmak_product_button_url,
+              product_sku_override: pdp_common_hero_data.mikmak_product_sku,
+              product_wtb_title_override: pdp_common_hero_data.mikmak_wtb_title,
               commerce_vendor: pdp_common_hero_data.commerce_vendor,
               data_widget_id: pdp_common_hero_data.data_widget_id,
               data_display: pdp_common_hero_data.data_display,
@@ -183,6 +186,7 @@
               button_type: pdp_common_hero_data.button_type,
               wtb_manual_link_info: wtb_manual_link_info,
               price_spider_link_info: price_spider_link_info,
+              mik_mak_link_info: mik_mak_link_info,
               where_to_buy_button_type: 'button'
             } %}
           </div>
