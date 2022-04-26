@@ -1,0 +1,24 @@
+uuid: dab92f94-b9e1-4ea7-acd1-09659b73aae1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_whitening_stmt
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_whitening_stmt
+field_name: field_product_whitening_stmt
+entity_type: node
+bundle: product_variant
+label: 'Whitening Statement'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

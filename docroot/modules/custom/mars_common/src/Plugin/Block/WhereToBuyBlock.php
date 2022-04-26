@@ -115,13 +115,14 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   ) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $selected_vendor = $this->getCommerceVendor();
-
-    $form['widget_id'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Widget id'),
-      '#default_value' => $this->configuration['widget_id'],
-      '#required' => TRUE,
-    ];
+    if ($selected_vendor !== PdpHeroBlock::VENDOR_MIK_MAK) {
+      $form['widget_id'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Widget id'),
+        '#default_value' => $this->configuration['widget_id'],
+        '#required' => TRUE,
+      ];
+    }
     if ($selected_vendor === PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
       $form['data_token'] = [
         '#type' => 'textfield',
@@ -210,6 +211,16 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
         '#required' => TRUE,
       ];
     }
+    // MIkMak settings.
+    elseif ($selected_vendor === PdpHeroBlock::VENDOR_MIK_MAK) {
+      $form['mikmak_product_sku'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t("Product SKUs"),
+        '#description' => $this->t('if left empty all product SKUs mapped with MikMak will show OR add a comma seperated SKUs with no space that products only it show. eg., 054800423392,054800423385,..'),
+        '#default_value' => $this->configuration['mikmak_product_sku'],
+        '#required' => FALSE,
+      ];
+    }
 
     return $form;
   }
@@ -238,6 +249,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       'data_locale' => $config['data_locale'] ?? '',
       'data_displaylanguage' => $config['data_displaylanguage'] ?? '',
       'product_sku' => $config['product_sku'] ?? '',
+      'mikmak_product_sku' => $config['mikmak_product_sku'] ?? '',
     ];
   }
 
@@ -250,8 +262,6 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $commerce_vendor = $this->getCommerceVendor();
     $build['#widget_id'] = $this->configuration['widget_id'];
     $build['#commerce_vendor'] = $commerce_vendor;
-    
-
     switch ($commerce_vendor) {
       case PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR:
         $commerce_connector_settings = $this->getCommerceVendorInfo($commerce_vendor);
@@ -299,6 +309,10 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
       case PdpHeroBlock::VENDOR_SMART_COMMERCE:
         $build = [];
+        break;
+
+      case PdpHeroBlock::VENDOR_MIK_MAK:
+        $build['#mikmak_product_sku'] = $this->configuration['mikmak_product_sku'];
         break;
 
       default:

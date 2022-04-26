@@ -1,0 +1,25 @@
+{#
+/**
+ * Available variables:
+ * - where_to_buy_base_class -
+ * - product_sku -
+ * - commerce_vendor -
+ * - data_widget_id -
+ * - reference_for_analitics -
+ * - cta_title -
+ * - button_type -
+ * - where_to_buy_type -
+ */
+#}
+
+{% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
+{% set where_to_buy_type = ['mik-mak'] %}
+{% set button_url =  (product_buttom_url_override is not empty) ? product_buttom_url_override : mik_mak_link_info.mik_mak_button_url %}
+{% set sku =  (product_sku_override is not empty) ? product_sku_override : mik_mak_link_info.mik_mak_sku %}
+{% set wtb_cta_title =  (product_wtb_title_override is not empty) ? product_wtb_title_override : mik_mak_link_info.mik_mak_button_name %}
+
+{% if wtb_cta_title is not empty %}
+  <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname, where_to_buy_type) }}>
+    <a class="where-to-buy-button" target="_self" href="{{ button_url }}?mikmak-sku={{ sku }}">{{ wtb_cta_title }}</a>
+  </div>
+{% endif %}

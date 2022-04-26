@@ -23,3 +23,10 @@ price_spider:
   js:
     //[price_spider_url]: { type: external }
     js/price-spider-lazyload.js: { attributes: { defer: true } }
+
+mik-mak:
+  css:
+    theme:
+      css/mikmak_inline.css: {}
+  dependencies:
+      - core/drupal

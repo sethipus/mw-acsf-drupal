@@ -218,6 +218,16 @@ function product_card_add_wtb_vars(array &$variables) {
         'price_spider_button_url' => isset($commerce_vendor_settings['price_spider_button_url']) ? $language_helper->translate($commerce_vendor_settings['price_spider_button_url']) . '?ps-sku=' . $sku : '',
       ];
     }
+    elseif (isset($variant) &&
+      $vendor == PdpHeroBlock::VENDOR_MIK_MAK &&
+      !$variant->get('field_product_hide_wtb_link')->value) {
+      $sku = $product_helper->formatSku(trim($variant->get('field_product_sku')->value)) ?? '';
+      $variables['mik_mak_link_info'] = [
+        'mik_mak_button_name' => isset($commerce_vendor_settings['button_name']) ? $language_helper->translate($commerce_vendor_settings['button_name']) : '',
+        'mik_mak_button_url' => isset($commerce_vendor_settings['button_url']) ? $language_helper->translate($commerce_vendor_settings['button_url']) : '',
+        'mik_mak_sku' => $sku ?? '',
+      ];
+    }
   }
 }
 
@@ -486,6 +496,63 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
         'data-ot-ignore' => TRUE,
         'defer' => TRUE,
       ];
+    }
+  }
+}
+/**
+ * Implements hook_page_bottom().
+ */
+function mars_product_page_bottom(array &$page_bottom) {
+  $wtb_confg = \Drupal::config('mars_product.wtb.settings');
+  $vendor = $wtb_confg->get('commerce_vendor');
+  $commerce_vendor_settings = [];
+  if (!empty($vendor) && $vendor == 'mik_mak') {
+    $commerce_vendor_settings = \Drupal::configFactory()->get('mars_product.wtb.' . $vendor . '.settings');
+    $commerce_vendor_settings = !$commerce_vendor_settings->isNew() ? $commerce_vendor_settings->getRawData()['settings'] : [];
+    $widget_id = !empty($commerce_vendor_settings['widget_id']) ? $commerce_vendor_settings['widget_id'] : NULL;
+    $page_bottom['bottom_scripts'] = [
+      '#type'  => 'html_tag',
+      '#tag'   => 'script',
+      '#value' => t('!function(e,t,i,r,a,d){e[r]=e[r]||!1;var n=t.querySelectorAll(a);if(n)for(var c=0;c<n.length;c++){n[c].addEventListener("click",function(evt){e[r]=evt})}var m=t.createElement("script");m.setAttribute("data-mikmak-brand",i),m.type="text/javascript",m.src=d,m.defer=!0,t.body.appendChild(m)}(window,document,"@widget_id","mikmak_discover",".mikmak-discover","//embed.mikmak.tv/v2");', [
+        '@widget_id' => $widget_id,
+      ]),
+    ];
+  }
+}
+
+/**
+ * Implements hook_preprocess_template().
+ */
+function mars_product_preprocess_where_to_buy_block(&$variables) {
+  $wtb_config = \Drupal::config('mars_product.wtb.settings');
+  $vendor = $wtb_config->get('commerce_vendor') ?? '';
+  $upcs = [];
+  $mikmak_sku_key = \Drupal::request()->query->get('mikmak-sku');
+  if (!empty($vendor) && $vendor === PdpHeroBlock::VENDOR_MIK_MAK) {
+    $product_variant_fields = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type' => 'product_variant']);
+    foreach($product_variant_fields as $key => $sku) {
+      if ($sku->field_product_sku->value && !empty($sku->field_product_sku->value)) {
+        if (!empty($mikmak_sku_key) && $mikmak_sku_key && $mikmak_sku_key != $sku->field_product_sku->value) {
+          $upcs[$sku->field_product_sku->value] = $sku->field_product_sku->value;
+        }
+        elseif (empty($mikmak_sku_key) && !$mikmak_sku_key) {
+          $upcs[$sku->field_product_sku->value] = $sku->field_product_sku->value;
+        }
+      }
+    }
+    if (!empty($mikmak_sku_key) && $mikmak_sku_key && $upcs) {
+      array_unshift($upcs, $mikmak_sku_key);
+      $upcList = implode(',', $upcs);
+      $variables['data_mikmak_upc'] = $upcList;
+    }
+    elseif (!empty($mikmak_sku_key) && $mikmak_sku_key && !$upcs && empty($upcs)) {
+      $variables['data_mikmak_upc'] = $mikmak_sku_key;
+    }
+    elseif (empty($mikmak_sku_key) && !$mikmak_sku_key && !$upcs && empty($upcs)) {
+      $variables['data_mikmak_upc'] = "";
+    }
+    elseif (empty($mikmak_sku_key) && !$mikmak_sku_key && $upcs && !empty($upcs)) {
+      $variables['data_mikmak_upc'] = "";
     }
   }
 }

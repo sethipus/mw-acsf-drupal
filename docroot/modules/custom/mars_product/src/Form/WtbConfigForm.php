@@ -78,6 +78,7 @@ class WtbConfigForm extends ConfigFormBase {
         PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR => $this->t('Commerce Connector'),
         PdpHeroBlock::VENDOR_SMART_COMMERCE => $this->t('Smart Commerce'),
         PdpHeroBlock::VENDOR_MANUAL_LINK_SELECTION => $this->t('Manual link selection'),
+        PdpHeroBlock::VENDOR_MIK_MAK => $this->t('MikMak'),
       ],
       '#required' => TRUE,
     ];
@@ -125,11 +126,23 @@ class WtbConfigForm extends ConfigFormBase {
         ],
       ],
     ];
+    // Build MK widget settings fieldset.
+    $form['general'][PdpHeroBlock::VENDOR_MIK_MAK] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Mik Mak configuration'),
+      '#tree' => TRUE,
+      '#states' => [
+        'visible' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_MIK_MAK]],
+        ],
+      ],
+    ];
 
     $this->buildCommerceVendorProductCardElement($form, PdpHeroBlock::VENDOR_PRICE_SPIDER);
     $this->buildCommerceVendorProductCardElement($form, PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR);
     $this->buildCommerceVendorProductCardElement($form, PdpHeroBlock::VENDOR_SMART_COMMERCE);
     $this->buildCommerceVendorProductCardElement($form, PdpHeroBlock::VENDOR_MANUAL_LINK_SELECTION);
+    $this->buildCommerceVendorProductCardElement($form, PdpHeroBlock::VENDOR_MIK_MAK);
 
     return $form;
   }
@@ -382,6 +395,40 @@ class WtbConfigForm extends ConfigFormBase {
           ],
         ];
         break;
+
+      case PdpHeroBlock::VENDOR_MIK_MAK:
+        $fieldset['widget_id'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('MikMak Widget id'),
+          '#default_value' => !empty($config['settings']['widget_id']) ? $config['settings']['widget_id'] : '',
+          '#states' => [
+            'required' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_MIK_MAK]],
+            ],
+          ],
+        ];
+        $fieldset['button_name'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Button name'),
+          '#default_value' => !empty($config['settings']['button_name']) ? $this->languageHelper->translate($config['settings']['button_name']) : '',
+          '#states' => [
+            'visible' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_MIK_MAK]],
+            ],
+          ],
+        ];
+        $fieldset['button_url'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Button URL'),
+          '#default_value' => !empty($config['settings']['button_url']) ? $this->languageHelper->translate($config['settings']['button_url']) : '',
+          '#description' => $this->languageHelper->translate('Please use relative path like /where-to-buy.'),
+          '#states' => [
+            'visible' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_MIK_MAK]],
+            ],
+          ],
+        ];
+        break;
     }
   }
 
@@ -395,6 +442,7 @@ class WtbConfigForm extends ConfigFormBase {
     $cc_config = $this->config('mars_product.wtb.' . PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR . '.settings');
     $sc_config = $this->config('mars_product.wtb.' . PdpHeroBlock::VENDOR_SMART_COMMERCE . '.settings');
     $ml_config = $this->config('mars_product.wtb.' . PdpHeroBlock::VENDOR_MANUAL_LINK_SELECTION . '.settings');
+    $mk_config = $this->config('mars_product.wtb.' . PdpHeroBlock::VENDOR_MIK_MAK . '.settings');
 
     // Get configuration from the form fields.
     $config->set('commerce_vendor', $form_state->getValue('commerce_vendor'));
@@ -402,6 +450,7 @@ class WtbConfigForm extends ConfigFormBase {
     $cc_config->set('settings', $form_state->getValue(PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR));
     $sc_config->set('settings', $form_state->getValue(PdpHeroBlock::VENDOR_SMART_COMMERCE));
     $ml_config->set('settings', $form_state->getValue(PdpHeroBlock::VENDOR_MANUAL_LINK_SELECTION));
+    $mk_config->set('settings', $form_state->getValue(PdpHeroBlock::VENDOR_MIK_MAK));
 
     // Save the configuration.
     $config->save();
@@ -409,6 +458,7 @@ class WtbConfigForm extends ConfigFormBase {
     $cc_config->save();
     $sc_config->save();
     $ml_config->save();
+    $mk_config->save();
 
     parent::submitForm($form, $form_state);
   }
@@ -423,6 +473,7 @@ class WtbConfigForm extends ConfigFormBase {
       'mars_product.wtb.' . PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR . '.settings',
       'mars_product.wtb.' . PdpHeroBlock::VENDOR_SMART_COMMERCE . '.settings',
       'mars_product.wtb.' . PdpHeroBlock::VENDOR_MANUAL_LINK_SELECTION . '.settings',
+      'mars_product.wtb.' . PdpHeroBlock::VENDOR_MIK_MAK . '.settings',
     ];
   }
 

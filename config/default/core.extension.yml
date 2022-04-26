@@ -175,6 +175,7 @@ module:
   rdf: 0
   recaptcha: 0
   redirect: 0
+  redirect_domain: 0
   remote_stream_wrapper: 0
   remote_stream_wrapper_widget: 0
   rh_node: 0
@@ -216,6 +217,7 @@ module:
   ultimate_cron: 0
   update: 0
   user: 0
+  username_enumeration_prevention: 0
   video_embed_field: 0
   video_embed_media: 0
   views_infinite_scroll: 0

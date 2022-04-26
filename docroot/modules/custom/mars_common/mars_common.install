@@ -436,3 +436,24 @@ function mars_common_update_8031() {
   $config->set('language_region_selector_text_color', $config->get('color_a'), '');
   $config->save(TRUE);
 }
+
+/**
+ * Add rel attributes to Legal menu links having target is blank and url is external URL.
+ */
+function mars_common_update_8032() {
+  global $base_url;
+  $menu_links = \Drupal::entityTypeManager()->getStorage('menu_link_content')->loadByProperties(['menu_name' => 'legal-links-menu']);
+  foreach ($menu_links as $menu_link) {
+    if (isset($menu_link->link->options['attributes']['target']) && $menu_link->link->options['attributes']['target'] == '_blank') {
+      $url_obj = $menu_link->getUrlObject();
+      $link_url = $url_obj->getUri();
+
+      if (strpos($link_url, $base_url) == FALSE) {
+        $options = $menu_link->link->options;
+        $options['attributes']['rel'] = 'noopener noreferrer';
+        $menu_link->link->options = $options;
+        $menu_link->save();
+      }
+    }
+  }
+}

@@ -251,7 +251,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
           $social_menu_items[$name]['icon'] = $svg;
         }
         catch (\Exception $e) {
-          $social_menu_items[$name]['icon'] = $this->t('The social icon is missing.');
+          $social_menu_items[$name]['icon'] = '<img src="' . $icon_path . $name . '.svg' . '">';
         }
       }
       elseif (!empty($social_media['img'])) {
@@ -260,7 +260,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
           $social_menu_items[$name]['icon'] = $svg;
         }
         catch (\Exception $e) {
-          $social_menu_items[$name]['icon'] = $this->t('The social icon is missing.');
+          $social_menu_items[$name]['icon'] = '<img src="/' . $social_media['img'] . '">';
         }
       }
     }

@@ -462,6 +462,14 @@ source:
       label: 'Product Disclaimers'
       selector: 'field_product_disclaimers/0'
     -
+      name: source_calorie_stmt
+      label: 'Calorie Reduction Statement'
+      selector: 'field_product_calorie_stmt/0'
+    -
+      name: source_whitening_stmt
+      label: 'Whitening Statement'
+      selector: 'field_product_whitening_stmt/0'
+    -
       name: source_product_variant_grp_title
       label: 'CMS: Grouping Display Title'
       selector: 'field_product_variant_grp_title/0'
@@ -489,7 +497,7 @@ process:
     method: row
     source: source_sku
   field_product_size:
-    plugin: skip_on_empty
+    plugin: default_value
     method: row
     source: source_size
   'field_product_description/value':
@@ -844,6 +852,14 @@ process:
     plugin: default_value
     default_value: ''
     source: source_reference_intake
+  field_product_calorie_stmt:
+    plugin: default_value
+    default_value: ''
+    source: source_calorie_stmt
+  field_product_whitening_stmt:
+    plugin: default_value
+    default_value: ''
+    source: source_whitening_stmt
   field_product_variant_grp_title:
     plugin: default_value
     default_value: ''
