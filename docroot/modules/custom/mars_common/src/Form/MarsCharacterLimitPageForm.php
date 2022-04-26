@@ -100,6 +100,7 @@ class MarsCharacterLimitPageForm extends ConfigFormBase {
   const RECOMMENDATIONS_MODULE_TITLE = 55;
   const SEARCH_FAQS_BLOCK_TITLE = 55;
   const SEARCH_PAGE_HEADER_TITLE = 55;
+  const CONTENT_TYPE_FIELD_PRODUCT_DESCRIPTION = 300;
 
   /**
    * {@inheritdoc}
@@ -844,6 +845,19 @@ class MarsCharacterLimitPageForm extends ConfigFormBase {
       '#required' => TRUE,
       '#description' => static::FIELD_LIMIT_DESCRIPTION. ': <strong>'.static::SEARCH_PAGE_HEADER_TITLE.'</strong>'
     ];
+
+    //MARS: Content type component
+    $form['content_type_component'] = array(
+      '#type' => 'details',
+      '#title' => $this->t('MARS: Content Type Component'),
+    );
+    $form['content_type_component']['content_type_component_product_description'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Product Description'),
+      '#default_value' => !empty($site_label_config->get('content_type_component_product_description')) ? $site_label_config->get('content_type_component_product_description') : static::CONTENT_TYPE_FIELD_PRODUCT_DESCRIPTION,
+      '#required' => TRUE,
+      '#description' => static::FIELD_LIMIT_DESCRIPTION. ': <strong>'.static::CONTENT_TYPE_FIELD_PRODUCT_DESCRIPTION.'</strong>'
+    ];
     $form['actions']['reset'] = [
       '#type' => 'submit',
       '#weight' => 999,
@@ -942,6 +956,7 @@ class MarsCharacterLimitPageForm extends ConfigFormBase {
       ->set('recommendations_module_title', $form_state->getValue('recommendations_module_title'))
       ->set('search_faqs_block_title', $form_state->getValue('search_faqs_block_title'))
       ->set('search_page_header_title', $form_state->getValue('search_page_header_title'))
+      ->set('content_type_component_product_description', $form_state->getValue('content_type_component_product_description'))
       ->save();
       
     parent::submitForm($form, $form_state);
@@ -1033,6 +1048,7 @@ class MarsCharacterLimitPageForm extends ConfigFormBase {
       ->set('recommendations_module_title', static::RECOMMENDATIONS_MODULE_TITLE)
       ->set('search_faqs_block_title', static::SEARCH_FAQS_BLOCK_TITLE)
       ->set('search_page_header_title', static::SEARCH_PAGE_HEADER_TITLE)
+      ->set('content_type_component_product_description', static::CONTENT_TYPE_FIELD_PRODUCT_DESCRIPTION)
       ->save();
 
       \Drupal::messenger()->addStatus($this->t('The configuration options have been reset.'));
