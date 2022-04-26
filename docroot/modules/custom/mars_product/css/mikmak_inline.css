@@ -16,7 +16,7 @@
 }
 
 #wtb-container #mikmak-container .mikmak-ssr .mm-2Wbeg {
-  max-width: 1000px;
+  max-width: 100%;
   text-align: center;
   width: max-content;
   margin: 0 auto;
@@ -43,12 +43,13 @@ div#mikmak-container .mikmak-ssr.mikmak-embed-small .mm-hrZv3 {
 div#mikmak-container .mm-1Ve7r img, div#mikmak-container .mm-1Ve7r .mm-3nrQi {
   background: white;
   display: block;
-  margin: 0 auto;
+  margin: 0;
   width: 34px;
   height: auto;
   position: relative;
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
   }
 
 div#mikmak-container .mm-1TXaI {
@@ -112,6 +113,18 @@ div#mikmak-container .mm-3aiRS, .mm-3aiRS a {
   font-size: 11px;
 }
 @media only screen and (max-width: 339px){
+  div#mikmak-container .mm-1Ve7r img, div#mikmak-container .mm-1Ve7r .mm-3nrQi {
+    background: white;
+    display: block;
+    margin: 0;
+    width: 34px;
+    height: auto;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
   div#mikmak-container .mm-1qMDI{
     padding-bottom: 10px;
     display: flex;
@@ -130,6 +143,18 @@ div#mikmak-container .mm-3aiRS, .mm-3aiRS a {
   }
 }
 @media only screen and (max-width: 539px){
+  div#mikmak-container .mm-1Ve7r img, div#mikmak-container .mm-1Ve7r .mm-3nrQi {
+    background: white;
+    display: block;
+    margin: 0;
+    width: 34px;
+    height: auto;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
   div#mikmak-container .mm-1qMDI{
     padding-bottom: 10px;
     display: flex;
@@ -174,6 +199,18 @@ div#mikmak-container .mm-3aiRS, .mm-3aiRS a {
 }
 
 @media only screen and (max-width: 840px) {
+  div#mikmak-container .mm-1Ve7r img, div#mikmak-container .mm-1Ve7r .mm-3nrQi {
+    background: white;
+    display: block;
+    margin: 0;
+    width: 34px;
+    height: auto;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
   div#mikmak-container .mm-1qMDI{
     padding-bottom: 10px;
     display: flex;
