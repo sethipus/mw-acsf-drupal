@@ -888,7 +888,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ],
     ];
     $build['#pdp_common_data'] = $pdp_common_data;
-    $build['#pdp_size_data'] = $this->getSizeData($node);
+    $build['#pdp_size_data'] = $this->hideProductSize() ? [] : $this->getSizeData($node);
     // Sort PDP variants if there more than one item.
     if (!empty($build['#pdp_size_data']) && count($build['#pdp_size_data']) >= 2) {
       usort($build['#pdp_size_data'], function ($a, $b) {
@@ -1246,11 +1246,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       }
       $size = $product_variant->get($field_size)->value;
       $size_id = $product_variant->id();
-      $items[] = [
-        'size_id' => $size_id,
-        'title' => $size,
-        'link_url' => '#',
-      ];
+      if (!empty($size)) {
+        $items[] = [
+          'size_id' => $size_id,
+          'title' => $size,
+          'link_url' => '#',
+        ];
+      }
     }
 
     return $items;
@@ -1785,6 +1787,20 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ->get('indent_polyols');
 
     return (isset($indent_polyols) && !empty($indent_polyols));
+  }
+
+  /**
+   * Check for product size to be shown or not in the pdp page.
+   *
+   * @return bool
+   *   Whether it should be rendered or not.
+   */
+  private function hideProductSize(): bool {
+    $hide_product_size = $this->configFactory
+      ->get('mars_product.nutrition_table_settings')
+      ->get('hide_product_size');
+
+    return (isset($hide_product_size) && !empty($hide_product_size));
   }
 
 }
