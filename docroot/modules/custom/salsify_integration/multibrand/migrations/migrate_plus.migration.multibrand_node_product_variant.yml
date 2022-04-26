@@ -497,7 +497,7 @@ process:
     method: row
     source: source_sku
   field_product_size:
-    plugin: skip_on_empty
+    plugin: default_value
     method: row
     source: source_size
   'field_product_description/value':
