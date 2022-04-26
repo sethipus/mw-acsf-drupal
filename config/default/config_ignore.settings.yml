@@ -65,6 +65,7 @@ ignored_config_entities:
   - 'webform.webform.*'
   - cloudflarepurge.settings
   - captcha.settings
+  - redirect_domain.domains
 ignored_config_collections:
   - 'language.*'
 enable_export_filtering: true
