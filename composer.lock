@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "04d822fc2a8d531cc0067e5db2332c0d",
+    "content-hash": "fcfa811c4c2457cc2957a0bf5637003c",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -14505,6 +14505,50 @@
             }
         },
         {
+            "name": "drupal/username_enumeration_prevention",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/username_enumeration_prevention.git",
+                "reference": "8.x-1.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/username_enumeration_prevention-8.x-1.2.zip",
+                "reference": "8.x-1.2",
+                "shasum": "0fe67462d3c919a7a8f33c41f1cb593ecf7ed7cf"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.2",
+                    "datestamp": "1613949220",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "nicksanta",
+                    "homepage": "https://www.drupal.org/user/87915"
+                }
+            ],
+            "description": "Prevents username enumeration on password reset and user pages.",
+            "homepage": "https://www.drupal.org/project/username_enumeration_prevention",
+            "support": {
+                "source": "https://git.drupalcode.org/project/username_enumeration_prevention"
+            }
+        },
+        {
             "name": "drupal/vendor_stream_wrapper",
             "version": "1.8.0",
             "source": {
@@ -17422,7 +17466,7 @@
         },
         {
             "name": "mars/mars_seo",
-            "version": "dev-release-v22.04.2",
+            "version": "dev-feature/385775-user-enumeration-module",
             "dist": {
                 "type": "path",
                 "url": "docroot/modules/custom/mars_seo",

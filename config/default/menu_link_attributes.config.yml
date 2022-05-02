@@ -5,6 +5,9 @@ attributes:
   class:
     label: ''
     description: ''
+  rel:
+    label: ''
+    description: ''
   target:
     label: ''
     description: ''

@@ -198,6 +198,7 @@ token: 1.6.0
 toolbar: 8.8.1
 update: 8.8.1
 user: 8.8.1
+username_enumeration_prevention: 1.2.0
 video_embed_field: 2.2.0
 video_embed_media: 2.2.0
 views: 8.8.1

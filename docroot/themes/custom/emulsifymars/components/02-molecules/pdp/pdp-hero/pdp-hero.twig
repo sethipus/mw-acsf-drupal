@@ -78,32 +78,34 @@
             heading_modifiers: ['sticky'],
           } %}
         </div>
-        <div {{ bem('size-container', [], pdp_hero_base_class) }}>
-          {% include "@atoms/text/text/07-span.twig" with {
-            span_content: pdp_common_hero_data.size_label,
-            span_base_class: 'size-label',
-            span_blockname: pdp_hero_base_class,
-            span_extra_classes: text_color_extra_class,
-          } %}
-          <div {{ bem('list-container', [], pdp_hero_base_class)}}>
-            <ul {{ bem('size-list', [], pdp_hero_base_class)}}>
-              {% for size_item in pdp_size_items_data %}
-                {% set active_size = size_item.size_id == size_id ? 'true' : 'false' %}
-                {% set size_attributes = {'data-size-id' : size_item.size_id, 'data-size-selected' : active_size } %}
-                <li {{ bem('list-item', [], pdp_hero_base_class)}}>
-                  {% include "@atoms/links/link/link.twig" with {
-                    link_base_class: 'list-item--link',
-                    link_blockname: pdp_hero_base_class,
-                    link_content: size_item.title,
-                    link_url: size_item.link_url,
-                    link_attributes: size_attributes,
-                    link_extra_classes: text_color_extra_class,
-                  } %}
-                </li>
-              {% endfor %}
-            </ul>
+        {% if pdp_size_items_data is not empty %}
+          <div {{ bem('size-container', [], pdp_hero_base_class) }}>
+            {% include "@atoms/text/text/07-span.twig" with {
+              span_content: pdp_common_hero_data.size_label,
+              span_base_class: 'size-label',
+              span_blockname: pdp_hero_base_class,
+              span_extra_classes: text_color_extra_class,
+            } %}
+            <div {{ bem('list-container', [], pdp_hero_base_class)}}>
+              <ul {{ bem('size-list', [], pdp_hero_base_class)}}>
+                {% for size_item in pdp_size_items_data %}
+                  {% set active_size = size_item.size_id == size_id ? 'true' : 'false' %}
+                  {% set size_attributes = {'data-size-id' : size_item.size_id, 'data-size-selected' : active_size } %}
+                  <li {{ bem('list-item', [], pdp_hero_base_class)}}>
+                    {% include "@atoms/links/link/link.twig" with {
+                      link_base_class: 'list-item--link',
+                      link_blockname: pdp_hero_base_class,
+                      link_content: size_item.title,
+                      link_url: size_item.link_url,
+                      link_attributes: size_attributes,
+                      link_extra_classes: text_color_extra_class,
+                    } %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
           </div>
-        </div>
+        {% endif %}  
         {% if show_rating_and_reviews == true %}
           {% if pdp_is_main_variant %}
             <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
@@ -175,6 +177,9 @@
             {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
               where_to_buy_modifiers: ['pdp-hero'],
               product_sku: gtin,
+              product_buttom_url_override: pdp_common_hero_data.mikmak_product_button_url,
+              product_sku_override: pdp_common_hero_data.mikmak_product_sku,
+              product_wtb_title_override: pdp_common_hero_data.mikmak_wtb_title,
               commerce_vendor: pdp_common_hero_data.commerce_vendor,
               data_widget_id: pdp_common_hero_data.data_widget_id,
               data_display: pdp_common_hero_data.data_display,
@@ -183,6 +188,7 @@
               button_type: pdp_common_hero_data.button_type,
               wtb_manual_link_info: wtb_manual_link_info,
               price_spider_link_info: price_spider_link_info,
+              mik_mak_link_info: mik_mak_link_info,
               where_to_buy_button_type: 'button'
             } %}
           </div>

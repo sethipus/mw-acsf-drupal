@@ -8,14 +8,14 @@ seckit_xss:
       webkit: true
     report-only: false
     default-src: ''
-    script-src: ''
-    object-src: ''
+    script-src: '''self'' ''unsafe-inline'' ''unsafe-eval'' *.pricespider.com https://www.google-analytics.com https://www.googletagmanager.com https://cdn.cookielaw.org https://lhcdn-src.mars.com https://players.brightcove.net https://www.google.com https://www.google.co.in https://www.gstatic.com https://api.tiles.mapbox.com https://sfapi.formstack.io https://az416426.vo.msecnd.net https://embed.mikmak.tv *.global.commerce-connector.com https://js-agent.newrelic.com https://dc.services.visualstudio.com https://bam-cell.nr-data.net https://translate.googleapis.com https://js.adsrvr.org *.mapbox.com https://dc.services.visualstudio.com https://stats.g.doubleclick.net *.amazonaws.com https://s.pinimg.com https://ct.pinterest.com https://maps.googleapis.com https://connect.facebook.net https://sc-static.net https://static.ads-twitter.com https://cdn.treasuredata.com https://cdn.jsdelivr.net '
+    object-src: '''none'''
     style-src: ''
     img-src: ''
     media-src: ''
-    frame-src: ''
+    frame-src: 'https://www.google.com https://9079101.fls.doubleclick.net https://www.google.com *.fls.doubleclick.net https://www.googletagmanager.com https://di.rlcdn.com https://tr.snapchat.com https://www.youtube.com'
     frame-ancestors: ''
-    child-src: ''
+    child-src: 'blob:'
     font-src: ''
     connect-src: ''
     report-uri: /report-csp-violation

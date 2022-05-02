@@ -109,6 +109,7 @@
         "drupal/tmgmt_smartling": "^4.12",
         "drupal/translatable_menu_link_uri": "^2.0",
         "drupal/ultimate_cron": "^2.0@alpha",
+        "drupal/username_enumeration_prevention": "^1.2",
         "drupal/video_embed_field": "^2.0",
         "drupal/views_infinite_scroll": "^1.6",
         "drupal/webform": "^6.1",

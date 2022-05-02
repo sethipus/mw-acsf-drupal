@@ -158,6 +158,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   const VENDOR_MANUAL_LINK_SELECTION = 'manual_link_selection';
 
   /**
+   * WTB Mik mak provider id.
+   */
+  const VENDOR_MIK_MAK = 'mik_mak';
+
+  /**
    * WTB none provider id.
    */
   const VENDOR_NONE = 'none';
@@ -363,6 +368,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#name' => 'override_global',
     ];
 
+  if ($commerce_vendor != "mik_mak") {
     $form['wtb']['data_widget_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Widget id'),
@@ -376,7 +382,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         ],
       ],
     ];
-
+  }
     $form['wtb']['product_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Product SKU'),
@@ -388,7 +394,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         ],
       ],
     ];
-
     switch ($commerce_vendor) {
       case self::VENDOR_COMMERCE_CONNECTOR:
         $form['wtb']['data_token'] = [
@@ -467,6 +472,32 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           '#type' => 'textfield',
           '#title' => $this->t('Smart Commerce brand specific CSS file URL'),
           '#default_value' => $this->configuration['wtb']['brand_css'],
+          '#states' => [
+            'visible' => [
+              [':input[name="override_global"]' => ['checked' => TRUE]],
+            ],
+          ],
+        ];
+        break;
+
+      // Mik mak.
+      case self::VENDOR_MIK_MAK:
+        $form['wtb']['cta_title'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('CTA title'),
+          '#default_value' => $this->configuration['wtb']['cta_title'],
+          '#description' => $this->t("If left empty then the WTB config form CTA title is used."),
+          '#states' => [
+            'visible' => [
+              [':input[name="override_global"]' => ['checked' => TRUE]],
+            ],
+          ],
+        ];
+        $form['wtb']['button_url'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Button URL'),
+          '#default_value' => !empty($config['wtb']['button_url']) ? $this->languageHelper->translate($config['wtb']['button_url']) : '',
+          '#description' => $this->languageHelper->translate('Please use relative path like /where-to-buy.'),
           '#states' => [
             'visible' => [
               [':input[name="override_global"]' => ['checked' => TRUE]],
@@ -814,6 +845,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'product_name' => $node->getTitle(),
         'product_description' => $node->field_product_description->value,
         'product_sku' => !empty($this->configuration['wtb']['override_global']) && !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $product_sku,
+        'mikmak_product_sku' => !empty($this->configuration['wtb']['override_global']) && !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : "",
+        'mikmak_product_button_url' => !empty($this->configuration['wtb']['override_global']) && !empty($this->configuration['wtb']['button_url']) ? $this->configuration['wtb']['button_url'] : "",
+        'mikmak_wtb_title' => !empty($this->configuration['wtb']['override_global']) && !empty($this->configuration['wtb']['cta_title']) ? $this->configuration['wtb']['cta_title'] : "",
         'commerce_vendor' => $commerce_vendor !== self::VENDOR_NONE ? $commerce_vendor : NULL,
         'data_widget_id' => empty($this->configuration['wtb']['override_global']) && !empty($commerce_vendor_settings[$widget_id_field]) ? $commerce_vendor_settings[$widget_id_field] : $this->configuration['wtb']['data_widget_id'],
         'data_token' => empty($this->configuration['wtb']['override_global']) && !empty($commerce_vendor_settings['data_token']) ? $commerce_vendor_settings['data_token'] : $this->configuration['wtb']['data_token'],
@@ -854,7 +888,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ],
     ];
     $build['#pdp_common_data'] = $pdp_common_data;
-    $build['#pdp_size_data'] = $this->getSizeData($node);
+    $build['#pdp_size_data'] = $this->hideProductSize() ? [] : $this->getSizeData($node);
     // Sort PDP variants if there more than one item.
     if (!empty($build['#pdp_size_data']) && count($build['#pdp_size_data']) >= 2) {
       usort($build['#pdp_size_data'], function ($a, $b) {
@@ -972,6 +1006,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       elseif ($this->getCommerceVendor() == self::VENDOR_PRICE_SPIDER && !$product_variant->get('field_product_hide_wtb_link')->value) {
         $item['price_spider_link_info'] = $this->getManualPriceSpiderLinkInfo($product_variant);
       }
+      elseif ($this->getCommerceVendor() == self::VENDOR_MIK_MAK && !$product_variant->get('field_product_hide_wtb_link')->value) {
+        $item['mik_mak_link_info'] = $this->getManualMikmakLinkInfo($product_variant);
+      }
       $items[] = $item;
     }
 
@@ -1012,6 +1049,24 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'option' => isset($global_config['option']) ? $global_config['option'] : FALSE,
       'price_spider_button_name' => isset($global_config['price_spider_button_name']) ? $this->languageHelper->translate($global_config['price_spider_button_name']) : '',
       'price_spider_button_url' => isset($global_config['price_spider_button_url']) ? $this->languageHelper->translate($global_config['price_spider_button_url']) . '?ps-sku=' . $this->productHelper->formatSku($product_variant->get('field_product_sku')->value) : '',
+    ];
+  }
+
+  /**
+   * Get WTB mikmak values.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $product_variant
+   *   Product variant node.
+   *
+   * @return array
+   *   mikmak attributes.
+   */
+  private function getManualMikmakLinkInfo(ContentEntityInterface $product_variant): array {
+    $global_config = $this->getCommerceVendorInfo(self::VENDOR_MIK_MAK);
+    return [
+      'mik_mak_button_name' => isset($global_config['button_name']) ? $this->languageHelper->translate($global_config['button_name']) : '',
+      'mik_mak_button_url' => isset($global_config['button_url']) ? $this->languageHelper->translate($global_config['button_url']) : '',
+      'mik_mak_sku' => !empty($this->productHelper->formatSku($product_variant->get('field_product_sku')->value)) ? $this->productHelper->formatSku($product_variant->get('field_product_sku')->value) : '',
     ];
   }
 
@@ -1086,6 +1141,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       }
       elseif ($this->getCommerceVendor() == self::VENDOR_PRICE_SPIDER && !$product_variant->get('field_product_hide_wtb_link')->value) {
         $item['price_spider_link_info'] = $this->getManualPriceSpiderLinkInfo($product_variant);
+      }
+      elseif ($this->getCommerceVendor() == self::VENDOR_MIK_MAK && !$product_variant->get('field_product_hide_wtb_link')->value) {
+        $item['mik_mak_link_info'] = $this->getManualMikmakLinkInfo($product_variant);
       }
       $items[] = $item;
     }
@@ -1188,11 +1246,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       }
       $size = $product_variant->get($field_size)->value;
       $size_id = $product_variant->id();
-      $items[] = [
-        'size_id' => $size_id,
-        'title' => $size,
-        'link_url' => '#',
-      ];
+      if (!empty($size)) {
+        $items[] = [
+          'size_id' => $size_id,
+          'title' => $size,
+          'link_url' => '#',
+        ];
+      }
     }
 
     return $items;
@@ -1230,6 +1290,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $result_item['serving_size'] = $this->hideServingSizeHeading() ? [] : $serving_size;
       $result_item['serving_per_container'] = $this->hideServingsPerHeading() ? [] : $serving_per_container;
       $result_item['disclaimers_value'] = strip_tags(html_entity_decode($node->get('field_product_disclaimers')->value), '<strong><b>');
+      $result_item['calorie_statement'] = $node->get('field_product_calorie_stmt')->value;
+      $result_item['whitening_statement'] = $node->get('field_product_whitening_stmt')->value;
     }
     elseif ($field_prefix == 'dual') {
       $result_item['dual_servings_per_container'] = [
@@ -1725,6 +1787,20 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ->get('indent_polyols');
 
     return (isset($indent_polyols) && !empty($indent_polyols));
+  }
+
+  /**
+   * Check for product size to be shown or not in the pdp page.
+   *
+   * @return bool
+   *   Whether it should be rendered or not.
+   */
+  private function hideProductSize(): bool {
+    $hide_product_size = $this->configFactory
+      ->get('mars_product.nutrition_table_settings')
+      ->get('hide_product_size');
+
+    return (isset($hide_product_size) && !empty($hide_product_size));
   }
 
 }
