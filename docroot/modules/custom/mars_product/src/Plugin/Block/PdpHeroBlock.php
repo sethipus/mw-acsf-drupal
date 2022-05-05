@@ -89,7 +89,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $configFactory;
 
   /**
-   * Route match service for getting node
+   * Route match service for getting node.
    *
    * @var \Drupal\Core\Routing\RouteMatchInterface
    */
@@ -321,10 +321,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
     $commerce_vendor = $this->getCommerceVendor();
     $current_path = $this->currentPathStack->getPath();
-    $path_arr = explode('/',$current_path);
-    $node_str = preg_grep('/node./',$path_arr);
-    $nid = str_replace('node.','',implode('',$node_str));
-    if($nid){
+    $path_arr = explode('/', $current_path);
+    $node_str = preg_grep('/node./', $path_arr);
+    $nid = str_replace('node.', '', implode('', $node_str));
+    if ($nid) {
       $node = $this->nodeStorage->load($nid);
     }
 
@@ -368,21 +368,21 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#name' => 'override_global',
     ];
 
-  if ($commerce_vendor != "mik_mak") {
-    $form['wtb']['data_widget_id'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Widget id'),
-      '#default_value' => $this->configuration['wtb']['data_widget_id'],
-      '#states' => [
-        'visible' => [
+    if ($commerce_vendor != "mik_mak") {
+      $form['wtb']['data_widget_id'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Widget id'),
+        '#default_value' => $this->configuration['wtb']['data_widget_id'],
+        '#states' => [
+          'visible' => [
           [':input[name="override_global"]' => ['checked' => TRUE]],
-        ],
-        'required' => [
+          ],
+          'required' => [
           [':input[name="override_global"]' => ['checked' => TRUE]],
+          ],
         ],
-      ],
-    ];
-  }
+      ];
+    }
     $form['wtb']['product_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Product SKU'),
@@ -526,7 +526,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['nutrition']['serving_label'],
       '#required' => TRUE,
     ];
-    if(!empty($node) && $node->bundle() == 'product'){
+    if (!empty($node) && $node->bundle() == 'product') {
       $form['nutrition']['dual_serving_label'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Dual Amount per serving label'),
@@ -978,11 +978,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $item['dual_nutrition_data'] = [
           'serving_item' => $this->getServingItems($product_variant, 'dual'),
         ];
-        if($this->getDualServingsPerContainerLabel()){
+        if ($this->getDualServingsPerContainerLabel()) {
           $item['nutrition_data']['serving_item']['table_label'] = !empty($this->configuration['nutrition']['table_label']) ? $this->languageHelper->translate($this->configuration['nutrition']['table_label']) : '';
           $item['dual_nutrition_data']['serving_item']['table_label'] = !empty($this->configuration['nutrition']['dual_table_label']) ? $this->languageHelper->translate($this->configuration['nutrition']['dual_table_label']) : '';
         }
-        else{
+        else {
           $item['nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_1')->value;
           $item['dual_nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_2')->value;
         }
@@ -1046,7 +1046,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   private function getManualPriceSpiderLinkInfo(ContentEntityInterface $product_variant): array {
     $global_config = $this->getCommerceVendorInfo(self::VENDOR_PRICE_SPIDER);
     return [
-      'option' => isset($global_config['option']) ? $global_config['option'] : FALSE,
+      'option' => $global_config['option'] ?? FALSE,
       'price_spider_button_name' => isset($global_config['price_spider_button_name']) ? $this->languageHelper->translate($global_config['price_spider_button_name']) : '',
       'price_spider_button_url' => isset($global_config['price_spider_button_url']) ? $this->languageHelper->translate($global_config['price_spider_button_url']) . '?ps-sku=' . $this->productHelper->formatSku($product_variant->get('field_product_sku')->value) : '',
     ];

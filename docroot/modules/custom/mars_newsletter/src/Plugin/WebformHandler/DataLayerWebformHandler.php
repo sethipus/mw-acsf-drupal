@@ -6,7 +6,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\webform\Plugin\WebformHandlerBase;
 use Drupal\webform\WebformSubmissionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use \Drupal\file\Entity\File;
 use Drupal\Core\File\FileSystemInterface;
 
 /**
@@ -54,7 +53,7 @@ class DataLayerWebformHandler extends WebformHandlerBase {
     $submitted_values = $webform_submission->getData();
     $submitted_values['datalayer_event'] = !empty($submitted_values['datalayer_event']) ? $submitted_values['datalayer_event'] : $this->t('marsFormsubmission');
     $image_id = !empty($submitted_values['image']) ? $submitted_values['image'] : "";
-    if($image_id){
+    if ($image_id) {
       $base_path = \Drupal::request()->getSchemeAndHttpHost();
       $target_directory = 'public://';
       $file = $this->entityTypeManager->getStorage('file')->load($image_id);
@@ -71,4 +70,5 @@ class DataLayerWebformHandler extends WebformHandlerBase {
     }
     $this->dataLayerService->addData($submitted_values);
   }
+
 }

@@ -32,7 +32,7 @@ class ListItemWidget extends FileTextWidgetBase {
     $element['desc'] = [
       '#title' => t('Description of the item'),
       '#type' => 'textfield',
-      '#default_value' => isset($item['desc']) ? $item['desc'] : '',
+      '#default_value' => $item['desc'] ?? '',
       '#description' => t('Short description of the item.'),
       '#maxlength' => 65,
       '#weight' => -12,

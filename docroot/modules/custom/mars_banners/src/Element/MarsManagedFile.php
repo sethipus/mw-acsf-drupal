@@ -29,7 +29,7 @@ class MarsManagedFile extends ManagedFile {
     // This is used sometimes so let's implode it just once.
     $parents_prefix = implode('_', $element['#parents']);
 
-    $fids = isset($element['#value']['fids']) ? $element['#value']['fids'] : [];
+    $fids = $element['#value']['fids'] ?? [];
 
     // Set some default element properties.
     $element['#progress_indicator'] = empty($element['#progress_indicator']) ? 'none' : $element['#progress_indicator'];

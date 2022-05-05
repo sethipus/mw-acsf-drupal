@@ -302,7 +302,7 @@ function salsify_integration_setup_field_render_arrays(array $field_data) {
 function salsify_integration_setup_value_render_arrays(array &$field_data, array $product_data) {
   foreach ($field_data as $key => &$field) {
     $field['field_value'] = [
-      '#value' => isset($product_data[$key]) ? $product_data[$key] : '',
+      '#value' => $product_data[$key] ?? '',
     ];
   }
 }

@@ -183,7 +183,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
         $required = FALSE;
       }
 
-      $image_default = isset($config[$name]) ? $config[$name] : NULL;
+      $image_default = $config[$name] ?? NULL;
       // Entity Browser element for background image.
       $form[$name] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
         $image_default, $form_state, 1, 'thumbnail', $required);

@@ -141,7 +141,7 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
         $validate_callback = FALSE;
       }
 
-      $image_default = isset($config[$name]) ? $config[$name] : NULL;
+      $image_default = $config[$name] ?? NULL;
       // Entity Browser element for background image.
       $form[$name] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
         $image_default, $form_state, 1, 'thumbnail', $validate_callback
@@ -160,7 +160,7 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
       ];
     }
 
-    $video_default = isset($config['video']) ? $config['video'] : NULL;
+    $video_default = $config['video'] ?? NULL;
     // Entity Browser element for video.
     $form['video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
       $video_default, $form_state, 1, 'default', function ($form_state) {

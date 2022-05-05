@@ -152,7 +152,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
       '#description' => $this->t('Must be AA compliant. Note that the Secondary Color / Color B will be used for CTAs background color.'),
     ];
 
-    $image_default = isset($config['image']) ? $config['image'] : NULL;
+    $image_default = $config['image'] ?? NULL;
     // Entity Browser element for background image.
     $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
       $image_default, $form_state, 1, 'thumbnail');

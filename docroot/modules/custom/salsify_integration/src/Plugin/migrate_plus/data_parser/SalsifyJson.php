@@ -50,7 +50,7 @@ class SalsifyJson extends Json {
   public function currentUrl(): ?string {
     $keys = array_keys($this->urls);
     $index = $this->activeUrl ?: array_shift($keys);
-    return isset($this->urls[$index]) ? $this->urls[$index] : NULL;
+    return $this->urls[$index] ?? NULL;
   }
 
   /**

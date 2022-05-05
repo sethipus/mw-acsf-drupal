@@ -1,32 +1,30 @@
 <?php
- 
-/**
- * Configuration for newsletter form.
- */
+
 namespace Drupal\mars_newsletter\Form;
+
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Config\Config;
-use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
-use Drupal\mars_common\ThemeConfiguratorParser;
- 
+
+/**
+ *
+ */
 class MarsNewsletterConfigForm extends ConfigFormBase {
- 
+
   /**
    * {@inheritdoc}
    */
   public function getFormId() {
     return 'newsletter_form';
   }
- 
+
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
- 
+
     $form = parent::buildForm($form, $form_state);
     $config = $this->configFactory()->getEditable('mars_newsletter_form.settings')->get('newsletter.config_form');
- 
+
     $form['newsletter_toggle'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Display alert banner newsletter form.'),
@@ -75,15 +73,15 @@ class MarsNewsletterConfigForm extends ConfigFormBase {
       '#type' => 'submit',
       '#value' => $this->t('Save'),
     ];
- 
+
     return $form;
   }
-  
+
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
- 
+
     $config = $this->configFactory()->getEditable('mars_newsletter_form.settings');
     $config->set('newsletter.config_form', $form_state->getValues());
     $config->save();
@@ -98,4 +96,5 @@ class MarsNewsletterConfigForm extends ConfigFormBase {
       'mars_newsletter_form.settings',
     ];
   }
+
 }

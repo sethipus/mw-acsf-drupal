@@ -421,7 +421,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     // Newsletter bg color set from alert banner bg color.
     $this->configColor->set('newsletter_bg_color', !empty($config['alert_banner']['bg_color']) ? $config['alert_banner']['bg_color'] : $this->configColor->get('color_b'));
     $this->configColor->save(TRUE);
-    
+
     if (!empty($config['alert_banner']['override_color_scheme'])) {
       $build['#alert_banner_override_color'] = TRUE;
       $build['#alert_banner_bg_color'] = !empty($config['alert_banner']['bg_color']) ? $config['alert_banner']['bg_color'] : FALSE;
