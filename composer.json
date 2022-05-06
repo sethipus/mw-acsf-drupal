@@ -213,12 +213,6 @@
             "drupal/tmgmt_smartling": {
                 "The job has no provider assigned": "https://www.drupal.org/files/issues/2020-11-06/tmgmt-smartling-the-job-has-no-provider-assigned.patch"
             },
-            "drupal/lightning_workflow": {
-                "Update scheduled status change": "https://www.drupal.org/files/issues/2020-11-12/take-workflow-transitions-into-account-3182093-1.patch"
-            },
-            "drupal/remote_stream_wrapper": {
-                "Remote Stream Wrapper does not work after upgrade drupal 9": "https://www.drupal.org/files/issues/2021-05-10/3185015-29.patch"
-            },
             "drupal/field_group": {
                 "Ensure visibility of invalid fields (JS) https://www.drupal.org/project/field_group/issues/2787179": "https://www.drupal.org/files/issues/2020-05-19/2787179-highlight-html5-validation-52.patch"
             },
