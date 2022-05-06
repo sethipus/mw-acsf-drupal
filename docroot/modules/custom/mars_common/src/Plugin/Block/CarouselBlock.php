@@ -283,7 +283,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
         $form['carousel'][$key]['hide_volume'] = [
           '#type' => 'checkbox',
           '#title' => $this->t('Hide Volume'),
-          '#default_value' => $config['carousel'][$key]['hide_volume'] ?? false,
+          '#default_value' => $config['carousel'][$key]['hide_volume'] ?? FALSE,
         ];
       }
       $form['carousel'][$key]['remove_item'] = [

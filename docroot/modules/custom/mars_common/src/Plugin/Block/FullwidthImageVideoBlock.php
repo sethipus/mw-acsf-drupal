@@ -33,7 +33,7 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
     $config = $this->getConfiguration();
 
     $build['#heading'] = $this->languageHelper->translate($config['title']);
-    $build['#heading_modifier'] = isset($config['heading_modifier']) ? $config['heading_modifier'] : static::DEFAULT_HEADING_MODIFIER;
+    $build['#heading_modifier'] = $config['heading_modifier'] ?? static::DEFAULT_HEADING_MODIFIER;
     $build['#content'] = $this->languageHelper->translate($config['description']);
     $build['#block_type'] = $config['block_content_type'];
 
@@ -134,7 +134,7 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
     $form['heading_modifier'] = [
       '#type' => 'radios',
       '#title' => $this->t('Title alignment'),
-      '#default_value' => isset($config['heading_modifier']) ? $config['heading_modifier'] : static::DEFAULT_HEADING_MODIFIER,
+      '#default_value' => $config['heading_modifier'] ?? static::DEFAULT_HEADING_MODIFIER,
       '#options' => [
         'full-width-heading-left' => $this->t('Left'),
         'full-width-heading-center' => $this->t('Center'),
@@ -169,7 +169,7 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
         $validate_callback = FALSE;
       }
 
-      $image_default = isset($config[$name]) ? $config[$name] : NULL;
+      $image_default = $config[$name] ?? NULL;
       // Entity Browser element for background image.
       $form[$name] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
         $image_default, $form_state, 1, 'thumbnail', $validate_callback

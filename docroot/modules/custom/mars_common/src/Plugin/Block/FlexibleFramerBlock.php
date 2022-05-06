@@ -199,7 +199,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#maxlength' => !empty($character_limit_config->get('flexible_frame_item_description')) ? $character_limit_config->get('flexible_frame_item_description') : 255,
       ];
 
-      $item_image = isset($config['items'][$key]['item_image']) ? $config['items'][$key]['item_image'] : NULL;
+      $item_image = $config['items'][$key]['item_image'] ?? NULL;
       $form['items'][$key]['item_image'] = $this->getEntityBrowserForm(ImageVideoBlockBase::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
         $item_image, $form_state, 1, 'thumbnail', FALSE);
       // Convert the wrapping container to a details element.
@@ -220,7 +220,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#type' => 'radios',
         '#title' => $this->t('Image size'),
         '#options' => static::IMAGE_SIZE,
-        '#default_value' => isset($config['items'][$key]['image_size']) ? $config['items'][$key]['image_size'] : static::IMAGE_SIZE['1:1'],
+        '#default_value' => $config['items'][$key]['image_size'] ?? static::IMAGE_SIZE['1:1'],
       ];
     }
     if (count($items_storage) < 4) {
@@ -363,7 +363,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         $ff_item['card__image__src'] = $image_url;
         $ff_item['card__image__alt'] = $media_params['alt'] ?? NULL;
         $ff_item['card__image__title'] = $media_params['title'] ?? NULL;
-        $ff_item['card__image__size'] = isset($config['items'][$key]['image_size']) ? $config['items'][$key]['image_size'] : static::IMAGE_SIZE['1:1'];
+        $ff_item['card__image__size'] = $config['items'][$key]['image_size'] ?? static::IMAGE_SIZE['1:1'];
       }
       $ff_items[] = $ff_item;
     }

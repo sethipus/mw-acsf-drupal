@@ -169,9 +169,9 @@ class PdpHeroBlockTest extends UnitTestCase {
     $this->createMocks();
 
     $this->configFactoryMock
-    ->method('getEditable')
-    ->with('mars_common.character_limit_page')
-    ->willReturn($this->immutableConfigMock);
+      ->method('getEditable')
+      ->with('mars_common.character_limit_page')
+      ->willReturn($this->immutableConfigMock);
 
     \Drupal::setContainer($this->containerMock);
     $this->configuration = [
@@ -276,7 +276,7 @@ class PdpHeroBlockTest extends UnitTestCase {
       ->expects($this->any())
       ->method('getParameter')
       ->willReturn($product_node);
- 
+
     $this->currentPathMock
       ->expects($this->any())
       ->method('getPath')
@@ -363,7 +363,7 @@ class PdpHeroBlockTest extends UnitTestCase {
       ->expects($this->any())
       ->method('getParameter')
       ->willReturn($product_node);
-    
+
     $this->currentPathMock
       ->expects($this->any())
       ->method('getPath')
@@ -468,12 +468,12 @@ class PdpHeroBlockTest extends UnitTestCase {
       ->expects($this->any())
       ->method('getStorage')
       ->willReturn($this->nodeStorageMock);
-    
+
     $this->routeMatchMock
       ->expects($this->any())
       ->method('getParameter')
       ->willReturn($this->createProductMock('product'));
-      
+
     $this->currentPathMock
       ->expects($this->any())
       ->method('getPath')

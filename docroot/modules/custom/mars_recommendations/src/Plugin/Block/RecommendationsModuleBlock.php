@@ -2,7 +2,6 @@
 
 namespace Drupal\mars_recommendations\Plugin\Block;
 
-
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;

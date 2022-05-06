@@ -98,8 +98,8 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
   public function build() {
     $config = $this->getConfiguration();
     $build = $this->searchBuilder->buildSearchHeader($config);
-    if(!empty($config['exclude_products'])){
-      $exclude_products_arr = explode(',',$config['exclude_products']);
+    if (!empty($config['exclude_products'])) {
+      $exclude_products_arr = explode(',', $config['exclude_products']);
       $exclude_count = count($exclude_products_arr);
       $build['#search_filters'][0]['count'] -= $exclude_count;
     }

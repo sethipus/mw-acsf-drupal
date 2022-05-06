@@ -77,7 +77,7 @@ class MarsNewsletterEmailSignupBlock extends BlockBase implements ContainerFacto
    * {@inheritdoc}
    */
   public function build() {
-    
+
     $config_newsletter_bg_color = $this->configFactory->getEditable('emulsifymars.settings');
     $config_newsletter_form_value = $this->configFactory->getEditable('mars_newsletter_form.settings')->get('newsletter.config_form');
     $webform = Webform::load('mars_newsletter_email_form');
@@ -86,10 +86,10 @@ class MarsNewsletterEmailSignupBlock extends BlockBase implements ContainerFacto
     $config = $this->getConfiguration();
     $block_label = !empty($config_newsletter_form_value['alert_banner_newsletter_name']) ? $config_newsletter_form_value['alert_banner_newsletter_name'] : $this->t('Sign up for newsletter');
     $override_white_color = !empty($config_newsletter_form_value['override_white_color']) ? $config_newsletter_form_value['override_white_color'] : '';
-    if($override_white_color) {
+    if ($override_white_color) {
       $build['#override_white_color'] = '#FFFFFF';
     }
-    else{
+    else {
       $build['#override_white_color'] = '';
     }
     $webform_data = [
@@ -110,4 +110,5 @@ class MarsNewsletterEmailSignupBlock extends BlockBase implements ContainerFacto
     $formStateValues = $form_state->getValues();
     $this->setConfiguration($formStateValues);
   }
+
 }

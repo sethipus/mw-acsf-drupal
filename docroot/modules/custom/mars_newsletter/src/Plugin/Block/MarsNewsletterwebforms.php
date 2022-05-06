@@ -8,11 +8,9 @@ use Drupal\Core\EventSubscriber\MainContentViewSubscriber;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\webform\Utility\WebformYaml;
 use Drupal\webform\WebformInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
-use Drupal\mars_common\ThemeConfiguratorParser;
 
 /**
  * Provides a 'Webform' block.
@@ -163,7 +161,7 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
         ],
       ],
     ];
-    
+
     $this->tokenManager->elementValidate($form);
 
     return $form;
@@ -264,5 +262,5 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
   protected function getWebform() {
     return $this->entityTypeManager->getStorage('webform')->load($this->configuration['webform_id']);
   }
-}
 
+}

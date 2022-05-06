@@ -326,8 +326,8 @@ class ThemeConfiguratorService {
       '#description'   => $this->t('If this field is left empty, it falls back to Color A.'),
     ];
 
-     // Language and region selector color settings.
-     $form['color_settings']['language_region_selector'] = [
+    // Language and region selector color settings.
+    $form['color_settings']['language_region_selector'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Language and region selector Settings'),
     ];

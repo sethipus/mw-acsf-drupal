@@ -113,7 +113,7 @@ trait BlockVisibilityConditionsTrait {
         }
 
         /** @var \Drupal\Core\Condition\ConditionInterface $condition */
-        $condition = $this->conditionPluginManager->createInstance($condition_id, isset($visibility_config[$condition_id]) ? $visibility_config[$condition_id] : []);
+        $condition = $this->conditionPluginManager->createInstance($condition_id, $visibility_config[$condition_id] ?? []);
         $form_state->set(['conditions', $condition_id], $condition);
         $condition_form = $condition->buildConfigurationForm([], $form_state);
         $condition_form['#type'] = 'details';

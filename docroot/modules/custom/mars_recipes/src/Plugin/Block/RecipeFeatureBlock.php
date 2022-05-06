@@ -315,10 +315,10 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       '#type' => 'radios',
       '#title' => $this->t('Recipe media type:'),
       '#options' => $this->options,
-      '#default_value' => isset($config['recipe_options']) ? $config['recipe_options'] : NULL,
+      '#default_value' => $config['recipe_options'] ?? NULL,
     ];
 
-    $image_default = isset($config['recipe_media_image']) ? $config['recipe_media_image'] : NULL;
+    $image_default = $config['recipe_media_image'] ?? NULL;
     // Entity Browser element for background image.
     $form['recipe_media_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
       $image_default, $form_state, 1, 'thumbnail', function ($form_state) {
@@ -335,7 +335,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       ],
     ];
 
-    $video_default = isset($config['recipe_media_video']) ? $config['recipe_media_video'] : NULL;
+    $video_default = $config['recipe_media_video'] ?? NULL;
     // Entity Browser element for video.
     $form['recipe_media_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
       $video_default, $form_state, 1, 'default', function ($form_state) {
@@ -353,11 +353,11 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
     ];
 
     if ($config['recipe_options'] === self::KEY_OPTION_VIDEO) {
-        $form['hide_volume'] = [
-          '#type' => 'checkbox',
-          '#title' => $this->t('Hide Volume'),
-          '#default_value' => $config['hide_volume'] ?? false,
-        ];
+      $form['hide_volume'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Hide Volume'),
+        '#default_value' => $config['hide_volume'] ?? FALSE,
+      ];
     }
 
     $form['cta'] = [

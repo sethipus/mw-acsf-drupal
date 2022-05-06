@@ -9,7 +9,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
  */
 class DataLayerService {
 
-   /**
+  /**
    * Contains the configuration object factory.
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
@@ -43,4 +43,5 @@ class DataLayerService {
     $data = $config->get('data');
     return $data;
   }
+
 }
