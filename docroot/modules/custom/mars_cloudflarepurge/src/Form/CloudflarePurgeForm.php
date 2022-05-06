@@ -15,7 +15,7 @@ use Drupal\mars_cloudflarepurge\CloudflarePurgeCredentials;
 class CloudflarePurgeForm extends ConfigFormBase {
 
   /**
-   * mars cloudflare purge constructor.
+   * Mars cloudflare purge constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The factory for configuration objects.
@@ -62,7 +62,7 @@ class CloudflarePurgeForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state):array {
     $config = $this->configFactory()->getEditable('cloudflarepurge.settings');
-    
+
     $form['cloudflarepurge_form']['zone_id'] = [
       '#type' => 'textfield',
       '#title' => t('Zone ID'),
@@ -70,9 +70,9 @@ class CloudflarePurgeForm extends ConfigFormBase {
       '#required' => TRUE,
       '#default_value' => !empty($config->get('zone_id')) ? $config->get('zone_id') : '',
       '#attributes' => [
-          'placeholder' => [
-              'Zone ID',
-          ],
+        'placeholder' => [
+          'Zone ID',
+        ],
       ],
       '#description' => t('Enter Cloudflare Zone Id.'),
     ];
@@ -83,9 +83,9 @@ class CloudflarePurgeForm extends ConfigFormBase {
       '#required' => TRUE,
       '#default_value' => !empty($config->get('authorization')) ? $config->get('authorization') : '',
       '#attributes' => [
-          'placeholder' => [
-              'Authorization',
-          ],
+        'placeholder' => [
+          'Authorization',
+        ],
       ],
       '#description' => t('Enter Cloudflare Authorization Key.'),
     ];
@@ -108,7 +108,7 @@ class CloudflarePurgeForm extends ConfigFormBase {
       '#states' => [
         'visible' => [
           ':input[name="purge_specific_url_toggle"]' => [
-              'checked' => TRUE,
+            'checked' => TRUE,
           ],
         ],
       ],
@@ -120,7 +120,7 @@ class CloudflarePurgeForm extends ConfigFormBase {
       '#value' => $this->t('Clear Cache'),
       '#submit' => ['::cloudflareClearCache'],
     ];
-  
+
     return parent::buildForm($form, $form_state);
 
   }
@@ -140,18 +140,18 @@ class CloudflarePurgeForm extends ConfigFormBase {
       foreach ($specific_url_values as $value) {
         if (!empty($value)) {
           $value = trim(preg_replace('/\s+/', ' ', $value));
-          if($value) {
+          if ($value) {
             $specific_urls[] = $value;
           }
         }
       }
       $specific_urls = '"' . implode('","', $specific_urls) . '"';
     }
-    else{
+    else {
       $specific_urls = "";
     }
     // Purge everything for specific zone ID.
-    if ($zoneId != NULL && $authorization != NULL && $purge_everything_toggle ) {
+    if ($zoneId != NULL && $authorization != NULL && $purge_everything_toggle) {
       $results = CloudflarePurgeCredentials::cfPurgeCache($zoneId, $authorization, $specific_urls, $purge_specific_url_toggle);
       if ($results == 200) {
         $this->messenger()->addMessage($this->t('Cloudflare was purged everything successfully.'));

@@ -20,7 +20,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
  */
 class CarouselBlockTest extends UnitTestCase {
 
-   /**
+  /**
    * Config factory mock.
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
@@ -91,9 +91,9 @@ class CarouselBlockTest extends UnitTestCase {
     $this->createMocks();
 
     $this->configFactoryMock
-    ->method('getEditable')
-    ->with('mars_common.character_limit_page')
-    ->willReturn($this->immutableConfigMock);
+      ->method('getEditable')
+      ->with('mars_common.character_limit_page')
+      ->willReturn($this->immutableConfigMock);
 
     \Drupal::setContainer($this->containerMock);
     $this->configuration = [

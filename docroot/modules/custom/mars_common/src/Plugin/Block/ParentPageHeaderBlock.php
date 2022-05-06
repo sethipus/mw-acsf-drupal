@@ -259,7 +259,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#type' => 'radios',
       '#title' => $this->t('Background type'),
       '#options' => $this->options,
-      '#default_value' => isset($config['background_options']) ? $config['background_options'] : NULL,
+      '#default_value' => $config['background_options'] ?? NULL,
     ];
 
     foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
@@ -276,7 +276,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
         };
       }
 
-      $image_default = isset($config[$name]) ? $config[$name] : NULL;
+      $image_default = $config[$name] ?? NULL;
       // Entity Browser element for background image.
       $form[$name] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
         $image_default, $form_state, 1, 'thumbnail', $validate_callback
@@ -301,7 +301,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       }
     }
 
-    $video_default = isset($config['background_video']) ? $config['background_video'] : NULL;
+    $video_default = $config['background_video'] ?? NULL;
     // Entity Browser element for video.
     $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
       $video_default, $form_state, 1, 'default', function ($form_state) {

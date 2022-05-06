@@ -602,17 +602,20 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
 
     return $mock;
   }
+
+  /**
+   *
+   */
   private function createConfigFactoryMock() {
     $configMock = $this->createMock(ConfigFactoryInterface::class);
     $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
     $configMock
-    ->method('getEditable')
-    ->with('mars_common.character_limit_page')
-    ->willReturn($this->immutableConfigMock);
+      ->method('getEditable')
+      ->with('mars_common.character_limit_page')
+      ->willReturn($this->immutableConfigMock);
 
     return $configMock;
   }
-  
 
   /**
    * Returns Language helper mock.

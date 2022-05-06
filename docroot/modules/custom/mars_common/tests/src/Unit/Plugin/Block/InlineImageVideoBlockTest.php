@@ -8,7 +8,6 @@ use Drupal\mars_common\Plugin\Block\InlineImageVideoBlock;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_media\SVG\SVG;
 

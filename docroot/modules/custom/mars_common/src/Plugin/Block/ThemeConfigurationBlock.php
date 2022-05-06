@@ -164,7 +164,6 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
 
     // Because UpdateBlockForm sets #tree to true for the whole config form,
     // the values are nested and don't match the expected structure.  We need to flatten them.
-
     // Collapse these values to match structure of theme configurator.
     $fieldsets = [
       'header',
