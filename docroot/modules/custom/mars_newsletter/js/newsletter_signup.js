@@ -23,11 +23,6 @@ var success_message;
         if (!document.getElementById('edit-email').value) {
           $('#edit-actions-submit').parents('.webform-submission-mars-newsletter-email-form-form').find('input').after('<span class="error">' +required_message+ '</span>');
         } else {
-          $(".email-submit").addClass("email-display");
-          $(".newsletter-webform-block-label").addClass("email-display");
-          $('.email-submit').after('<span class="success-message">&#10004 successful subscription</span>');
-          $('.success-message').fadeIn('slow');
-          $('.success-message').delay(5000).fadeOut('slow');
           grecaptcha.execute();
         }
       }
