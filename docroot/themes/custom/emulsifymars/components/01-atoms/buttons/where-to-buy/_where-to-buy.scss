@@ -4,7 +4,7 @@
   justify-content: center;
 
   .where-to-buy-link {
-    @include set-font($font-type: 'secondary-font');
+    @include set-font($font-type: "secondary-font");
     @include text_link;
 
     display: block;
@@ -31,7 +31,7 @@
   }
 
   .where-to-buy-button {
-    @include set-font($font-type: 'primary-font');
+    @include set-font($font-type: "primary-font");
 
     color: clr(text-inverse);
     font-size: 1.4rem;
@@ -47,11 +47,24 @@
     border-radius: variable(button-border-radius);
     white-space: nowrap;
     cursor: pointer;
-    flex-grow: 1;
 
     @include cta-background-animation(clr(secondary), clr(subcolor-3));
 
     transition: all 0.6s cubic-bezier(0.75, 0, 0.25, 0);
+
+    @include xs {
+      font-size: 1.2rem;
+      max-width: 16.5rem;
+    }
+
+    @include small {
+      max-width: 16.5rem;
+      font-size: 1.4rem;
+    }
+
+    &:hover {
+      color: clr(secondary);
+    }
   }
 
   &--pdp-hero {
@@ -84,12 +97,7 @@
       @include xl {
         font-size: 1.6rem;
       }
-
-      &:hover {
-        color: clr(secondary);
-      }
     }
-
     .ps-widget.ps-enabled[ps-sku] {
       flex-grow: 1;
       max-width: 100%;
@@ -109,78 +117,37 @@
     }
   }
 }
+.where-to-buy.price-spider .ps-widget {
+  padding: 0 1rem;
+  border: none !important;
+  background-position: right top;
+  display: flex;
+  flex-grow: 1;
+  min-width: auto;
+  max-width: 16.5rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: color 0.6s cubic-bezier(0.75, 0, 0.25, 0);
+  @include cta-background-animation(clr(secondary), clr(subcolor-3));
 
-.product-card {
-  .where-to-buy {
-    .where-to-buy-link,
-    .where-to-buy-button {
-      max-width: 16.5rem;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
+  @include xs {
+    font-size: 1.2rem;
+    max-width: 16.5rem;
+  }
+
+  @include small {
+    max-width: 16.5rem;
+    font-size: 1.4rem;
   }
 
   &:hover {
-    .where-to-buy-button {
-      color: clr(secondary);
-      text-align: center;
-      text-decoration: none;
-      @include cta-background-animation(clr(subcolor-3), clr(secondary));
-
-      transition: all 0.6s cubic-bezier(0.75, 0, 0.25, 0);
-
-      &:hover {
-        color: clr(subcolor-3);
-      }
-    }
-
-    @include medium {
-      .default-link {
-        color: clr(secondary);
-        box-shadow: none;
-
-        &:hover {
-          color: clr(subcolor-3);
-        }
-      }
-
-      .where-to-buy {
-        color: clr(subcolor-3);
-
-        .where-to-buy-link {
-          color: currentColor;
-        }
-
-        &.price-spider .ps-widget {
-          color: clr(secondary);
-          @include cta-background-animation(clr(subcolor-3), clr(secondary));
-
-          transition: all 0.6s cubic-bezier(0.75, 0, 0.25, 0);
-
-          &:hover {
-            color: clr(subcolor-3);
-          }
-        }
-      }
-    }
+    color: clr(secondary);
   }
 
-  .where-to-buy.price-spider .ps-widget {
-    padding: 0 1rem;
-    border: none !important;
-    background-position: right top;
-    transition: color 0.6s cubic-bezier(0.75, 0, 0.25, 0);
-    display: flex;
+  .ps-button-label {
     flex-grow: 1;
     min-width: auto;
-    max-width: 16.5rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-
-    .ps-button-label {
-      flex-grow: 1;
-      min-width: auto;
-    }
   }
 }
+

@@ -43,7 +43,6 @@
 
   &--light {
     color: clr(secondary);
-    box-shadow: 0 0 5px #ccc;
     text-align: center;
     @include cta-background-animation(clr(subcolor-3), clr(secondary));
 
