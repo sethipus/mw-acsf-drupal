@@ -85,7 +85,7 @@ class EntityManagerWrapper extends EntityTypeManager implements EntityTypeManage
    *   Loaded entities.
    */
   public function getLoaded($type, $entity_type) {
-    return isset($this->loaded[$type][$entity_type]) ? $this->loaded[$type][$entity_type] : NULL;
+    return $this->loaded[$type][$entity_type] ?? NULL;
   }
 
   /**
@@ -98,7 +98,7 @@ class EntityManagerWrapper extends EntityTypeManager implements EntityTypeManage
    *   Rendered entities.
    */
   public function getRendered($entity_type) {
-    return isset($this->rendered[$entity_type]) ? $this->rendered[$entity_type] : NULL;
+    return $this->rendered[$entity_type] ?? NULL;
   }
 
   /**

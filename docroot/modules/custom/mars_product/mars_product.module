@@ -213,7 +213,7 @@ function product_card_add_wtb_vars(array &$variables) {
       !$variant->get('field_product_hide_wtb_link')->value) {
       $sku = $product_helper->formatSku(trim($variant->get('field_product_sku')->value)) ?? '';
       $variables['price_spider_link_info'] = [
-        'option' => isset($commerce_vendor_settings['option']) ? $commerce_vendor_settings['option'] : FALSE,
+        'option' => $commerce_vendor_settings['option'] ?? FALSE,
         'price_spider_button_name' => isset($commerce_vendor_settings['price_spider_button_name']) ? $language_helper->translate($commerce_vendor_settings['price_spider_button_name']) : '',
         'price_spider_button_url' => isset($commerce_vendor_settings['price_spider_button_url']) ? $language_helper->translate($commerce_vendor_settings['price_spider_button_url']) . '?ps-sku=' . $sku : '',
       ];
@@ -499,6 +499,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
     }
   }
 }
+
 /**
  * Implements hook_page_bottom().
  */
@@ -530,7 +531,7 @@ function mars_product_preprocess_where_to_buy_block(&$variables) {
   $mikmak_sku_key = \Drupal::request()->query->get('mikmak-sku');
   if (!empty($vendor) && $vendor === PdpHeroBlock::VENDOR_MIK_MAK) {
     $product_variant_fields = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type' => 'product_variant']);
-    foreach($product_variant_fields as $key => $sku) {
+    foreach ($product_variant_fields as $key => $sku) {
       if ($sku->field_product_sku->value && !empty($sku->field_product_sku->value)) {
         if (!empty($mikmak_sku_key) && $mikmak_sku_key && $mikmak_sku_key != $sku->field_product_sku->value) {
           $upcs[$sku->field_product_sku->value] = $sku->field_product_sku->value;

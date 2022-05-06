@@ -169,7 +169,6 @@ class NutritionConfigForm extends ConfigFormBase {
       ],
     ];
 
-
     $this->getGroupTableHeader($form, $form_state);
     $this->getDualGroupTableHeader($form, $form_state);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_1);
@@ -272,7 +271,7 @@ class NutritionConfigForm extends ConfigFormBase {
       '#default_value' => !empty($config->get('override_dual_table_heading')) ? $config->get('override_dual_table_heading') : FALSE,
       '#attributes' => [
         'title' => $this->t("This field will override the Per portion value in the Nutrition Table 2 with that of Salsify value."),
-      ]
+      ],
     ];
 
   }

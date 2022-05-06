@@ -108,9 +108,9 @@ class SearchFaqBlockTest extends UnitTestCase {
     $this->createMocks();
 
     $this->configFactoryMock
-    ->method('getEditable')
-    ->with('mars_common.character_limit_page')
-    ->willReturn($this->immutableConfig);
+      ->method('getEditable')
+      ->with('mars_common.character_limit_page')
+      ->willReturn($this->immutableConfig);
 
     \Drupal::setContainer($this->containerMock);
     $this->configuration = [

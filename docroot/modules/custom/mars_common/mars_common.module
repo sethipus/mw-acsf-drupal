@@ -1020,16 +1020,16 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
 /**
  * Implements hook_webform_element_alter().
  *
- * @param array              $element
- * @param FormStateInterface $form_state
- * @param array              $context
+ * @param array $element
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param array $context
  */
 function mars_common_webform_element_alter(array &$element, FormStateInterface $form_state, array $context) {
   // Check for desired element.
   if (isset($element['#webform_id'])) {
     $element['#element_validate'][] = [
-        'Drupal\mars_common\Validate\MarsValidateConstraint',
-        'validate',
+      'Drupal\mars_common\Validate\MarsValidateConstraint',
+      'validate',
     ];
     $grecaptcha = $form_state->getUserInput()['g-recaptcha-response'];
     if ($element['#webform_key'] === 'captcha' && isset($grecaptcha) && empty($grecaptcha)) {
@@ -1504,7 +1504,7 @@ function mars_common_field_widget_form_alter(
     $element['value']['#maxlength'] = 160;
   }
 
-  // Character Limit config
+  // Character Limit config.
   $character_limit_config = \Drupal::config('mars_common.character_limit_page');
 
   if ($field_name == 'field_product_description') {
@@ -1775,9 +1775,7 @@ function mars_common_form_social_media_admin_form_alter(&$form, FormStateInterfa
       'wrapper' => 'social-media-wrapper',
       'event' => 'change',
     ];
-    $value = isset($values[$social_media . '_enable'])
-      ? $values[$social_media . '_enable']
-      : $form[$social_media][$social_media . '_enable']['#default_value'];
+    $value = $values[$social_media . '_enable'] ?? $form[$social_media][$social_media . '_enable']['#default_value'];
     if ($value) {
       $social_media_enabled_count++;
     }
@@ -1788,9 +1786,7 @@ function mars_common_form_social_media_admin_form_alter(&$form, FormStateInterfa
 
   $i = 0;
   foreach ($social_medias as $social_media) {
-    $value = isset($values[$social_media . '_enable'])
-      ? $values[$social_media . '_enable']
-      : $form[$social_media][$social_media . '_enable']['#default_value'];
+    $value = $values[$social_media . '_enable'] ?? $form[$social_media][$social_media . '_enable']['#default_value'];
     $is_external_link = preg_grep('/^http/', $form[$social_media][$social_media . '_api_url']);
     if ($social_media_enabled_count > SocialMediaConstants::SOCIAL_MEDIAS_ENABLED_MAXIMUM - 1) {
       if ($value) {

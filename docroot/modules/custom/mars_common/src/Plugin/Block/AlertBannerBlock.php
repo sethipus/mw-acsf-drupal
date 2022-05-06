@@ -75,7 +75,6 @@ class AlertBannerBlock extends BlockBase implements ContainerFactoryPluginInterf
     $config = $this->getConfiguration();
     $character_limit_config = $this->configFactory->get('mars_common.character_limit_page');
 
-    
     $form['alert_banner'] = [
       '#type' => 'details',
       '#title' => $this->t('Alert banner'),
@@ -169,4 +168,5 @@ class AlertBannerBlock extends BlockBase implements ContainerFactoryPluginInterf
     $formStateValues = $form_state->getValues();
     $this->setConfiguration($formStateValues);
   }
+
 }

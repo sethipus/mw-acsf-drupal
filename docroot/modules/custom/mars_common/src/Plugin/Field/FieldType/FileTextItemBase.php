@@ -226,7 +226,7 @@ class FileTextItemBase extends FileItem {
       $file = $images[$extension][$min_resolution][$max_resolution][$image_index];
     }
 
-    list($width, $height) = getimagesize($file->getFileUri());
+    [$width, $height] = getimagesize($file->getFileUri());
     $values = [
       'target_id' => $file->id(),
       'desc' => $random->sentences(4),
