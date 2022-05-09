@@ -45,6 +45,21 @@ use Drupal\mars_common\Form\MarsEmailsConfigurationForm;
 use Drupal\Core\Render\Markup;
 
 /**
+ * Implements hook_page_attachments_alter().
+ */
+function mars_common_page_attachments_alter(array &$page) {
+  $hreflang_toggle = \Drupal::service('config.factory')->get('mars_common.system.site');
+  $hreflang_toggle_value = $hreflang_toggle->get('unset_hreflang');
+  if ($hreflang_toggle_value) {
+    foreach ($page['#attached']['html_head_link'] as $key => $attachment) {   
+      if ($attachment[0]['rel'] == 'alternate' && $attachment[0]['hreflang'] == 'en') {
+           unset($page['#attached']['html_head_link'][$key]);
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_menu_insert().
  */
 function mars_common_menu_insert(Menu $menu) {
