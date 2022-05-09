@@ -1270,8 +1270,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   Serving items array.
    */
   public function getServingItems($node, string $field_prefix = 'product') {
+    $ingredient_values = $this->formatIngredients($node, $field_prefix);
+
     $result_item = [
-      'ingredients_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value), '<strong><b><br>'),
+      'ingredients_value' => $ingredient_values,
       'warnings_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_allergen_warnings')->value)),
       'legal_warnings_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_legal_warnings')->value)),
       'hide_dialy_value_column' => TRUE,
@@ -1801,6 +1803,73 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ->get('hide_product_size');
 
     return (isset($hide_product_size) && !empty($hide_product_size));
+  }
+
+  /** Formatting Ingredients from node object.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   Product entity.
+   * @param string $field_prefix
+   *   Field prefix.
+   *
+   * @return string
+   *   Formatted Ingredients string.
+   */
+  private function formatIngredients(NodeInterface $node, string $field_prefix): string {
+    $add_bold_line_break = $this->configFactory->get('mars_product.nutrition_table_settings')->get('add_bold_line_break');
+    $bold_ingredients_values = $this->configFactory->get('mars_product.nutrition_table_settings')->get('bold_ingredients');
+    $break_with_bold = $this->configFactory->get('mars_product.nutrition_table_settings')->get('break_ingredients_with_bold');
+    $break_without_bold = $this->configFactory->get('mars_product.nutrition_table_settings')->get('break_ingredients_without_bold');
+
+    $ingredient_values = $add_bold_line_break 
+      ? strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value))
+      : strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value), '<strong><b><br>');
+
+    if ($add_bold_line_break) {
+      if (!empty($break_with_bold)) {
+        $break_with_bold_arr = explode(';', $break_with_bold);
+        foreach ($break_with_bold_arr as $break_bold_value) {
+          $ingredient_values = str_ireplace($break_bold_value, '<br><br><strong>' . $break_bold_value . '</strong>', $ingredient_values);
+        }
+      }
+      if (!empty($break_without_bold)) {
+        $break_without_bold_arr = explode(';', $break_without_bold);
+        foreach ($break_without_bold_arr as $break_without_bold_value) {
+          $ingredient_values = str_ireplace($break_without_bold_value, '<br><br>' . $break_without_bold_value, $ingredient_values);
+        }
+      }
+    }
+
+    if ($add_bold_line_break && !empty($bold_ingredients_values)) {
+      $bold_values_arr = explode(',', $bold_ingredients_values);
+      $br_pos = strpos($ingredient_values, '<br><br>');
+      if ($br_pos !== FALSE) {
+        $ingredient_values_1 = substr($ingredient_values, 0, $br_pos);
+        $ingredient_values_2 = substr($ingredient_values, $br_pos);
+      }
+      foreach ($bold_values_arr as $bold_val) {
+        if (isset($ingredient_values_1) && !empty($ingredient_values_1)) {
+          $ingredient_values_1 = preg_replace('/(?<!\w)' . preg_quote($bold_val, '/') . '(?!\w)/i', '<strong>' . trim($bold_val) . '</strong>', $ingredient_values_1);
+          $ingredient_values_2_arr = explode('<br><br>', $ingredient_values_2);
+          $ingredient_values_2_arr = array_values(array_filter($ingredient_values_2_arr, fn($value) => !is_null($value) && $value !== ''));
+          $ingredient_values = $ingredient_values_1;
+          foreach ($ingredient_values_2_arr as $i2) {
+            if (strpos($i2, '<strong>') === FALSE) {
+              $ingredients_2 = preg_replace('/(?<!\w)' . preg_quote($bold_val, '/') . '(?!\w)/i', '<strong>' . trim($bold_val) . '</strong>', $i2);
+              $ingredient_values = $ingredient_values . '<br><br>' . $ingredients_2;
+            }
+            else {
+              $ingredient_values = $ingredient_values . '<br><br>' . $i2; 
+            }
+          }
+        }
+        else {
+          $ingredient_values = preg_replace('/(?<!\w)' . preg_quote($bold_val, '/') . '(?!\w)/i', '<strong>' . trim($bold_val) . '</strong>', $ingredient_values);
+        }
+      }
+    }
+
+    return $ingredient_values;
   }
 
 }
