@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b585c59f0481d4bb4f3b93153d4119e2",
+    "content-hash": "602ee8adf13801c922de7c7c0a199a9c",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -17569,6 +17569,16 @@
             "time": "2020-05-30T13:11:16+00:00"
         },
         {
+            "name": "mars/brand_drupal_chats",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:Mars-Incorporated/brand_drupal_chats.git",
+                "reference": "1.0.6"
+            },
+            "type": "drupal-module"
+        },
+        {
             "name": "mars/mars_lighthouse",
             "version": "v0.0.2",
             "source": {
@@ -17580,7 +17590,7 @@
         },
         {
             "name": "mars/mars_seo",
-            "version": "dev-update-drupal-core-9.3.12",
+            "version": "dev-release-v22.05.02",
             "dist": {
                 "type": "path",
                 "url": "docroot/modules/custom/mars_seo",
