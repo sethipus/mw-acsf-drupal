@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "17a31e9297eacebf957aa3284d724adb",
+    "content-hash": "b585c59f0481d4bb4f3b93153d4119e2",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -12596,27 +12596,26 @@
         },
         {
             "name": "drupal/remote_stream_wrapper",
-            "version": "1.6.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/remote_stream_wrapper.git",
-                "reference": "8.x-1.6"
+                "reference": "2.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/remote_stream_wrapper-8.x-1.6.zip",
-                "reference": "8.x-1.6",
-                "shasum": "871505bd837a680b2d56f5d6f4e194be63f2f0a3"
+                "url": "https://ftp.drupal.org/files/projects/remote_stream_wrapper-2.0.0.zip",
+                "reference": "2.0.0",
+                "shasum": "1df1d0ac1850afa2957afd86c32694d32c66d67d"
             },
             "require": {
-                "drupal/core": "^8.8 || ^9",
-                "symfony/mime": "^4.3|^5.0"
+                "drupal/core": "^9.2 || ^10"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.6",
-                    "datestamp": "1651685626",
+                    "version": "2.0.0",
+                    "datestamp": "1651689545",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -12633,7 +12632,7 @@
                     "homepage": "https://www.drupal.org/user/53892"
                 }
             ],
-            "description": "Provides the ability to use external files over HTTP",
+            "description": "Provides the ability to create Drupal file entities with HTTP and HTTPS URIs without saving them to the local filesystem.",
             "homepage": "https://www.drupal.org/project/remote_stream_wrapper",
             "support": {
                 "source": "https://git.drupalcode.org/project/remote_stream_wrapper"
