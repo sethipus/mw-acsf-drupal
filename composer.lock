@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fcfa811c4c2457cc2957a0bf5637003c",
+    "content-hash": "f0f915658b05f963cef1bfa8af27e4f4",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -17455,6 +17455,16 @@
             "time": "2020-05-30T13:11:16+00:00"
         },
         {
+            "name": "mars/brand_drupal_chats",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:Mars-Incorporated/brand_drupal_chats.git",
+                "reference": "1.0.6"
+            },
+            "type": "drupal-module"
+        },
+        {
             "name": "mars/mars_lighthouse",
             "version": "v0.0.2",
             "source": {
@@ -17466,7 +17476,7 @@
         },
         {
             "name": "mars/mars_seo",
-            "version": "dev-feature/385775-user-enumeration-module",
+            "version": "dev-release-v22.05.02",
             "dist": {
                 "type": "path",
                 "url": "docroot/modules/custom/mars_seo",

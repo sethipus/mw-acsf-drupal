@@ -114,6 +114,7 @@
         "drupal/views_infinite_scroll": "^1.6",
         "drupal/webform": "^6.1",
         "emulsify-ds/emulsify-drupal": "^3.0",
+        "mars/brand_drupal_chats": "1.0.6",
         "mars/mars_lighthouse": "v0.0.2",
         "mars/mars_seo": "*",
         "mikemadison13/blt-azure-pipelines": "dev-master",
@@ -308,6 +309,19 @@
         "mars_seo": {
             "type": "path",
             "url": "docroot/modules/custom/mars_seo"
+        },
+        "brand_drupal_chats": {
+            "type": "package",
+            "package": {
+                "name": "mars/brand_drupal_chats",
+                "version": "1.0.6",
+                "type": "drupal-module",
+                "source": {
+                    "url": "git@github.com:Mars-Incorporated/brand_drupal_chats.git",
+                    "type": "git",
+                    "reference": "1.0.6"
+                }
+            }
         },
         "mars_lighthouse": {
             "type": "package",
