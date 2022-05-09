@@ -575,6 +575,12 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['nutrition']['refer_text'],
       '#required' => TRUE,
     ];
+    $form['nutrition']['break_description'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Content for line break in Product Description'),
+      '#default_value' => !empty($this->configuration['nutrition']['break_description']) ? $this->languageHelper->translate($this->configuration['nutrition']['break_description']) : '',
+      '#description' => $this->languageHelper->translate('Use semi colon separated sentences for adding multiple line breaks. Ex: May Contain Peanut;Milk contains Milk Chocolate Contains Vegetables'),
+    ];  
     $benefits_enabled = !empty($this->themeConfiguratorParser->getSettingValue('show_nutrition_claims_benefits'));
     $form['nutrition']['benefits_title'] = [
       '#type' => 'textfield',
@@ -953,11 +959,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $gtin = $this->productHelper->formatSku($gtin);
       }
 
+      $product_description = $product_variant->hasField('field_product_description') && !$product_variant->get('field_product_description')->isEmpty() 
+        ? $this->formatDescription($product_variant, 'product') 
+        : NULL;
+
       $item = [
         'gtin' => $gtin,
         'size_id' => $size_id,
         'active' => $state,
-        'product_description' => $product_variant->hasField('field_product_description') && !$product_variant->get('field_product_description')->isEmpty() ? $product_variant->field_product_description->value : NULL,
+        'product_description' => $product_description,
         'product_name' => !empty($product_variant->title->value) ? $product_variant->title->value : $node->title->value,
         'hero_data' => [
           'image_items' => $this->getImageItems($product_variant),
@@ -1801,6 +1811,32 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ->get('hide_product_size');
 
     return (isset($hide_product_size) && !empty($hide_product_size));
+  }
+
+  
+  /**
+   * Formatting Description from node object.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   Product entity.
+   * @param string $field_prefix
+   *   Field prefix.
+   *
+   * @return string
+   *   Formatted description string.
+   */
+  private function formatDescription(NodeInterface $node, string $field_prefix): string {
+    $break_description = $this->configuration['nutrition']['break_description'];
+    $description_values = strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_description')->value));
+
+    if (!empty($break_description)) {
+      $break_desc_arr = explode(';', $break_description);
+      foreach ($break_desc_arr as $break_desc) {
+        $description_values = str_replace($break_desc, '<br><br>' . $break_desc, $description_values);
+      }
+    }
+
+    return $description_values;
   }
 
 }
