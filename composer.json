@@ -81,6 +81,7 @@
         "drupal/migration_tools": "^2.2",
         "drupal/page_manager": "^4.0-beta6",
         "drupal/panelizer": "^5.0-beta3",
+        "drupal/path_file": "^1.1",
         "drupal/pendo": "^1@alpha",
         "drupal/poll": "^1.4",
         "drupal/printable": "2.0.1",

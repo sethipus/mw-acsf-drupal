@@ -532,6 +532,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         '#title' => $this->t('Dual Amount per serving label'),
         '#default_value' => $this->configuration['nutrition']['dual_serving_label'],
       ];
+      $form['nutrition']['hide_dual_servings_per_label'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Hide Dual servings per container label'),
+        '#default_value' => $this->configuration['nutrition']['hide_dual_servings_per_label'] ?? FALSE,
+      ];
       $form['nutrition']['table_label'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Table Label'),
@@ -1305,7 +1310,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $result_item['calorie_statement'] = $node->get('field_product_calorie_stmt')->value;
       $result_item['whitening_statement'] = $node->get('field_product_whitening_stmt')->value;
     }
-    elseif ($field_prefix == 'dual') {
+    elseif ($field_prefix == 'dual' && !$this->configuration['nutrition']['hide_dual_servings_per_label']) {
       $result_item['dual_servings_per_container'] = [
         'label' => $this->getDualServingsPerContainerLabel($node),
         'value' => $node->get('field_dual_servings_per')->value,
