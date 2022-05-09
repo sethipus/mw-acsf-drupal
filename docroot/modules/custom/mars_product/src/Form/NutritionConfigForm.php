@@ -169,6 +169,7 @@ class NutritionConfigForm extends ConfigFormBase {
       ],
     ];
 
+    $this->getFormatIngredientsGroup($form, $form_state);
     $this->getGroupTableHeader($form, $form_state);
     $this->getDualGroupTableHeader($form, $form_state);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_1);
@@ -272,6 +273,56 @@ class NutritionConfigForm extends ConfigFormBase {
       '#attributes' => [
         'title' => $this->t("This field will override the Per portion value in the Nutrition Table 2 with that of Salsify value."),
       ],
+    ];
+
+  }
+
+  /**
+   * Get Format Ingredients Group Configuration.
+   *
+   * @param array $form
+   *   Form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Form state object.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getFormatIngredientsGroup(
+    array &$form,
+    FormStateInterface $form_state) {
+    $config = $this->config('mars_product.nutrition_table_settings');
+    $form['ingredient'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Format Ingredients configuration'),
+      '#collapsible' => FALSE,
+      '#collapsed' => FALSE,
+    ];
+    $form['ingredient']['add_bold_line_break'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Add bold & line breaks'),
+      '#default_value' => $config->get('add_bold_line_break') ?? FALSE,
+    ];
+
+    $form['ingredient']['bold_ingredients'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Keywords for bolding in Ingredients'),
+      '#default_value' => !empty($config->get('bold_ingredients')) ? $this->languageHelper->translate($config->get('bold_ingredients')) : '',
+      '#description' => $this->languageHelper->translate('Use comma separated words for bolding. Ex: Milk,Soya'),
+    ];
+
+    $form['ingredient']['break_ingredients_with_bold'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Content for line break in Ingredients with bold'),
+      '#default_value' => !empty($config->get('break_ingredients_with_bold')) ? $this->languageHelper->translate($config->get('break_ingredients_with_bold')) : '',
+      '#description' => $this->languageHelper->translate('Use semi colon separated sentences for adding line breaks. Ex: May Contain Peanut;Milk contains Milk Chocolate Contains Vegetables'),
+    ];
+
+    $form['ingredient']['break_ingredients_without_bold'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Content for line break in Ingredients without bold'),
+      '#default_value' => !empty($config->get('break_ingredients_without_bold')) ? $this->languageHelper->translate($config->get('break_ingredients_without_bold')) : '',
+      '#description' => $this->languageHelper->translate('Use semi colon separated sentences for adding line breaks. Ex: May Contain Peanut;Milk contains Milk Chocolate Contains Vegetables'),
     ];
 
   }
@@ -556,6 +607,10 @@ class NutritionConfigForm extends ConfigFormBase {
     $config->set('change_uppercase', $form_state->getValue('change_uppercase'));
     $config->set('indent_polyols', $form_state->getValue('indent_polyols'));
     $config->set('hide_product_size', $form_state->getValue('hide_product_size'));
+    $config->set('add_bold_line_break', $form_state->getValue('add_bold_line_break'));
+    $config->set('bold_ingredients', $form_state->getValue('bold_ingredients'));
+    $config->set('break_ingredients_with_bold', $form_state->getValue('break_ingredients_with_bold'));
+    $config->set('break_ingredients_without_bold', $form_state->getValue('break_ingredients_without_bold'));
     $config->set('hide_serving_size_heading', $form_state->getValue('hide_serving_size_heading'));
     $config->set('hide_servings_per_heading', $form_state->getValue('hide_servings_per_heading'));
     $config->set('dual_servings_per_container', $form_state->getValue('dual_servings_per_container'));
