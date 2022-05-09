@@ -64,6 +64,7 @@ ignored_config_entities:
   - cloudflarepurge.settings
   - captcha.settings
   - redirect_domain.domains
+  - 'brand_drupal_chats.*'
 ignored_config_collections:
   - 'language.*'
 enable_export_filtering: true
