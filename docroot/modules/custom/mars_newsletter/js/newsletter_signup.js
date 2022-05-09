@@ -1,5 +1,5 @@
 var success_message;
-(function($, Drupal, drupalSettings) {
+(function ($, Drupal, drupalSettings) {
   Drupal.behaviors.newsletter_signup = {
     attach(context, settings) {
       success_message = drupalSettings.mars_newsletter.success_message;
@@ -16,12 +16,12 @@ var success_message;
         var emailaddressVal = $('#edit-actions-submit').parents('.webform-submission-mars-newsletter-email-form-form').find(".newsletter-email-value").val();
         $(".error").remove();
         $('.success-message').remove();
-        if(!emailReg.test(emailaddressVal)) {
-          $('#edit-actions-submit').parents('.webform-submission-mars-newsletter-email-form-form').find(".newsletter-email-value").after('<span class="error">' +email_validation_message+ '</span>');
+        if (!emailReg.test(emailaddressVal)) {
+          $('#edit-actions-submit').parents('.webform-submission-mars-newsletter-email-form-form').find(".newsletter-email-value").after('<span class="error">' + email_validation_message + '</span>');
           return false;
         }
         if (!document.getElementById('edit-email').value) {
-          $('#edit-actions-submit').parents('.webform-submission-mars-newsletter-email-form-form').find('input').after('<span class="error">' +required_message+ '</span>');
+          $('#edit-actions-submit').parents('.webform-submission-mars-newsletter-email-form-form').find('.newsletter-email-value').after('<span class="error">' + required_message + '</span>');
         } else {
           grecaptcha.execute();
         }
@@ -40,9 +40,11 @@ function captchaCallBack(token) {
       'status': '1',
     });
     jQuery('#edit-actions-submit').parents('.webform-submission-mars-newsletter-email-form-form').find('.form-item__textfield').val('');
-    jQuery('.email-submit').after('<span class="success-message" style="display:none"> &#10004 ' + success_message + '</span>');
+    jQuery('.signup-form-hideshow-email').after('<span class="success-message" style="display:none;font-size: 20px;color: var(--c-message); padding:20px; text-align: center;"> &#10004 ' + success_message + '</span>').addClass('display-email');
     jQuery('.success-message').fadeIn('slow');
-    jQuery('.success-message').delay(5000).fadeOut('slow');
+    jQuery('.success-message').delay(5000).fadeOut('slow', function () {
+      jQuery('.signup-form-hideshow-email').removeClass('display-email');
+    });
     grecaptcha.reset();
   });
 }
