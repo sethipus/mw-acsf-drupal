@@ -110,9 +110,9 @@ filters:
       optionset: default
       layout: ''
       skin: ''
+      background: false
       loading: ''
       preload: false
-      background: false
       image_style: ''
       media_switch: ''
       ratio: ''
