@@ -19,6 +19,7 @@ module:
   blazy: 0
   block: 0
   block_content: 0
+  brand_drupal_chats: 0
   brand_drupal_salsify_bens_uk: 0
   brand_drupal_salsify_multibrand: 0
   breakpoint: 0
