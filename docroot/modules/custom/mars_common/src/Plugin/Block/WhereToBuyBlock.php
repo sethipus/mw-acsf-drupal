@@ -304,7 +304,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
           ];
         }
         $build['#products'] = $products_for_render;
-        $build['#hide_size_dropdown'] = $hide_size_dropdown ? true : false;
+        $build['#hide_size_dropdown'] = $hide_size_dropdown ? TRUE : FALSE;
         break;
 
       case PdpHeroBlock::VENDOR_SMART_COMMERCE:

@@ -31,7 +31,6 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
              scrollbar: {
                el: scrollbar,
                draggable: true,
-               dragSize: 88,
              }
           });
         });

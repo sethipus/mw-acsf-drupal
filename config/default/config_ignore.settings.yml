@@ -38,8 +38,6 @@ ignored_config_entities:
   - 'core.entity_view_display.node.*'
   - mars_common.card_color_settings
   - mars_media.settings
-  - purge.logger_channels
-  - purge.plugins
   - purge_queuer_coretags.settings
   - mars_product.bazaarvoice.settings
   - mars_product.nutrition_table_settings
@@ -66,6 +64,7 @@ ignored_config_entities:
   - cloudflarepurge.settings
   - captcha.settings
   - redirect_domain.domains
+  - 'brand_drupal_chats.*'
 ignored_config_collections:
   - 'language.*'
 enable_export_filtering: true

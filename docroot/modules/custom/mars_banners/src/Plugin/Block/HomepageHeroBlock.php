@@ -240,7 +240,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         ],
       ],
     ];
-    $fg_image_default = isset($config['custom_foreground_image']['image']) ? $config['custom_foreground_image']['image'] : NULL;
+    $fg_image_default = $config['custom_foreground_image']['image'] ?? NULL;
     $form['custom_foreground_image']['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $fg_image_default, $form_state, 1, 'thumbnail', FALSE);
 
     $form['title'] = [
@@ -415,7 +415,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       }
     }
 
-    $video_default = isset($config['background_video']) ? $config['background_video'] : NULL;
+    $video_default = $config['background_video'] ?? NULL;
     // Entity Browser element for video.
     $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
       $video_default, $form_state, 1, 'default', function ($form_state) {
@@ -532,7 +532,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         '#type' => 'textfield',
         '#title' => $this->t('Card Title Link URL'),
         '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
-        '#maxlength' => !empty($character_limit_config->get('hero_block_card_title_link_url')) ? $character_limit_config->get('hero_block_card_title_link_url'): 2048,
+        '#maxlength' => !empty($character_limit_config->get('hero_block_card_title_link_url')) ? $character_limit_config->get('hero_block_card_title_link_url') : 2048,
         '#default_value' => $config['card'][$key]['title']['url'] ?? '',
         '#required' => in_array($type_for_validation, [
           self::KEY_OPTION_IMAGE,
@@ -573,7 +573,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         ],
       ];
 
-      $foreground_default = isset($config['card'][$key]['foreground_image']) ? $config['card'][$key]['foreground_image'] : NULL;
+      $foreground_default = $config['card'][$key]['foreground_image'] ?? NULL;
       $form['card'][$key]['foreground_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
         $foreground_default, $form_state, 1, 'thumbnail', FALSE);
       // Convert the wrapping container to a details element.
@@ -829,7 +829,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $product_cards = $form_state->get('card_storage');
     // Validation for title label and title label override.
     if ($title_label && $title_label_override) {
-      if($block_type == 'default') {
+      if ($block_type == 'default') {
         $form_state->setErrorByName('title][label', $this->t('Title label or Override Title label field must be given.'));
         $form_state->setErrorByName('title][next_line_label', '');
       }
@@ -843,7 +843,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       }
     }
     if (!$title_label && !$title_label_override) {
-      if($block_type == 'default') {
+      if ($block_type == 'default') {
         $form_state->setErrorByName('title][label', $this->t('Title label or Override Title label field must be given.'));
         $form_state->setErrorByName('title][next_line_label', '');
       }

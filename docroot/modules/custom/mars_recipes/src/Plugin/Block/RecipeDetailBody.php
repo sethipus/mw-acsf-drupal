@@ -132,7 +132,7 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
       });
       // Limit amount of cards.
       // As per the discussion, there will be a chance to add muliple products in recipe
-     // $products = array_slice($products, 0, 2);
+      // $products = array_slice($products, 0, 2);.
       foreach ($products as $product) {
         if (!empty($text_color_override)) {
           $product_used_items[] = array_merge($this->viewBuilder->view($product, 'card'), ['#text_color_override' => $text_color_override]);
