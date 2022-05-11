@@ -1,4 +1,4 @@
-(function (Drupal, drupalSettings) {
+(function (Drupal, drupalSettings, $) {
   Drupal.behaviors.searchFilterBehaviour = {
     attach(context) {
       $(document).ready(function(){
@@ -448,4 +448,4 @@
       }
     },
   };
-})(Drupal, window.drupalSettings);
+})(Drupal, window.drupalSettings, jQuery);
