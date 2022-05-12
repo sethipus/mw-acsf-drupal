@@ -1,14 +1,16 @@
 .signup-email-form-wrp {
   background-color: clr(newsletter-bg-color);
-  font-family: var(--v-primary-font);
+  font-family: var(--v-primary-font); 
+
   .clear-icon {
     display: none;
   }
   .signup-form-email {
-    @include medium {
+    @include xs {
       display: flex;
       justify-content: center;
     }
+
     .error {
       font-family: var(--v-secondary-font);
       font-size: 1.3rem;
@@ -18,15 +20,16 @@
       position: relative;
       padding: 0.5rem 0 0 1rem;
     }
-    
+
     .newsletter-webform-block-label {
       padding-top: 20px;
       font-size: 14px;
       text-align: center;
       color: clr(primary, newsletter-override-white-color);
+
       @include medium {
-          padding-top: 22px;
-          font-size: 20px;
+        padding-top: 22px;
+        font-size: 20px;
       }
     }
     .webform-submission-mars-newsletter-email-form-form {
@@ -36,21 +39,32 @@
         position: relative;
         justify-content: center;
         margin: 0 auto;
+
+        @include xs {
+          padding-bottom: 10px;
+        }
+
+        @include medium {
+          padding-bottom: 0;
+        }
         .js-form-item {
           margin-top: 10px;
+
           .newsletter-email-value {
             font-size: 14px;
             border-radius: var(--v-button-border-radius);
             width: 100%;
             color: clr(primary);
+
             &:focus-visible {
-                outline: none;
+              outline: none;
             }
           }
+
           @include medium {
-              margin-bottom: 20px;
-              margin-top: 20px;
-              width: 35rem;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            width: 35rem;
           }
         }
         .newsletter-signup-email-submit {
@@ -58,10 +72,12 @@
           padding-top: 5px;
           margin-top: 10px;
           right: 0;
+
           @include medium {
-              margin-top: 20px;
-              margin-bottom: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
           }
+
           .webform-button--submit {
             background-image: url(../images/right-arrow.png);
             background-position: center;
@@ -70,34 +86,29 @@
             color: transparent;
             padding: 5px 0;
             background-color: transparent;
+
             &:hover {
               background-color: transparent;
             }
+
             &:focus-visible {
               outline: none;
             }
           }
         }
       }
-      .success-message {
-        text-align: center;
-        font-size: 14px;
-        color: clr(message);
-        display: block;
-        @include medium {
-            font-size: 20px;
-            padding-left: 17px;
-        }
-    }
+
       .privacy-newsletter-email-form {
         display: flex;
         justify-content: center;
         padding-top: 10px;
         padding-bottom: 10px;
+
         .privacy-newsletter-email {
           width: 20px;
           height: 20px;
         }
+
         .form-item__description {
           margin-top: auto;
           padding-left: 10px;
@@ -107,7 +118,30 @@
       }
     }
   }
-  .display-email{
-    display: none;
+  .signup-form-hideshow-email {
+    @include medium {
+      display: flex;
+    }
+  }
+  .success-message {
+    text-align: center;
+    color: clr(message);
+    display: block;
+
+    @include xs {
+      font-size: 14px;
+    }
+
+    @include small {
+      font-size: 16px;
+    }
+
+    @include medium {
+      font-size: 20px;
+      padding-left: 17px;
+    }
+  }
+  div #recaptcha{
+    z-index: 9999;
   }
 }

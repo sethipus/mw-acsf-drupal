@@ -1,15 +1,15 @@
-function _lazyLoadWhereToBuy() {
-
-    pricespiderLoaded = true;
-    if($('#ps-widget').length > 0 && $('.ps-enabled').length == 0)
-    {
-        $.getScript($('#ps-widget').attr('data-src'));
-    }
-
-}
-let pricespiderLoaded = false;
-
 (function($){
+    function _lazyLoadWhereToBuy() {
+
+        pricespiderLoaded = true;
+        if($('#ps-widget').length > 0 && $('.ps-enabled').length == 0)
+        {
+            $.getScript($('#ps-widget').attr('data-src'));
+        }
+    
+    }
+    let pricespiderLoaded = false;
+    
     $('.inline-search__link').click(() => {
         _lazyLoadWhereToBuy();
     });
@@ -32,8 +32,8 @@ let pricespiderLoaded = false;
             _lazyLoadWhereToBuy();
         }
     });
-})(jQuery);
 
-function isInView(elem){
-   return $(elem).length > 0 ? $(elem).offset().top - $(window).scrollTop() < $(elem).height() : false;
-}
+    function isInView(elem){
+        return $(elem).length > 0 ? $(elem).offset().top - $(window).scrollTop() < $(elem).height() : false;
+     }
+})(jQuery);

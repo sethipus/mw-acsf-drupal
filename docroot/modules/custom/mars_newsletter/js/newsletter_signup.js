@@ -5,7 +5,9 @@ var success_message;
       success_message = drupalSettings.mars_newsletter.success_message;
       $(document).ready(function (e) {
         var element = document.getElementById('edit-actions-submit');
-        element.onclick = validateCustom;
+        if(element){
+          element.onclick = validateCustom;
+        }
       });
       // Form validation.
       function validateCustom(event) {
@@ -21,7 +23,7 @@ var success_message;
           return false;
         }
         if (!document.getElementById('edit-email').value) {
-          $('#edit-actions-submit').parents('.webform-submission-mars-newsletter-email-form-form').find('newsletter-email-value').after('<span class="error">' +required_message+ '</span>');
+          $('#edit-actions-submit').parents('.webform-submission-mars-newsletter-email-form-form').find('.newsletter-email-value').after('<span class="error">' +required_message+ '</span>');
         } else {
           grecaptcha.execute();
         }
@@ -40,7 +42,7 @@ function captchaCallBack(token) {
       'status': '1',
     });
     jQuery('#edit-actions-submit').parents('.webform-submission-mars-newsletter-email-form-form').find('.form-item__textfield').val('');
-    jQuery('.signup-form-hideshow-email').after('<span class="success-message" style="display:none;font-size: 20px;    color: var(--c-message); padding:20px; text-align: center;"> &#10004 ' + success_message + '</span>').hide();
+    jQuery('.signup-form-hideshow-email').after('<span class="success-message" style="display:none;color: var(--c-message); padding:20px; text-align:center;" > &#10004 ' + success_message + '</span>').hide();
     jQuery('.success-message').fadeIn('slow');
      jQuery('.success-message').delay(5000).fadeOut('slow',function(){
        jQuery('.signup-form-hideshow-email').show();
