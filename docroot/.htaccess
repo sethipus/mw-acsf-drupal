@@ -249,11 +249,11 @@ AddEncoding gzip svgz
  RewriteRule ^(.*)$ https://www.m-ms.com.au/$1 [R=301,L]
 
  # Adding redirect for maltesers.com.au to www.maltesers.com.au
- RewriteCond %{HTTP_HOST} ^ maltesers \.com.au$ [NC]
+ RewriteCond %{HTTP_HOST} ^maltesers\.com.au$ [NC]
  RewriteRule ^(.*)$ https://www.maltesers.com.au/$1 [R=301,L]
 
  # Adding redirect for eclipsemints.com.au to www.eclipsemints.com.au
- RewriteCond %{HTTP_HOST} ^ eclipsemints\.com.au$ [NC]
+ RewriteCond %{HTTP_HOST} ^eclipsemints\.com.au$ [NC]
  RewriteRule ^(.*)$ https://www.eclipsemints.com.au/$1 [R=301,L]
 
  # Adding redirect for unclebens.se to www.bensoriginal.se
