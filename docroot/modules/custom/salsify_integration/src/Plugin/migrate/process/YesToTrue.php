@@ -13,25 +13,25 @@ use Drupal\migrate\Row;
  *   id = "yes_to_true"
  * )
  */
-class YesToTrue extends PluginBase
-{
+class YesToTrue extends PluginBase {
+
   /**
    * {@inheritdoc}
    */
-    public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property)
-    {
-        if (!empty($value) && strtolower($value) == 'yes') {
-            return true;
-        } else {
-            return false;
-        }
+  public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
+    if (!empty($value) && strtolower($value) == 'yes') {
+      return TRUE;
     }
+    else {
+      return FALSE;
+    }
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function multiple()
-    {
-        return true;
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function multiple() {
+    return TRUE;
+  }
+
 }

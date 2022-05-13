@@ -303,7 +303,7 @@ function mars_common_update_8023() {
   }
 }
 
-/*
+/**
  * Update jquery_colorpicker values for custom blocks. Add '#' to the values.
  */
 function mars_common_update_8024() {
@@ -322,7 +322,7 @@ function mars_common_update_8024() {
   $query->fields('lb', ['entity_id']);
   $orGroup = $query->orConditionGroup();
   foreach ($color_fields as $color_field) {
-    $orGroup->condition('lb.layout_builder__layout_section','%' . $color_field . '%', 'LIKE');
+    $orGroup->condition('lb.layout_builder__layout_section', '%' . $color_field . '%', 'LIKE');
   }
   $query->condition($orGroup);
 

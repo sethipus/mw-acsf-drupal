@@ -437,7 +437,7 @@ class MediaHelper {
         $media_id = $this->getTargetIdFromField($contentEntity,
           'field_product_variant_grp_image');
         break;
- 
+
       default:
         $media_id = NULL;
     }

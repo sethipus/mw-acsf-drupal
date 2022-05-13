@@ -89,7 +89,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $configFactory;
 
   /**
-   * Route match service for getting node
+   * Route match service for getting node.
    *
    * @var \Drupal\Core\Routing\RouteMatchInterface
    */
@@ -321,10 +321,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $character_limit_config = $this->configFactory->getEditable('mars_common.character_limit_page');
     $commerce_vendor = $this->getCommerceVendor();
     $current_path = $this->currentPathStack->getPath();
-    $path_arr = explode('/',$current_path);
-    $node_str = preg_grep('/node./',$path_arr);
-    $nid = str_replace('node.','',implode('',$node_str));
-    if($nid){
+    $path_arr = explode('/', $current_path);
+    $node_str = preg_grep('/node./', $path_arr);
+    $nid = str_replace('node.', '', implode('', $node_str));
+    if ($nid) {
       $node = $this->nodeStorage->load($nid);
     }
 
@@ -368,21 +368,21 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#name' => 'override_global',
     ];
 
-  if ($commerce_vendor != "mik_mak") {
-    $form['wtb']['data_widget_id'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Widget id'),
-      '#default_value' => $this->configuration['wtb']['data_widget_id'],
-      '#states' => [
-        'visible' => [
+    if ($commerce_vendor != "mik_mak") {
+      $form['wtb']['data_widget_id'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Widget id'),
+        '#default_value' => $this->configuration['wtb']['data_widget_id'],
+        '#states' => [
+          'visible' => [
           [':input[name="override_global"]' => ['checked' => TRUE]],
-        ],
-        'required' => [
+          ],
+          'required' => [
           [':input[name="override_global"]' => ['checked' => TRUE]],
+          ],
         ],
-      ],
-    ];
-  }
+      ];
+    }
     $form['wtb']['product_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Product SKU'),
@@ -526,11 +526,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['nutrition']['serving_label'],
       '#required' => TRUE,
     ];
-    if(!empty($node) && $node->bundle() == 'product'){
+    if (!empty($node) && $node->bundle() == 'product') {
       $form['nutrition']['dual_serving_label'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Dual Amount per serving label'),
         '#default_value' => $this->configuration['nutrition']['dual_serving_label'],
+      ];
+      $form['nutrition']['hide_dual_servings_per_label'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Hide Dual servings per container label'),
+        '#default_value' => $this->configuration['nutrition']['hide_dual_servings_per_label'] ?? FALSE,
       ];
       $form['nutrition']['table_label'] = [
         '#type' => 'textfield',
@@ -575,6 +580,12 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['nutrition']['refer_text'],
       '#required' => TRUE,
     ];
+    $form['nutrition']['break_description'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Content for line break in Product Description'),
+      '#default_value' => !empty($this->configuration['nutrition']['break_description']) ? $this->languageHelper->translate($this->configuration['nutrition']['break_description']) : '',
+      '#description' => $this->languageHelper->translate('Use semi colon separated sentences for adding multiple line breaks. Ex: May Contain Peanut;Milk contains Milk Chocolate Contains Vegetables'),
+    ];  
     $benefits_enabled = !empty($this->themeConfiguratorParser->getSettingValue('show_nutrition_claims_benefits'));
     $form['nutrition']['benefits_title'] = [
       '#type' => 'textfield',
@@ -953,11 +964,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $gtin = $this->productHelper->formatSku($gtin);
       }
 
+      $product_description = $product_variant->hasField('field_product_description') && !$product_variant->get('field_product_description')->isEmpty() 
+        ? $this->formatDescription($product_variant, 'product') 
+        : NULL;
+
       $item = [
         'gtin' => $gtin,
         'size_id' => $size_id,
         'active' => $state,
-        'product_description' => $product_variant->hasField('field_product_description') && !$product_variant->get('field_product_description')->isEmpty() ? $product_variant->field_product_description->value : NULL,
+        'product_description' => $product_description,
         'product_name' => !empty($product_variant->title->value) ? $product_variant->title->value : $node->title->value,
         'hero_data' => [
           'image_items' => $this->getImageItems($product_variant),
@@ -978,11 +993,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $item['dual_nutrition_data'] = [
           'serving_item' => $this->getServingItems($product_variant, 'dual'),
         ];
-        if($this->getDualServingsPerContainerLabel()){
+        if ($this->getDualServingsPerContainerLabel()) {
           $item['nutrition_data']['serving_item']['table_label'] = !empty($this->configuration['nutrition']['table_label']) ? $this->languageHelper->translate($this->configuration['nutrition']['table_label']) : '';
           $item['dual_nutrition_data']['serving_item']['table_label'] = !empty($this->configuration['nutrition']['dual_table_label']) ? $this->languageHelper->translate($this->configuration['nutrition']['dual_table_label']) : '';
         }
-        else{
+        else {
           $item['nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_1')->value;
           $item['dual_nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_2')->value;
         }
@@ -1046,7 +1061,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   private function getManualPriceSpiderLinkInfo(ContentEntityInterface $product_variant): array {
     $global_config = $this->getCommerceVendorInfo(self::VENDOR_PRICE_SPIDER);
     return [
-      'option' => isset($global_config['option']) ? $global_config['option'] : FALSE,
+      'option' => $global_config['option'] ?? FALSE,
       'price_spider_button_name' => isset($global_config['price_spider_button_name']) ? $this->languageHelper->translate($global_config['price_spider_button_name']) : '',
       'price_spider_button_url' => isset($global_config['price_spider_button_url']) ? $this->languageHelper->translate($global_config['price_spider_button_url']) . '?ps-sku=' . $this->productHelper->formatSku($product_variant->get('field_product_sku')->value) : '',
     ];
@@ -1270,8 +1285,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   Serving items array.
    */
   public function getServingItems($node, string $field_prefix = 'product') {
+    $ingredient_values = $this->formatIngredients($node, $field_prefix);
+
     $result_item = [
-      'ingredients_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value), '<strong><b><br>'),
+      'ingredients_value' => $ingredient_values,
       'warnings_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_allergen_warnings')->value)),
       'legal_warnings_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_legal_warnings')->value)),
       'hide_dialy_value_column' => TRUE,
@@ -1293,7 +1310,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $result_item['calorie_statement'] = $node->get('field_product_calorie_stmt')->value;
       $result_item['whitening_statement'] = $node->get('field_product_whitening_stmt')->value;
     }
-    elseif ($field_prefix == 'dual') {
+    elseif ($field_prefix == 'dual' && !$this->configuration['nutrition']['hide_dual_servings_per_label']) {
       $result_item['dual_servings_per_container'] = [
         'label' => $this->getDualServingsPerContainerLabel($node),
         'value' => $node->get('field_dual_servings_per')->value,
@@ -1801,6 +1818,97 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ->get('hide_product_size');
 
     return (isset($hide_product_size) && !empty($hide_product_size));
+  }
+  
+  /** Formatting Ingredients from node object.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   Product entity.
+   * @param string $field_prefix
+   *   Field prefix.
+   *
+   * @return string
+   *   Formatted Ingredients string.
+   */
+  private function formatIngredients(NodeInterface $node, string $field_prefix): string {
+    $add_bold_line_break = $this->configFactory->get('mars_product.nutrition_table_settings')->get('add_bold_line_break');
+    $bold_ingredients_values = $this->configFactory->get('mars_product.nutrition_table_settings')->get('bold_ingredients');
+    $break_with_bold = $this->configFactory->get('mars_product.nutrition_table_settings')->get('break_ingredients_with_bold');
+    $break_without_bold = $this->configFactory->get('mars_product.nutrition_table_settings')->get('break_ingredients_without_bold');
+
+    $ingredient_values = $add_bold_line_break 
+      ? strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value))
+      : strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value), '<strong><b><br>');
+
+    if ($add_bold_line_break) {
+      if (!empty($break_with_bold)) {
+        $break_with_bold_arr = explode(';', $break_with_bold);
+        foreach ($break_with_bold_arr as $break_bold_value) {
+          $ingredient_values = str_ireplace($break_bold_value, '<br><br><strong>' . $break_bold_value . '</strong>', $ingredient_values);
+        }
+      }
+      if (!empty($break_without_bold)) {
+        $break_without_bold_arr = explode(';', $break_without_bold);
+        foreach ($break_without_bold_arr as $break_without_bold_value) {
+          $ingredient_values = str_ireplace($break_without_bold_value, '<br><br>' . $break_without_bold_value, $ingredient_values);
+        }
+      }
+    }
+
+    if ($add_bold_line_break && !empty($bold_ingredients_values)) {
+      $bold_values_arr = explode(',', $bold_ingredients_values);
+      $br_pos = strpos($ingredient_values, '<br><br>');
+      if ($br_pos !== FALSE) {
+        $ingredient_values_1 = substr($ingredient_values, 0, $br_pos);
+        $ingredient_values_2 = substr($ingredient_values, $br_pos);
+      }
+      foreach ($bold_values_arr as $bold_val) {
+        if (isset($ingredient_values_1) && !empty($ingredient_values_1)) {
+          $ingredient_values_1 = preg_replace('/(?<!\w)' . preg_quote($bold_val, '/') . '(?!\w)/i', '<strong>' . trim($bold_val) . '</strong>', $ingredient_values_1);
+          $ingredient_values_2_arr = explode('<br><br>', $ingredient_values_2);
+          $ingredient_values_2_arr = array_values(array_filter($ingredient_values_2_arr, fn($value) => !is_null($value) && $value !== ''));
+          $ingredient_values = $ingredient_values_1;
+          foreach ($ingredient_values_2_arr as $i2) {
+            if (strpos($i2, '<strong>') === FALSE) {
+              $ingredients_2 = preg_replace('/(?<!\w)' . preg_quote($bold_val, '/') . '(?!\w)/i', '<strong>' . trim($bold_val) . '</strong>', $i2);
+              $ingredient_values = $ingredient_values . '<br><br>' . $ingredients_2;
+            }
+            else {
+              $ingredient_values = $ingredient_values . '<br><br>' . $i2; 
+            }
+          }
+        }
+        else {
+          $ingredient_values = preg_replace('/(?<!\w)' . preg_quote($bold_val, '/') . '(?!\w)/i', '<strong>' . trim($bold_val) . '</strong>', $ingredient_values);
+        }
+      }
+    }
+
+    return $ingredient_values;
+  }
+  
+  /**
+   * Formatting Description from node object.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   Product entity.
+   * @param string $field_prefix
+   *   Field prefix.
+   * @return string
+   *   Formatted description string.
+   */
+  private function formatDescription(NodeInterface $node, string $field_prefix): string {
+    $break_description = $this->configuration['nutrition']['break_description'];
+    $description_values = strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_description')->value));
+
+    if (!empty($break_description)) {
+      $break_desc_arr = explode(';', $break_description);
+      foreach ($break_desc_arr as $break_desc) {
+        $description_values = str_replace($break_desc, '<br><br>' . $break_desc, $description_values);
+      }
+    }
+
+    return $description_values;
   }
 
 }

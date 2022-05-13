@@ -3,12 +3,14 @@
 namespace Drupal\mars_common\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
+/**
+ *
+ */
 class GpcSubscriber implements EventSubscriberInterface {
 
   /**
@@ -20,6 +22,7 @@ class GpcSubscriber implements EventSubscriberInterface {
 
   /**
    * Constructs Gpc Subscriber.
+   *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration factory.
    */
@@ -60,4 +63,5 @@ class GpcSubscriber implements EventSubscriberInterface {
     $events[KernelEvents::REQUEST][] = ['addGpc'];
     return $events;
   }
+
 }

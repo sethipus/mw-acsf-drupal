@@ -306,11 +306,11 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
         ],
       ];
       if ($this->configuration['items'][$i]['item_type'] === self::KEY_OPTION_VIDEO) {
-          $form['items'][$i]['hide_volume'] = [
-            '#type' => 'checkbox',
-            '#title' => $this->t('Hide Volume'),
-            '#default_value' => $this->configuration['items'][$i]['hide_volume'] ?? FALSE,
-          ];
+        $form['items'][$i]['hide_volume'] = [
+          '#type' => 'checkbox',
+          '#title' => $this->t('Hide Volume'),
+          '#default_value' => $this->configuration['items'][$i]['hide_volume'] ?? FALSE,
+        ];
       }
     }
 
@@ -320,7 +320,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     for ($i = 0; $i < self::SVG_ASSETS_COUNT; $i++) {
       $asset_key = 'svg_asset_' . ($i + 1);
 
-      $svg_assets_default = isset($config['svg_assets'][$asset_key]) ? $config['svg_assets'][$asset_key] : NULL;
+      $svg_assets_default = $config['svg_assets'][$asset_key] ?? NULL;
       $form['svg_assets'][$asset_key] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
         $svg_assets_default, $form_state, 1, 'thumbnail');
       // Convert the wrapping container to a details element.

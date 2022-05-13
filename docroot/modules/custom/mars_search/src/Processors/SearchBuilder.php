@@ -202,12 +202,12 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
         : '';
       return [$searchOptions, $query_search_results, $build];
     }
-    if(!empty($config['exclude_products'])){
-      $exclude_products_arr = explode(',',$config['exclude_products']);
-      $exclude_products_arr = array_map('trim',$exclude_products_arr);
+    if (!empty($config['exclude_products'])) {
+      $exclude_products_arr = explode(',', $config['exclude_products']);
+      $exclude_products_arr = array_map('trim', $exclude_products_arr);
     }
     foreach ($query_search_results['results'] as $node) {
-      if((!empty($config['exclude_products']) && !in_array($node->id(),$exclude_products_arr)) || empty($config['exclude_products'])){
+      if ((!empty($config['exclude_products']) && !in_array($node->id(), $exclude_products_arr)) || empty($config['exclude_products'])) {
         if (!empty($config['override_text_color']['override_color'])) {
           $build['#items'][] = array_merge($this->nodeViewBuilder->view($node, 'card'), ['#text_color_override' => static::$overrideColor]);
         }

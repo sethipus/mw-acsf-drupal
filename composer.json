@@ -81,6 +81,7 @@
         "drupal/migration_tools": "^2.2",
         "drupal/page_manager": "^4.0-beta6",
         "drupal/panelizer": "^5.0-beta3",
+        "drupal/path_file": "^1.1",
         "drupal/pendo": "^1@alpha",
         "drupal/poll": "^1.4",
         "drupal/printable": "2.0.1",
@@ -91,7 +92,7 @@
         "drupal/rabbit_hole": "^1.0@beta",
         "drupal/recaptcha": "^3.0",
         "drupal/redirect": "^1.6",
-        "drupal/remote_stream_wrapper": "^1.3",
+        "drupal/remote_stream_wrapper": "^2.0",
         "drupal/remote_stream_wrapper_widget": "^1.2",
         "drupal/robotstxt": "^1.4",
         "drupal/samlauth": "3.2",
@@ -114,6 +115,7 @@
         "drupal/views_infinite_scroll": "^1.6",
         "drupal/webform": "^6.1",
         "emulsify-ds/emulsify-drupal": "^3.0",
+        "mars/brand_drupal_chats": "1.0.6",
         "mars/mars_lighthouse": "v0.0.2",
         "mars/mars_seo": "*",
         "mikemadison13/blt-azure-pipelines": "dev-master",
@@ -213,12 +215,6 @@
             "drupal/tmgmt_smartling": {
                 "The job has no provider assigned": "https://www.drupal.org/files/issues/2020-11-06/tmgmt-smartling-the-job-has-no-provider-assigned.patch"
             },
-            "drupal/lightning_workflow": {
-                "Update scheduled status change": "https://www.drupal.org/files/issues/2020-11-12/take-workflow-transitions-into-account-3182093-1.patch"
-            },
-            "drupal/remote_stream_wrapper": {
-                "Remote Stream Wrapper does not work after upgrade drupal 9": "https://www.drupal.org/files/issues/2021-05-10/3185015-29.patch"
-            },
             "drupal/field_group": {
                 "Ensure visibility of invalid fields (JS) https://www.drupal.org/project/field_group/issues/2787179": "https://www.drupal.org/files/issues/2020-05-19/2787179-highlight-html5-validation-52.patch"
             },
@@ -308,6 +304,19 @@
         "mars_seo": {
             "type": "path",
             "url": "docroot/modules/custom/mars_seo"
+        },
+        "brand_drupal_chats": {
+            "type": "package",
+            "package": {
+                "name": "mars/brand_drupal_chats",
+                "version": "1.0.6",
+                "type": "drupal-module",
+                "source": {
+                    "url": "git@github.com:Mars-Incorporated/brand_drupal_chats.git",
+                    "type": "git",
+                    "reference": "1.0.6"
+                }
+            }
         },
         "mars_lighthouse": {
             "type": "package",

@@ -240,6 +240,22 @@ AddEncoding gzip svgz
  RewriteCond %{HTTP_HOST} ^extragum\.com.au$ [NC]
  RewriteRule ^(.*)$ https://www.extragum.com.au/$1 [R=301,L]
 
+ # Adding redirect for 5gum.com.au to www.5gum.com.au
+ RewriteCond %{HTTP_HOST} ^5gum\.com.au$ [NC]
+ RewriteRule ^(.*)$ https://www.5gum.com.au/$1 [R=301,L]
+
+ # Adding redirect for m-ms.com.au to www.m-ms.com.au
+ RewriteCond %{HTTP_HOST} ^m-ms\.com.au$ [NC]
+ RewriteRule ^(.*)$ https://www.m-ms.com.au/$1 [R=301,L]
+
+ # Adding redirect for maltesers.com.au to www.maltesers.com.au
+ RewriteCond %{HTTP_HOST} ^maltesers\.com.au$ [NC]
+ RewriteRule ^(.*)$ https://www.maltesers.com.au/$1 [R=301,L]
+
+ # Adding redirect for eclipsemints.com.au to www.eclipsemints.com.au
+ RewriteCond %{HTTP_HOST} ^eclipsemints\.com.au$ [NC]
+ RewriteRule ^(.*)$ https://www.eclipsemints.com.au/$1 [R=301,L]
+
  # Adding redirect for unclebens.se to www.bensoriginal.se
  # Quick fix. Must be removed once redirect will be done externally.
  RewriteCond %{HTTP_HOST} ^unclebens\.se$ [NC,OR]
