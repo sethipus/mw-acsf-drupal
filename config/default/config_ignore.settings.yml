@@ -67,6 +67,7 @@ ignored_config_entities:
   - captcha.settings
   - redirect_domain.domains
   - 'brand_drupal_chats.*'
+  - mars_common.character_limit_page
 ignored_config_collections:
   - 'language.*'
 enable_export_filtering: true
