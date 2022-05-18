@@ -1819,8 +1819,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     return (isset($hide_product_size) && !empty($hide_product_size));
   }
-  
-  /** Formatting Ingredients from node object.
+
+  /**
+   * Formatting Ingredients from node object.
    *
    * @param \Drupal\node\NodeInterface $node
    *   Product entity.
@@ -1836,39 +1837,44 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $break_with_bold = mb_strtolower($this->configFactory->get('mars_product.nutrition_table_settings')->get('break_ingredients_with_bold'));
     $break_without_bold = mb_strtolower($this->configFactory->get('mars_product.nutrition_table_settings')->get('break_ingredients_without_bold'));
 
-    $ingredient_values = $add_bold_line_break 
+    $ingredient_values = $add_bold_line_break
       ? strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value))
       : strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value), '<strong><b><br>');
 
     if ($add_bold_line_break) {
       $ingredient_values = mb_strtolower($ingredient_values);
-      
-      //Adding line breaks
+
+      // Adding line breaks.
       if (!empty($break_with_bold)) {
         $br_bold_arr = explode(';', $break_with_bold);
         $br_bold_arr = array_map('trim', $br_bold_arr);
         $br_bold_new_arr = array_map(function ($b) {
-            return "<br><br><strong>" . $b . "</strong>";
-          }, $br_bold_arr);
+          return "<br><br><strong>" . $b . "</strong>";
+        }, $br_bold_arr);
         $ingredient_values = str_ireplace($br_bold_arr, $br_bold_new_arr, $ingredient_values);
       }
       if (!empty($break_without_bold)) {
         $br_without_bold_arr = explode(';', $break_without_bold);
         $br_without_bold_arr = array_map('trim', $br_without_bold_arr);
         $br_without_bold_new_arr = array_map(function ($b) {
-            return "<br><br>" . $b;
-          }, $br_without_bold_arr);
+          return "<br><br>" . $b;
+        }, $br_without_bold_arr);
         $ingredient_values = str_ireplace($br_without_bold_arr, $br_without_bold_new_arr, $ingredient_values);
       }
     }
 
-    //Preparing bolded words for replacement
+    // Preparing bolded words for replacement.
     if ($add_bold_line_break && !empty($bold_ingredients_values)) {
       $bold_values_arr = explode(',', $bold_ingredients_values);
       $bold_values_arr = array_map('trim', $bold_values_arr);
       $bold_new_arr = array_map(function ($b) {
-          return "<strong>" . $b . "</strong>";
-        }, $bold_values_arr);
+        $b = trim($b);
+        return "<strong>" . $b . "</strong>";
+      }, $bold_values_arr);
+
+      $bold_values_arr = array_map(function ($b) {
+        return "/\b" . $b . "\b/";
+      }, $bold_values_arr);
 
       $br_pos = strpos($ingredient_values, '<br><br>');
       if ($br_pos !== FALSE) {
@@ -1876,9 +1882,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $ingredient_values_2 = substr($ingredient_values, $br_pos);
       }
 
-      //Making bolded words
+      // Making bolded words.
       if (isset($ingredient_values_1) && !empty($ingredient_values_1)) {
-        $ingredient_values_1 = str_ireplace($bold_values_arr, $bold_new_arr, $ingredient_values_1);
+        $ingredient_values_1 = preg_replace($bold_values_arr, $bold_new_arr, $ingredient_values_1);
         $ingredient_values_2_arr = explode('<br><br>', $ingredient_values_2);
         $ingredient_values_2_arr = array_values(array_filter($ingredient_values_2_arr, fn($value) => !is_null($value) && $value !== ''));
         $ingredient_values_2_arr = array_map('trim', $ingredient_values_2_arr);
@@ -1886,7 +1892,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
         foreach ($ingredient_values_2_arr as $i2) {
           if (strpos($i2, '<strong>') === FALSE) {
-            $ingredients_2 = str_ireplace($bold_values_arr, $bold_new_arr, $i2);
+            $ingredients_2 = preg_replace($bold_values_arr, $bold_new_arr, $i2);
             $ingredient_values = $ingredient_values . '<br><br>' . $ingredients_2;
           }
           else {
@@ -1895,13 +1901,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         }
       }
       else {
-        $ingredient_values = str_ireplace($bold_values_arr, $bold_new_arr, $ingredient_values);        
+        $ingredient_values = preg_replace($bold_values_arr, $bold_new_arr, $ingredient_values);
       }
     }
-    
+
     return $ingredient_values;
   }
-  
+
   /**
    * Formatting Description from node object.
    *
@@ -1909,6 +1915,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   Product entity.
    * @param string $field_prefix
    *   Field prefix.
+   *
    * @return string
    *   Formatted description string.
    */
