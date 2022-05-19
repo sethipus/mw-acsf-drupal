@@ -305,7 +305,7 @@ class NutritionConfigForm extends ConfigFormBase {
     ];
 
     $form['ingredient']['bold_ingredients'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Keywords for bolding in Ingredients'),
       '#default_value' => !empty($config->get('bold_ingredients')) ? $this->languageHelper->translate($config->get('bold_ingredients')) : '',
       '#description' => $this->languageHelper->translate('Use comma separated words for bolding. Ex: Milk,Soya'),
