@@ -21,7 +21,8 @@
   }
 
   @include medium {
-    &:hover {
+    &:hover ,
+    &:focus {
       .product-card__hover-helper {
         opacity: 1;
       }
