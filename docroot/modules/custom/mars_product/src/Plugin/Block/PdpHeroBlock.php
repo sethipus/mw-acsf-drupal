@@ -1858,6 +1858,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       if (!empty($break_with_bold)) {
         $br_bold_arr = explode(';', $break_with_bold);
         $br_bold_arr = array_map('trim', $br_bold_arr);
+        $br_bold_arr = array_values(array_filter($br_bold_arr, fn($value) => !is_null($value) && $value !== ''));
         $br_bold_new_arr = array_map(function ($b) {
           return "<br><br><strong>" . $b . "</strong>";
         }, $br_bold_arr);
@@ -1866,6 +1867,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       if (!empty($break_without_bold)) {
         $br_without_bold_arr = explode(';', $break_without_bold);
         $br_without_bold_arr = array_map('trim', $br_without_bold_arr);
+        $br_without_bold_arr = array_values(array_filter($br_without_bold_arr, fn($value) => !is_null($value) && $value !== ''));
         $br_without_bold_new_arr = array_map(function ($b) {
           return "<br><br>" . $b;
         }, $br_without_bold_arr);
@@ -1877,13 +1879,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     if ($add_bold_line_break && !empty($bold_ingredients_values)) {
       $bold_values_arr = explode(',', $bold_ingredients_values);
       $bold_values_arr = array_map('trim', $bold_values_arr);
+      $bold_values_arr = array_values(array_filter($bold_values_arr, fn($value) => !is_null($value) && $value !== ''));
       $bold_new_arr = array_map(function ($b) {
         $b = trim($b);
         return "<strong>" . $b . "</strong>";
       }, $bold_values_arr);
 
       $bold_values_arr = array_map(function ($b) {
-        return "/\b" . $b . "\b/";
+        return '/(?<!\w)' . preg_quote($b, '/') . '(?!\w)/i';
       }, $bold_values_arr);
 
       $br_pos = strpos($ingredient_values, '<br><br>');

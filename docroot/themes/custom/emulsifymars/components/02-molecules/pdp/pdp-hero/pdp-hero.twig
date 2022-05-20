@@ -176,10 +176,17 @@
             paragraph_extra_classes: text_color_extra_class,
           } %}
           {% if pdp_disclaimers %}
-            {% include "@atoms/text/text/07-element.twig" with {
-              paragraph_content: pdp_disclaimers,
-              paragraph_extra_classes: disclaimers_extra_class,
-            } %}
+            {% set pdp_disclaimers_arr = pdp_disclaimers|split(';') %}
+            {% if pdp_disclaimers_arr is iterable %}
+              {% for pdp_disclaimer in pdp_disclaimers_arr %}
+                {% if pdp_disclaimer in pdp_common_hero_data.product_description %}
+                  {% include "@atoms/text/text/07-element.twig" with {
+                    paragraph_content: pdp_disclaimer,
+                    paragraph_extra_classes: disclaimers_extra_class,
+                  } %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
           {% endif %}
         </div>
         {% if pdp_common_hero_data.commerce_vendor %}
