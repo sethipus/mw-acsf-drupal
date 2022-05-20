@@ -5,7 +5,6 @@ var success_message;
       success_message = drupalSettings.mars_newsletter.success_message;
       $(document).ready(function (e) {
         var element = document.getElementById('edit-actions-submit-alertbanner');
-
         if(element){
           element.onclick = validateCustom;
         }
