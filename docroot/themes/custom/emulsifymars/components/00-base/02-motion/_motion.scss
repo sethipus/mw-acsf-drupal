@@ -55,7 +55,8 @@ $transition-timing-function-base: ease-in-out;
 .demo-motion--fade {
   @include transition;
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: clr(accent-high);
     color: clr(muted);
   }
@@ -73,7 +74,8 @@ $transition-timing-function-base: ease-in-out;
     content: "Timing Function: ease-in";
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     transform: translateY(-10px);
   }
 }
@@ -90,7 +92,8 @@ $transition-timing-function-base: ease-in-out;
     content: "Timing Function: linear";
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     transform: translateY(10px);
   }
 }
@@ -107,7 +110,8 @@ $transition-timing-function-base: ease-in-out;
     content: "Timing Function: cubic-bezier(.17,.67,.83,.67)";
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     transform: scale(1.03);
   }
 }

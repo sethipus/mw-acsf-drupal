@@ -100,7 +100,8 @@
         font-size: 1.4rem;
       }
 
-      &:hover {
+      &:hover,
+      &:focus {
         color: clr(subcolor-3);
       }
 

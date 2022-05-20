@@ -64,7 +64,8 @@ $outer-container-break: $small;
 @mixin link {
   color: clr(secondary);
 
-  &:hover {
+  &:hover ,
+  &:focus {
     color: clr(secondary);
   }
 }
@@ -81,7 +82,8 @@ $outer-container-break: $small;
   position: absolute;
   z-index: 1;
 
-  &:hover {
+  &:hover ,  
+  &:focus {
     cursor: pointer;
   }
 
@@ -104,7 +106,8 @@ $outer-container-break: $small;
   position: absolute;
   z-index: 1;
 
-  &:hover {
+  &:hover,
+  &:focus {
     cursor: pointer;
   }
 
@@ -127,7 +130,8 @@ $outer-container-break: $small;
   position: absolute;
   z-index: 1;
 
-  &:hover {
+  &:hover,
+  &:focus  {
     cursor: pointer;
   }
 
@@ -191,7 +195,8 @@ $outer-container-break: $small;
   background-size: 200% 200%;
   background-position: right top;
 
-  &:hover {
+  &:hover,  
+  &:focus {
     background-position: left bottom;
   }
 }

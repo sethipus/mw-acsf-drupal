@@ -37,7 +37,8 @@
     }
     &.active,
     &:active,
-    &:hover {
+    &:hover,
+    &:focus {
       color: clr(secondary, hover-color);
       & .menu_chevron__icon {
         transform: scaleX(-1);
@@ -108,7 +109,8 @@
     width: 100%;
     &.active,
     &:active,
-    &:hover {
+    &:hover , 
+    &:focus{
       color: clr(secondary);
       text-shadow: .2px 0 0 currentColor;
       & .menu_chevron__icon {

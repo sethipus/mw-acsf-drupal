@@ -15,7 +15,8 @@ $color-breadcrumb-active: clr(text);
   text-decoration: none;
 }
 
-.breadcrumb__link:hover {
+.breadcrumb__link :hover,
+.breadcrumb__link:focus {
   color: $color-breadcrumb-hover;
 }
 
