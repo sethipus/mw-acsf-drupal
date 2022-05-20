@@ -446,7 +446,12 @@ function mars_common_update_8032() {
   foreach ($menu_links as $menu_link) {
     if (isset($menu_link->link->options['attributes']['target']) && $menu_link->link->options['attributes']['target'] == '_blank') {
       $url_obj = $menu_link->getUrlObject();
-      $link_url = $url_obj->getUri();
+
+      // Drush updb was giving error for getUri() function if url is route
+      // route:entity.node.canonical;node=11.
+      // then we are getting below error like this This URL has a Drupal route,
+      // so the canonical form is not a URI.
+      $link_url = $url_obj->toUriString();
 
       if (strpos($link_url, $base_url) == FALSE) {
         $options = $menu_link->link->options;
