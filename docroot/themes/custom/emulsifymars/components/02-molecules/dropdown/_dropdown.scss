@@ -94,7 +94,8 @@
 
   &__link {
     &:active,
-    &:hover {
+    &:hover,
+    &:focus {
       position: relative;
       font-weight: 500;
       background: rgba(clr(primary-rgb), 0.1);

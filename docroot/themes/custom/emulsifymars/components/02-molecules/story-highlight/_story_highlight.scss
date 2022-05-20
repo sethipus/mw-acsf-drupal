@@ -577,7 +577,8 @@
     margin: 0 auto;
   }
 
-  & .default-link:hover {
+  & .default-link:hover ,
+  .default-link:focus {
     color: clr(secondary);
   }
 }

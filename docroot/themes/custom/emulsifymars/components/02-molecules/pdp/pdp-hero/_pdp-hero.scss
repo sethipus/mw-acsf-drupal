@@ -660,7 +660,8 @@
     color: clr(subcolor-4);
     display: none;
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: clr(secondary);
     }
 
@@ -722,6 +723,9 @@
   [data-bv-show="rating_summary"] .bv_main_container .bv_avgRating_component_container:hover,
   [data-bv-show="rating_summary"] .bv_main_container .bv_numReviews_component_container,
   [data-bv-show="rating_summary"] .bv_main_container .bv_numReviews_component_container:hover,
+  [data-bv-show="rating_summary"] .bv_main_container .bv_avgRating_component_container:hover,:focus,
+  [data-bv-show="rating_summary"] .bv_main_container .bv_numReviews_component_container,:focus,
+  [data-bv-show="rating_summary"] .bv_main_container .bv_numReviews_component_container:hover,:focus,
   [data-bv-show="rating_summary"] .bv_main_container .bv_button_buttonMinimalist,
   [data-bv-show="rating_summary"] .bv_main_container .bv_button_buttonMinimalist:hover  {
     color: clr(primary) !important;
@@ -741,7 +745,8 @@
     }
   }
   [data-bv-show="rating_summary"] .bv_main_container .bv_button_buttonMinimalist,
-  [data-bv-show="rating_summary"] .bv_main_container .bv_button_buttonMinimalist:hover {
+  [data-bv-show="rating_summary"] .bv_main_container .bv_button_buttonMinimalist:hover,
+  [data-bv-show="rating_summary"] .bv_main_container .bv_button_buttonMinimalist:hover :focus{
     border-bottom: 1px solid clr(primary) !important;
   }
 

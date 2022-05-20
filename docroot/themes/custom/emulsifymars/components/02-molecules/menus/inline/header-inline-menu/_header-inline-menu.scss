@@ -50,7 +50,8 @@
   font-weight: 500;
   text-decoration: none;
 
-  &:hover {
+  &:hover ,
+  &:focus {
     color: clr(subcolor-3);
   }
 
@@ -64,7 +65,8 @@
     font-size: 1.4rem;
     line-height: 1.4rem;
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: clr(secondary, hover-color);
     }
   }
@@ -115,7 +117,8 @@
       line-height: 1.4rem;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: clr(subcolor-3);
 
       @include large {
@@ -168,6 +171,7 @@
   }
 
   .dropdown__link:hover,
+  .dropdown__link:focus,
   .dropdown__item--selected .dropdown__link {
     font-weight: bold;
     color: clr(secondary);

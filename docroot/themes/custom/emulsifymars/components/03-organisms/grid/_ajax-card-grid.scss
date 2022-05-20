@@ -83,7 +83,8 @@
         width: auto;
       }
 
-      &:hover {
+      &:hover,
+      &:focus {
         cursor: pointer;
       }
     }
