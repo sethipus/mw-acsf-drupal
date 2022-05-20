@@ -585,7 +585,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#title' => $this->t('Content for line break in Product Description'),
       '#default_value' => !empty($this->configuration['nutrition']['break_description']) ? $this->languageHelper->translate($this->configuration['nutrition']['break_description']) : '',
       '#description' => $this->languageHelper->translate('Use semi colon separated sentences for adding multiple line breaks. Ex: May Contain Peanut;Milk contains Milk Chocolate Contains Vegetables'),
-    ];  
+    ];
+    $form['nutrition']['break_disclaimers_description'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Content for disclaimers line break in Product Description'),
+      '#default_value' => !empty($this->configuration['nutrition']['break_disclaimers_description']) ? $this->languageHelper->translate($this->configuration['nutrition']['break_disclaimers_description']) : '',
+      '#description' => $this->languageHelper->translate('Use semi colon separated sentences for adding multiple line breaks. Ex: May Contain Peanut;Milk contains Milk Chocolate Contains Vegetables'),
+    ];
     $benefits_enabled = !empty($this->themeConfiguratorParser->getSettingValue('show_nutrition_claims_benefits'));
     $form['nutrition']['benefits_title'] = [
       '#type' => 'textfield',
@@ -766,6 +772,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
             'Please refer to the product label for the most accurate nutrition, ingredient, and allergen information.'),
         'benefits_title' => $config['nutrition']['benefits_title'] ?? '',
         'benefits_disclaimer' => $config['nutrition']['benefits_disclaimer']['value'] ?? '',
+        'break_description' => $config['nutrition']['break_description'] ?? '',
+        'break_disclaimers_description' => $config['nutrition']['break_disclaimers_description'] ?? '',
       ],
       'labels' => [
         'allergen_label' => $config['labels']['allergen_label'] ?? (string) $this->t('Diet & Allergens'),
@@ -885,6 +893,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'benefits_title' => $this->languageHelper->translate($this->configuration['nutrition']['benefits_title']) ?? '',
         'benefits_disclaimer' => !empty($this->configuration['nutrition']['benefits_disclaimer']['value']) ? $this->languageHelper->translate($this->configuration['nutrition']['benefits_disclaimer']['value']) : '',
         'show_claims_benefits' => !empty($this->themeConfiguratorParser->getSettingValue('show_nutrition_claims_benefits')),
+        'break_description' => $this->languageHelper->translate($this->configuration['nutrition']['break_description']) ?? '',
+        'break_disclaimers_description' => $this->languageHelper->translate($this->configuration['nutrition']['break_disclaimers_description']) ?? '',
       ],
       'allergen_data' => [
         'allergen_label' => $this->languageHelper->translate($this->configuration['labels']['allergen_label']),
@@ -1848,6 +1858,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       if (!empty($break_with_bold)) {
         $br_bold_arr = explode(';', $break_with_bold);
         $br_bold_arr = array_map('trim', $br_bold_arr);
+        $br_bold_arr = array_values(array_filter($br_bold_arr, fn($value) => !is_null($value) && $value !== ''));
         $br_bold_new_arr = array_map(function ($b) {
           return "<br><br><strong>" . $b . "</strong>";
         }, $br_bold_arr);
@@ -1856,6 +1867,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       if (!empty($break_without_bold)) {
         $br_without_bold_arr = explode(';', $break_without_bold);
         $br_without_bold_arr = array_map('trim', $br_without_bold_arr);
+        $br_without_bold_arr = array_values(array_filter($br_without_bold_arr, fn($value) => !is_null($value) && $value !== ''));
         $br_without_bold_new_arr = array_map(function ($b) {
           return "<br><br>" . $b;
         }, $br_without_bold_arr);
@@ -1867,13 +1879,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     if ($add_bold_line_break && !empty($bold_ingredients_values)) {
       $bold_values_arr = explode(',', $bold_ingredients_values);
       $bold_values_arr = array_map('trim', $bold_values_arr);
+      $bold_values_arr = array_values(array_filter($bold_values_arr, fn($value) => !is_null($value) && $value !== ''));
       $bold_new_arr = array_map(function ($b) {
         $b = trim($b);
         return "<strong>" . $b . "</strong>";
       }, $bold_values_arr);
 
       $bold_values_arr = array_map(function ($b) {
-        return "/\b" . $b . "\b/";
+        return '/(?<!\w)' . preg_quote($b, '/') . '(?!\w)/i';
       }, $bold_values_arr);
 
       $br_pos = strpos($ingredient_values, '<br><br>');
@@ -1922,11 +1935,19 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   private function formatDescription(NodeInterface $node, string $field_prefix): string {
     $break_description = $this->configuration['nutrition']['break_description'];
     $description_values = strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_description')->value));
+    $break_disclaimers_description = $this->configuration['nutrition']['break_disclaimers_description'];
 
     if (!empty($break_description)) {
       $break_desc_arr = explode(';', $break_description);
       foreach ($break_desc_arr as $break_desc) {
-        $description_values = str_replace($break_desc, '<br><br>' . $break_desc, $description_values);
+        $description_values = str_ireplace(trim($break_desc), '<br><br>' . trim($break_desc), $description_values);
+      }
+    }
+
+    if (!empty($break_disclaimers_description)) {
+      $break_disclaimers_arr = explode(';', $break_disclaimers_description);
+      foreach ($break_disclaimers_arr as $disclaimers) {
+        $description_values = str_ireplace($disclaimers, '', $description_values);
       }
     }
 
