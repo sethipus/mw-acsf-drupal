@@ -73,10 +73,10 @@ steps:
       targetType: 'inline'
       script: |
         sudo composer self-update --stable &&
-#        sudo composer self-update --1 &&
         composer validate --no-check-all --ansi &&
         composer install &&
         npm install npm@latest-6 -g
+  #        sudo composer self-update --1 &&
   - task: Bash@3
     displayName: 'BLT Validation'
     inputs:
