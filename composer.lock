@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b76c61d3e0d07d9553c2d712ea7efd33",
+    "content-hash": "1f98a1196d9781aa6b7508763f4763ff",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -11955,63 +11955,6 @@
             }
         },
         {
-            "name": "drupal/pendo",
-            "version": "1.0.0-alpha4",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/pendo.git",
-                "reference": "8.x-1.0-alpha4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/pendo-8.x-1.0-alpha4.zip",
-                "reference": "8.x-1.0-alpha4",
-                "shasum": "4b45c8c621b90e0d43e4684e38f2b3045d84c5c8"
-            },
-            "require": {
-                "drupal/core": "^8.8 || ^9"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.0-alpha4",
-                    "datestamp": "1585570339",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Project has not opted into security advisory coverage!"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "balsama",
-                    "homepage": "https://www.drupal.org/user/223087"
-                },
-                {
-                    "name": "grasmash",
-                    "homepage": "https://www.drupal.org/user/455714"
-                },
-                {
-                    "name": "japerry",
-                    "homepage": "https://www.drupal.org/user/45640"
-                },
-                {
-                    "name": "phenaproxima",
-                    "homepage": "https://www.drupal.org/user/205645"
-                }
-            ],
-            "description": "Provides integration with Pendo software.",
-            "homepage": "https://www.drupal.org/project/pendo",
-            "support": {
-                "source": "http://cgit.drupalcode.org/pendo",
-                "issues": "https://www.drupal.org/project/issues/pendo"
-            }
-        },
-        {
             "name": "drupal/poll",
             "version": "1.5.0",
             "source": {
@@ -12449,75 +12392,6 @@
             "homepage": "https://www.drupal.org/project/qa_accounts",
             "support": {
                 "source": "https://git.drupalcode.org/project/qa_accounts"
-            }
-        },
-        {
-            "name": "drupal/rabbit_hole",
-            "version": "1.0.0-beta10",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/rabbit_hole.git",
-                "reference": "8.x-1.0-beta10"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/rabbit_hole-8.x-1.0-beta10.zip",
-                "reference": "8.x-1.0-beta10",
-                "shasum": "3eb151b7a905bbf0a50d9fe2ecffbca3eeb73ac9"
-            },
-            "require": {
-                "drupal/core": "^8 || ^9"
-            },
-            "require-dev": {
-                "drupal/commerce_product": "*",
-                "drupal/file_entity": "*",
-                "drupal/group": "*"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.0-beta10",
-                    "datestamp": "1610813035",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Beta releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Dylan Donkersgoed",
-                    "homepage": "https://www.drupal.org/user/2803351"
-                },
-                {
-                    "name": "Matroskeen",
-                    "homepage": "https://www.drupal.org/user/3426249"
-                },
-                {
-                    "name": "Odd Hill",
-                    "homepage": "https://www.drupal.org/user/789934"
-                },
-                {
-                    "name": "mparker17",
-                    "homepage": "https://www.drupal.org/user/536298"
-                },
-                {
-                    "name": "olofbokedal",
-                    "homepage": "https://www.drupal.org/user/1198438"
-                },
-                {
-                    "name": "shumushin",
-                    "homepage": "https://www.drupal.org/user/22093"
-                }
-            ],
-            "description": "Basic functionality that is shared among the different Rabbit Hole modules.",
-            "homepage": "https://www.drupal.org/project/rabbit_hole",
-            "support": {
-                "source": "https://git.drupalcode.org/project/rabbit_hole"
             }
         },
         {
@@ -29173,10 +29047,8 @@
         "drupal/inline_entity_form": 5,
         "drupal/libraries": 10,
         "drupal/maxlength": 5,
-        "drupal/pendo": 15,
         "drupal/publication_date": 10,
         "drupal/qa_accounts": 10,
-        "drupal/rabbit_hole": 10,
         "drupal/ultimate_cron": 15,
         "mars/mars_seo": 20,
         "mikemadison13/blt-azure-pipelines": 20
