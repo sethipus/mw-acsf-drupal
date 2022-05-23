@@ -5,7 +5,6 @@ $color-breadcrumb-active: clr(text);
 .breadcrumb {
   @include list-reset;
 }
-
 .breadcrumb__item,
 .breadcrumb__link,
 .breadcrumb__link:link,
@@ -15,7 +14,8 @@ $color-breadcrumb-active: clr(text);
   text-decoration: none;
 }
 
-.breadcrumb__link:hover {
+.breadcrumb__link:hover,
+.breadcrumb__link:focus {
   color: $color-breadcrumb-hover;
 }
 

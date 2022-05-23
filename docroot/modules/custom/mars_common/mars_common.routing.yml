@@ -72,3 +72,13 @@ mars_common.character_limit_page:
   options:
     _admin_route: TRUE,
     no_cache: 'TRUE'
+
+mars_common.bc_video_inventory:
+  path: '/lighthouse-inventory'
+  defaults:
+    _controller: '\Drupal\mars_common\Controller\LightHouseInventory::videoList'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE,
+    no_cache: 'TRUE'

@@ -166,7 +166,8 @@
       justify-content: center;
       padding: 1.2rem 7rem;
   
-      &:hover {
+      &:hover ,
+      &:focus {
         color: clr(primary);
         background-color: transparent;
         transition: background-color .6s cubic-bezier(.75, 0, .25, 0);
@@ -186,7 +187,8 @@
         transition: transform .5s;
       }
 
-      &:hover::after {
+      &:hover::after,
+      &:focus {
         transform: translateX(0) translateY(-50%) rotate(45deg);
       }
     }

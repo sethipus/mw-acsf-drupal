@@ -95,7 +95,8 @@
       background-repeat: no-repeat;
     }
 
-    button:hover {
+    button:hover ,
+    button:focus {
       opacity: 0.5;
     }
 

@@ -165,8 +165,9 @@
         line-height: 6rem;
         font-size: 1.6rem;
       }
-
-      &:hover {
+      
+      &:hover, 
+      &:focus {
         color: clr(secondary);
       }
     }
