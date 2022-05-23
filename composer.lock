@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "021592d1f1e3a3623511594019b5f9a8",
+    "content-hash": "07d098c646d1655816d8d057415a4d1c",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -8103,26 +8103,26 @@
         },
         {
             "name": "drupal/externalauth",
-            "version": "1.4.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/externalauth.git",
-                "reference": "8.x-1.4"
+                "reference": "2.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/externalauth-8.x-1.4.zip",
-                "reference": "8.x-1.4",
-                "shasum": "caea7d2d5a890adad9e6b5beaa2cf139727266d6"
+                "url": "https://ftp.drupal.org/files/projects/externalauth-2.0.0.zip",
+                "reference": "2.0.0",
+                "shasum": "b7be98961e81dab28c22302846bc55d3e337ea40"
             },
             "require": {
-                "drupal/core": "^8 || ^9"
+                "drupal/core": "^9"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.4",
-                    "datestamp": "1624457496",
+                    "version": "2.0.0",
+                    "datestamp": "1639390339",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -8135,8 +8135,9 @@
             ],
             "authors": [
                 {
-                    "name": "rgristroph",
-                    "homepage": "https://www.drupal.org/user/516442"
+                    "name": "Sven Decabooter",
+                    "homepage": "https://www.drupal.org/u/svendecabooter",
+                    "role": "Maintainer"
                 },
                 {
                     "name": "snufkin",
@@ -8148,9 +8149,10 @@
                 }
             ],
             "description": "Helper module to authenticate users using an external site / service and storing identification details",
-            "homepage": "https://www.drupal.org/project/externalauth",
+            "homepage": "https://drupal.org/project/externalauth",
             "support": {
-                "source": "https://git.drupalcode.org/project/externalauth"
+                "source": "https://git.drupalcode.org/project/externalauth",
+                "issues": "https://www.drupal.org/project/issues/externalauth"
             }
         },
         {
@@ -10857,35 +10859,36 @@
         },
         {
             "name": "drupal/migrate_tools",
-            "version": "5.1.0",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/migrate_tools.git",
-                "reference": "8.x-5.1"
+                "reference": "6.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/migrate_tools-8.x-5.1.zip",
-                "reference": "8.x-5.1",
-                "shasum": "2c1a9d35d318a0e1de30a99fbf64bedd4e65cee1"
+                "url": "https://ftp.drupal.org/files/projects/migrate_tools-6.0.0.zip",
+                "reference": "6.0.0",
+                "shasum": "bec5a0e4fbb6ec0face6780c2ab98ffe6096188b"
             },
             "require": {
-                "drupal/core": "^9.1",
-                "drupal/migrate_plus": "^5",
-                "php": ">=7.1"
+                "drupal/core": ">=9.1",
+                "php": ">=7.4"
             },
             "require-dev": {
-                "drupal/migrate_source_csv": "^3.0",
-                "drush/drush": "^10"
+                "drupal/migrate_plus": ">=5",
+                "drupal/migrate_source_csv": ">=3",
+                "drush/drush": ">=11"
             },
             "suggest": {
-                "drush/drush": "^9 || ^10"
+                "drupal/migrate_plus": ">=5",
+                "drush/drush": ">=11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-5.1",
-                    "datestamp": "1640378500",
+                    "version": "6.0.0",
+                    "datestamp": "1651240616",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -10893,7 +10896,7 @@
                 },
                 "drush": {
                     "services": {
-                        "drush.services.yml": "^9 || ^10"
+                        "drush.services.yml": ">=9"
                     }
                 }
             },
