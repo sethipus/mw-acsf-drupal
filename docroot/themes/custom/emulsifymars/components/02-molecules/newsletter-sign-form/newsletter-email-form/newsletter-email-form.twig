@@ -4,10 +4,11 @@
         <div class="signup-form-hideshow-email">
             <div class="newsletter-webform-block-label">{{ webform_block_label }}</div>
             <form class="webform-submission-mars-newsletter-email-form-form" id="email-form">
-                <div class="email-submit">
+                <div id="alertbanner-newsletter" class="email-submit">
                     {{ webform_newsletter.form.elements.email }}
                     <div id ="recaptcha" class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}" data-callback="captchaCallBack" data-size="invisible"></div>
-                    {{ webform_newsletter.form.elements.actions }}
+                    <input class="webform-button--submit button button--primary js-form-submit form-submit" data-drupal-selector="edit-actions-submit-2" id="edit-actions-submit-alertbanner"
+                    type="submit" name="op" value="Submit">
             </form>
             </div>
             </div>

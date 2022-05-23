@@ -205,7 +205,8 @@
         object-fit: cover;
         transition: transform 0.8s;
 
-        &:hover {
+        &:hover ,
+        &:focus {
           transform: scale(1.1);
         }
       }
@@ -232,7 +233,8 @@
           color: clr(primary);
           text-decoration: none;
 
-          &:hover {
+          &:hover,
+          &:focus {
             color: clr(secondary);
           }
         }

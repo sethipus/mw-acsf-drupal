@@ -585,7 +585,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#title' => $this->t('Content for line break in Product Description'),
       '#default_value' => !empty($this->configuration['nutrition']['break_description']) ? $this->languageHelper->translate($this->configuration['nutrition']['break_description']) : '',
       '#description' => $this->languageHelper->translate('Use semi colon separated sentences for adding multiple line breaks. Ex: May Contain Peanut;Milk contains Milk Chocolate Contains Vegetables'),
-    ];  
+    ];
+    $form['nutrition']['break_disclaimers_description'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Content for disclaimers line break in Product Description'),
+      '#default_value' => !empty($this->configuration['nutrition']['break_disclaimers_description']) ? $this->languageHelper->translate($this->configuration['nutrition']['break_disclaimers_description']) : '',
+      '#description' => $this->languageHelper->translate('Use semi colon separated sentences for adding multiple line breaks. Ex: May Contain Peanut;Milk contains Milk Chocolate Contains Vegetables'),
+    ];
     $benefits_enabled = !empty($this->themeConfiguratorParser->getSettingValue('show_nutrition_claims_benefits'));
     $form['nutrition']['benefits_title'] = [
       '#type' => 'textfield',
@@ -766,6 +772,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
             'Please refer to the product label for the most accurate nutrition, ingredient, and allergen information.'),
         'benefits_title' => $config['nutrition']['benefits_title'] ?? '',
         'benefits_disclaimer' => $config['nutrition']['benefits_disclaimer']['value'] ?? '',
+        'break_description' => $config['nutrition']['break_description'] ?? '',
+        'break_disclaimers_description' => $config['nutrition']['break_disclaimers_description'] ?? '',
       ],
       'labels' => [
         'allergen_label' => $config['labels']['allergen_label'] ?? (string) $this->t('Diet & Allergens'),
@@ -885,6 +893,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'benefits_title' => $this->languageHelper->translate($this->configuration['nutrition']['benefits_title']) ?? '',
         'benefits_disclaimer' => !empty($this->configuration['nutrition']['benefits_disclaimer']['value']) ? $this->languageHelper->translate($this->configuration['nutrition']['benefits_disclaimer']['value']) : '',
         'show_claims_benefits' => !empty($this->themeConfiguratorParser->getSettingValue('show_nutrition_claims_benefits')),
+        'break_description' => $this->languageHelper->translate($this->configuration['nutrition']['break_description']) ?? '',
+        'break_disclaimers_description' => $this->languageHelper->translate($this->configuration['nutrition']['break_disclaimers_description']) ?? '',
       ],
       'allergen_data' => [
         'allergen_label' => $this->languageHelper->translate($this->configuration['labels']['allergen_label']),
@@ -1819,8 +1829,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     return (isset($hide_product_size) && !empty($hide_product_size));
   }
-  
-  /** Formatting Ingredients from node object.
+
+  /**
+   * Formatting Ingredients from node object.
    *
    * @param \Drupal\node\NodeInterface $node
    *   Product entity.
@@ -1832,61 +1843,84 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   private function formatIngredients(NodeInterface $node, string $field_prefix): string {
     $add_bold_line_break = $this->configFactory->get('mars_product.nutrition_table_settings')->get('add_bold_line_break');
-    $bold_ingredients_values = $this->configFactory->get('mars_product.nutrition_table_settings')->get('bold_ingredients');
-    $break_with_bold = $this->configFactory->get('mars_product.nutrition_table_settings')->get('break_ingredients_with_bold');
-    $break_without_bold = $this->configFactory->get('mars_product.nutrition_table_settings')->get('break_ingredients_without_bold');
+    $bold_ingredients_values = mb_strtolower($this->configFactory->get('mars_product.nutrition_table_settings')->get('bold_ingredients'));
+    $break_with_bold = mb_strtolower($this->configFactory->get('mars_product.nutrition_table_settings')->get('break_ingredients_with_bold'));
+    $break_without_bold = mb_strtolower($this->configFactory->get('mars_product.nutrition_table_settings')->get('break_ingredients_without_bold'));
 
-    $ingredient_values = $add_bold_line_break 
+    $ingredient_values = $add_bold_line_break
       ? strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value))
       : strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value), '<strong><b><br>');
 
     if ($add_bold_line_break) {
+      $ingredient_values = mb_strtolower($ingredient_values);
+
+      // Adding line breaks.
       if (!empty($break_with_bold)) {
-        $break_with_bold_arr = explode(';', $break_with_bold);
-        foreach ($break_with_bold_arr as $break_bold_value) {
-          $ingredient_values = str_ireplace($break_bold_value, '<br><br><strong>' . $break_bold_value . '</strong>', $ingredient_values);
-        }
+        $br_bold_arr = explode(';', $break_with_bold);
+        $br_bold_arr = array_map('trim', $br_bold_arr);
+        $br_bold_arr = array_values(array_filter($br_bold_arr, fn($value) => !is_null($value) && $value !== ''));
+        $br_bold_new_arr = array_map(function ($b) {
+          return "<br><br><strong>" . $b . "</strong>";
+        }, $br_bold_arr);
+        $ingredient_values = str_ireplace($br_bold_arr, $br_bold_new_arr, $ingredient_values);
       }
       if (!empty($break_without_bold)) {
-        $break_without_bold_arr = explode(';', $break_without_bold);
-        foreach ($break_without_bold_arr as $break_without_bold_value) {
-          $ingredient_values = str_ireplace($break_without_bold_value, '<br><br>' . $break_without_bold_value, $ingredient_values);
-        }
+        $br_without_bold_arr = explode(';', $break_without_bold);
+        $br_without_bold_arr = array_map('trim', $br_without_bold_arr);
+        $br_without_bold_arr = array_values(array_filter($br_without_bold_arr, fn($value) => !is_null($value) && $value !== ''));
+        $br_without_bold_new_arr = array_map(function ($b) {
+          return "<br><br>" . $b;
+        }, $br_without_bold_arr);
+        $ingredient_values = str_ireplace($br_without_bold_arr, $br_without_bold_new_arr, $ingredient_values);
       }
     }
 
+    // Preparing bolded words for replacement.
     if ($add_bold_line_break && !empty($bold_ingredients_values)) {
       $bold_values_arr = explode(',', $bold_ingredients_values);
+      $bold_values_arr = array_map('trim', $bold_values_arr);
+      $bold_values_arr = array_values(array_filter($bold_values_arr, fn($value) => !is_null($value) && $value !== ''));
+      $bold_new_arr = array_map(function ($b) {
+        $b = trim($b);
+        return "<strong>" . $b . "</strong>";
+      }, $bold_values_arr);
+
+      $bold_values_arr = array_map(function ($b) {
+        return '/(?<!\w)' . preg_quote($b, '/') . '(?!\w)/i';
+      }, $bold_values_arr);
+
       $br_pos = strpos($ingredient_values, '<br><br>');
       if ($br_pos !== FALSE) {
         $ingredient_values_1 = substr($ingredient_values, 0, $br_pos);
         $ingredient_values_2 = substr($ingredient_values, $br_pos);
       }
-      foreach ($bold_values_arr as $bold_val) {
-        if (isset($ingredient_values_1) && !empty($ingredient_values_1)) {
-          $ingredient_values_1 = preg_replace('/(?<!\w)' . preg_quote($bold_val, '/') . '(?!\w)/i', '<strong>' . trim($bold_val) . '</strong>', $ingredient_values_1);
-          $ingredient_values_2_arr = explode('<br><br>', $ingredient_values_2);
-          $ingredient_values_2_arr = array_values(array_filter($ingredient_values_2_arr, fn($value) => !is_null($value) && $value !== ''));
-          $ingredient_values = $ingredient_values_1;
-          foreach ($ingredient_values_2_arr as $i2) {
-            if (strpos($i2, '<strong>') === FALSE) {
-              $ingredients_2 = preg_replace('/(?<!\w)' . preg_quote($bold_val, '/') . '(?!\w)/i', '<strong>' . trim($bold_val) . '</strong>', $i2);
-              $ingredient_values = $ingredient_values . '<br><br>' . $ingredients_2;
-            }
-            else {
-              $ingredient_values = $ingredient_values . '<br><br>' . $i2; 
-            }
+
+      // Making bolded words.
+      if (isset($ingredient_values_1) && !empty($ingredient_values_1)) {
+        $ingredient_values_1 = preg_replace($bold_values_arr, $bold_new_arr, $ingredient_values_1);
+        $ingredient_values_2_arr = explode('<br><br>', $ingredient_values_2);
+        $ingredient_values_2_arr = array_values(array_filter($ingredient_values_2_arr, fn($value) => !is_null($value) && $value !== ''));
+        $ingredient_values_2_arr = array_map('trim', $ingredient_values_2_arr);
+        $ingredient_values = $ingredient_values_1;
+
+        foreach ($ingredient_values_2_arr as $i2) {
+          if (strpos($i2, '<strong>') === FALSE) {
+            $ingredients_2 = preg_replace($bold_values_arr, $bold_new_arr, $i2);
+            $ingredient_values = $ingredient_values . '<br><br>' . $ingredients_2;
+          }
+          else {
+            $ingredient_values = $ingredient_values . '<br><br>' . $i2;
           }
         }
-        else {
-          $ingredient_values = preg_replace('/(?<!\w)' . preg_quote($bold_val, '/') . '(?!\w)/i', '<strong>' . trim($bold_val) . '</strong>', $ingredient_values);
-        }
+      }
+      else {
+        $ingredient_values = preg_replace($bold_values_arr, $bold_new_arr, $ingredient_values);
       }
     }
 
     return $ingredient_values;
   }
-  
+
   /**
    * Formatting Description from node object.
    *
@@ -1894,17 +1928,26 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   Product entity.
    * @param string $field_prefix
    *   Field prefix.
+   *
    * @return string
    *   Formatted description string.
    */
   private function formatDescription(NodeInterface $node, string $field_prefix): string {
     $break_description = $this->configuration['nutrition']['break_description'];
     $description_values = strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_description')->value));
+    $break_disclaimers_description = $this->configuration['nutrition']['break_disclaimers_description'];
 
     if (!empty($break_description)) {
       $break_desc_arr = explode(';', $break_description);
       foreach ($break_desc_arr as $break_desc) {
-        $description_values = str_replace($break_desc, '<br><br>' . $break_desc, $description_values);
+        $description_values = str_ireplace(trim($break_desc), '<br><br>' . trim($break_desc), $description_values);
+      }
+    }
+
+    if (!empty($break_disclaimers_description)) {
+      $break_disclaimers_arr = explode(';', $break_disclaimers_description);
+      foreach ($break_disclaimers_arr as $disclaimers) {
+        $description_values = str_ireplace($disclaimers, '', $description_values);
       }
     }
 
