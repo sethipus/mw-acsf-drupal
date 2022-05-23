@@ -14,6 +14,13 @@
   margin-bottom: 6rem;
   @include card-width;
 
+  @include xs {
+    width: 25.5rem;
+  }
+
+  @include small {
+    @include card-width;
+  }
   .eyebrow {
     @include set-font($font-type: 'primary-font');
 
@@ -48,7 +55,6 @@
       height: 100%;
       width: 100%;
     }
-
   }
 
   &__media:focus-within {
@@ -79,6 +85,16 @@
     display: block;
     font-weight: bold;
     overflow: hidden;
+    
+    @include xs {
+      font-size: 1.5rem;
+      line-height: 1.8rem;
+    }
+
+    @include small {
+      font-size: 2.2rem;
+      line-height: 3rem;
+    }
 
     @include large {
       font-size: 1.6rem;
@@ -122,6 +138,13 @@
     font-size: 1.6rem;
     line-height: 0.1rem;
     font-weight: bold;
+
+    @include xs{
+      font-size: 1.5rem; 
+    }
+    @include small{
+      font-size: 1.6rem;
+    }
   }
 
   &__details-button {
@@ -135,6 +158,7 @@
 
       @include large {
         line-height: 5rem;
+        min-width: 13.3rem;
         font-size: 1.4rem;
         padding-left: 0.9rem;
         padding-right: 0.9rem;
