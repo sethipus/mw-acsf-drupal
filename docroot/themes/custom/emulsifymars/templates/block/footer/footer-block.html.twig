@@ -99,7 +99,8 @@
 
 {% if hover_color is not empty %}
   <style type="text/css">
-    .footer-menu__link:hover {
+    .footer-menu__link:hover ,
+    .footer-menu__link:focus {
       color: {{ hover_color }};
     }
   </style>

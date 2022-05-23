@@ -23,7 +23,8 @@
     width: auto;
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: clr(highlight-high);
     color: clr(accent);
   }
