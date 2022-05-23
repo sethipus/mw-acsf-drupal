@@ -37,7 +37,7 @@
         "drupal/computed_field": "^2.0",
         "drupal/config_ignore": "^2.3",
         "drupal/config_split": "^1.0.0",
-        "drupal/core": "^9.2.4",
+        "drupal/core": "^9.2.5",
         "drupal/core-composer-scaffold": "^9.2.5",
         "drupal/core-project-message": "^9.2.5",
         "drupal/core-recommended": "^9.2.5",
