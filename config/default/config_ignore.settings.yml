@@ -68,6 +68,7 @@ ignored_config_entities:
   - redirect_domain.domains
   - 'brand_drupal_chats.*'
   - mars_common.character_limit_page
+  - seckit.settings
 ignored_config_collections:
   - 'language.*'
 enable_export_filtering: true
