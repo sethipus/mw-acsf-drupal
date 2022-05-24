@@ -22,7 +22,7 @@ pool:
   vmImage: 'ubuntu-18.04'
 
 variables:
-  phpVersion: 7.4
+  phpVersion: 8.0
   scriptDir: $(Build.Repository.LocalPath)/vendor/mikemadison13/blt-azure-pipelines/scripts/azure
   COMPOSER_CACHE_DIR: $(Pipeline.Workspace)/.composer
   deployment_user: 'digie'
