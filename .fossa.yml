@@ -34,3 +34,10 @@ targets:
 paths:
   exclude:
     - docroot/themes/contrib/cohesion-theme/
+    - docroot/themes/custom/emulsifymars/
+    - docroot/modules/contrib/lightning_api/
+    - docroot/modules/contrib/lightning_core/
+    - docroot/modules/contrib/lightning_layout/
+    - docroot/modules/contrib/lightning_media/
+    - docroot/modules/contrib/lightning_workflow/
+    - docroot/modules/contrib/menu_item_extras/modules/mie_demo_base/
