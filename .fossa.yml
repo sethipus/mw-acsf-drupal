@@ -1,0 +1,36 @@
+version: 3
+
+server: https://app.fossa.com
+apiKey: 028db647245bf9493f174c2261bd9736
+
+#project:
+#  id: github.com/fossas/fossa-cli
+#  name: fossa-cli
+#  team: cli-team
+#  policy: custom-cli-policy
+#  link: fossa.com
+#  url: github.com/fossas/spectrometer
+#  jiraProjectKey: jira-key
+#  releaseGroup:
+#    name: release-group-name
+#    release: 123-release-candidate
+
+#revision:
+#  commit: "12345"
+#  branch: security/emulsifymars-upgrade
+
+#targets:
+#  only:
+#    - type: maven
+#      path: foo/bar
+#  exclude:
+#    - type: bundler
+
+targets:
+  exclude:
+    - type: npm
+      path: menu_item_extras/modules/mie_demo_base
+
+paths:
+  exclude:
+    - docroot/themes/contrib/cohesion-theme/

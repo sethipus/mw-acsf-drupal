@@ -355,7 +355,8 @@
     "prefer-stable": true,
     "scripts-descriptions": {
         "mw:acsf:validate": "Validates php, twig and yaml.",
-        "mw:fossa": "Run a FOSSA scan."
+        "mw:fossa": "Run a FOSSA scan.",
+        "mw:acsf:blt:validate": "BLT deploy validation."
     },
     "scripts": {
         "mw:acsf:validate": [
