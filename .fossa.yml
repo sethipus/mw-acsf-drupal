@@ -30,14 +30,46 @@ targets:
   exclude:
     - type: npm
       path: menu_item_extras/modules/mie_demo_base
+    - type: npm
+      path: docroot/themes/contrib/emulsify-drupal
+    - type: npm
+      path: docroot/themes/custom/emulsifymars
+    - type: npm
+      path: docroot/modules/contrib/menu_item_extras/modules/mie_demo_base
+    - type: yarn
+      path: docroot/themes/contrib/cohesion-theme
+    - type: npm
+      path: docroot/modules/contrib/layout_builder_modal
+    - type: yarn
+      path: docroot/modules/contrib/lightning_workflow/modules/lightning_scheduler/js
+    - type: yarn
+      path: docroot/modules/contrib/emulsify_twig
+    - type: yarn
+      path: docroot/modules/contrib/cohesion
+    - type: npm
+      path: docroot/libraries/blazy
+    - type: composer
+      path: docroot/modules/contrib/lightning_layout
+    - type: composer
+      path: docroot/modules/contrib/lightning_workflow
+    - type: composer
+      path: docroot/modules/contrib/lightning_media
+    - type: composer
+      path: docroot/modules/contrib/lightning_core
+    - type: composer
+      path: docroot/modules/contrib/lightning_api
 
 paths:
   exclude:
-    - docroot/themes/contrib/cohesion-theme/
-    - docroot/themes/custom/emulsifymars/
-    - docroot/modules/contrib/lightning_api/
-    - docroot/modules/contrib/lightning_core/
-    - docroot/modules/contrib/lightning_layout/
-    - docroot/modules/contrib/lightning_media/
-    - docroot/modules/contrib/lightning_workflow/
-    - docroot/modules/contrib/menu_item_extras/modules/mie_demo_base/
+    - ./docroot/themes/custom/emulsifymars
+    - ./docroot/modules/contrib/emulsify-drupal
+    - ./docroot/themes/contrib/cohesion-theme
+    - ./docroot/modules/contrib/lightning_api
+    - ./docroot/modules/contrib/lightning_core
+    - ./docroot/modules/contrib/lightning_layout
+    - ./docroot/modules/contrib/lightning_media
+    - ./docroot/modules/contrib/lightning_workflow
+    - ./docroot/modules/contrib/menu_item_extras/modules/mie_demo_base
+    - ./docroot/core/modules/system/tests/fixtures
+    - ./docroot/core/tests/Drupal/Tests/Composer/fixtures/ensureBehatDriverVersionsFixture
+
