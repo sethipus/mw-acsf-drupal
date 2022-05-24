@@ -69,6 +69,7 @@ ignored_config_entities:
   - 'brand_drupal_chats.*'
   - mars_common.character_limit_page
   - seckit.settings
+  - path_file.settings
 ignored_config_collections:
   - 'language.*'
 enable_export_filtering: true
