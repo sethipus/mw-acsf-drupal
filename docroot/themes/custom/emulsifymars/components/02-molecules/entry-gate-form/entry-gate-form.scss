@@ -186,11 +186,6 @@
         transform: translateX(0) translateY(10%) rotate(45deg);
         transition: transform .5s;
       }
-
-      &:hover::after,
-      &:focus {
-        transform: translateX(0) translateY(-50%) rotate(45deg);
-      }
     }
 
     @include xl {
