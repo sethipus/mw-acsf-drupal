@@ -913,11 +913,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     // Sort PDP variants if there more than one item.
     if (!empty($build['#pdp_size_data']) && count($build['#pdp_size_data']) >= 2) {
       usort($build['#pdp_size_data'], function ($a, $b) {
-        return intval($a['title']) > intval($b['title']);
+        if ($a['title'] == $b['title']) {
+          return 0;
+        }
+        return $a['title'] < $b['title']
+          ? -1
+          : 1;
+
       });
     }
-
-    $node_bundle = $node->bundle();
+      $node_bundle = $node->bundle();
     $build['#pdp_bundle_type'] = $node_bundle;
     switch ($node_bundle) {
       case 'product_multipack':
@@ -974,8 +979,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $gtin = $this->productHelper->formatSku($gtin);
       }
 
-      $product_description = $product_variant->hasField('field_product_description') && !$product_variant->get('field_product_description')->isEmpty() 
-        ? $this->formatDescription($product_variant, 'product') 
+      $product_description = $product_variant->hasField('field_product_description') && !$product_variant->get('field_product_description')->isEmpty()
+        ? $this->formatDescription($product_variant, 'product')
         : NULL;
 
       $item = [
