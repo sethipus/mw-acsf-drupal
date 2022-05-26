@@ -2,7 +2,7 @@ APIVersion: v1.13.1
 name: mars
 type: drupal9
 docroot: docroot
-php_version: "7.4"
+php_version: "8.0"
 mariadb_version: 10.5
 webserver_type: nginx-fpm
 router_http_port: "8080"

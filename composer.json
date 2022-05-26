@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "php": ">=7.4",
+        "php": "^7.4|^8.0",
         "ext-dom": "*",
         "ext-json": "*",
         "acquia/acsf-tools": "dev-9.x-dev",
@@ -93,7 +93,7 @@
         "drupal/panelizer": "^5.0-beta3",
         "drupal/path_file": "^1.1",
         "drupal/poll": "^1.5",
-        "drupal/printable": "2.0.1",
+        "drupal/printable": "^2.1",
         "drupal/profile_split_enable": "^2.0",
         "drupal/profile_switcher": "^1.0-alpha5",
         "drupal/publication_date": "^2.0@beta",
@@ -240,9 +240,6 @@
             "drupal/maxlength": {
                 "Extra, unconnected max length counter with an id of undefined-counter": "https://www.drupal.org/files/issues/2020-07-27/3076581-9.patch",
                 "Max length in lines (in textarea field)": "https://www.drupal.org/files/issues/2021-04-13/maxlength-max-length-in-lines-in-textarea-field-2463193-4.patch"
-            },
-            "drupal/printable": {
-                "Printable_pdf submodule not compatible with Drupal 9": "patches/fix-url-scheme-for-printable-pdf.patch"
             }
         },
         "patches-ignore": {
@@ -355,8 +352,8 @@
     "prefer-stable": true,
     "scripts-descriptions": {
         "mw:acsf:validate": "Validates php, twig and yaml.",
-        "mw:fossa": "Run a FOSSA scan.",
-        "mw:acsf:blt:validate": "BLT deploy validation."
+        "mw:acsf:blt:validate": "BLT deploy validation.",
+        "mw:fossa": "Run a FOSSA scan."
     },
     "scripts": {
         "mw:acsf:validate": [
@@ -364,11 +361,11 @@
             "blt validate:twig --ansi",
             "blt validate:yaml --ansi"
         ],
-        "mw:fossa": [
-            "FOSSA_API_KEY=028db647245bf9493f174c2261bd9736 fossa analyze"
-        ],
         "mw:acsf:blt:validate": [
             "vendor/bin/blt validate --define drush.alias='$(drush.aliases.ci)' --ansi --verbose"
+        ],
+        "mw:fossa": [
+            "FOSSA_API_KEY=028db647245bf9493f174c2261bd9736 fossa analyze"
         ],
         "post-create-project-cmd": [
             "blt internal:create-project:init-repo"

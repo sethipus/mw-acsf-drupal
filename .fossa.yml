@@ -3,6 +3,12 @@ version: 3
 server: https://app.fossa.com
 apiKey: 028db647245bf9493f174c2261bd9736
 
+project:
+  id: DT-mw-acsf-drupal
+  name: DT-mw-acsf-drupal
+  team: DT-DigitalEngineering
+  url: github.com/Mars-Incorporated/mw-acsf-drupal
+
 #project:
 #  id: github.com/fossas/fossa-cli
 #  name: fossa-cli
@@ -15,6 +21,9 @@ apiKey: 028db647245bf9493f174c2261bd9736
 #    name: release-group-name
 #    release: 123-release-candidate
 
+revision:
+  branch: security/fossa-02
+
 #revision:
 #  commit: "12345"
 #  branch: security/emulsifymars-upgrade
@@ -26,10 +35,12 @@ apiKey: 028db647245bf9493f174c2261bd9736
 #  exclude:
 #    - type: bundler
 
+# NOTES: These npm and yarn dependencies are excluded because they are being removed.
+# composer lightning dependencies are excluded because they are being removed.
+# emulsifymars theme is based on the obsolete and no longer available emulsify_design_system
+# this includes emulsify-drupal and emulsify_twig
 targets:
   exclude:
-    - type: npm
-      path: menu_item_extras/modules/mie_demo_base
     - type: npm
       path: docroot/themes/contrib/emulsify-drupal
     - type: npm
