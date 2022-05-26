@@ -74,7 +74,8 @@
   line-height: 50px;
   min-width: 100%;
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: clr(secondary);
   }
 

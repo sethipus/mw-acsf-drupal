@@ -594,7 +594,8 @@
           min-width: 20rem;
           margin: 0 0 3rem 0 !important;
 
-          &:hover {
+          &:hover,
+          &:focus {
             color: clr(secondary) !important;
             background-color: transparent !important;
           }

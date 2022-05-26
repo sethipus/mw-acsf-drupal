@@ -27,7 +27,8 @@
       fill: currentColor;
     }
 
-    &:hover {
+    &:hover ,
+    &:focus {
       color: clr(subcolor-3);
     }
   }
@@ -44,7 +45,8 @@
       font-size: 1.4rem;
       line-height: 1.4rem;
 
-      &:hover {
+      &:hover, 
+      &:focus {
         color: clr(secondary, hover-color);
       }
     }
