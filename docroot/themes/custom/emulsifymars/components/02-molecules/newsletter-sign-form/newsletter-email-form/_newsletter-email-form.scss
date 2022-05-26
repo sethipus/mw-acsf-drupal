@@ -1,16 +1,14 @@
 .signup-email-form-wrp {
   background-color: clr(newsletter-bg-color);
-  font-family: var(--v-primary-font); 
-
+  font-family: var(--v-primary-font);
   .clear-icon {
     display: none;
   }
   .signup-form-email {
-    @include xs {
+    @include medium {
       display: flex;
       justify-content: center;
     }
-
     .error {
       font-family: var(--v-secondary-font);
       font-size: 1.3rem;
@@ -20,51 +18,45 @@
       position: relative;
       padding: 0.5rem 0 0 1rem;
     }
-
+    
     .newsletter-webform-block-label {
       padding-top: 20px;
       font-size: 14px;
       text-align: center;
       color: clr(primary, newsletter-override-white-color);
-
       @include medium {
-        padding-top: 22px;
-        font-size: 20px;
+          padding-top: 22px;
+          font-size: 20px;
       }
     }
     .webform-submission-mars-newsletter-email-form-form {
+      @include xs {
+        padding-bottom: 20px;
+      }
+      @include medium {
+        padding-bottom: 5px;
+      }
       .email-submit {
         width: 90%;
         display: flex;
         position: relative;
         justify-content: center;
         margin: 0 auto;
-
-        @include xs {
-          padding-bottom: 10px;
-        }
-
-        @include medium {
-          padding-bottom: 0;
-        }
         .js-form-item {
           margin-top: 10px;
-
           .newsletter-email-value {
             font-size: 14px;
             border-radius: var(--v-button-border-radius);
             width: 100%;
             color: clr(primary);
-
             &:focus-visible {
-              outline: none;
+                outline: none;
             }
           }
-
           @include medium {
-            margin-bottom: 20px;
-            margin-top: 20px;
-            width: 35rem;
+              margin-bottom: 20px;
+              margin-top: 20px;
+              width: 35rem;
           }
         }
         .newsletter-signup-email-submit {
@@ -72,43 +64,22 @@
           padding-top: 5px;
           margin-top: 10px;
           right: 0;
-
           @include medium {
-            margin-top: 20px;
-            margin-bottom: 20px;
-          }
-
-          .webform-button--submit {
-            background-image: url(../images/right-arrow.png);
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 25px 25px;
-            color: transparent;
-            padding: 5px 0;
-            background-color: transparent;
-
-            &:hover {
-              background-color: transparent;
-            }
-
-            &:focus-visible {
-              outline: none;
-            }
+              margin-top: 20px;
+              margin-bottom: 20px;
           }
         }
       }
-
+    
       .privacy-newsletter-email-form {
         display: flex;
         justify-content: center;
         padding-top: 10px;
         padding-bottom: 10px;
-
         .privacy-newsletter-email {
           width: 20px;
           height: 20px;
         }
-
         .form-item__description {
           margin-top: auto;
           padding-left: 10px;
@@ -143,5 +114,30 @@
   }
   div #recaptcha{
     z-index: 9999;
+  }
+  .webform-button--submit {
+    position: absolute;
+    margin-top: 15px;
+    right: 0;
+    background-image: url(../images/right-arrow.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 25px 25px;
+    color: transparent;
+    padding: 5px 0;
+    background-color: transparent;
+    
+    @include medium {
+      margin-top: 25px;
+    }
+    
+
+    &:hover {
+      background-color: transparent;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
   }
 }

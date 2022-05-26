@@ -25,7 +25,8 @@
   text-decoration: none;
 
   &.is-active,
-  &:hover {
+  &:hover,
+  &:focus {
     color: clr(accent);
   }
 }
@@ -49,7 +50,8 @@
     top: 1px;
   }
 
-  &:hover {
+  &:hover ,
+  &:focus {
     &::before {
       border-left-color: clr(accent);
     }
@@ -62,7 +64,8 @@
     border-right-color: clr(text);
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     &::before {
       border-left-color: transparent;
       border-right-color: clr(accent);

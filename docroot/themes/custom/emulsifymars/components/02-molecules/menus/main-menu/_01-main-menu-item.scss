@@ -44,10 +44,12 @@
   }
 
   /* Only top level */
-  &:not(.main-menu__item--sub):hover {
+  &:not(.main-menu__item--sub):hover ,
+  &:not(.main-menu__item--sub):focus{
     transition: all 0.2s;
 
-    &:hover {
+    &:hover,
+    &:focus {
       .main-menu__link::after {
         color: clr(text);
       }

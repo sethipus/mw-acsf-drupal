@@ -24,7 +24,8 @@
     display: none;
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     border-color: clr(accent-high);
   }
 }

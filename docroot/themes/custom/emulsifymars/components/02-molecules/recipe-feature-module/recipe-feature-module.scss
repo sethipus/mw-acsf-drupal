@@ -249,7 +249,7 @@
         margin-bottom: 0;
       }
 
-      &:hover {
+      &:hover , &:focus{
         color: clr(secondary);
       }
     }

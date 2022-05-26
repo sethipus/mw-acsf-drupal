@@ -36,7 +36,8 @@
     line-height: 1.54rem;
   }
 
-  &:hover {
+  &:hover ,
+  &:focus {
     color: clr(subcolor-3);
   }
 }

@@ -25,7 +25,8 @@
       opacity: 0.6;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       text-decoration: underline;
     }
   }
@@ -62,7 +63,8 @@
       font-size: 1.4rem;
     }
 
-    &:hover {
+    &:hover,
+    &:focus{
       color: clr(secondary);
     }
   }
@@ -111,7 +113,8 @@
         min-width: 202px;
       }
 
-      &:hover {
+      &:hover,
+      &:focus {
         min-width: 202px;
       }
     }
@@ -141,7 +144,8 @@
     font-size: 1.4rem;
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: clr(secondary);
   }
 
