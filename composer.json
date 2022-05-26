@@ -56,7 +56,7 @@
         "drupal/datalayer": "^1.0@beta",
         "drupal/dimension": "^2.0",
         "drupal/editor_advanced_link": "^2.0",
-        "drupal/entity_embed": "^1.2",
+        "drupal/entity_embed": "^1.0",
         "drupal/entityqueue": "^1.2",
         "drupal/environment_indicator": "^4.0",
         "drupal/externalauth": "^2.0",
@@ -69,6 +69,7 @@
         "drupal/http_cache_control": "^2.0",
         "drupal/inline_entity_form": "^1.0@RC",
         "drupal/jquery_colorpicker": "^2.0",
+        "drupal/jquery_ui_accordion": "^1.1",
         "drupal/jsonapi_extras": "^3.20",
         "drupal/layout_builder_at": "^2.12",
         "drupal/layout_builder_lock": "^1.0",
@@ -119,7 +120,7 @@
         "drupal/translatable_menu_link_uri": "^2.0",
         "drupal/ultimate_cron": "^2.0@alpha",
         "drupal/username_enumeration_prevention": "^1.2",
-        "drupal/video_embed_field": "^2.4",
+        "drupal/video_embed_field": "^2.0",
         "drupal/views_infinite_scroll": "^1.6",
         "drupal/webform": "^6.1",
         "emulsify-ds/emulsify-drupal": "^3.0",
@@ -214,16 +215,6 @@
                 "Correct drush filtering": "https://www.drupal.org/files/issues/2021-01-04/config_ignore_2857247-61.patch",
                 "Config ignore collection": "https://www.drupal.org/files/issues/2020-11-04/config-ignore-collections-2973431-57.patch"
             },
-            "drupal/core": {
-                "2321071 - Base field overrides fix": "https://www.drupal.org/files/issues/2019-12-24/2321071-39.patch",
-                "2925297 - Fatal error on config form with translation enabled when config is missing": "https://www.drupal.org/files/issues/2019-09-26/core-typed_config_handle_missing_config-2925297-18.patch",
-                "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2020-02-07/2869592-remove-update-warning-34.patch",
-                "[subprofile support] 1356276 - Allow profiles to define a base/parent profile and load them in the correct order / 2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2021-11-18/1356276-675.patch"
-            },
-            "drupal/jquery_colorpicker": {
-                "Fixed jquery colorpicker security issue": "patches/Fixed-jquery-colorpicker-security-issue.patch",
-                "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch"
-            },
             "drupal/poll": {
                 "Make form actions unique": "https://www.drupal.org/files/issues/2019-04-16/poll-unique_id_actions-3048428-2.patch"
             },
@@ -243,6 +234,16 @@
             }
         },
         "patches-ignore": {
+            "drupal/core": {
+                "2321071 - Base field overrides fix": "https://www.drupal.org/files/issues/2019-12-24/2321071-39.patch",
+                "2925297 - Fatal error on config form with translation enabled when config is missing": "https://www.drupal.org/files/issues/2019-09-26/core-typed_config_handle_missing_config-2925297-18.patch",
+                "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2020-02-07/2869592-remove-update-warning-34.patch",
+                "[subprofile support] 1356276 - Allow profiles to define a base/parent profile and load them in the correct order / 2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2021-11-18/1356276-675.patch"
+            },
+            "drupal/jquery_colorpicker": {
+                "Fixed jquery colorpicker security issue": "patches/Fixed-jquery-colorpicker-security-issue.patch",
+                "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch"
+            },
             "drupal/lightning_core": {
                 "drupal/core": {
                     "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2869592-remove-update-warning-7.patch"
