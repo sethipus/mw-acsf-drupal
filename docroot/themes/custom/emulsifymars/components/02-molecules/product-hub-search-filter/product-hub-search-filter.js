@@ -1,4 +1,4 @@
-(function (Drupal, drupalSettings, $) {
+(function (Drupal, drupalSettings, jQuery) {
   Drupal.behaviors.searchFilterBehaviour = {
     attach(context) {
       $(document).ready(function(){
