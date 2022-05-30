@@ -913,7 +913,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     // Sort PDP variants if there more than one item.
     if (!empty($build['#pdp_size_data']) && count($build['#pdp_size_data']) >= 2) {
       usort($build['#pdp_size_data'], function ($a, $b) {
-        return intval($a['title']) > intval($b['title']);
+        return $a['title'] <=> $b['title'];
       });
     }
       $node_bundle = $node->bundle();
