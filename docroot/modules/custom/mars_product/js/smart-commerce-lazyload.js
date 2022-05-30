@@ -1,25 +1,24 @@
-(function($){
+/**
+ * Lazyload Smart Commerce Scripts On Search Click
+ */
+function _lazyLoadWhereToBuy() {
 
-    /**
-     * Lazyload Smart Commerce Scripts On Search Click
-     */
-    function _lazyLoadWhereToBuy() {
-
-        smartCommerceLoaded = true;
-        if(typeof SmartCart === "undefined")
-        {
-            $.getScript($('#smart-commerce-widget').attr('data-src')).done(() => {
-                $.getScript($('#smart-commerce-brand-js').attr('data-src'));
-                $.getStylesheet($('#smart-commerce-brand-css').attr('data-src'));
-            });
-            /**
-             * Load BazarVoice
-             */
-            $.getScript($('#bazaar-voice-scripts').attr('data-src'));
-        }
+    smartCommerceLoaded = true;
+    if(typeof SmartCart === "undefined")
+    {
+        $.getScript($('#smart-commerce-widget').attr('data-src')).done(() => {
+            $.getScript($('#smart-commerce-brand-js').attr('data-src'));
+            $.getStylesheet($('#smart-commerce-brand-css').attr('data-src'));
+        });
+        /**
+         * Load BazarVoice
+         */
+        $.getScript($('#bazaar-voice-scripts').attr('data-src'));
     }
-    let smartCommerceLoaded = false;
+}
+let smartCommerceLoaded = false;
 
+(function($){
 
     $.getStylesheet = function (href) {
         var $d = $.Deferred();
@@ -55,8 +54,8 @@
         }
     });
 
-    function isInView(elem){
-    return $(elem).length > 0 ? $(elem).offset().top - $(window).scrollTop() < $(elem).height() : false;
-    }
-
 })(jQuery);
+
+function isInView(elem){
+  return $(elem).length > 0 ? $(elem).offset().top - $(window).scrollTop() < $(elem).height() : false;
+}
