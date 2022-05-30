@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": ">=8.0",
         "ext-dom": "*",
         "ext-json": "*",
         "acquia/acsf-tools": "dev-9.x-dev",
@@ -128,8 +128,7 @@
         "mars/mars_lighthouse": "v0.0.2",
         "mars/mars_seo": "dev-master",
         "mikemadison13/blt-azure-pipelines": "dev-master",
-        "symfony/string": "^5.4",
-        "wikimedia/composer-merge-plugin": "^2.0"
+        "symfony/string": "^5.4"
     },
     "require-dev": {
         "behat/mink-selenium2-driver": "^1.6",
@@ -140,7 +139,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.4"
+            "php": "8.0"
         },
         "sort-packages": true,
         "allow-plugins": {
@@ -152,24 +151,11 @@
             "acquia/blt": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "oomphinc/composer-installers-extender": true,
-            "simplesamlphp/composer-module-installer": true,
-            "wikimedia/composer-merge-plugin": true
+            "simplesamlphp/composer-module-installer": true
         }
     },
     "extra": {
         "composer-exit-on-patch-failure": true,
-        "merge-plugin": {
-            "include": [
-                "composer.libraries.json"
-            ],
-            "recurse": true,
-            "replace": false,
-            "ignore-duplicates": false,
-            "merge-dev": true,
-            "merge-extra": false,
-            "merge-extra-deep": false,
-            "merge-scripts": false
-        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "./docroot"
