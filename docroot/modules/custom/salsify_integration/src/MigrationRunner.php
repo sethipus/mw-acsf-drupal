@@ -50,6 +50,7 @@ class MigrationRunner {
    * Run list of migrations.
    */
   protected function runMigrations(array $migrationIds) {
+    $this->truncateMigrateTables($migrationIds);
     asort($migrationIds);
     foreach ($migrationIds as $migrationId) {
       if ($this->migrationPluginManager->hasDefinition($migrationId)) {
@@ -65,6 +66,17 @@ class MigrationRunner {
         $executable = new MigrateExecutable($migration, new MigrateMessage());
         $executable->import();
       }
+    }
+  }
+
+  /**
+   * Truncate Migrate Tables before running migration import.
+   */
+  protected function truncateMigrateTables($migrationIds) {
+    $connection = \Drupal::database();
+    foreach ($migrationIds as $migrationId) {
+      $connection->truncate('migrate_map_' . $migrationId)->execute();
+      $connection->truncate('migrate_message_' . $migrationId)->execute();
     }
   }
 
