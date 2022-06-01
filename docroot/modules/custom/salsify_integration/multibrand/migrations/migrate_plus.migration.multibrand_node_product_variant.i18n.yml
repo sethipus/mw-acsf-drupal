@@ -876,7 +876,7 @@ process:
   field_product_variant_grp_image/target_id:
     plugin: migration_lookup
     migration:
-      - multibrand_product_variant_grp_image
+      - multibrand_product_variant_grp_image_i18n
     source: source_product_variant_grp_image
     no_stub: true
   field_product_key_image/target_id:

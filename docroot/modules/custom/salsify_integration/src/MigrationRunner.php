@@ -40,6 +40,9 @@ class MigrationRunner {
    * Run the migrations.
    */
   public function runProductMigration() {
+    // Reset migration status.
+    $this->truncateMigrateTables();
+
     $migrationIds = $this->configFactory->get('salsify_integration.migrate_settings')->get('migration_ids');
     if (is_array($migrationIds)) {
       $this->runMigrations($migrationIds);
@@ -50,7 +53,6 @@ class MigrationRunner {
    * Run list of migrations.
    */
   protected function runMigrations(array $migrationIds) {
-    $this->truncateMigrateTables($migrationIds);
     asort($migrationIds);
     foreach ($migrationIds as $migrationId) {
       if ($this->migrationPluginManager->hasDefinition($migrationId)) {
@@ -72,11 +74,16 @@ class MigrationRunner {
   /**
    * Truncate Migrate Tables before running migration import.
    */
-  protected function truncateMigrateTables($migrationIds) {
+  protected function truncateMigrateTables() {
+    $migrationIds = $this->migrationPluginManager->getDefinitions();
     $connection = \Drupal::database();
     foreach ($migrationIds as $migrationId) {
-      $connection->truncate('migrate_map_' . $migrationId)->execute();
-      $connection->truncate('migrate_message_' . $migrationId)->execute();
+      $table = 'migrate_map_' . $migrationId['id'];
+      $tableExists = $connection->schema()->tableExists($table);
+      if ($tableExists) {
+        $connection->truncate('migrate_map_' . $migrationId['id'])->execute();
+        $connection->truncate('migrate_message_' . $migrationId['id'])->execute();
+      }
     }
   }
 
