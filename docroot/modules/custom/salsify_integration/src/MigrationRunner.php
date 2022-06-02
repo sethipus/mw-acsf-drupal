@@ -40,9 +40,6 @@ class MigrationRunner {
    * Run the migrations.
    */
   public function runProductMigration() {
-    // Reset migration status.
-    $this->truncateMigrateTables();
-
     $migrationIds = $this->configFactory->get('salsify_integration.migrate_settings')->get('migration_ids');
     if (is_array($migrationIds)) {
       $this->runMigrations($migrationIds);
@@ -67,22 +64,6 @@ class MigrationRunner {
         // Run the migration.
         $executable = new MigrateExecutable($migration, new MigrateMessage());
         $executable->import();
-      }
-    }
-  }
-
-  /**
-   * Truncate Migrate Tables before running migration import.
-   */
-  protected function truncateMigrateTables() {
-    $migrationIds = $this->migrationPluginManager->getDefinitions();
-    $connection = \Drupal::database();
-    foreach ($migrationIds as $migrationId) {
-      $table = 'migrate_map_' . $migrationId['id'];
-      $tableExists = $connection->schema()->tableExists($table);
-      if ($tableExists) {
-        $connection->truncate('migrate_map_' . $migrationId['id'])->execute();
-        $connection->truncate('migrate_message_' . $migrationId['id'])->execute();
       }
     }
   }

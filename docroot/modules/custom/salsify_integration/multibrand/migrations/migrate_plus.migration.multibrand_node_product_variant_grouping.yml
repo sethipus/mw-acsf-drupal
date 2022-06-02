@@ -1,20 +1,21 @@
-id: multibrand_node_product_variant_i18n
-label: Product variants (multibrand - i18n)
+id: multibrand_node_product_variant_grouping
+label: Product variants (multibrand - grouping)
 migration_group: multibrand
 migration_tags:
   - Node
 migration_dependencies:
   optional:
-    - multibrand_node_product_variant
-    - multibrand_product_key_image_i18n
-    - multibrand_product_image_1_i18n
-    - multibrand_product_image_2_i18n
-    - multibrand_product_image_3_i18n
-    - multibrand_product_image_4_i18n
+    - multibrand_product_key_image
+    - multibrand_product_image_1
+    - multibrand_product_image_2
+    - multibrand_product_image_3
+    - multibrand_product_image_4
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
-  data_parser_plugin: salsify_json
+  data_parser_plugin: family_variant_json
+  family_field_check_empty: true
+  column: field_product_variant_grp_title
   item_selector: /
   track_changes: true
   constants:
@@ -482,13 +483,11 @@ source:
       selector: 'field_pdt_var_grp_primary/0'
 
   ids:
+    source_product_variant_grp_title:
+      type: string
     source_sku:
       type: string
 process:
-  nid:
-    plugin: migration_lookup
-    migration: multibrand_node_product_variant
-    source: source_sku
   title:
     plugin: skip_on_empty
     method: row
@@ -872,37 +871,37 @@ process:
   field_product_variant_grp_image/target_id:
     plugin: migration_lookup
     migration:
-      - multibrand_product_variant_grp_image_i18n
+      - multibrand_product_variant_grp_image
     source: source_product_variant_grp_image
     no_stub: true
   field_product_key_image/target_id:
     plugin: migration_lookup
     migration:
-      - multibrand_product_key_image_i18n
+      - multibrand_product_key_image
     source: source_key_image
     no_stub: true
   field_product_image_1/target_id:
     plugin: migration_lookup
     migration:
-      - multibrand_product_image_1_i18n
+      - multibrand_product_image_1
     source: source_product_image_1
     no_stub: true
   field_product_image_2/target_id:
     plugin: migration_lookup
     migration:
-      - multibrand_product_image_2_i18n
+      - multibrand_product_image_2
     source: source_product_image_2
     no_stub: true
   field_product_image_3/target_id:
     plugin: migration_lookup
     migration:
-      - multibrand_product_image_3_i18n
+      - multibrand_product_image_3
     source: source_product_image_3
     no_stub: true
   field_product_image_4/target_id:
     plugin: migration_lookup
     migration:
-      - multibrand_product_image_4_i18n
+      - multibrand_product_image_4
     source: source_product_image_4
     no_stub: true
   'field_product_allergen_warnings/value': source_allergen_warnings
@@ -957,4 +956,3 @@ process:
       '1': published
 destination:
   plugin: entity:node
-  translations: true
