@@ -21,7 +21,7 @@ class MarsValidateConstraint {
    */
   public static function validate(array &$element, FormStateInterface $formState, array &$form) {
     $webformKey = $element['#webform_key'];
-    $value = trim($element['#value']);
+    $value = $element['#value'];
 
     // Skip empty unique fields or arrays.
     if ($element['#required']  && (empty($value) || $value === '' || is_array($value))) {
