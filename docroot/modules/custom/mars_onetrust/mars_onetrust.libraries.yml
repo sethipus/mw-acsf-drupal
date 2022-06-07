@@ -1,5 +1,5 @@
 onetrust:
-  version: 1.x
+  version: VERSION
   header: true
   js:
     js/onetrust.js: {}
