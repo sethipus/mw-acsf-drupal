@@ -12,7 +12,7 @@ services:
       - ddev-router:mars.ddev.site
     environment:
       COLUMNS: '80'
-      DDEV_PHP_VERSION: '7.3'
+      DDEV_PHP_VERSION: '8.0'
       DDEV_PRIMARY_URL: https://mars.ddev.site:8443
       DDEV_PROJECT: mars
       DDEV_PROJECT_TYPE: drupal8

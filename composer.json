@@ -3,111 +3,118 @@
     "type": "project",
     "description": "Project template for Mars Experience Platform",
     "license": "proprietary",
+    "authors": [
+        {
+            "name": "Cognizant MARS Team",
+            "role": "maintainer"
+        },
+        {
+            "name": "Nicolas Cianca",
+            "email": "nicolas.cianca@effem.com"
+        }
+    ],
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "ext-dom": "*",
         "ext-json": "*",
         "acquia/acsf-tools": "dev-9.x-dev",
-        "acquia/blt": "12.7",
-        "acquia/blt-behat": "^1.1",
+        "acquia/blt": "^13.4",
+        "acquia/blt-behat": "^1.3",
         "acquia/blt-drupal-test": "^1.0",
-        "acquia/cohesion": "^6.6",
-        "acquia/cohesion-theme": "^6.6",
         "acquia/drupal-spec-tool": "^4.1",
-        "acquia/memcache-settings": "^1.0",
+        "acquia/memcache-settings": "^1.1",
         "ckeditor/colorbutton": "master",
         "ckeditor/panelbutton": "master",
         "composer/installers": "^1.9",
         "cweagans/composer-patches": "^1.7",
-        "drupal/acquia_connector": "^3",
-        "drupal/acquia_contenthub": "^2",
-        "drupal/acquia_lift": "^4.3",
-        "drupal/acquia_purge": "^1.1",
+        "drupal/acquia_connector": "^3.0",
+        "drupal/acquia_contenthub": "^2.32",
+        "drupal/acquia_lift": "^4.4",
+        "drupal/acquia_purge": "^1.2",
         "drupal/acquia_search": "^3.0",
-        "drupal/acsf": "^2.47.0",
-        "drupal/admin_toolbar": "^3.0",
-        "drupal/adminimal_admin_toolbar": "^1.10",
+        "drupal/acsf": "^2.72",
+        "drupal/admin_toolbar": "^3.1",
+        "drupal/adminimal_admin_toolbar": "^1.11",
         "drupal/advagg": "^4.1",
         "drupal/bootstrap_barrio": "^5.5",
         "drupal/brightcove": "^3.0",
-        "drupal/ckeditor_config": "^3.0",
+        "drupal/ckeditor_config": "^3.1",
         "drupal/ckeditor_font": "^1.2",
         "drupal/cloudflare": "^1.0@beta",
         "drupal/colorbutton": "^1.3",
         "drupal/computed_field": "^2.0",
-        "drupal/config_ignore": "^2.2",
+        "drupal/config_ignore": "^2.3",
         "drupal/config_split": "^1.0.0",
-        "drupal/core": "^9.2.4",
-        "drupal/core-composer-scaffold": "^9.2.5",
-        "drupal/core-project-message": "^9.2.5",
-        "drupal/core-recommended": "^9.2.5",
-        "drupal/core-vendor-hardening": "^9.2.5",
-        "drupal/csp": "^1.13",
+        "drupal/core": "^9.3",
+        "drupal/core-composer-scaffold": "^9.3",
+        "drupal/core-project-message": "^9.3",
+        "drupal/core-recommended": "^9.3",
+        "drupal/core-vendor-hardening": "^9.3",
+        "drupal/csp": "^1.16",
         "drupal/datalayer": "^1.0@beta",
         "drupal/dimension": "^2.0",
         "drupal/editor_advanced_link": "^2.0",
         "drupal/entity_embed": "^1.0",
-        "drupal/entityqueue": "^1.1",
+        "drupal/entityqueue": "^1.2",
         "drupal/environment_indicator": "^4.0",
         "drupal/externalauth": "^1.3",
         "drupal/facets": "^2.0",
-        "drupal/fast_404": "dev-2.x#5382a99335ee466f8261dc1774a3d56f1699da81",
-        "drupal/field_group": "^3.1",
+        "drupal/fast_404": "^2.0@alpha",
+        "drupal/field_group": "^3.2",
         "drupal/filelog": "^2.0",
         "drupal/google_analytics": "^3.1",
-        "drupal/gtm": "^1.6",
+        "drupal/gtm": "^1.7",
         "drupal/http_cache_control": "^2.0",
         "drupal/inline_entity_form": "^1.0@RC",
         "drupal/jquery_colorpicker": "^2.0",
+        "drupal/jquery_ui_accordion": "^1.1",
         "drupal/jsonapi_extras": "^3.20",
         "drupal/layout_builder_at": "^2.12",
         "drupal/layout_builder_lock": "^1.0",
         "drupal/layout_builder_modal": "^1.1",
         "drupal/layout_builder_operation_link": "^1.0",
         "drupal/libraries": "^3.0@beta",
-        "drupal/lightning_api": "^4.6",
-        "drupal/lightning_core": "^5.8",
-        "drupal/lightning_layout": "^2.10",
+        "drupal/lightning_api": "^4.8",
+        "drupal/lightning_core": "^5.10",
+        "drupal/lightning_layout": "^2.11",
         "drupal/lightning_media": "^4.6",
-        "drupal/lightning_workflow": "^3.16",
+        "drupal/lightning_workflow": "^3.17",
         "drupal/maxlength": "^1.0@RC",
         "drupal/media_entity_image": "^1.3",
-        "drupal/menu_item_extras": "^2.11",
-        "drupal/menu_link_attributes": "^1.1",
-        "drupal/migrate_file": "^2.0",
-        "drupal/migrate_plus": "^5.1",
-        "drupal/migrate_source_csv": "^3.4",
+        "drupal/menu_item_extras": "^2.16",
+        "drupal/menu_link_attributes": "^1.2",
+        "drupal/migrate_file": "^2.1",
+        "drupal/migrate_plus": "^5.2",
+        "drupal/migrate_source_csv": "^3.5",
         "drupal/migrate_tools": "^5.0",
         "drupal/migration_tools": "^2.2",
         "drupal/page_manager": "^4.0-beta6",
         "drupal/panelizer": "^5.0-beta3",
         "drupal/path_file": "^1.1",
-        "drupal/pendo": "^1@alpha",
-        "drupal/poll": "^1.4",
-        "drupal/printable": "2.0.1",
+        "drupal/poll": "^1.5",
+        "drupal/printable": "^2.1",
         "drupal/profile_split_enable": "^2.0",
         "drupal/profile_switcher": "^1.0-alpha5",
         "drupal/publication_date": "^2.0@beta",
         "drupal/qa_accounts": "^1.0@beta",
         "drupal/rabbit_hole": "^1.0@beta",
         "drupal/recaptcha": "^3.0",
-        "drupal/redirect": "^1.6",
+        "drupal/redirect": "^1.7",
         "drupal/remote_stream_wrapper": "^2.0",
         "drupal/remote_stream_wrapper_widget": "^1.2",
         "drupal/robotstxt": "^1.4",
         "drupal/samlauth": "3.2",
-        "drupal/search_api": "1.17",
+        "drupal/search_api": "^1.23",
         "drupal/search_api_exclude_entity": "^1.3",
-        "drupal/search_api_solr": "4.2",
+        "drupal/search_api_solr": "^4.2",
         "drupal/seckit": "^2.0",
         "drupal/sendgrid_integration": "^1.7",
-        "drupal/shield": "^1.2.0",
-        "drupal/simple_sitemap": "^3.7",
-        "drupal/simplesamlphp_auth": "^3.2",
-        "drupal/social_media": "^1.8",
-        "drupal/swiftmailer": "^2.0",
+        "drupal/shield": "^1.6.0",
+        "drupal/simple_sitemap": "^3.11",
+        "drupal/social_media": "^1.9",
+        "drupal/swiftmailer": "^2.2",
         "drupal/tmgmt_extension_suit": "~3.4",
-        "drupal/tmgmt_smartling": "^4.12",
+        "drupal/tmgmt_smartling": "^5.2",
         "drupal/translatable_menu_link_uri": "^2.0",
         "drupal/ultimate_cron": "^2.0@alpha",
         "drupal/username_enumeration_prevention": "^1.2",
@@ -115,24 +122,35 @@
         "drupal/views_infinite_scroll": "^1.6",
         "drupal/webform": "^6.1",
         "emulsify-ds/emulsify-drupal": "^3.0",
-        "mars/brand_drupal_chats": "1.0.6",
+        "mars/brand_drupal_chats": "^1.0",
         "mars/mars_lighthouse": "v0.0.2",
-        "mars/mars_seo": "*",
+        "mars/mars_seo": "dev-master",
         "mikemadison13/blt-azure-pipelines": "dev-master",
-        "symfony/string": "^5.1"
+        "symfony/string": "^5.4"
     },
     "require-dev": {
-        "behat/mink-selenium2-driver": "^1.4",
-        "drupal/core-dev": "^9.2",
+        "behat/mink-selenium2-driver": "^1.6",
+        "drupal/core-dev": "^9.3",
         "mikey179/vfsstream": "^1.6",
         "phpspec/prophecy-phpunit": "^2",
         "symfony/phpunit-bridge": "^5.3"
     },
     "config": {
         "platform": {
-            "php": "7.4"
+            "php": "8.0"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "drupal/core-vendor-hardening": true,
+            "acquia/blt": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "oomphinc/composer-installers-extender": true,
+            "simplesamlphp/composer-module-installer": true
+        }
     },
     "extra": {
         "composer-exit-on-patch-failure": true,
@@ -191,46 +209,26 @@
             "drupal/core": "-p2"
         },
         "patches": {
-            "drupal/config_ignore": {
-                "Correct drush filtering": "https://www.drupal.org/files/issues/2021-01-04/config_ignore_2857247-61.patch",
-                "Config ignore collection": "https://www.drupal.org/files/issues/2020-11-04/config-ignore-collections-2973431-57.patch"
-            },
             "drupal/core": {
                 "2321071 - Base field overrides fix": "https://www.drupal.org/files/issues/2019-12-24/2321071-39.patch",
                 "2925297 - Fatal error on config form with translation enabled when config is missing": "https://www.drupal.org/files/issues/2019-09-26/core-typed_config_handle_missing_config-2925297-18.patch",
                 "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2020-02-07/2869592-remove-update-warning-34.patch",
                 "[subprofile support] 1356276 - Allow profiles to define a base/parent profile and load them in the correct order / 2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2021-11-18/1356276-675.patch"
             },
-            "drupal/jquery_colorpicker": {
-                "Fixed jquery colorpicker security issue": "patches/Fixed-jquery-colorpicker-security-issue.patch",
-                "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch"
-            },
-            "drupal/poll": {
-                "Make form actions unique": "https://www.drupal.org/files/issues/2019-04-16/poll-unique_id_actions-3048428-2.patch"
+            "drupal/config_ignore": {
+                "Correct drush filtering": "https://www.drupal.org/files/issues/2021-01-04/config_ignore_2857247-61.patch",
+                "Config ignore collection": "https://www.drupal.org/files/issues/2020-11-04/config-ignore-collections-2973431-57.patch"
             },
             "drupal/tmgmt": {
                 "The job has no provider assigned": "https://www.drupal.org/files/issues/2020-10-30/tmgmt-2690201-19.patch",
                 "Source list limit setting": "https://www.drupal.org/files/issues/2020-11-11/tmgmt-settings-limit.patch"
             },
-            "drupal/tmgmt_smartling": {
-                "The job has no provider assigned": "https://www.drupal.org/files/issues/2020-11-06/tmgmt-smartling-the-job-has-no-provider-assigned.patch"
+            "drupal/jquery_colorpicker": {
+                "Fixed jquery colorpicker security issue": "patches/Fixed-jquery-colorpicker-security-issue.patch",
+                "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch"
             },
             "drupal/field_group": {
                 "Ensure visibility of invalid fields (JS) https://www.drupal.org/project/field_group/issues/2787179": "https://www.drupal.org/files/issues/2020-05-19/2787179-highlight-html5-validation-52.patch"
-            },
-            "drupal/maxlength": {
-                "Extra, unconnected max length counter with an id of undefined-counter": "https://www.drupal.org/files/issues/2020-07-27/3076581-9.patch",
-                "Max length in lines (in textarea field)": "https://www.drupal.org/files/issues/2021-04-13/maxlength-max-length-in-lines-in-textarea-field-2463193-4.patch"
-            },
-            "drupal/printable": {
-                "Printable_pdf submodule not compatible with Drupal 9": "patches/fix-url-scheme-for-printable-pdf.patch"
-            }
-        },
-        "patches-ignore": {
-            "drupal/lightning_core": {
-                "drupal/core": {
-                    "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2869592-remove-update-warning-7.patch"
-                }
             }
         }
     },
@@ -334,7 +332,23 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "scripts-descriptions": {
+        "mw:acsf:validate": "Validates php, twig and yaml.",
+        "mw:acsf:blt:validate": "BLT deploy validation.",
+        "mw:fossa": "Run a FOSSA scan."
+    },
     "scripts": {
+        "mw:acsf:validate": [
+            "blt validate:php --ansi",
+            "blt validate:twig --ansi",
+            "blt validate:yaml --ansi"
+        ],
+        "mw:acsf:blt:validate": [
+            "vendor/bin/blt validate --define drush.alias='$(drush.aliases.ci)' --ansi --verbose"
+        ],
+        "mw:fossa": [
+            "FOSSA_API_KEY=028db647245bf9493f174c2261bd9736 fossa analyze"
+        ],
         "post-create-project-cmd": [
             "blt internal:create-project:init-repo"
         ],
