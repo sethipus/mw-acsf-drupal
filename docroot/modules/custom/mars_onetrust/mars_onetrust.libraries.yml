@@ -6,3 +6,4 @@ onetrust:
     js/onetrust-lazyload.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
