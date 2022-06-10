@@ -27,7 +27,7 @@
   }
 
   &:hover,
-  &:focus {
+  &:focus-visible{
     color: clr(secondary);
   }
 
@@ -48,7 +48,7 @@
     @include cta-background-animation(clr(subcolor-3), clr(secondary));
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: clr(subcolor-3);
     }
   }
