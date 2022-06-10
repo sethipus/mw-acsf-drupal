@@ -31,7 +31,7 @@
           <dd {{ bem('heading-item', [], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_per_container.value}}</dd>
         </dl>
         {% endif %}
-        {% if pdp_nutrition_data.serving_item.dual_servings_per_container.label %}        
+        {% if not pdp_common_nutrition_data.hide_dual_servings_per_label and pdp_nutrition_data.serving_item.dual_servings_per_container.label %}
         <dl {{ bem('heading-list', [], pdp_nutrition_base_class) }}>
           <dt {{ bem('heading-item', ['label'], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.dual_servings_per_container.label}}</dt>
           <dd {{ bem('heading-item', [], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.dual_servings_per_container.value}}</dd>
