@@ -14,6 +14,7 @@ use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
+use Drupal\file\FileRepositoryInterface;
 
 /**
  * Class SalsifyImportMedia.
@@ -56,6 +57,13 @@ class SalsifyImportMedia extends SalsifyImport {
   private $fileSystem;
 
   /**
+   * The File repository service.
+   *
+   * @var Drupal\file\FileRepositoryInterface
+   */
+  private $fileRepository;
+
+  /**
    * SalsifyImportField constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -72,6 +80,8 @@ class SalsifyImportMedia extends SalsifyImport {
    *   The token service.
    * @param \Drupal\Core\File\FileSystemInterface $file_system
    *   The File system service.
+   * @param \Drupal\Core\File\FileRepositoryInterface $file_repository
+   *   The File system repository service.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
@@ -80,17 +90,20 @@ class SalsifyImportMedia extends SalsifyImport {
     Salsify $salsify,
     ModuleHandlerInterface $module_handler,
     Token $token,
-    FileSystemInterface $file_system
+    FileSystemInterface $file_system,
+    FileRepositoryInterface $file_repository
   ) {
     parent::__construct(
       $config_factory,
       $entity_type_manager,
       $cache_salsify,
       $salsify,
-      $module_handler
+      $module_handler,
+      $file_repository
     );
     $this->token = $token;
     $this->fileSystem = $file_system;
+    $this->fileRepository = $file_repository;
   }
 
   /**
@@ -465,7 +478,7 @@ class SalsifyImportMedia extends SalsifyImport {
       $uri,
       FileSystemInterface::CREATE_DIRECTORY
     );
-    return file_move($file, $uri, FileSystemInterface::EXISTS_RENAME);
+    return $this->fileRepository->move($file, $uri, FileSystemInterface::EXISTS_RENAME);
   }
 
 }

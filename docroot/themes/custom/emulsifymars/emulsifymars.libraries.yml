@@ -270,4 +270,3 @@ homepage-herobanner-text:
   dependencies:
     - core/drupal
     - core/jquery
-

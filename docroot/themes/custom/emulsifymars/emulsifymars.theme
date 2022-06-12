@@ -403,9 +403,15 @@ function emulsifymars_page_attachments_alter(array &$attachments) {
  * Implements hook_css_alter().
  */
 function emulsifymars_css_alter(&$css) {
-  $unused_css_path = ['core/assets/vendor/jquery.ui/themes/base/theme.css', 'core/assets/vendor/jquery.ui/themes/base/core.css', 'core/assets/vendor/jquery.ui/themes/base/menu.css', 'modules/contrib/printable/css/entity-links.css', 'core/assets/vendor/jquery.ui/themes/base/autocomplete.css'];
+  $unused_css_path = [
+    'core/assets/vendor/jquery.ui/themes/base/theme.css',
+    'core/assets/vendor/jquery.ui/themes/base/core.css',
+    'core/assets/vendor/jquery.ui/themes/base/menu.css',
+    'modules/contrib/printable/css/entity-links.css',
+    'core/assets/vendor/jquery.ui/themes/base/autocomplete.css',
+  ];
   if (\Drupal::service('path.matcher')->isFrontPage()) {
-    foreach ($unused_css_path as $key => $unused_css) {
+    foreach ($unused_css_path as $unused_css) {
       unset($css[$unused_css]);
     }
   }

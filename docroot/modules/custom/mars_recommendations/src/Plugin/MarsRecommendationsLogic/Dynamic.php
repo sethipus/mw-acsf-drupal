@@ -2,8 +2,11 @@
 
 namespace Drupal\mars_recommendations\Plugin\MarsRecommendationsLogic;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_recommendations\DynamicRecommendationsStrategyPluginManager;
 use Drupal\mars_recommendations\RecommendationsLogicPluginBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Dynamic Recommendations Population Logic plugin.
@@ -33,20 +36,50 @@ class Dynamic extends RecommendationsLogicPluginBase {
   }
 
   /**
+   * Custom service dynamic recommendations strategy.
+   *
+   * @var Drupal\mars_recommendations\DynamicRecommendationsStrategyPluginManager
+   */
+  protected $strategyPluginManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('plugin.manager.dynamic_recommendations_strategy'),
+      $container->get('entity_type.manager')
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(array $configuration,
+  $plugin_id,
+  $plugin_definition,
+  DynamicRecommendationsStrategyPluginManager $strategy_plugin_manager,
+    EntityTypeManagerInterface $entity_type_manager) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager);
+
+    $this->strategyPluginManager = $strategy_plugin_manager;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getRecommendations() {
-    /** @var \Drupal\mars_recommendations\DynamicRecommendationsStrategyPluginManager $plugin_manager */
-    $plugin_manager = \Drupal::service('plugin.manager.dynamic_recommendations_strategy');
-
     /** @var \Drupal\node\Entity\Node $node */
     $node = $this->getContextValue('node');
 
     // @todo Replace "default" with config value.
-    $plugin_id = $node->getType() && $plugin_manager->hasDefinition($node->getType()) ? $node->getType() : 'default';
+    $plugin_id = $node->getType() && $this->strategyPluginManager->hasDefinition($node->getType()) ? $node->getType() : 'default';
 
     /** @var \Drupal\mars_recommendations\DynamicRecommendationsStrategyInterface $plugin */
-    $plugin = $plugin_manager->createInstance($plugin_id, ['limit' => $this->getResultsLimit()]);
+    $plugin = $this->strategyPluginManager->createInstance($plugin_id, ['limit' => $this->getResultsLimit()]);
     $plugin->setContext('node', $this->getContext('node'));
 
     return $plugin->generate();
