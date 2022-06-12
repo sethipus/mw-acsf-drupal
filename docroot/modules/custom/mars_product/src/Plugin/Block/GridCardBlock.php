@@ -20,7 +20,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface {
-
   /**
    * Entity storage.
    *
@@ -36,6 +35,13 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
   private $languageHelper;
 
   /**
+   * Config Factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -43,27 +49,29 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
     $entity_storage = $entity_type_manager->getStorage('node');
 
     return new self(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('mars_common.language_helper'),
-      $entity_storage
-    );
+          $configuration,
+          $plugin_id,
+          $plugin_definition,
+          $container->get('mars_common.language_helper'),
+          $entity_storage,
+          $container->get('config.factory')
+      );
   }
 
   /**
    * {@inheritdoc}
    */
   public function __construct(
-    array $configuration,
-    $plugin_id,
-    $plugin_definition,
-    LanguageHelper $language_helper,
-    EntityStorageInterface $entity_storage
-  ) {
+        array $configuration,
+        $plugin_id,
+        $plugin_definition,
+        LanguageHelper $language_helper,
+        EntityStorageInterface $entity_storage
+    ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityStorage = $entity_storage;
     $this->languageHelper = $language_helper;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -78,11 +86,13 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
 
     $myView->setDisplay($conf['display']);
     $myView->preExecute();
-    $myView->setArguments([
-      $this->languageHelper->translate($conf['title']) ?? '',
-      $conf['with_brand_borders'] ?? NULL,
-      $conf['overlaps_previous'] ?? NULL,
-    ]);
+    $myView->setArguments(
+          [
+            $this->languageHelper->translate($conf['title']) ?? '',
+            $conf['with_brand_borders'] ?? NULL,
+            $conf['overlaps_previous'] ?? NULL,
+          ]
+      );
 
     return $myView->render($conf['display']);
   }
@@ -106,7 +116,7 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
   public function buildConfigurationForm(array $form, FormStateInterface $form_state): array {
     $conf = $this->getConfiguration();
     $form = parent::buildConfigurationForm($form, $form_state);
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->get('mars_common.character_limit_page');
 
     $form['view'] = [
       '#title' => $this->t('View'),

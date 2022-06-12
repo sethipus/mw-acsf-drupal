@@ -916,7 +916,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         return $a['title'] <=> $b['title'];
       });
     }
-      $node_bundle = $node->bundle();
+    $node_bundle = $node->bundle();
     $build['#pdp_bundle_type'] = $node_bundle;
     switch ($node_bundle) {
       case 'product_multipack':

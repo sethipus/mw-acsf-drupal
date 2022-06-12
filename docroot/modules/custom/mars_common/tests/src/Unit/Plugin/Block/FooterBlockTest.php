@@ -15,6 +15,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorService;
+use Drupal\Core\File\FileUrlGenerator;
 
 /**
  * Class FooterBlockTest is responsible for footer component logic.
@@ -117,6 +118,13 @@ class FooterBlockTest extends UnitTestCase {
   private $immutableConfigMock;
 
   /**
+   * File url generator service.
+   *
+   * @var Drupal\Core\File\FileUrlGenerator|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $fileUrlGenerator;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -168,7 +176,8 @@ class FooterBlockTest extends UnitTestCase {
       $this->languageHelperMock,
       $this->themeConfiguratorParserMock,
       $this->menuBuilderMock,
-      $this->configFactoryMock
+      $this->configFactoryMock,
+      $this->fileUrlGenerator
     );
   }
 
@@ -189,6 +198,7 @@ class FooterBlockTest extends UnitTestCase {
       ->setMethods(['loadTree'])
       ->getMock();
     $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
+    $this->fileUrlGenerator = $this->createMock(FileUrlGenerator::class);
   }
 
   /**
@@ -196,7 +206,7 @@ class FooterBlockTest extends UnitTestCase {
    */
   public function testBlockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(6))
+      ->expects($this->exactly(7))
       ->method('get')
       ->withConsecutive(
         [$this->equalTo('mars_common.theme_configurator_service')],
@@ -204,7 +214,8 @@ class FooterBlockTest extends UnitTestCase {
         [$this->equalTo('mars_common.language_helper')],
         [$this->equalTo('mars_common.theme_configurator_parser')],
         [$this->equalTo('mars_common.menu_builder')],
-        [$this->equalTo('config.factory')]
+        [$this->equalTo('config.factory')],
+        [$this->equalTo('file_url_generator')]
       )
       ->will($this->onConsecutiveCalls(
         $this->themeConfiguratorServiceMock,
@@ -212,7 +223,8 @@ class FooterBlockTest extends UnitTestCase {
         $this->languageHelperMock,
         $this->themeConfiguratorParserMock,
         $this->menuBuilderMock,
-        $this->configFactoryMock
+        $this->configFactoryMock,
+        $this->fileUrlGenerator
       ));
 
     $this->entityTypeManagerMock

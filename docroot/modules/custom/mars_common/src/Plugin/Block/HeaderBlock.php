@@ -23,6 +23,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\Config;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Provides a Header block.
@@ -41,7 +42,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    *
    * @var \Drupal\Core\Config\Config
    */
-  protected $config_color;
+  protected $configColor;
 
   /**
    * Drupal\Core\Routing\CurrentRouteMatch definition.
@@ -107,6 +108,13 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   private $labelConfig;
 
   /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * Minimum count of languages.
    */
   const MINIMUM_LANGUAGES = 1;
@@ -127,7 +135,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     LanguageHelper $language_helper,
     RendererInterface $renderer,
     ThemeConfiguratorParser $theme_configurator_parser,
-    ImmutableConfig $label_config
+    ImmutableConfig $label_config,
+    ConfigFactoryInterface $character_limit
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->configColor = $config_color;
@@ -140,6 +149,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $this->renderer = $renderer;
     $this->themeConfiguratorParser = $theme_configurator_parser;
     $this->labelConfig = $label_config;
+    $this->character_limit = $character_limit;
   }
 
   /**
@@ -149,6 +159,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     /** @var \Drupal\Core\Config\ConfigFactoryInterface $config_factory */
     $config_factory = $container->get('config.factory');
     $label_config = $config_factory->get('mars_common.site_labels');
+    $character_limit = $container->get('config.factory');
     return new static(
       $configuration,
       $plugin_id,
@@ -162,7 +173,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $container->get('mars_common.language_helper'),
       $container->get('renderer'),
       $container->get('mars_common.theme_configurator_parser'),
-      $label_config
+      $label_config,
+      $character_limit
     );
   }
 
@@ -172,7 +184,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->character_limit->get('mars_common.character_limit_page');
 
     $options = $this->getMenus();
     $form['primary_menu'] = [

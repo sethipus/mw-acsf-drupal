@@ -13,6 +13,7 @@ use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Class RecipeFeatureBlock - recipe feature component logic.
@@ -29,7 +30,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
  * @package Drupal\mars_recipes\Plugin\Block
  */
 class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
-
   use EntityBrowserFormTrait;
   use OverrideThemeTextColorTrait;
 
@@ -112,17 +112,25 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
   private $languageHelper;
 
   /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
-    array $configuration,
-    $plugin_id,
-    $plugin_definition,
-    EntityTypeManagerInterface $entity_type_manager,
-    ThemeConfiguratorParser $themeConfiguratorParser,
-    LanguageHelper $language_helper,
-    MediaHelper $media_helper
-  ) {
+        array $configuration,
+        $plugin_id,
+        $plugin_definition,
+        EntityTypeManagerInterface $entity_type_manager,
+        ThemeConfiguratorParser $themeConfiguratorParser,
+        LanguageHelper $language_helper,
+        MediaHelper $media_helper,
+        ConfigFactoryInterface $config_factory
+    ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->nodeStorage = $entity_type_manager->getStorage('node');
@@ -130,6 +138,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -137,14 +146,15 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('entity_type.manager'),
-      $container->get('mars_common.theme_configurator_parser'),
-      $container->get('mars_common.language_helper'),
-      $container->get('mars_media.media_helper')
-    );
+          $configuration,
+          $plugin_id,
+          $plugin_definition,
+          $container->get('entity_type.manager'),
+          $container->get('mars_common.theme_configurator_parser'),
+          $container->get('mars_common.language_helper'),
+          $container->get('mars_media.media_helper'),
+          $container->get('config.factory')
+      );
   }
 
   /**
@@ -158,10 +168,9 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       return [];
     }
 
-    if (
-      !empty($config['recipe_media_image']) && $config['recipe_options'] == self::KEY_OPTION_IMAGE ||
-      !empty($config['recipe_media_video']) && $config['recipe_options'] == self::KEY_OPTION_VIDEO
-    ) {
+    if (!empty($config['recipe_media_image']) && $config['recipe_options'] == self::KEY_OPTION_IMAGE
+          || !empty($config['recipe_media_video']) && $config['recipe_options'] == self::KEY_OPTION_VIDEO
+      ) {
       if ($config['recipe_options'] == self::KEY_OPTION_IMAGE) {
         $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($this->configuration['recipe_media_image']);
       }
@@ -275,7 +284,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->get('mars_common.character_limit_page');
 
     $form['block_title'] = [
       '#type' => 'textfield',
@@ -320,11 +329,16 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
 
     $image_default = $config['recipe_media_image'] ?? NULL;
     // Entity Browser element for background image.
-    $form['recipe_media_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
-      $image_default, $form_state, 1, 'thumbnail', function ($form_state) {
-        return $form_state->getValue(['settings', 'recipe_options']) === self::KEY_OPTION_IMAGE;
-      }
-    );
+    $form['recipe_media_image'] = $this->getEntityBrowserForm(
+          self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+          $image_default,
+          $form_state,
+          1,
+          'thumbnail',
+          function ($form_state) {
+              return $form_state->getValue(['settings', 'recipe_options']) === self::KEY_OPTION_IMAGE;
+          }
+      );
     // Convert the wrapping container to a details element.
     $form['recipe_media_image']['#type'] = 'details';
     $form['recipe_media_image']['#title'] = $this->t('Image');
@@ -337,11 +351,16 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
 
     $video_default = $config['recipe_media_video'] ?? NULL;
     // Entity Browser element for video.
-    $form['recipe_media_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
-      $video_default, $form_state, 1, 'default', function ($form_state) {
-        return $form_state->getValue(['settings', 'recipe_options']) === self::KEY_OPTION_VIDEO;
-      }
-    );
+    $form['recipe_media_video'] = $this->getEntityBrowserForm(
+          self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
+          $video_default,
+          $form_state,
+          1,
+          'default',
+          function ($form_state) {
+              return $form_state->getValue(['settings', 'recipe_options']) === self::KEY_OPTION_VIDEO;
+          }
+      );
     // Convert the wrapping container to a details element.
     $form['recipe_media_video']['#type'] = 'details';
     $form['recipe_media_video']['#title'] = $this->t('Video');

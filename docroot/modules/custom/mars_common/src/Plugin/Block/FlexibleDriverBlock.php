@@ -12,6 +12,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Flexible driver block.
@@ -54,6 +55,13 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
   private $themeConfigurator;
 
   /**
+   * Configuration Factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(
@@ -70,7 +78,8 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
       $plugin_definition,
       $media_helper,
       $container->get('mars_common.language_helper'),
-      $theme_configurator
+      $theme_configurator,
+      $container->get('config.factory')
     );
   }
 
@@ -83,12 +92,14 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $plugin_definition,
     MediaHelper $media_helper,
     LanguageHelper $language_helper,
-    ThemeConfiguratorParser $themeConfigurator
+    ThemeConfiguratorParser $themeConfigurator,
+    ConfigFactoryInterface $config_factory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaHelper = $media_helper;
     $this->languageHelper = $language_helper;
     $this->themeConfigurator = $themeConfigurator;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -119,7 +130,7 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->get('mars_common.character_limit_page');
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),

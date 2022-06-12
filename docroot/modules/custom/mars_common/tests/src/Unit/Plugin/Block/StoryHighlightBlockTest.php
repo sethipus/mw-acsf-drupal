@@ -14,6 +14,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\media\Entity\Media;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Class StoryHighlightBlockTest - unit tests.
@@ -119,6 +120,13 @@ class StoryHighlightBlockTest extends UnitTestCase {
   private $languageHelperMock;
 
   /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -133,6 +141,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
     $container->set('mars_media.media_helper', $this->mediaHelperMock);
     $container->set('mars_common.theme_configurator_parser', $this->themeConfigurationParserMock);
     $container->set('mars_common.language_helper', $this->languageHelperMock);
+    $container->set('config.factory', $this->configFactoryMock);
     \Drupal::setContainer($container);
 
     $this->defaultDefinitions = [
@@ -394,6 +403,8 @@ class StoryHighlightBlockTest extends UnitTestCase {
       ->willReturnCallback(function ($id) {
         return $this->internalMediaStorage[$id];
       });
+
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
 
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this
