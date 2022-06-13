@@ -1681,6 +1681,7 @@ function mars_common_node_presave(NodeInterface $node) {
  * Implements hook_page_attachments().
  */
 function mars_common_page_attachments(&$page) {
+   $page['#attached']['library'][] = 'mars_common/mars_common.focal_point';
   $current_route = Drupal::routeMatch();
   $route_name = $current_route->getRouteName();
   $supported_routes = [

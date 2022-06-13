@@ -14,10 +14,20 @@
         {% set first_image = breakpoint %}
       {% endif %}
       {% set media_string = "(max-width:" ~ breakpoint ~ "px)" %}
+        {% if breakpoint == '375' %}
+          {% set focal_value = focal_point_mobile %}
+        {% endif %}
+        {% if breakpoint == '560' %}
+          {% set focal_value = focal_point_mobile %}
+        {% endif %}
+        {% if breakpoint == '768' %}
+          {% set focal_value = focal_point_tablet %}
+        {% endif %}
       {% if loop.last %}
         {% set media_string = "(min-width:769px)" %}
+        {% set focal_value = focal_point_desktop %}
       {% endif %}
-      <source media={{media_string}} srcset="{{image}}">
+      <source media={{media_string}} {{focal_value}} srcset="{{image}} ">
     {% endfor %}
   {% endif %}
 
