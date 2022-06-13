@@ -1,0 +1,94 @@
+{{ attach_library('emulsifymars/media-carousel') }}
+{% set fullwidth_base_class = fullwidth_base_class|default('carousel') %}
+
+<section {{ bem(fullwidth_base_class, ['fullwidth']) }} data-theme="{{ theme_styles }}" id="fullwidth-carousel">
+  <div {{ bem('heading', [], fullwidth_base_class) }}>
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading_level: 1,
+      heading_base_class: 'carousel__heading',
+      heading_modifiers: ['main-heading'],
+      heading: heading
+    } %}
+  </div>
+
+  <div class="swiper-container carousel-container">
+    <div class="swiper-wrapper">
+      {% for item in items %}
+        {% set swiper_class = item.use_dark_overlay ? "swiper-slide dark-overlay" : "swiper-slide" %}
+        <div class="{{ swiper_class }}"
+          {% if item.content and item.video %}
+            data-component-title="{{ item.content }}"
+          {% endif %}
+        >
+          {% if item.image %}
+            {% set images = {
+              1440: item.src|resize(1128, 666),
+              1024: item.src|resize(1024,550),
+              768: item.src|resize(768, 434),
+              375: item.src|resize(375, 250),
+            } %}
+            <div {{ bem('aspect-ratio-wrapper', ['16-9']) }}>
+              {% include "@molecules/media-carousel-fullwidth/fullwidth-carousel-image/fullwidth-carousel-image.twig"  with {
+                image_src: item.src|resize(1128, 666),
+                image_eyebrow: item.eyebrow,
+                image_title_label: item.title_label,
+                image_title_url: item.title_url,
+                image_cta_url: item.cta_url,
+                image_cta_title: item.cta_title,
+                image_description: item.content,
+                image_base_class: base_class,
+                image_modifiers: image_modifiers,
+                image_blockname: image_blockname,
+                image_array: images,
+                image_alt: item.alt,
+                image_title: item.title,
+                text_alignment: item.text_alignment,
+                block_type: item.block_type,
+                styles: item.styles,
+                graphic_divider: item.graphic_divider,
+              } %}
+            </div> 
+          {% elseif item.video %}
+            {% include "@molecules/media-carousel-fullwidth/fullwidth-carousel-video/fullwidth-carousel-video.twig"  with {
+              video__src__url: item.src,
+              video__control: item.control,
+              video_eyebrow: item.eyebrow,
+              video_title_label: item.title_label,
+              video_title_url: item.title_url,
+              video_cta_url: item.cta_url,
+              video_cta_title: item.cta_title,
+              video_description: item.content,
+              hide_volume: item.hide_volume,
+              text_alignment: item.text_alignment,
+              block_type: item.block_type,
+              styles: item.styles,
+              graphic_divider: item.graphic_divider,
+              stop_autoplay: item.stop_autoplay,
+            } %}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-button-prev">
+      {% include "@atoms/images/icons/_icon.twig" with {
+        icon_base_class: "icon",
+        icon_blockname: "swiper-button-prev",
+        icon_name: "carousel_arrow_prev",
+        icon_decorative: true,
+      } %}
+    </div>
+    <div class="swiper-button-next">
+      {% include "@atoms/images/icons/_icon.twig" with {
+        icon_base_class: "icon",
+        icon_blockname: "swiper-button-next",
+        icon_name: "carousel_arrow_next",
+        icon_decorative: true,
+      } %}
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+  <div {{ bem('content', [], fullwidth_base_class) }}>
+    <div class="swiper-container carousel-description-container">
+    </div>
+  </div>
+</section>  
