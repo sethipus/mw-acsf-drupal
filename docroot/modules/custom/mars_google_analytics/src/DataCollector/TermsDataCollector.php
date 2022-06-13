@@ -16,7 +16,7 @@ class TermsDataCollector implements DataCollectorInterface, DataLayerCollectorIn
   /**
    * Entity Type manager.
    *
-   * @var \Drupal\Core\Entity\EntityManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   private $entityManager;
 
