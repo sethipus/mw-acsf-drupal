@@ -361,7 +361,7 @@
           font-size: 1.8rem;
         }
 
-        &:hover {
+        &:hover , &:focus-visible {
           color: clr(secondary) !important;
         }
       }
@@ -461,7 +461,7 @@
       background-size: 200% 200% !important;
       background-position: right top !important;
 
-      &:hover {
+      &:hover, &:focus-visible  {
         color: clr(secondary);
         background-position: left bottom !important;
       }
@@ -595,7 +595,7 @@
           margin: 0 0 3rem 0 !important;
 
           &:hover,
-          &:focus {
+          &:focus-visible  {
             color: clr(secondary) !important;
             background-color: transparent !important;
           }
