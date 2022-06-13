@@ -64,7 +64,7 @@
     }
 
     &:hover,
-    &:focus{
+    &:focus-visible{
       color: clr(secondary);
     }
   }

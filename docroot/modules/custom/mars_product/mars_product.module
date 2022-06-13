@@ -531,7 +531,7 @@ function mars_product_preprocess_where_to_buy_block(&$variables) {
   $mikmak_sku_key = \Drupal::request()->query->get('mikmak-sku');
   if (!empty($vendor) && $vendor === PdpHeroBlock::VENDOR_MIK_MAK) {
     $product_variant_fields = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type' => 'product_variant']);
-    foreach ($product_variant_fields as $key => $sku) {
+    foreach ($product_variant_fields as $sku) {
       if ($sku->field_product_sku->value && !empty($sku->field_product_sku->value)) {
         if (!empty($mikmak_sku_key) && $mikmak_sku_key && $mikmak_sku_key != $sku->field_product_sku->value) {
           $upcs[$sku->field_product_sku->value] = $sku->field_product_sku->value;

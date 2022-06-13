@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
- *
+ * GPC subsriber class for custom redirection.
  */
 class GpcSubscriber implements EventSubscriberInterface {
 
@@ -50,7 +50,6 @@ class GpcSubscriber implements EventSubscriberInterface {
     if (!$secgpc_value->get('request_header')) {
       $request->headers->set('Sec-GPC', '1');
     }
-    return;
   }
 
   /**

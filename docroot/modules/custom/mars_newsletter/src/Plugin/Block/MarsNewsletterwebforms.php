@@ -4,7 +4,6 @@ namespace Drupal\mars_newsletter\Plugin\Block;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\EventSubscriber\MainContentViewSubscriber;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -83,9 +82,6 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
-    $wrapper_format = $this->requestStack->getCurrentRequest()
-      ->get(MainContentViewSubscriber::WRAPPER_FORMAT);
-    $is_off_canvas = in_array($wrapper_format, ['drupal_dialog.off_canvas']);
     $config = $this->getConfiguration();
     $form['#attributes'] = ['class' => ['webform-block-settings-tray-form']];
     $form['title'] = [
@@ -105,16 +101,24 @@ class MarsNewsletterwebforms extends BlockBase implements ContainerFactoryPlugin
     $this->buildOverrideColorElement($form, $config);
     // Override title font.
     $form['title_font'] = [
-      '#title' => t('Select override title font'),
+      '#title' => $this->t('Select override title font'),
       '#type' => 'select',
-      '#options' => ['title_heading_font' => $this->t('Heading font'), 'title_primary_font' => $this->t('Primary font'), 'title_secondary_font' => $this->t('Secondary font')],
+      '#options' => [
+        'title_heading_font' => $this->t('Heading font'),
+        'title_primary_font' => $this->t('Primary font'),
+        'title_secondary_font' => $this->t('Secondary font'),
+      ],
       '#default_value' => !empty($config['title_font']) ? $config['title_font'] : 'title_heading_font',
     ];
     // Override field title font.
     $form['field_title_font'] = [
-      '#title' => t('Select override field title font'),
+      '#title' => $this->t('Select override field title font'),
       '#type' => 'select',
-      '#options' => ['field_title_heading_font' => $this->t('Heading font'), 'field_title_primary_font' => $this->t('Primary font'), 'field_title_secondary_font' => $this->t('Secondary font')],
+      '#options' => [
+        'field_title_heading_font' => $this->t('Heading font'),
+        'field_title_primary_font' => $this->t('Primary font'),
+        'field_title_secondary_font' => $this->t('Secondary font'),
+      ],
       '#default_value' => !empty($config['field_title_font']) ? $config['field_title_font'] : 'field_title_primary_font',
     ];
     $form['use_background_color'] = [

@@ -98,6 +98,7 @@ services:
       - '@module_handler'
       - '@token'
       - '@file_system'
+      - '@file.repository'
 
   salsify_integration.mulesof_connector:
     class: Drupal\salsify_integration\MulesoftConnector

@@ -41,7 +41,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    *
    * @var \Drupal\Core\Config\Config
    */
-  protected $config_color;
+  protected $configColor;
 
   /**
    * Drupal\Core\Routing\CurrentRouteMatch definition.

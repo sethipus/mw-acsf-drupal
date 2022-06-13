@@ -1,0 +1,10 @@
+uuid: a0cc6c80-602e-449e-855e-0c8945f32432
+langcode: en
+status: true
+dependencies: {  }
+id: multibrand
+label: multibrand
+description: ''
+source_type: null
+module: null
+shared_configuration: null

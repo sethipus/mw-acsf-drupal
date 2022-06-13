@@ -167,7 +167,7 @@
       padding: 1.2rem 7rem;
   
       &:hover ,
-      &:focus {
+      &:focus-visible {
         color: clr(primary);
         background-color: transparent;
         transition: background-color .6s cubic-bezier(.75, 0, .25, 0);
@@ -185,6 +185,11 @@
         transform-origin: 0% 0%;
         transform: translateX(0) translateY(10%) rotate(45deg);
         transition: transform .5s;
+      }
+      
+      &:hover::after,
+      &:focus-visible::after{
+        transform: translateX(0) translateY(-50%) rotate(45deg);
       }
     }
 
@@ -254,3 +259,4 @@
     line-height: 2.5rem;
   }
 }
+
