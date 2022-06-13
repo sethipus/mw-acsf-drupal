@@ -6,7 +6,7 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- *
+ * Newsletter config form.
  */
 class MarsNewsletterConfigForm extends ConfigFormBase {
 

@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\mars_cloudflarepurge\CloudflarePurgeCredentials;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Default ConfigFormBase for the mars_cloudflarepurge module.
@@ -15,13 +16,23 @@ use Drupal\mars_cloudflarepurge\CloudflarePurgeCredentials;
 class CloudflarePurgeForm extends ConfigFormBase {
 
   /**
+   * Request service.
+   *
+   * @var Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $requestStack;
+
+  /**
    * Mars cloudflare purge constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The factory for configuration objects.
+   * @param Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   Request stack service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory) {
+  public function __construct(ConfigFactoryInterface $config_factory, RequestStack $request_stack) {
     parent::__construct($config_factory);
+    $this->requestStack = $request_stack;
   }
 
   /**
@@ -29,7 +40,8 @@ class CloudflarePurgeForm extends ConfigFormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('request_stack')
     );
   }
 
@@ -65,7 +77,7 @@ class CloudflarePurgeForm extends ConfigFormBase {
 
     $form['cloudflarepurge_form']['zone_id'] = [
       '#type' => 'textfield',
-      '#title' => t('Zone ID'),
+      '#title' => $this->t('Zone ID'),
       '#size' => 60,
       '#required' => TRUE,
       '#default_value' => !empty($config->get('zone_id')) ? $config->get('zone_id') : '',
@@ -74,11 +86,11 @@ class CloudflarePurgeForm extends ConfigFormBase {
           'Zone ID',
         ],
       ],
-      '#description' => t('Enter Cloudflare Zone Id.'),
+      '#description' => $this->t('Enter Cloudflare Zone Id.'),
     ];
     $form['cloudflarepurge_form']['authorization'] = [
       '#type' => 'textfield',
-      '#title' => t('Authorization'),
+      '#title' => $this->t('Authorization'),
       '#size' => 60,
       '#required' => TRUE,
       '#default_value' => !empty($config->get('authorization')) ? $config->get('authorization') : '',
@@ -87,24 +99,25 @@ class CloudflarePurgeForm extends ConfigFormBase {
           'Authorization',
         ],
       ],
-      '#description' => t('Enter Cloudflare Authorization Key.'),
+      '#description' => $this->t('Enter Cloudflare Authorization Key.'),
     ];
 
     $form['cloudflarepurge_form']['purge_everything_toggle'] = [
       '#type' => 'checkbox',
-      '#title' => t('Purge everything'),
+      '#title' => $this->t('Purge everything'),
       '#default_value' => $config->get('purge_everything_toggle') ?? FALSE,
     ];
     $form['cloudflarepurge_form']['purge_specific_url_toggle'] = [
       '#type' => 'checkbox',
-      '#title' => t('Purge specific URL'),
+      '#title' => $this->t('Purge specific URL'),
       '#default_value' => $config->get('purge_specific_url_toggle') ?? FALSE,
+      '#attributes' => array('checked' => 'checked'),
     ];
     $form['cloudflarepurge_form']['purge_specific_url'] = [
       '#type' => 'textarea',
       '#default_value' => !empty($config->get('purge_specific_url')) ? $config->get('purge_specific_url') : '',
       '#description' => $this->t('<ul><li> Enter one URL per line</li><li>Do not add https:// or http:// on URLs</li><li>www.example.com/sample OR example.com/sample</li><li>While entering multiple URLs in Purge specific URL, base domain URL is not required if full path URL of same domain is present</li></ul>'),
-      '#title' => t('Specific URLs for cloudflare purge'),
+      '#title' => $this->t('Specific URLs for cloudflare purge'),
       '#states' => [
         'visible' => [
           ':input[name="purge_specific_url_toggle"]' => [
@@ -157,7 +170,7 @@ class CloudflarePurgeForm extends ConfigFormBase {
         $this->messenger()->addMessage($this->t('Cloudflare was purged everything successfully.'));
       }
       else {
-        $this->messenger()->addError($this->t($results));
+        $this->messenger()->addError($this->t('Error is @results', ['@results' => $results]));
       }
     }
     // Cloudflare purge for specific URLs.
@@ -167,7 +180,7 @@ class CloudflarePurgeForm extends ConfigFormBase {
         $this->messenger()->addMessage($this->t('Cloudflare was purged successfully for specific URLs.'));
       }
       else {
-        $this->messenger()->addError($this->t($results));
+        $this->messenger()->addError($this->t('Error is @results', ['@results' => $results]));
       }
     }
     else {
@@ -205,6 +218,7 @@ class CloudflarePurgeForm extends ConfigFormBase {
       ->set('purge_everything_toggle', $form_state->getValue('purge_everything_toggle'))
       ->set('purge_specific_url_toggle', $form_state->getValue('purge_specific_url_toggle'))
       ->set('purge_specific_url', $form_state->getValue('purge_specific_url'))
+      ->set('zone_credentials_found', TRUE)
       ->save();
     parent::submitForm($form, $form_state);
 
@@ -214,8 +228,7 @@ class CloudflarePurgeForm extends ConfigFormBase {
    * Stay on the same page.
    */
   public function getCurrentUrl() {
-    $request = \Drupal::request();
-    return $request->server->get('HTTP_REFERER');
+    return $this->requestStack->getCurrentRequest()->server->get('HTTP_REFERER');
   }
 
 }

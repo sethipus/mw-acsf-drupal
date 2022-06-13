@@ -1,0 +1,32 @@
+id: multibrand_term_product_trade_description_i18n
+label: Trade Description Computed - i18n
+migration_group: multibrand
+migration_tags:
+  - Term
+source:
+  plugin: brand_drupal_salsify_url
+  data_fetcher_plugin: http
+  data_parser_plugin: salsify_json
+  item_selector: /
+  fields:
+    -
+      name: field_product_trade_description
+      label: 'Trade Description Computed'
+      selector: 'field_product_trade_description/0'
+  ids:
+    field_product_trade_description:
+      type: string
+process:
+  name:
+    plugin: skip_on_empty
+    method: row
+    source: field_product_trade_description
+  vid:
+    plugin: default_value
+    default_value: 'mars_trade_item_description'
+  langcode:
+    plugin: salsify_i18n_process_language
+    source: language
+    default_value: 'und'
+destination:
+  plugin: entity:taxonomy_term
