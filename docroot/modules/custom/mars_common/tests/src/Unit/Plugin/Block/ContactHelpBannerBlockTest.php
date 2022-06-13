@@ -8,6 +8,7 @@ use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Class ContactHelpBannerBlockTest - unit tests for component.
@@ -16,7 +17,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @covers \Drupal\mars_common\Plugin\Block\ContactFormBlock
  */
 class ContactHelpBannerBlockTest extends UnitTestCase {
-
   /**
    * Mock.
    *
@@ -37,6 +37,13 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\ThemeConfiguratorParser
    */
   protected $themeConfiguratorParserMock;
+
+  /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
 
   /**
    * Test block configuration.
@@ -96,13 +103,23 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
       'admin_label' => 'test',
     ];
 
+    $configMock = $this->getMockBuilder(stdClass::class)
+      ->setMethods(['get'])
+      ->getMock();
+
+    $this->configFactoryMock
+      ->method('get')
+      ->with('mars_common.character_limit_page')
+      ->willReturn($configMock);
+
     $this->contactHelpBannerBlock = new ContactHelpBannerBlock(
-      $this->configuration,
-      'contact_help_banner_block',
-      $definitions,
-      $this->languageHelperMock,
-      $this->themeConfiguratorParserMock
-    );
+          $this->configuration,
+          'contact_help_banner_block',
+          $definitions,
+          $this->languageHelperMock,
+          $this->themeConfiguratorParserMock,
+          $this->configFactoryMock
+      );
   }
 
   /**
@@ -112,6 +129,7 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->languageHelperMock = $this->createLanguageHelperMock();
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
   }
 
   /**
@@ -124,10 +142,12 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
     $mock = $this->createMock(LanguageHelper::class);
     $mock->method('translate')
       ->will(
-        $this->returnCallback(function ($arg) {
-          return $arg;
-        })
-      );
+              $this->returnCallback(
+                  function ($arg) {
+                      return $arg;
+                  }
+              )
+          );
 
     return $mock;
   }

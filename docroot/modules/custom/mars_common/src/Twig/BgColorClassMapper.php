@@ -2,19 +2,21 @@
 
 namespace Drupal\mars_common\Twig;
 
+use Twig\Extension\AbstractExtension;
 use Drupal\mars_common\Form\MarsCardColorSettingsForm;
+use Twig\TwigFilter;
 
 /**
  * Twig extension to generate BG Colors for Card grids and sticky PDP hero.
  */
-class BgColorClassMapper extends \Twig_Extension {
+class BgColorClassMapper extends AbstractExtension {
 
   /**
    * {@inheritdoc}
    */
   public function getFilters() {
     return [
-      new \Twig_SimpleFilter('bgColorClassMap', [$this, 'getBgColorClasses']),
+      new TwigFilter('bgColorClassMap', [$this, 'getBgColorClasses']),
     ];
   }
 

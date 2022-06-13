@@ -5,6 +5,7 @@ namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 use Drupal\mars_common\Plugin\Block\IFrameBlock;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Class IFrameBlockTest - unit tests.
@@ -29,6 +30,13 @@ class IFrameBlockTest extends UnitTestCase {
   private $iFrameBlock;
 
   /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
    * Test block configuration.
    *
    * @var array
@@ -51,10 +59,20 @@ class IFrameBlockTest extends UnitTestCase {
       'admin_label' => 'test',
     ];
 
+    $configMock = $this->getMockBuilder(stdClass::class)
+      ->setMethods(['get'])
+      ->getMock();
+
+    $this->configFactoryMock
+      ->method('get')
+      ->with('mars_common.character_limit_page')
+      ->willReturn($configMock);
+
     $this->iFrameBlock = new IFrameBlock(
       $this->configuration,
       'iframe_block',
-      $definitions
+      $definitions,
+      $this->configFactoryMock
     );
   }
 
@@ -63,6 +81,7 @@ class IFrameBlockTest extends UnitTestCase {
    */
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
   }
 
   /**

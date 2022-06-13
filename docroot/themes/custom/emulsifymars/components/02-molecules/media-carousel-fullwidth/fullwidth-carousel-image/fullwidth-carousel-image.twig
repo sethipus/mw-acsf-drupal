@@ -1,0 +1,78 @@
+{#
+/**
+ * Available variables:
+ * - block_eyebrow_text - the content of the block
+ * - block_heading_level - the heading of the block
+ * - block_title_label - label of the heading title
+ * - block_heading_base_class - heading of the base class
+ * - block_title_href - href for the heading title
+ * - block_eyebrow_text - the content of the block
+ * - block_image - the content of the block
+ * - block_list - the content of the block
+ * - separate_class
+ */
+#}
+{% set fullwidth_carousel__block_class = 'fullwidth-carousel-block' %}
+{% set fullwidth_carousel__modifiers = [block_type, text_alignment] %}
+
+
+{% set additional_attr = (styles is defined and styles is not empty)
+  ? {"style": styles}
+  : {}
+%}
+
+<div {{ bem(fullwidth_carousel__block_class, [separate_class]) }}>
+  <div class="wrapper">
+    <div {{ bem('left', [], fullwidth_carousel__block_class, fullwidth_carousel__modifiers) }}>
+      {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+        eyebrow_text: image_eyebrow,
+        additional_attr: additional_attr
+      } %}
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading_level: 3,
+        heading: image_title_label,
+        heading_base_class:'heading-block',
+        heading_url: image_title_url,
+        additional_attr: additional_attr
+      } %}
+      {% if block_type == 'parent_page' %}
+        {% include "@atoms/separators/graphic-divider/graphic-divider.twig" with {
+          graphic_divider_blockname: 'fullwidth-carousel-header',
+          graphic_divider: graphic_divider
+        } %}
+      {% endif %}
+      {% include "@atoms/text/text/01-paragraph.twig" with {
+        paragraph_content: image_description,
+        paragraph_base_class: 'fullwidth-carousel-description',
+        additional_attr: additional_attr
+      } %}
+      {% if image_cta_title %}
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_base_class: 'cta-link',
+          default_link_content: image_cta_title,
+          default_link_attributes: image_cta_url,
+          additional_attr: additional_attr
+        } %}
+      {% endif %}
+    </div>
+    <div {{ bem('right', [], fullwidth_carousel__block_class) }}>
+      {% if image_src is not empty %}
+        {% set images = {
+          1440: image_src|resize(200, 200),
+          768: image_src|resize(200, 200),
+          375: image_src|resize(200, 200),
+        } %}
+        {% include "@atoms/images/image/_image.twig" with {
+          output_image_tag: true,
+          image_alt: image_alt,
+          image_title: image_title,
+          image_src: image_src|resize(200, 200),
+          responsive_image_blockname: image_blockname,
+          image_array: image_array,
+          width: '200px',
+          height: '200px',
+        } %}
+      {% endif %}
+    </div>
+  </div>
+</div>

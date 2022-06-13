@@ -481,6 +481,14 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'block--mars-common--media-carousel',
     ],
+    'fullwidth_carousel_component' => [
+      'variables' => [
+        'brand_borders' => NULL,
+        'title' => NULL,
+        'items' => NULL,
+      ],
+      'template' => 'block--mars-common--media-carousel-fullwidth',
+    ],
     'flexible_framer_block' => [
       'variables' => [
         'grid_label' => NULL,

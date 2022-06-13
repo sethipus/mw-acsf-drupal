@@ -71,6 +71,7 @@ class DynamicTest extends UnitTestCase {
         'provider' => 'mars_recommendations',
         'admin_label' => 'test',
       ],
+      $this->pluginManagerMock,
       $this->entityTypeManagerMock
     );
 
