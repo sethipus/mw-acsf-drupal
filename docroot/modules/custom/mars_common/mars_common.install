@@ -438,7 +438,7 @@ function mars_common_update_8031() {
 }
 
 /**
- * Add rel attributes to Legal menu links having target is blank and url is external URL.
+ * Add rel attributes to links having target is blank and url is external URL.
  */
 function mars_common_update_8032() {
   global $base_url;
@@ -463,7 +463,6 @@ function mars_common_update_8032() {
   }
 }
 
-
 /**
  * Hook update for removing solr search index config from ignore.
  */
@@ -473,11 +472,11 @@ function mars_common_update_8033() {
   $config_ignore_list = $config_ignore_config->get('ignored_config_entities');
 
   // Remove config search_api_solr from config_ignore.settings.
-  if (($key = array_search('search_api_solr.*', $config_ignore_list)) !== false) {
+  if (($key = array_search('search_api_solr.*', $config_ignore_list)) !== FALSE) {
     unset($config_ignore_list[$key]);
   }
 
-  if (($key = array_search('search_api.server.acquia_search_server', $config_ignore_list)) !== false) {
+  if (($key = array_search('search_api.server.acquia_search_server', $config_ignore_list)) !== FALSE) {
     unset($config_ignore_list[$key]);
   }
 
