@@ -129,6 +129,7 @@
         "symfony/string": "^5.4"
     },
     "require-dev": {
+        "acquia/blt-phpcs": "^1.0",
         "behat/mink-selenium2-driver": "^1.6",
         "drupal/core-dev": "^9.3",
         "mikey179/vfsstream": "^1.6",

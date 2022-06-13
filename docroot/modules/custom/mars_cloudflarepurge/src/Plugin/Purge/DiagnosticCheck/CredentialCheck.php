@@ -60,20 +60,20 @@ class CredentialCheck extends DiagnosticCheckBase implements DiagnosticCheckInte
    */
   public function run() {
     // Checking Zone credentials already exists.
-    if(!empty($this->config->get('zone_id')) && !empty($this->config->get('authorization'))){
+    if (!empty($this->config->get('zone_id')) && !empty($this->config->get('authorization'))) {
       $zone_credentials_found = TRUE;
     }
     else {
-       $zone_credentials_found = $this->config->get('zone_credentials_found');
+      $zone_credentials_found = $this->config->get('zone_credentials_found');
     }
 
     if (!$zone_credentials_found) {
       $this->recommendation = $this->t("Zone credentials are not found. Go to cloudflare purge config (/admin/config/cloudflare-cache-clear) to add zone credentials.",);
-      return SELF::SEVERITY_ERROR;
+      return self::SEVERITY_ERROR;
     }
 
     $this->recommendation = $this->t('Zone credentials detected.');
-    return SELF::SEVERITY_OK;
+    return self::SEVERITY_OK;
   }
 
 }

@@ -180,7 +180,7 @@ class FullWidthCarouselBlockTest extends UnitTestCase {
           'label' => 'title label',
           'eyebrow' => 'eyebrow',
           'hide_volume' => FALSE,
-          'cta' => 
+          'cta' =>
             [
               'title' => 'Cta title',
               'url' => 'Cta url',
@@ -190,7 +190,7 @@ class FullWidthCarouselBlockTest extends UnitTestCase {
           'use_dark_overlay' => FALSE,
           'text_alignment' => 'left',
           'block_type' => 'homepage_hero',
-          'text_color' => '#fff'
+          'text_color' => '#fff',
         ],
       ],
     ]);
@@ -213,7 +213,7 @@ class FullWidthCarouselBlockTest extends UnitTestCase {
       ->expects($this->once())
       ->method('getBrandBorder')
       ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />', 'id'));
-    
+
     $this->themeConfiguratorParserMock
       ->method('getGraphicDivider')
       ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />', 'id'));

@@ -14,7 +14,7 @@ use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class FullWidthCarouselBlock is responsible for Full width Carousel component logic.
+ * Class FullWidthCarouselBlock is used for Full width Carousel component logic.
  *
  * @Block(
  *   id = "full_width_carousel_block",
@@ -214,7 +214,6 @@ class FullWidthCarouselBlock extends BlockBase implements ContextAwarePluginInte
         '#open' => TRUE,
       ];
 
-
       $form['carousel'][$key]['item_type'] = [
         '#title' => $this->t('Carousel item type'),
         '#type' => 'select',
@@ -282,7 +281,7 @@ class FullWidthCarouselBlock extends BlockBase implements ContextAwarePluginInte
         '#title' => $this->t('CTA Link URL'),
         '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
         '#maxlength' => !empty($character_limit_config->get('hero_block_cta_link_url')) ? $character_limit_config->get('hero_block_cta_link_url') : 2048,
-        '#default_value' => $config['carousel'][$key]['cta']['url'] ?? '',  
+        '#default_value' => $config['carousel'][$key]['cta']['url'] ?? '',
         '#states' => [
           'required' => [
             [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
@@ -393,7 +392,7 @@ class FullWidthCarouselBlock extends BlockBase implements ContextAwarePluginInte
         '#options' => $this->getTextColorOptions(),
         '#default_value' => $config['carousel'][$key]['text_color'] ?? NULL,
       ];
-  
+
       $form['carousel'][$key]['text_color_other'] = [
         '#type' => 'jquery_colorpicker',
         '#title' => $this->t('Custom text color'),
@@ -548,78 +547,6 @@ class FullWidthCarouselBlock extends BlockBase implements ContextAwarePluginInte
         ]);
       }
     }
-  }
-
-  /**
-   * Returns the bg image URL or NULL.
-   *
-   * @return array|null
-   *   The bg image url or null of there is none.
-   */
-  private function getBgAssets(): ?array {
-    $config = $this->getConfiguration();
-    $bg_image_media_ids = [];
-    $assets = [];
-    $title = 'fullwidth carousel image';
-    $alt = 'fullwidth carousel image';
-
-    foreach ($config['carousel'] as $key => $item) {
-      if (in_array(
-        $item['item_type'],
-        [self::KEY_OPTION_IMAGE]
-      )) {
-        foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
-          // Generate image field name.
-          // NOTE: "background_image" for desktop without any suffixes
-          // for compatibility with existing data.
-          $name = $resolution == 'desktop' ? 'image' : 'image_' . $resolution;
-
-          // Set value for each resolution.
-          if (!empty($item[$name])) {
-            $bg_image_media_ids[$resolution] = $this->mediaHelper->getIdFromEntityBrowserSelectValue($item[$name]);
-          }
-          else {
-            // Set value from previous resolution.
-            $bg_image_media_ids[$resolution] = end($bg_image_media_ids);
-          }
-        }
-      }
-      elseif (in_array(
-        $item['item_type'],
-        [self::KEY_OPTION_VIDEO]
-      )) {
-        $bg_image_media_ids['video'] = NULL;
-
-        if (!empty($item['video'])) {
-          $bg_image_media_ids['video'] = $this->mediaHelper->getIdFromEntityBrowserSelectValue($item['video']);
-        }
-      }
-      else {
-        foreach (MediaHelper::LIST_IMAGE_RESOLUTIONS as $resolution) {
-          $bg_image_media_ids[$resolution] = NULL;
-        }
-      }
-    }
-
-    foreach ($bg_image_media_ids as $name => $bg_image_media_id) {
-      $bg_image_url = NULL;
-      if (!empty($bg_image_media_id)) {
-        $media_params = $this->mediaHelper->getMediaParametersById($bg_image_media_id);
-        if (!isset($media_params['error'])) {
-          $bg_image_url = file_create_url($media_params['src']);
-          $title = !empty($media_params['title']) ? $media_params['title'] : $title;
-          $alt = !empty($media_params['alt']) ? $media_params['alt'] : $alt;
-        }
-      }
-
-      $assets[$name] = [
-        'src' => $bg_image_url,
-        'alt' => $alt,
-        'title' => $title,
-      ];
-    }
-
-    return $assets;
   }
 
   /**
