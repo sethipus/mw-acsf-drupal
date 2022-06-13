@@ -9,6 +9,7 @@ use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Provides a contact help banner block.
@@ -20,7 +21,6 @@ use Drupal\mars_common\ThemeConfiguratorParser;
  * )
  */
 class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPluginInterface {
-
   use OverrideThemeTextColorTrait;
 
   /**
@@ -38,6 +38,13 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
   protected $themeConfiguratorParser;
 
   /**
+   * Configuration Factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -46,8 +53,9 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.language_helper'),
-      $container->get('mars_common.theme_configurator_parser')
-    );
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('config.factory')
+      );
   }
 
   /**
@@ -58,11 +66,13 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     $plugin_id,
     $plugin_definition,
     LanguageHelper $language_helper,
-    ThemeConfiguratorParser $themeConfiguratorParser
-  ) {
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    ConfigFactoryInterface $config_factory
+    ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->languageHelper = $language_helper;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -137,7 +147,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->get('mars_common.character_limit_page');
 
     $form['title'] = [
       '#type' => 'textfield',

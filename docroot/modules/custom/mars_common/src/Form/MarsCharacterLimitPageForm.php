@@ -4,6 +4,7 @@ namespace Drupal\mars_common\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerTrait;
 
 /**
  * Configuration form for character limit page.
@@ -11,6 +12,8 @@ use Drupal\Core\Form\FormStateInterface;
  * @internal
  */
 class MarsCharacterLimitPageForm extends ConfigFormBase {
+
+  use MessengerTrait;
 
   /**
    * Config settings.
@@ -1049,7 +1052,7 @@ class MarsCharacterLimitPageForm extends ConfigFormBase {
       ->set('content_type_component_product_description', static::CONTENT_TYPE_FIELD_PRODUCT_DESCRIPTION)
       ->save();
 
-    \Drupal::messenger()->addStatus($this->t('The configuration options have been reset.'));
+    $this->messenger()->addStatus($this->t('The configuration options have been reset.'));
   }
 
 }

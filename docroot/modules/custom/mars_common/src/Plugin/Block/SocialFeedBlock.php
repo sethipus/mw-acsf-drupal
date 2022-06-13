@@ -17,6 +17,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Social feed block.
@@ -77,6 +78,13 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
   private $themeConfigurator;
 
   /**
+   * Config Factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(
@@ -101,7 +109,8 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $time_service,
       $cache_backend,
       $container->get('mars_common.language_helper'),
-      $theme_configurator
+      $theme_configurator,
+      $container->get('config.factory')
     );
   }
 
@@ -117,7 +126,8 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     TimeInterface $time_service,
     CacheBackendInterface $cache_backend,
     LanguageHelper $language_helper,
-  ThemeConfiguratorParser $themeConfigurator
+    ThemeConfiguratorParser $themeConfigurator,
+    ConfigFactoryInterface $config_factory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityStorage = $entity_storage;
@@ -126,6 +136,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $this->cacheBackend = $cache_backend;
     $this->languageHelper = $language_helper;
     $this->themeConfigurator = $themeConfigurator;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -166,7 +177,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->get('mars_common.character_limit_page');
     $form['label_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),

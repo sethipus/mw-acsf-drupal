@@ -13,6 +13,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Provides a Story Highlight block.
@@ -97,7 +98,8 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       $container->get('entity_type.manager')->getStorage('media'),
       $container->get('mars_media.media_helper'),
       $container->get('mars_common.language_helper'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('config.factory')
     );
   }
 
@@ -111,7 +113,8 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     EntityStorageInterface $entity_storage,
     MediaHelper $media_helper,
     LanguageHelper $language_helper,
-    ThemeConfiguratorParser $theme_configurator_parser
+    ThemeConfiguratorParser $theme_configurator_parser,
+    ConfigFactoryInterface $config_factory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
@@ -119,6 +122,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -201,7 +205,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->get('mars_common.character_limit_page');
 
     $form['story_block_title'] = [
       '#type' => 'textarea',
