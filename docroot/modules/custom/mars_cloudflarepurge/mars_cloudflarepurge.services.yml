@@ -1,0 +1,9 @@
+parameters:
+  mars_cloudflarepurge.cache_tag_header_limit: 255
+
+services:
+  mars_cloudflarepurge.cache_tags.surrogate_key_generator:
+    class: Drupal\mars_cloudflarepurge\EventSubscriber\CloudFlareCacheTagHeaderGenerator
+    arguments: ['@current_route_match', '%mars_cloudflarepurge.cache_tag_header_limit%']
+    tags:
+      - { name: event_subscriber }
