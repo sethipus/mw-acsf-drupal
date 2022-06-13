@@ -92,7 +92,7 @@ class CloudFlarePurger extends PurgerBase implements PurgerInterface {
       'url'  => 'invalidate',
     ];
 
-    return isset($methods[$type]) ? $methods[$type] : 'invalidate';
+    return $methods[$type] ?? 'invalidate';
   }
 
   /**
