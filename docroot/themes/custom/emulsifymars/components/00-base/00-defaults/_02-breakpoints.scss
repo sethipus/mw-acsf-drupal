@@ -14,6 +14,7 @@ $xs: 275px;
 $small: 375px;
 $medium: 768px;
 $large: 1024px;
+$largescreens: 1025px;
 $larger: 1280px;
 $xl: 1440px;
 
@@ -100,6 +101,12 @@ $max-width: $xl;
 /// Mixin must receive value like `$xs $medium`
 @mixin max-width-interval($pair) {
   @include breakpoint($pair) {
+    @content;
+  }
+}
+
+@mixin largescreens {
+  @include breakpoint($largescreens) {
     @content;
   }
 }

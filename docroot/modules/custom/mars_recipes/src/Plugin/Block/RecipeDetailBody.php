@@ -131,7 +131,8 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
         return strcmp($a->title->value, $b->title->value);
       });
       // Limit amount of cards.
-      // As per the discussion, there will be a chance to add muliple products in recipe
+      // As per the discussion, there will be a chance to add
+      // muliple products in recipe.
       // $products = array_slice($products, 0, 2);.
       foreach ($products as $product) {
         if (!empty($text_color_override)) {
