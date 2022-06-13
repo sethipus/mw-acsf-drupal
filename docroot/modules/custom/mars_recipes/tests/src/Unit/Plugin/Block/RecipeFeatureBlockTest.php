@@ -16,6 +16,8 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_recipes\Plugin\Block\RecipeFeatureBlock;
 use Drupal\Core\Plugin\Context\Context;
 use Drupal\Core\Url;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 
 /**
  * Class RecipeFeatureBlockTest - unit tests.
@@ -24,7 +26,6 @@ use Drupal\Core\Url;
  * @covers \Drupal\mars_recipes\Plugin\Block\RecipeFeatureBlock
  */
 class RecipeFeatureBlockTest extends UnitTestCase {
-
   /**
    * Mock.
    *
@@ -89,6 +90,20 @@ class RecipeFeatureBlockTest extends UnitTestCase {
   private $fieldItemListMock;
 
   /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
+   * Immutable config mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $immutableConfigMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -127,15 +142,25 @@ class RecipeFeatureBlockTest extends UnitTestCase {
       ->method('isEmpty')
       ->willReturn(FALSE);
 
+    $configMock = $this->getMockBuilder(stdClass::class)
+      ->setMethods(['get'])
+      ->getMock();
+
+    $this->configFactoryMock
+      ->method('get')
+      ->with('mars_common.character_limit_page')
+      ->willReturn($configMock);
+
     // We should create it in test to import different configs.
     $this->recipeFeatureBlock = new RecipeFeatureBlock(
-      $this->configuration,
-      'recipe_feature_block',
-      $definitions,
-      $this->entityTypeManagerMock,
-      $this->themeConfiguratorParserMock,
-      $this->languageHelperMock,
-      $this->mediaHelperMock
+    $this->configuration,
+    'recipe_feature_block',
+    $definitions,
+    $this->entityTypeManagerMock,
+    $this->themeConfiguratorParserMock,
+    $this->languageHelperMock,
+    $this->mediaHelperMock,
+    $this->configFactoryMock
     );
   }
 
@@ -150,6 +175,8 @@ class RecipeFeatureBlockTest extends UnitTestCase {
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->entityCollectionUrl = $this->createMock(Url::class);
     $this->fieldItemListMock = $this->createMock(FieldItemListInterface::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
   }
 
   /**
@@ -159,15 +186,16 @@ class RecipeFeatureBlockTest extends UnitTestCase {
    */
   public function blockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(4))
+      ->expects($this->exactly(5))
       ->method('get')
       ->withConsecutive(
-        [$this->equalTo('entity_type.manager')],
-        [$this->equalTo('mars_common.theme_configurator_parser')],
-        [$this->equalTo('mars_common.language_helper')],
-        [$this->equalTo('mars_media.media_helper')]
-      )
-      ->will($this->onConsecutiveCalls($this->entityTypeManagerMock, $this->themeConfiguratorParserMock, $this->languageHelperMock, $this->mediaHelperMock));
+          [$this->equalTo('entity_type.manager')],
+          [$this->equalTo('mars_common.theme_configurator_parser')],
+          [$this->equalTo('mars_common.language_helper')],
+          [$this->equalTo('mars_media.media_helper')],
+          [$this->equalTo('config.factory')]
+        )
+      ->will($this->onConsecutiveCalls($this->entityTypeManagerMock, $this->themeConfiguratorParserMock, $this->languageHelperMock, $this->mediaHelperMock, $this->configFactoryMock));
 
     $definitions = [
       'provider' => 'test',
@@ -258,29 +286,35 @@ class RecipeFeatureBlockTest extends UnitTestCase {
       ->getMock();
     $fieldEntityMock->expects($this->any())
       ->method('__get')
-      ->willReturnMap([
-        ['entity', $this->createMediaMock()],
-        ['target_id', '1'],
-      ]);
+      ->willReturnMap(
+              [
+              ['entity', $this->createMediaMock()],
+              ['target_id', '1'],
+              ]
+          );
 
     // Attach field values to calls.
     $node->expects($this->any())
       ->method('__get')
-      ->willReturnMap([
-        ['field_recipe_description', $fieldStringMock],
-        ['field_recipe_cooking_time', $fieldStringMock],
-        ['field_recipe_ingredients_number', $fieldStringMock],
-        ['field_recipe_number_of_servings', $fieldStringMock],
-        ['field_recipe_image', $fieldEntityMock],
-      ]);
+      ->willReturnMap(
+              [
+              ['field_recipe_description', $fieldStringMock],
+              ['field_recipe_cooking_time', $fieldStringMock],
+              ['field_recipe_ingredients_number', $fieldStringMock],
+              ['field_recipe_number_of_servings', $fieldStringMock],
+              ['field_recipe_image', $fieldEntityMock],
+              ]
+          );
 
     // Disable render of the video field.
     $node->expects($this->any())
       ->method('hasField')
-      ->willReturnMap([
-        ['field_recipe_video', FALSE],
-        ['field_recipe_image', FALSE],
-      ]);
+      ->willReturnMap(
+              [
+              ['field_recipe_video', FALSE],
+              ['field_recipe_image', FALSE],
+              ]
+          );
 
     // Mock getting suffix.
     $fieldArrayMock = $this->getMockBuilder(FieldItemListInterface::class)
@@ -292,12 +326,12 @@ class RecipeFeatureBlockTest extends UnitTestCase {
     $node->expects($this->any())
       ->method('get')
       ->with(
-        $this->logicalOr(
-          'field_recipe_cooking_time',
-          'field_recipe_ingredients_number',
-          'field_recipe_number_of_servings'
-        )
-      )
+              $this->logicalOr(
+                  'field_recipe_cooking_time',
+                  'field_recipe_ingredients_number',
+                  'field_recipe_number_of_servings'
+              )
+          )
       ->willReturn($fieldArrayMock);
 
     return $node;

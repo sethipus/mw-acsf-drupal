@@ -16,6 +16,7 @@ use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\file\Element\ManagedFile;
 use Drupal\mars_common\ThemeConfiguratorService;
+use Drupal\Core\File\FileUrlGenerator;
 
 /**
  * Footer Block.
@@ -85,6 +86,13 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
   private $menuBuilder;
 
   /**
+   * File url generator service.
+   *
+   * @var Drupal\Core\File\FileUrlGenerator
+   */
+  private $fileUrlGenerator;
+
+  /**
    * Custom cache tag.
    *
    * @var string
@@ -119,7 +127,8 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     LanguageHelper $language_helper,
     ThemeConfiguratorParser $themeConfiguratorParser,
     MenuBuilder $menu_builder,
-    ConfigFactoryInterface $config
+    ConfigFactoryInterface $config,
+    FileUrlGenerator $file_generator
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->themeConfiguratorService = $theme_configurator_service;
@@ -130,6 +139,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $this->config = $config;
     $this->menuBuilder = $menu_builder;
     $this->entityTypeManager = $entity_type_manager;
+    $this->fileUrlGenerator = $file_generator;
   }
 
   /**
@@ -159,7 +169,8 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('mars_common.menu_builder'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('file_url_generator')
     );
   }
 
@@ -395,7 +406,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $id = $footer_settings_data['upload_footer_logo'][0];
       $file = $this->entityTypeManager->getStorage('file')->load($id);
       $file_uri = $file->getFileUri();
-      $file_path = file_url_transform_relative(file_create_url($file_uri));
+      $file_path = $this->fileUrlGenerator->transformRelative(file_create_url($file_uri));
       $file->setPermanent();
       $file->save();
       $upload_footer_logo['file_id'] = [$file->id()];

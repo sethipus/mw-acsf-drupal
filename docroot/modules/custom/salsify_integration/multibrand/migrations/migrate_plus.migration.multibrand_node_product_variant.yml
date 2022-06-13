@@ -13,9 +13,7 @@ migration_dependencies:
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
-  data_parser_plugin: family_variant_json
-  family_field_check_empty: true
-  column: field_product_variant_grp_title
+  data_parser_plugin: salsify_json
   item_selector: /
   track_changes: true
   constants:
@@ -483,8 +481,6 @@ source:
       selector: 'field_pdt_var_grp_primary/0'
 
   ids:
-    source_product_variant_grp_title:
-      type: string
     source_sku:
       type: string
 process:

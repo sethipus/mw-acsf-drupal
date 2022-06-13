@@ -111,6 +111,7 @@ class CloudflarePurgeForm extends ConfigFormBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Purge specific URL'),
       '#default_value' => $config->get('purge_specific_url_toggle') ?? FALSE,
+      '#attributes' => ['checked' => 'checked'],
     ];
     $form['cloudflarepurge_form']['purge_specific_url'] = [
       '#type' => 'textarea',
@@ -217,6 +218,7 @@ class CloudflarePurgeForm extends ConfigFormBase {
       ->set('purge_everything_toggle', $form_state->getValue('purge_everything_toggle'))
       ->set('purge_specific_url_toggle', $form_state->getValue('purge_specific_url_toggle'))
       ->set('purge_specific_url', $form_state->getValue('purge_specific_url'))
+      ->set('zone_credentials_found', TRUE)
       ->save();
     parent::submitForm($form, $form_state);
 

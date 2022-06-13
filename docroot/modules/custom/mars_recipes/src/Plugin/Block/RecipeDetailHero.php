@@ -33,14 +33,13 @@ use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
  *   category = @Translation("Recipe"),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label =
- *   @Translation("Recipe"))
+ * @Translation("Recipe"))
  *   }
  * )
  *
  * @package Drupal\mars_recipes\Plugin\Block
  */
 class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
-
   use SelectBackgroundColorTrait;
 
   /**
@@ -117,19 +116,19 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    * {@inheritdoc}
    */
   public function __construct(
-    array $configuration,
-    $plugin_id,
-    $plugin_definition,
-    EntityTypeManagerInterface $entity_type_manager,
-    ConfigFactoryInterface $config_factory,
-    Token $token,
-    ThemeConfiguratorParser $themeConfiguratorParser,
-    MediaHelper $media_helper,
-    LanguageHelper $language_helper,
-    FormBuilderInterface $form_builder,
-    ClassResolverInterface $class_resolver,
-    RendererInterface $renderer
-  ) {
+        array $configuration,
+        $plugin_id,
+        $plugin_definition,
+        EntityTypeManagerInterface $entity_type_manager,
+        ConfigFactoryInterface $config_factory,
+        Token $token,
+        ThemeConfiguratorParser $themeConfiguratorParser,
+        MediaHelper $media_helper,
+        LanguageHelper $language_helper,
+        FormBuilderInterface $form_builder,
+        ClassResolverInterface $class_resolver,
+        RendererInterface $renderer
+    ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->nodeStorage = $entity_type_manager->getStorage('node');
@@ -148,26 +147,28 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('entity_type.manager'),
-      $container->get('config.factory'),
-      $container->get('token'),
-      $container->get('mars_common.theme_configurator_parser'),
-      $container->get('mars_media.media_helper'),
-      $container->get('mars_common.language_helper'),
-      $container->get('form_builder'),
-      $container->get('class_resolver'),
-      $container->get('renderer')
-    );
+          $configuration,
+          $plugin_id,
+          $plugin_definition,
+          $container->get('entity_type.manager'),
+          $container->get('config.factory'),
+          $container->get('token'),
+          $container->get('mars_common.theme_configurator_parser'),
+          $container->get('mars_media.media_helper'),
+          $container->get('mars_common.language_helper'),
+          $container->get('form_builder'),
+          $container->get('class_resolver'),
+          $container->get('renderer')
+      );
   }
 
   /**
    * {@inheritdoc}
    */
   public function build() {
-    /** @var \Drupal\node\Entity\Node $node */
+    /**
+* @var \Drupal\node\Entity\Node $node
+*/
     $node = $this->getContextValue('node');
 
     // Load custom product.
@@ -190,9 +191,9 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     ];
 
     $build['#images'] = $this->mediaHelper->getResponsiveImagesFromEntity(
-      $node,
-      'field_recipe_image'
-    );
+          $node,
+          'field_recipe_image'
+      );
 
     // Get brand border path.
     $build['#border'] = $this->themeConfiguratorParser->getBrandBorder();
@@ -207,10 +208,9 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $build['#number_of_servings_measure'] = $this->languageHelper->translate($label_config->get('recipe_details_servings_measurement'));
     $build['#social_text'] = $this->languageHelper->translate($label_config->get('article_recipe_share'));
 
-    if (
-      $node->hasField('field_recipe_video') &&
-      !$node->get('field_recipe_video')->isEmpty()
-    ) {
+    if ($node->hasField('field_recipe_video')
+          && !$node->get('field_recipe_video')->isEmpty()
+      ) {
       $video_id = $node->get('field_recipe_video')->first()->target_id;
       $vide_params = $this->mediaHelper->getMediaParametersById($video_id);
       if (!($vide_params['error'] ?? FALSE) && ($vide_params['src'] ?? FALSE)) {
@@ -227,8 +227,8 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
 
     $background_color = '';
     if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
-      && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
-    ) {
+          && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+      ) {
       $background_color = static::$colorVariables[$this->configuration['select_background_color']];
     }
 
@@ -249,11 +249,11 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
 
       $build['#email_recipe_form'] = (string) $this->renderer
         ->render(
-          $recipe_form
-        );
+                $recipe_form
+            );
       $build['#attached'] = (isset($build['#attached']))
-        ? array_merge_recursive($build['#attached'], $recipe_form['#attached'])
-        : $recipe_form['#attached'];
+            ? array_merge_recursive($build['#attached'], $recipe_form['#attached'])
+            : $recipe_form['#attached'];
     }
 
     $cacheMetadata = CacheableMetadata::createFromRenderArray($build);
@@ -296,21 +296,21 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    */
   private function getEmailRecipeData(array $block_config, NodeInterface $node): ?array {
     return (isset($block_config['email_recipe']) && $block_config['email_recipe'])
-      ? [
-        'email_hint' => $this->languageHelper->translate($block_config['email_recipe_container']['email_hint']),
-        'email_overlay_title' => $this->languageHelper->translate($block_config['email_recipe_container']['email_overlay_title']) ?? $this->getRecipeEmailDefault()['email_overlay_title'],
-        'email_overlay_description' => $this->languageHelper->translate($block_config['email_recipe_container']['email_overlay_description']) ?? $this->getRecipeEmailDefault()['email_overlay_description'],
-        'checkboxes_container' => [
-          'grocery_list' => $this->languageHelper->translate($block_config['email_recipe_container']['checkboxes_container']['grocery_list']) ?? $this->getRecipeEmailDefault()['checkboxes_container']['grocery_list'],
-          'email_recipe' => $this->languageHelper->translate($block_config['email_recipe_container']['checkboxes_container']['email_recipe']) ?? $this->getRecipeEmailDefault()['checkboxes_container']['email_recipe'],
-        ],
-        'email_address_hint' => $this->languageHelper->translate($block_config['email_recipe_container']['email_address_hint']) ?? $this->getRecipeEmailDefault()['email_address_hint'],
-        'error_message' => $this->languageHelper->translate($block_config['email_recipe_container']['error_message']) ?? $this->getRecipeEmailDefault()['error_message'],
-        'cta_title' => $this->languageHelper->translate($block_config['email_recipe_container']['cta_title']) ?? $this->getRecipeEmailDefault()['cta_title'],
-        'confirmation_message' => $this->languageHelper->translate($block_config['email_recipe_container']['confirmation_message']) ?? $this->getRecipeEmailDefault()['confirmation_message'],
-        'captcha' => $block_config['email_recipe_container']['captcha'] ?? $this->getRecipeEmailDefault()['captcha'],
-      ]
-      : NULL;
+        ? [
+          'email_hint' => $this->languageHelper->translate($block_config['email_recipe_container']['email_hint']),
+          'email_overlay_title' => $this->languageHelper->translate($block_config['email_recipe_container']['email_overlay_title']) ?? $this->getRecipeEmailDefault()['email_overlay_title'],
+          'email_overlay_description' => $this->languageHelper->translate($block_config['email_recipe_container']['email_overlay_description']) ?? $this->getRecipeEmailDefault()['email_overlay_description'],
+          'checkboxes_container' => [
+            'grocery_list' => $this->languageHelper->translate($block_config['email_recipe_container']['checkboxes_container']['grocery_list']) ?? $this->getRecipeEmailDefault()['checkboxes_container']['grocery_list'],
+            'email_recipe' => $this->languageHelper->translate($block_config['email_recipe_container']['checkboxes_container']['email_recipe']) ?? $this->getRecipeEmailDefault()['checkboxes_container']['email_recipe'],
+          ],
+          'email_address_hint' => $this->languageHelper->translate($block_config['email_recipe_container']['email_address_hint']) ?? $this->getRecipeEmailDefault()['email_address_hint'],
+          'error_message' => $this->languageHelper->translate($block_config['email_recipe_container']['error_message']) ?? $this->getRecipeEmailDefault()['error_message'],
+          'cta_title' => $this->languageHelper->translate($block_config['email_recipe_container']['cta_title']) ?? $this->getRecipeEmailDefault()['cta_title'],
+          'confirmation_message' => $this->languageHelper->translate($block_config['email_recipe_container']['confirmation_message']) ?? $this->getRecipeEmailDefault()['confirmation_message'],
+          'captcha' => $block_config['email_recipe_container']['captcha'] ?? $this->getRecipeEmailDefault()['captcha'],
+        ]
+        : NULL;
   }
 
   /**
@@ -340,7 +340,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       $social_menu_items[$name]['title'] = $social_media['text'];
       $social_menu_items[$name]['url'] = $this->token->replace($social_media['api_url'], ['node' => $node]);
       $social_menu_items[$name]['item_modifiers'] = $this->transformAttributesToArray(
-        $social_media['attributes']
+            $social_media['attributes']
         );
       $social_menu_items[$name]['weight'] = $social_media['weight'];
 
@@ -366,20 +366,23 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     }
 
     // Remove email button if email recipe is disable.
-    if ((!isset($block_config['email_recipe']) || !$block_config['email_recipe']) &&
-    isset($social_menu_items['email'])) {
+    if ((!isset($block_config['email_recipe']) || !$block_config['email_recipe'])
+          && isset($social_menu_items['email'])
+      ) {
       unset($social_menu_items['email']);
     }
 
     // Sort accordint to weight in configuration.
-    usort($social_menu_items, function ($a, $b) {
-      if ($a['weight'] == $b['weight']) {
-        return 0;
-      }
-      return ($a['weight'] >= $b['weight'])
-        ? 1
-        : -1;
-    });
+    usort(
+          $social_menu_items, function ($a, $b) {
+            if ($a['weight'] == $b['weight']) {
+                return 0;
+            }
+              return ($a['weight'] >= $b['weight'])
+              ? 1
+              : -1;
+          }
+      );
 
     return $social_menu_items;
   }
@@ -455,7 +458,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    *   Form array.
    */
   public function buildEmailRecipeForm(array &$form) {
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->get('mars_common.character_limit_page');
 
     $form['email_recipe'] = [
       '#type' => 'checkbox',
@@ -469,7 +472,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#open' => TRUE,
       '#states' => [
         'visible' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
       ],
     ];
@@ -481,7 +484,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#default_value' => $this->configuration['email_recipe_container']['email_hint'] ?? $this->getRecipeEmailDefault()['email_hint'],
       '#states' => [
         'visible' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
       ],
     ];
@@ -493,7 +496,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#default_value' => $this->configuration['email_recipe_container']['email_overlay_title'] ?? $this->getRecipeEmailDefault()['email_overlay_title'],
       '#states' => [
         'visible' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
       ],
     ];
@@ -505,7 +508,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#default_value' => $this->configuration['email_recipe_container']['email_overlay_description'] ?? $this->getRecipeEmailDefault()['email_overlay_description'],
       '#states' => [
         'visible' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
       ],
     ];
@@ -516,7 +519,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#open' => TRUE,
       '#states' => [
         'visible' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
       ],
     ];
@@ -528,7 +531,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#default_value' => $this->configuration['email_recipe_container']['checkboxes_container']['grocery_list'] ?? $this->getRecipeEmailDefault()['checkboxes_container']['grocery_list'],
       '#states' => [
         'visible' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
       ],
     ];
@@ -540,7 +543,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#default_value' => $this->configuration['email_recipe_container']['checkboxes_container']['email_recipe'] ?? $this->getRecipeEmailDefault()['checkboxes_container']['email_recipe'],
       '#states' => [
         'visible' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
       ],
     ];
@@ -553,10 +556,10 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#default_value' => $this->configuration['email_recipe_container']['email_address_hint'] ?? $this->getRecipeEmailDefault()['email_address_hint'],
       '#states' => [
         'visible' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
         'required' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
       ],
     ];
@@ -569,10 +572,10 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#default_value' => $this->configuration['email_recipe_container']['error_message'] ?? $this->getRecipeEmailDefault()['error_message'],
       '#states' => [
         'visible' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
         'required' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
       ],
     ];
@@ -585,10 +588,10 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#default_value' => $this->configuration['email_recipe_container']['cta_title'] ?? $this->getRecipeEmailDefault()['cta_title'],
       '#states' => [
         'visible' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
         'required' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
       ],
     ];
@@ -601,10 +604,10 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#default_value' => $this->configuration['email_recipe_container']['confirmation_message'] ?? $this->getRecipeEmailDefault()['confirmation_message'],
       '#states' => [
         'visible' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
         'required' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
       ],
     ];
@@ -614,7 +617,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#default_value' => $this->configuration['email_recipe_container']['captcha'] ?? TRUE,
       '#states' => [
         'visible' => [
-          [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
+        [':input[name="settings[email_recipe]"]' => ['checked' => TRUE]],
         ],
       ],
     ];

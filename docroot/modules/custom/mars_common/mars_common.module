@@ -481,6 +481,14 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'block--mars-common--media-carousel',
     ],
+    'fullwidth_carousel_component' => [
+      'variables' => [
+        'brand_borders' => NULL,
+        'title' => NULL,
+        'items' => NULL,
+      ],
+      'template' => 'block--mars-common--media-carousel-fullwidth',
+    ],
     'flexible_framer_block' => [
       'variables' => [
         'grid_label' => NULL,
@@ -1681,7 +1689,7 @@ function mars_common_node_presave(NodeInterface $node) {
  * Implements hook_page_attachments().
  */
 function mars_common_page_attachments(&$page) {
-   $page['#attached']['library'][] = 'mars_common/mars_common.focal_point';
+  $page['#attached']['library'][] = 'mars_common/mars_common.focal_point';
   $current_route = Drupal::routeMatch();
   $route_name = $current_route->getRouteName();
   $supported_routes = [

@@ -1,0 +1,960 @@
+id: multibrand_node_product_variant_i18n
+label: Product variants (multibrand - i18n)
+migration_group: multibrand
+migration_tags:
+  - Node
+migration_dependencies:
+  optional:
+    - multibrand_node_product_variant
+    - multibrand_product_key_image_i18n
+    - multibrand_product_image_1_i18n
+    - multibrand_product_image_2_i18n
+    - multibrand_product_image_3_i18n
+    - multibrand_product_image_4_i18n
+source:
+  plugin: brand_drupal_salsify_url
+  data_fetcher_plugin: http
+  data_parser_plugin: salsify_json
+  item_selector: /
+  track_changes: true
+  constants:
+    destination: 'public://migrate-images/products'
+  fields:
+    -
+      name: source_allergen_warnings
+      label: 'Allergen Statement'
+      selector: 'field_product_allergen_warnings/0'
+    -
+      name: source_leagal_warnings
+      label: 'Legal warnings'
+      selector: 'field_product_legal_warnings/0'
+    -
+      name: source_key_image
+      label: 'CMS: Image 1'
+      selector: 'field_product_key_image/0'
+    -
+      name: source_product_image_1
+      label: 'CMS: Image 2'
+      selector: 'field_product_image_1/0'
+    -
+      name: source_product_image_2
+      label: 'CMS: Image 3'
+      selector: 'field_product_image_2/0'
+    -
+      name: source_product_image_3
+      label: 'CMS: Image 4'
+      selector: 'field_product_image_3/0'
+    -
+      name: source_product_image_4
+      label: 'CMS: Image 5'
+      selector: 'field_product_image_4/0'
+    -
+      name: source_name
+      label: 'CMS: Product name'
+      selector: 'field_product_name/0'
+    -
+      name: source_ingredients
+      label: 'Complete Ingredient Statement'
+      selector: 'field_product_ingredients/0'
+    -
+      name: source_sku
+      label: 'GTIN'
+      selector: 'field_product_sku/0'
+    -
+      name: source_cooking_instructions
+      label: 'Brandbank Cooking Guidelines'
+      selector: 'field_product_cooking_instruct/0'
+    -
+      name: source_size
+      label: 'Net Content'
+      selector: 'field_product_size/0'
+    -
+      name: source_description
+      label: 'Description'
+      selector: 'field_product_description/0'
+    -
+      name: source_consumption_context
+      label: 'Consumption Context'
+      selector: 'field_product_consumption_1/0'
+    -
+      name: source_consumption_context_2
+      label: 'Consumption Context Dual Label'
+      selector: 'field_product_consumption_2/0'
+    -
+      name: source_carb
+      label: 'LTD Carbohydrate/100g'
+      selector: 'field_product_carb/0'
+    -
+      name: source_carb_2
+      label: 'LTD Carbohydrate Serving/kcal'
+      selector: 'field_dual_carb/0'
+    -
+      name: source_calories
+      label: 'LTD Energy'
+      selector: 'field_product_calories/0'
+    -
+      name: source_calories_2
+      label: 'LTD Energy Serving'
+      selector: 'field_dual_calories/0'
+    -
+      name: source_fat
+      label: 'LTD Fat'
+      selector: 'field_product_total_fat/0'
+    -
+      name: source_fat_2
+      label: 'LTD Fat Serving'
+      selector: 'field_dual_total_fat/0'
+    -
+      name: source_fiber
+      label: 'LTD Fibre'
+      selector: 'field_product_fibre/0'
+    -
+      name: source_fiber_2
+      label: 'LTD Fibre Serving'
+      selector: 'field_dual_fibre/0'
+    -
+      name: source_saturated_fat
+      label: 'LTD of_which_saturates'
+      selector: 'field_product_saturated_fat/0'
+    -
+      name: source_saturated_fat_2
+      label: 'LTD of_which_saturates Serving'
+      selector: 'field_dual_saturated_fat/0'
+    -
+      name: source_total_sugars
+      label: 'LTD of_which_sugars'
+      selector: 'field_product_total_sugars/0'
+    -
+      name: source_total_sugars_2
+      label: 'LTD of_which_sugars Serving'
+      selector: 'field_dual_total_sugars/0'
+    -
+      name: field_product_protein
+      label: 'LTD Protein'
+      selector: 'field_product_protein/0'
+    -
+      name: field_product_protein_2
+      label: 'LTD Protein Serving'
+      selector: 'field_dual_protein/0'
+    -
+      name: source_sodium
+      label: 'LTD Salt'
+      selector: 'field_product_sodium/0'
+    -
+      name: source_sodium_2
+      label: 'LTD Salt Serving'
+      selector: 'field_dual_sodium/0'
+    -
+      name: source_benefits
+      label: 'Benefits'
+      selector: 'field_nutritional_claims_benefit_1/0'
+    -
+      name: source_benefits_2
+      label: 'Benefits 2'
+      selector: 'field_nutritional_claims_benefit_2/0'
+    -
+      name: source_benefits_3
+      label: 'Benefits 3'
+      selector: 'field_nutritional_claims_benefit_3/0'
+    -
+      name: source_benefits_4
+      label: 'Benefits 4'
+      selector: 'field_nutritional_claims_benefit_4/0'
+    -
+      name: source_benefits_5
+      label: 'Benefits 5'
+      selector: 'field_nutritional_claims_benefit_5/0'
+    -
+      name: source_benefits_6
+      label: 'Benefits 6'
+      selector: 'field_nutritional_claims_benefit_6/0'
+    -
+      name: source_benefits_7
+      label: 'Benefits 7'
+      selector: 'field_nutritional_claims_benefit_7/0'
+    -
+      name: source_benefits_8
+      label: 'Benefits 8'
+      selector: 'field_nutritional_claims_benefit_8/0'
+    -
+      name: source_benefits_9
+      label: 'Benefits 9'
+      selector: 'field_nutritional_claims_benefit_9/0'
+    -
+      name: source_benefits_10
+      label: 'Benefits 10'
+      selector: 'field_nutritional_claims_benefit_10/0'
+    -
+      name: source_serving_size
+      label: ' Serving Size'
+      selector: 'field_product_serving_size/0'
+    -
+      name: source_reference_intake
+      label: 'LTD Reference Intake'
+      selector: 'field_product_reference_intake/0'
+    -
+      name: field_product_total_sugars_daily
+      label: 'Total sugars daily'
+      selector: 'field_product_total_sugars_daily/0'
+    -
+      name: field_product_dietary_fiber_daily
+      label: 'Dietary fiber daily'
+      selector: 'field_product_dietary_fiber_daily/0'
+    -
+      name: field_product_dietary_fiber
+      label: 'Dietary fiber'
+      selector: 'field_product_dietary_fiber/0'
+    -
+      name: field_dual_servings_per
+      label: 'Dual Servings Per Container'
+      selector: 'field_dual_servings_per/0'
+    -
+      name: field_dual_saturated_fat_daily
+      label: 'Dual saturated fat daily'
+      selector: 'field_dual_saturated_fat_daily/0'
+    -
+      name: field_dual_dietary_fiber_daily
+      label: 'Dual dietary fiber daily'
+      selector: 'field_dual_dietary_fiber_daily/0'
+    -
+      name: field_dual_dietary_fiber
+      label: 'Dual dietary fiber'
+      selector: 'field_dual_dietary_fiber/0'
+    -
+      name: field_product_vitamin_d_daily
+      label: 'Vitamin d daily'
+      selector: 'field_product_vitamin_d_daily/0'
+    -
+      name: field_product_vitamin_d
+      label: 'Vitamin d'
+      selector: 'field_product_vitamin_d/0'
+    -
+      name: field_product_vitamin_c_daily
+      label: 'Vitamin c daily'
+      selector: 'field_product_vitamin_c_daily/0'
+    -
+      name: field_product_vitamin_c
+      label: 'Vitamin c'
+      selector: 'field_product_vitamin_c/0'
+    -
+      name: field_product_vitamin_a_daily
+      label: 'Vitamin a daily'
+      selector: 'field_product_vitamin_a_daily/0'
+    -
+      name: field_product_vitamin_a
+      label: 'Vitamin a'
+      selector: 'field_product_vitamin_a/0'
+    -
+      name: field_product_trans_fat_daily
+      label: 'Trans fat daily'
+      selector: 'field_product_trans_fat_daily/0'
+    -
+      name: field_product_trans_fat
+      label: 'Trans fat'
+      selector: 'field_product_trans_fat/0'
+    -
+      name: field_product_total_fat_daily
+      label: 'Total fat daily'
+      selector: 'field_product_total_fat_daily/0'
+    -
+      name: field_product_thiamin_daily
+      label: 'Thiamin daily'
+      selector: 'field_product_thiamin_daily/0'
+    -
+      name: field_product_thiamin
+      label: 'Thiamin'
+      selector: 'field_product_thiamin/0'
+    -
+      name: field_product_sugar_alcohol
+      label: 'Sugar alcohol'
+      selector: 'field_product_sugar_alcohol/0'
+    -
+      name: field_product_sodium_daily
+      label: 'Sodium daily'
+      selector: 'field_product_sodium_daily/0'
+    -
+      name: field_product_servings_per
+      label: 'Servings per'
+      selector: 'field_product_servings_per/0'
+    -
+      name: field_product_saturated_daily
+      label: 'Saturated daily'
+      selector: 'field_product_saturated_daily/0'
+    -
+      name: field_product_riboflavin_daily
+      label: 'Riboflavin daily'
+      selector: 'field_product_riboflavin_daily/0'
+    -
+      name: field_product_riboflavin
+      label: 'Riboflavin'
+      selector: 'field_product_riboflavin/0'
+    -
+      name: field_product_protein_daily
+      label: 'Protein daily'
+      selector: 'field_product_protein_daily/0'
+    -
+      name: field_product_potassium_daily
+      label: 'Potassium daily'
+      selector: 'field_product_potassium_daily/0'
+    -
+      name: field_product_potassium
+      label: 'Potassium'
+      selector: 'field_product_potassium/0'
+    -
+      name: field_product_polyunsaturated_fa
+      label: 'Polyunsaturated fat'
+      selector: 'field_product_polyunsaturated_fa/0'
+    -
+      name: field_product_niacin_daily
+      label: 'Niacin daily'
+      selector: 'field_product_niacin_daily/0'
+    -
+      name: field_product_niacin
+      label: 'Niacin'
+      selector: 'field_product_niacin/0'
+    -
+      name: field_product_monounsaturated_fa
+      label: 'Monounsaturated fat'
+      selector: 'field_product_monounsaturated_fa/0'
+    -
+      name: field_product_iron_daily
+      label: 'Iron daily'
+      selector: 'field_product_iron_daily/0'
+    -
+      name: field_product_iron
+      label: 'Iron'
+      selector: 'field_product_iron/0'
+    -
+      name: field_product_folate_daily
+      label: 'Folate daily'
+      selector: 'field_product_folate_daily/0'
+    -
+      name: field_product_folate
+      label: 'Folate'
+      selector: 'field_product_folate/0'
+    -
+      name: field_product_cholesterol_daily
+      label: 'Cholesterol daily'
+      selector: 'field_product_cholesterol_daily/0'
+    -
+      name: field_product_cholesterol
+      label: 'Cholesterol'
+      selector: 'field_product_cholesterol/0'
+    -
+      name: field_product_carb_daily
+      label: 'Carb daily'
+      selector: 'field_product_carb_daily/0'
+    -
+      name: field_product_calories_fat
+      label: 'Calories fat'
+      selector: 'field_product_calories_fat/0'
+    -
+      name: field_product_calories_daily
+      label: 'Calories daily'
+      selector: 'field_product_calories_daily/0'
+    -
+      name: field_product_calcium_daily
+      label: 'Calcium daily'
+      selector: 'field_product_calcium_daily/0'
+    -
+      name: field_product_calcium
+      label: 'Calcium'
+      selector: 'field_product_calcium/0'
+    -
+      name: field_product_added_sugars_daily
+      label: 'Added sugars daily'
+      selector: 'field_product_added_sugars_daily/0'
+    -
+      name: field_product_added_sugars
+      label: 'Added sugars'
+      selector: 'field_product_added_sugars/0'
+    -
+      name: field_dual_vitamin_a_daily
+      label: 'Dual vitamin a daily'
+      selector: 'field_dual_vitamin_a_daily/0'
+    -
+      name: field_dual_vitamin_a
+      label: 'Dual vitamin a'
+      selector: 'field_dual_vitamin_a/0'
+    -
+      name: field_dual_vitamin_d_daily
+      label: 'Dual vitamin d daily'
+      selector: 'field_dual_vitamin_d_daily/0'
+    -
+      name: field_dual_vitamin_d
+      label: 'Dual vitamin d'
+      selector: 'field_dual_vitamin_d/0'
+    -
+      name: field_dual_trans_fat
+      label: 'Dual trans fat'
+      selector: 'field_dual_trans_fat/0'
+    -
+      name: field_dual_total_fat_daily
+      label: 'Dual total fat daily'
+      selector: 'field_dual_total_fat_daily/0'
+    -
+      name: field_dual_sugars
+      label: 'Dual sugars'
+      selector: 'field_dual_sugars/0'
+    -
+      name: field_dual_sugar_alcohol
+      label: 'Dual sugar alcohol'
+      selector: 'field_dual_sugar_alcohol/0'
+    -
+      name: field_dual_sodium_daily
+      label: 'Dual sodium daily'
+      selector: 'field_dual_sodium_daily/0'
+    -
+      name: field_dual_potassium_daily
+      label: 'Dual potassium daily'
+      selector: 'field_dual_potassium_daily/0'
+    -
+      name: field_dual_potassium
+      label: 'Dual potassium'
+      selector: 'field_dual_potassium/0'
+    -
+      name: field_dual_iron_daily
+      label: 'Dual iron daily'
+      selector: 'field_dual_iron_daily/0'
+    -
+      name: field_dual_iron
+      label: 'Dual iron'
+      selector: 'field_dual_iron/0'
+    -
+      name: field_dual_cholesterol_daily
+      label: 'Dual cholesterol daily'
+      selector: 'field_dual_cholesterol_daily/0'
+    -
+      name: field_dual_cholesterol
+      label: 'Dual cholesterol'
+      selector: 'field_dual_cholesterol/0'
+    -
+      name: field_dual_carb_daily
+      label: 'Dual carb daily'
+      selector: 'field_dual_carb_daily/0'
+    -
+      name: field_dual_calcium_daily
+      label: 'Dual calcium daily'
+      selector: 'field_dual_calcium_daily/0'
+    -
+      name: field_dual_calcium
+      label: 'Dual calcium'
+      selector: 'field_dual_calcium/0'
+    -
+      name: field_dual_allergen_warnings
+      label: 'Dual allergen warnings'
+      selector: 'field_dual_allergen_warnings/0'
+    -
+      name: field_dual_legal_warnings
+      label: 'Dual legal warnings'
+      selector: 'field_dual_legal_warnings/0'
+    -
+      name: field_dual_added_sugars_daily
+      label: 'Dual added sugars daily'
+      selector: 'field_dual_added_sugars_daily/0'
+    -
+      name: field_dual_added_sugars
+      label: 'Dual added sugars'
+      selector: 'field_dual_added_sugars/0'
+    -
+      name: source_product_disclaimers
+      label: 'Product Disclaimers'
+      selector: 'field_product_disclaimers/0'
+    -
+      name: source_calorie_stmt
+      label: 'Calorie Reduction Statement'
+      selector: 'field_product_calorie_stmt/0'
+    -
+      name: source_whitening_stmt
+      label: 'Whitening Statement'
+      selector: 'field_product_whitening_stmt/0'
+    -
+      name: source_product_variant_grp_title
+      label: 'CMS: Grouping Display Title'
+      selector: 'field_product_variant_grp_title/0'
+    -
+      name: source_product_variant_grp_image
+      label: 'CMS: Grouping Display Image'
+      selector: 'field_product_variant_grp_image/0'
+    -
+      name: source_pdt_var_grp_primary
+      label: 'CMS: Grouping Display First'
+      selector: 'field_pdt_var_grp_primary/0'
+
+  ids:
+    source_sku:
+      type: string
+process:
+  nid:
+    plugin: migration_lookup
+    migration: multibrand_node_product_variant
+    source: source_sku
+  title:
+    plugin: skip_on_empty
+    method: row
+    source: source_name
+  field_product_sku:
+    plugin: skip_on_empty
+    method: row
+    source: source_sku
+  field_product_size:
+    plugin: default_value
+    method: row
+    source: source_size
+  'field_product_description/value':
+    plugin: skip_on_empty
+    method: row
+    source: source_description
+  field_product_cooking_instruct/value: source_cooking_instructions
+  'field_product_description/format':
+    plugin: default_value
+    default_value: rich_text
+  field_product_calories:
+    plugin: default_value
+    default_value: ''
+    source: source_calories
+  field_dual_calories:
+    plugin: default_value
+    default_value: ''
+    source: source_calories_2
+  field_product_total_fat:
+    plugin: default_value
+    default_value: ''
+    source: source_fat
+  field_dual_total_fat:
+    plugin: default_value
+    default_value: ''
+    source: source_fat_2
+  field_product_fibre:
+    plugin: default_value
+    default_value: ''
+    source: source_fiber
+  field_dual_fibre:
+    plugin: default_value
+    default_value: ''
+    source: source_fiber_2
+  field_product_saturated_fat:
+    plugin: default_value
+    default_value: ''
+    source: source_saturated_fat
+  field_dual_saturated_fat:
+    plugin: default_value
+    default_value: ''
+    source: source_saturated_fat_2
+  field_product_total_sugars:
+    plugin: default_value
+    default_value: ''
+    source: source_total_sugars
+  field_dual_total_sugars:
+    plugin: default_value
+    default_value: ''
+    source: source_total_sugars_2
+  field_product_protein:
+    plugin: default_value
+    default_value: ''
+    source: field_product_protein
+  field_dual_protein:
+    plugin: default_value
+    default_value: ''
+    source: field_product_protein_2
+  field_product_carb:
+    plugin: default_value
+    default_value: ''
+    source: source_carb
+  field_dual_carb:
+    plugin: default_value
+    default_value: ''
+    source: source_carb_2
+  field_product_sodium:
+    plugin: default_value
+    default_value: ''
+    source: source_sodium
+  field_dual_sodium:
+    plugin: default_value
+    default_value: ''
+    source: source_sodium_2
+  field_product_total_sugars_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_total_sugars_daily
+  field_product_dietary_fiber_dail:
+    plugin: default_value
+    default_value: ''
+    source: field_product_dietary_fiber_daily
+  field_product_dietary_fiber:
+    plugin: default_value
+    default_value: ''
+    source: field_product_dietary_fiber
+  field_dual_saturated_fat_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_saturated_fat_daily
+  field_dual_dietary_fiber_dail:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_dietary_fiber_daily
+  field_dual_dietary_fiber:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_dietary_fiber
+  field_product_vitamin_d:
+    plugin: default_value
+    default_value: ''
+    source: field_product_vitamin_d
+  field_product_vitamin_d_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_vitamin_d_daily
+  field_product_vitamin_c_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_vitamin_c_daily
+  field_product_vitamin_c:
+    plugin: default_value
+    default_value: ''
+    source: field_product_vitamin_c
+  field_product_vitamin_a_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_vitamin_a_daily
+  field_product_vitamin_a:
+    plugin: default_value
+    default_value: ''
+    source: field_product_vitamin_a
+  field_product_trans_fat_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_trans_fat_daily
+  field_product_trans_fat:
+    plugin: default_value
+    default_value: ''
+    source: field_product_trans_fat
+  field_product_total_fat_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_total_fat_daily
+  field_product_thiamin_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_thiamin_daily
+  field_product_thiamin:
+    plugin: default_value
+    default_value: ''
+    source: field_product_thiamin
+  field_product_sugar_alcohol:
+    plugin: default_value
+    default_value: ''
+    source: field_product_sugar_alcohol
+  field_product_sodium_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_sodium_daily
+  field_product_servings_per:
+    plugin: default_value
+    default_value: ''
+    source: field_product_servings_per
+  field_product_saturated_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_saturated_daily
+  field_product_riboflavin_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_riboflavin_daily
+  field_product_riboflavin:
+    plugin: default_value
+    default_value: ''
+    source: field_product_riboflavin
+  field_product_protein_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_protein_daily
+  field_product_potassium_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_potassium_daily
+  field_product_potassium:
+    plugin: default_value
+    default_value: ''
+    source: field_product_potassium
+  field_product_polyunsaturated_fa:
+    plugin: default_value
+    default_value: ''
+    source: field_product_polyunsaturated_fa
+  field_product_niacin_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_niacin_daily
+  field_product_niacin:
+    plugin: default_value
+    default_value: ''
+    source: field_product_niacin
+  field_product_monounsaturated_fa:
+    plugin: default_value
+    default_value: ''
+    source: field_product_monounsaturated_fa
+  field_product_iron_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_iron_daily
+  field_product_iron:
+    plugin: default_value
+    default_value: ''
+    source: field_product_iron
+  field_product_folate_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_folate_daily
+  field_product_folate:
+    plugin: default_value
+    default_value: ''
+    source: field_product_folate
+  field_product_cholesterol_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_cholesterol_daily
+  field_product_cholesterol:
+    plugin: default_value
+    default_value: ''
+    source: field_product_cholesterol
+  field_product_carb_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_carb_daily
+  field_product_calories_fat:
+    plugin: default_value
+    default_value: ''
+    source: field_product_calories_fat
+  field_product_calories_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_calories_daily
+  field_product_calcium_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_calcium_daily
+  field_product_calcium:
+    plugin: default_value
+    default_value: ''
+    source: field_product_calcium
+  field_product_added_sugars_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_product_added_sugars_daily
+  field_product_added_sugars:
+    plugin: default_value
+    default_value: ''
+    source: field_product_added_sugars
+  field_dual_vitamin_a_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_vitamin_a_daily
+  field_dual_vitamin_a:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_vitamin_a
+  field_dual_vitamin_d_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_vitamin_d_daily
+  field_dual_vitamin_d:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_vitamin_d
+  field_dual_trans_fat:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_trans_fat
+  field_dual_total_fat_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_total_fat_daily
+  field_dual_sugars:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_sugars
+  field_dual_sugar_alcohol:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_sugar_alcohol
+  field_dual_sodium_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_sodium_daily
+  field_dual_potassium_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_potassium_daily
+  field_dual_potassium:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_potassium
+  field_dual_iron_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_iron_daily
+  field_dual_iron:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_iron
+  field_dual_cholesterol_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_cholesterol_daily
+  field_dual_cholesterol:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_cholesterol
+  field_dual_carb_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_carb_daily
+  field_dual_calcium_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_calcium_daily
+  field_dual_calcium:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_calcium
+  field_dual_allergen_warnings:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_allergen_warnings
+  field_dual_legal_warnings:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_legal_warnings
+  field_dual_added_sugars_daily:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_added_sugars_daily
+  field_dual_added_sugars:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_added_sugars
+  field_dual_servings_per:
+    plugin: default_value
+    default_value: ''
+    source: field_dual_servings_per
+  field_product_consumption_1:
+    plugin: default_value
+    default_value: ''
+    source: source_consumption_context
+  field_product_consumption_2:
+    plugin: default_value
+    default_value: ''
+    source: source_consumption_context_2
+  field_product_serving_size:
+    plugin: default_value
+    default_value: ''
+    source: source_serving_size
+  field_product_reference_intake:
+    plugin: default_value
+    default_value: ''
+    source: source_reference_intake
+  field_product_calorie_stmt:
+    plugin: default_value
+    default_value: ''
+    source: source_calorie_stmt
+  field_product_whitening_stmt:
+    plugin: default_value
+    default_value: ''
+    source: source_whitening_stmt
+  field_product_variant_grp_title:
+    plugin: default_value
+    default_value: ''
+    source: source_product_variant_grp_title
+  field_pdt_var_grp_primary:
+    plugin: yes_to_true
+    default_value: 0
+    source: source_pdt_var_grp_primary
+  field_product_variant_grp_image/target_id:
+    plugin: migration_lookup
+    migration:
+      - multibrand_product_variant_grp_image_i18n
+    source: source_product_variant_grp_image
+    no_stub: true
+  field_product_key_image/target_id:
+    plugin: migration_lookup
+    migration:
+      - multibrand_product_key_image_i18n
+    source: source_key_image
+    no_stub: true
+  field_product_image_1/target_id:
+    plugin: migration_lookup
+    migration:
+      - multibrand_product_image_1_i18n
+    source: source_product_image_1
+    no_stub: true
+  field_product_image_2/target_id:
+    plugin: migration_lookup
+    migration:
+      - multibrand_product_image_2_i18n
+    source: source_product_image_2
+    no_stub: true
+  field_product_image_3/target_id:
+    plugin: migration_lookup
+    migration:
+      - multibrand_product_image_3_i18n
+    source: source_product_image_3
+    no_stub: true
+  field_product_image_4/target_id:
+    plugin: migration_lookup
+    migration:
+      - multibrand_product_image_4_i18n
+    source: source_product_image_4
+    no_stub: true
+  'field_product_allergen_warnings/value': source_allergen_warnings
+  'field_product_allergen_warnings/format':
+    plugin: default_value
+    default_value: rich_text
+  'field_product_legal_warnings/value': source_leagal_warnings
+  'field_product_legal_warnings/format':
+    plugin: default_value
+    default_value: rich_text
+  'field_product_ingredients/value': source_ingredients
+  'field_product_ingredients/format':
+    plugin: default_value
+    default_value: rich_text
+  'field_product_disclaimers/value': source_product_disclaimers
+  'field_product_disclaimers/format':
+    plugin: default_value
+    default_value: rich_text
+  field_nutritional_claims_benefit:
+    plugin: multiple_values
+    source:
+      - source_benefits
+      - source_benefits_2
+      - source_benefits_3
+      - source_benefits_4
+      - source_benefits_5
+      - source_benefits_6
+      - source_benefits_7
+      - source_benefits_8
+      - source_benefits_9
+      - source_benefits_10
+
+  type:
+    plugin: default_value
+    default_value: product_variant
+  uid:
+    plugin: default_value
+    default_value: 1
+  langcode:
+    plugin: salsify_i18n_process_language
+    source: language
+    default_value: 'und'
+  status:
+    plugin: default_value
+    default_value: 0
+  moderation_state:
+    plugin: static_map
+    source: '@status'
+    default_value: draft
+    map:
+      '0': draft
+      '1': published
+destination:
+  plugin: entity:node
+  translations: true
