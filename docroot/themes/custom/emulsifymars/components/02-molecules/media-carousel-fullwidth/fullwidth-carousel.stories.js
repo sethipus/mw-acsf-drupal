@@ -1,0 +1,11 @@
+import React from 'react';
+import mediaCarouselFullWidth from './media-carousel-fullwidth.twig';
+import mediaCarouselFullWidthData from './media-carousel-fullwidth.yml';
+import { useEffect } from '@storybook/client-api';
+
+export default { title: 'Molecules/Fullwidth Media Carousel'};
+
+export const mediaCarouselFullWidthModule = () => {
+    useEffect(() => Drupal.attachBehaviors(), []);
+    return <div dangerouslySetInnerHTML={{ __html: mediaCarouselFullWidth(mediaCarouselFullWidthData) }} />
+  };

@@ -7,6 +7,7 @@ use Drupal\Tests\UnitTestCase;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\Plugin\Block\FlexibleDriverBlock;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Class FlexibleDriverBlockTest - unit tests.
@@ -64,6 +65,13 @@ class FlexibleDriverBlockTest extends UnitTestCase {
   private $languageHelperMock;
 
   /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -75,13 +83,23 @@ class FlexibleDriverBlockTest extends UnitTestCase {
       'admin_label' => 'test',
     ];
 
+    $configMock = $this->getMockBuilder(stdClass::class)
+      ->setMethods(['get'])
+      ->getMock();
+
+    $this->configFactoryMock
+      ->method('get')
+      ->with('mars_common.character_limit_page')
+      ->willReturn($configMock);
+
     $this->flexibleDriverBlock = new FlexibleDriverBlock(
       $this->configuration,
       'flexible_driver',
       $definitions,
       $this->mediaHelperMock,
       $this->languageHelperMock,
-      $this->themeConfiguratorParserMock
+      $this->themeConfiguratorParserMock,
+      $this->configFactoryMock
     );
   }
 
@@ -92,6 +110,7 @@ class FlexibleDriverBlockTest extends UnitTestCase {
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->languageHelperMock = $this->createLanguageHelperMock();
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
   }
 
   /**
