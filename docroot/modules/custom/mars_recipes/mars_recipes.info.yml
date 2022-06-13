@@ -1,6 +1,7 @@
 name: 'Mars Recipes'
 type: module
 package: 'Mars'
+description: 'Global Elements.'
 core_version_requirement: '^8.8 || ^9'
 dependencies:
   - mars_product

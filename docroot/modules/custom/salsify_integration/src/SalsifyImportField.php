@@ -671,7 +671,7 @@ class SalsifyImportField extends SalsifyImport {
     $meta_tags = $entity->get($field['field_name'])->value;
     $meta_tags_value = [];
     if (isset($meta_tags)) {
-      $meta_tags_value = unserialize($meta_tags);
+      $meta_tags_value = unserialize($meta_tags, ["allowed_classes" => FALSE]);
     }
     $meta_tags_value['description'] = $product_data['CMS: Meta Description'] ?? NULL;
     $meta_tags_value['keywords'] = $product_data['CMS: Keywords'] ?? NULL;

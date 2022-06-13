@@ -1,0 +1,82 @@
+/* !FOCUSED IMAGES */
+.focuspoint {
+    overflow: hidden;
+  }
+  
+  .focuspoint img {
+    display: block;
+    height: auto;
+    left: 0;
+    margin: 0;
+    max-height: none;
+    max-width: none;
+    min-height: 100%;
+    min-width: 100%;
+    position: absolute;
+    top: 0;
+    width: auto;
+    -moz-transition: all 500ms ease-in-out;
+    transition: all 500ms ease-in-out;
+    -webkit-transition: all 500ms ease-in-out;
+  }
+  
+  /* !Helper tool target for dialogbox popup */
+  .helper-tool-target {
+    background: linear-gradient(45deg, #7d7d7dcc, #594f4f);
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .helper-tool-target img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    opacity: 0.4;
+  }
+  
+  .helper-tool-target .helper-tool-img,
+  .helper-tool-target .focal-pointer {
+    cursor: crosshair;
+  }
+  
+  .helper-tool-target .focal-pointer {
+    border: 2px solid #bbb;
+    box-shadow: 0px 0px 20px 5px rgba(67, 67, 67, 1);
+    height: 100px;
+    left: 50%;
+    -moz-box-shadow: 0px 0px 20px 5px rgba(67, 67, 67, 1);
+    -moz-transition: all 500ms ease-in-out;
+    -ms-transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 500ms ease-in-out;
+    -webkit-box-shadow: 0px 0px 20px 5px rgba(67, 67, 67, 1);
+    -webkit-transform: translate(-50%, -50%);
+    -webkit-transition: all 500ms ease-in-out;
+    width: 100px;
+  }
+  
+  @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+    .helper-tool-target .focal-pointer {
+      backdrop-filter: contrast(3);
+      -webkit-backdrop-filter: contrast(3);
+    }
+  }
+  
+  @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .helper-tool-target .focal-pointer {
+      background-color: rgba(254, 242, 195, 0.14);
+    }
+  }
+  .image-note {
+    padding: 5px;
+    margin: 5px 15px;
+  }
+  .focal-note {
+    padding: 5px;
+    margin: 5px 0;
+    border: 1px solid #f9fb93;
+    background: #f9fb93;
+  }
+  

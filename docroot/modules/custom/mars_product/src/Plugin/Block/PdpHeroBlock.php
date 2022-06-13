@@ -720,7 +720,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     $display = 'product_hero';
     $widget_id_field = $this->productHelper->getWidgetIdField($display);
-    $node = $this->routeMatch->getParameter('node');
 
     $view_type = $this->nutritionHelper
       ->getNutritionConfig()
@@ -916,7 +915,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         return $a['title'] <=> $b['title'];
       });
     }
-      $node_bundle = $node->bundle();
+    $node_bundle = $node->bundle();
     $build['#pdp_bundle_type'] = $node_bundle;
     switch ($node_bundle) {
       case 'product_multipack':
@@ -1788,7 +1787,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   /**
-   * Check for uppercase to be changed or not in the nutrition table title label.
+   * Check for uppercase to be changed or not in the nutrition tbl title label.
    *
    * @return bool
    *   Whether it should be rendered or not.
