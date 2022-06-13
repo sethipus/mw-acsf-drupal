@@ -87,64 +87,6 @@ class ProductFilter extends JsonFilter {
   }
 
   /**
-   * Whether size of current product is less or not.
-   *
-   * @param array $item
-   *   Item array.
-   *
-   * @return bool
-   *   Master or not.
-   */
-  private function sizeIsLess(array $item): bool {
-    $column = $this->configuration['column'];
-    $family_id = reset($item[$column]);
-    $item_size = $this->getSizeByItem($item);
-    $size_to_compare = $this->getSizeByItem($this->aggregatedProducts[$family_id]);
-
-    if (!is_numeric($size_to_compare) ||
-    (is_numeric($item_size) && ($item_size <= $size_to_compare))) {
-      $is_less = TRUE;
-    }
-    else {
-      $is_less = FALSE;
-    }
-
-    return $is_less;
-  }
-
-  /**
-   * Get size by item array.
-   *
-   * @param array $item
-   *   Item array.
-   *
-   * @return mixed
-   *   Size value which might be float or null.
-   */
-  private function getSizeByItem(array $item) {
-    $size = (isset($item['field_product_size']) &&
-    !empty($item['field_product_size']))
-      ? reset($item['field_product_size'])
-      : NULL;
-    return $this->sizeToNumeric($size);
-  }
-
-  /**
-   * Convert size to float value.
-   *
-   * @param mixed $size
-   *   Size value.
-   *
-   * @return float|mixed|string|null
-   *   Converted value.
-   */
-  private function sizeToNumeric($size) {
-    return (is_numeric($size))
-      ? (float) $size
-      : (is_string($size) ? explode(' ', $size)[0] : NULL);
-  }
-
-  /**
    * Check whether family id is empty or not.
    *
    * @param array $item

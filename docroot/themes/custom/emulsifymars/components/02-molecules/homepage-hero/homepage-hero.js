@@ -1,6 +1,13 @@
 (function ($, Drupal) {
     Drupal.behaviors.homepageHeroBannerText = {
         attach(context) {
+            if ($('.focuspoint').length > 0) {
+                $('.focuspoint').imagePreview();
+                $(window).on('resize', function () {
+                    $('.focuspoint').imagePreview();
+                });
+                $('.focuspoint').focusPoint();
+            }
                 const elements = document.body.querySelectorAll("*[style]")
                 elements.forEach(element=> {
                     const breaks = document.querySelectorAll('br');
@@ -9,8 +16,8 @@
                             const {value: size, unit} = element.attributeStyleMap.get('font-size')
                             element.attributeStyleMap.set('line-height', CSS[unit](Math.floor(size * 1)));
                             element2.style.display = 'none';
-                            }  
-                    })
+                            }
+                        })
                 })
                 
         }

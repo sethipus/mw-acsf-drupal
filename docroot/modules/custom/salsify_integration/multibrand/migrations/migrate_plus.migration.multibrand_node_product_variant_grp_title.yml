@@ -8,7 +8,7 @@ migration_dependencies:
     - multibrand_term_product_category
     - multibrand_term_product_flavor
     - multibrand_term_product_format
-    - multibrand_node_product_variant
+    - multibrand_node_product_variant_grouping
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
@@ -104,9 +104,9 @@ process:
     -
       plugin: migration_lookup_ids
       migration:
-        - multibrand_node_product_variant
+        - multibrand_node_product_variant_grouping
       source_ids:
-        multibrand_node_product_variant:
+        multibrand_node_product_variant_grouping:
           source_product_variant_grp_title: source_product_variant_grp_title
     -
       plugin: skip_on_empty

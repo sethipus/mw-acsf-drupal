@@ -196,7 +196,7 @@ $outer-container-break: $small;
   background-position: right top;
 
   &:hover,  
-  &:focus {
+  &:focus-visible {
     background-position: left bottom;
   }
 }

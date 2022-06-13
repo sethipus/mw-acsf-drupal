@@ -1,0 +1,32 @@
+id: multibrand_term_product_flavor_i18n
+label: Flavor taxonomy - i18n
+migration_group: multibrand
+migration_tags:
+  - Term
+source:
+  plugin: brand_drupal_salsify_url
+  data_fetcher_plugin: http
+  data_parser_plugin: salsify_json
+  item_selector: /
+  fields:
+    -
+      name: source_product_flavor
+      label: 'Marketing Flavor'
+      selector: 'field_product_flavor/0'
+  ids:
+    source_product_flavor:
+      type: string
+process:
+  name:
+    plugin: skip_on_empty
+    method: row
+    source: source_product_flavor
+  vid:
+    plugin: default_value
+    default_value: 'mars_flavor'
+  langcode:
+    plugin: salsify_i18n_process_language
+    source: language
+    default_value: 'und'
+destination:
+  plugin: entity:taxonomy_term

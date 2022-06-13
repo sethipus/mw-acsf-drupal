@@ -225,7 +225,7 @@
                 "Source list limit setting": "https://www.drupal.org/files/issues/2020-11-11/tmgmt-settings-limit.patch"
             },
             "drupal/jquery_colorpicker": {
-                "Fixed jquery colorpicker security issue": "patches/Fixed-jquery-colorpicker-security-issue.patch",
+                "Fixed jquery colorpicker security issue": "https://www.drupal.org/files/issues/2022-06-07/jquery_colorpicker_fixed_vendor_stream_wrapper_3284430.patch",
                 "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch"
             },
             "drupal/field_group": {

@@ -1,0 +1,194 @@
+id: multibrand_node_product_i18n
+label: Product nodes (multibrand - i18n)
+migration_group: multibrand
+migration_tags:
+  - Node
+migration_dependencies:
+  optional:
+    - multibrand_node_product
+    - multibrand_term_product_category_i18n
+    - multibrand_term_product_flavor_i18n
+    - multibrand_term_product_format_i18n
+    - multibrand_node_product_variant_i18n
+source:
+  plugin: brand_drupal_salsify_url
+  data_fetcher_plugin: http
+  data_parser_plugin: json_filter
+  filter:
+    - Drupal\salsify_integration\Filter
+    - isProduct
+  item_selector: /
+  track_changes: true
+  constants:
+    destination: 'public://migrate-images/products'
+  fields:
+    -
+      name: source_category
+      label: ' CMS: Category Computed'
+      selector: 'field_product_category/0'
+    -
+      name: source_product_description
+      label: 'CMS: Description'
+      selector: 'field_product_description/0'
+    -
+      name: source_product_name
+      label: ' CMS: Product Name'
+      selector: 'field_product_name/0'
+    -
+      name: source_sku
+      label: 'GTIN'
+      selector: 'field_product_sku/0'
+    -
+      name: source_product_flavor
+      label: 'Brandbank Variant'
+      selector: 'field_product_flavor/0'
+    -
+      name: source_keywords
+      label: 'CMS: Keywords'
+      selector: 'field_meta_keywords/0'
+    -
+      name: source_meta_description
+      label: 'CMS: Meta Description'
+      selector: 'field_meta_description/0'
+    -
+      name: source_meta_title
+      label: 'CMS: Meta Title'
+      selector: 'field_meta_title/0'
+    -
+      name: source_product_format
+      label: 'RSU LTD Pack Type'
+      selector: 'field_product_format/0'
+    -
+      name: field_product_segment
+      label: 'Segment'
+      selector: 'field_product_segment/0'
+    -
+      name: field_product_market
+      label: 'Market'
+      selector: 'field_product_market/0'
+    -
+      name: field_product_trade_description
+      label: 'Trade description'
+      selector: 'field_product_trade_description/0'
+    -
+      name: field_product_occasions
+      label: 'Occasions'
+      selector: 'field_product_occasions/0'
+    -
+      name: field_product_ranking
+      label: 'Ranking'
+      selector: 'field_product_ranking/0'
+
+  ids:
+    source_sku:
+      type: string
+process:
+  nid:
+    plugin: migration_lookup
+    migration: multibrand_node_product
+    source: source_sku
+  title:
+    plugin: skip_on_empty
+    method: row
+    source: source_product_name
+
+  _field_product_variants:
+    -
+      plugin: migration_lookup_ids
+      migration:
+        - multibrand_node_product_variant_i18n
+      source_ids:
+        multibrand_node_product_variant_i18n:
+          source_sku: source_sku
+    -
+      plugin: ensure_is_array
+    -
+      plugin: value_to_array
+      key: target_id
+
+  field_product_variants:
+    plugin: sub_process
+    source: '@_field_product_variants'
+    process:
+      target_id:
+        plugin: get
+        source: target_id
+  field_product_trade_description/target_id:
+    plugin: migration_lookup
+    migration:
+     - multibrand_term_product_trade_description_i18n
+    source: field_product_trade_description
+    no_stub: true
+  field_product_occasions/target_id:
+    plugin: migration_lookup
+    migration:
+      - multibrand_term_product_occasions_i18n
+    source: field_product_occasions
+    no_stub: true
+  field_product_category/target_id:
+    plugin: migration_lookup
+    migration:
+      - multibrand_term_product_category_i18n
+    source: source_category
+    no_stub: true
+  field_product_description/value: source_product_description
+  field_product_name: source_product_name
+  field_product_segment:
+    plugin: default_value
+    default_value: ''
+    source: field_product_segment
+  field_product_market:
+    plugin: default_value
+    default_value: ''
+    source: field_product_market
+  field_product_ranking:
+    plugin: default_value
+    default_value: ''
+    source: field_product_ranking
+  field_product_sku:
+    plugin: skip_on_empty
+    method: row
+    source: source_sku
+  field_product_flavor/target_id:
+    plugin: migration_lookup
+    migration:
+      - multibrand_term_product_flavor_i18n
+    source: source_product_flavor
+    no_stub: true
+  metatags/0/title: source_meta_title
+  metatags/0/description: source_meta_description
+  metatags/0/keywords: source_keywords
+  field_meta_tags:
+    - plugin: callback
+      callable: serialize
+      source: '@metatags'
+  field_meta_keywords/value: source_keywords
+  field_product_format/target_id:
+    plugin: migration_lookup
+    migration:
+     - multibrand_term_product_format_i18n
+    source: source_product_format
+    no_stub: true
+  type:
+    plugin: default_value
+    default_value: product
+  uid:
+    plugin: default_value
+    default_value: 1
+  status:
+    plugin: default_value
+    default_value: 1
+  langcode:
+    plugin: salsify_i18n_process_language
+    source: language
+    default_value: 'und'
+  moderation_state:
+    plugin: static_map
+    source: '@status'
+    default_value: draft
+    map:
+      '0': draft
+      '1': published
+destination:
+  plugin: entity:node
+  translations: true
