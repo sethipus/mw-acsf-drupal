@@ -1,0 +1,41 @@
+id: multibrand_product_variant_grp_image_i18n
+label: 'Grouping Display Image - i18n'
+migration_group: multibrand
+migration_tags:
+  - Asset
+source:
+  plugin: brand_drupal_salsify_url
+  data_fetcher_plugin: http
+  data_parser_plugin: salsify_json
+  node_type: product_variant
+  item_selector: /
+  constants:
+    destination: 'public://migrate-product-files/'
+  fields:
+    -
+      name: source_product_variant_grp_image
+      label: 'CMS: Grouping Main Display Image'
+      selector: 'field_product_variant_grp_image/0'
+    -
+      name: source_product_title
+      label: 'CMS: Product title'
+      selector: 'field_product_name/0'
+  ids:
+    source_product_variant_grp_image:
+      type: string
+process:
+  image:
+    plugin: image_import
+    source: source_product_variant_grp_image
+    destination: 'constants/destination'
+    title: source_product_title
+    alt: source_product_title
+    skip_on_error: yes
+  thumbnail: '@image'
+  langcode:
+    plugin: salsify_i18n_process_language
+    source: language
+    default_value: 'und'
+destination:
+  plugin: 'entity:media'
+  default_bundle: image

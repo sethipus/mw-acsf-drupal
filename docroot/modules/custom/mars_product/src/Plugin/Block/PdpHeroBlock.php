@@ -720,7 +720,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     $display = 'product_hero';
     $widget_id_field = $this->productHelper->getWidgetIdField($display);
-    $node = $this->routeMatch->getParameter('node');
 
     $view_type = $this->nutritionHelper
       ->getNutritionConfig()
@@ -761,6 +760,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'label' => $config['nutrition']['label'] ?? $this->t('Nutrition'),
         'serving_label' => $config['nutrition']['serving_label'] ?? $serving_label,
         'dual_serving_label' => $config['nutrition']['dual_serving_label'] ?? $dual_serving_label,
+        'hide_dual_servings_per_label' => $config['nutrition']['hide_dual_servings_per_label'] ?? FALSE,
         'table_label' => $config['nutrition']['table_label'] ?? '',
         'dual_table_label' => $config['nutrition']['dual_table_label'] ?? '',
         'daily_label' => $config['nutrition']['daily_label'] ?? $daily_label,
@@ -885,6 +885,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'nutritional_label' => $this->languageHelper->translate($this->configuration['nutrition']['label']) ?? '',
         'nutritional_info_serving_label' => ucfirst(strtolower($this->languageHelper->translate($this->configuration['nutrition']['serving_label']))) ?? '',
         'nutritional_info_dual_serving_label' => $this->overrideDualTableHeading() ? ucfirst(strtolower($dual_serving_label)) : ucfirst(strtolower($this->languageHelper->translate($this->configuration['nutrition']['dual_serving_label']))),
+        'hide_dual_servings_per_label' => $this->configuration['nutrition']['hide_dual_servings_per_label'] ?? FALSE,
         'nutritional_info_daily_label' => $this->languageHelper->translate($this->configuration['nutrition']['daily_label']) ?? '',
         'vitamins_info_label' => $this->languageHelper->translate($this->configuration['nutrition']['vitamins_label']) . ':' ?? '',
         'daily_text' => $this->languageHelper->translate($this->configuration['nutrition']['daily_text']) ?? '',
@@ -1319,7 +1320,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $result_item['calorie_statement'] = $node->get('field_product_calorie_stmt')->value;
       $result_item['whitening_statement'] = $node->get('field_product_whitening_stmt')->value;
     }
-    elseif ($field_prefix == 'dual' && !$this->configuration['nutrition']['hide_dual_servings_per_label']) {
+    elseif ($field_prefix == 'dual') {
       $result_item['dual_servings_per_container'] = [
         'label' => $this->getDualServingsPerContainerLabel($node),
         'value' => $node->get('field_dual_servings_per')->value,
@@ -1788,7 +1789,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   /**
-   * Check for uppercase to be changed or not in the nutrition table title label.
+   * Check for uppercase to be changed or not in the nutrition tbl title label.
    *
    * @return bool
    *   Whether it should be rendered or not.

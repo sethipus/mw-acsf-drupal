@@ -604,7 +604,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
   }
 
   /**
-   *
+   * Create configuration block.
    */
   private function createConfigFactoryMock() {
     $configMock = $this->createMock(ConfigFactoryInterface::class);

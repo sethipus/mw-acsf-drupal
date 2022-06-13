@@ -14,3 +14,14 @@ mars_common.character_page:
   css:
     theme:
       css/character.page.css: {}
+
+mars_common.focal_point:
+  js:
+    js/jquery.focuspoint.js: {}
+  css:
+    theme:
+      css/focuspoint.css: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
