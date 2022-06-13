@@ -1,5 +1,5 @@
-id: multibrand_node_product_variant
-label: Product variants (multibrand)
+id: multibrand_node_product_variant_grouping
+label: Product variants (multibrand - grouping)
 migration_group: multibrand
 migration_tags:
   - Node
@@ -13,7 +13,9 @@ migration_dependencies:
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
-  data_parser_plugin: salsify_json
+  data_parser_plugin: family_variant_json
+  family_field_check_empty: true
+  column: field_product_variant_grp_title
   item_selector: /
   track_changes: true
   constants:
@@ -481,6 +483,8 @@ source:
       selector: 'field_pdt_var_grp_primary/0'
 
   ids:
+    source_product_variant_grp_title:
+      type: string
     source_sku:
       type: string
 process:

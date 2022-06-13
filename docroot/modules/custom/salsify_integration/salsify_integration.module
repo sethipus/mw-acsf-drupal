@@ -359,3 +359,33 @@ function salsify_integration_update_9331() {
     throw new UpdateException('Database table migrate_map_multibrand_node_product_variant could not be updated');
   }
 }
+
+/**
+ * Implements hook_update().
+ */
+function salsify_integration_update_9332() {
+  $spec = [
+    'type' => 'varchar',
+    'description' => 'sourceid1',
+    'length' => 255,
+    'not null' => TRUE,
+    'default' => '',
+  ];
+  $table1 = 'migrate_map_multibrand_node_product_variant';
+  $table2 = 'migrate_map_multibrand_node_product_variant_i18n';
+  try {
+    $column = 'sourceid1';
+    $schema = Database::getConnection()->schema();
+    if ($schema->tableExists($table1) && $schema->fieldExists($table1, $column)) {
+      $schema->dropField($table1, $column);
+      $schema->changeField($table1, 'sourceid2', $column, $spec);
+    }
+    if ($schema->tableExists($table2) && $schema->fieldExists($table2, $column)) {
+      $schema->dropField($table2, $column);
+      $schema->changeField($table2, 'sourceid2', $column, $spec);
+    }
+  }
+  catch (DatabaseException $e) {
+    throw new UpdateException('Database table migrate_map_multibrand_node_product_variant could not be updated');
+  }
+}

@@ -1,14 +1,14 @@
-id: multibrand_node_product_variant_grp_title
-label: Product nodes (multibrand - title grouping)
+id: multibrand_node_product_variant_grp_title_i18n
+label: Product nodes (multibrand - title grouping - i18n)
 migration_group: multibrand
 migration_tags:
   - Node
 migration_dependencies:
   optional:
-    - multibrand_term_product_category
-    - multibrand_term_product_flavor
-    - multibrand_term_product_format
-    - multibrand_node_product_variant_grouping
+    - multibrand_term_product_category_i18n
+    - multibrand_term_product_flavor_i18n
+    - multibrand_term_product_format_i18n
+    - multibrand_node_product_variant_i18n
 source:
   plugin: brand_drupal_salsify_url
   data_fetcher_plugin: http
@@ -95,6 +95,10 @@ source:
     source_product_variant_grp_title:
       type: string
 process:
+  nid:
+    plugin: migration_lookup
+    migration: multibrand_node_product_variant_grp_title
+    source: source_product_variant_grp_title
   title:
     plugin: skip_on_empty
     method: row
@@ -104,9 +108,9 @@ process:
     -
       plugin: migration_lookup_ids
       migration:
-        - multibrand_node_product_variant_grouping
+        - multibrand_node_product_variant_i18n
       source_ids:
-        multibrand_node_product_variant_grouping:
+        multibrand_node_product_variant_i18n:
           source_product_variant_grp_title: source_product_variant_grp_title
     -
       plugin: skip_on_empty
@@ -127,19 +131,19 @@ process:
   field_product_trade_description/target_id:
     plugin: migration_lookup
     migration:
-     - multibrand_term_product_trade_description
+     - multibrand_term_product_trade_description_i18n
     source: field_product_trade_description
     no_stub: true
   field_product_occasions/target_id:
     plugin: migration_lookup
     migration:
-      - multibrand_term_product_occasions
+      - multibrand_term_product_occasions_i18n
     source: field_product_occasions
     no_stub: true
   field_product_category/target_id:
     plugin: migration_lookup
     migration:
-      - multibrand_term_product_category
+      - multibrand_term_product_category_i18n
     source: source_category
     no_stub: true
   field_product_description/value: source_product_description
@@ -163,7 +167,7 @@ process:
   field_product_flavor/target_id:
     plugin: migration_lookup
     migration:
-      - multibrand_term_product_flavor
+      - multibrand_term_product_flavor_i18n
     source: source_product_flavor
     no_stub: true
   field_product_variant_grp_title:
@@ -181,7 +185,7 @@ process:
   field_product_format/target_id:
     plugin: migration_lookup
     migration:
-     - multibrand_term_product_format
+     - multibrand_term_product_format_i18n
     source: source_product_format
     no_stub: true
   type:
@@ -206,3 +210,4 @@ process:
       '1': published
 destination:
   plugin: entity:node
+  translations: true
