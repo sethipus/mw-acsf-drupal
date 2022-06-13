@@ -3,13 +3,14 @@
 namespace Drupal\mars_common\Twig;
 
 use Twig\TwigFilter;
+use Twig\Extension\AbstractExtension;
 
 /**
  * Class Twig extension for adding BR tag after first word in the given string.
  *
  * @package Drupal\mars_common\Twig
  */
-class BrAfterFirstWord extends \Twig_Extension {
+class BrAfterFirstWord extends AbstractExtension {
 
   /**
    * {@inheritdoc}

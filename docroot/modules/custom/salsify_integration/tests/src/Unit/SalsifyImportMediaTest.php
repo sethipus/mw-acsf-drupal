@@ -18,6 +18,7 @@ use Drupal\salsify_integration\Salsify;
 use Drupal\salsify_integration\SalsifyImportMedia;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\file\FileRepositoryInterface;
 
 /**
  * @coversDefaultClass \Drupal\salsify_integration\SalsifyImportMedia
@@ -139,6 +140,13 @@ class SalsifyImportMediaTest extends UnitTestCase {
   private $fileMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\file\FileRepositoryInterface
+   */
+  private $fileRepositoryMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -152,7 +160,8 @@ class SalsifyImportMediaTest extends UnitTestCase {
       $this->salsifyMock,
       $this->moduleHandlerMock,
       $this->tokenMock,
-      $this->fileSystemMock
+      $this->fileSystemMock,
+      $this->fileRepositoryMock
     );
   }
 
@@ -322,6 +331,7 @@ class SalsifyImportMediaTest extends UnitTestCase {
     $this->entityMock = $this->createMock(Media::class);
     $this->queryMock = $this->createMock(QueryInterface::class);
     $this->fileMock = $this->createMock(File::class);
+    $this->fileRepositoryMock = $this->createMock(FileRepositoryInterface::class);
 
     $this->configFactoryMock
       ->expects($this->any())

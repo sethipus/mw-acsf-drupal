@@ -8,7 +8,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StreamWrapper\PublicStream;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -73,10 +73,10 @@ class LanguageAccessSubscriber implements EventSubscriberInterface {
   /**
    * Redirect pattern based url.
    *
-   * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
    *   A GetResponseEvent instance.
    */
-  public function customLanguageAccess(GetResponseEvent $event): void {
+  public function customLanguageAccess(RequestEvent $event): void {
     $request = $this->requestStack->getCurrentRequest();
     $requestUrl = $request->server->get('REQUEST_URI', NULL);
     $language = $this->languageManager->getCurrentLanguage();
