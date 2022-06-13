@@ -53,7 +53,7 @@ function mars_common_page_attachments_alter(array &$page) {
   if ($hreflang_toggle_value) {
     foreach ($page['#attached']['html_head_link'] as $key => $attachment) {
       if ($attachment[0]['rel'] == 'alternate' && $attachment[0]['hreflang'] == 'en') {
-           unset($page['#attached']['html_head_link'][$key]);
+        unset($page['#attached']['html_head_link'][$key]);
       }
     }
   }
@@ -1034,10 +1034,6 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
 
 /**
  * Implements hook_webform_element_alter().
- *
- * @param array $element
- * @param \Drupal\Core\Form\FormStateInterface $form_state
- * @param array $context
  */
 function mars_common_webform_element_alter(array &$element, FormStateInterface $form_state, array $context) {
   // Check for desired element.
@@ -1685,6 +1681,7 @@ function mars_common_node_presave(NodeInterface $node) {
  * Implements hook_page_attachments().
  */
 function mars_common_page_attachments(&$page) {
+   $page['#attached']['library'][] = 'mars_common/mars_common.focal_point';
   $current_route = Drupal::routeMatch();
   $route_name = $current_route->getRouteName();
   $supported_routes = [

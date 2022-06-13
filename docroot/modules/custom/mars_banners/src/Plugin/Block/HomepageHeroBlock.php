@@ -131,6 +131,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#label'] = $this->languageHelper->translate($config['label']);
     $build['#eyebrow'] = $this->languageHelper->translate($config['eyebrow']);
     $build['#title_url'] = $config['title']['url'];
+    $build['#focal_point_desktop'] = !empty($config['focus_point']['focalpoint_desktop']) ? $config['focus_point']['focalpoint_desktop'] : '';
+    $build['#focal_point_tablet'] = !empty($config['focus_point']['focalpoint_tablet']) ? $config['focus_point']['focalpoint_tablet'] : '';
+    $build['#focal_point_mobile'] = !empty($config['focus_point']['focalpoint_mobile']) ? $config['focus_point']['focalpoint_mobile'] : '';
     $build['#title_label'] = $this->languageHelper->translate($config['title']['label']);
     $title_override = !empty($config['title']['next_line_label']['value']) ? $config['title']['next_line_label']['value'] : '';
     $build['#title_label_override'] = $this->languageHelper->translate($title_override);
@@ -402,6 +405,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $form[$name]['#required'] = ($resolution == 'desktop');
       $form[$name]['#title'] = $this->t('Background Image (@resolution)', ['@resolution' => ucfirst($resolution)]);
       $form[$name]['#open'] = TRUE;
+      $form[$name]['#description'] = $this->t('<div class="image-note"><div class="focal-note"><b>NOTE</b>: The content editor will be able to apply focus on the important section of the image using the grey rectangular selection tool, thereby image gets repositioned to focus the selected area.</div></div>');
       $form[$name]['#states'] = [
         'visible' => [
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
@@ -411,10 +415,70 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ];
 
       if ($resolution != 'desktop') {
-        $form[$name]['#description'] = $this->t('Image Alt and Title will be replaced by Desktop image.');
+        $form[$name]['#description'] = $this->t('<div class="image-note">Image Alt and Title will be replaced by Desktop image.<br><div class="focal-note"><b>NOTE</b>: The content editor will be able to apply focus on the important section of the image using the grey rectangular selection tool, thereby image gets repositioned to focus the selected area.</div></div>');
       }
     }
-
+    // Focal point.
+    $form['focus_point'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Focal points'),
+      '#open' => TRUE,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
+        ],
+      ],
+    ];
+    $form['focus_point']['focalpoint_desktop'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Desktop image focal point'),
+      '#default_value' => $config['focus_point']['focalpoint_desktop'] ?? '',
+      '#attributes' => [
+        'class' => ['helper-tool-target-desktop-data'],
+        'readonly' => 'readonly',
+      ],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
+        ],
+      ],
+    ];
+    $form['focus_point']['focalpoint_tablet'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Tablet image focal point'),
+      '#default_value' => $config['focus_point']['focalpoint_tablet'] ?? '',
+      '#attributes' => [
+        'class' => ['helper-tool-target-tablet-data'],
+        'readonly' => 'readonly',
+      ],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
+        ],
+      ],
+    ];
+    $form['focus_point']['focalpoint_mobile'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Mobile image focal point'),
+      '#default_value' => $config['focus_point']['focalpoint_mobile'] ?? '',
+      '#attributes' => [
+        'class' => ['helper-tool-target-mobile-data'],
+        'readonly' => 'readonly',
+      ],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
+        ],
+      ],
+    ];
     $video_default = $config['background_video'] ?? NULL;
     // Entity Browser element for video.
     $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
