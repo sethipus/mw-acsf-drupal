@@ -214,17 +214,25 @@
 
   .swiper-button-next, .swiper-container-rtl .swiper-button-prev {
     right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
 
     @include medium {
       right: 3rem;
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
 
   .swiper-button-prev, .swiper-container-rtl .swiper-button-next {
     left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
 
     @include medium {
       left: 3rem;
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
 
