@@ -43,7 +43,7 @@
       cursor: pointer;
     }
 
-    input + label {
+    input ~ label {
       @include set-font($font-type: 'secondary-font');
 
       color: clr(primary);
