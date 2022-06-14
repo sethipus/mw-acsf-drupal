@@ -211,6 +211,11 @@
             videoElements('video').currentTime = pos * videoElements('video').duration;
           });
 
+          $(".swiper-button-prev, .swiper-button-next").click(function() {
+            videoElements('video').muted = true;
+            changeMuteVolume(videoElements('video'), videoElements('volumechange'),'mute')
+          });
+
           // Listen for fullscreen change events (from other controls, e.g. right clicking on the video itself)
           document.addEventListener('fullscreenchange', function (e) {
             setFullscreenData(videoContainer, videoElements, !!(document.fullScreen || document.fullscreenElement));
