@@ -1,6 +1,4 @@
 .carousel--fullwidth {
-    max-width: unset;
-    padding: 0;
     overflow: hidden;
 
     .carousel__heading {
@@ -10,7 +8,6 @@
     }
 
     .swiper-slide {
-        width: unset;
         position: relative;
 
         .fullwidth-carousel-block__left {
@@ -293,7 +290,6 @@
 
 
     .fullwidth-carousel-video__wrapper {
-        width: 100%;
 
         &.center {
             text-align: center;
@@ -704,7 +700,7 @@
 
     }
 
-    .dark-overlay:after {
+    .dark-overlay::after {
         content: '';
         position: absolute;
         display: block;
@@ -712,6 +708,6 @@
         height: 100%;
         top: 0;
         left: 0;
-        background-image: linear-gradient(to top,rgba(0,0,0,0.5),rgba(0,0,0,0.15),rgba(0,0,0,0.3));
+        background-image: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.3));
     }
 }

@@ -294,7 +294,7 @@ class FullWidthCarouselBlock extends BlockBase implements ContextAwarePluginInte
         '#type' => 'textfield',
         '#title' => $this->t('CTA Link Title'),
         '#maxlength' => !empty($character_limit_config->get('hero_block_cta_link_title')) ? $character_limit_config->get('hero_block_cta_link_title') : 15,
-        '#default_value' => $config['carousel'][$key]['title'] ?? '',
+        '#default_value' => $config['carousel'][$key]['cta']['title'] ?? '',
         '#states' => [
           'required' => [
             [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
