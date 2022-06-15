@@ -4,5 +4,3 @@ description: 'Allow customers to purge cached resources from Cloudflare.'
 package: Mars
 core_version_requirement: ^8 || ^9
 configure: mars_cloudflarepurge.form
-dependencies:
-  - purge:purge
