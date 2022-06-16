@@ -43,7 +43,7 @@
       cursor: pointer;
     }
 
-    input + label {
+    input ~ label {
       @include set-font($font-type: 'secondary-font');
 
       color: clr(primary);
@@ -69,16 +69,16 @@
       }
     }
 
-    input:checked + label::before {
+    input:checked ~ label::before {
       background-color: clr(secondary);
       border-color: clr(secondary);
     }
 
-    input.error-border + label::before {
+    input.error-border ~ label::before {
       border-color: clr(secondary);
     }
 
-    input:checked + label::after {
+    input:checked ~ label::after {
       content: "";
       display: block;
       position: absolute;

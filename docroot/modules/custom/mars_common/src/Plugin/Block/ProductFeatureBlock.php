@@ -10,6 +10,7 @@ use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Provides a product feature block.
@@ -21,7 +22,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInterface {
-
   use EntityBrowserFormTrait;
 
   /**
@@ -51,34 +51,44 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
   private $themeConfiguratorParser;
 
   /**
+   * Config Factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new self(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('mars_common.language_helper'),
-      $container->get('mars_media.media_helper'),
-      $container->get('mars_common.theme_configurator_parser')
-    );
+          $configuration,
+          $plugin_id,
+          $plugin_definition,
+          $container->get('mars_common.language_helper'),
+          $container->get('mars_media.media_helper'),
+          $container->get('mars_common.theme_configurator_parser'),
+          $container->get('config.factory')
+      );
   }
 
   /**
    * {@inheritdoc}
    */
   public function __construct(
-    array $configuration,
-    $plugin_id,
-    $plugin_definition,
-    LanguageHelper $language_helper,
-    MediaHelper $media_helper,
-    ThemeConfiguratorParser $theme_configurator_parser
-  ) {
+        array $configuration,
+        $plugin_id,
+        $plugin_definition,
+        LanguageHelper $language_helper,
+        MediaHelper $media_helper,
+        ThemeConfiguratorParser $theme_configurator_parser,
+        ConfigFactoryInterface $config_factory
+    ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -127,7 +137,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
-    $character_limit_config = \Drupal::config('mars_common.character_limit_page');
+    $character_limit_config = $this->configFactory->get('mars_common.character_limit_page');
 
     $form['eyebrow'] = [
       '#type' => 'textfield',
@@ -154,8 +164,13 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
 
     $image_default = $config['image'] ?? NULL;
     // Entity Browser element for background image.
-    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
-      $image_default, $form_state, 1, 'thumbnail');
+    $form['image'] = $this->getEntityBrowserForm(
+          self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+          $image_default,
+          $form_state,
+          1,
+          'thumbnail'
+      );
     // Convert the wrapping container to a details element.
     $form['image']['#type'] = 'details';
     $form['image']['#title'] = $this->t('Image');

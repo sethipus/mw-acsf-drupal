@@ -1,0 +1,32 @@
+id: multibrand_term_product_format_i18n
+label: RSU LTD Pack Type - i18n
+migration_group: multibrand
+migration_tags:
+  - Term
+source:
+  plugin: brand_drupal_salsify_url
+  data_fetcher_plugin: http
+  data_parser_plugin: salsify_json
+  item_selector: /
+  fields:
+    -
+      name: source_product_format
+      label: 'RSU LTD Pack Type'
+      selector: 'field_product_format/0'
+  ids:
+    source_product_format:
+      type: string
+process:
+  name:
+    plugin: skip_on_empty
+    method: row
+    source: source_product_format
+  vid:
+    plugin: default_value
+    default_value: 'mars_format'
+  langcode:
+    plugin: salsify_i18n_process_language
+    source: language
+    default_value: 'und'
+destination:
+  plugin: entity:taxonomy_term

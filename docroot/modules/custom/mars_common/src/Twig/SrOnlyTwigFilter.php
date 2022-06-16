@@ -5,13 +5,14 @@ namespace Drupal\mars_common\Twig;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\mars_common\LanguageHelper;
 use Twig\TwigFilter;
+use Twig\Extension\AbstractExtension;
 
 /**
  * Class SrOnlyTwigFilter - sr twig filter logic.
  *
  * @package Drupal\mars_common\Twig
  */
-class SrOnlyTwigFilter extends \Twig_Extension {
+class SrOnlyTwigFilter extends AbstractExtension {
 
   /**
    * Language helper service.

@@ -245,7 +245,7 @@ recipe-email-form:
 
 faq-filters:
   js:
-    dist/js/02-molecules/faq-filters/faq-filters.js: { }
+    dist/js/02-molecules/faq-filters/faq-filter.js: { }
   dependencies:
     - core/drupal
     - core/jquery
@@ -270,4 +270,3 @@ homepage-herobanner-text:
   dependencies:
     - core/drupal
     - core/jquery
-

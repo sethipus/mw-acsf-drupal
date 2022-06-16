@@ -1,0 +1,713 @@
+.carousel--fullwidth {
+    overflow: hidden;
+
+    .carousel__heading {
+        h1 {
+            margin: 0;
+        }
+    }
+
+    .swiper-slide {
+        position: relative;
+
+        .fullwidth-carousel-block__left {
+
+            @include small {
+                width: 15rem;
+            }
+
+            @include medium {
+                width: 40rem;
+            }
+
+            @include large {
+                width: 70rem;
+            }
+
+            @include xl {
+                width: 74rem;
+            }
+
+            &.center {
+                left: 50%;
+                position: absolute;
+                text-align: center;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 2;
+            }
+
+            &.left {
+                left: 31.5%;
+                position: absolute;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 2;
+
+                @include small {
+                    left: 46%;
+                }
+
+                @include medium {
+                    left: 42%;
+                }
+
+                @include large {
+                    left: 47%;
+                }
+
+                @include largescreens {
+                    left: 39%;
+                }
+
+                @include xl {
+                    left: 31.3%;
+                }
+            }
+
+            &.right {
+                right: -13%;
+                position: absolute;
+                text-align: right;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 2;
+
+                @include small {
+                    right: 4%;
+                }
+
+                @include medium {
+                    right: -11%;
+                }
+
+                @include large {
+                    right: -23%;
+                }
+
+                @include largescreens {
+                    right: -19%;
+                }
+
+                @include xl {
+                    right: -15%;
+                }
+            }
+
+            .eyebrow {
+                color: var(--c-subcolor-3);
+                font-family: var(--v-heading-font);
+                font-size: 25px;
+                letter-spacing: 0.16rem;
+                line-height: 25px;
+                margin: 0 0 1.5rem;
+                opacity: 1;
+
+                @include small {
+                    font-size: 12px;
+                    line-height: 12px;
+                    margin: 0 0 1rem;
+                }
+
+                @include medium {
+                    font-size: 16px;
+                    line-height: 12px;
+                    margin: 0 0 1rem;
+                }
+
+                @include large {
+                    font-size: 25px;
+                    line-height: 25px;
+                    margin: 0 0 1.5rem;
+                }
+
+                @include largescreens {
+                    font-size: 20px;
+                    line-height: 20px;
+                    margin: 0 0 1.5rem;
+                }
+
+                @include xl {
+                    font-size: 25px;
+                    line-height: 25px;
+                    margin: 0 0 1.5rem;
+                }
+            }
+
+            .heading-block {
+                color: var(--c-subcolor-3);
+                font-family: var(--v-heading-font);
+                font-size: 70px;
+                letter-spacing: 0.16rem;
+                line-height: 90px;
+                margin: 0 0 1.5rem;
+                opacity: 1;
+                word-break: break-word;
+
+                @include small {
+                    font-size: 25px;
+                    line-height: 25px;
+                }
+
+                @include medium {
+                    font-size: 30px;
+                    line-height: 35px;
+                }
+
+                @include large {
+                    font-size: 70px;
+                    line-height: 70px;
+                }
+
+                @include largescreens {
+                    font-size: 50px;
+                    line-height: 50px;
+                }
+
+                @include xl {
+                    font-size: 70px;
+                    line-height: 90px;
+                }
+
+                &__link {
+                    text-decoration: none;
+                }
+            }
+
+            .cta-link {
+                display: inline-block;
+                background: #EA2525 0% 0% no-repeat padding-box;
+                letter-spacing: var(--v-heading-font-d-letter-spacing);
+                height: 60px;
+                opacity: 1;
+                text-align: center;
+                text-decoration: none;
+                width: 202px;
+
+                @include small {
+                    height: 30px;
+                    min-width: 10rem;
+                    width: 60px;
+                }
+
+                @include medium {
+                    height: 30px;
+                    min-width: 13rem;
+                    width: 80px;
+                }
+
+                @include large {
+                    height: 60px;
+                    width: 202px;
+                }
+
+                @include largescreens {
+                    height: 40px;
+                    width: 168px;
+                }
+
+                @include xl {
+                    height: 60px;
+                    width: 202px;
+                }
+
+                &__label {
+                    color: var(--c-subcolor-3);
+                    font-family: var(--v-primary-font);
+                    font-size: 25px;
+                    letter-spacing: var(--v-heading-font-d-letter-spacing);
+                    line-height: 55px;
+                    opacity: 1;
+
+                    @include small {
+                        font-size: 15px;
+                        line-height: 29px;
+                    }
+
+                    @include medium {
+                        font-size: 15px;
+                        line-height: 29px;
+                    }
+
+                    @include large {
+                        font-size: 25px;
+                        line-height: 55px;
+                    }
+
+                    @include largescreens {
+                        font-size: 20px;
+                        line-height: 40px;
+                    }
+
+                    @include xl {
+                        font-size: 25px;
+                        line-height: 55px;
+                    }
+                }
+            }
+
+            .fullwidth-carousel-description {
+                color: #fff;
+                font-family: var(--v-secondary-font);
+                font-size: 25px;
+                line-height: 26px;
+                letter-spacing: 1.23px;
+                opacity: 1;
+
+                @include small {
+                    font-size: 12px;
+                    line-height: 12px;
+                }
+
+                @include medium {
+                    font-size: 16px;
+                    line-height: 17px;
+                }
+
+                @include large {
+                    font-size: 25px;
+                    line-height: 26px;
+                    margin: 0 0 1.5rem;
+                }
+
+                @include largescreens {
+                    font-size: 18px;
+                    line-height: 20px;
+                    margin: 0 0 1.5rem;
+                }
+
+                @include xl {
+                    font-size: 25px;
+                    line-height: 26px;
+                }
+            }
+
+            .block-graphic-divider {
+                margin: 0 0 1.5rem;
+            }
+        }
+    }
+
+
+    .fullwidth-carousel-video__wrapper {
+
+        &.center {
+            text-align: center;
+        }
+
+        .fullwidth-carousel-video__container {
+
+            .fullscreen-video {
+                &__video {
+                    @include small {
+                        height: 44.3rem;
+                    }
+
+                    @include medium {
+                        height: 54rem;
+                    }
+
+                    @include large {
+                        height: 61rem;
+                    }
+
+                    @include xl {
+                        height: 67rem;
+                    }
+                }
+            }
+
+            button.fullscreen-video {
+                &__control {
+                    background-color: rgba(241, 241, 241, 0.2);
+                    display: block;
+                    height: 50px;
+                    padding: 0;
+                    right: 25px;
+                    width: 50px;
+
+                    @include small {
+                        right: 15px;
+                    }
+
+                    @include medium {
+                        right: 25px;
+                    }
+
+                    @include large {
+                        right: 25px;
+                    }
+
+                    &__control {
+                        &.inner {
+                            width: 10px;
+                            height: 10px;
+                        }
+                    }
+
+                    .play-icon {
+                        fill: #fff;
+                        fill-opacity: 0.4;
+                        margin: auto 25%;
+
+                        @include small {
+                            margin: 24% 35% 0 35%;
+                        }
+
+                        @include medium {
+                            margin: 24% 37% 0 37%;
+                        }
+
+                        @include large {
+                            margin: 24% 34% 0 34%;
+                        }
+                    }
+
+                    div.fullscreen-video__control {
+                        width: 4px;
+                        height: 15px;
+                    }
+                }
+
+                &__volumechange {
+                    height: 50px;
+                    padding: 0;
+                    right: 25px;
+                    width: 50px;
+
+                    @include small {
+                        right: 15px;
+                        top: 85px;
+                    }
+
+                    @include medium {
+                        right: 25px;
+                        top: 110px;
+                    }
+
+                    @include large {
+                        top: 120px;
+                    }
+
+                    @include largescreens {
+                        height: 50px;
+                        top: 110px;
+                        width: 50px;
+                    }
+
+                    @include xl {
+                        height: 50px;
+                        width: 50px;
+                    }
+
+                    .mute-icon {
+                        fill: #fff;
+                        margin: auto 10%;
+                    }
+                }
+            }
+        }
+    }
+
+    .fullwidth-carousel-video__container--title {
+        width: 70rem;
+
+        @include small {
+            width: 15rem;
+        }
+
+        @include medium {
+            width: 40rem;
+        }
+
+        @include large {
+            width: 70rem;
+        }
+
+        @include xl {
+            width: 74rem;
+        }
+
+        &.center {
+            left: 50%;
+            position: absolute;
+            text-align: center;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        &.left {
+            left: 31.5%;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+
+            @include small {
+                left: 46%;
+            }
+
+            @include medium {
+                left: 42%;
+            }
+
+            @include large {
+                left: 47%;
+            }
+
+            @include largescreens {
+                left: 39%;
+            }
+
+            @include xl {
+                left: 31.3%;
+            }
+        }
+
+        &.right {
+            position: absolute;
+            right: -13%;
+            text-align: right;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+
+            @include small {
+                right: 4%;
+            }
+
+            @include medium {
+                right: -11%;
+            }
+
+            @include large {
+                right: -23%;
+            }
+
+            @include largescreens {
+                right: -19%;
+            }
+
+            @include xl {
+                right: -15%;
+            }
+        }
+
+        .eyebrow {
+            color: var(--c-subcolor-3);
+            letter-spacing: var(--v-heading-font-d-letter-spacing);
+            line-height: 25px;
+            font-family: var(--v-heading-font);
+            font-size: 25px;
+            margin: 0 0 1.5rem;
+            opacity: 1;
+
+            @include small {
+                font-size: 12px;
+                line-height: 12px;
+                margin: 0 0 1rem;
+            }
+
+            @include medium {
+                font-size: 16px;
+                line-height: 12px;
+                margin: 0 0 1rem;
+            }
+
+            @include large {
+                font-size: 25px;
+                line-height: 25px;
+                margin: 0 0 1.5rem;
+            }
+
+            @include largescreens {
+                font-size: 20px;
+                line-height: 20px;
+                margin: 0 0 1.5rem;
+            }
+
+            @include xl {
+                font-size: 25px;
+                line-height: 25px;
+                margin: 0 0 1.5rem;
+            }
+        }
+
+        .heading {
+            color: var(--c-subcolor-3);
+            font-family: var(--v-heading-font);
+            font-size: 70px;
+            letter-spacing: var(--v-heading-font-d-letter-spacing);
+            line-height: 90px;
+            margin: 0 0 1.5rem;
+            opacity: 1;
+            word-break: break-word;
+
+            @include small {
+                font-size: 25px;
+                line-height: 25px;
+            }
+
+            @include medium {
+                font-size: 30px;
+                line-height: 35px;
+            }
+
+            @include large {
+                font-size: 70px;
+                line-height: 70px;
+            }
+
+            @include largescreens {
+                font-size: 50px;
+                line-height: 50px;
+            }
+
+            @include xl {
+                font-size: 70px;
+                line-height: 90px;
+            }
+
+            &__link {
+                text-decoration: none;
+            }
+        }
+
+        .default-link {
+            background: #EA2525 0% 0% no-repeat padding-box;
+            border-radius: 0;
+            display: inline-block;
+            height: 60px;
+            letter-spacing: var(--v-heading-font-d-letter-spacing);
+            opacity: 1;
+            text-align: center;
+            text-decoration: none;
+            width: 202px;
+
+            @include small {
+                height: 30px;
+                min-width: 8rem;
+                width: 60px;
+            }
+
+            @include medium {
+                height: 30px;
+                min-width: 13rem;
+                width: 80px;
+            }
+
+            @include large {
+                height: 60px;
+                width: 185px;
+            }
+
+            @include largescreens {
+                height: 40px;
+                width: 150px;
+            }
+
+            @include xl {
+                height: 60px;
+                width: 185px;
+            }
+
+            &__label {
+                color: var(--c-subcolor-3);
+                font-family: var(--v-primary-font);
+                font-size: 25px;
+                letter-spacing: var(--v-heading-font-d-letter-spacing);
+                line-height: 55px;
+                opacity: 1;
+
+                @include small {
+                    bottom: 10px;
+                    font-size: 15px;
+                    line-height: 10px;
+                }
+
+                @include large {
+                    font-size: 25px;
+                    line-height: 75px;
+                }
+
+                @include largescreens {
+                    font-size: 20px;
+                    line-height: 60px;
+                }
+
+                @include xl {
+                    font-size: 25px;
+                    line-height: 75px;
+                }
+            }
+        }
+
+        .block-graphic-divider {
+            margin: 0 0 1.5rem;
+        }
+    }
+
+    .swiper-container {
+        .swiper-button-prev {
+            left: 15px;
+            top: 56%;
+            transform: translateY(-44%);
+        }
+
+        .swiper-button-next {
+            right: 15px;
+            top: 56%;
+            transform: translateY(-44%);
+        }
+
+        .swiper-pagination-bullet {
+
+            @include small {
+                height: 8px;
+                width: 8px;
+            }
+
+            @include large {
+                height: 12px;
+                width: 12px;
+            }
+        }
+
+        .swiper-pagination-bullet:only-child {
+            visibility: hidden;
+        }
+
+        .swiper-pagination-bullets {
+            .swiper-pagination-bullet-active {
+                background: #EA2525 0% 0% no-repeat padding-box;
+            }
+        }
+    }
+
+    .carousel__content {
+        padding: 0;
+
+        .carousel-description-container {
+            .swiper-wrapper {
+                .swiper-slide {
+                    .paragraph {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .dark-overlay::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-image: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.3));
+    }
+}
