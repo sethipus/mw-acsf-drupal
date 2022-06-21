@@ -4,11 +4,9 @@ heading_modifier: ''
 media:
   video: false
   aspect_ratio: '21-9'
-  # src: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/'
-  # parallax_image: true
-  # src: 'https://s3-alpha-sig.figma.com/img/05ba/9529/7b6773a874345af646f1daf5ac25ae8e?Expires=1616371200&Signature=S7pkJjQXxmjSBFssIyZQK5e8l8yoD7sxpeDXgNUPEOWSRg13dBFdnvcdN1JCP2poMzV~VkZ5xczhBnG0N-88S5GrMKuoU6-o6dhfZlxQozKCynAaulIleM6yE3o4l~81JcW-noPQtZpExyTXvPrrUZdpdj0Aca6jagIlYpbi1ILIkprejyB-z2BfZCj-nY3uYMGww2YMsWcBQYQuv-rWwFdwsYtQtDN7KQiO8fgxKxUXuNY5z0DYHspRO53hczFPYXFWZnA~87yjwts-NsbyM4~uVZED0yO1uRW7QBD5f6e2w8WlER8bWGfd8puHzveeKzy3k6Xkg67iwQvVXcPqow__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA'
+  parallax_image: false
   image: true
   src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-06/Coral%20Header%202.png?itok=9GzIUN9s"
   alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
   title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
-  content: 'Two days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
+content: 'Two days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'

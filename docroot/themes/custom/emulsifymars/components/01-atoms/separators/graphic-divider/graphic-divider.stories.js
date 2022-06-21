@@ -5,7 +5,7 @@ import graphicDividerData from './graphic-divider.yml';
 /**
  * Storybook Definition.
  */
-export default { title: 'Atoms/Separators' };
+// export default { title: 'Atoms/Separators' };
 
 export const graphicDividerExample = () => (
   <div dangerouslySetInnerHTML={{ __html: graphicDividerTwig(graphicDividerData) }} />

@@ -9,16 +9,16 @@ cta_link_attributes:
 cta_base_class: 'cta-link'
 hero_images:
   desktop:
-    src: 'image-4.png'
+    src: 'https://www.twix.com/cdn-cgi/image/width=1360,height=583,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-02/Twix-Recipe-ApplePieBars-21x9.jpg'
     alt: 'Alt text'
     title: 'Image title'
   tablet:
-    src: 'image-4.png'
+    src: 'https://www.twix.com/cdn-cgi/image/width=1360,height=583,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-02/Twix-Recipe-ApplePieBars-21x9.jpg'
     alt: 'Alt text'
     title: 'Image title'
   mobile:
-    src: 'image-4.png'
+    src: 'https://www.twix.com/cdn-cgi/image/width=1360,height=583,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-02/Twix-Recipe-ApplePieBars-21x9.jpg'
     alt: 'Alt text'
     title: 'Image title'
 
-background_color: ''
+# background_color: ''

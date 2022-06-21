@@ -9,7 +9,7 @@ import defaultLinkData from './defaultLink/defaultLink.yml';
 /**
  * Storybook Definition.
  */
-export default { title: 'Atoms/Links' };
+// export default { title: 'Atoms/Links' };
 
 export const links = () => (
   <div dangerouslySetInnerHTML={{ __html: link(linkData) }} />

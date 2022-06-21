@@ -63,7 +63,7 @@
     <div class="image-wrapper image-wrapper--{{ card_number_modifier }} {{ card_number_modifier }} {{image_size}}">
       <div class="image-background {{image_size}}">
       {% if card__link__url %}
-        <a aria-label="open in new window" href="{{card__link__url}}" target="{{ card__link__new_window }}">
+        <a href="{{card__link__url}}" target="{{ card__link__new_window }}">
         {% else %}
           <div class="image-container">
       {% endif %}
@@ -88,7 +88,7 @@
 {% endblock %}
 {# Content #}
 {# Heading #}
-{% if card__heading %}
+{% if card__heading.length > 0 %}
   {{ title_prefix }}
   {% set heading_link_attributes = {
     'target': card__link__new_window,
@@ -113,6 +113,32 @@
     heading_extra_classes: card_number_modifier,
   } %}
   {{ title_suffix }}
+  {% else %}
+  {{ title_prefix }}
+  {% set heading_link_attributes = {
+    'target': card__link__new_window,
+  } %}
+
+ {#
+ card__heading + space.
+ https://dev.azure.com/MarsDevTeam/MarsExperiencePlatform/_workitems/edit/210929
+ https://dev.azure.com/MarsDevTeam/MarsExperiencePlatform/_workitems/edit/290644
+ #}
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading_base_class: card__heading__base_class|default('heading'),
+    heading_modifiers: card__heading__modifiers,
+    heading_blockname: card__base_class,
+    heading_level: 2,
+    heading: storybook_card__heading,
+    heading_url: card__heading__link|default(card__link__url),
+    heading_link_base_class: card__heading__link_base_class|default('heading-link'),
+    heading_link_blockname: card__base_class,
+    text_color_override: text_color_override,
+    heading_link_attributes: heading_link_attributes,
+    heading_extra_classes: card_number_modifier,
+  } %}
+  {{ title_suffix }}
+
 {% endif %}
 {# Subheading #}
 {% if card__subheading %}

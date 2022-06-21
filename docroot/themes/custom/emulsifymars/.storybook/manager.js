@@ -3,5 +3,5 @@ import emulsifyTheme from './emulsifyTheme';
 
 addons.setConfig({
   showRoots: false,
-  emulsifyTheme,
+  theme: emulsifyTheme,
 });

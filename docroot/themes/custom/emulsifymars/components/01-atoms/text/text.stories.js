@@ -13,7 +13,7 @@ import eyebrowData from './eyebrow/eyebrow.yml';
 /**
  * Storybook Definition.
  */
-export default { title: 'Atoms/Text' };
+// export default { title: 'Atoms/Text' };
 
 // Loop over items in headingData to show each one in the example below.
 const headings = headingData.map(d => heading(d)).join('');

@@ -1,6 +1,6 @@
 theme_styles: 'twix'
 eyebrow: 'Left or Right'
-title_label: 'NEW TWIX WHITE CHOCOLATE'
+title_label: 'NEW TWIX Cookies & Creme Bar'
 title_href: '#'
 cta_title: 'Explore'
 cta_link_attributes:
@@ -9,15 +9,15 @@ cta_base_class: 'cta-link'
 
 hero_images:
   desktop:
-    src: 'http://dove.mars.acsitefactory.com/sites/g/files/fnmzdf186/files/2020-12/Rectangle%2011.png'
+    src: 'https://www.twix.com/cdn-cgi/image/width=1360,height=583,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-02/Twix-Recipe-ApplePieBars-21x9.jpg'
     alt: 'Alt text'
     title: 'Image title'
   tablet:
-    src: 'http://dove.mars.acsitefactory.com/sites/g/files/fnmzdf186/files/2020-12/Rectangle%2011.png'
+    src: 'https://www.twix.com/cdn-cgi/image/width=1360,height=583,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-02/Twix-Recipe-ApplePieBars-21x9.jpg'
     alt: 'Alt text'
     title: 'Image title'
   mobile:
-    src: 'http://dove.mars.acsitefactory.com/sites/g/files/fnmzdf186/files/2020-12/Rectangle%2011.png'
+    src: 'https://www.twix.com/cdn-cgi/image/width=1360,height=583,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-02/Twix-Recipe-ApplePieBars-21x9.jpg'
     alt: 'Alt text'
     title: 'Image title'
 
@@ -26,7 +26,7 @@ brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 377"><pat
 
 blocks:
   - eyebrow: 'New'
-    title_label: 'New Creamy Peanut ButterNew Creamy Peanut Butter'
+    title_label: 'New Creamy Peanut Butter'
     title_href: '#'
     image:
       - srcset: 'Bitmap.png, Bitmap@2x.png 2x, Bitmap@3x.png 3x'
@@ -36,12 +36,12 @@ blocks:
       - title: 'Explore'
         link_attributes:
           - href: '#link_attr1'
-  - eyebrow: 'New'
-    title_label: 'Test'
+  - eyebrow: 'Intiatives'
+    title_label: 'Empowering Women'
     title_href: '#'
     image:
       - srcset: 'image9.png, image9@2x.png 2x, image9@3x.png 3x'
-        src: 'image9.png'
+        src: 'https://www.dovechocolate.com/cdn-cgi/image/width=1440,height=640,f=auto,quality=90/sites/g/files/fnmzdf186/files/2021-11/396000232_Galaxy_PLP_Hero_3000x1286px_0.jpg'
         class: 'block1-small'
     cta:
       - title: 'Explore'

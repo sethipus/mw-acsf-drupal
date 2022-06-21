@@ -18,8 +18,6 @@ article_card_button_link_attributes:
 brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" width="243" height="243" fill="none" viewBox="0 0 243 243">
   <path fill="#EAAA00" fill-rule="evenodd" d="M121.5 243c67.103 0 121.5-54.397 121.5-121.5C243 54.397 188.603 0 121.5 0 54.397 0 0 54.397 0 121.5 0 188.603 54.397 243 121.5 243z" clip-rule="evenodd" opacity=".2"/>
 </svg>'
-
-article_card_background_img_url: '/content-feature-bg.png'
+article_card_background_img_url: ''
 article_is_new: true
-
-# article_card_eyebrow: 'eyebrow example'
+article_card_eyebrow: 'BRAND NEW'

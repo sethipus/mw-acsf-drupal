@@ -2,8 +2,7 @@ theme_styles: 'twix'
 badge_text: 'NEW'
 default_link_content: 'SEE DETAILS'
 link_content: BUY NOW2
-# recipe_is_new: true;
-
+recipe_is_new: true;
 item:
   card_url: https://storybook.js.org/
   card__image__src: image9@3x.png
@@ -15,7 +14,8 @@ item:
 
   link_url: ''
 product_sku: 040000529361
-wtb_commerce_vendor: 'commerce_connector'
+wtb_commerce_vendor: ''
 wtb_button_type: 'my_own'
 wtb_widget_id: 123321
 datalayer_taxonomy: 'taxonomy vocabylary: term;'
+card__eyebrow: 'MADE WITH'

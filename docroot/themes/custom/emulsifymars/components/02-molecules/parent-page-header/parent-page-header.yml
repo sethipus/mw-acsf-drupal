@@ -1,30 +1,27 @@
 theme_styles: 'dove'
 
-pp_header_eyebrow_text: 'HELP'
+pp_header_eyebrow_text: 'PICK A SIDE'
 pp_header_eyebrow_modifiers: ['parent-page']
 
-pp_header_heading: 'FAQS & CONTACT'
+pp_header_heading: 'Explore TWIX®. Twice.'
 pp_header_heading_level: 1
 pp_header_heading_base_class: 'parent-page-heading'
 
 pp_header_paragraph_size: 'large'
-pp_header_paragraph_content: 'Plus, I’m all in whenever DOVE are involved. Except, can we just chat a quick minute?
-This is a PSA to the makers of the DOVE bar.'
+pp_header_paragraph_content: 'Discover more about the Great TWIX® Divide – and choose your favorite side!'
 pp_header_paragraph_base_class: 'parent-page-paragraph'
-
 parent_page_media_entities:
   desktop:
-    src: './content-feature-bg.png'
+    src: 'https://www.twix.com/cdn-cgi/image/width=1440,height=640,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-04/396000082_Twix_Header_ExploreTwix%20v2.jpg'
   tablet:
-    src: './content-feature-bg.png'
+    src: 'https://www.twix.com/cdn-cgi/image/width=1440,height=640,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-04/396000082_Twix_Header_ExploreTwix%20v2.jpg'
   mobile:
-    src: './content-feature-bg.png'
+    src: 'https://www.twix.com/cdn-cgi/image/width=1440,height=640,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-04/396000082_Twix_Header_ExploreTwix%20v2.jpg'
   video:
-    src: 'http://media.w3.org/2010/05/sintel/trailer.mp4'
-
+    src: 'https://lhcdn.mars.com/adaptivemedia/rendition/id_3ccb9468707194b461a3335ec872f2966e22890f/name_3ccb9468707194b461a3335ec872f2966e22890f.jpg'
+parent_page_media_type: 'image'
 # parent_page_img_url: ''
-
-pp_header_video_src: 'http://media.w3.org/2010/05/sintel/trailer.mp4'
+pp_header_video_src: 'https://lhcdn.mars.com/adaptivemedia/rendition/id_3ccb9468707194b461a3335ec872f2966e22890f/name_3ccb9468707194b461a3335ec872f2966e22890f.jpg'
 pp_header_video_type: 'video/mp4'
 
 # TODO: later we will need the capability to turn on and off the tint on the image, it will require a new prop from BE.
@@ -38,4 +35,4 @@ graphic_divider: '<svg xmlns="http://www.w3.org/2000/svg" width="125" height="15
     <path fill="#EAAA00" fill-rule="evenodd" d="M100.004 12.542L87.502 0l-12.5 12.542L62.502 0 50 12.542 37.501 0l-12.5 12.542L12.498 0 0 12.542V15h125v-2.458L112.501 0l-12.497 12.542z" clip-rule="evenodd"/>
 </svg>'
 
-styles: 'color:#ffffff'
+# styles: 'color:#ffffff'

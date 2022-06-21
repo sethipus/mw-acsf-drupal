@@ -3,7 +3,7 @@ badge_text: 'NEW'
 recipe_card_image_alt: 'Recipe image'
 recipe_card_image_src: 'Recipe_Image.png'
 recipe_card_media_url: https://storybook.js.org/
-
+select_background_color: 'color_c'
 recipe_card_heading: 'Dove caramel soft bread pudding'
 recipe_card_heading_level: 3
 recipe_card_heading_base_class: 'recipe-card-heading'

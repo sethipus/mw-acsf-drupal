@@ -1,5 +1,6 @@
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
-import React from "react";
+
+import React from 'react';
 
 const customViewports = {
   xs: {
@@ -50,7 +51,7 @@ const customViewports = {
       width: '2560px',
       height: '1440px',
     },
-  }
+  },
 };
 
 export const parameters = {
@@ -63,6 +64,17 @@ export const parameters = {
     viewports: {
       ...INITIAL_VIEWPORTS,
       ...customViewports,
+    },
+  },
+  options: {
+    storySort: (a, b) =>
+      a[1].kind === b[1].kind
+        ? 0
+        : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
+  },
+  previewTabs: {
+    'storybook/docs/panel': {
+      hidden: false,
     },
   },
 };
@@ -81,15 +93,15 @@ Twig.cache();
 twigDrupal(Twig);
 twigBEM(Twig);
 twigAddAttributes(Twig);
-customTwigFunctions(Twig)
+customTwigFunctions(Twig);
 
 // config.js
-import jquery from "jquery";
-import once from "jquery-once";
-import underscore from "underscore";
+import jquery from 'jquery';
+import once from 'jquery-once';
+import underscore from 'underscore';
 
 global.$ = jquery;
-global.jQuery =  jquery;
+global.jQuery = jquery;
 global._ = underscore;
 
 // If in a Drupal project, it's recommended to import a symlinked version of drupal.js.
@@ -126,6 +138,6 @@ export const globalTypes = {
 
 const resizeGlobalValueDecorator = (Story, context) => {
   global.sb_mars.resize_mode = context.globals.resize_mode;
-  return (<Story {...context} />);
-}
+  return <Story {...context} />;
+};
 export const decorators = [resizeGlobalValueDecorator];

@@ -13,7 +13,7 @@ import iconData from './icons/icons.yml';
 /**
  * Storybook Definition.
  */
-export default { title: 'Atoms/Images' };
+// export default { title: 'Atoms/Images' };
 
 export const images = () => (
   <div dangerouslySetInnerHTML={{ __html: bgimage(bgImageData) }} />

@@ -13,6 +13,7 @@
  */
 #}
 {% set span_base_class = span_base_class|default('span') %}
+{% set span_indent_polyols_class = '' %}
 
 <span {{ span_indent_polyols_class ? bem(span_base_class, span_modifiers, span_blockname, [span_indent_polyols_class]) : bem(span_base_class, span_modifiers, span_blockname, span_extra_classes) }}
   {% if text_color_override is not empty %}

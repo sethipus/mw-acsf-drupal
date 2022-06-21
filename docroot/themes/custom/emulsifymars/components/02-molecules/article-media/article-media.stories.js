@@ -20,7 +20,7 @@ import articleListData from './list/article-list.yml';
 /**
  * Storybook Definition.
  */
-export default { title: 'Molecules/Article Media' };
+// export default { title: 'Molecules/Article Media' };
 
 export const fullWidthMediaBlock = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

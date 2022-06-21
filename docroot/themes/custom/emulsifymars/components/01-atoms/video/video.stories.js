@@ -18,7 +18,7 @@ import './overlay-video/video';
 /**
  * Storybook Definition.
  */
-export default { title: 'Atoms/Video' };
+// export default { title: 'Atoms/Video' };
 
 export const ambientVideoComponent = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

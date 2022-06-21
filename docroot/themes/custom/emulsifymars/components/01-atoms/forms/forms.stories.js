@@ -12,7 +12,7 @@ import selectOptionsData from './select/select.yml';
 /**
  * Storybook Definition.
  */
-export default { title: 'Atoms/Forms' };
+// export default { title: 'Atoms/Forms' };
 
 export const checkboxes = () => (
   <div dangerouslySetInnerHTML={{ __html: checkbox(checkboxData) }} />

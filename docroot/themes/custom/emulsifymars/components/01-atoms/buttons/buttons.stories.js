@@ -12,10 +12,10 @@ import toggleData from './toggle/toggle.yml';
 /**
  * Storybook Definition.
  */
-export default {
-  component: Button,
-  title: 'Atoms/Button',
-};
+// export default {
+//   component: Button,
+//   title: 'Atoms/Button',
+// };
 
 export const react = () => <Button>React Button</Button>;
 

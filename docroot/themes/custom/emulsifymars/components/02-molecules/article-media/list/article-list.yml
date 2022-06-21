@@ -1,11 +1,23 @@
 theme_styles: 'dove'
-title: 'This is my title'
+title: 'INSTRUCTION'
 takeaways_list:
-  - content: 'VSLAs operate in 39 communities in Cote d’Ivoire with thousands of members, 80 percent of which are women.'
+  - content: 'Pre-heat the oven to 160 degrees fan..'
     item_number: 1
-  - content: 'We’re committed to improving the lives of our cocoa farmers across the globe under our Cocoa for Generations goals and Sustainable in a Generation Plan ambitions.'
+  - content: 'Grease and line with baking paper, a 20 x 30cm rectangular tin..'
     item_number: 2
-    image:
-      src: "https://mars.com/sites/g/files/jydpyr316/files/styles/image_copy/public/webimage-GettyImages-964172312.png?itok=IHauQ4Os"
-  - content: 'Each time a woman stands up for herself, she stands up for all women.'
+  - content: 'In a small pan, melt together the buttermilk spread and chocolate, and set aside.'
     item_number: 3
+  - content: 'Beat together the 2 types of sugar and eggs for around 5 minutes, until the mixture is light and fluffy..'
+    item_number: 4
+  - content: 'Sift in the flour and cocoa and fold together, then add in the melted chocolate mixture.'
+    item_number: 5
+  - content: 'Pour into the prepared tin and scatter the Maltesers balls over the top, pushing the bits slightly into the mixture.'
+    item_number: 6
+  - content: 'Bake for 15 - 20 mins.'
+    item_number: 7
+  - content: 'Leave the brownies to cool, then drizzle with the white chocolate and arrange over the bunnies.'
+    item_number: 8
+  - content: 'Cut into 24 pieces to serve, topping each piece with half a mini Maltesers Bunny.'
+    item_number: 9
+    image:
+      src: "https://www.maltesers.co.uk/sites/g/files/fnmzdf601/files/2022-03/BrownieBites.png"

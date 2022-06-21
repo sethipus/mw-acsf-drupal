@@ -4,7 +4,7 @@ import searchResultsItem from './search-results-item.twig';
 import searchResultsItemData from './search-results-item.yml';
 import './search-results-item';
 
-export default { title: 'Atoms/Search results item' };
+// export default { title: 'Atoms/Search results item' };
 
 export const searchResultsItemModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

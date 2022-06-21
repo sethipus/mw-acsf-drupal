@@ -3,15 +3,15 @@ data-layer:
   search_term: 'twix'
   search_results: '3'
 faq_items:
-  - content:
-      question: "<p>To be or not to be</p>"
-      answer: "<p>Shakespeare knows</p>"
-  - content:
-      question: "<p>Plus, I’m all in whenever Twix are involved. Except, can we just chat a quick minute?</p>"
-      answer: "<p>Over the past several years, we’ve made important progress, achieving our goal of sending zero waste to landfills from our facilities, and we plan to reduce our virgin plastic use by 25%, for 100% of our plastic packaging to be reusable, recyclable or compostable by 2025 and use, on average, 30% recycled content in our plastic packaging. </p>"
-  - content:
-      question: "<p>To be or not to be</p>"
-      answer: "<p>Shakespeare knows</p>"
+  - items:
+      question: "<p>Where can I find coupons for your products?</p>"
+      answer: "<p>We’re sorry, we do not have coupons available for distribution. Check newspaper inserts, store circulars, or couponing apps for promotions.</p>"
+  - items:
+      question: "<p>I want to request product for my nonprofit or event. Is that possible?</p>"
+      answer: "<p>We appreciate you thinking of our brands, and offering Mars Wrigley the opportunity to participate in your program. We applaud your efforts to create smiles and better moments in your community! </p>"
+  - items:
+      question: "<p>How long will my product stay fresh?</p>"
+      answer: "<p>While we quote a shelf life of 52 weeks for all of our treats and snack products to consumers, the actual shelf life can vary.</p>"
 button_name: "SEE ALL"
 theme_styles: "twix"
 button_link: "#FAQ"

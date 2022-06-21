@@ -3,8 +3,8 @@ message_list:
   status:
     message: 'This is a status message'
   warning:
-    message: 'This is a warning message'
+    message: 'This website has been reported unsafe'
   error:
-    message: 'This is an error message'
+    message: 'Sorry! We are down for scheduled maintainance right now'
   alert:
     message: 'Give the gift of pleasure this Valentine’s Day with the Twix Signature Collection'
