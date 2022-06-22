@@ -11,7 +11,7 @@ import {
 } from '../../02-molecules/product-content-pair-up/product-content-pair-up.stories';
 import searchTwig from './test.twig';
 
-export default { title: 'Pages/Test pages' };
+// export default { title: 'Pages/Test pages' };
 
 export const cardsTest = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

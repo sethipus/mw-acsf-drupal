@@ -17,7 +17,7 @@ import '../../02-molecules/dropdown/dropdown';
 
 import { useEffect } from '@storybook/client-api';
 
-export default { title: 'Pages/Error'};
+// export default { title: 'Pages/Error'};
 
 export const error = () => {
     useEffect(() => Drupal.attachBehaviors(), []);

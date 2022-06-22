@@ -7,7 +7,7 @@ import './social-feed';
 /**
  * Storybook Definition.
  */
-export default { title: 'Molecules/Social feed' };
+// export default { title: 'Molecules/Social feed' };
 
 export const socialFeedModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

@@ -10,7 +10,7 @@ import landingCarouselData from '../../02-molecules/media-carousel/media-carouse
 
 import { useEffect } from '@storybook/client-api';
 
-export default { title: 'Templates/Landing Template'};
+// export default { title: 'Templates/Landing Template'};
 
 export const landing = () => {
     useEffect(() => Drupal.attachBehaviors(), []);

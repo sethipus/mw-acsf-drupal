@@ -9,7 +9,7 @@ import './newsletter-form/newsletter-form';
 /**
  * Storybook Definition.
  */
-export default { title: 'Molecules/Newsletter sign form' };
+ export default { title: 'Components/[ML 33] Newsletter form' };
 
 export const newsletterSignupFormModule = () => (
   <div dangerouslySetInnerHTML={{ __html: newsLetterForm(newsLetterFormData) }} />

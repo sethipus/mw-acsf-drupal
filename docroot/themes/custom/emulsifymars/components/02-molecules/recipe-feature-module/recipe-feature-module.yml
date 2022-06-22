@@ -2,11 +2,11 @@ theme_styles: 'dove'
 block_title: 'Featured recipe'
 recipe_media:
   srcset: 'recipe-feature.png, recipe-feature@2x.png 2x, recipe-feature@3x.png 3x'
-  src: 'recipe-feature@3x.png'
+  src: "https://www.twix.com/cdn-cgi/image/height=567,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-02/Twix-Recipe-Cookies%26CremeCheesecake-21x9.jpg"
   video_url: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/'
 brand_borders: '<svg xmlns="http://www.w3.org/2000/svg" height="15"><defs><pattern patternUnits="userSpaceOnUse" id="id9-repeat-pattern" width="425" height="15" viewBox="0 0 425 15"><path xmlns:default="http://www.w3.org/2000/svg" fill-rule="evenodd" d="M100.004 12.542L87.502 0l-12.5 12.542L62.502 0 50 12.542 37.501 0l-12.5 12.542L12.498 0 0 12.542V15h125v-2.458L112.501 0l-12.497 12.542zM225.004 12.542L212.502 0l-12.5 12.542L187.501 0 175 12.542 162.501 0 150 12.542 137.499 0 125 12.542V15h125v-2.458L237.501 0l-12.497 12.542zM400.004 12.542L387.502 0l-12.5 12.542L362.501 0 350 12.542 337.501 0 325 12.542 312.499 0 300 12.542V15h125v-2.458L412.501 0l-12.497 12.542z" clip-rule="evenodd"></path><path xmlns:default="http://www.w3.org/2000/svg" fill-rule="evenodd" d="M350.004 12.542L337.502 0l-12.5 12.542L312.501 0 300 12.542 287.501 0 275 12.542 262.499 0 250 12.542V15h125v-2.458L362.501 0l-12.497 12.542z" clip-rule="evenodd"></path></pattern></defs><rect width="100%" height="15" fill="url(#id9-repeat-pattern)"></rect></svg>'
 eyebrow: 'Recipe'
-title: 'Twix caramel churros'
+title: 'TWIX® Cookies & Creme Cheesecake Mashup'
 cooking_time: '60 mins'
 cta:
   title: 'Get started'

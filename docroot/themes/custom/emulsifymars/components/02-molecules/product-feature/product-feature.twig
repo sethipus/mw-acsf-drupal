@@ -1,5 +1,6 @@
 {{ attach_library('emulsifymars/product-feature') }}
 {% set product_feature_base_class = 'product-feature' %}
+{% set background_color  = background_color ? background_color : storybook_product_feature_background_color %}
 
 <section {{ bem(product_feature_base_class) }} data-theme="{{ theme_styles }}" style="background-color: {{ background_color }};">
   <div {{ bem('inner', [], product_feature_base_class) }}>

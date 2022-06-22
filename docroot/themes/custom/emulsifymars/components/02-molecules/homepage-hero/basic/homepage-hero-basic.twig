@@ -3,13 +3,10 @@
   {% set homepage_hero__modifiers = ['dark-overlay'] %}
 {% endif %}
 {{ attach_library('emulsifymars/homepage-herobanner-text') }}
-{% if focal_point_desktop is not empty or focal_point_tablet is not empty or focal_point_mobile is not empty %}
-  {% set focus_point_class = 'focuspoint' %}
-{% endif %}
 
 <section {{ bem(homepage_hero_basic_base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('background', [], homepage_hero_basic_base_class, homepage_hero__modifiers) }}>
-    <div {{ bem('container', ['image'], homepage_hero_basic_base_class, focus_point_class) }}>
+    <div {{ bem('container', ['image'], homepage_hero_basic_base_class) }}>
 
       {% set images = {
         1440: hero_images.desktop.src|resize(1440, 580),
@@ -25,9 +22,6 @@
         image_array: images,
         width: "1440px",
 	      height: "580px",
-        focal_point_desktop: focal_point_desktop,
-        focal_point_tablet: focal_point_tablet,
-        focal_point_mobile: focal_point_mobile,
       } %}
     </div>
   </div>

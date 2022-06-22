@@ -38,7 +38,7 @@ import {
 /**
  * Storybook Definition.
  */
-export default {title: 'Organisms/Card grid'};
+// export default {title: 'Organisms/Card grid'};
 
 export const cardGridModuleWithResults = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

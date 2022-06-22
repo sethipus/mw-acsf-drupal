@@ -6,7 +6,7 @@ import recipeEmailFormData from './recipe-email-form-layout/recipe-email-form-la
 
 import './recipe-email-form-layout/recipe-email-form-layout.js';
 
-export default { title: 'Molecules/Recipe Email Form' };
+// export default { title: 'Molecules/Recipe Email Form' };
 
 export const recipeEmailFormExample = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

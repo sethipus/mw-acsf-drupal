@@ -21,7 +21,7 @@ import '../../02-molecules/dropdown/dropdown';
 
 import { useEffect } from '@storybook/client-api';
 
-export default { title: 'Pages/Article'};
+// export default { title: 'Pages/Article'};
 
 export const article = () => {
     useEffect(() => Drupal.attachBehaviors(), []);

@@ -9,7 +9,7 @@ import recipeFeatureData from '../../02-molecules/recipe-feature-module/recipe-f
 
 import {cardGridModuleWithResults} from '../../03-organisms/card-grid/card-grid.stories';
 
-export default { title: 'Templates/Content Hub Template'};
+// export default { title: 'Templates/Content Hub Template'};
 
 export const contentHubTemplate = () => {
     useEffect(() => Drupal.attachBehaviors(), []);

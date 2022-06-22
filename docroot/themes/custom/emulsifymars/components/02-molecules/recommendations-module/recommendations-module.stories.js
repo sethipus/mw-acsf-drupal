@@ -36,7 +36,7 @@ import './recommendations-module';
 /**
  * Storybook Definition.
  */
-export default {title: 'Molecules/Recommendations Module'};
+// export default {title: 'Molecules/Recommendations Module'};
 
 export const recommendationsModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

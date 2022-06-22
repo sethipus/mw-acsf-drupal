@@ -23,7 +23,7 @@ import '../../02-molecules/dropdown/dropdown';
 
 import { useEffect } from '@storybook/client-api';
 
-export default { title: 'Pages/Landing'};
+// export default { title: 'Pages/Landing'};
 
 export const landing = () => {
     useEffect(() => Drupal.attachBehaviors(), []);

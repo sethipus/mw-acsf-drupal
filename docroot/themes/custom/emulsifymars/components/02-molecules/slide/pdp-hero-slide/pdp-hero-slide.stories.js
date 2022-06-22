@@ -5,7 +5,7 @@ import slideData from './pdp-hero-slide.yml';
 /**
  * Storybook Definition.
  */
-export default { title: 'Molecules/Slide/PDP Hero Slide' };
+// export default { title: 'Molecules/Slide/PDP Hero Slide' };
 
 export const slideExample = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

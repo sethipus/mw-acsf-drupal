@@ -36,7 +36,7 @@ import articleFeedbackData from '../../02-molecules/feedback-module/feedback.yml
 
 import { useEffect } from '@storybook/client-api';
 
-export default { title: 'Templates/Article Template'};
+// export default { title: 'Templates/Article Template'};
 
 export const articleTemplate = () => {
     useEffect(() => Drupal.attachBehaviors(), []);

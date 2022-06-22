@@ -1,56 +1,116 @@
-import React from 'react';
-import { useEffect } from '@storybook/client-api';
+// import React from 'react';
+// import { useEffect } from '@storybook/client-api';
 
-import footerTwig from './site-footer/site-footer.twig';
-import siteHeader from './site-header/site-header.twig';
-import footerlogoTwig from '../../01-atoms/images/image/_footer_logo.twig'
+// import footerTwig from './site-footer/site-footer.twig';
+// import siteHeader from './site-header/site-header.twig';
+// import footerlogoTwig from '../../01-atoms/images/image/_footer_logo.twig';
 
-import footerSocial from '../../02-molecules/menus/social/social-menu.yml';
-import footerMenu from '../../02-molecules/menus/footer/footer-menu.yml';
-import secondaryMenuData from '../../02-molecules/menus/inline/header-inline-menu/header-inline-menu.yml';
-import inlineSearchData from '../../02-molecules/search/inline-search/inline-search.yml';
-import mainMenuData from '../../02-molecules/menus/main-menu/main-menu.yml';
+// import footerSocial from '../../02-molecules/menus/social/social-menu.yml';
+// import footerMenu from '../../02-molecules/menus/footer/footer-menu.yml';
+// import secondaryMenuData from '../../02-molecules/menus/inline/header-inline-menu/header-inline-menu.yml';
+// import inlineSearchData from '../../02-molecules/search/inline-search/inline-search.yml';
+// import mainMenuData from '../../02-molecules/menus/main-menu/main-menu.yml';
 
-import legalLinksData from '../../02-molecules/menus/legal-links/legal-links-menu.yml';
+// import legalLinksData from '../../02-molecules/menus/legal-links/legal-links-menu.yml';
 
-import siteFooterData from './site-footer/site-footer.yml';
-import siteHeaderData from './site-header/site-header.yml';
+// import siteFooterData from './site-footer/site-footer.yml';
+// import siteHeaderData from './site-header/site-header.yml';
 
-import '../../02-molecules/menus/main-menu/main-menu';
-import '../../02-molecules/dropdown/dropdown';
+// import '../../02-molecules/menus/main-menu/main-menu';
+// import '../../02-molecules/dropdown/dropdown';
 
-/**
- * Storybook Definition.
- */
-export default { title: 'Organisms/Site' };
+// /**
+//  * Storybook Definition.
+//  */
+// export default {
+//   title: 'Components/[GE 04] Header & Footer',
+//   argTypes: {
+//     theme: {
+//       name: 'Theme',
+//       description: 'Theme for the card',
+//       defaultValue: {
+//         summary: 'Twix',
+//       },
+//       table: {
+//         category: 'Theme',
+//       },
+//       control: {
+//         type: 'select',
+//         options: ['twix', 'dove', 'mars', 'galaxy'],
+//       },
+//     },
+//     headerLogo: {
+//       name: 'Header Logo',
+//       descritpion:
+//         'Logo Size - <b>For 1440 — 212 x 98, 768 — 141 x 53, 375 — 104 x 39 </b>',
+//       table: {
+//         category: 'Header Section',
+//       },
+//       control: {
+//         type: 'object',
+//       },
+//     },
 
-export const footer = () => {
-  useEffect(() => Drupal.attachBehaviors(), []);
-  return (
-    <div
-      dangerouslySetInnerHTML={{
-        __html: footerTwig({
-          ...footerSocial,
-          ...footerMenu,
-          ...siteFooterData,
-          ...legalLinksData,
-        }),
-      }}
-    />
-  )
-  };
-export const header = () => {
-  useEffect(() => Drupal.attachBehaviors(), []);
-  return (
-    <div
-      dangerouslySetInnerHTML={{
-        __html: siteHeader({
-          ...mainMenuData,
-          ...secondaryMenuData,
-          ...inlineSearchData,
-          ...siteHeaderData,
-        }),
-      }}
-    />
-  );
-};
+//     menu_items: {
+//       name: 'Header Menu Items',
+//       table: {
+//         category: 'Header Section',
+//       },
+//       control: {
+//         type: 'object',
+//       },
+//     },
+//     banner:{
+//       name:'Alert Banner',
+//       table:{
+//         category:'Header Section'
+//       },
+//       control:{
+//         type:'text'
+//       }
+//     }
+//   },
+// };
+
+// // export const headerLayout = ({ menu_items, headerLogo, theme,banner }) => {
+// //   useEffect(() => Drupal.attachBehaviors(), []);
+// //   return (
+// //     <div
+// //       dangerouslySetInnerHTML={{
+// //         __html: siteHeader({
+// //           ...mainMenuData,
+// //           ...secondaryMenuData,
+// //           ...inlineSearchData,
+// //           ...siteHeaderData,
+
+// //           menu_items: menu_items,
+// //           logo_src: headerLogo,
+// //           theme_styles: theme,
+// //           alert_banner:banner
+// //         }),
+// //       }}
+// //     />
+// //   );
+// // };
+// // headerLayout.args = {
+// //   theme: siteHeaderData.theme_styles,
+// //   headerLogo: siteHeaderData.logo_src,
+// //   menu_items: mainMenuData.menu_items,
+// //   banner: siteHeaderData.alert_banner
+// // };
+
+// export const footerLayout = () => {
+//   useEffect(() => Drupal.attachBehaviors(), []);
+//   return (
+//     <div
+//       dangerouslySetInnerHTML={{
+//         __html: footerTwig({
+//           ...footerSocial,
+//           ...footerMenu,
+//           ...siteFooterData,
+//           ...legalLinksData,
+//         }),
+//       }}
+//     />
+//   );
+// };

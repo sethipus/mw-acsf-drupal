@@ -4,14 +4,23 @@ polling_heading: 'Which side are you on?'
 polling_paragraph_content: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt aliqua.'
 polling_png_asset: '/theme_assets/twix_us_uk/png_asset/image 203.png'
 polling_png_asset_alt: 'alt text for png asset'
-
-# settings for polling initial state
+storybook_poll_options: 3
 polling_submit_label: 'Submit'
-# choices:
-#   'left': 'left side'
-#   'right': 'right side'
-#   'center': 'center side'
-
+choices:
+  'left': 'left side'
+  'right': 'right side'
+  'center': 'center side'
+choices2:
+  'left': 'left side'
+  'right': 'right side'
+  'center': 'center side'
+  'both': 'both'
+choices3:
+ 'left': 'left side'
+ 'right': 'right side'
+ 'center': 'center side'
+ 'both': 'both'
+ 'neither': 'neither'
 # settings for submitted state
 polling_submitted_text: 'Thanks for voting!'
 brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" width="243" height="243" fill="none" viewBox="0 0 243 243">

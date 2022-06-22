@@ -6,7 +6,7 @@ import noResultsData from './no-results.yml';
 /**
  * Storybook Definition.
  */
-export default { title: 'Organisms/Search' };
+// export default { title: 'Organisms/Search' };
 
 export const noResultsTemplate = () => (
   <div dangerouslySetInnerHTML={{ __html: noResultsTwig({ ...noResultsData }) }} />

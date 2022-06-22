@@ -7,7 +7,7 @@ import './media-carousel';
 /**
  * Storybook Definition.
  */
-export default { title: 'Molecules/Media Carousel' };
+export default { title: 'Components/[ML 19] Media Carousel ' };
 
 export const mediaCarouselModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

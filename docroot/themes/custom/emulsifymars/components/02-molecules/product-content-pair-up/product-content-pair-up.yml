@@ -3,8 +3,8 @@ title: "Looking to make a sweet treat?"
 graphic_divider: '<svg xmlns="http://www.w3.org/2000/svg" width="103" height="13" fill="none" viewBox="0 0 103 13">
                       <path stroke="#CB9F53" stroke-width="3" d="M1.5 6.44s4.775 6.84 23.782 3.42c19.006-3.42 45.821-16.323 76.218.888"/>
                   </svg>'
-background: "./dove-dark-chocolate-bg@2x.png"
+background: "https://www.twix.com/sites/g/files/fnmzdf236/files/2021-02/Twix-Recipe-MadeWithTwix-16x9.jpg"
 lead_card_eyebrow: "Recipe"
-lead_card_title: "Dove Dark Chocolate and Blood Orange Scones"
+lead_card_title: "TWIX® Cookies & Creme Cheesecake Mashup"
 cta_link_url: "https://storybook.js"
 png_asset: "./dove-png-asset.png"

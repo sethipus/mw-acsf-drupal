@@ -1,4 +1,5 @@
 {% set full_width__base_class = 'article-wysiwyg' %}
+{% set heading = heading.length > 0 ? heading : storybook_wysiwyg_heading %}
 
 <section {{ iframe_width_full ? bem(full_width__base_class, '', '', ['nospace']) : bem(full_width__base_class) }} data-theme="{{ theme_styles }}">
   <div {{ iframe_width_full ? bem('container', ['skittles-container'], full_width__base_class) : bem('container', [], full_width__base_class) }}>

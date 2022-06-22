@@ -9,7 +9,7 @@ import { useEffect } from '@storybook/client-api';
 /**
  * Storybook Definition.
  */
-export default { title: 'Templates/PDP Template' };
+// export default { title: 'Templates/PDP Template' };
 
 export const pdpTemplate = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

@@ -6,7 +6,7 @@ import './social-feed-slide';
 /**
  * Storybook Definition.
  */
-export default { title: 'Molecules/Slide/Social Feed Slide' };
+// export default { title: 'Molecules/Slide/Social Feed Slide' };
 
 export const slideExample = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

@@ -9,7 +9,7 @@ import ContactModuleData from '../../02-molecules/contact-module/contact-module.
 
 import { useEffect } from '@storybook/client-api';
 
-export default { title: 'Templates/About Us Template'};
+// export default { title: 'Templates/About Us Template'};
 
 export const aboutUsTemplate = () => {
     useEffect(() => Drupal.attachBehaviors(), []);

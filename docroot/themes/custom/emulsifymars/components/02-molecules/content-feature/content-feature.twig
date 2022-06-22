@@ -5,6 +5,7 @@
 {% if dark_overlay %}
   {% set dark_overlay__modifier = 'dark-overlay' %}
 {% endif %}
+{% set heading = heading.length > 0 ? heading : storybook_content_feature_heading %}
 
 <section {{ bem(content_feature_base_class) }} data-theme="{{theme_styles}}">
   <div {{ bem('bg-image', [dark_overlay__modifier], content_feature_base_class) }}>

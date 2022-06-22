@@ -7,7 +7,7 @@ import {searchResultsModule} from "../../03-organisms/search/search-results/sear
 import {searchPageHeaderModule} from "../../02-molecules/search-page-header/search-page-header.stories";
 import searchTwig from './search-page.twig'
 
-export default {title: 'Pages/Search'};
+// export default {title: 'Pages/Search'};
 
 export const search = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

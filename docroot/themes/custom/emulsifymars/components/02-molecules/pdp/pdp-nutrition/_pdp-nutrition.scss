@@ -76,7 +76,7 @@
     font-size: 2rem;
     line-height: 1.1;
     color: clr(accent-high);
-    white-space: normal;
+    white-space: nowrap;
 
     @include medium {
       font-size: 2.6rem;

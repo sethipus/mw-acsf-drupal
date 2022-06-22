@@ -8,7 +8,7 @@ import ContactModuleData from '../../02-molecules/contact-module/contact-module.
 
 import { useEffect } from '@storybook/client-api';
 
-export default { title: 'Templates/FAQ Template'};
+// export default { title: 'Templates/FAQ Template'};
 
 export const faqTemplate = () => {
     useEffect(() => Drupal.attachBehaviors(), []);

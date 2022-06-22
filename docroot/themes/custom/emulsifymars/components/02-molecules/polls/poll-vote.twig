@@ -30,6 +30,15 @@
 
     <form class="polling__form">
       <div {{ bem('polling__fieldset', [polling_fieldset_modifier]) }} >
+        {% if storybook_poll_options == '3'  %}
+          {% set choices = choices %}
+        {% elseif storybook_poll_options == '4'  %}
+          {% set choices = choices2 %}
+        {% elseif storybook_poll_options == '5'  %}
+          {% set choices = choices3 %}
+        {% else %}
+         {% set choices = choices %}
+        {% endif %}
         {% for key, value in choices %}
           <label class="polling__label" for="edit-choice-{{key}}">
             <input class="polling__radio" type="radio" name="choice" id="edit-choice-{{key}}" value="{{key}}" data-drupal-selector="edit-choice-{{key}}">

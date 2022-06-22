@@ -1,5 +1,5 @@
 theme_styles: 'twix'
-search_enabled: true
+# search_enabled: true
 alert_banner: 'Give the gift of pleasure this Valentine’s Day with the Twix Signature Collection'
 alert_banner_url: '#'
 language_switcher: 'true'
@@ -24,4 +24,4 @@ alert_banner_text_color: 'darkorange'
 
 hover_color: 'deeppink'
 
-text_color_override: '#FFFFFF'
+# text_color_override: '#FFFFFF'

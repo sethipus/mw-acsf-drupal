@@ -10,7 +10,7 @@ import pagerBothEllipsesData from './pager-both-ellipses.yml';
 /**
  * Storybook Definition.
  */
-export default { title: 'Molecules/Menus/Pager' };
+// export default { title: 'Molecules/Menus/Pager' };
 
 export const pagerExample = () => (
   <>

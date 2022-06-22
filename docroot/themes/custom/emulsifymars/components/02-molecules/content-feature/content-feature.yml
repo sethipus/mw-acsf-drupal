@@ -1,13 +1,14 @@
 theme_styles: 'twix'
-eyebrow_text: 'Initiative'
+eyebrow_text: 'ABOUT US'
 background_images:
   desktop:
-    src: './content-feature-bg.png'
+    src: 'https://www.twix.com/cdn-cgi/image/width=1440,height=650,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-02/Twix-About-Illustrations-header-16x9.jpg'
   tablet:
     src: './content-feature-bg.png'
   mobile:
     src: './content-feature-bg.png'
-heading: 'The Rainforest Alliance'
+heading: ''
+storybook_content_feature_heading: 'THE TALE OF SEAMUS AND EARL'
 heading_level: 1
 heading_url: 'https://storybook.js.org/'
 
@@ -16,7 +17,8 @@ graphic_divider: '<svg xmlns="http://www.w3.org/2000/svg" width="125" height="15
 </svg>'
 
 paragraph_size: 'large'
-paragraph_content: 'Delicious chocolate is just the beginning. Our passion extends to everything we do and influences how we do it, every step of the way. That’s why we partner with CARE® to empower female farmers and improve their voices in financial decisions.'
+paragraph_content: '
+      Discover both sides of the extraordinary story of TWIX®.'
 paragraph_modifiers: ['large']
 
 default_link_content: 'Explore'
@@ -24,3 +26,4 @@ default_link_base_class: 'default-link'
 default_link_attributes:
   'target': '_self'
   'href': 'https://storybook.js.org/'
+dark_overlay: true

@@ -10,7 +10,7 @@ import './search-overlay/search-overlay';
 /**
  * Storybook Definition.
  */
-export default { title: 'Molecules/Search' };
+// export default { title: 'Molecules/Search' };
 
 export const inlineSearch = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

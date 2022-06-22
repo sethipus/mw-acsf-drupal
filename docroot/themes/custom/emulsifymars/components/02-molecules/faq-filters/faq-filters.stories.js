@@ -7,7 +7,7 @@ import './faq-filter';
 /**
  * Storybook Definition.
  */
-export default { title: 'Molecules/FAQ' };
+// export default { title: 'Molecules/FAQ' };
 
 export const faqFiltersExample = () => (
   <div dangerouslySetInnerHTML={{ __html: faqFiltersTwig(faqFiltersData) }} />

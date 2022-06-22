@@ -5,17 +5,13 @@
 {% if dark_overlay %}
   {% set homepage_hero_inner__modifiers = ['dark-overlay'] %}
 {% endif %}
-{% if focal_point_desktop is not empty or focal_point_tablet is not empty or focal_point_mobile is not empty %}
-  {% set focus_point_class = 'focuspoint' %}
-{% endif %}
-
 {{ attach_library('emulsifymars/homepage-herobanner-text') }}
 
 <section {{ bem(homepage_hero__base_class, homepage_hero__modifiers) }} data-theme="{{ theme_styles }}">
   <div {{ bem('inner', [], homepage_hero__base_class, homepage_hero_inner__modifiers) }}>
     <div {{ bem('left', [], homepage_hero__base_class) }} >
       <div class="wrapper">
-        <div {{ bem('container', ['image'], homepage_hero__base_class, focus_point_class) }}>
+        <div {{ bem('container', ['image'], homepage_hero__base_class) }}>
           {% set images = {
             1440: hero_images.desktop.src|resize(937,580),
             768: hero_images.tablet.src|resize(768,601),
@@ -30,9 +26,6 @@
             image_array: images,
             width: "936px",
 	          height: "656px",
-            focal_point_desktop: focal_point_desktop,
-            focal_point_tablet: focal_point_tablet,
-            focal_point_mobile: focal_point_mobile,
           } %}
         </div>
         <div class="container">

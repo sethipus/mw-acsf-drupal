@@ -9,6 +9,7 @@
 {% endif %}
 
 {% set heading_modifiers = ['main-heading']|merge([heading_modifier]) %}
+{% set heading = heading.length > 0 ? heading : full_width_heading %}
 
 <section {{ bem(full_width__base_class) }} data-theme="{{ theme_styles }}"
   {% if heading and media.video %}

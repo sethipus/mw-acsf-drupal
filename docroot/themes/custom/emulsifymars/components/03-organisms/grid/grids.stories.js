@@ -20,7 +20,7 @@ import articleCardData from './../../02-molecules/card/article-card/article-card
 /**
  * Storybook Definition.
  */
-export default { title: 'Organisms/Grids' };
+// export default { title: 'Organisms/Grids' };
 
 export const defaultGrid = () => (
   <div dangerouslySetInnerHTML={{ __html: grid(gridData) }} />

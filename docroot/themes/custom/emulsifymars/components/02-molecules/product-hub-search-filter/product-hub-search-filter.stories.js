@@ -8,7 +8,7 @@ import '../product-hub-search-filter/product-hub-search-filter.js';
 /**
  * Storybook Definition.
  */
-export default { title: 'Molecules/Product Hub Search Filter' };
+// export default { title: 'Molecules/Product Hub Search Filter' };
 
 export const filters = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

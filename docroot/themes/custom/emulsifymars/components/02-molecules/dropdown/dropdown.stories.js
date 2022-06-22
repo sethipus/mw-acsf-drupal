@@ -6,7 +6,7 @@ import dropdownData from './dropdown.yml';
 
 import './dropdown';
 
-export default { title: 'Molecules/Dropdown' };
+// export default { title: 'Molecules/Dropdown' };
 
 export const dropdownExample = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

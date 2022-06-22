@@ -50,11 +50,10 @@ export const ListLayout = ({ theme, title, Content }) => {
     <div
       dangerouslySetInnerHTML={{
         __html: 
-        "<div style='height: 300px; background-color: grey'></div>" +
         articleListTwig({
           ...articleListData,
           theme_styles: theme,
-          title: title,
+          storybook_list_title: title,
           takeaways_list: Content,
         }),
       }}
@@ -63,6 +62,6 @@ export const ListLayout = ({ theme, title, Content }) => {
 };
 ListLayout.args = {
   theme: articleListData.theme_styles,
-  title: articleListData.title,
+  title: articleListData.storybook_list_title,
   Content: articleListData.takeaways_list,
 };

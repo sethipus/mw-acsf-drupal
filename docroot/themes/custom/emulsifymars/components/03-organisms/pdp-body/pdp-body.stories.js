@@ -8,7 +8,7 @@ import { useEffect } from '@storybook/client-api';
 /**
  * Storybook Definition.
  */
-export default { title: 'Organisms/PDP Body' };
+// export default { title: 'Organisms/PDP Body' };
 
 export const pdpBodyTemplate = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

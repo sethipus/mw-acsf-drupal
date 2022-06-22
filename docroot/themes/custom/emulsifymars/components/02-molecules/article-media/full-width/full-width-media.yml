@@ -1,5 +1,6 @@
 theme_styles: 'twix'
-heading: 'Empowering women today'
+heading: ''
+full_width_heading: 'Empowering women today'
 heading_modifier: ''
 media:
   video: false

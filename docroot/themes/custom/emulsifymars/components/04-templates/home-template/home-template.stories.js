@@ -12,7 +12,7 @@ import { useEffect } from '@storybook/client-api';
 
 import '../../02-molecules/content-feature/content-feature';
 
-export default { title: 'Templates/Home Template'};
+// export default { title: 'Templates/Home Template'};
 
 export const home = () => {
     useEffect(() => Drupal.attachBehaviors(), []);

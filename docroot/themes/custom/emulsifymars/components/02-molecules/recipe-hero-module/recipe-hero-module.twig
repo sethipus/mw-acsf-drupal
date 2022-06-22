@@ -29,7 +29,7 @@
     data-component-title="{{ recipe_header_text }}"
   {% endif %}
 >
-  {% if video_src %}
+  {% if video_src and videoEnableIndicator %}
     {% block recipe_media_video %}
       <div {{ bem('video', [], 'recipe-media') }}>
         {% include "@atoms/video/ambient-video/video.twig" with {
@@ -38,7 +38,7 @@
           video__control: true,
         } %}
       </div>
-    {% endblock %}
+    {% endblock %} 
   {% else %}
     <div class="recipe-media__image-wrapper">
       {% set images_array = {

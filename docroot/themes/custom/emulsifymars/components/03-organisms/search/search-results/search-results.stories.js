@@ -19,7 +19,7 @@ import '../../../01-atoms/search-results-item/search-results-item';
 /**
  * Storybook Definition.
  */
-export default { title: 'Organisms/Search' };
+// export default { title: 'Organisms/Search' };
 
 export const searchResultsModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

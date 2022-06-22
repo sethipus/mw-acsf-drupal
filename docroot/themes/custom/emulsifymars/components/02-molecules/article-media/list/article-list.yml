@@ -1,5 +1,6 @@
 theme_styles: 'dove'
-title: 'INSTRUCTION'
+title: ''
+storybook_list_title: 'INSTRUCTION'
 takeaways_list:
   - content: 'Pre-heat the oven to 160 degrees fan..'
     item_number: 1

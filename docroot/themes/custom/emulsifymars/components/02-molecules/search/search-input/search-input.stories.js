@@ -4,7 +4,7 @@ import searchInputData from './search-input.yml';
 import { useEffect } from '@storybook/client-api';
 import './search-input.js';
 
-export default { title: 'Molecules/Search input' };
+// export default { title: 'Molecules/Search input' };
 
 export const searchInputeModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

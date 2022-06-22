@@ -43,7 +43,7 @@ import { useEffect } from '@storybook/client-api';
 /**
  * Storybook Definition.
  */
-export default { title: 'Templates/Recipe Template' };
+// export default { title: 'Templates/Recipe Template' };
 
 export const recipeTemplate = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

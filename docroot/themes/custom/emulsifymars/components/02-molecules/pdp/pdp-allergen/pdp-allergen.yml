@@ -11,9 +11,4 @@ pdp_allergen_data:
       allergen_label: 'CONTAINS DAIRY'
     - allergen_icon: 'twix-logo-102-x2.png'
       allergen_label: 'CONTAINS SOY'
-    - allergen_icon: 'twix-logo-102-x2.png'
-      allergen_label: 'CONTAINS SOY'
-    - allergen_icon: 'twix-logo-102-x2.png'
-      allergen_label: 'CONTAINS SOY'
-    - allergen_icon: 'twix-logo-102-x2.png'
-      allergen_label: 'CONTAINS SOY'
+   

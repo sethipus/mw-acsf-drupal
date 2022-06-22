@@ -7,8 +7,8 @@ pdp_common_hero_data:
   background_color: 'rgba(87, 189, 244, 0.7)'
   brand_shape: "<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><circle cx='50' cy='50' r='50'></svg>"
   product_label: 'PRODUCTS'
-  product_name: 'TWIX® Cookies &amp; Creme Chocolate Bar'
-  product_description: 'Whether you’re a Left TWIX Bar or Right TWIX Bar person, everyone can agree the delicious taste of cookies and creme needs to be in everyones favorite chocolate cookie candy bar.'
+  product_name: 'TWIX Salted Caramel Full Size Candy Bar, 1.41oz'
+  product_description: 'TWIX Salted Caramel Crunchy Cookie Bars have the same 3 layers you know and love, with an extra pinch of salt for a new crunchy sweet & salty experience. Get ready to taste perfection with this irresistible combination of creamy milk chocolate, salted caramel and crunchy cookie bars.'
   size_label: 'Available Sizes'
   product_sku: '00012937003801'
   commerce_vendor: 'commerce_connector'
@@ -22,20 +22,20 @@ pdp_label_nutrition: 'NUTRITION'
 pdp_label_allergen: 'DIET & ALLERGENS'
 pdp_label_more_information: 'MORE INFORMATION'
 pdp_size_items_data:
-  - size_id : '1oz'
-    title: '1.36 oz'
+  - size_id : '1.41oz'
+    title: '1.41oz'
+    link_url: '#'
+  - size_id : '2.82oz'
+    title: '2.82oz'
     link_url: '#'
   - size_id : '4oz'
     title: '4 oz'
-    link_url: '#'
-  - size_id : '6oz'
-    title: '6 oz'
     link_url: '#'
 pdp_hero_data:
   image_items:
     - image:
         srcset: 'Front3x.png 375w, Front3x.png 768w, Front3x.png 1024w, Front3x.png 1440w'
-        src: 'Front3x.png'
+        src: 'https://www.twix.com/cdn-cgi/image/width=472,height=472,f=auto,quality=90/sites/g/files/fnmzdf236/files/migrate-product-files/ndmcs95ufjcnuinfyiib.png'
         alt: 'Twix'
     - image:
         srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
@@ -66,3 +66,5 @@ pdp_hero_data:
       border_radius: 20
       link_attributes:
         'href' : '#section-products-1oz'
+pdp_title: ''
+pdp_description: ''

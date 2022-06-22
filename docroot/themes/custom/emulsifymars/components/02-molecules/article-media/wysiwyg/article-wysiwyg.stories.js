@@ -57,7 +57,7 @@ export const WYSIWYGLayout = ({ theme, Header, body }) => {
         __html: articleWysiwygTwig({
           ...articleWysiwygData,
           theme_styles: theme,
-          heading: Header,
+          storybook_wysiwyg_heading: Header,
           content: body,
         }),
       }}
@@ -66,6 +66,6 @@ export const WYSIWYGLayout = ({ theme, Header, body }) => {
 };
 WYSIWYGLayout.args = {
   theme: articleWysiwygData.theme_styles,
-  Header: articleWysiwygData.heading,
+  Header: articleWysiwygData.storybook_wysiwyg_heading,
   body: articleWysiwygData.content,
 };

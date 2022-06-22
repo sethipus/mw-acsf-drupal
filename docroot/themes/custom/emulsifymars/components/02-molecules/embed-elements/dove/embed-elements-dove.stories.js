@@ -11,7 +11,7 @@ import './newsletter-signup-form/newsletter-signup-form';
 /**
  * Storybook Definition.
  */
-export default { title: 'Molecules/Embed Elements/Dove' };
+// export default { title: 'Molecules/Embed Elements/Dove' };
 
 export const doveKeepInTouchFormModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

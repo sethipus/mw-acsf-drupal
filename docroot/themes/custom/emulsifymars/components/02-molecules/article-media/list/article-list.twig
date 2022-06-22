@@ -1,4 +1,5 @@
 {% set full_width__base_class = 'article-list list-container-block' %}
+{% set title = title.length > 0 ? title : storybook_list_title %}
 
 <section {{ bem(full_width__base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('content', [], full_width__base_class) }}>

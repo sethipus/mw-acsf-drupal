@@ -21,7 +21,7 @@ import pdpMultipackDetailsData from './pdp-multipack-details/pdp-multipack-detai
 /**
  * Storybook Definition.
  */
-export default { title: 'Molecules/PDP' };
+// export default { title: 'Components/ Product Detail Hero' };
 
 export const pdpHeroModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);

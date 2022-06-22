@@ -3,6 +3,8 @@
 {% if brand_border is not empty %}
   {% set related_recipes_modifiers = ['brand-border'] %}
 {% endif %}
+{% set items = items.length > 0 ? items : flexible_framer_items %}
+
 
 <section {{ bem(related_recipes__base_class, related_recipes_modifiers) }} data-theme="{{ theme_styles }}"
   {% if select_background_color|length > 0 %}

@@ -1,1 +1,4 @@
 theme_styles: 'twix'
+pdp_common_more_information_data: 
+  show_more_information_label: true
+  more_information_label: 'Lorem ipsum..'

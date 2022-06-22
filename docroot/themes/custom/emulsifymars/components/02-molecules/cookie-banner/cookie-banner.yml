@@ -1,0 +1,6 @@
+theme_styles: 'twix'
+cookie_message: ' We use cookies to personalize content and ads, to provide social media features and to analyze our traffic. See our <a href="https://www.mars.com/cookies-english" target="_blank" aria-label="See our Cookie Policy">cookie policy</a> You can use cookie settings to change your preferences.'
+cookie_settings: 'Cookie Settings'
+accept_cookie: 'Accept Cookies'
+cookie_banner_brand_border: true
+
