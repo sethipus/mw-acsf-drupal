@@ -31,11 +31,11 @@
     <form class="polling__form">
       <div {{ bem('polling__fieldset', [polling_fieldset_modifier]) }} >
         {% if storybook_poll_options == '3'  %}
-          {% set choices = choices %}
+          {% set choices = storybook_choices %}
         {% elseif storybook_poll_options == '4'  %}
-          {% set choices = choices2 %}
+          {% set choices = storybook_choices2 %}
         {% elseif storybook_poll_options == '5'  %}
-          {% set choices = choices3 %}
+          {% set choices = storybook_choices3 %}
         {% else %}
          {% set choices = choices %}
         {% endif %}

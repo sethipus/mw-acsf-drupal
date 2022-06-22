@@ -105,8 +105,8 @@ export const flexibleDriverComponent = ({
           flexible_driver_heading: Title,
           flexible_driver_text: Description,
           flexible_driver_button_text: ButtonCTA,
-          asset_1: LeftImage,
-          asset_2: RightImage,
+          flexible_driver_asset_1: LeftImage,
+          flexible_driver_asset_2: RightImage,
         }),
       }}
     />
@@ -117,6 +117,6 @@ flexibleDriverComponent.args = {
   Title: flexibleDriverData.flexible_driver_heading,
   Description: flexibleDriverData.flexible_driver_text,
   ButtonCTA: flexibleDriverData.flexible_driver_button_text,
-  LeftImage: flexibleDriverData.asset_1,
-  RightImage: flexibleDriverData.asset_2,
+  LeftImage: flexibleDriverData.flexible_driver_asset_1,
+  RightImage: flexibleDriverData.flexible_driver_asset_2,
 };

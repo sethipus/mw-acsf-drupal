@@ -1,8 +1,8 @@
 theme_styles: 'twix'
-error_component_heading: 'Oops'
+error_component_heading: 'Oops!'
 error_component_heading_level: 1
 
-error_component_paragraph_content: 'Unfortunately this page does not exist. Here are some helpful links instead: Unfortunately this page does not exist. Here are some helpful links instead: Unfortunately this page does not exist. Here are some helpful links instead:'
+error_component_paragraph_content: 'Unfortunately this page does not exist. Here are some helpful links instead:'
 
 error_component_bg_image_src: './twix-bg.png'
 error_component_bg_image_alt: 'twix chocolate'

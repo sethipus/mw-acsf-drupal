@@ -19,53 +19,50 @@
   {% include '@organisms/site/site-header/site-header.twig' %}
 {% endif %}
 
-<!-- Zone 1 - Parent Page Header -->
-{% include '@molecules/parent-page-header/parent-page-header.twig' %}
+<!-- Zone 1 - Product Detail Hero -->
+
+{% include '@molecules/pdp/pdp-hero/pdp-hero.twig'%}
+{% include '@molecules/pdp/pdp-nutrition/pdp-nutrition.twig'%}
+{% include '@molecules/pdp/pdp-cooking/pdp-cooking.twig'%}
+{% include '@molecules/pdp/pdp-benefits/pdp-benefits.twig'%}
+{% include '@molecules/pdp/pdp-allergen/pdp-allergen.twig'%}
+{% include '@molecules/pdp/pdp-more-information/pdp-more-information.twig'%}
+
 <!-- Zone 1 Ends -->
 
 <!-- Zone 2 - Storytelling -->
-{% if StoryTellingOption == 'Product Content Pair Up' %}
-  {% include '@molecules/product-content-pair-up/product-content-pair-up.twig' %}
-{% elseif StoryTellingOption == 'Freeform Story Block' %}
-  {% include '@molecules/freeform-story/freeform-story.twig' %}
+{% if StoryTellingOption == 'Recipe Feature' %}
+  {% include '@molecules/recipe-feature-module/recipe-feature-module.twig' %}
+{% elseif StoryTellingOption == 'Full Width Media' %}
+  {% include '@molecules/article-media/full-width/full-width-media.twig' %}
+{% elseif StoryTellingOption == 'Flexible Framer' %}
+  {% include '@molecules/flexible-framer/flexible-framer.twig' %}
+{% elseif StoryTellingOption == 'Flexible Driver' %}
+  {% include '@molecules/flexible-driver/flexible-driver.twig' %}
+{% elseif StoryTellingOption == 'List' %}
+  {% include '@molecules/article-media/list/article-list.twig' %}
+{% elseif StoryTellingOption == 'Contact & Help Banner' %}
+  {% include '@molecules/contact-module/contact-module.twig' %}
+{% elseif StoryTellingOption == 'WYSIWYG' %}
+  {% include '@molecules/article-media/wysiwyg/article-wysiwyg.twig' %}
 {% elseif StoryTellingOption == 'Story Highlight' %}
-  {% include '@molecules/story-highlight/story_highlight.twig' with {
+   {% include '@molecules/story-highlight/story_highlight.twig' with {
     heading_level: 2
   } %}
-{% elseif StoryTellingOption == 'Poll' %}
+{% elseif StoryTellingOption == 'Polls' %}
   {% include '@molecules/polls/poll-vote.twig' %}
-{% elseif StoryTellingOption == 'Full With Media' %}
-  {% include '@molecules/article-media/full-width/full-width-media.twig' %}
-{% elseif StoryTellingOption == 'Iframe' %}
-  {% include '@atoms/iframe/iframe.twig' %}
 {% else %}
-  {% include '@molecules/flexible-framer/flexible-framer.twig' %}
+  {% include '@atoms/iframe/iframe.twig' %}
 {% endif %}
 <!-- Zone 2 Ends -->
 
-<!-- Zone 3 - Pathing -->
 
-{% if PathingOption == 'Flexible Driver' %}
-  {% include '@molecules/flexible-driver/flexible-driver.twig' %}
-{% elseif PathingOption == 'Flexible Framer' %}
-  {% include '@molecules/flexible-framer/flexible-framer.twig' %}
-{% elseif PathingOption == 'Content Feature' %}
-  {% include '@molecules/content-feature/content-feature.twig' %}
-{% elseif PathingOption == 'Recipe Feature' %}
-  {% include '@molecules/recipe-feature-module/recipe-feature-module.twig' %}
-{% else %}
-  {% include '@molecules/product-feature/product-feature.twig' %}
-{% endif %}
-
-<!-- Zone 3 Ends -->
-
-<!-- Zone 4 - Community -->
-
-{% if CommunityOption == 'Feedback Module' %}
+<!--Zone 3 - User Feedback -->
+{% if UserFeedbackOption == 'Feedback Module' %}
   {% include '@molecules/feedback-module/feedback.twig' %}
 {% endif %}
+<!-- Zone 3 Ends -->
 
-<!-- Zone 4 Ends -->
 
 <!-- Error Page Footer -->
 {% if theme_styles == 'dove' %}

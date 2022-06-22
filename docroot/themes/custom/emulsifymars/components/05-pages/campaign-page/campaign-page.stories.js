@@ -1,6 +1,7 @@
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import { useEffect } from '@storybook/client-api';
+
+import campaignTwig from './campaign-page.twig';
+import campaignData from './campaign-page.yml';
 
 import footerSocial from '../../02-molecules/menus/social/social-menu.yml';
 import footerMenu from '../../02-molecules/menus/footer/footer-menu.yml';
@@ -14,15 +15,10 @@ import siteFooterData from '../../03-organisms/site/site-footer/site-footer.yml'
 import '../../02-molecules/menus/main-menu/main-menu';
 import '../../02-molecules/dropdown/dropdown';
 
-
-import { header, footer } from '../../03-organisms/site/site.stories.js';
-import { searchResultsModule } from '../../03-organisms/search/search-results/search-results.stories';
-import { searchPageHeaderModule } from '../../02-molecules/search-page-header/search-page-header.stories';
-import searchTwig from './search-page.twig';
-import searchData from './search-page.yml';
+import { useEffect } from '@storybook/client-api';
 
 export default {
-  title: 'Pages/[PT 13] Search Results',
+  title: 'Pages/[PT 10] Campaign Page',
   argTypes: {
     theme: {
       name: 'Theme',
@@ -128,69 +124,61 @@ export default {
   },
 };
 
-export const searchResultPageLayout = ({
-  theme,
-  headerMenu,
-  headerAlertBanner,
-  footerMenuItems,
-  marketingMessage,
-  socialMenuItems,
-  legaMenuItems,
-  regions,
-  copyrighttext,
-  corporateText,
-}) => {
+export const campaignPageLayout = ({
+    theme,
+    headerMenu,
+    headerAlertBanner,
+    footerMenuItems,
+    marketingMessage,
+    socialMenuItems,
+    legaMenuItems,
+    regions,
+    copyrighttext,
+    corporateText,
+  }) => {
   useEffect(() => Drupal.attachBehaviors(), []);
-
-  // const components = [
-  //   ReactDOMServer.renderToString(header()),
-  //   ReactDOMServer.renderToString(searchPageHeaderModule()),
-  //   ReactDOMServer.renderToString(searchResultsModule()),
-  //   ReactDOMServer.renderToString(footer())
-  // ];
-
   return (
     <div
       dangerouslySetInnerHTML={{
-        __html: searchTwig({
-          ...footerSocial,
-          ...footerMenu,
-          ...secondaryMenuData,
-          ...inlineSearchData,
-          ...mainMenuData,
-          ...legalLinksData,
-          ...siteHeaderData,
-          ...siteFooterData,
-          ...searchData,
-
-          theme_styles: theme,
+        __html: campaignTwig({
+            ...footerSocial,
+            ...footerMenu,
+            ...secondaryMenuData,
+            ...inlineSearchData,
+            ...mainMenuData,
+            ...legalLinksData,
+            ...siteHeaderData,
+            ...siteFooterData,
+            ...campaignData,
   
-          menu_items: headerMenu,
-          alert_banner: headerAlertBanner,
-
-          footer_menu_items: footerMenuItems,
-          marketing_text: marketingMessage,
-          social_menu_items: socialMenuItems,
-          legal_links_menu_items: legaMenuItems,
-          regions: regions,
-          copyright_text: copyrighttext,
-          corporate_tout_text: corporateText,
+            theme_styles: theme,
+  
+            menu_items: headerMenu,
+            alert_banner: headerAlertBanner,
+  
+            footer_menu_items: footerMenuItems,
+            marketing_text: marketingMessage,
+            social_menu_items: socialMenuItems,
+            legal_links_menu_items: legaMenuItems,
+            regions: regions,
+            copyright_text: copyrighttext,
+            corporate_tout_text: corporateText,
         }),
       }}
     />
   );
 };
-searchResultPageLayout.args = {
-  theme: searchData.theme_styles,
-  //For Header
-  headerMenu: mainMenuData.menu_items,
-  headerAlertBanner: siteHeaderData.alert_banner,
-  //For Footer
-  footerMenuItems: footerMenu.footer_menu_items,
-  marketingMessage: siteFooterData.marketing_text,
-  socialMenuItems: footerSocial.social_menu_items,
-  legaMenuItems: legalLinksData.legal_links_menu_items,
-  regions: siteFooterData.regions,
-  copyrighttext: siteFooterData.copyright_text,
-  corporateText: siteFooterData.corporate_tout_text,
+campaignPageLayout.args = {
+    theme: campaignData.theme_styles,
+    //For Header
+    headerMenu: mainMenuData.menu_items,
+    headerAlertBanner: siteHeaderData.alert_banner,
+    //For Footer
+    footerMenuItems: footerMenu.footer_menu_items,
+    marketingMessage: siteFooterData.marketing_text,
+    socialMenuItems: footerSocial.social_menu_items,
+    legaMenuItems: legalLinksData.legal_links_menu_items,
+    regions: siteFooterData.regions,
+    copyrighttext: siteFooterData.copyright_text,
+    corporateText: siteFooterData.corporate_tout_text,
 }

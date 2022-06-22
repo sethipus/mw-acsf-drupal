@@ -10,12 +10,16 @@ choices:
   'left': 'left side'
   'right': 'right side'
   'center': 'center side'
-choices2:
+storybook_choices:
+  'left': 'left side'
+  'right': 'right side'
+  'center': 'center side'
+storybook_choices2:
   'left': 'left side'
   'right': 'right side'
   'center': 'center side'
   'both': 'both'
-choices3:
+storybook_choices3:
  'left': 'left side'
  'right': 'right side'
  'center': 'center side'

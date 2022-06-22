@@ -98,7 +98,7 @@ export const ContentFeatureLayout = ({
           eyebrow_text: Eyebrow,
           storybook_content_feature_heading: Title,
           paragraph_content: Description,
-          default_link_content: ExploreCTA,
+          storybook_content_feature_default_link_content: ExploreCTA,
           background_images:background_images,
         }),
       }}
@@ -112,5 +112,5 @@ ContentFeatureLayout.args = {
   Title: contentFeatureData.storybook_content_feature_heading,
   Description: contentFeatureData.paragraph_content,
   background_images: contentFeatureData.background_images,
-  ExploreCTA: contentFeatureData.default_link_content,
+  ExploreCTA: contentFeatureData.storybook_content_feature_default_link_content,
 };

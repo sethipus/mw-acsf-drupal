@@ -7,7 +7,11 @@ flexible_driver_button_link_attributes:
   href: 'https://storybook.js.org/'
   target: '_blank'
 
-asset_1: './fd-bg-twix-01.png'
+asset_1: ''
 asset_1_alt: 'alt1'
-asset_2: './fd-bg-twix-02.png'
+asset_2: ''
 asset_2_alt: 'alt2'
+flexible_driver_asset_1: './fd-bg-twix-01.png'
+flexible_driver_asset_1_alt: 'alt1'
+flexible_driver_asset_2: './fd-bg-twix-02.png'
+flexible_driver_asset_2_alt: 'alt2'

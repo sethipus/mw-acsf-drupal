@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { useEffect } from '@storybook/client-api';
 
-import landingTwig from './landing-page.twig';
-import landingData from './landing-page.yml';
+import aboutTwig from './about-page.twig';
+import aboutData from './about-page.yml';
 
-//Imports for Header and Footer component
+//Imports for Header and Footer
 import footerSocial from '../../02-molecules/menus/social/social-menu.yml';
 import footerMenu from '../../02-molecules/menus/footer/footer-menu.yml';
 import secondaryMenuData from '../../02-molecules/menus/inline/header-inline-menu/header-inline-menu.yml';
@@ -21,38 +21,30 @@ import '../../02-molecules/dropdown/dropdown';
 import parentPageHeaderData from '../../02-molecules/parent-page-header/parent-page-header.yml';
 
 //Imports for Storytelling Zone
-import homeProductContentData from '../../02-molecules/product-content-pair-up/product-content-pair-up.yml';
+import fullWithMediaData from '../../02-molecules/article-media/full-width/full-width-media.yml';
 import flexibleFramerData from '../../02-molecules/flexible-framer/flexible-framer.yml';
-import productCard from '../../02-molecules/card/product-card/product-card.twig';
-import productCardData from '../../02-molecules/card/product-card/product-card.yml';
-import homePollData from '../../02-molecules/polls/poll.yml';
-import defaultLink from './../../01-atoms/links/defaultLink/defaultLink.twig';
 import freeformData from '../../02-molecules/freeform-story/freeform-story-center.yml';
 import storyHighlight from '../../02-molecules/story-highlight/story_highlight.yml';
-import fullWithMediaData from '../../02-molecules/article-media/full-width/full-width-media.yml';
-import iframeData from '../../01-atoms/iframe/iframe.yml';
-
-//Imports for Pathing Module
-import recpieFeature from '../../02-molecules/recipe-feature-module/recipe-feature-module.yml';
-import productFeatureData from '../../02-molecules/product-feature/product-feature.yml';
 import flexibleDriverData from '../../02-molecules/flexible-driver/flexible-driver.yml';
+import homeProductContentData from '../../02-molecules/product-content-pair-up/product-content-pair-up.yml';
+import productCard from '../../02-molecules/card/product-card/product-card.twig';
+import productCardData from '../../02-molecules/card/product-card/product-card.yml';
 import contentFeatureData from '../../02-molecules/content-feature/content-feature.yml';
+import homePollData from '../../02-molecules/polls/poll.yml';
+import defaultLink from './../../01-atoms/links/defaultLink/defaultLink.twig';
+import iframeData from '../../01-atoms/iframe/iframe.yml';
+import listData from '../../02-molecules/article-media/list/article-list.yml';
 
-//Imports for Community Module
-
+// Import from Community Zone 
 import feedbackData from '../../02-molecules/feedback-module/feedback.yml';
 
 export default {
-  title: 'Pages/[PT 02] Landing Page',
+  title: 'Pages/[PT 03] About',
   parameters: {
-    componentSubtitle: `These pages provide a high level of flexibility
-          to customize compelling stories around specific topics that are 
-          important to each brand, like the Twix Pick A Side campaign for
-          example. This page encourages deeper exploration throughout the site.
-          This template is highly flexible, allowing editors to drive to multiple
-          other initiatives or pages from landing pages, or dive deep into one
-          specific initiative in detail, admin is able to edit zones and components
-          options`,
+    componentSubtitle: `Focuses on bringing individual brands and their story
+    to life by highlighting what’s most important. About pages contain a super
+    flexible storytelling zone, in order to accommodate every brand's need to
+    tell a different and unique story.`,
   },
   argTypes: {
     theme: {
@@ -66,8 +58,6 @@ export default {
         options: ['twix', 'dove', 'mars', 'galaxy'],
       },
     },
-
-    //Header
     headerMenu: {
       name: 'Menu List',
       description: 'Menu options in the header',
@@ -88,8 +78,6 @@ export default {
         type: 'text',
       },
     },
-
-    //Footer
     footerMenuItems: {
       name: 'Menu Items',
       descritpion:
@@ -150,7 +138,6 @@ export default {
         type: 'text',
       },
     },
-
     //Parent page header controls
     Eyebrow: {
       name: 'Eyebrow text',
@@ -201,8 +188,6 @@ export default {
       },
       control: { type: 'object' },
     },
-
-
     StoryTellingOption: {
       name: 'Storytelling Block',
       table: {
@@ -216,12 +201,15 @@ export default {
           'Freeform Story Block',
           'Story Highlight',
           'Poll',
-          'Full With Media',
+          'Full Width Media',
           'Iframe',
+          'Flexible Driver',
+          'List',
+          'Content Feature',
+          'Iframe'
         ],
       },
     },
-
     //Iframe
     iframe_description: {
       name: 'Source Link',
@@ -233,7 +221,6 @@ export default {
         type: 'text',
       },
     },
-
     //Full Width Controls
     heading: {
       name: ' Title',
@@ -270,7 +257,6 @@ export default {
         type: 'text',
       },
     },
-
     //polls control
     PollImage: {
       name: 'Image Asset',
@@ -309,7 +295,6 @@ export default {
       },
       control: { type: 'radio', options: ['3', '4', '5'] },
     },
-
     //Freeform Storyblock controls
     enableBackgroundColor: {
       name: 'Background Color Usage',
@@ -383,7 +368,6 @@ export default {
       control: 'select',
       options: ['left', 'right', 'center'],
     },
-
     //StoryHighlight controls
     StoryHighlightTitle: {
       name: 'Title text',
@@ -429,7 +413,6 @@ export default {
       table: { category: 'Story Highlight' },
       control: { type: 'object' },
     },
-
     //Content content pair up controls
     ContentTitle: {
       name: 'Title text',
@@ -482,24 +465,6 @@ export default {
         type: 'object',
       },
     },
-
-    PathingOption: {
-      name: 'Pathing Block',
-      table: {
-        category: 'Pathing Layout',
-      },
-      control: {
-        type: 'select',
-        options: [
-          'Flexible Driver',
-          'Flexible Framer',
-          'Content Feature',
-          'Recipe Feature',
-          'Product Feature',
-        ],
-      },
-    },
-
     //Flexible Driver controls
     DriverTitle: {
       name: 'Title',
@@ -551,7 +516,6 @@ export default {
       },
       control: { type: 'object' },
     },
-
     //Content Feature
     ContentFeatureEyebrow: {
       name: 'Eyebrow',
@@ -605,108 +569,21 @@ export default {
       },
       control: { type: 'text' },
     },
-
-    //Recipe Feature controls
-    RecipeTitle: {
-      name: 'Recipe ttile text',
-      defaultValue: { summary: 'Product ABC ' },
-      table: {
-        category: 'Recipe Feature',
-      },
+    //Flexible Framer
+    FramerTitle: {
       description:
-        'Recipe title for the recipe feature.<b> Maximum character limit is 60.</b>',
+        'Change the title of the content.<b> Maximum character limit is 55.</b>',
+      defaultValue: { summary: 'Lorem' },
+      table: { category: 'Flexible Framer' },
       control: { type: 'text' },
     },
-    Recipecta: {
-      name: 'Button CTA',
-      defaultValue: { summary: 'SEE DETAILS ' },
-      table: {
-        category: 'Recipe Feature',
-      },
+    Frameritems: {
+      name: 'Stories',
       description:
-        'Button CTA for the recipe feature button.<b> Maximum character limit is 15.</b>',
+        'Change the stories of the content.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul><b> Maximum character for the Item title and Item description and button CTA is 60, 255 and 15 respectively.</b>',
+      table: { category: 'Flexible Framer' },
       control: { type: 'object' },
     },
-    recipe_media: {
-      name: 'Recipe Image',
-      defaultValue: {
-        summary:
-          'http://dove.mars.acsitefactory.com/sites/g/files/fnmzdf186/files/2020-12/Dove%20Home%20Banner%2021-9.PNG',
-      },
-      table: {
-        category: 'Recipe Feature',
-      },
-      description:
-        'Recipe image for the recipe.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul>',
-      control: { type: 'object' },
-    },
-
-    //Product Feature
-    ProductFeatureEyebrow: {
-      name: 'Eyebrow',
-      defaultValue: { summary: 'Product ABC ' },
-      table: {
-        category: 'Product Feature component',
-      },
-      description:
-        'Eyebrow text for the product feature. <b>Maximum character limit is 15.</b>',
-      control: { type: 'text' },
-    },
-    ProductFeatureTitle: {
-      name: 'Title text',
-      table: {
-        category: 'Product Feature component',
-      },
-      defaultValue: { summary: 'ABC Chocolate' },
-      description:
-        'Title for the product feature.<b> Maximum character limit is 55.</b>',
-      control: { type: 'text' },
-    },
-    ProductFeatureBackground: {
-      name: 'Background Color',
-      table: {
-        category: 'Product Feature component',
-      },
-      defaultValue: { summary: '#fff' },
-      description: 'Background color HEX value for the product feature',
-      control: { type: 'color' },
-    },
-    ProductFeatureProductImage: {
-      name: 'Image Assets',
-      table: {
-        category: 'Product Feature component',
-      },
-      description:
-        'Product image for the product.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul>',
-      control: { type: 'object' },
-    },
-    ProductFeatureExploreCTA: {
-      name: 'Button CTA',
-      table: {
-        category: 'Product Feature component',
-      },
-      defaultValue: { summary: 'Explore' },
-      description:
-        'Button CTA text for the product feature. <b>Maximum character limit is 15.</b>',
-      control: { type: 'text' },
-    },
-
-    // //Flexible Framer
-    // FramerTitle: {
-    //   description:
-    //     'Change the title of the content.<b> Maximum character limit is 55.</b>',
-    //   defaultValue: { summary: 'Lorem' },
-    //   table: { category: 'Flexible Framer' },
-    //   control: { type: 'text' },
-    // },
-    // Frameritems: {
-    //   name: 'Stories',
-    //   description:
-    //     'Change the stories of the content.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul><b> Maximum character for the Item title and Item description and button CTA is 60, 255 and 15 respectively.</b>',
-    //   table: { category: 'Flexible Framer' },
-    //   control: { type: 'object' },
-    // },
-
     CommunityOption: {
       name: ' Community Block',
       table: {
@@ -717,7 +594,6 @@ export default {
         options: ['Feedback Module'],
       },
     },
-
     //Feedback Module
     brandShape: {
       name: 'Brand Shape',
@@ -750,13 +626,32 @@ export default {
         type: 'object',
       },
     },
+    //List
+    title: {
+      name: 'Title',
+      description: 'Title',
+      defaultValue: {
+        summary: 'Lorem Ipsum...',
+      },
+      table: { category: 'List Component' },
+      control: { type: 'text' },
+    },
+    Content: {
+      name: 'Content',
+      description:
+        'Maximum number of point that can be added is <b> 9 </b> . List image should be of ratio <b> 16X9 </b>',
+      defaultValue: {
+        summary: 'Lorem Ipsum...',
+      },
+      table: { category: 'List Component' },
+      control: { type: 'object' },
+    },
   },
 };
 
-export const landingPageLayout = ({
+export const aboutPageLayout = ({
   theme,
-
-  //header
+  //Header and footer
   headerMenu,
   headerAlertBanner,
   footerMenuItems,
@@ -765,7 +660,6 @@ export const landingPageLayout = ({
   legaMenuItems,
   copyrighttext,
   corporateText,
-
   //parent page header
   Eyebrow,
   Title,
@@ -774,13 +668,11 @@ export const landingPageLayout = ({
   parent_page_media_entities,
 
   StoryTellingOption,
-
   //polls
   PollImage,
   PollHeading,
   PollContent,
   PollOptions,
-
   //freeform story block
   enableBackgroundColor,
   FreeFormBackgroundColor,
@@ -789,7 +681,6 @@ export const landingPageLayout = ({
   FreeFormHeadingTitle,
   FreeFormContentText,
   FreeFormAlign,
-
   //Story highlight
   StoryHighlightTitle,
   StoryHighlightParagraphContent,
@@ -797,60 +688,41 @@ export const landingPageLayout = ({
   StoryHighlightImageAsset1,
   StoryHighlightImageAsset2,
   StoryHighlightitems,
-
   //product content pair up
   ContentTitle,
   ContentEyebrowText,
   ContentBackground,
+  ProductEyebrow,
   content_card_eyebrow,
   content_card_item,
-
-  PathingOption,
-
   //flexible driver
   DriverTitle,
   DriverDescription,
   DriverButtonCTA,
   DriverLeftImage,
   DriverRightImage,
-
   //Content Feature
   ContentFeatureEyebrow,
   ContentFeatureTitle,
   ContentFeature_background_images,
   ContentFeatureDescription,
   ContentFeatureExploreCTA,
-
-  // recipe feature
-  RecipeTitle,
-  Recipecta,
-  recipe_media,
-
-  //product Feature
-  ProductFeatureEyebrow,
-  ProductFeatureTitle,
-  ProductFeatureBackground,
-  ProductFeatureProductImage,
-  ProductFeatureExploreCTA,
-
-  // //Flexible Framer
-  // FramerTitle,
-  // Frameritems,
-
+  //Flexible Framer
+  FramerTitle,
+  Frameritems,
   //Full Width Media
   heading,
   media,
   content,
-
   //Iframe
   iframe_description,
-  CommunityOption,
-
+  //List
+  title,
+  Content,
   //Feedback Module
   brandShape,
   standardHeading,
   standardChoices,
-
 }) => {
   useEffect(() => Drupal.attachBehaviors(), []);
   homeProductContentData.supporting_card_content = [
@@ -870,19 +742,7 @@ export const landingPageLayout = ({
   return (
     <div
       dangerouslySetInnerHTML={{
-        __html: landingTwig({
-          ...parentPageHeaderData,
-
-          ...homeProductContentData,
-          // ...flexibleFramerData,
-          ...productCardData,
-          ...homePollData,
-          ...freeformData,
-          ...storyHighlight,
-          ...fullWithMediaData,
-          ...iframeData,
-          ...feedbackData,
-
+        __html: aboutTwig({
           ...footerSocial,
           ...footerMenu,
           ...secondaryMenuData,
@@ -891,20 +751,28 @@ export const landingPageLayout = ({
           ...legalLinksData,
           ...siteHeaderData,
           ...siteFooterData,
-          ...landingData,
+          ...aboutData,
 
-          ...recpieFeature,
-          ...productFeatureData,
+          ...parentPageHeaderData,
+
+          ...homeProductContentData,
+          ...flexibleFramerData,
+          ...productCardData,
+          ...homePollData,
+          ...freeformData,
+          ...storyHighlight,
+          ...fullWithMediaData,
+          ...iframeData,
           ...flexibleDriverData,
           ...contentFeatureData,
+          ...listData,
+          ...feedbackData,
 
           theme_styles: theme,
 
-          //header
           menu_items: headerMenu,
           alert_banner: headerAlertBanner,
 
-          //footer
           footer_menu_items: footerMenuItems,
           marketing_text: marketingMessage,
           social_menu_items: socialMenuItems,
@@ -919,20 +787,17 @@ export const landingPageLayout = ({
           parent_page_media_type: BackgroundTheme,
           parent_page_media_entities: parent_page_media_entities,
           StoryTellingOption: StoryTellingOption,
-
           //content product pair up
           lead_card_title: ContentTitle,
           lead_card_eyebrow: ContentEyebrowText,
           background: ContentBackground,
           card__eyebrow: content_card_eyebrow,
           item: content_card_item,
-
           //polls
           polling_png_asset: PollImage,
           polling_heading: PollHeading,
           polling_paragraph_content: PollContent,
           storybook_poll_options: PollOptions,
-
           //freeform story
           use_custom_color: enableBackgroundColor,
           custom_background_color: FreeFormBackgroundColor,
@@ -941,7 +806,6 @@ export const landingPageLayout = ({
           freeform_story_header_2: FreeFormHeadingTitle,
           freeform_story_paragraph_content: FreeFormContentText,
           freeform_story_align: FreeFormAlign,
-
           //story highlight
           heading: StoryHighlightTitle,
           story_highlight_paragraph_content: StoryHighlightParagraphContent,
@@ -949,15 +813,12 @@ export const landingPageLayout = ({
           asset_2: StoryHighlightImageAsset1,
           asset_3: StoryHighlightImageAsset2,
           items: StoryHighlightitems,
-
-          PathingOption: PathingOption,
-
           //flexible-driver
           flexible_driver_heading: DriverTitle,
           flexible_driver_text: DriverDescription,
           flexible_driver_button_text: DriverButtonCTA,
-          flexible_driver_asset_1: DriverLeftImage,
-          flexible_driver_asset_2: DriverRightImage,
+          asset_1: DriverLeftImage,
+          asset_2: DriverRightImage,
 
           //content feature
           eyebrow_text: ContentFeatureEyebrow,
@@ -966,21 +827,9 @@ export const landingPageLayout = ({
           storybook_content_feature_default_link_content: ContentFeatureExploreCTA,
           background_images: ContentFeature_background_images,
 
-          //recipe feature
-          title: RecipeTitle,
-          Recipecta,
-          recipe_media,
-
-          //product feature
-          eyebrow_text: ProductFeatureEyebrow,
-          storybook_product_feature_heading: ProductFeatureTitle,
-          storybook_product_feature_background_color: ProductFeatureBackground,
-          image_src: ProductFeatureProductImage,
-          default_link_content: ProductFeatureExploreCTA,
-
-          // //flexible framer
-          // grid_label: FramerTitle,
-          // flexible_framer_items: Frameritems,
+          //flexible framer
+          grid_label: FramerTitle,
+          flexible_framer_items: Frameritems,
 
           //Full Width Media
           full_width_heading: heading,
@@ -990,7 +839,9 @@ export const landingPageLayout = ({
           //Iframe
           iframe_src: iframe_description,
 
-          CommunityOption:CommunityOption,
+          //List
+          storybook_list_title: title,
+          takeaways_list: Content,
 
           //Feedback Module
           brand_shape: brandShape,
@@ -1001,13 +852,11 @@ export const landingPageLayout = ({
     />
   );
 };
-landingPageLayout.args = {
-  theme: landingData.theme_styles,
-
+aboutPageLayout.args = {
+  theme: aboutData.theme_styles,
   //For Header
   headerMenu: mainMenuData.menu_items,
   headerAlertBanner: siteHeaderData.alert_banner,
-
   //For Footer
   footerMenuItems: footerMenu.footer_menu_items,
   marketingMessage: siteFooterData.marketing_text,
@@ -1015,7 +864,6 @@ landingPageLayout.args = {
   legaMenuItems: legalLinksData.legal_links_menu_items,
   copyrighttext: siteFooterData.copyright_text,
   corporateText: siteFooterData.corporate_tout_text,
-
   // For Parent page header
   Eyebrow: parentPageHeaderData.pp_header_eyebrow_text,
   Title: parentPageHeaderData.pp_header_heading,
@@ -1023,22 +871,19 @@ landingPageLayout.args = {
   BackgroundTheme: parentPageHeaderData.parent_page_media_type,
   parent_page_media_entities: parentPageHeaderData.parent_page_media_entities,
 
-  //For Storytelling block
-  StoryTellingOption: landingData.StoryTellingOption,
-
+  StoryTellingOption: aboutData.StoryTellingOption,
   /* Product Content pair up component */
   ContentTitle: homeProductContentData.lead_card_title,
   ContentEyebrowText: homeProductContentData.lead_card_eyebrow,
   ContentBackground: homeProductContentData.background,
   content_card_eyebrow: 'MADE WITH',
   content_card_item: productCardData.item,
-
   /* Poll component */
+
   PollImage: homePollData.polling_png_asset,
   PollHeading: homePollData.polling_heading,
   PollContent: homePollData.polling_paragraph_content,
   PollOptions: homePollData.storybook_poll_options,
-
   /* Freeform Story component */
 
   enableBackgroundColor: freeformData.use_custom_color,
@@ -1048,8 +893,8 @@ landingPageLayout.args = {
   FreeFormHeadingTitle: freeformData.freeform_story_header_2,
   FreeFormContentText: freeformData.freeform_story_paragraph_content,
   FreeFormAlign: freeformData.freeform_story_align,
-
   /* Story Highlight component */
+
   StoryHighlightTitle: storyHighlight.heading,
   StoryHighlightParagraphContent:
     storyHighlight.story_highlight_paragraph_content,
@@ -1057,16 +902,12 @@ landingPageLayout.args = {
   StoryHighlightImageAsset1: storyHighlight.asset_2,
   StoryHighlightImageAsset2: storyHighlight.asset_3,
   StoryHighlightitems: storyHighlight.items,
-
-  //For Pathing
-  PathingOption: landingData.PathingOption,
-
   /* Flexible Driver component */
   DriverTitle: flexibleDriverData.flexible_driver_heading,
   DriverDescription: flexibleDriverData.flexible_driver_text,
   DriverButtonCTA: flexibleDriverData.flexible_driver_button_text,
-  DriverLeftImage: flexibleDriverData.flexible_driver_asset_1,
-  DriverRightImage: flexibleDriverData.flexible_driver_asset_2,
+  DriverLeftImage: flexibleDriverData.asset_1,
+  DriverRightImage: flexibleDriverData.asset_2,
 
   /* Content Feature */
   ContentFeatureEyebrow: contentFeatureData.eyebrow_text,
@@ -1074,21 +915,9 @@ landingPageLayout.args = {
   ContentFeatureDescription: contentFeatureData.paragraph_content,
   ContentFeature_background_images: contentFeatureData.background_images,
   ContentFeatureExploreCTA: contentFeatureData.storybook_content_feature_default_link_content,
-
-  /* Recipe Feature component */
-  RecipeTitle: recpieFeature.title,
-  recipe_media: recpieFeature.recipe_media,
-
-  /* Product Feature */
-  ProductFeatureEyebrow: productFeatureData.eyebrow_text,
-  ProductFeatureTitle: productFeatureData.storybook_product_feature_heading,
-  ProductFeatureBackground: productFeatureData.storybook_product_feature_background_color,
-  ProductFeatureProductImage: productFeatureData.image_src,
-  ProductFeatureExploreCTA: productFeatureData.default_link_content,
-
-  // /* Flexible Framer */
-  // FramerTitle: flexibleFramerData.grid_label,
-  // Frameritems: flexibleFramerData.flexible_framer_items,
+  /* Flexible Framer */
+  FramerTitle: flexibleFramerData.grid_label,
+  Frameritems: flexibleFramerData.flexible_framer_items,
 
   /* Full Width Media */
   heading: fullWithMediaData.full_width_heading,
@@ -1098,7 +927,9 @@ landingPageLayout.args = {
   /* Iframe */
   iframe_description: iframeData.iframe_src,
 
-  CommunityOption:landingData.CommunityOption,
+  /* List */
+  title: listData.storybook_list_title,
+  Content: listData.takeaways_list,
 
   /* Feedback Module */
   brandShape: feedbackData.brand_shape,

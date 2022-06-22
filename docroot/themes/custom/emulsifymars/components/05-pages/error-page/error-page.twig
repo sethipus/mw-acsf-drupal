@@ -1,8 +1,44 @@
-    <!-- Error Page Header -->
-    {% include "@organisms/site/site-header/site-header.twig" %}
+<!-- Error Page Header -->
+{% if theme_styles == 'dove' %}
+  {% include '@organisms/site/site-header/site-header.twig' with {
+    logo_src: 'https://www.dovechocolate.com/sites/g/files/fnmzdf186/files/dove-chocolate-us-logo.svg'
+  } %}
+{% elseif theme_styles == 'twix' %}
+  {% include '@organisms/site/site-header/site-header.twig' with {
+    logo_src: 'twix-logo.png'
+  } %}
+{% elseif theme_styles == 'galaxy' %}
+  {% include '@organisms/site/site-header/site-header.twig' with {
+    logo_src: 'https://www.galaxychocolate.co.uk/sites/g/files/fnmzdf211/files/galaxy.svg'
+  } %}
+{% elseif theme_styles == 'mars' %}
+  {% include '@organisms/site/site-header/site-header.twig' with {
+    logo_src: 'mars_logo.png'
+  } %}
+{% else %}
+  {% include '@organisms/site/site-header/site-header.twig' %}
+{% endif %}
 
-    <!-- Error Page Body -->
-    {% include "@molecules/error-component/error-component.twig" %}
-    
-    <!-- Error Page Footer -->
-    {% include "@organisms/site/site-footer/site-footer.twig" %}
+<!-- Error Page Body -->
+{% include '@molecules/error-component/error-component.twig' %}
+
+<!-- Error Page Footer -->
+{% if theme_styles == 'dove' %}
+  {% include '@organisms/site/site-footer/site-footer.twig' with {
+    logo_src: 'https://www.dovechocolate.com/sites/g/files/fnmzdf186/files/dove-chocolate-us-logo.svg'
+  } %}
+{% elseif theme_styles == 'twix' %}
+  {% include '@organisms/site/site-footer/site-footer.twig' with {
+    logo_src: 'twix-logo.png'
+  } %}
+{% elseif theme_styles == 'galaxy' %}
+  {% include '@organisms/site/site-footer/site-footer.twig' with {
+    logo_src: 'https://www.galaxychocolate.co.uk/sites/g/files/fnmzdf211/files/galaxy.svg'
+  } %}
+{% elseif theme_styles == 'mars' %}
+  {% include '@organisms/site/site-footer/site-footer.twig' with {
+    logo_src: 'mars_logo.png'
+  } %}
+{% else %}
+  {% include '@organisms/site/site-footer/site-footer.twig' %}
+{% endif %}

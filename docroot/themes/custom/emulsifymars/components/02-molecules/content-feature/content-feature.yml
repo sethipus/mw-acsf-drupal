@@ -21,7 +21,8 @@ paragraph_content: '
       Discover both sides of the extraordinary story of TWIX®.'
 paragraph_modifiers: ['large']
 
-default_link_content: 'Explore'
+default_link_content: ''
+storybook_content_feature_default_link_content: 'Explore'
 default_link_base_class: 'default-link'
 default_link_attributes:
   'target': '_self'

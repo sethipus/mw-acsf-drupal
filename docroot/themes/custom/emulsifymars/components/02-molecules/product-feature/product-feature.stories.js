@@ -99,8 +99,8 @@ export const prodcutFeatureModule = ({
           ...productFeatureData,
           theme_styles: theme,
           eyebrow_text: Eyebrow,
-          heading: Title,
-          background_color: Background,
+          storybook_product_feature_heading: Title,
+          storybook_product_feature_background_color: Background,
           image_src: ProductImage,
           default_link_content: ExploreCTA,
         }),
@@ -111,8 +111,8 @@ export const prodcutFeatureModule = ({
 prodcutFeatureModule.args = {
   theme: productFeatureData.theme_styles,
   Eyebrow: productFeatureData.eyebrow_text,
-  Title: productFeatureData.heading,
-  Background: productFeatureData.background_color,
+  Title: productFeatureData.storybook_product_feature_heading,
+  Background: productFeatureData.storybook_product_feature_background_color,
   ProductImage: productFeatureData.image_src,
   ExploreCTA: productFeatureData.default_link_content,
 };
