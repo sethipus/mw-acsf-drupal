@@ -3,6 +3,7 @@ import { useEffect } from '@storybook/client-api';
 
 import cardData from './product-card.yml';
 import card from './product-card.twig';
+import cardRating from './product-rating.yml';
 
 import './product-card';
 
@@ -111,6 +112,7 @@ export const productCardLayout = ({
       dangerouslySetInnerHTML={{
         __html: card({
           ...cardData,
+          ...cardRating,
           theme_styles: theme,
           item,
           default_link_content: buttonText,

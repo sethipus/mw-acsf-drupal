@@ -30,6 +30,7 @@ import flexibleFramerData from '../../02-molecules/flexible-framer/flexible-fram
 import productFeatureData from '../../02-molecules/product-feature/product-feature.yml';
 import productCard from '../../02-molecules/card/product-card/product-card.twig';
 import productCardData from '../../02-molecules/card/product-card/product-card.yml';
+import productRatingData from '../../02-molecules/card/product-card/product-rating.yml';
 
 //Imports for Storytelling Module
 import homePollData from '../../02-molecules/polls/poll.yml';
@@ -794,7 +795,7 @@ export const homePageLayout = ({
     ReactDOMServer.renderToStaticMarkup(
       <div
         dangerouslySetInnerHTML={{
-          __html: productCard({ ...productCardData,card__eyebrow: content_card_eyebrow,item:content_card_item }),
+          __html: productCard({ ...productCardData,...productRatingData,card__eyebrow: content_card_eyebrow,item:content_card_item }),
         }}
       />,
     ),

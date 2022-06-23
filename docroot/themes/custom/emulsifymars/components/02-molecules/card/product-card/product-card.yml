@@ -14,7 +14,7 @@ item:
 
   link_url: ''
 product_sku: 040000529361
-wtb_commerce_vendor: ''
+wtb_commerce_vendor: 'commerce_connector'
 wtb_button_type: 'my_own'
 wtb_widget_id: 123321
 datalayer_taxonomy: 'taxonomy vocabylary: term;'

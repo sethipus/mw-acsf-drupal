@@ -29,6 +29,7 @@ import flexibleDriverData from '../../02-molecules/flexible-driver/flexible-driv
 import homeProductContentData from '../../02-molecules/product-content-pair-up/product-content-pair-up.yml';
 import productCard from '../../02-molecules/card/product-card/product-card.twig';
 import productCardData from '../../02-molecules/card/product-card/product-card.yml';
+import productRatingData from '../../02-molecules/card/product-card/product-rating.yml';
 import contentFeatureData from '../../02-molecules/content-feature/content-feature.yml';
 import homePollData from '../../02-molecules/polls/poll.yml';
 import defaultLink from './../../01-atoms/links/defaultLink/defaultLink.twig';
@@ -742,6 +743,7 @@ export const aboutPageLayout = ({
         dangerouslySetInnerHTML={{
           __html: productCard({
             ...productCardData,
+            ...productRatingData,
             card__eyebrow: content_card_eyebrow,
             item: content_card_item,
           }),

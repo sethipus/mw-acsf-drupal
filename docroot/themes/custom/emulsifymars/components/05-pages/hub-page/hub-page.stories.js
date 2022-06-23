@@ -28,6 +28,7 @@ import recipeFeatureData from '../../02-molecules/recipe-feature-module/recipe-f
 import homeProductContentData from '../../02-molecules/product-content-pair-up/product-content-pair-up.yml';
 import productCard from '../../02-molecules/card/product-card/product-card.twig';
 import productCardData from '../../02-molecules/card/product-card/product-card.yml';
+import productRatingData from '../../02-molecules/card/product-card/product-rating.yml';
 
 //Imports for Driver content zone
 import flexibleFramerData from '../../02-molecules/flexible-framer/flexible-framer.yml';
@@ -661,6 +662,7 @@ export const hubPageLayout = ({
         dangerouslySetInnerHTML={{
           __html: productCard({
             ...productCardData,
+            ...productRatingData,
             card__eyebrow: content_card_eyebrow,
             item: content_card_item,
           }),
