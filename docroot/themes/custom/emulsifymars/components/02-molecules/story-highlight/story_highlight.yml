@@ -18,7 +18,17 @@ graphic_divider: '<svg xmlns="http://www.w3.org/2000/svg" width="125" height="15
 
 story_highlight_paragraph_content: 'We aspire to make the very best chocolate. But we believe how we make is just as important. From empowering women farmers and teaching practices.'
 story_highlight_paragraph_base_class: story-highlight__paragraph
-items:
+items: ''
+asset_1: './twix-bg.png'
+asset_1_alt: 'twix chocolate'
+asset_2: './twix-bg.png'
+asset_2_alt: 'twix chocolate'
+asset_3: './twix-bg.png'
+asset_3_alt: 'twix chocolate'
+story_highlight_button_text: 'Learn more'
+story_highlight_button_link_attributes:
+  href: 'https://storybook.js.org/'
+storybook_story_highlight_items:
   - image: true
     src: "recipe-feature.png"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
@@ -33,12 +43,3 @@ items:
   - video: true
     src: "https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/"
     content: 'Dotted with chopped Twix Cookies and Creme, these bright blue mug cakes are a snap to make and fun for sharing.'
-asset_1: './twix-bg.png'
-asset_1_alt: 'twix chocolate'
-asset_2: './twix-bg.png'
-asset_2_alt: 'twix chocolate'
-asset_3: './twix-bg.png'
-asset_3_alt: 'twix chocolate'
-story_highlight_button_text: 'Learn more'
-story_highlight_button_link_attributes:
-  href: 'https://storybook.js.org/'

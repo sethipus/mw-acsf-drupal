@@ -539,7 +539,7 @@ export default {
       description:
         'Only applicable to ✅Standard ❌Positive Feedback ❌Negative Feedback. <b>Maximum CC is 25.</b>',
       table: {
-        category: 'Feedback Module',
+        category: 'Feedback Module Component',
       },
       control: {
         type: 'text',
@@ -549,10 +549,30 @@ export default {
       name: 'Choose Option CTA',
       description: 'Options can be changed or removed as per the requirement',
       table: {
-        category: 'Feedback Module',
+        category: 'Feedback Module Component',
       },
       control: {
         type: 'object',
+      },
+    },
+    description:{
+      name:'Description',
+      description:'Text content for the feedback module',
+      table:{
+        category: 'Feedback Module Component',
+      },
+      control:{
+        type:'text'
+      }
+    },
+    brandShape: {
+      name: 'Brand Shape',
+      description: 'SVG for the respective brand can be added.',
+      table: {
+        category: 'Feedback Module Component',
+      },
+      control: {
+        type: 'text',
       },
     },
   },
@@ -627,6 +647,8 @@ export const hubPageLayout = ({
   PollOptions,
 
   //Feedback 
+  brandShape,
+  description,
   feedback_standardHeading,
   feedback_standardChoices
 
@@ -705,7 +727,7 @@ export const hubPageLayout = ({
           default_link_content: product_feature_ExploreCTA,
 
           //Content Feature
-          eyebrow_text: content_feature_Eyebrow,
+          storybook_content_feature_eyebrow_text: content_feature_Eyebrow,
           storybook_content_feature_heading: content_feature_Title,
           paragraph_content: content_feature_Description,
           storybook_content_feature_default_link_content: content_feature_ExploreCTA,
@@ -732,8 +754,8 @@ export const hubPageLayout = ({
           flexible_driver_heading: driver_Title,
           flexible_driver_text: driver_Description,
           flexible_driver_button_text: driver_ButtonCTA,
-          asset_1: driver_LeftImage,
-          asset_2: driver_RightImage,
+          flexible_driver_asset_1: driver_LeftImage,
+          flexible_driver_asset_2: driver_RightImage,
 
           community_option:community_option,
 
@@ -744,6 +766,8 @@ export const hubPageLayout = ({
           storybook_poll_options: PollOptions,
 
           //Feedback
+          brand_shape: brandShape,
+          feedback_paragraph_content:description,
           feedback_heading: feedback_standardHeading,
           choices: feedback_standardChoices,
         }),
@@ -781,7 +805,7 @@ hubPageLayout.args = {
   product_feature_ExploreCTA: productFeatureData.default_link_content,
 
   //Content Feature
-  content_feature_Eyebrow: contentFeatureData.eyebrow_text,
+  content_feature_Eyebrow: contentFeatureData.storybook_content_feature_eyebrow_text,
   content_feature_Title: contentFeatureData.storybook_content_feature_heading,
   content_feature_Description: contentFeatureData.paragraph_content,
   content_feature_background_images: contentFeatureData.background_images,
@@ -810,8 +834,8 @@ hubPageLayout.args = {
   driver_Title: flexibleDriverData.flexible_driver_heading,
   driver_Description: flexibleDriverData.flexible_driver_text,
   driver_ButtonCTA: flexibleDriverData.flexible_driver_button_text,
-  driver_LeftImage: flexibleDriverData.asset_1,
-  driver_RightImage: flexibleDriverData.asset_2,
+  driver_LeftImage: flexibleDriverData.flexible_driver_asset_1,
+  driver_RightImage: flexibleDriverData.flexible_driver_asset_2,
 
 
   community_option:hubData.community_option,
@@ -823,6 +847,8 @@ hubPageLayout.args = {
   PollOptions: homePollData.storybook_poll_options,
 
   //feedback
+  brandShape: feedbackData.brand_shape,
+  description: feedbackData.feedback_paragraph_content,
   feedback_standardHeading: feedbackData.feedback_heading,
   feedback_standardChoices: feedbackData.choices,
 };

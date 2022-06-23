@@ -643,6 +643,16 @@ export default {
         type: 'object',
       },
     },
+    description:{
+      name:'Description',
+      description:'Text content for the feedback module',
+      table:{
+        category: 'Feedback Module Component',
+      },
+      control:{
+        type:'text'
+      }
+    },
   },
 };
 
@@ -731,6 +741,7 @@ export const productdetailsPage = ({
   
   //Feedback Module
   brandShape,
+  description,
   standardHeading,
   standardChoices,
 }) => {
@@ -815,7 +826,7 @@ export const productdetailsPage = ({
           //Full Width Media
           full_width_heading: heading,
           media: media,
-          content: content,
+          storybook_full_width_content: content,
 
           //flexible framer
           grid_label: FramerTitle,
@@ -825,8 +836,8 @@ export const productdetailsPage = ({
           flexible_driver_heading: DriverTitle,
           flexible_driver_text: DriverDescription,
           flexible_driver_button_text: DriverButtonCTA,
-          asset_1: DriverLeftImage,
-          asset_2: DriverRightImage,
+          flexible_driver_asset_1: DriverLeftImage,
+          flexible_driver_asset_2: DriverRightImage,
 
           //List
           storybook_list_title: title,
@@ -848,7 +859,7 @@ export const productdetailsPage = ({
           story_highlight_button_text: StoryHighlightButtonCTA,
           asset_2: StoryHighlightImageAsset1,
           asset_3: StoryHighlightImageAsset2,
-          items: StoryHighlightitems,
+          storybook_story_highlight_items: StoryHighlightitems,
 
           //Iframe
           iframe_src: iframe_description,
@@ -863,6 +874,7 @@ export const productdetailsPage = ({
 
           //Feedback Module
           brand_shape: brandShape,
+          feedback_paragraph_content:description,
           feedback_heading: standardHeading,
           choices: standardChoices,
         }),
@@ -916,7 +928,7 @@ productdetailsPage.args = {
   /* Full Width Media */
   heading: fullWidthMediaData.full_width_heading,
   media: fullWidthMediaData.media,
-  content: fullWidthMediaData.content,
+  content: fullWidthMediaData.storybook_full_width_content,
 
   /* Flexible Framer */
   FramerTitle: flexibleFramerData.grid_label,
@@ -926,8 +938,8 @@ productdetailsPage.args = {
   DriverTitle: flexibleDriverData.flexible_driver_heading,
   DriverDescription: flexibleDriverData.flexible_driver_text,
   DriverButtonCTA: flexibleDriverData.flexible_driver_button_text,
-  DriverLeftImage: flexibleDriverData.asset_1,
-  DriverRightImage: flexibleDriverData.asset_2,
+  DriverLeftImage: flexibleDriverData.flexible_driver_asset_1,
+  DriverRightImage: flexibleDriverData.flexible_driver_asset_2,
 
   /* List */
   title: listData.storybook_list_title,
@@ -951,7 +963,7 @@ productdetailsPage.args = {
   StoryHighlightButtonCTA: storyHighlight.story_highlight_button_text,
   StoryHighlightImageAsset1: storyHighlight.asset_2,
   StoryHighlightImageAsset2: storyHighlight.asset_3,
-  StoryHighlightitems: storyHighlight.items,
+  StoryHighlightitems: storyHighlight.storybook_story_highlight_items,
 
   /* Iframe */
   iframe_description: iframeData.iframe_src,
@@ -967,5 +979,6 @@ productdetailsPage.args = {
   /* Feedback Module */
   brandShape: feedbackData.brand_shape,
   standardHeading: feedbackData.feedback_heading,
+  description: feedbackData.feedback_paragraph_content,
   standardChoices: feedbackData.choices,
 };

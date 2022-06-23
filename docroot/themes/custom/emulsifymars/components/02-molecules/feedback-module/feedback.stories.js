@@ -42,6 +42,16 @@ export default {
         type: 'text',
       },
     },
+    description:{
+      name:'Description',
+      description:'Text content for the feedback module',
+      table:{
+        category:'Text'
+      },
+      control:{
+        type:'text'
+      }
+    },
     standardHeading: {
       name: 'Standard Heading',
       description:
@@ -121,6 +131,7 @@ export default {
 export const feedbackStandardLayout = ({
   theme,
   brandShape,
+  description,
   standardHeading,
   standardChoices,
 }) => {
@@ -132,6 +143,7 @@ export const feedbackStandardLayout = ({
           ...feedbackData,
           theme_styles: theme,
           brand_shape: brandShape,
+          feedback_paragraph_content:description,
           feedback_heading: standardHeading,
           choices: standardChoices,
         }),
@@ -142,6 +154,7 @@ export const feedbackStandardLayout = ({
 feedbackStandardLayout.args = {
   theme: feedbackData.theme_styles,
   brandShape: feedbackData.brand_shape,
+  description: feedbackData.feedback_paragraph_content,
   standardHeading: feedbackData.feedback_heading,
   standardChoices: feedbackData.choices,
   postitiveHeading:'Not applicable to this layout',
@@ -154,6 +167,7 @@ feedbackStandardLayout.args = {
 export const feedbackPositiveStateayout = ({
   theme,
   brandShape,
+  description,
   postitiveHeading,
   positiveSVG,
   positiveImageAsset
@@ -165,6 +179,7 @@ export const feedbackPositiveStateayout = ({
           ...feedbackData,
           theme_styles: theme,
           brand_shape: brandShape,
+          feedback_paragraph_content:description,
           feedback_positive_heading: postitiveHeading,
           tick:positiveSVG,
           polling_png_asset:positiveImageAsset
@@ -176,6 +191,7 @@ export const feedbackPositiveStateayout = ({
 feedbackPositiveStateayout.args = {
   theme: feedbackData.theme_styles,
   brandShape: feedbackData.brand_shape,
+  description: feedbackData.feedback_paragraph_content,
   postitiveHeading: feedbackData.feedback_positive_heading,
   standardHeading:'Not applicable to this layout',
   negetiveHeading:'Not applicable to this layout',
@@ -187,6 +203,7 @@ feedbackPositiveStateayout.args = {
 export const feedbackNegativeStateayout = ({
   theme,
   brandShape,
+  description,
   negetiveHeading,
   negetiveSvg
 }) => {
@@ -197,6 +214,7 @@ export const feedbackNegativeStateayout = ({
           ...feedbackData,
           theme_styles: theme,
           brand_shape: brandShape,
+          feedback_paragraph_content:description,
           feedback_negative_heading: negetiveHeading,
           negative_shape:negetiveSvg
         }),
@@ -207,6 +225,7 @@ export const feedbackNegativeStateayout = ({
 feedbackNegativeStateayout.args = {
   theme: feedbackData.theme_styles,
   brandShape: feedbackData.brand_shape,
+  description: feedbackData.feedback_paragraph_content,
   negetiveHeading:feedbackData.feedback_negative_heading,
   standardHeading:'Not applicable to this layout',
   postitiveHeading:'Not applicable to this layout',

@@ -95,7 +95,7 @@ export const storyHighlightModule = ({
             story_highlight_button_text: ButtonCTA,
             asset_2: ImageAsset1,
             asset_3: ImageAsset2,
-            items: items,
+            storybook_story_highlight_items: items,
           }),
       }}
     />
@@ -108,5 +108,5 @@ storyHighlightModule.args = {
   ButtonCTA: storyHighlightData.story_highlight_button_text,
   ImageAsset1: storyHighlightData.asset_2,
   ImageAsset2: storyHighlightData.asset_3,
-  items: storyHighlightData.items,
+  items: storyHighlightData.storybook_story_highlight_items,
 };

@@ -1,5 +1,6 @@
 theme_styles: 'twix'
-eyebrow_text: 'ABOUT US'
+eyebrow_text: ''
+storybook_content_feature_eyebrow_text: 'ABOUT US'
 background_images:
   desktop:
     src: 'https://www.twix.com/cdn-cgi/image/width=1440,height=650,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-02/Twix-About-Illustrations-header-16x9.jpg'

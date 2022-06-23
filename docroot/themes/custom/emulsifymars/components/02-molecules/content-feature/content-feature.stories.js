@@ -95,7 +95,7 @@ export const ContentFeatureLayout = ({
         __html: contentFeature({
           ...contentFeatureData,
           theme_styles:theme,
-          eyebrow_text: Eyebrow,
+          storybook_content_feature_eyebrow_text: Eyebrow,
           storybook_content_feature_heading: Title,
           paragraph_content: Description,
           storybook_content_feature_default_link_content: ExploreCTA,
@@ -108,7 +108,7 @@ export const ContentFeatureLayout = ({
 
 ContentFeatureLayout.args = {
   theme: contentFeatureData.theme_styles,
-  Eyebrow: contentFeatureData.eyebrow_text,
+  Eyebrow: contentFeatureData.storybook_content_feature_eyebrow_text,
   Title: contentFeatureData.storybook_content_feature_heading,
   Description: contentFeatureData.paragraph_content,
   background_images: contentFeatureData.background_images,

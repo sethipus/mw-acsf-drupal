@@ -605,6 +605,16 @@ export default {
         type: 'text',
       },
     },
+    description:{
+      name:'Description',
+      description:'Text content for the feedback module',
+      table:{
+        category: 'Feedback Module Component',
+      },
+      control:{
+        type:'text'
+      }
+    },
     standardHeading: {
       name: 'Standard Heading',
       description:
@@ -721,6 +731,7 @@ export const aboutPageLayout = ({
   Content,
   //Feedback Module
   brandShape,
+  description,
   standardHeading,
   standardChoices,
 }) => {
@@ -812,16 +823,17 @@ export const aboutPageLayout = ({
           story_highlight_button_text: StoryHighlightButtonCTA,
           asset_2: StoryHighlightImageAsset1,
           asset_3: StoryHighlightImageAsset2,
-          items: StoryHighlightitems,
+          storybook_story_highlight_items: StoryHighlightitems,
+          
           //flexible-driver
           flexible_driver_heading: DriverTitle,
           flexible_driver_text: DriverDescription,
           flexible_driver_button_text: DriverButtonCTA,
-          asset_1: DriverLeftImage,
-          asset_2: DriverRightImage,
+          flexible_driver_asset_1: DriverLeftImage,
+          flexible_driver_asset_2: DriverRightImage,
 
           //content feature
-          eyebrow_text: ContentFeatureEyebrow,
+          storybook_content_feature_eyebrow_text: ContentFeatureEyebrow,
           storybook_content_feature_heading: ContentFeatureTitle,
           paragraph_content: ContentFeatureDescription,
           storybook_content_feature_default_link_content: ContentFeatureExploreCTA,
@@ -834,7 +846,7 @@ export const aboutPageLayout = ({
           //Full Width Media
           full_width_heading: heading,
           media: media,
-          content:content,
+          storybook_full_width_content:content,
 
           //Iframe
           iframe_src: iframe_description,
@@ -845,6 +857,7 @@ export const aboutPageLayout = ({
 
           //Feedback Module
           brand_shape: brandShape,
+          feedback_paragraph_content:description,
           feedback_heading: standardHeading,
           choices: standardChoices,
         }),
@@ -901,16 +914,16 @@ aboutPageLayout.args = {
   StoryHighlightButtonCTA: storyHighlight.story_highlight_button_text,
   StoryHighlightImageAsset1: storyHighlight.asset_2,
   StoryHighlightImageAsset2: storyHighlight.asset_3,
-  StoryHighlightitems: storyHighlight.items,
+  StoryHighlightitems: storyHighlight.storybook_story_highlight_items,
   /* Flexible Driver component */
   DriverTitle: flexibleDriverData.flexible_driver_heading,
   DriverDescription: flexibleDriverData.flexible_driver_text,
   DriverButtonCTA: flexibleDriverData.flexible_driver_button_text,
-  DriverLeftImage: flexibleDriverData.asset_1,
-  DriverRightImage: flexibleDriverData.asset_2,
+  DriverLeftImage: flexibleDriverData.flexible_driver_asset_1,
+  DriverRightImage: flexibleDriverData.flexible_driver_asset_2,
 
   /* Content Feature */
-  ContentFeatureEyebrow: contentFeatureData.eyebrow_text,
+  ContentFeatureEyebrow: contentFeatureData.storybook_content_feature_eyebrow_text,
   ContentFeatureTitle: contentFeatureData.storybook_content_feature_heading,
   ContentFeatureDescription: contentFeatureData.paragraph_content,
   ContentFeature_background_images: contentFeatureData.background_images,
@@ -922,7 +935,7 @@ aboutPageLayout.args = {
   /* Full Width Media */
   heading: fullWithMediaData.full_width_heading,
   media: fullWithMediaData.media,
-  content:fullWithMediaData.content,
+  content:fullWithMediaData.storybook_full_width_content,
 
   /* Iframe */
   iframe_description: iframeData.iframe_src,
@@ -933,6 +946,7 @@ aboutPageLayout.args = {
 
   /* Feedback Module */
   brandShape: feedbackData.brand_shape,
+  description: feedbackData.feedback_paragraph_content,
   standardHeading: feedbackData.feedback_heading,
   standardChoices: feedbackData.choices,
 };

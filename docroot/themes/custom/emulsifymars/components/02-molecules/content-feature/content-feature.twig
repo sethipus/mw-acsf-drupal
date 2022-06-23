@@ -7,6 +7,7 @@
 {% endif %}
 {% set heading = heading.length > 0 ? heading : storybook_content_feature_heading %}
 {% set default_link_content = default_link_content.length > 0 ? default_link_content : storybook_content_feature_default_link_content %}
+{% set eyebrow_text = eyebrow_text.length > 0 ? eyebrow_text : storybook_content_feature_eyebrow_text %}
 
 <section {{ bem(content_feature_base_class) }} data-theme="{{theme_styles}}">
   <div {{ bem('bg-image', [dark_overlay__modifier], content_feature_base_class) }}>

@@ -64,7 +64,9 @@
 {% elseif StoryTellingOption == 'Iframe' %}
   {% include '@atoms/iframe/iframe.twig' %}
 {% elseif StoryTellingOption == 'Full Width Media' %}
-  {% include '@molecules/article-media/full-width/full-width-media.twig' %}
+  {% include '@molecules/article-media/full-width/full-width-media.twig' with {
+    paragraph_modifiers:''
+  }%}
 {% elseif StoryTellingOption == 'WYSIWYG' %}
   {% include '@molecules/article-media/wysiwyg/article-wysiwyg.twig' %}
 {% else %}

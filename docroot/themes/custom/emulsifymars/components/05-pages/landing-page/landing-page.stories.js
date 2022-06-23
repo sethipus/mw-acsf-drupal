@@ -691,21 +691,21 @@ export default {
       control: { type: 'text' },
     },
 
-    // //Flexible Framer
-    // FramerTitle: {
-    //   description:
-    //     'Change the title of the content.<b> Maximum character limit is 55.</b>',
-    //   defaultValue: { summary: 'Lorem' },
-    //   table: { category: 'Flexible Framer' },
-    //   control: { type: 'text' },
-    // },
-    // Frameritems: {
-    //   name: 'Stories',
-    //   description:
-    //     'Change the stories of the content.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul><b> Maximum character for the Item title and Item description and button CTA is 60, 255 and 15 respectively.</b>',
-    //   table: { category: 'Flexible Framer' },
-    //   control: { type: 'object' },
-    // },
+    //Flexible Framer
+    FramerTitle: {
+      description:
+        'Change the title of the content.<b> Maximum character limit is 55.</b>',
+      defaultValue: { summary: 'Lorem' },
+      table: { category: 'Flexible Framer' },
+      control: { type: 'text' },
+    },
+    Frameritems: {
+      name: 'Stories',
+      description:
+        'Change the stories of the content.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul><b> Maximum character for the Item title and Item description and button CTA is 60, 255 and 15 respectively.</b>',
+      table: { category: 'Flexible Framer' },
+      control: { type: 'object' },
+    },
 
     CommunityOption: {
       name: ' Community Block',
@@ -749,6 +749,16 @@ export default {
       control: {
         type: 'object',
       },
+    },
+    description:{
+      name:'Description',
+      description:'Text content for the feedback module',
+      table:{
+        category: 'Feedback Module Component',
+      },
+      control:{
+        type:'text'
+      }
     },
   },
 };
@@ -833,9 +843,9 @@ export const landingPageLayout = ({
   ProductFeatureProductImage,
   ProductFeatureExploreCTA,
 
-  // //Flexible Framer
-  // FramerTitle,
-  // Frameritems,
+  //Flexible Framer
+  FramerTitle,
+  Frameritems,
 
   //Full Width Media
   heading,
@@ -848,6 +858,7 @@ export const landingPageLayout = ({
 
   //Feedback Module
   brandShape,
+  description,
   standardHeading,
   standardChoices,
 
@@ -948,7 +959,7 @@ export const landingPageLayout = ({
           story_highlight_button_text: StoryHighlightButtonCTA,
           asset_2: StoryHighlightImageAsset1,
           asset_3: StoryHighlightImageAsset2,
-          items: StoryHighlightitems,
+          storybook_story_highlight_items: StoryHighlightitems,
 
           PathingOption: PathingOption,
 
@@ -960,7 +971,7 @@ export const landingPageLayout = ({
           flexible_driver_asset_2: DriverRightImage,
 
           //content feature
-          eyebrow_text: ContentFeatureEyebrow,
+          storybook_content_feature_eyebrow_text: ContentFeatureEyebrow,
           storybook_content_feature_heading: ContentFeatureTitle,
           paragraph_content: ContentFeatureDescription,
           storybook_content_feature_default_link_content: ContentFeatureExploreCTA,
@@ -968,7 +979,7 @@ export const landingPageLayout = ({
 
           //recipe feature
           title: RecipeTitle,
-          Recipecta,
+          cta:Recipecta,
           recipe_media,
 
           //product feature
@@ -978,14 +989,14 @@ export const landingPageLayout = ({
           image_src: ProductFeatureProductImage,
           default_link_content: ProductFeatureExploreCTA,
 
-          // //flexible framer
-          // grid_label: FramerTitle,
-          // flexible_framer_items: Frameritems,
+          //flexible framer
+          grid_label: FramerTitle,
+          flexible_framer_items: Frameritems,
 
           //Full Width Media
           full_width_heading: heading,
           media: media,
-          content:content,
+          storybook_full_width_content:content,
 
           //Iframe
           iframe_src: iframe_description,
@@ -994,6 +1005,7 @@ export const landingPageLayout = ({
 
           //Feedback Module
           brand_shape: brandShape,
+          feedback_paragraph_content:description,
           feedback_heading: standardHeading,
           choices: standardChoices,
         }),
@@ -1056,7 +1068,7 @@ landingPageLayout.args = {
   StoryHighlightButtonCTA: storyHighlight.story_highlight_button_text,
   StoryHighlightImageAsset1: storyHighlight.asset_2,
   StoryHighlightImageAsset2: storyHighlight.asset_3,
-  StoryHighlightitems: storyHighlight.items,
+  StoryHighlightitems: storyHighlight.storybook_story_highlight_items,
 
   //For Pathing
   PathingOption: landingData.PathingOption,
@@ -1069,7 +1081,7 @@ landingPageLayout.args = {
   DriverRightImage: flexibleDriverData.flexible_driver_asset_2,
 
   /* Content Feature */
-  ContentFeatureEyebrow: contentFeatureData.eyebrow_text,
+  ContentFeatureEyebrow: contentFeatureData.storybook_content_feature_eyebrow_text,
   ContentFeatureTitle: contentFeatureData.storybook_content_feature_heading,
   ContentFeatureDescription: contentFeatureData.paragraph_content,
   ContentFeature_background_images: contentFeatureData.background_images,
@@ -1078,6 +1090,7 @@ landingPageLayout.args = {
   /* Recipe Feature component */
   RecipeTitle: recpieFeature.title,
   recipe_media: recpieFeature.recipe_media,
+  Recipecta:recpieFeature.cta,
 
   /* Product Feature */
   ProductFeatureEyebrow: productFeatureData.eyebrow_text,
@@ -1086,14 +1099,14 @@ landingPageLayout.args = {
   ProductFeatureProductImage: productFeatureData.image_src,
   ProductFeatureExploreCTA: productFeatureData.default_link_content,
 
-  // /* Flexible Framer */
-  // FramerTitle: flexibleFramerData.grid_label,
-  // Frameritems: flexibleFramerData.flexible_framer_items,
+  /* Flexible Framer */
+  FramerTitle: flexibleFramerData.grid_label,
+  Frameritems: flexibleFramerData.flexible_framer_items,
 
   /* Full Width Media */
   heading: fullWithMediaData.full_width_heading,
   media: fullWithMediaData.media,
-  content:fullWithMediaData.content,
+  content:fullWithMediaData.storybook_full_width_content,
 
   /* Iframe */
   iframe_description: iframeData.iframe_src,
@@ -1102,6 +1115,7 @@ landingPageLayout.args = {
 
   /* Feedback Module */
   brandShape: feedbackData.brand_shape,
+  description: feedbackData.feedback_paragraph_content,
   standardHeading: feedbackData.feedback_heading,
   standardChoices: feedbackData.choices,
 };

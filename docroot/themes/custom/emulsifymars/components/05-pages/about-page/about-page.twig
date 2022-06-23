@@ -35,7 +35,9 @@
 {% elseif StoryTellingOption == 'Poll' %}
   {% include '@molecules/polls/poll-vote.twig' %}
 {% elseif StoryTellingOption == 'Full Width Media' %}
-  {% include '@molecules/article-media/full-width/full-width-media.twig' %}
+  {% include '@molecules/article-media/full-width/full-width-media.twig' with {
+    paragraph_modifiers:''
+  } %}
 {% elseif StoryTellingOption == 'Flexible Driver' %}
   {% include '@molecules/flexible-driver/flexible-driver.twig' %}
 {% elseif StoryTellingOption == 'Flexible Framer' %}

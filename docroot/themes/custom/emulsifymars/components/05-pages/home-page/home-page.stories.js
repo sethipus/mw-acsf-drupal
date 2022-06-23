@@ -251,7 +251,7 @@ export default {
       control: {
         type: 'select',
         options: [
-          // 'Flexible Framer',
+          'Flexible Framer',
           'Product Content Pair Up',
           'Product Feature',
           'Flexible Driver',
@@ -411,21 +411,20 @@ export default {
       control: { type: 'text' },
     },
     // //Flexible Framer controls
-    // framer_Title: {
-    //   description:
-    //     'Change the title of the content.<b> Maximum character limit is 55.</b>',
-    //   defaultValue: { summary: 'Lorem' },
-    //   table: { category: 'Flexible Framer Component' },
-    //   control: { type: 'text' },
-    // },
-    // framer_items: {
-    //   name: 'Stories',
-    //   description:
-    //     'Change the stories of the content.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul><b> Maximum character for the Item title and Item description and button CTA is 60, 255 and 15 respectively.</b>',
-    //   table: { category: 'Flexible Framer Component' },
-    //   control: { type: 'object' },
-    // },
-
+    framer_Title: {
+      description:
+        'Change the title of the content.<b> Maximum character limit is 55.</b>',
+      defaultValue: { summary: 'Lorem' },
+      table: { category: 'Flexible Framer component' },
+      control: { type: 'text' },
+    },
+    framer_items: {
+      name: 'Stories',
+      description:
+        'Change the stories of the content.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul><b> Maximum character for the Item title and Item description and button CTA is 60, 255 and 15 respectively.</b>',
+        table: { category: 'Flexible Framer component' },
+      control: { type: 'object' },
+    },
 
     StoryTellingOption: {
       name: 'Storytelling Block',
@@ -751,9 +750,10 @@ export const homePageLayout = ({
   ProductBackground,
   ProductImage,
   ProductExploreCTA,
-  // //Flexible Framer
-  // framer_Title,
-  // framer_items,
+  //Flexible Framer
+  framer_Title,
+  framer_items,
+
   StoryTellingOption,
   //polls
   PollImage,
@@ -876,9 +876,9 @@ export const homePageLayout = ({
           image_src: ProductImage,
           default_link_content: ProductExploreCTA,
 
-          // //flexible framer
-          // grid_label: framer_Title,
-          // flexible_framer_items: framer_items,
+          //flexible framer 
+          grid_label: framer_Title,
+          flexible_framer_items: framer_items,
 
           //Storytelling Zone
           StoryTellingOption: StoryTellingOption,
@@ -909,12 +909,12 @@ export const homePageLayout = ({
           story_highlight_button_text: StoryHighlightButtonCTA,
           asset_2: StoryHighlightImageAsset1,
           asset_3: StoryHighlightImageAsset2,
-          items: StoryHighlightitems,
+          storybook_story_highlight_items: StoryHighlightitems,
 
           //Full Width Media
           full_width_heading: heading,
           media: media,
-          content: content,
+          storybook_full_width_content: content,
 
           //Wysiwyg
           storybook_wysiwyg_heading: WYSIWYG_Header,
@@ -992,9 +992,7 @@ homePageLayout.args = {
   ProductImage: productFeatureData.image_src,
   ProductExploreCTA: productFeatureData.default_link_content,
 
-  // /* Flexible Framer */
-  // framer_Title: flexibleFramerData.grid_label,
-  // framer_items: flexibleFramerData.flexible_framer_items,
+
 
   //For Storytelling Layout
   StoryTellingOption: homeData.StoryTellingOption,
@@ -1024,12 +1022,12 @@ homePageLayout.args = {
   StoryHighlightButtonCTA: storyHighlight.story_highlight_button_text,
   StoryHighlightImageAsset1: storyHighlight.asset_2,
   StoryHighlightImageAsset2: storyHighlight.asset_3,
-  StoryHighlightitems: storyHighlight.items,
+  StoryHighlightitems: storyHighlight.storybook_story_highlight_items,
 
   /* Full Width Media */
   heading: fullWidthMediaData.full_width_heading,
   media: fullWidthMediaData.media,
-  content: fullWidthMediaData.content,
+  content: fullWidthMediaData.storybook_full_width_content,
 
   //Wysiwyg
   WYSIWYG_Header: WYSIWYGData.storybook_wysiwyg_heading,
@@ -1037,4 +1035,8 @@ homePageLayout.args = {
 
   /* Iframe */
   iframe_description: iframeData.iframe_src,
+
+  //flexible framer
+  framer_Title: flexibleFramerData.grid_label,
+  framer_items: flexibleFramerData.flexible_framer_items,
 };

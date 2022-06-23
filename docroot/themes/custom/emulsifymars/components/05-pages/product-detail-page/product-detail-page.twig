@@ -34,7 +34,9 @@
 {% if StoryTellingOption == 'Recipe Feature' %}
   {% include '@molecules/recipe-feature-module/recipe-feature-module.twig' %}
 {% elseif StoryTellingOption == 'Full Width Media' %}
-  {% include '@molecules/article-media/full-width/full-width-media.twig' %}
+  {% include '@molecules/article-media/full-width/full-width-media.twig' with {
+    paragraph_modifiers:''
+  }%}
 {% elseif StoryTellingOption == 'Flexible Framer' %}
   {% include '@molecules/flexible-framer/flexible-framer.twig' %}
 {% elseif StoryTellingOption == 'Flexible Driver' %}
