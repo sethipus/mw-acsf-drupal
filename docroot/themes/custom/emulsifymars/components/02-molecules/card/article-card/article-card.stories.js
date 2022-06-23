@@ -126,6 +126,12 @@ export default {
       },
     }
   },
+  parameters:{
+    componentSubtitle:`Cards used throughout the site that drive to products, recipes, articles, landing and campaign pages (and sometimes even hubs in very specific instances).
+    Powered dynamically by the page(content type) that it drives to (eg. Product Cards are powered by Product Detail Pages)
+    Card Grids and Content Modules live on: Homepages, Landing pages, Hub pages, Recipe Detail Pages
+    and Search Results`
+  }
 };
 
 export const ArticleCardLayout = ({

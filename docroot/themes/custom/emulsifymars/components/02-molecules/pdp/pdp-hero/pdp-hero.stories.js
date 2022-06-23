@@ -33,7 +33,7 @@ export default {
     },
     images:{
         name:'Images',
-        description:'Up to 5 Images can be added. Images should include: 1. Key Product Pack Image, 2. Product Open Pack Image, 3. Product Outside of Pack/No Pack Image, 4. & 5. Additional Product images if available',
+        description:'Up to 5 Images can be added. Images should include: 1. Key Product Pack Image, 2. Product Open Pack Image, 3. Product Outside of Pack/No Pack Image, 4. & 5. Additional Product images if available. For images Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul>',
         table:{
             category:'Text'
         },

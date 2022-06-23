@@ -44,7 +44,7 @@ export default {
          the parallax_image flag needs to be set as ,<i>true</i>
          with the src flag as the image link.(When parallax image is set as false the heading
          will be visible)</li><li>For image media, the image flag needs to be set as ,<i>true</i>
-         with the src flag as the source path of the image.</li></ul>`,
+         with the src flag as the source path of the image.</li></ul>. For the image dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul>`,
       table: {
         category: 'Text',
       },

@@ -885,7 +885,7 @@ export const landingPageLayout = ({
           ...parentPageHeaderData,
 
           ...homeProductContentData,
-          // ...flexibleFramerData,
+          ...flexibleFramerData,
           ...productCardData,
           ...homePollData,
           ...freeformData,
