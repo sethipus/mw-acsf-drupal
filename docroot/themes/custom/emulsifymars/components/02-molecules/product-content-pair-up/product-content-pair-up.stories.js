@@ -6,6 +6,7 @@ import productContentPairUpData from './product-content-pair-up.yml';
 
 import productCard from '../card/product-card/product-card.twig';
 import productCardData from '../card/product-card/product-card.yml';
+import productRating from '../card/product-card/product-rating.yml'
 
 /**
  * Storybook Definition.
@@ -98,7 +99,7 @@ export const ProductContentWithAritcleCardPairUpLayout = ({
     ReactDOMServer.renderToStaticMarkup(
       <div
         dangerouslySetInnerHTML={{
-          __html: productCard({ ...productCardData,card__eyebrow: card_eyebrow,item:item }),
+          __html: productCard({ ...productCardData,...productRating,card__eyebrow: card_eyebrow,item:item }),
         }}
       />,
     ),

@@ -191,8 +191,8 @@ export const feedbackPositiveStateayout = ({
 feedbackPositiveStateayout.args = {
   theme: feedbackData.theme_styles,
   brandShape: feedbackData.brand_shape,
-  description: feedbackData.feedback_paragraph_content,
   postitiveHeading: feedbackData.feedback_positive_heading,
+  description: 'Not applicable to this layout',
   standardHeading:'Not applicable to this layout',
   negetiveHeading:'Not applicable to this layout',
   standardChoices: 'Not applicable to this layout',
@@ -225,8 +225,8 @@ export const feedbackNegativeStateayout = ({
 feedbackNegativeStateayout.args = {
   theme: feedbackData.theme_styles,
   brandShape: feedbackData.brand_shape,
-  description: feedbackData.feedback_paragraph_content,
   negetiveHeading:feedbackData.feedback_negative_heading,
+  description: 'Not applicable to this layout',
   standardHeading:'Not applicable to this layout',
   postitiveHeading:'Not applicable to this layout',
   standardChoices: 'Not applicable to this layout',

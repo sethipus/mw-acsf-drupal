@@ -15,9 +15,9 @@
 #}
 {% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
 {% set where_to_buy_type = ['commerce-connector'] %}
-{% set where_to_buy_button_type_classname =  ['where-to-buy-', where_to_buy_button_type]|join %}
 {% set where_to_buy_button_type = 'button' %}
 {% set cta_title = 'WHERE TO BUY' %}
+{% set where_to_buy_button_type_classname =  ['where-to-buy-', where_to_buy_button_type]|join %}
 
 {% if product_sku is not empty %}
   <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname, where_to_buy_type) }}
