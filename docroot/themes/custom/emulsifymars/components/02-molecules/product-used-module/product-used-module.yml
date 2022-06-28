@@ -1,0 +1,36 @@
+product_used_items:
+  - card__image__output_image_tag: true
+    card__image__src: 'image9.png'
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX®<br>PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card__image__src: 'image-4.png'
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX®<br>PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW

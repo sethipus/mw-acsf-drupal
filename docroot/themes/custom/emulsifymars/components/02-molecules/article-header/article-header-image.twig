@@ -1,4 +1,5 @@
 {% set article_header = 'article-header-image' %}
+{% set heading = heading.length > 0 ? heading : storybook_article_header_heading %}
 
 <div {{ bem(article_header) }} data-theme="{{ theme_styles }}">
   <div {{ bem('inner', [], article_header) }}>

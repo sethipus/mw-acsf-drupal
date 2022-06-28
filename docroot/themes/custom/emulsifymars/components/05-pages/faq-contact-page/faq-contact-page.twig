@@ -1,22 +1,18 @@
 <!-- Error Page Header -->
 {% if theme_styles == 'dove' %}
   {% include '@organisms/site/site-header/site-header.twig' with {
-    alert_banner:'Give the gift of pleasure this Valentine’s Day with the DOVE Signature Collection',
     logo_src: 'https://www.dovechocolate.com/sites/g/files/fnmzdf186/files/dove-chocolate-us-logo.svg'
   } %}
 {% elseif theme_styles == 'twix' %}
   {% include '@organisms/site/site-header/site-header.twig' with {
-     alert_banner:'Give the gift of pleasure this Valentine’s Day with the TWIX Signature Collection',
     logo_src: 'twix-logo.png'
   } %}
 {% elseif theme_styles == 'galaxy' %}
   {% include '@organisms/site/site-header/site-header.twig' with {
-     alert_banner:'Give the gift of pleasure this Valentine’s Day with the GALAXY Signature Collection',
     logo_src: 'https://www.galaxychocolate.co.uk/sites/g/files/fnmzdf211/files/galaxy.svg'
   } %}
 {% elseif theme_styles == 'mars' %}
   {% include '@organisms/site/site-header/site-header.twig' with {
-     alert_banner:'Give the gift of pleasure this Valentine’s Day with all our MARS chocolates Signature Collection',
     logo_src: 'mars_logo.png'
   } %}
 {% else %}
@@ -24,26 +20,35 @@
 {% endif %}
 
 
+<!-- Zone 1 - Parent Page Header -->
+{% include '@molecules/parent-page-header/parent-page-header.twig' %}
+<!-- Zone 1 Ends -->
+
+<!-- Zone 2 - FAQs -->
+{% include '@molecules/faq-list/faq-list.twig' %}
+<!-- Zone 2 Ends -->
+
+<!-- Zone 3 - Contact Banner -->
+{% include '@molecules/contact-module/contact-module.twig' %}
+<!-- Zone 3 Ends -->
+
+{% include '@molecules/feedback-module/feedback.twig' %}
 
 <!-- Error Page Footer -->
 {% if theme_styles == 'dove' %}
   {% include '@organisms/site/site-footer/site-footer.twig' with {
-    corporate_tout_text:'LOVE DOVE? Check out more brands from Mars.',
     logo_src: 'https://www.dovechocolate.com/sites/g/files/fnmzdf186/files/dove-chocolate-us-logo.svg'
   } %}
 {% elseif theme_styles == 'twix' %}
   {% include '@organisms/site/site-footer/site-footer.twig' with {
-    corporate_tout_text:'LOVE TWIX? Check out more brands from Mars.',
     logo_src: 'twix-logo.png'
   } %}
 {% elseif theme_styles == 'galaxy' %}
   {% include '@organisms/site/site-footer/site-footer.twig' with {
-    corporate_tout_text:'LOVE GALAXY? Check out more brands from Mars.',
     logo_src: 'https://www.galaxychocolate.co.uk/sites/g/files/fnmzdf211/files/galaxy.svg'
   } %}
 {% elseif theme_styles == 'mars' %}
   {% include '@organisms/site/site-footer/site-footer.twig' with {
-    corporate_tout_text:'LOVE MARS CHOCOLATES? Check out more brands from Mars.',
     logo_src: 'mars_logo.png'
   } %}
 {% else %}

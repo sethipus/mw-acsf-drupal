@@ -1,6 +1,8 @@
 {{ attach_library('emulsifymars/social-feed') }}
 {% set social_feed_base_class = social_feed_base_class|default('social-feed') %}
 {% set border_overflow = overlaps_previous ? '' : 'no-overflow' %}
+{% set title = title.length > 0 ? title : storybook_social_feed_title %}
+{% set items = items.length > 0 ? items : storybook_social_feed_items %}
 
 <section id="social-feed" {{ bem(social_feed_base_class, []) }} data-theme="{{theme_styles}}"
   {% if select_background_color|length > 0 %}

@@ -1,5 +1,7 @@
 {{ attach_library('emulsifymars/media-carousel') }}
 {% set carousel_base_class = carousel_base_class|default('carousel') %}
+{% set heading = heading.length > 0 ? heading: storybook_media_carousel_heading %}
+{% set items = items.length > 0 ? items: storybook_media_carousel_items %}
 
 <section {{ bem(carousel_base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('heading', [], carousel_base_class) }}>

@@ -1,0 +1,23 @@
+theme_styles: 'twix'
+storybook_theme: true
+background_color: 'red'
+webform_newsletter: ''
+webform_block_label: 'FOR THE CHANCE TO WIN A DREAMHACK X 5 GUM PRIZE PACK, COMPLETE AND SUBMIT THE FORM BELOW. '
+mandatory_text: 'Mandatory Fields*'
+forms:
+  - label: 'First Name*'
+    type: 'text'
+  - label: 'Last Name*'
+    type: 'text'
+  - label: 'Email Adress'
+    type: 'email'
+  - label: 'Date of Birth*'
+    type: 'date'
+  - label: 'Postcode'
+    type: 'text'
+  - label: 'State of Residence'
+    type: 'text'
+privacyfeilds:
+  - privacy: 'I am over the age of 18 or have permission from a parent or guardian to enter this promotion.'
+  - privacy: 'I have read and accept the Terms & Conditions and the Privacy Policy.'
+  - privacy: 'I would like to receive marketing communications from 5 Gum and Mars Wrigley Australia.'

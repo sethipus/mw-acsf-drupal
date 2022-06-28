@@ -88,7 +88,7 @@ export const articleHeaderWithImageLayout = ({
         theme_styles:theme,
         images:backgroundImage,
         eyebrow:eyebrow,
-        heading:Title,
+        storybook_article_header_heading:Title,
         date_published:PublishDate
       }),
     }}
@@ -98,7 +98,7 @@ articleHeaderWithImageLayout.args = {
   theme:articleHeaderImageData.theme_styles,
   backgroundImage:articleHeaderImageData.images,
   eyebrow:articleHeaderImageData.eyebrow,
-  Title:articleHeaderImageData.heading,
+  Title:articleHeaderImageData.storybook_article_header_heading,
   PublishDate:articleHeaderImageData.date_published
 }
 export const articleHeaderWithNoImageLayout = ({

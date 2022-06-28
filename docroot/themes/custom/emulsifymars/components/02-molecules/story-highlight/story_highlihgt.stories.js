@@ -63,6 +63,12 @@ export default {
       table: { category: 'Images' },
       control: { type: 'object' },
     },
+    ImageAsset3: {
+      name:'Image asset 3',
+      description: 'Change the third image of the story. Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul><b>Story item title maximum character limit is 300.</b> ',
+      table: { category: 'Images' },
+      control: { type: 'object' },
+    },
     items: {
       name: 'Stories List',
       description: 'Change layout of story1.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul><b>Story item title maximum character limit is 300.</b> ',
@@ -79,6 +85,7 @@ export const storyHighlightModule = ({
   ButtonCTA,
   ImageAsset1,
   ImageAsset2,
+  ImageAsset3,
   items,
 }) => {
   useEffect(() => Drupal.attachBehaviors(), []);
@@ -93,8 +100,9 @@ export const storyHighlightModule = ({
             heading: Title,
             story_highlight_paragraph_content: ParagraphContent,
             story_highlight_button_text: ButtonCTA,
-            asset_2: ImageAsset1,
-            asset_3: ImageAsset2,
+            asset_1: ImageAsset1,
+            asset_2: ImageAsset2,
+            asset_3:ImageAsset3,
             storybook_story_highlight_items: items,
           }),
       }}
@@ -106,7 +114,8 @@ storyHighlightModule.args = {
   Title: storyHighlightData.heading,
   ParagraphContent: storyHighlightData.story_highlight_paragraph_content,
   ButtonCTA: storyHighlightData.story_highlight_button_text,
-  ImageAsset1: storyHighlightData.asset_2,
-  ImageAsset2: storyHighlightData.asset_3,
+  ImageAsset1: storyHighlightData.asset_1,
+  ImageAsset2: storyHighlightData.asset_2,
+  ImageAsset3: storyHighlightData.asset_3,
   items: storyHighlightData.storybook_story_highlight_items,
 };

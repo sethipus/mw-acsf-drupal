@@ -149,7 +149,7 @@ export const recipeHeroModule = ({
           recipe_number_of_servings: NumberOfServings,
           recipe_description_text: RecipeDescription,
           videoEnableIndicator: video,
-          images,
+          images:images,
         }),
       }}
     />

@@ -1,10 +1,152 @@
 {{ attach_library('emulsifymars/newsletter-form') }}
-<div class="signup-form-wrp" 
-    {% if background_color %}
-        style="background-color: {{ background_color }};"
-    {% endif %}>
-    <div class="signup-form">
-        <div class="newsletter-label"><h2>{{ webform_block_label }}</h2></div>
-        <div class="newsletter-webform">{{ webform_newsletter }}</div>
+<div
+  class="signup-form-wrp"
+  {% if background_color %}
+  style="background-color: {{ background_color }};"
+  {% endif %}
+  {% if storybook_theme %}
+  data-theme={{theme_styles}}
+  {% endif %}
+
+>
+  <div class="signup-form">
+    <div class="newsletter-label">
+      <h2>{{ webform_block_label }}</h2>
     </div>
+
+    <!-- FORMS -->
+    {% if webform_newsletter %}
+    <div class="newsletter-webform">{{ webform_newsletter }}</div>
+    {% else %}
+    <div class="newsletter-webform">
+      <form class="webform-submission-form ">
+      <!-- FORMS INPUT FEILDS-->
+        {% for form in forms %}
+        <div class="globalClass js-form-item form-item">
+          <label for="{{ form.label }}" class="form-item__label">{{form.label}}</label>
+          <input
+            type="{{ form.type }}"
+            id="{{ form.label }}"
+            class="globalElement form-email required form-item__textfield"
+            value=""
+            size="60"
+            maxlength="254"
+            required="required"
+            aria-required="true"
+          />
+        </div>
+        {% endfor %}
+         <!-- FORMS MANDATORY TEXT FEILD-->
+        <div
+          class="globalClass js-form-item form-item"
+          style="font-size: 18px; margin-bottom: -10px;"
+          id="edit-processed-text"
+        >
+          <p>{{mandatory_text}}</p>
+        </div>
+
+         <!-- FORMS PRIVACY CHECKBOX FEILDS-->
+        {% for privacy in privacyfeilds %}
+        <div class="globalPrivacy js-form-item form-item">
+          <input
+            class="globalCheckBox form-checkbox required form-item__textfield"
+            style="margin-top:10px;"
+            data-drupal-selector="edit-terms-and-condition"
+            aria-describedby="edit-terms-and-condition--description"
+            type="checkbox"
+            id="edit-terms-and-condition"
+            name="terms_and_condition"
+            value="1"
+            required="required"
+            aria-required="true"
+          />
+          <div class="form-item__description">
+            <div
+              id="edit-terms-and-condition--description"
+              class="webform-element-description"
+            >
+              {{ privacy.privacy }}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+         <!-- FORMS CAPTCHA -->
+        <div data-drupal-selector="edit-captcha" class="captcha">
+          <input
+            data-drupal-selector="edit-captcha-sid"
+            type="hidden"
+            name="captcha_sid"
+            value="1601"
+            class="form-item__textfield"
+          />
+          <input
+            data-drupal-selector="edit-captcha-token"
+            type="hidden"
+            name="captcha_token"
+            value="qjPMz097Gz9qhZSvyg8VIC0uS8WTVPOa1U1WVGAL7s8"
+            class="form-item__textfield"
+          />
+          <input
+            data-drupal-selector="edit-captcha-response"
+            type="hidden"
+            name="captcha_response"
+            value="Google no captcha"
+            class="form-item__textfield"
+          />
+          <div
+            class="g-recaptcha"
+            data-sitekey="6LesZLMeAAAAABKdVFHE2Negt3Gt5xnVS9BN-lL9"
+            data-theme="light"
+            data-type="image"
+          >
+            <div style="width: 304px; height: 78px;">
+              <div>
+                <iframe
+                  title="reCAPTCHA"
+                  src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LesZLMeAAAAABKdVFHE2Negt3Gt5xnVS9BN-lL9&amp;co=aHR0cHM6Ly93d3cuNWd1bS5jb20uYXU6NDQz&amp;hl=en&amp;type=image&amp;v=M10Y1otwqRkBioiFUKRQ8s3N&amp;theme=light&amp;size=normal&amp;cb=pqbfmlo37v80"
+                  width="304"
+                  height="78"
+                  role="presentation"
+                  name="a-c1rgdxw3b7uc"
+                  frameborder="0"
+                  scrolling="no"
+                  sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"
+                ></iframe>
+              </div>
+              <textarea
+                id="g-recaptcha-response"
+                name="g-recaptcha-response"
+                class="g-recaptcha-response"
+                style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"
+              ></textarea>
+            </div>
+          </div>
+          <input
+            data-drupal-selector="edit-captcha-cacheable"
+            type="hidden"
+            name="captcha_cacheable"
+            value="1"
+            class="form-item__textfield"
+          />
+        </div>
+
+         <!-- FORMS SUBMIT BUTTON -->
+        
+        <div
+          class="globalFormSubmit form-actions webform-actions js-form-wrapper form-wrapper"
+          data-drupal-selector="edit-actions"
+          id="edit-actions">
+            <input
+            class="webform-button--submit button button--primary js-form-submit form-submit"
+            data-drupal-selector="edit-actions-submit"
+            type="submit"
+            id="edit-actions-submit"
+            name="op"
+            value="Submit"/>
+        </div>
+      </form>
+    </div>
+    {% endif %}
+  </div>
 </div>

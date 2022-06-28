@@ -1,22 +1,18 @@
 <!-- Error Page Header -->
 {% if theme_styles == 'dove' %}
   {% include '@organisms/site/site-header/site-header.twig' with {
-    alert_banner:'Give the gift of pleasure this Valentine’s Day with the DOVE Signature Collection',
     logo_src: 'https://www.dovechocolate.com/sites/g/files/fnmzdf186/files/dove-chocolate-us-logo.svg'
   } %}
 {% elseif theme_styles == 'twix' %}
   {% include '@organisms/site/site-header/site-header.twig' with {
-     alert_banner:'Give the gift of pleasure this Valentine’s Day with the TWIX Signature Collection',
     logo_src: 'twix-logo.png'
   } %}
 {% elseif theme_styles == 'galaxy' %}
   {% include '@organisms/site/site-header/site-header.twig' with {
-     alert_banner:'Give the gift of pleasure this Valentine’s Day with the GALAXY Signature Collection',
     logo_src: 'https://www.galaxychocolate.co.uk/sites/g/files/fnmzdf211/files/galaxy.svg'
   } %}
 {% elseif theme_styles == 'mars' %}
   {% include '@organisms/site/site-header/site-header.twig' with {
-     alert_banner:'Give the gift of pleasure this Valentine’s Day with all our MARS chocolates Signature Collection',
     logo_src: 'mars_logo.png'
   } %}
 {% else %}
@@ -24,26 +20,59 @@
 {% endif %}
 
 
+ {% include '@molecules/recipe-hero-module/recipe-hero-module.twig' %}
+ {% include '@organisms/recipe-body/recipe-body.twig' %}
+ {% include '@molecules/article-media/list/article-list.twig' %}
+
+
+  <!-- Zone 3 - Storytelling -->
+    {% if StoryTellingOption == 'Full Width Media' %}
+      {% include '@molecules/article-media/full-width/full-width-media.twig' with {
+        paragraph_modifiers:''
+      }%}
+    {% elseif StoryTellingOption == 'Flexible Framer' %}
+      {% include '@molecules/flexible-framer/flexible-framer.twig' %}
+    {% elseif StoryTellingOption == 'Flexible Driver' %}
+      {% include '@molecules/flexible-driver/flexible-driver.twig' %}
+    {% elseif StoryTellingOption == 'List' %}
+      {% include '@molecules/article-media/list/article-list.twig' %}
+    {% elseif StoryTellingOption == 'Contact & Help Banner' %}
+      {% include '@molecules/contact-module/contact-module.twig' %}
+    {% elseif StoryTellingOption == 'WYSIWYG' %}
+      {% include '@molecules/article-media/wysiwyg/article-wysiwyg.twig' %}
+    {% elseif StoryTellingOption == 'Story Highlight' %}
+      {% include '@molecules/story-highlight/story_highlight.twig' with {
+        heading_level: 2
+      } %}
+    {% elseif StoryTellingOption == 'Polls' %}
+      {% include '@molecules/polls/poll-vote.twig' %}
+    {% else %}
+      {% include '@atoms/iframe/iframe.twig' %}
+    {% endif %}
+  <!-- Zone 3 Ends -->
+
+
+  <!--Zone 4 - User Feedback -->
+    {% if UserFeedbackOption == 'Feedback Module' %}
+      {% include '@molecules/feedback-module/feedback.twig' %}
+    {% endif %}
+  <!-- Zone 4 Ends -->
 
 <!-- Error Page Footer -->
 {% if theme_styles == 'dove' %}
   {% include '@organisms/site/site-footer/site-footer.twig' with {
-    corporate_tout_text:'LOVE DOVE? Check out more brands from Mars.',
     logo_src: 'https://www.dovechocolate.com/sites/g/files/fnmzdf186/files/dove-chocolate-us-logo.svg'
   } %}
 {% elseif theme_styles == 'twix' %}
   {% include '@organisms/site/site-footer/site-footer.twig' with {
-    corporate_tout_text:'LOVE TWIX? Check out more brands from Mars.',
     logo_src: 'twix-logo.png'
   } %}
 {% elseif theme_styles == 'galaxy' %}
   {% include '@organisms/site/site-footer/site-footer.twig' with {
-    corporate_tout_text:'LOVE GALAXY? Check out more brands from Mars.',
     logo_src: 'https://www.galaxychocolate.co.uk/sites/g/files/fnmzdf211/files/galaxy.svg'
   } %}
 {% elseif theme_styles == 'mars' %}
   {% include '@organisms/site/site-footer/site-footer.twig' with {
-    corporate_tout_text:'LOVE MARS CHOCOLATES? Check out more brands from Mars.',
     logo_src: 'mars_logo.png'
   } %}
 {% else %}

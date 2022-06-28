@@ -1,9 +1,11 @@
 theme_styles: twix
-heading: 'Empowering women today'
+heading: ''
+storybook_media_carousel_heading: 'Empowering women today'
 brand_borders: '<svg xmlns="http://www.w3.org/2000/svg" width="425" height="36" viewBox="0 0 425 36" preserveAspectRatio="xMidYMid meet">
                     <path d="M133.523 11.316C54.432 21.853 11.553 13.652 0 8.234v27.183h425V15.8C357.955-7.18 232.386-1.855 133.523 11.316z"></path>
                 </svg>'
-items:
+items: ''
+storybook_media_carousel_items:
   - image: true
     src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-06/Coral%20Header%202.png?itok=9GzIUN9s"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."

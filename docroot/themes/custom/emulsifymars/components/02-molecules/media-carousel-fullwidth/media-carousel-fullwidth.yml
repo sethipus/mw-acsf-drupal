@@ -1,39 +1,79 @@
 theme_styles: twix
 heading: 'Empowering women today'
+storybook_fullwidth_media_carousel_heading: 'Empowering women today'
 brand_borders: '<svg xmlns="http://www.w3.org/2000/svg" width="425" height="36" viewBox="0 0 425 36" preserveAspectRatio="xMidYMid meet">
                     <path d="M133.523 11.316C54.432 21.853 11.553 13.652 0 8.234v27.183h425V15.8C357.955-7.18 232.386-1.855 133.523 11.316z"></path>
                 </svg>'
-items:
+items: ''
+storybook_fullwidth_media_carousel_items:
   - image: true
-    src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-06/Coral%20Header%202.png?itok=9GzIUN9s"
+    src: "https://www.twix.com/cdn-cgi/image/width=1440,height=640,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-04/396000082_Twix_Header_ExploreTwix%20v2.jpg"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
-    content: 'One days prior to International '
+    content: 'TWIX wasn’t always divided into Left and Right. Once upon a time, brothers Earl and Seamus were united by an extraordinary idea: to combine cookie, caramel and chocolate into one beautiful bar.'
+    text_alignment: 'left'
+    block_type: 'parent_page'
+    eyebrow: 'TWIX STORY'
+    title_label: 'BIRTH OF A PHENOMENON'
+    cta_title: 'EXPLORE'
+    graphic_divider: '<svg width="126" height="15" viewBox="0 0 126 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M100.504 12.5416L88.0016 0L75.5021 12.5416L63.0014 0L50.5002 12.5416L38.0013 0L25.5001 12.5416L12.9995 0L0.5 12.5416L0.5 15H125.5V12.5416L113.001 0L100.504 12.5416Z" fill="#EAAA00"></path>
+</svg>'
   - video: true
     src: "https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/"
     content: 'Two days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
+    text_alignment: 'left'
+    block_type: 'homepage_hero'
+    eyebrow: 'Test Context'
+    title_label: 'Test Context'
+    cta_title: 'EXPLORE'
   - image: true
     src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-08/Pet%20Health%20Pal%20header.jpg?itok=VQ6eLURv"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     content: 'Two days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
+    text_alignment: 'right'
+    block_type: 'parent_page'
+    eyebrow: 'Test Context'
+    title_label: 'Test Context'
+    cta_title: 'EXPLORE'
   - image: true
     src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-07/05f60d09-3345-46b6-8ea2-cfdd9fb92527.jpg?itok=4FIQvyjD"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     content: 'Three days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
+    text_alignment: 'left'
+    block_type: 'parent_page'
+    eyebrow: 'Test Context'
+    title_label: 'Test Context'
+    cta_title: 'EXPLORE'
   - image: true
     src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/articles_featured/public/2019-10/Large-849177402.jpg?itok=O_-wDyjK"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     content: 'Four days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
+    text_alignment: 'center'
+    block_type: 'parent_page'
+    eyebrow: 'Test Context'
+    title_label: 'Test Context'
+    cta_title: 'EXPLORE'
   - image: true
     src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/articles_featured/public/2020-04/Mars%20Food_Header%20Article.png?itok=U9l5X45o"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     content: 'Five days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
+    text_alignment: 'left'
+    block_type: 'parent_page'
+    eyebrow: 'Test Context'
+    title_label: 'Test Context'
+    cta_title: 'EXPLORE'
   - image: true
     src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/article_gallery/public/2020-03/running%204.JPG?itok=gAO2Ptxu"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     content: 'Six days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
+    text_alignment: 'right'
+    block_type: 'parent_page'
+    eyebrow: 'Test Context'
+    title_label: 'Test Context'
+    cta_title: 'EXPLORE'

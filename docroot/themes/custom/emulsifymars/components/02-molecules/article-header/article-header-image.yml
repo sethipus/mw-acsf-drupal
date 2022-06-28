@@ -18,7 +18,8 @@ images:
     title: 'Image title'
 
 eyebrow: '#SHESINBUSINESS'
-heading: 'Celebrating International Women’s Day'
+heading: ''
+storybook_article_header_heading: 'Celebrating International Women’s Day'
 date_published: 'Published July 7, 2020'
 share_text: 'SHARE'
 shape: '<svg xmlns="http://www.w3.org/2000/svg" width="425" height="36" viewBox="0 0 425 36" preserveAspectRatio="xMidYMid meet">
