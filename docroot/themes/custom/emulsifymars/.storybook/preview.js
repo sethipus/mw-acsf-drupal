@@ -80,8 +80,8 @@ export const parameters = {
 };
 
 // GLOBAL CSS
-import '../components/style.scss';
 import '../components/02-molecules/slide/social-feed-slide/swiper-bundle.min.css';
+import '../components/style.scss';
 
 const Twig = require('twig');
 const twigDrupal = require('twig-drupal-filters');
