@@ -5,7 +5,7 @@ import { useEffect } from '@storybook/client-api';
 import '../../01-atoms/search-results-item/search-results-item';
 
 export default {
-  title: 'Components/ [ML 32] Search Header',
+  title: 'Components/ [ML 32] Search Page Header',
   parameters: {
     componentSubtitle: `The Search Header is an editable search field at the top of the Search Results Page that includes predictive search terms.
   It is added in the Search page.`,

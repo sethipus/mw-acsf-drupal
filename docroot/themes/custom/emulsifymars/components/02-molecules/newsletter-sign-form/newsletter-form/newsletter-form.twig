@@ -1,4 +1,5 @@
 {{ attach_library('emulsifymars/newsletter-form') }}
+{% set background_color = background_color.length > 0 ? background_color : newsletter_form_background_color %}
 <div
   class="signup-form-wrp"
   {% if background_color %}

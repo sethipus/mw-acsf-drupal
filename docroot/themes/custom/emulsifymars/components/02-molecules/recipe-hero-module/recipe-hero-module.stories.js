@@ -142,7 +142,7 @@ export const recipeHeroModule = ({
           ...recipeSocial,
           theme_styles: theme,
           background_color_override:backgroundColorEnable,
-          background_color: backgroundColor,
+          recipe_hero_module_background_color: backgroundColor,
           recipe_header_text: LabelContent,
           recipe_cooking_time: CookingTime,
           recipe_ingredients_number: NumberOfIngridents,
@@ -158,7 +158,7 @@ export const recipeHeroModule = ({
 recipeHeroModule.args = {
   theme: recipeHeroModuleVideoData.theme_styles,
   backgroundColorEnable:recipeHeroModuleVideoData.background_color_override,
-  backgroundColor: recipeHeroModuleVideoData.background_color,
+  backgroundColor: recipeHeroModuleVideoData.recipe_hero_module_background_color,
   LabelContent: recipeHeroModuleVideoData.recipe_header_text,
   CookingTime: recipeHeroModuleVideoData.recipe_cooking_time,
   NumberOfIngridents: recipeHeroModuleVideoData.recipe_ingredients_number,

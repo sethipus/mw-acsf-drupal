@@ -21,7 +21,7 @@ import '../../02-molecules/dropdown/dropdown';
 import parentPageHeaderData from '../../02-molecules/parent-page-header/parent-page-header.yml';
 
 //Imports for Storytelling Zone
-import fullWithMediaData from '../../02-molecules/article-media/full-width/full-width-media.yml';
+import fullWidthMediaData from '../../02-molecules/article-media/full-width/full-width-media.yml';
 import flexibleFramerData from '../../02-molecules/flexible-framer/flexible-framer.yml';
 import freeformData from '../../02-molecules/freeform-story/freeform-story-center.yml';
 import storyHighlight from '../../02-molecules/story-highlight/story_highlight.yml';
@@ -774,7 +774,7 @@ export const aboutPageLayout = ({
           ...homePollData,
           ...freeformData,
           ...storyHighlight,
-          ...fullWithMediaData,
+          ...fullWidthMediaData,
           ...iframeData,
           ...flexibleDriverData,
           ...contentFeatureData,
@@ -935,9 +935,9 @@ aboutPageLayout.args = {
   Frameritems: flexibleFramerData.flexible_framer_items,
 
   /* Full Width Media */
-  heading: fullWithMediaData.full_width_heading,
-  media: fullWithMediaData.media,
-  content:fullWithMediaData.storybook_full_width_content,
+  heading: fullWidthMediaData.full_width_heading,
+  media: fullWidthMediaData.media,
+  content:fullWidthMediaData.storybook_full_width_content,
 
   /* Iframe */
   iframe_description: iframeData.iframe_src,

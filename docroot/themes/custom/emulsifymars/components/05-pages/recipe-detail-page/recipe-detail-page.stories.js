@@ -744,7 +744,7 @@ export const recipeDetailPageLayout = ({
 
           //Recipe Hero
           background_color_override: recipe_hero_backgroundColorEnable,
-          background_color: recipe_hero_backgroundColor,
+          recipe_hero_module_background_color: recipe_hero_backgroundColor,
           recipe_header_text: recipe_hero_LabelContent,
           recipe_cooking_time: recipe_hero_CookingTime,
           recipe_ingredients_number: recipe_hero_NumberOfIngridents,
@@ -836,7 +836,7 @@ recipeDetailPageLayout.args = {
   //Recipe Hero Module
   recipe_hero_backgroundColorEnable:
     recipeHeroModuleVideoData.background_color_override,
-  recipe_hero_backgroundColor: recipeHeroModuleVideoData.background_color,
+  recipe_hero_backgroundColor: recipeHeroModuleVideoData.recipe_hero_module_background_color,
   recipe_hero_LabelContent: recipeHeroModuleVideoData.recipe_header_text,
   recipe_hero_CookingTime: recipeHeroModuleVideoData.recipe_cooking_time,
   recipe_hero_NumberOfIngridents:

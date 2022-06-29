@@ -85,7 +85,7 @@ export const newsletterSignupFormModule = ({
     dangerouslySetInnerHTML={{ __html: newsLetterForm({
       ...newsLetterFormData,
       theme_styles:theme,
-      background_color:backgroundColor,
+      newsletter_form_background_color:backgroundColor,
       webform_block_label:title,
       forms:formInput,
       privacyfeilds:privacyterms
@@ -94,7 +94,7 @@ export const newsletterSignupFormModule = ({
 );
 newsletterSignupFormModule.args = {
   theme: newsLetterFormData.theme_styles,
-  backgroundColor:newsLetterFormData.background_color,
+  backgroundColor:newsLetterFormData.newsletter_form_background_color,
   title:newsLetterFormData.webform_block_label,
   formInput:newsLetterFormData.forms,
   privacyterms:newsLetterFormData.privacyfeilds

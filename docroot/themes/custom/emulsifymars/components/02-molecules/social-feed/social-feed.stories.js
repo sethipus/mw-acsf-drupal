@@ -56,10 +56,6 @@ export default {
 
 export const socialFeedModuleLayout = ({ theme, title, items }) => {
   useEffect(() => Drupal.attachBehaviors(), []);
-  // componentDidUpdate(() => {
-  //   console.log("Page reloaded");
-  //   Drupal.attachBehaviors(),[]
-  // })  
   return (
       <div
         dangerouslySetInnerHTML={{

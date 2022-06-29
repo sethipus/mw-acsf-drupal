@@ -640,16 +640,6 @@ export default {
         'Recipe title for the recipe feature.<b> Maximum character limit is 60.</b>',
       control: { type: 'text' },
     },
-    Recipecta: {
-      name: 'Button CTA',
-      defaultValue: { summary: 'SEE DETAILS ' },
-      table: {
-        category: 'Recipe Feature',
-      },
-      description:
-        'Button CTA for the recipe feature button.<b> Maximum character limit is 15.</b>',
-      control: { type: 'object' },
-    },
     recipe_media: {
       name: 'Recipe Image',
       defaultValue: {
@@ -743,10 +733,10 @@ export const homePageLayout = ({
   ContentTitle,
   ContentEyebrowText,
   ContentBackground,
-  ProductEyebrow,
   content_card_eyebrow,
   content_card_item,
   //Product feature
+  ProductEyebrow,
   ProductTitle,
   ProductBackground,
   ProductImage,
