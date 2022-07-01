@@ -1,15 +1,15 @@
 theme_styles: 'twix'
 eyebrow_text: ''
-storybook_content_feature_eyebrow_text: 'ABOUT US'
+storybook_content_feature_eyebrow_text: 'PICK A SIDE'
 background_images:
   desktop:
-    src: 'https://www.twix.com/cdn-cgi/image/width=1440,height=650,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-02/Twix-About-Illustrations-header-16x9.jpg'
+    src: 'https://www.twix.com/cdn-cgi/image/width=1440,height=650,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-02/Twix-ExploreTwix-16x9.jpg'
   tablet:
-    src: './content-feature-bg.png'
+    src: 'https://www.twix.com/cdn-cgi/image/width=1440,height=650,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-02/Twix-ExploreTwix-16x9.jpg'
   mobile:
-    src: './content-feature-bg.png'
+    src: 'https://www.twix.com/cdn-cgi/image/width=1440,height=650,f=auto,quality=90/sites/g/files/fnmzdf236/files/2021-02/Twix-ExploreTwix-16x9.jpg'
 heading: ''
-storybook_content_feature_heading: 'THE TALE OF SEAMUS AND EARL'
+storybook_content_feature_heading: 'EXPLORE TWIX®. TWICE.'
 heading_level: 1
 heading_url: 'https://storybook.js.org/'
 
@@ -18,12 +18,11 @@ graphic_divider: '<svg xmlns="http://www.w3.org/2000/svg" width="125" height="15
 </svg>'
 
 paragraph_size: 'large'
-paragraph_content: '
-      Discover both sides of the extraordinary story of TWIX®.'
+paragraph_content: 'Do you lean to the Left TWIX® or run to the Right TWIX®? Time to decide.'
 paragraph_modifiers: ['large']
 
 default_link_content: ''
-storybook_content_feature_default_link_content: 'Explore'
+storybook_content_feature_default_link_content: 'EXPLORE MORE'
 default_link_base_class: 'default-link'
 default_link_attributes:
   'target': '_self'

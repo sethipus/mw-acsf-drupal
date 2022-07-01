@@ -1585,8 +1585,8 @@ export const campaignPageLayout = ({
           flexible_driver_heading: DriverTitle,
           flexible_driver_text: DriverDescription,
           flexible_driver_button_text: DriverButtonCTA,
-          flexible_driver_asset_1: DriverLeftImage,
-          flexible_driver_asset_2: DriverRightImage,
+          storybook_flexible_driver_asset_1: DriverLeftImage,
+          storybook_flexible_driver_asset_2: DriverRightImage,
 
           //flexible framer
           grid_label: framer_Title,
@@ -1759,8 +1759,8 @@ campaignPageLayout.args = {
   DriverTitle: flexibleDriverData.flexible_driver_heading,
   DriverDescription: flexibleDriverData.flexible_driver_text,
   DriverButtonCTA: flexibleDriverData.flexible_driver_button_text,
-  DriverLeftImage: flexibleDriverData.flexible_driver_asset_1,
-  DriverRightImage: flexibleDriverData.flexible_driver_asset_2,
+  DriverLeftImage: flexibleDriverData.storybook_flexible_driver_asset_1,
+  DriverRightImage: flexibleDriverData.storybook_flexible_driver_asset_2,
 
   // For Parent page header
   Eyebrow: parentPageHeaderData.pp_header_eyebrow_text,

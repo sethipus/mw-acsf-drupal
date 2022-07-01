@@ -58,7 +58,6 @@ export default {
       name: 'Button CTA',
       description:
         'Button CTA of the content.<b> Maximum character limit is 15.</b>',
-      defaultValue: { summary: 'Explore' },
       table: {
         category: 'Text',
       },
@@ -105,8 +104,8 @@ export const flexibleDriverComponent = ({
           flexible_driver_heading: Title,
           flexible_driver_text: Description,
           flexible_driver_button_text: ButtonCTA,
-          flexible_driver_asset_1: LeftImage,
-          flexible_driver_asset_2: RightImage,
+          storybook_flexible_driver_asset_1: LeftImage,
+          storybook_flexible_driver_asset_2: RightImage,
         }),
       }}
     />
@@ -117,6 +116,6 @@ flexibleDriverComponent.args = {
   Title: flexibleDriverData.flexible_driver_heading,
   Description: flexibleDriverData.flexible_driver_text,
   ButtonCTA: flexibleDriverData.flexible_driver_button_text,
-  LeftImage: flexibleDriverData.flexible_driver_asset_1,
-  RightImage: flexibleDriverData.flexible_driver_asset_2,
+  LeftImage: flexibleDriverData.storybook_flexible_driver_asset_1,
+  RightImage: flexibleDriverData.storybook_flexible_driver_asset_2,
 };

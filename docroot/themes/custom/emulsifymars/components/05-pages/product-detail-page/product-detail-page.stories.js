@@ -836,8 +836,8 @@ export const productdetailsPage = ({
           flexible_driver_heading: DriverTitle,
           flexible_driver_text: DriverDescription,
           flexible_driver_button_text: DriverButtonCTA,
-          flexible_driver_asset_1: DriverLeftImage,
-          flexible_driver_asset_2: DriverRightImage,
+          storybook_flexible_driver_asset_1: DriverLeftImage,
+          storybook_flexible_driver_asset_2: DriverRightImage,
 
           //List
           storybook_list_title: title,
@@ -938,8 +938,8 @@ productdetailsPage.args = {
   DriverTitle: flexibleDriverData.flexible_driver_heading,
   DriverDescription: flexibleDriverData.flexible_driver_text,
   DriverButtonCTA: flexibleDriverData.flexible_driver_button_text,
-  DriverLeftImage: flexibleDriverData.flexible_driver_asset_1,
-  DriverRightImage: flexibleDriverData.flexible_driver_asset_2,
+  DriverLeftImage: flexibleDriverData.storybook_flexible_driver_asset_1,
+  DriverRightImage: flexibleDriverData.storybook_flexible_driver_asset_2,
 
   /* List */
   title: listData.storybook_list_title,

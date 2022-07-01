@@ -756,8 +756,8 @@ export const hubPageLayout = ({
           flexible_driver_heading: driver_Title,
           flexible_driver_text: driver_Description,
           flexible_driver_button_text: driver_ButtonCTA,
-          flexible_driver_asset_1: driver_LeftImage,
-          flexible_driver_asset_2: driver_RightImage,
+          storybook_flexible_driver_asset_1: driver_LeftImage,
+          storybook_flexible_driver_asset_2: driver_RightImage,
 
           community_option:community_option,
 
@@ -836,8 +836,8 @@ hubPageLayout.args = {
   driver_Title: flexibleDriverData.flexible_driver_heading,
   driver_Description: flexibleDriverData.flexible_driver_text,
   driver_ButtonCTA: flexibleDriverData.flexible_driver_button_text,
-  driver_LeftImage: flexibleDriverData.flexible_driver_asset_1,
-  driver_RightImage: flexibleDriverData.flexible_driver_asset_2,
+  driver_LeftImage: flexibleDriverData.storybook_flexible_driver_asset_1,
+  driver_RightImage: flexibleDriverData.storybook_flexible_driver_asset_2,
 
 
   community_option:hubData.community_option,

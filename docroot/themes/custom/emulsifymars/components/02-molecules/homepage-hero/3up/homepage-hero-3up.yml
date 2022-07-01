@@ -37,11 +37,11 @@ blocks:
         link_attributes:
           - href: '#link_attr1'
   - eyebrow: 'Intiatives'
-    title_label: 'Empowering Women'
+    title_label: 'Cultivate Choco'
     title_href: '#'
     image:
       - srcset: 'image9.png, image9@2x.png 2x, image9@3x.png 3x'
-        src: 'https://www.dovechocolate.com/cdn-cgi/image/width=1440,height=640,f=auto,quality=90/sites/g/files/fnmzdf186/files/2021-11/396000232_Galaxy_PLP_Hero_3000x1286px_0.jpg'
+        src: 'https://www.dovechocolate.com/cdn-cgi/image/width=289,height=289,f=auto,quality=90/sites/g/files/fnmzdf186/files/2021-02/Dove-Cocoa-Exchange-Right.png'
         class: 'block1-small'
     cta:
       - title: 'Explore'

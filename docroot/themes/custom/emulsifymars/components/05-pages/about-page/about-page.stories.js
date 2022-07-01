@@ -831,8 +831,8 @@ export const aboutPageLayout = ({
           flexible_driver_heading: DriverTitle,
           flexible_driver_text: DriverDescription,
           flexible_driver_button_text: DriverButtonCTA,
-          flexible_driver_asset_1: DriverLeftImage,
-          flexible_driver_asset_2: DriverRightImage,
+          storybook_flexible_driver_asset_1: DriverLeftImage,
+          storybook_flexible_driver_asset_2: DriverRightImage,
 
           //content feature
           storybook_content_feature_eyebrow_text: ContentFeatureEyebrow,
@@ -921,8 +921,8 @@ aboutPageLayout.args = {
   DriverTitle: flexibleDriverData.flexible_driver_heading,
   DriverDescription: flexibleDriverData.flexible_driver_text,
   DriverButtonCTA: flexibleDriverData.flexible_driver_button_text,
-  DriverLeftImage: flexibleDriverData.flexible_driver_asset_1,
-  DriverRightImage: flexibleDriverData.flexible_driver_asset_2,
+  DriverLeftImage: flexibleDriverData.storybook_flexible_driver_asset_1,
+  DriverRightImage: flexibleDriverData.storybook_flexible_driver_asset_2,
 
   /* Content Feature */
   ContentFeatureEyebrow: contentFeatureData.storybook_content_feature_eyebrow_text,
