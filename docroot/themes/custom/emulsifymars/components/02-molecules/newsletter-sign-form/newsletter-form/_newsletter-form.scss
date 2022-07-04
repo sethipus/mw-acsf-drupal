@@ -173,16 +173,12 @@
       }
       &::after {
         display: none;
+        top: 20px;
       }
     }
   }
   .iti__flag-container {
     height: 40px;
-  }
-  .form-item__dropdown {
-    &::after {
-      top: 20px;
-    }
   }
 }
 

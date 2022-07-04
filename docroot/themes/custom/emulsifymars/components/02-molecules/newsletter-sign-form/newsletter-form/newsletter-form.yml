@@ -1,7 +1,7 @@
 theme_styles: 'twix'
 storybook_theme: true
 background_color: ''
-newsletter_form_background_color: 'red'
+newsletter_form_background_color: '#eaebec'
 webform_newsletter: ''
 webform_block_label: 'FOR THE CHANCE TO WIN A DREAMHACK X 5 GUM PRIZE PACK, COMPLETE AND SUBMIT THE FORM BELOW. '
 mandatory_text: 'Mandatory Fields*'

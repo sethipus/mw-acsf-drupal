@@ -2,7 +2,6 @@ import React from 'react';
 
 import flexibleFramer from './flexible-framer.twig';
 import flexibleFramerData from './flexible-framer.yml';
-import relatedRecipesData from './flexible-framer-recipes.yml';
 
 /**
  * Storybook Definition.
@@ -59,12 +58,11 @@ export const flexibleFramerComponent = ({
     <div
       dangerouslySetInnerHTML={{
         __html:
-          "<div style='height: 200px; background-color: grey'></div>" +
           flexibleFramer({
             ...flexibleFramerData,
             theme_styles: theme,
             grid_label: Title,
-            flexible_framer_items: items,
+            storybook_flexible_framer_items: items,
           }),
       }}
     />
@@ -73,5 +71,5 @@ export const flexibleFramerComponent = ({
 flexibleFramerComponent.args = {
   theme: flexibleFramerData.theme_styles, 
   Title: flexibleFramerData.grid_label,
-  items: flexibleFramerData.flexible_framer_items,
+  items: flexibleFramerData.storybook_flexible_framer_items,
 };

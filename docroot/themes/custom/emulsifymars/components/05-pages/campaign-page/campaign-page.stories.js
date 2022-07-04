@@ -182,7 +182,7 @@ export default {
         ],
       },
     },
-    
+
     zone2: {
       name: 'Zone 2 Layout',
       table: {
@@ -624,15 +624,35 @@ export default {
       control: { type: 'object' },
     },
     //Recipe Feature controls
-    RecipeTitle: {
-      name: 'Recipe title text',
+    recipe_Eyebrow: {
+      name: 'Eyebrow',
+      defaultValue: { summary: 'Recipe' },
+      table: {
+        category: 'Recipe Feature Component',
+      },
+      description:
+        'Eyebrow text for the recipe feature.<b> Maximum character limit is 15.</b>',
+      control: { type: 'text' },
+    },
+    recipe_Title: {
+      name: 'Recipe title',
       defaultValue: { summary: 'Product ABC ' },
       table: {
-        category: 'Recipe Feature',
+        category: 'Recipe Feature Component',
       },
       description:
         'Recipe title for the recipe feature.<b> Maximum character limit is 60.</b>',
       control: { type: 'text' },
+    },
+    recipe_cta: {
+      name: 'Button CTA',
+      defaultValue: { summary: 'SEE DETAILS ' },
+      table: {
+        category: 'Recipe Feature Component',
+      },
+      description:
+        'Button CTA for the recipe feature button.<b> Maximum character limit is 15.</b>',
+      control: { type: 'object' },
     },
     recipe_media: {
       name: 'Recipe Image',
@@ -641,11 +661,28 @@ export default {
           'http://dove.mars.acsitefactory.com/sites/g/files/fnmzdf186/files/2020-12/Dove%20Home%20Banner%2021-9.PNG',
       },
       table: {
-        category: 'Recipe Feature',
+        category: 'Recipe Feature Component',
       },
       description:
         'Recipe image for the recipe.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul>',
       control: { type: 'object' },
+    },
+    recipe_block_title: {
+      name: 'Block Title',
+      table: {
+        category: 'Text',
+      },
+      description:
+        'Block title for the recipe feature.<b> Maximum character limit is 15.</b>',
+      control: { type: 'text' },
+    },
+    graphic_divider: {
+      name: 'Graphic Divider',
+      table: {
+        category: 'Recipe Feature Component',
+      },
+      description: 'Graphic divider for the recipe feature',
+      control: { type: 'text' },
     },
     //Product Feature Controls
     ProductEyebrow: {
@@ -1127,6 +1164,16 @@ export default {
         type: 'text',
       },
     },
+    contact_social_heading:{
+      name:'Social Heading',
+      description:'Heading for the social links.',
+      table:{
+        category:'Contact & Help Banner'
+      },
+      control:{
+        type:'text'
+      }
+    },
     //Faq List
     faq_title: {
       name: 'FAQ Heading',
@@ -1314,6 +1361,8 @@ export const campaignPageLayout = ({
   // recipe feature
   RecipeTitle,
   recipe_media,
+  recipe_title,
+  graphic_divider,
   //Product feature
   ProductEyebrow,
   ProductTitle,
@@ -1372,6 +1421,7 @@ export const campaignPageLayout = ({
   contact_Description,
   contact_callCTA,
   contact_emailCTA,
+  contact_social_heading,
   //Faq
   faq_title,
   faq_searchLinks,
@@ -1590,7 +1640,7 @@ export const campaignPageLayout = ({
 
           //flexible framer
           grid_label: framer_Title,
-          flexible_framer_items: framer_items,
+          storybook_flexible_framer_items: framer_items,
 
           //parent page header
           pp_header_eyebrow_text: Eyebrow,
@@ -1600,7 +1650,7 @@ export const campaignPageLayout = ({
           parent_page_media_entities: parent_page_media_entities,
 
           //Full Width Media
-          full_width_heading: heading,
+          storybook_full_width_heading: heading,
           media: media,
           storybook_full_width_content: content,
 
@@ -1643,6 +1693,7 @@ export const campaignPageLayout = ({
           contact_module_paragraph_content: contact_Description,
           contact_module_contact_phone: contact_callCTA,
           contact_module_contact_email_text: contact_emailCTA,
+          contact_module_social_heading:contact_social_heading,
 
           //Faq List
           title: faq_title,
@@ -1753,7 +1804,7 @@ campaignPageLayout.args = {
 
   //flexible framer
   framer_Title: flexibleFramerData.grid_label,
-  framer_items: flexibleFramerData.flexible_framer_items,
+  framer_items: flexibleFramerData.storybook_flexible_framer_items,
 
   /* Flexible Driver component */
   DriverTitle: flexibleDriverData.flexible_driver_heading,
@@ -1770,7 +1821,7 @@ campaignPageLayout.args = {
   parent_page_media_entities: parentPageHeaderData.parent_page_media_entities,
 
   /* Full Width Media */
-  heading: fullWidthMediaData.full_width_heading,
+  heading: fullWidthMediaData.storybook_full_width_heading,
   media: fullWidthMediaData.media,
   content: fullWidthMediaData.storybook_full_width_content,
 
@@ -1794,7 +1845,8 @@ campaignPageLayout.args = {
   //Recipe Hero Module
   recipe_hero_backgroundColorEnable:
     recipeHeroModuleVideoData.background_color_override,
-  recipe_hero_backgroundColor: recipeHeroModuleVideoData.recipe_hero_module_background_color,
+  recipe_hero_backgroundColor:
+    recipeHeroModuleVideoData.recipe_hero_module_background_color,
   recipe_hero_LabelContent: recipeHeroModuleVideoData.recipe_header_text,
   recipe_hero_CookingTime: recipeHeroModuleVideoData.recipe_cooking_time,
   recipe_hero_NumberOfIngridents:
@@ -1817,6 +1869,8 @@ campaignPageLayout.args = {
   contact_Description: contactHelpBannerData.contact_module_paragraph_content,
   contact_callCTA: contactHelpBannerData.contact_module_contact_phone,
   contact_emailCTA: contactHelpBannerData.contact_module_contact_email_text,
+  contact_social_heading:contactModuleData.contact_module_social_heading,
+
 
   //For Faq List
   faq_title: faqListData.title,
@@ -1834,7 +1888,8 @@ campaignPageLayout.args = {
   WYSIWYG_body: WYSIWYGData.content,
 
   //Newsletter Form
-  newsletter_backgroundColor: newsletterSignUpFormData.newsletter_form_background_color,
+  newsletter_backgroundColor:
+    newsletterSignUpFormData.newsletter_form_background_color,
   newsletter_title: newsletterSignUpFormData.webform_block_label,
   newsletter_formInput: newsletterSignUpFormData.forms,
   newsletter_privacyterms: newsletterSignUpFormData.privacyfeilds,

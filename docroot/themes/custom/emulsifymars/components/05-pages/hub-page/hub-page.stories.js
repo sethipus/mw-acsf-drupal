@@ -750,7 +750,7 @@ export const hubPageLayout = ({
 
           //Flexible Framer
           grid_label: framer_Title,
-          flexible_framer_items: framer_items,
+          storybook_flexible_framer_items: framer_items,
 
           //flexible Driver
           flexible_driver_heading: driver_Title,
@@ -830,7 +830,7 @@ hubPageLayout.args = {
 
   //Flexible Framer
   framer_Title: flexibleFramerData.grid_label,
-  framer_items: flexibleFramerData.flexible_framer_items,
+  framer_items: flexibleFramerData.storybook_flexible_framer_items,
 
   //Flexible Driver
   driver_Title: flexibleDriverData.flexible_driver_heading,

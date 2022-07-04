@@ -1,8 +1,15 @@
 {% set felxible_driver__base_class = 'flexible-driver' %}
 {% set flexible_driver_paragraph_base_class = 'flexible-driver__paragraph' %}
-{% set asset_1 = asset_1.length > 0 ? asset_1 : storybook_flexible_driver_asset_1 %}
-{% set asset_2 = asset_2.length > 0 ? asset_2 : storybook_flexible_driver_asset_2 %}
-
+{% if asset_1 %}
+  {% set asset_1 = asset_1 %}
+{% else %}
+  {% set asset_1 = storybook_flexible_driver_asset_1 %}
+{% endif %}
+{% if asset_2 %}
+  {% set asset_2 = asset_2 %}
+{% else %}
+  {% set asset_2 = storybook_flexible_driver_asset_2 %}
+{% endif %}
 
 <section {{ bem(felxible_driver__base_class) }} data-theme="{{ theme_styles }}"
   {% if select_background_color|length > 0 %}

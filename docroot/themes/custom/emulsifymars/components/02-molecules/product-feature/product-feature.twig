@@ -1,7 +1,15 @@
 {{ attach_library('emulsifymars/product-feature') }}
 {% set product_feature_base_class = 'product-feature' %}
-{% set background_color  = background_color ? background_color : storybook_product_feature_background_color %}
-{% set heading = heading.length > 0 ? heading : storybook_product_feature_heading %}
+{% if background_color %}
+  {% set background_color = background_color %}
+{% else %}
+  {% set background_color = storybook_product_feature_background_color %}
+{% endif %}
+{% if heading %}
+  {% set heading = heading %}
+{% else %}
+  {% set heading = storybook_product_feature_heading %}
+{% endif %}
 
 <section {{ bem(product_feature_base_class) }} data-theme="{{ theme_styles }}" style="background-color: {{ background_color }};">
   <div {{ bem('inner', [], product_feature_base_class) }}>

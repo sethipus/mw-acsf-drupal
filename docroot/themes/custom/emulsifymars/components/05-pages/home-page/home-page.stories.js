@@ -869,7 +869,7 @@ export const homePageLayout = ({
 
           //flexible framer 
           grid_label: framer_Title,
-          flexible_framer_items: framer_items,
+          storybook_flexible_framer_items: framer_items,
 
           //Storytelling Zone
           StoryTellingOption: StoryTellingOption,
@@ -903,7 +903,7 @@ export const homePageLayout = ({
           storybook_story_highlight_items: StoryHighlightitems,
 
           //Full Width Media
-          full_width_heading: heading,
+          storybook_full_width_heading: heading,
           media: media,
           storybook_full_width_content: content,
 
@@ -1016,7 +1016,7 @@ homePageLayout.args = {
   StoryHighlightitems: storyHighlight.storybook_story_highlight_items,
 
   /* Full Width Media */
-  heading: fullWidthMediaData.full_width_heading,
+  heading: fullWidthMediaData.storybook_full_width_heading,
   media: fullWidthMediaData.media,
   content: fullWidthMediaData.storybook_full_width_content,
 
@@ -1029,5 +1029,5 @@ homePageLayout.args = {
 
   //flexible framer
   framer_Title: flexibleFramerData.grid_label,
-  framer_items: flexibleFramerData.flexible_framer_items,
+  framer_items: flexibleFramerData.storybook_flexible_framer_items,
 };

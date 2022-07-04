@@ -34,7 +34,7 @@ export default {
         options: ['twix', 'dove', 'mars', 'galaxy'],
       },
     },
-    Eyebrow: {
+    recipe_Eyebrow: {
       name: 'Eyebrow',
       defaultValue: { summary: 'Recipe' },
       table: {
@@ -43,7 +43,7 @@ export default {
       description: 'Eyebrow text for the recipe feature.<b> Maximum character limit is 15.</b>',
       control: { type: 'text' },
     },
-    RecipeTitle: {
+    recipe_Title: {
       name: 'Recipe title',
       defaultValue: { summary: 'Product ABC ' },
       table: {
@@ -52,7 +52,7 @@ export default {
       description: 'Recipe title for the recipe feature.<b> Maximum character limit is 60.</b>',
       control: { type: 'text' },
     },
-    cta: {
+    recipe_cta: {
       name: 'Button CTA',
       defaultValue: { summary: 'SEE DETAILS ' },
       table: {
@@ -73,15 +73,33 @@ export default {
       description: 'Recipe image for the recipe.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul>',
       control: { type: 'object' },
     },
+    recipe_block_title: {
+      name: 'Block Title',
+      table: {
+        category: 'Text',
+      },
+      description: 'Block title for the recipe feature.<b> Maximum character limit is 15.</b>',
+      control: { type: 'text' },
+    },
+    graphic_divider:{
+      name: 'Graphic Divider',
+      table: {
+        category: 'Theme',
+      },
+      description: 'Graphic divider for the recipe feature',
+      control: { type: 'text' },
+    },
   },
 };
 
 export const recipeFeatureModule = ({
   theme,
-  Eyebrow,
-  RecipeTitle,
-  cta,
+  recipe_Eyebrow,
+  recipe_Title,
+  recipe_cta,
   recipe_media,
+  recipe_block_title,
+  graphic_divider
 }) => {
   return (
     <div
@@ -89,10 +107,12 @@ export const recipeFeatureModule = ({
         __html: recipeFeatureModuleTwig({
           ...recipeFeatureModuleData,
           theme_styles:theme,
-          eyebrow: Eyebrow,
-          title: RecipeTitle,
-          cta:cta,
+          eyebrow: recipe_Eyebrow,
+          title: recipe_Title,
+          cta:recipe_cta,
           recipe_media:recipe_media,
+          block_title:recipe_block_title,
+          graphic_divider:graphic_divider
         }),
       }}
     />
@@ -100,8 +120,10 @@ export const recipeFeatureModule = ({
 };
 recipeFeatureModule.args = {
   theme:recipeFeatureModuleData.theme_styles,
-  Eyebrow: recipeFeatureModuleData.eyebrow,
-  RecipeTitle: recipeFeatureModuleData.title,
-  cta: recipeFeatureModuleData.cta,
+  recipe_block_title:recipeFeatureModuleData.block_title,
+  graphic_divider:recipeFeatureModuleData.graphic_divider,
+  recipe_Eyebrow: recipeFeatureModuleData.eyebrow,
+  recipe_Title: recipeFeatureModuleData.title,
+  recipe_cta: recipeFeatureModuleData.cta,
   recipe_media: recipeFeatureModuleData.recipe_media,
 };

@@ -19,4 +19,6 @@ no_results_links:
       target: '_self'
       href: 'https://storybook.js.org/'
 
-shape: '<svg xmlns="http://www.w3.org/2000/svg"><defs><pattern viewBox="0 0 768 291" id="divider-pattern" x="0" y="0" width="768" height="291" patternUnits="userSpaceOnUse"><path fill="#E62B1E" fill-rule="evenodd" d="M26.839 14l-13.5-14-13 14H0v277h768V14h-.352l-13.5-14-12.583 13.552L728.497 0l-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.203l-13.5-14-13 14h-2.23l-13.5-14-13 14h-1.203l-13.5-14-13 14h-.178l-13.5-14-13 14h-1.203l-13.5-14-13 14h-.69l-13.5-14-13 14h-.691l-13.5-14-13 14h-.177l-13.5-14-12.584 13.552L344.754 0l-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-2.229l-13.5-14-13 14H135.6L122.1 0l-13 14h-.177l-13.5-14-13 14h-1.204L67.72 0l-13 14h-.69L40.53 0l-13 14h-.69z" clip-rule="evenodd"/></pattern></defs><rect x="0" y="0" stroke="#630" stroke-width="0" fill="url(#divider-pattern)"></rect></svg>'
+graphic_divider: '<svg width="126" height="15" viewBox="0 0 126 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M100.504 12.5416L88.0016 0L75.5021 12.5416L63.0014 0L50.5002 12.5416L38.0013 0L25.5001 12.5416L12.9995 0L0.5 12.5416L0.5 15H125.5V12.5416L113.001 0L100.504 12.5416Z" fill="#EAAA00"></path>
+</svg>'

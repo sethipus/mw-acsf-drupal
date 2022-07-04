@@ -1,6 +1,7 @@
 import React from 'react';
 import contactModule from './contact-module.twig';
 import contactModuleData from './contact-module.yml';
+import iconsSocial from '../../02-molecules/menus/social/social-menu.yml';
 
 export default {
   title: 'Components/[ML 26] Contact Help Banner',
@@ -79,6 +80,16 @@ export default {
         type: 'text',
       },
     },
+    social_heading:{
+      name:'Social Heading',
+      description:'Heading for the social links.',
+      table:{
+        category:'Text'
+      },
+      control:{
+        type:'text'
+      }
+    }
   },
 };
 
@@ -88,17 +99,20 @@ export const contactModuleLayout = ({
   Description,
   callCTA,
   emailCTA,
+  social_heading
 }) => {
   return (
     <div
       dangerouslySetInnerHTML={{
         __html: contactModule({
           ...contactModuleData,
+          ...iconsSocial,
           theme_styles: theme,
           contact_module_heading: Title,
           contact_module_paragraph_content: Description,
           contact_module_contact_phone: callCTA,
           contact_module_contact_email_text: emailCTA,
+          contact_module_social_heading:social_heading
         }),
       }}
     />
@@ -110,4 +124,5 @@ contactModuleLayout.args = {
   Description: contactModuleData.contact_module_paragraph_content,
   callCTA: contactModuleData.contact_module_contact_phone,
   emailCTA: contactModuleData.contact_module_contact_email_text,
+  social_heading:contactModuleData.contact_module_social_heading
 };

@@ -3,8 +3,6 @@ import React from 'react';
 import newsLetterForm from './newsletter-form/newsletter-form.twig';
 import newsLetterFormData from './newsletter-form/newsletter-form.yml';
 
-import newsLetterEmailForm from './newsletter-email-form/newsletter-email-form.twig';
-import newsLetterEmailFormData from './newsletter-email-form/newsletter-email-form.yml';
 import './newsletter-form/newsletter-form';
 /**
  * Storybook Definition.

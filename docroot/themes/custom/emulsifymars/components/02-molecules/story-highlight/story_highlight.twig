@@ -2,7 +2,11 @@
 {% set story_highlight_base_class = story_highlight_base_class|default('story-highlight') %}
 {% set divider = '<div class=divider>'~divider~'</div>' %}
 {% set border_overflow = overlaps_previous ? '' : 'no-overflow' %}
-{% set items = items.length > 0 ? items : storybook_story_highlight_items %}
+{% if items %}
+  {% set items = items %}
+{% else %}
+  {% set items = storybook_story_highlight_items %}
+{% endif %}
 
 <section id="story-highlight" {{ bem(story_highlight_base_class, []) }} data-theme="{{ theme_styles }}">
   {% if brand_borders is not empty %}

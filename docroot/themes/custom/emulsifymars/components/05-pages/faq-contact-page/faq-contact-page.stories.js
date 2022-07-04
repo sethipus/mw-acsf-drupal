@@ -265,6 +265,16 @@ export default {
         type: 'text',
       },
     },
+    contact_social_heading:{
+      name:'Social Heading',
+      description:'Heading for the social links.',
+      table:{
+        category:'Contact & Help Banner'
+      },
+      control:{
+        type:'text'
+      }
+    },
 
     //Feedback Module
     brandShape: {
@@ -341,6 +351,7 @@ export const recipeDetailPageLayout = ({
   contact_Description,
   contact_callCTA,
   contact_emailCTA,
+  contact_social_heading,
 
   //Feedback Module
   brandShape,
@@ -400,6 +411,8 @@ export const recipeDetailPageLayout = ({
           contact_module_paragraph_content: contact_Description,
           contact_module_contact_phone: contact_callCTA,
           contact_module_contact_email_text: contact_emailCTA,
+          contact_module_social_heading:contact_social_heading,
+
 
           //Feedback Module
           brand_shape: brandShape,
@@ -443,6 +456,8 @@ recipeDetailPageLayout.args = {
   contact_Description: contactHelpBannerData.contact_module_paragraph_content,
   contact_callCTA: contactHelpBannerData.contact_module_contact_phone,
   contact_emailCTA: contactHelpBannerData.contact_module_contact_email_text,
+  contact_social_heading:contactModuleData.contact_module_social_heading,
+
 
   /* Feedback Module */
   brandShape: feedbackData.brand_shape,

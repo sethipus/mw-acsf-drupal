@@ -843,10 +843,10 @@ export const aboutPageLayout = ({
 
           //flexible framer
           grid_label: FramerTitle,
-          flexible_framer_items: Frameritems,
+          storybook_flexible_framer_items: Frameritems,
 
           //Full Width Media
-          full_width_heading: heading,
+          storybook_full_width_heading: heading,
           media: media,
           storybook_full_width_content:content,
 
@@ -932,10 +932,10 @@ aboutPageLayout.args = {
   ContentFeatureExploreCTA: contentFeatureData.storybook_content_feature_default_link_content,
   /* Flexible Framer */
   FramerTitle: flexibleFramerData.grid_label,
-  Frameritems: flexibleFramerData.flexible_framer_items,
+  Frameritems: flexibleFramerData.storybook_flexible_framer_items,
 
   /* Full Width Media */
-  heading: fullWidthMediaData.full_width_heading,
+  heading: fullWidthMediaData.storybook_full_width_heading,
   media: fullWidthMediaData.media,
   content:fullWidthMediaData.storybook_full_width_content,
 

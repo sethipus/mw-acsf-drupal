@@ -434,7 +434,16 @@ export default {
         type: 'text',
       },
     },
-
+    contact_social_heading:{
+      name:'Social Heading',
+      description:'Heading for the social links.',
+      table:{
+        category:'Contact & Help Banner'
+      },
+      control:{
+        type:'text'
+      }
+    },
     //WYSIWYG
     WYSIWYG_Header: {
       name: 'Header',
@@ -665,6 +674,8 @@ export const recipeDetailPageLayout = ({
   contact_Description,
   contact_callCTA,
   contact_emailCTA,
+  contact_social_heading,
+
 
   // WYSIWYG
   WYSIWYG_Header,
@@ -763,13 +774,13 @@ export const recipeDetailPageLayout = ({
           StoryTellingOption: StoryTellingOption,
 
           //Full Width Media
-          full_width_heading: heading,
+          storybook_full_width_heading: heading,
           media: media,
           storybook_full_width_content: content,
 
           //flexible framer
           grid_label: FramerTitle,
-          flexible_framer_items: Frameritems,
+          storybook_flexible_framer_items: Frameritems,
 
           //flexible-driver
           flexible_driver_heading: DriverTitle,
@@ -783,6 +794,8 @@ export const recipeDetailPageLayout = ({
           contact_module_paragraph_content: contact_Description,
           contact_module_contact_phone: contact_callCTA,
           contact_module_contact_email_text: contact_emailCTA,
+          contact_module_social_heading:contact_social_heading,
+
 
           //Wysiwyg
           storybook_wysiwyg_heading: WYSIWYG_Header,
@@ -858,13 +871,13 @@ recipeDetailPageLayout.args = {
   StoryTellingOption: recipeDetailData.StoryTellingOption,
 
   /* Full Width Media */
-  heading: fullWidthMediaData.full_width_heading,
+  heading: fullWidthMediaData.storybook_full_width_heading,
   media: fullWidthMediaData.media,
   content: fullWidthMediaData.storybook_full_width_content,
 
   /* Flexible Framer */
   FramerTitle: flexibleFramerData.grid_label,
-  Frameritems: flexibleFramerData.flexible_framer_items,
+  Frameritems: flexibleFramerData.storybook_flexible_framer_items,
 
   /* Flexible Driver component */
   DriverTitle: flexibleDriverData.flexible_driver_heading,
@@ -878,6 +891,8 @@ recipeDetailPageLayout.args = {
   contact_Description: contactHelpBannerData.contact_module_paragraph_content,
   contact_callCTA: contactHelpBannerData.contact_module_contact_phone,
   contact_emailCTA: contactHelpBannerData.contact_module_contact_email_text,
+  contact_social_heading:contactModuleData.contact_module_social_heading,
+
 
   //Wysiwyg
   WYSIWYG_Header: WYSIWYGData.storybook_wysiwyg_heading,

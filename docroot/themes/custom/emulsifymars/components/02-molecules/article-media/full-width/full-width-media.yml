@@ -1,13 +1,14 @@
 theme_styles: 'twix'
 heading: ''
-full_width_heading: 'Empowering women today'
+storybook_full_width_heading: 'Meet Pak Alexander'
 heading_modifier: ''
 media:
   video: false
   aspect_ratio: '21-9'
   parallax_image: false
   image: true
-  src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-06/Coral%20Header%202.png?itok=9GzIUN9s"
+  src: "https://www.dovechocolate.com/cdn-cgi/image/width=1128,height=635,f=auto,quality=90/sites/g/files/fnmzdf186/files/2021-11/396000232_Galaxy_HCFT_PakAlexander_3000x1688px.jpeg"
   alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
   title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
-content: 'Two days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
+content: '“Since becoming a Cocoa Doctor and implementing the productivity training my farm has flourished. I was able to triple my cocoa harvest. Now I’m sharing my success with other farmers – I hope they can triple productivity too.”
+Pak Alexander“'

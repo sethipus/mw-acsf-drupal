@@ -1,9 +1,15 @@
 {{ attach_library('emulsifymars/media-carousel') }}
 {% set fullwidth_base_class = fullwidth_base_class|default('carousel') %}
-{% set items = items.length > 0 ? items : storybook_fullwidth_media_carousel_items %}
-{% set heading = heading.length > 0 ? heading : storybook_fullwidth_media_carousel_heading %}
-
-
+{% if items %}
+  {% set items = items %}
+{% else %}
+  {% set items = storybook_fullwidth_media_carousel_items %}
+{% endif %}
+{% if heading %}
+  {% set heading = heading %}
+{% else %}
+  {% set heading = storybook_fullwidth_media_carousel_heading %}
+{% endif %}
 
 <section {{ bem(fullwidth_base_class, ['fullwidth']) }} data-theme="{{ theme_styles }}" id="fullwidth-carousel">
   <div {{ bem('heading', [], fullwidth_base_class) }}>

@@ -40,3 +40,4 @@ entry_gate_error_bottom_link_url: 'https://storybook.js.org/'
 entry_gate_error_bottom_link_attributes:
   target: '_blank'
 entry_gate_date_format: 'mm_dd'
+storybook_entry_gate_background_color: '#F9F1DB'

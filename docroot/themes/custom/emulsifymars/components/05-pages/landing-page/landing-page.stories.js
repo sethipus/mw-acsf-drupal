@@ -991,10 +991,10 @@ export const landingPageLayout = ({
 
           //flexible framer
           grid_label: FramerTitle,
-          flexible_framer_items: Frameritems,
+          storybook_flexible_framer_items: Frameritems,
 
           //Full Width Media
-          full_width_heading: heading,
+          storybook_full_width_heading: heading,
           media: media,
           storybook_full_width_content:content,
 
@@ -1101,10 +1101,10 @@ landingPageLayout.args = {
 
   /* Flexible Framer */
   FramerTitle: flexibleFramerData.grid_label,
-  Frameritems: flexibleFramerData.flexible_framer_items,
+  Frameritems: flexibleFramerData.storybook_flexible_framer_items,
 
   /* Full Width Media */
-  heading: fullWithMediaData.full_width_heading,
+  heading: fullWithMediaData.storybook_full_width_heading,
   media: fullWithMediaData.media,
   content:fullWithMediaData.storybook_full_width_content,
 

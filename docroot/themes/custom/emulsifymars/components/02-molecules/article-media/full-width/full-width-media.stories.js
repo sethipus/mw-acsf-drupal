@@ -72,7 +72,7 @@ export const InlineBreakoutMedia = ({ theme, heading, media, content }) => {
         __html: fullWidthMediaTwig({
           ...fullWidthMediaData,
           theme_styles: theme,
-          full_width_heading: heading,
+          storybook_full_width_heading: heading,
           media: media,
           content: content,
         }),
@@ -82,7 +82,7 @@ export const InlineBreakoutMedia = ({ theme, heading, media, content }) => {
 };
 InlineBreakoutMedia.args = {
   theme: fullWidthMediaData.theme_styles,
-  heading: fullWidthMediaData.full_width_heading,
+  heading: fullWidthMediaData.storybook_full_width_heading,
   media: fullWidthMediaData.media,
   content: fullWidthMediaData.content,
 };

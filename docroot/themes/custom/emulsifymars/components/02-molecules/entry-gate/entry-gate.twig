@@ -10,7 +10,10 @@
 {% set entry_gate_error_link_base_class = entry_gate_error_link_base_class|default('entry-gate__error-link') %}
 
 <div {{ bem(entry_gate_base_class, entry_gate_modifiers) }} data-age={{ entry_gate_minimal_age }} data-theme="{{ theme_styles }}" aria-hidden="true" role="dialog">
-  <section class="entry-gate__inner">
+  <section class="entry-gate__inner" 
+  {% if storybook_entry_gate_background_color %}
+    style="background:{{storybook_entry_gate_background_color}}"
+  {% endif %}>
     <div class="entry-gate__inner-content-wrapper">
       <div class="entry-gate__brand-shape-wrapper">
         <div class="entry-gate__brand-shape">

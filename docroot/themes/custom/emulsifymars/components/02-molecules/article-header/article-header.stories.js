@@ -39,7 +39,7 @@ export default {
       },
     },
     eyebrow: {
-      name: 'Manual Eyebrow',
+      name: 'Eyebrow',
       description:
         'Eyebrow text for the article header.<b> maximum CC : 15</b>',
       table: {

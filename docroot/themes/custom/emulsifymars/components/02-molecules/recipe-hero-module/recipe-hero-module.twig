@@ -3,7 +3,11 @@
 {% set clock_alt = 'clock' | mt %}
 {% set ingredients_alt = 'ingredients' | mt %}
 {% set makes_alt = 'makes' | mt %}
-{% set background_color = background_color.length > 0 ? background_color : recipe_hero_module_background_color %}
+{% if background_color %}
+  {% set background_color = background_color %}
+{% else %}
+  {% set background_color = recipe_hero_module_background_color %}
+{% endif %}
 
 
 <div class="recipe-header" data-theme="{{ theme_styles }}">
