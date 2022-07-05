@@ -40,6 +40,8 @@
   }%}
 {% elseif StoryTellingOption == 'Iframe' %}
   {% include '@atoms/iframe/iframe.twig' %}
+{% elseif StoryTellingOption == 'Media Carousel' %}
+  {% include '@molecules/media-carousel/media-carousel.twig' %}
 {% else %}
   {% include '@molecules/flexible-framer/flexible-framer.twig' %}
 {% endif %}
@@ -55,6 +57,8 @@
   {% include '@molecules/content-feature/content-feature.twig' %}
 {% elseif PathingOption == 'Recipe Feature' %}
   {% include '@molecules/recipe-feature-module/recipe-feature-module.twig' %}
+{% elseif PathingOption == 'Card Grid' %}
+  {% include '@organisms/card-grid/card-grid.twig' %}
 {% else %}
   {% include '@molecules/product-feature/product-feature.twig' %}
 {% endif %}
@@ -65,6 +69,8 @@
 
 {% if CommunityOption == 'Feedback Module' %}
   {% include '@molecules/feedback-module/feedback.twig' %}
+{% elseif CommunityOption == 'Social Feed' %}
+  {% include '@molecules/social-feed/social-feed.twig' %}
 {% endif %}
 
 <!-- Zone 4 Ends -->

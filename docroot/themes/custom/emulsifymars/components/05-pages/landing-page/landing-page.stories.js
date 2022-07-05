@@ -31,16 +31,25 @@ import freeformData from '../../02-molecules/freeform-story/freeform-story-cente
 import storyHighlight from '../../02-molecules/story-highlight/story_highlight.yml';
 import fullWithMediaData from '../../02-molecules/article-media/full-width/full-width-media.yml';
 import iframeData from '../../01-atoms/iframe/iframe.yml';
+import mediaCarouselData from '../../02-molecules/media-carousel/media-carousel.yml';
 
 //Imports for Pathing Module
 import recpieFeature from '../../02-molecules/recipe-feature-module/recipe-feature-module.yml';
 import productFeatureData from '../../02-molecules/product-feature/product-feature.yml';
 import flexibleDriverData from '../../02-molecules/flexible-driver/flexible-driver.yml';
 import contentFeatureData from '../../02-molecules/content-feature/content-feature.yml';
+import cardGridData from '../../03-organisms/card-grid/card-grid.yml';
+import ajaxCardGridData from '../../03-organisms/grid/ajax-card-grid.yml';
+import searchFilterData from '../../02-molecules/product-hub-search-filter/product-hub-search-filter.yml';
+
+import { productCardLayout } from '../../02-molecules/card/product-card/product-card.stories';
 
 //Imports for Community Module
-
+import socialFeedData from '../../02-molecules/social-feed/social-feed.yml';
 import feedbackData from '../../02-molecules/feedback-module/feedback.yml';
+
+import '../../02-molecules/social-feed/social-feed';
+import '../../02-molecules/media-carousel/media-carousel';
 
 export default {
   title: 'Pages/[PT 02] Landing Page',
@@ -202,7 +211,6 @@ export default {
       control: { type: 'object' },
     },
 
-
     StoryTellingOption: {
       name: 'Storytelling Block',
       table: {
@@ -218,6 +226,7 @@ export default {
           'Poll',
           'Full With Media',
           'Iframe',
+          'Media Carousel',
         ],
       },
     },
@@ -496,6 +505,7 @@ export default {
           'Content Feature',
           'Recipe Feature',
           'Product Feature',
+          'Card Grid',
         ],
       },
     },
@@ -606,40 +616,59 @@ export default {
       control: { type: 'text' },
     },
 
-    //Recipe Feature controls
-    RecipeTitle: {
-      name: 'Recipe ttile text',
-      defaultValue: { summary: 'Product ABC ' },
-      table: {
-        category: 'Recipe Feature',
-      },
-      description:
-        'Recipe title for the recipe feature.<b> Maximum character limit is 60.</b>',
-      control: { type: 'text' },
+   //Recipe Feature controls
+   recipe_Eyebrow: {
+    name: 'Eyebrow',
+    defaultValue: { summary: 'Recipe' },
+    table: {
+      category: 'Recipe Feature',
     },
-    Recipecta: {
-      name: 'Button CTA',
-      defaultValue: { summary: 'SEE DETAILS ' },
-      table: {
-        category: 'Recipe Feature',
-      },
-      description:
-        'Button CTA for the recipe feature button.<b> Maximum character limit is 15.</b>',
-      control: { type: 'object' },
+    description:
+      'Eyebrow text for the recipe feature.<b> Maximum character limit is 15.</b>',
+    control: { type: 'text' },
+  },
+  recipe_Title: {
+    name: 'Recipe title',
+    defaultValue: { summary: 'Product ABC ' },
+    table: {
+      category: 'Recipe Feature',
     },
-    recipe_media: {
-      name: 'Recipe Image',
-      defaultValue: {
-        summary:
-          'http://dove.mars.acsitefactory.com/sites/g/files/fnmzdf186/files/2020-12/Dove%20Home%20Banner%2021-9.PNG',
-      },
-      table: {
-        category: 'Recipe Feature',
-      },
-      description:
-        'Recipe image for the recipe.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul>',
-      control: { type: 'object' },
+    description:
+      'Recipe title for the recipe feature.<b> Maximum character limit is 60.</b>',
+    control: { type: 'text' },
+  },
+  recipe_cta: {
+    name: 'Button CTA',
+    defaultValue: { summary: 'SEE DETAILS ' },
+    table: {
+      category: 'Recipe Feature',
     },
+    description:
+      'Button CTA for the recipe feature button.<b> Maximum character limit is 15.</b>',
+    control: { type: 'object' },
+  },
+  recipe_media: {
+    name: 'Recipe Image',
+    defaultValue: {
+      summary:
+        'http://dove.mars.acsitefactory.com/sites/g/files/fnmzdf186/files/2020-12/Dove%20Home%20Banner%2021-9.PNG',
+    },
+    table: {
+      category: 'Recipe Feature',
+    },
+    description:
+      'Recipe image for the recipe.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul>',
+    control: { type: 'object' },
+  },
+  recipe_block_title: {
+    name: 'Block Title',
+    table: {
+      category: 'Recipe Feature',
+    },
+    description:
+      'Block title for the recipe feature.<b> Maximum character limit is 15.</b>',
+    control: { type: 'text' },
+  },
 
     //Product Feature
     ProductFeatureEyebrow: {
@@ -714,7 +743,7 @@ export default {
       },
       control: {
         type: 'select',
-        options: ['Feedback Module'],
+        options: ['Feedback Module', 'Social Feed'],
       },
     },
 
@@ -750,15 +779,81 @@ export default {
         type: 'object',
       },
     },
-    description:{
-      name:'Description',
-      description:'Text content for the feedback module',
-      table:{
+    description: {
+      name: 'Description',
+      description: 'Text content for the feedback module',
+      table: {
         category: 'Feedback Module Component',
       },
-      control:{
-        type:'text'
-      }
+      control: {
+        type: 'text',
+      },
+    },
+    //Media Carousel
+    media_carousel_Title: {
+      name: 'Title',
+      description: 'Title text for the media carousel.<b> maximum CC : 55</b>',
+      table: {
+        category: 'Media Carousel Component',
+      },
+      control: {
+        type: 'text',
+      },
+    },
+    media_carousel_Description: {
+      name: 'Image/Video Description',
+      description:
+        'Description text for the media carousel.<b> maximum CC : 255</b>',
+      table: {
+        category: 'Media Carousel Component',
+      },
+      control: {
+        type: 'object',
+      },
+    },
+    //Social Feed
+    socail_feed_title: {
+      name: 'Title',
+      description: 'Title text for the social feed.<b> maximum CC : 55</b>',
+      table: {
+        category: 'Social Feed Component',
+      },
+      control: {
+        type: 'text',
+      },
+    },
+    socail_feed_items: {
+      name: 'Items',
+      description: 'Item content for the social feed.',
+      table: {
+        category: 'Social Feed Component',
+      },
+      control: {
+        type: 'object',
+      },
+    },
+
+    //Card Grid
+    card_grid_all_card_heading: {
+      name: 'Heading',
+      description:
+        'Heading for all card block. <b>Maximum character limit is : 55 Font Sizes Desktop: 64px, Tablet: 56px, Mobile: 40px',
+      table: { category: 'Card Grid Component' },
+      control: {
+        type: 'text',
+      },
+    },
+    card_grid_search_result_applied_filter: {
+      name: 'Applied Filters',
+      description: 'Applied Filters of the search result.',
+      table: { category: 'Card Grid Component' },
+      control: { type: 'object' },
+    },
+    card_grid_search_result_filters: {
+      name: 'All Filters ',
+      description: 'All filters of the search result.',
+      table: { category: 'Card Grid Component' },
+      control: { type: 'object' },
     },
   },
 };
@@ -832,9 +927,11 @@ export const landingPageLayout = ({
   ContentFeatureExploreCTA,
 
   // recipe feature
-  RecipeTitle,
-  Recipecta,
+  recipe_Eyebrow,
+  recipe_Title,
+  recipe_cta,
   recipe_media,
+  recipe_block_title,
 
   //product Feature
   ProductFeatureEyebrow,
@@ -862,6 +959,16 @@ export const landingPageLayout = ({
   standardHeading,
   standardChoices,
 
+  //Media Carousel
+  media_carousel_Title,
+  media_carousel_Description,
+  //Social Feed
+  socail_feed_title,
+  socail_feed_items,
+  //Card Grid
+  card_grid_all_card_heading,
+  card_grid_search_result_applied_filter,
+  card_grid_search_result_filters,
 }) => {
   useEffect(() => Drupal.attachBehaviors(), []);
   homeProductContentData.supporting_card_content = [
@@ -878,6 +985,68 @@ export const landingPageLayout = ({
     ),
   ];
   homePollData.vote_button = defaultLink({ default_link_content: 'Submit' });
+  ajaxCardGridData.items = [
+    ReactDOMServer.renderToStaticMarkup(
+      productCardLayout({
+        theme: 'twix',
+        item: {
+          card__image__src:
+            'https://www.twix.com/cdn-cgi/image/width=255,height=255,fit=contain,g=0.5x0.5,f=auto,quality=90/sites/g/files/fnmzdf236/files/migrate-product-files/fcya0gc6mcbxc6af41yr.png',
+          paragraph_content: 'TWIX Cookies & Creme Bar',
+        },
+        buttonText: 'SEE DETAILS',
+        badgeText: 'NEW',
+        badge: false,
+        rating: true,
+        eyebrow: '',
+      }),
+    ),
+    ReactDOMServer.renderToStaticMarkup(
+      productCardLayout({
+        theme: 'twix',
+        item: {
+          card__image__src:
+            'https://www.twix.com/cdn-cgi/image/width=255,height=255,fit=contain,g=0.5x0.5,f=auto,quality=90/sites/g/files/fnmzdf236/files/migrate-product-files/pm57alsea7mspqhhgfuf.png',
+          paragraph_content: 'TWIX Bar',
+        },
+        buttonText: 'SEE DETAILS',
+        badgeText: 'NEW',
+        badge: false,
+        rating: true,
+        eyebrow: '',
+      }),
+    ),
+    ReactDOMServer.renderToStaticMarkup(
+      productCardLayout({
+        theme: 'twix',
+        item: {
+          card__image__src:
+            'https://www.twix.com/cdn-cgi/image/width=255,height=255,fit=contain,g=0.5x0.5,f=auto,quality=90/sites/g/files/fnmzdf236/files/migrate-product-files/ndmcs95ufjcnuinfyiib.png',
+          paragraph_content: 'TWIX Salted Caramel Bar',
+        },
+        buttonText: 'SEE DETAILS',
+        badgeText: 'NEW',
+        badge: false,
+        rating: true,
+        eyebrow: '',
+      }),
+    ),
+    ReactDOMServer.renderToStaticMarkup(
+      productCardLayout({
+        theme: 'twix',
+        item: {
+          card__image__src:
+            'https://www.twix.com/cdn-cgi/image/width=255,height=255,fit=contain,g=0.5x0.5,f=auto,quality=90/sites/g/files/fnmzdf236/files/migrate-product-files/j8a1diovcnv2w0dckrg2.png',
+          paragraph_content: 'TWIX Ice Cream Bar with Vanilla Ice Cream',
+        },
+        buttonText: 'SEE DETAILS',
+        badgeText: 'NEW',
+        badge: false,
+        rating: true,
+        eyebrow: '',
+      }),
+    ),
+  ];
   return (
     <div
       dangerouslySetInnerHTML={{
@@ -908,6 +1077,12 @@ export const landingPageLayout = ({
           ...productFeatureData,
           ...flexibleDriverData,
           ...contentFeatureData,
+          ...mediaCarouselData,
+
+          ...ajaxCardGridData,
+          ...cardGridData,
+          ...searchFilterData,
+          ...socialFeedData,
 
           theme_styles: theme,
 
@@ -978,9 +1153,11 @@ export const landingPageLayout = ({
           background_images: ContentFeature_background_images,
 
           //recipe feature
-          title: RecipeTitle,
-          cta:Recipecta,
-          recipe_media,
+          eyebrow: recipe_Eyebrow,
+          title: recipe_Title,
+          cta: recipe_cta,
+          recipe_media: recipe_media,
+          block_title: recipe_block_title,
 
           //product feature
           eyebrow_text: ProductFeatureEyebrow,
@@ -996,18 +1173,31 @@ export const landingPageLayout = ({
           //Full Width Media
           storybook_full_width_heading: heading,
           media: media,
-          storybook_full_width_content:content,
+          storybook_full_width_content: content,
 
           //Iframe
           iframe_src: iframe_description,
 
-          CommunityOption:CommunityOption,
+          CommunityOption: CommunityOption,
 
           //Feedback Module
           brand_shape: brandShape,
-          feedback_paragraph_content:description,
+          feedback_paragraph_content: description,
           feedback_heading: standardHeading,
           choices: standardChoices,
+
+          //Media Carousel
+          storybook_media_carousel_heading: media_carousel_Title,
+          storybook_media_carousel_items: media_carousel_Description,
+
+          //Social Feed
+          storybook_social_feed_title: socail_feed_title,
+          storybook_social_feed_items: socail_feed_items,
+
+          //Card Grid
+          ajax_card_grid_heading: card_grid_all_card_heading,
+          applied_filters_list: card_grid_search_result_applied_filter,
+          filters: card_grid_search_result_filters,
         }),
       }}
     />
@@ -1081,21 +1271,26 @@ landingPageLayout.args = {
   DriverRightImage: flexibleDriverData.storybook_flexible_driver_asset_2,
 
   /* Content Feature */
-  ContentFeatureEyebrow: contentFeatureData.storybook_content_feature_eyebrow_text,
+  ContentFeatureEyebrow:
+    contentFeatureData.storybook_content_feature_eyebrow_text,
   ContentFeatureTitle: contentFeatureData.storybook_content_feature_heading,
   ContentFeatureDescription: contentFeatureData.paragraph_content,
   ContentFeature_background_images: contentFeatureData.background_images,
-  ContentFeatureExploreCTA: contentFeatureData.storybook_content_feature_default_link_content,
+  ContentFeatureExploreCTA:
+    contentFeatureData.storybook_content_feature_default_link_content,
 
   /* Recipe Feature component */
-  RecipeTitle: recpieFeature.title,
+  recipe_block_title: recpieFeature.block_title,
+  recipe_Eyebrow: recpieFeature.eyebrow,
+  recipe_Title: recpieFeature.title,
+  recipe_cta: recpieFeature.cta,
   recipe_media: recpieFeature.recipe_media,
-  Recipecta:recpieFeature.cta,
 
   /* Product Feature */
   ProductFeatureEyebrow: productFeatureData.eyebrow_text,
   ProductFeatureTitle: productFeatureData.storybook_product_feature_heading,
-  ProductFeatureBackground: productFeatureData.storybook_product_feature_background_color,
+  ProductFeatureBackground:
+    productFeatureData.storybook_product_feature_background_color,
   ProductFeatureProductImage: productFeatureData.image_src,
   ProductFeatureExploreCTA: productFeatureData.default_link_content,
 
@@ -1106,16 +1301,29 @@ landingPageLayout.args = {
   /* Full Width Media */
   heading: fullWithMediaData.storybook_full_width_heading,
   media: fullWithMediaData.media,
-  content:fullWithMediaData.storybook_full_width_content,
+  content: fullWithMediaData.storybook_full_width_content,
 
   /* Iframe */
   iframe_description: iframeData.iframe_src,
 
-  CommunityOption:landingData.CommunityOption,
+  CommunityOption: landingData.CommunityOption,
 
   /* Feedback Module */
   brandShape: feedbackData.brand_shape,
   description: feedbackData.feedback_paragraph_content,
   standardHeading: feedbackData.feedback_heading,
   standardChoices: feedbackData.choices,
+
+  //Media Carousel
+  media_carousel_Title: mediaCarouselData.storybook_media_carousel_heading,
+  media_carousel_Description: mediaCarouselData.storybook_media_carousel_items,
+
+  //Social Feed
+  socail_feed_title: socialFeedData.storybook_social_feed_title,
+  socail_feed_items: socialFeedData.storybook_social_feed_items,
+
+  //Card Grid
+  card_grid_all_card_heading: ajaxCardGridData.ajax_card_grid_heading,
+  card_grid_search_result_applied_filter: searchFilterData.applied_filters_list,
+  card_grid_search_result_filters: searchFilterData.filters,
 };

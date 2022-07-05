@@ -35,9 +35,14 @@ import homePollData from '../../02-molecules/polls/poll.yml';
 import defaultLink from './../../01-atoms/links/defaultLink/defaultLink.twig';
 import iframeData from '../../01-atoms/iframe/iframe.yml';
 import listData from '../../02-molecules/article-media/list/article-list.yml';
+import mediaCarouselData from '../../02-molecules/media-carousel/media-carousel.yml';
 
-// Import from Community Zone 
+import '../../02-molecules/media-carousel/media-carousel';
+
+// Import from Community Zone
 import feedbackData from '../../02-molecules/feedback-module/feedback.yml';
+import socialFeedData from '../../02-molecules/social-feed/social-feed.yml';
+import '../../02-molecules/social-feed/social-feed';
 
 export default {
   title: 'Pages/[PT 03] About',
@@ -207,7 +212,8 @@ export default {
           'Flexible Driver',
           'List',
           'Content Feature',
-          'Iframe'
+          'Iframe',
+          'Media Carousel',
         ],
       },
     },
@@ -592,7 +598,7 @@ export default {
       },
       control: {
         type: 'select',
-        options: ['Feedback Module'],
+        options: ['Feedback Module','Social Feed'],
       },
     },
     //Feedback Module
@@ -606,15 +612,15 @@ export default {
         type: 'text',
       },
     },
-    description:{
-      name:'Description',
-      description:'Text content for the feedback module',
-      table:{
+    description: {
+      name: 'Description',
+      description: 'Text content for the feedback module',
+      table: {
         category: 'Feedback Module Component',
       },
-      control:{
-        type:'text'
-      }
+      control: {
+        type: 'text',
+      },
     },
     standardHeading: {
       name: 'Standard Heading',
@@ -656,6 +662,49 @@ export default {
       },
       table: { category: 'List Component' },
       control: { type: 'object' },
+    },
+    //Media Carousel
+    media_carousel_Title: {
+      name: 'Title',
+      description: 'Title text for the media carousel.<b> maximum CC : 55</b>',
+      table: {
+        category: 'Media Carousel Component',
+      },
+      control: {
+        type: 'text',
+      },
+    },
+    media_carousel_Description: {
+      name: 'Image/Video Description',
+      description:
+        'Description text for the media carousel.<b> maximum CC : 255</b>',
+      table: {
+        category: 'Media Carousel Component',
+      },
+      control: {
+        type: 'object',
+      },
+    },
+    //Social Feed
+    socail_feed_title: {
+      name: 'Title',
+      description: 'Title text for the social feed.<b> maximum CC : 55</b>',
+      table: {
+        category: 'Social Feed Component',
+      },
+      control: {
+        type: 'text',
+      },
+    },
+    socail_feed_items: {
+      name: 'Items',
+      description: 'Item content for the social feed.',
+      table: {
+        category: 'Social Feed Component',
+      },
+      control: {
+        type: 'object',
+      },
     },
   },
 };
@@ -735,6 +784,13 @@ export const aboutPageLayout = ({
   description,
   standardHeading,
   standardChoices,
+  //Media Carousel
+  media_carousel_Title,
+  media_carousel_Description,
+  //Social Feed
+  socail_feed_title,
+  socail_feed_items,
+  CommunityOption
 }) => {
   useEffect(() => Drupal.attachBehaviors(), []);
   homeProductContentData.supporting_card_content = [
@@ -780,6 +836,8 @@ export const aboutPageLayout = ({
           ...contentFeatureData,
           ...listData,
           ...feedbackData,
+          ...mediaCarouselData,
+          ...socialFeedData,
 
           theme_styles: theme,
 
@@ -826,7 +884,7 @@ export const aboutPageLayout = ({
           asset_2: StoryHighlightImageAsset1,
           asset_3: StoryHighlightImageAsset2,
           storybook_story_highlight_items: StoryHighlightitems,
-          
+
           //flexible-driver
           flexible_driver_heading: DriverTitle,
           flexible_driver_text: DriverDescription,
@@ -848,7 +906,7 @@ export const aboutPageLayout = ({
           //Full Width Media
           storybook_full_width_heading: heading,
           media: media,
-          storybook_full_width_content:content,
+          storybook_full_width_content: content,
 
           //Iframe
           iframe_src: iframe_description,
@@ -857,11 +915,20 @@ export const aboutPageLayout = ({
           storybook_list_title: title,
           takeaways_list: Content,
 
+          CommunityOption:CommunityOption,
           //Feedback Module
           brand_shape: brandShape,
-          feedback_paragraph_content:description,
+          feedback_paragraph_content: description,
           feedback_heading: standardHeading,
           choices: standardChoices,
+
+          //Media Carousel
+          storybook_media_carousel_heading: media_carousel_Title,
+          storybook_media_carousel_items: media_carousel_Description,
+
+          //Social Feed
+          storybook_social_feed_title: socail_feed_title,
+          storybook_social_feed_items: socail_feed_items,
         }),
       }}
     />
@@ -925,11 +992,13 @@ aboutPageLayout.args = {
   DriverRightImage: flexibleDriverData.storybook_flexible_driver_asset_2,
 
   /* Content Feature */
-  ContentFeatureEyebrow: contentFeatureData.storybook_content_feature_eyebrow_text,
+  ContentFeatureEyebrow:
+    contentFeatureData.storybook_content_feature_eyebrow_text,
   ContentFeatureTitle: contentFeatureData.storybook_content_feature_heading,
   ContentFeatureDescription: contentFeatureData.paragraph_content,
   ContentFeature_background_images: contentFeatureData.background_images,
-  ContentFeatureExploreCTA: contentFeatureData.storybook_content_feature_default_link_content,
+  ContentFeatureExploreCTA:
+    contentFeatureData.storybook_content_feature_default_link_content,
   /* Flexible Framer */
   FramerTitle: flexibleFramerData.grid_label,
   Frameritems: flexibleFramerData.storybook_flexible_framer_items,
@@ -937,7 +1006,7 @@ aboutPageLayout.args = {
   /* Full Width Media */
   heading: fullWidthMediaData.storybook_full_width_heading,
   media: fullWidthMediaData.media,
-  content:fullWidthMediaData.storybook_full_width_content,
+  content: fullWidthMediaData.storybook_full_width_content,
 
   /* Iframe */
   iframe_description: iframeData.iframe_src,
@@ -946,9 +1015,19 @@ aboutPageLayout.args = {
   title: listData.storybook_list_title,
   Content: listData.takeaways_list,
 
+  CommunityOption:aboutData.CommunityOption,
+
   /* Feedback Module */
   brandShape: feedbackData.brand_shape,
   description: feedbackData.feedback_paragraph_content,
   standardHeading: feedbackData.feedback_heading,
   standardChoices: feedbackData.choices,
+
+  //Media Carousel
+  media_carousel_Title: mediaCarouselData.storybook_media_carousel_heading,
+  media_carousel_Description: mediaCarouselData.storybook_media_carousel_items,
+
+  //Social Feed
+  socail_feed_title: socialFeedData.storybook_social_feed_title,
+  socail_feed_items: socialFeedData.storybook_social_feed_items,
 };

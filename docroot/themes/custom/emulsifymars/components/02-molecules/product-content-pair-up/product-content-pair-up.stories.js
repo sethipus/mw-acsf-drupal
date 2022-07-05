@@ -87,7 +87,7 @@ export default {
   },
 };
 
-export const ProductContentWithAritcleCardPairUpLayout = ({
+export const ProductContentWithProductCardPairUpLayout = ({
   theme,
   Title,
   EyebrowText,
@@ -120,7 +120,7 @@ export const ProductContentWithAritcleCardPairUpLayout = ({
     />
   );
 };
-ProductContentWithAritcleCardPairUpLayout.args = {
+ProductContentWithProductCardPairUpLayout.args = {
   theme: productContentPairUpData.theme_styles,
   Title: productContentPairUpData.lead_card_title,
   EyebrowText: productContentPairUpData.lead_card_eyebrow,

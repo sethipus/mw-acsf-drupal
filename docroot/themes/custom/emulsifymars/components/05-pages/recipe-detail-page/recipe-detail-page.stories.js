@@ -891,7 +891,7 @@ recipeDetailPageLayout.args = {
   contact_Description: contactHelpBannerData.contact_module_paragraph_content,
   contact_callCTA: contactHelpBannerData.contact_module_contact_phone,
   contact_emailCTA: contactHelpBannerData.contact_module_contact_email_text,
-  contact_social_heading:contactModuleData.contact_module_social_heading,
+  contact_social_heading:contactHelpBannerData.contact_module_social_heading,
 
 
   //Wysiwyg

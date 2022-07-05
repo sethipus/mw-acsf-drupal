@@ -46,6 +46,8 @@
   {% include '@molecules/article-media/list/article-list.twig' %}
 {% elseif StoryTellingOption == 'Content Feature' %}
   {% include '@molecules/content-feature/content-feature.twig' %}
+{% elseif StoryTellingOption == 'Media Carousel' %}
+  {% include '@molecules/media-carousel/media-carousel.twig' %}
 {% else %}
   {% include '@atoms/iframe/iframe.twig' %}
 {% endif %}
@@ -54,6 +56,8 @@
 <!-- Community Zone -->
 {% if CommunityOption == 'Feedback Module' %}
   {% include '@molecules/feedback-module/feedback.twig' %}
+{% elseif CommunityOption == 'Social Feed' %}
+  {% include '@molecules/social-feed/social-feed.twig' %}
 {% endif %}
 <!-- Zone 3 ends -->
 

@@ -37,10 +37,16 @@ import homePollData from '../../02-molecules/polls/poll.yml';
 import freeformData from '../../02-molecules/freeform-story/freeform-story-center.yml';
 import storyHighlight from '../../02-molecules/story-highlight/story_highlight.yml';
 import recpieFeature from '../../02-molecules/recipe-feature-module/recipe-feature-module.yml';
-import defaultLink from './../../01-atoms/links/defaultLink/defaultLink.twig'
+import defaultLink from './../../01-atoms/links/defaultLink/defaultLink.twig';
 import fullWidthMediaData from '../../02-molecules/article-media/full-width/full-width-media.yml';
 import iframeData from '../../01-atoms/iframe/iframe.yml';
+import contentFeatureData from '../../02-molecules/content-feature/content-feature.yml';
 import WYSIWYGData from '../../02-molecules/article-media/wysiwyg/article-wysiwyg.yml';
+import mediaCarouselData from '../../02-molecules/media-carousel/media-carousel.yml';
+import socialFeedData from '../../02-molecules/social-feed/social-feed.yml';
+
+import '../../02-molecules/social-feed/social-feed';
+import '../../02-molecules/media-carousel/media-carousel';
 
 export default {
   title: 'Pages/[PT 01] Homepage',
@@ -344,23 +350,23 @@ export default {
       },
       control: { type: 'object' },
     },
-    content_card_eyebrow:{
-      name:'Card Eyebrow',
+    content_card_eyebrow: {
+      name: 'Card Eyebrow',
       table: {
         category: 'Content Pair Up Component',
       },
-      control:{
-        type:'text'
-      }
+      control: {
+        type: 'text',
+      },
     },
-    content_card_item:{
-      name:'Card Contents',
+    content_card_item: {
+      name: 'Card Contents',
       table: {
         category: 'Content Pair Up Component',
       },
-      control:{
-        type:'object'
-      }
+      control: {
+        type: 'object',
+      },
     },
     //Product Feature Controls
     ProductEyebrow: {
@@ -423,7 +429,7 @@ export default {
       name: 'Stories',
       description:
         'Change the stories of the content.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul><b> Maximum character for the Item title and Item description and button CTA is 60, 255 and 15 respectively.</b>',
-        table: { category: 'Flexible Framer component' },
+      table: { category: 'Flexible Framer component' },
       control: { type: 'object' },
     },
 
@@ -444,7 +450,10 @@ export default {
           'Recipe Feature',
           'Iframe',
           'Full Width Media',
-          'WYSIWYG'
+          'WYSIWYG',
+          'Content Feature',
+          'Media Carousel',
+          'Social Feed',
         ],
       },
     },
@@ -517,7 +526,6 @@ export default {
       control: { type: 'text' },
     },
 
-
     //Polls control
     PollImage: {
       name: 'Image Asset',
@@ -557,16 +565,16 @@ export default {
       control: { type: 'radio', options: ['3', '4', '5'] },
     },
     //Freeform Storyblock controls
-    enableBackgroundColor:{
-      name:'Background Color Usage',
-      table:{
+    enableBackgroundColor: {
+      name: 'Background Color Usage',
+      table: {
         category: 'Freeform Story Component',
       },
-      description:'Apply background color to the story',
-      control:{
-          type:'boolean'
-      }
-  },
+      description: 'Apply background color to the story',
+      control: {
+        type: 'boolean',
+      },
+    },
     FreeFormBackgroundColor: {
       name: 'Background Color',
       table: {
@@ -630,8 +638,18 @@ export default {
       options: ['left', 'right', 'center'],
     },
     //Recipe Feature controls
-    RecipeTitle: {
-      name: 'Recipe ttile text',
+    recipe_Eyebrow: {
+      name: 'Eyebrow',
+      defaultValue: { summary: 'Recipe' },
+      table: {
+        category: 'Recipe Feature',
+      },
+      description:
+        'Eyebrow text for the recipe feature.<b> Maximum character limit is 15.</b>',
+      control: { type: 'text' },
+    },
+    recipe_Title: {
+      name: 'Recipe title',
       defaultValue: { summary: 'Product ABC ' },
       table: {
         category: 'Recipe Feature',
@@ -639,6 +657,16 @@ export default {
       description:
         'Recipe title for the recipe feature.<b> Maximum character limit is 60.</b>',
       control: { type: 'text' },
+    },
+    recipe_cta: {
+      name: 'Button CTA',
+      defaultValue: { summary: 'SEE DETAILS ' },
+      table: {
+        category: 'Recipe Feature',
+      },
+      description:
+        'Button CTA for the recipe feature button.<b> Maximum character limit is 15.</b>',
+      control: { type: 'object' },
     },
     recipe_media: {
       name: 'Recipe Image',
@@ -652,6 +680,15 @@ export default {
       description:
         'Recipe image for the recipe.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul>',
       control: { type: 'object' },
+    },
+    recipe_block_title: {
+      name: 'Block Title',
+      table: {
+        category: 'Recipe Feature',
+      },
+      description:
+        'Block title for the recipe feature.<b> Maximum character limit is 15.</b>',
+      control: { type: 'text' },
     },
     //StoryHighlight controls
     StoryHighlightTitle: {
@@ -697,7 +734,103 @@ export default {
         'Change layout of story1.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul><b>Story item title maximum character limit is 300.</b> ',
       table: { category: 'Story Highlight' },
       control: { type: 'object' },
-    }
+    },
+    //Content Feature
+    ContentFeatureEyebrow: {
+      name: 'Eyebrow',
+      description:
+        'Eyebrow of the content.<b> Maximum character limit is 15. </b>',
+      defaultValue: { summary: 'INITIATIVE' },
+      table: {
+        category: 'Content Feature Component',
+      },
+      control: { type: 'text' },
+    },
+    ContentFeatureTitle: {
+      name: 'Title',
+      description:
+        'Title of the content. <b>Maximum character limit is 55.</b>',
+      defaultValue: { summary: 'Title..' },
+      table: {
+        category: 'Content Feature Component',
+      },
+      control: { type: 'text' },
+    },
+    ContentFeature_background_images: {
+      name: 'Background Image',
+      description:
+        'Background Image of the content.Dimensions <ul><b> <li> Mobile : 375px X 435px </li>  <li> Tablet : 768px X 601px </li> <li>Desktop : 2880px X 1196px </li></b></ul>',
+      defaultValue: {
+        summary:
+          'http://dove.mars.acsitefactory.com/sites/g/files/fnmzdf186/files/2020-12/Dove%20Home%20Banner%2021-9.PNG',
+      },
+      table: {
+        category: 'Content Feature Component',
+      },
+      control: { type: 'object' },
+    },
+    ContentFeatureDescription: {
+      name: 'Feature Description',
+      description:
+        'Description of the content. <b>Maximum character limit is 300.</b>',
+      defaultValue: { summary: 'lorem pisum..' },
+      table: {
+        category: 'Content Feature Component',
+      },
+      control: { type: 'text' },
+    },
+    ContentFeatureExploreCTA: {
+      name: 'Button CTA',
+      description: 'Button text. <b>Maximum character limit is 15.</b>',
+      defaultValue: { summary: 'Submit' },
+      table: {
+        category: 'Content Feature Component',
+      },
+      control: { type: 'text' },
+    },
+    //Media Carousel
+    media_carousel_Title: {
+      name: 'Title',
+      description: 'Title text for the media carousel.<b> maximum CC : 55</b>',
+      table: {
+        category: 'Media Carousel Component',
+      },
+      control: {
+        type: 'text',
+      },
+    },
+    media_carousel_Description: {
+      name: 'Image/Video Description',
+      description:
+        'Description text for the media carousel.<b> maximum CC : 255</b>',
+      table: {
+        category: 'Media Carousel Component',
+      },
+      control: {
+        type: 'object',
+      },
+    },
+    //Social Feed
+    socail_feed_title: {
+      name: 'Title',
+      description: 'Title text for the social feed.<b> maximum CC : 55</b>',
+      table: {
+        category: 'Social Feed Component',
+      },
+      control: {
+        type: 'text',
+      },
+    },
+    socail_feed_items: {
+      name: 'Items',
+      description: 'Item content for the social feed.',
+      table: {
+        category: 'Social Feed Component',
+      },
+      control: {
+        type: 'object',
+      },
+    },
   },
 };
 
@@ -760,9 +893,11 @@ export const homePageLayout = ({
   FreeFormContentText,
   FreeFormAlign,
   // recipe feature
-  RecipeTitle,
-  Recipecta,
+  recipe_Eyebrow,
+  recipe_Title,
+  recipe_cta,
   recipe_media,
+  recipe_block_title,
   //Story highlight
   StoryHighlightTitle,
   StoryHighlightParagraphContent,
@@ -779,18 +914,35 @@ export const homePageLayout = ({
   WYSIWYG_body,
   //Iframe
   iframe_description,
+  //Content Feature
+  ContentFeatureEyebrow,
+  ContentFeatureTitle,
+  ContentFeature_background_images,
+  ContentFeatureDescription,
+  ContentFeatureExploreCTA,
+  //Media Carousel
+  media_carousel_Title,
+  media_carousel_Description,
+  //Social Feed
+  socail_feed_title,
+  socail_feed_items,
 }) => {
   useEffect(() => Drupal.attachBehaviors(), []);
   homeProductContentData.supporting_card_content = [
     ReactDOMServer.renderToStaticMarkup(
       <div
         dangerouslySetInnerHTML={{
-          __html: productCard({ ...productCardData,...productRatingData,card__eyebrow: content_card_eyebrow,item:content_card_item }),
+          __html: productCard({
+            ...productCardData,
+            ...productRatingData,
+            card__eyebrow: content_card_eyebrow,
+            item: content_card_item,
+          }),
         }}
       />,
     ),
   ];
-  homePollData.vote_button = defaultLink({default_link_content: 'Submit'});
+  homePollData.vote_button = defaultLink({ default_link_content: 'Submit' });
   return (
     <div
       dangerouslySetInnerHTML={{
@@ -821,6 +973,9 @@ export const homePageLayout = ({
           ...WYSIWYGData,
           ...iframeData,
           ...fullWidthMediaData,
+          ...contentFeatureData,
+          ...mediaCarouselData,
+          ...socialFeedData,
 
           theme_styles: theme,
 
@@ -858,7 +1013,7 @@ export const homePageLayout = ({
           lead_card_eyebrow: ContentEyebrowText,
           background: ContentBackground,
           card__eyebrow: content_card_eyebrow,
-          item:content_card_item,
+          item: content_card_item,
 
           //product feature
           eyebrow_text: ProductEyebrow,
@@ -867,7 +1022,7 @@ export const homePageLayout = ({
           image_src: ProductImage,
           default_link_content: ProductExploreCTA,
 
-          //flexible framer 
+          //flexible framer
           grid_label: framer_Title,
           storybook_flexible_framer_items: framer_items,
 
@@ -880,19 +1035,21 @@ export const homePageLayout = ({
           polling_paragraph_content: PollContent,
           storybook_poll_options: PollOptions,
 
-          //freeform story 
-          use_custom_color:enableBackgroundColor,
+          //freeform story
+          use_custom_color: enableBackgroundColor,
           custom_background_color: FreeFormBackgroundColor,
           freeform_story_img_src: FreeFormBackgroundImage,
           freeform_story_header_1: FreeFormSubHeadingTitle,
           freeform_story_header_2: FreeFormHeadingTitle,
           freeform_story_paragraph_content: FreeFormContentText,
-          freeform_story_align:FreeFormAlign,
+          freeform_story_align: FreeFormAlign,
 
           //recipe feature
-          title: RecipeTitle,
-          Recipecta,
-          recipe_media,
+          eyebrow: recipe_Eyebrow,
+          title: recipe_Title,
+          cta: recipe_cta,
+          recipe_media: recipe_media,
+          block_title: recipe_block_title,
 
           //story highlight
           heading: StoryHighlightTitle,
@@ -914,6 +1071,20 @@ export const homePageLayout = ({
           //Iframe
           iframe_src: iframe_description,
 
+          //content feature
+          storybook_content_feature_eyebrow_text: ContentFeatureEyebrow,
+          storybook_content_feature_heading: ContentFeatureTitle,
+          paragraph_content: ContentFeatureDescription,
+          storybook_content_feature_default_link_content: ContentFeatureExploreCTA,
+          background_images: ContentFeature_background_images,
+
+          //Media Carousel
+          storybook_media_carousel_heading: media_carousel_Title,
+          storybook_media_carousel_items: media_carousel_Description,
+
+          //Social Feed
+          storybook_social_feed_title: socail_feed_title,
+          storybook_social_feed_items: socail_feed_items,
         }),
       }}
     />
@@ -974,39 +1145,44 @@ homePageLayout.args = {
   ContentEyebrowText: homeProductContentData.lead_card_eyebrow,
   ContentBackground: homeProductContentData.background,
   content_card_eyebrow: 'MADE WITH',
-  content_card_item:productCardData.item,
+  content_card_item: productCardData.item,
 
   /* Product Feature component */
   ProductEyebrow: productFeatureData.eyebrow_text,
   ProductTitle: productFeatureData.storybook_product_feature_heading,
-  ProductBackground: productFeatureData.storybook_product_feature_background_color,
+  ProductBackground:
+    productFeatureData.storybook_product_feature_background_color,
   ProductImage: productFeatureData.image_src,
   ProductExploreCTA: productFeatureData.default_link_content,
 
-
-
   //For Storytelling Layout
   StoryTellingOption: homeData.StoryTellingOption,
-  /* Poll component */ 
+  /* Poll component */
+
   PollImage: homePollData.polling_png_asset,
   PollHeading: homePollData.polling_heading,
   PollContent: homePollData.polling_paragraph_content,
   PollOptions: homePollData.storybook_poll_options,
 
-  /* Freeform Story component */ 
-  enableBackgroundColor:freeformData.use_custom_color,
+  /* Freeform Story component */
+
+  enableBackgroundColor: freeformData.use_custom_color,
   FreeFormBackgroundColor: freeformData.custom_background_color,
   FreeFormBackgroundImage: freeformData.freeform_story_img_src,
   FreeFormSubHeadingTitle: freeformData.freeform_story_header_1,
   FreeFormHeadingTitle: freeformData.freeform_story_header_2,
   FreeFormContentText: freeformData.freeform_story_paragraph_content,
-  FreeFormAlign:freeformData.freeform_story_align ,
+  FreeFormAlign: freeformData.freeform_story_align,
 
- /* Recipe Feature component */
-  RecipeTitle: recpieFeature.title,
+  /* Recipe Feature component */
+  recipe_block_title: recpieFeature.block_title,
+  recipe_Eyebrow: recpieFeature.eyebrow,
+  recipe_Title: recpieFeature.title,
+  recipe_cta: recpieFeature.cta,
   recipe_media: recpieFeature.recipe_media,
 
-  /* Story Highlight component */ 
+  /* Story Highlight component */
+
   StoryHighlightTitle: storyHighlight.heading,
   StoryHighlightParagraphContent:
     storyHighlight.story_highlight_paragraph_content,
@@ -1030,4 +1206,21 @@ homePageLayout.args = {
   //flexible framer
   framer_Title: flexibleFramerData.grid_label,
   framer_items: flexibleFramerData.storybook_flexible_framer_items,
+
+  /* Content Feature */
+  ContentFeatureEyebrow:
+    contentFeatureData.storybook_content_feature_eyebrow_text,
+  ContentFeatureTitle: contentFeatureData.storybook_content_feature_heading,
+  ContentFeatureDescription: contentFeatureData.paragraph_content,
+  ContentFeature_background_images: contentFeatureData.background_images,
+  ContentFeatureExploreCTA:
+    contentFeatureData.storybook_content_feature_default_link_content,
+
+  //Media Carousel
+  media_carousel_Title: mediaCarouselData.storybook_media_carousel_heading,
+  media_carousel_Description: mediaCarouselData.storybook_media_carousel_items,
+
+  //Social Feed
+  socail_feed_title: socialFeedData.storybook_social_feed_title,
+  socail_feed_items: socialFeedData.storybook_social_feed_items,
 };

@@ -69,6 +69,12 @@
   }%}
 {% elseif StoryTellingOption == 'WYSIWYG' %}
   {% include '@molecules/article-media/wysiwyg/article-wysiwyg.twig' %}
+{% elseif StoryTellingOption == 'Content Feature' %}
+  {% include '@molecules/content-feature/content-feature.twig' %}
+{% elseif StoryTellingOption == 'Media Carousel' %}
+  {% include '@molecules/media-carousel/media-carousel.twig' %}
+{% elseif StoryTellingOption == 'Social Feed' %}
+  {% include '@molecules/social-feed/social-feed.twig' %}
 {% else %}
   {% include '@molecules/recipe-feature-module/recipe-feature-module.twig' %}
 {% endif %}
